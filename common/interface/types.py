@@ -1,3 +1,4 @@
+from collections import namedtuple
 import datetime
 from .. util import is_list_inst
 
@@ -164,13 +165,10 @@ class TRecord(Type):
         if cls:
             return cls(**fields)
         else:
-            rec = self.make_object()
-            for name, val in fields.items():
-                setattr(rec, name, val)
-            return rec
+            return self.make_tuple(**fields)
 
-    def make_object( self ):
-        return Record()
+    def make_tuple( self, **kw ):
+        return namedtuple(**kw)
 
     # base for usual classes
     def make_class( self ):

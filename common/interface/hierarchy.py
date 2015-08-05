@@ -2,12 +2,6 @@ from .. util import is_list_inst
 from . types import join_path, Type, Field, TRecord
 
 
-class Class(object):
-
-    def __init__( self, id ):
-        self._class_id = id
-
-
 class TClass(TRecord):
 
     def __init__( self, hierarchy, id, base, fields, cls ):
@@ -41,8 +35,8 @@ class TClass(TRecord):
                 raise TypeError('%s: %s' % (path, 'Missing field: %s' % field.name))
             field.validate(path, getattr(obj, field.name))
 
-    def make_object( self ):
-        return Class(self.id)
+    def make_tuple( self, **kw ):
+        return TRecord.make_tuple(self, _class_id=self.id, **kw)
 
     # only to be used as base for usual classes
     def make_class( self ):
