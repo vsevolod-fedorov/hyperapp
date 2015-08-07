@@ -1,6 +1,7 @@
 from PySide import QtNetwork
 from common.packet import Packet
 from common.packet_coders import packet_coders
+from common.object_resolver import ObjectResolver
 from common.interface import Interface, iface_registry
 from common.request import tServerPacket, tClientPacket, ClientNotification, Request, ServerNotification, Response
 import proxy_registry
@@ -115,6 +116,7 @@ class Server(object):
     def process_packet( self, packet ):
         print 'processing %s packet: %d bytes' % (packet.encoding, len(packet.contents))
         response = packet_coders.decode(packet, tServerPacket, self, iface_registry, resolve_object)
+        response = ObjectResolver(self, resolve_object).map(tServerPacket, response, 'ServerPacket')
         if isinstance(response, Response):
             print '   response for request', response.command_id, response.request_id
             proxy_registry.process_received_response(response)
