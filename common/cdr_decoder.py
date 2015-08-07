@@ -158,12 +158,6 @@ class CdrDecoder(object):
             elements.append(elt)
         return elements
 
-    ## @dispatch.register(TObject)
-    ## def decode_object( self, t, path ):
-    ##     assert self.object_resolver  # object decoding is not supported
-    ##     objinfo = self.decode_record(t, path)
-    ##     return self.object_resolver(self.peer, objinfo)
-
     @dispatch.register(TIface)
     def decode_iface( self, t, path ):
         iface_id = self.read_str(path)
