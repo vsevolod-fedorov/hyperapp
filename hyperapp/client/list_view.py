@@ -380,6 +380,20 @@ class View(view.View, ListObserver, QtGui.QTableView):
         if visible:
             self.selected_elements_changed(self.get_selected_elts())
 
+    def focusInEvent( self, evt ):
+        QtGui.QTableView.focusInEvent(self, evt)
+        sel = self.selectionModel()
+        sel.setCurrentIndex(self.currentIndex(), sel.SelectionFlag.Select | sel.SelectionFlag.Rows)
+
+    def focusOutEvent( self, evt ):
+        QtGui.QTableView.focusOutEvent(self, evt)
+        self.selectionModel().clearSelection()
+
+    def ensure_has_focus( self ):
+        view.View.ensure_has_focus(self)
+        sel = self.selectionModel()
+        sel.setCurrentIndex(self.currentIndex(), sel.SelectionFlag.Select | sel.SelectionFlag.Rows)
+
     def _get_visible_rows( self ):
         first_visible_row = self.verticalHeader().visualIndexAt(0)
         row_height = self.verticalHeader().defaultSectionSize()
