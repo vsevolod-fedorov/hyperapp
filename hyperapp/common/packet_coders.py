@@ -14,27 +14,27 @@ class Coders(object):
 class PacketCoders(object):
 
     def __init__( self ):
-        self.encodings = {}  # encoding -> Coders
+        self._coders = {}  # encoding -> Coders
 
     def register( self, encoding, encoder, decoder ):
         assert isinstance(encoding, str), repr(encoding)
-        self.encodings[encoding] = Coders(encoder, decoder)
+        self._coders[encoding] = Coders(encoder, decoder)
 
     def resolve( self, encoding ):
-        assert encoding in self.encodings, repr(encoding)  # Unknown encoding
-        return self.encodings[encoding]
+        assert encoding in self._coders, repr(encoding)  # Unknown encoding
+        return self._coders[encoding]
 
-    def decode( self, encoding, data, t ):
+    def decode( self, encoding, t, data, iface_registry=None ):
         coders = self.resolve(encoding)
-        return coders.decoder.decode(t, data)
+        return coders.decoder(iface_registry).decode(t, data)
 
-    def encode( self, encoding, object, t ):
+    def encode( self, encoding, t, object, iface_registry=None ):
         coders = self.resolve(encoding)
-        return coders.encoder.encode(t, object)
+        return coders.encoder(iface_registry).encode(t, object)
 
 
 packet_coders = PacketCoders()
-packet_coders.register('json', JsonEncoder(pretty=False), JsonDecoder())
-packet_coders.register('json_pretty', JsonEncoder(pretty=True), JsonDecoder())
-packet_coders.register('yaml', YamlEncoder(), YamlDecoder())
-packet_coders.register('cdr', CdrEncoder(), CdrDecoder())
+packet_coders.register('json', lambda iface_registry: JsonEncoder(iface_registry, pretty=False), JsonDecoder)
+packet_coders.register('json_pretty', lambda iface_registry: JsonEncoder(iface_registry, pretty=True), JsonDecoder)
+packet_coders.register('yaml', YamlEncoder, YamlDecoder)
+packet_coders.register('cdr', CdrEncoder, CdrDecoder)

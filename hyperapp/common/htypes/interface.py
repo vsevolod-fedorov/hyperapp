@@ -15,7 +15,6 @@ from .htypes import (
     tCommand,
     )
 from .hierarchy import THierarchy
-from .request import tUpdate, tClientNotificationRec, tResponseRec
 
 
 tObject = THierarchy('object')
@@ -117,13 +116,13 @@ class Interface(object):
         assert is_list_inst(commands or [], IfaceCommand), repr(commands)
         self.iface_id = iface_id
         self.contents_fields = contents_fields or []
-        self.diff_type = diff_type
+        self._diff_type = diff_type
         self.commands = commands or []
         if base:
             self.contents_fields = base.contents_fields + self.contents_fields
             self.commands = base.commands + self.commands
             assert diff_type is tNone, repr(diff_type)  # Inherited from base
-            self.diff_type = base.diff_type
+            self._diff_type = base.diff_type
         self.id2command = dict((cmd.command_id, cmd) for cmd in self.commands + self.get_basic_commands())
         self._register_types()
 
@@ -131,17 +130,15 @@ class Interface(object):
         self._tContents = TRecord(self.get_contents_fields())
         self._command_params_t = dict((command_id, cmd.get_params_type(self)) for command_id, cmd in self.id2command.items())
         self._command_result_t = dict((command_id, cmd.get_result_type(self)) for command_id, cmd in self.id2command.items())
-        self._tObject = tObject.register(self.iface_id, base=tProxyObjectWithContents, fields=[Field('contents', self._tContents)])
-        tUpdate.register((self.iface_id,), self.diff_type)
-        for command in self.id2command.values():
-            cmd_id = command.command_id
-            tClientNotificationRec.register((self.iface_id, cmd_id), self._command_params_t[cmd_id])
-            tResponseRec.register((self.iface_id, cmd_id), self._command_result_t[cmd_id])
+        ## self._tObject = tObject.register(self.iface_id, base=tProxyObjectWithContents, fields=[Field('contents', self._tContents)])
 
     def __eq__( self, other ):
         return (isinstance(other, Interface) and
                 other.iface_id == self.iface_id and
                 other.commands == self.commands)
+
+    def get_diff_type( self ):
+        return self._diff_type
 
     def get_object_type( self ):
         return self._tObject
@@ -201,8 +198,8 @@ class Interface(object):
 
 class IfaceRegistry(object):
 
-    def __init__( self ):
-        self.registry = {}  # iface id -> Interface
+    def __init__( self, items=None ):
+        self.registry = items or {}  # iface id -> Interface
 
     def register( self, iface ):
         assert isinstance(iface, Interface), repr(iface)

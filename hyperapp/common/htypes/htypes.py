@@ -132,7 +132,14 @@ class Record(object):
 
     def __repr__( self ):
         return 'Record: %r' % self._type
-    
+
+    def __eq__( self, other ):
+        if  not isinstance(other, Record): return False
+        if other._type is not self._type: return False
+        for field in self._type.get_fields():
+            if getattr(self, field.name) != getattr(other, field.name): return False
+        return True
+
 
 class TRecord(Type):
 
@@ -176,7 +183,8 @@ class TRecord(Type):
             return False
         return issubclass(rec._type, self)
 
-    def adopt_args( self, args, kw, check_unexpected=True ):
+    def adopt_args( self, *args, **kw ):
+        check_unexpected = True  # todo: remove?
         path = '<Record>'
         tfields = self.get_fields()
         if check_unexpected:
@@ -209,7 +217,7 @@ class TRecord(Type):
         return adopted_args
 
     def instantiate_impl( self, rec, *args, **kw ):
-        fields = self.adopt_args(args, kw or {})
+        fields = self.adopt_args(*args, **(kw or {}))
         ## print '*** instantiate', self, sorted(fields.keys()), sorted(f.name for f in self.fields), fields
         for name, val in fields.items():
             setattr(rec, name, val)

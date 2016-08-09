@@ -17,9 +17,10 @@ from .htypes import (
     THierarchy,
     Interface,
     )
+from .coder_base import CoderBase
 
 
-class DictEncoder(object, metaclass=abc.ABCMeta):
+class DictEncoder(CoderBase, metaclass=abc.ABCMeta):
 
     def encode( self, t, value ):
         return self._dict_to_str(self.dispatch(t, value)).encode()
@@ -66,7 +67,7 @@ class DictEncoder(object, metaclass=abc.ABCMeta):
         for field in t.get_static_fields():
             attr = getattr(value, field.name)
             fields[field.name] = self.dispatch(field.type, attr)
-        dyn_field = t.get_dynamic_field(fields)
+        dyn_field = self.get_switched_dynamic_field(t, fields)
         attr = getattr(value, dyn_field.name)
         fields[dyn_field.name] = self.dispatch(dyn_field.type, attr)
         return fields
@@ -84,7 +85,8 @@ class DictEncoder(object, metaclass=abc.ABCMeta):
 
 class JsonEncoder(DictEncoder):
 
-    def __init__( self, pretty=False ):
+    def __init__( self, iface_registry, pretty=False ):
+        DictEncoder.__init__(self, iface_registry)
         self.pretty = pretty
 
     def _dict_to_str( self, value ):

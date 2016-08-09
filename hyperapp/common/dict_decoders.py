@@ -18,6 +18,7 @@ from .htypes import (
     TSwitchedRec,
     THierarchy,
     )
+from .coder_base import CoderBase
 
 
 def join_path( *args ):
@@ -27,7 +28,7 @@ def join_path( *args ):
 class DecodeError(Exception): pass
 
 
-class DictDecoder(object, metaclass=abc.ABCMeta):
+class DictDecoder(CoderBase, metaclass=abc.ABCMeta):
 
     def decode( self, t, value, path='root' ):
         assert isinstance(value, bytes), repr(value)
@@ -99,18 +100,19 @@ class DictDecoder(object, metaclass=abc.ABCMeta):
         return tclass(**fields)
 
     def decode_record_fields( self, t, value, path ):
-        fields = self.decode_record_fields_impl(t.get_static_fields(), value, path)
+        fields = {}
+        for field in t.get_static_fields():
+            fields[field.name] = self.decode_record_field(field, value, path)
         if isinstance(t, TSwitchedRec):
-            fields.update(self.decode_record_fields_impl([t.get_dynamic_field(fields)], value, path))
+            dyn_field = self.get_switched_dynamic_field(t, fields)
+            fields[dyn_field.name] = self.decode_record_field(dyn_field, value, path)
+            # TIfaceSwitched expectes Interface instance as first argument, not iface id
+            fields['iface'] = self.resolve_iface(fields['iface'])
         return fields
 
-    def decode_record_fields_impl( self, tfields, value, path ):
-        fields = {}
-        for field in tfields:
-            self.expect(path, field.name in value, 'field %r is missing' % field.name)
-            elt = self.dispatch(field.type, value[field.name], join_path(path, field.name))
-            fields[field.name] = elt
-        return fields
+    def decode_record_field( self, field, value, path ):
+        self.expect(path, field.name in value, 'field %r is missing' % field.name)
+        return self.dispatch(field.type, value[field.name], join_path(path, field.name))
 
     @dispatch.register(TList)
     def decode_list( self, t, value, path ):
