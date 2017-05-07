@@ -49,7 +49,7 @@ class ListDiff(object):
 class Element(object):
 
     def __init__(self, key, row, commands, order_key=None):
-        assert is_list_inst(commands, Command), repr(commands)
+        assert is_list_inst(commands, str), repr(commands)
         self.key = key
         self.row = row
         self.commands = commands
@@ -58,7 +58,7 @@ class Element(object):
 
     def to_data(self, iface):
         assert isinstance(iface, ListInterface), repr(iface)
-        return iface.Element(self.row, [cmd.to_data() for cmd in self.commands])
+        return iface.Element(self.row, self.commands)
 
     def __eq__(self, other):
         if isinstance(other, Element):

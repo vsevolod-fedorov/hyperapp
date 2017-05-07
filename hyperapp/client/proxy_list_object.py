@@ -65,6 +65,8 @@ class ProxyListObject(ProxyObject, ListObject):
         self._slices_from_cache = {}  # key_column_id -> Slice list, slices loaded from cache, possibly out-of-date
         self._subscribed = False
         self._subscribe_pending = False  # subscribe method is called and response is not yet received
+        self._element_commands = {command.command_id: self.remote_command_from_iface_command(command, kind='element')
+                                  for command in self.iface.get_commands() if self._is_element_command(command)}
 
     def set_contents(self, contents):
         self._log_slices('before set_contents')
@@ -79,14 +81,17 @@ class ProxyListObject(ProxyObject, ListObject):
         pass
 
     def is_iface_command_exposed(self, command):
+        return not self._is_element_command(command)
+
+    def _is_element_command(self, command):
         t_empty_result = TRecord([])
         t_open_result = TRecord([
             Field('handle', TOptional(self._core_types.handle)),
             ])
         element_field = Field('element_key', self.iface.get_key_type())
-        return not (command.request_type == IfaceCommand.rt_request
-                    and command.get_params_type(self.iface).get_fields() == [element_field]
-                    and command.get_result_type(self.iface) in [t_empty_result, t_open_result])
+        return (command.request_type == IfaceCommand.rt_request
+                and command.get_params_type(self.iface).get_fields() == [element_field]
+                and command.get_result_type(self.iface) in [t_empty_result, t_open_result])
 
     @asyncio.coroutine
     def run_remote_element_command(self, command_id, *args, **kw):
@@ -107,12 +112,10 @@ class ProxyListObject(ProxyObject, ListObject):
             order_key = None
         else:
             order_key = getattr(rec.row, sort_column_id)
-        commands = [self._element_command_from_data(cmd) for cmd in  rec.commands]
-        return Element(key, rec.row, commands, order_key)
+        return Element(key, rec.row, rec.commands, order_key)
 
-    def _element_command_from_data(self, rec):
-        return RemoteElementCommand(rec.command_id, rec.kind, rec.resource_id,
-                                    is_default_command=rec.is_default_command, enabled=True, object_wr=weakref.ref(self))
+    def get_element_command(self, command_id):
+        return self._element_commands[command_id]
 
     def _merge_in_slice(self, new_slice):
         log.info('  -- merge_in_slice self=%r from_key=%r len(elements)=%r bof=%r', id(self), new_slice.from_key, len(new_slice.elements), new_slice.bof)
