@@ -1,6 +1,7 @@
 # base for panels containing line edit with list view
 
 import logging
+import weakref
 from PySide import QtCore, QtGui
 from .util import DEBUG_FOCUS, call_after, key_match, key_match_any
 from .composite import Composite
@@ -12,10 +13,10 @@ class LineListPanel(Composite, QtGui.QWidget):
 
     def __init__(self, parent, line_edit, list_view):
         log.debug('new line_list_panel self=%s', id(self))
+        self._list_view_wr = weakref.ref(list_view)
         QtGui.QWidget.__init__(self)
         Composite.__init__(self, parent)
         self._line_edit = line_edit
-        self._list_view = list_view
         self._list_view.get_widget().setFocusPolicy(QtCore.Qt.NoFocus)
         layout = QtGui.QVBoxLayout()
         layout.addWidget(self._line_edit.get_widget())
@@ -23,6 +24,10 @@ class LineListPanel(Composite, QtGui.QWidget):
         self.setFocusProxy(self._line_edit.get_widget())
         self.setLayout(layout)
         self._line_edit.installEventFilter(self)
+
+    @property
+    def _list_view(self):
+        return self._list_view_wr()
 
     def get_current_child(self):
         return self._list_view

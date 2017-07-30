@@ -210,4 +210,5 @@ class View(LineListPanel):
         self._line_edit.setText(common_prefix)
 
     def __del__(self):
-        log.debug('~narrower title=%r self=%r', self._base_obj.get_title(), id(self))
+        log.debug('~narrower self=%s list_view=%s title=%r', id(self), id(self._list_view), self._base_obj.get_title())
+        ## import objgraph; objgraph.show_backrefs(self._list_view, max_depth=10, filename='/tmp/backrefs-narrower-dtr-%s.dot' % id(self._list_view))

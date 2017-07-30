@@ -147,7 +147,10 @@ class ListObject(Object, metaclass=abc.ABCMeta):
 
     def _notify_fetch_result(self, slice):
         assert isinstance(slice, Slice), repr(slice)
-        for observer in self._observers:
+        observers = list(self._observers)
+        log.debug('-- list_object._notify_fetch_result self=%s to %s / %r', id(self), list(map(id, observers)), observers)
+        for observer in observers:
+            ## import objgraph; objgraph.show_backrefs(observer, max_depth=10, filename='/tmp/backrefs-observer-%s.dot' % id(observer))
             observer.process_fetch_result(slice)
 
     def _notify_diff_applied(self, diff):
