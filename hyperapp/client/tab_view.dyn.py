@@ -1,5 +1,5 @@
 import logging
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets
 
 from hyperapp.common.util import is_list_inst
 from hyperapp.common.htypes import tInt, TList, Field, TRecord
@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 MODULE_NAME = 'tab_view'
 
 
-class TabView(QtGui.QTabWidget, View):
+class TabView(QtWidgets.QTabWidget, View):
 
     @classmethod
     async def from_state(cls, locale, state, module_command_registry, view_registry):
@@ -35,7 +35,7 @@ class TabView(QtGui.QTabWidget, View):
 
     def __init__(self, locale, view_registry, children, current_idx):
         assert is_list_inst(children, View), repr(children)
-        QtGui.QTabWidget.__init__(self)
+        QtWidgets.QTabWidget.__init__(self)
         View.__init__(self)
         self._locale = locale
         self._view_registry = view_registry
@@ -82,7 +82,7 @@ class TabView(QtGui.QTabWidget, View):
 
     def setVisible(self, visible):
         if DEBUG_FOCUS: log.info('*** tab_view.setVisible self=%r visible=%r current-tab#=%d', self, visible, self.currentIndex())
-        QtGui.QTabWidget.setVisible(self, visible)
+        QtWidgets.QTabWidget.setVisible(self, visible)
 
     @command('duplicate_tab')
     async def duplicate_tab(self):

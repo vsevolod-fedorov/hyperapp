@@ -2,7 +2,7 @@ import sys
 import logging
 import asyncio
 import bisect
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtGui, QtWidgets
 
 from hyperapp.common.htypes import Type, resource_key_t
 from hyperapp.client.util import uni2str, key_match, key_match_any, make_async_action
@@ -182,14 +182,14 @@ class Model(QtCore.QAbstractTableModel):
         log.info('~list_view.Model self=%s', id(self))
 
 
-class ListView(View, ListObserver, QtGui.QTableView):
+class ListView(View, ListObserver, QtWidgets.QTableView):
 
     def __init__(self, resource_resolver, locale, parent, resource_key, data_type, object, key, sort_column_id, first_visible_row=None, select_first=True):
         assert parent is None or isinstance(parent, View), repr(parent)
         assert data_type is None or isinstance(data_type, Type), repr(data_type)
         assert sort_column_id, repr(sort_column_id)
         log.debug('new list_view self=%s', id(self))
-        QtGui.QTableView.__init__(self)
+        QtWidgets.QTableView.__init__(self)
         View.__init__(self, parent)
         self._locale = locale
         self._resource_resolver = resource_resolver
@@ -208,7 +208,7 @@ class ListView(View, ListObserver, QtGui.QTableView):
         self.verticalScrollBar().valueChanged.connect(self.vscrollValueChanged)
         self.activated.connect(self._on_activated)
         self._elt_commands = []   # Command list - commands for selected elements
-        self._elt_actions = []    # QtGui.QAction list - actions for selected elements
+        self._elt_actions = []    # QtWidgets.QAction list - actions for selected elements
         self.set_object(object, sort_column_id)
         self._wanted_current_key = key  # will set it to current when rows are loaded
 
@@ -355,25 +355,25 @@ class ListView(View, ListObserver, QtGui.QTableView):
         if key_match_any(evt, ['Tab', 'Backtab', 'Ctrl+Tab', 'Ctrl+Shift+Backtab']):
             evt.ignore()  # let splitter or tab view handle it
             return
-        QtGui.QTableView.keyPressEvent(self, evt)
+        QtWidgets.QTableView.keyPressEvent(self, evt)
 
     def vscrollValueChanged(self, value):
         self.fetch_elements_if_required()
 
     def resizeEvent(self, evt):
         log.info('-- resizeEvent self=%r model=%r isVisible=%r visible-rows=%r', id(self), id(self.model()), self.isVisible(), self._get_visible_rows())
-        result = QtGui.QTableView.resizeEvent(self, evt)
+        result = QtWidgets.QTableView.resizeEvent(self, evt)
         # only now we are visible and know how many elements we require
         self.fetch_elements_if_required()
         return result
 
     def currentChanged(self, idx, prev_idx):
-        QtGui.QTableView.currentChanged(self, idx, prev_idx)
+        QtWidgets.QTableView.currentChanged(self, idx, prev_idx)
         self._selected_elements_changed()
 
     def setVisible(self, visible):
         log.debug('-- list_view.setVisible self=%s visible=%r', id(self), visible)
-        QtGui.QTableView.setVisible(self, visible)
+        QtWidgets.QTableView.setVisible(self, visible)
         if visible:
             self.view_commands_changed(['element'])
 

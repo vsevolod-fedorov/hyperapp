@@ -2,7 +2,7 @@ import logging
 import asyncio
 import re
 
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets
 
 from hyperapp.common.htypes import tString, Field
 from hyperapp.client.module import ClientModule
@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 MODULE_NAME = 'text_view'
 
 
-class TextView(View, QtGui.QTextBrowser):
+class TextView(View, QtWidgets.QTextBrowser):
 
     @classmethod
     async def from_state(cls, locale, state, parent, objimpl_registry):
@@ -24,7 +24,7 @@ class TextView(View, QtGui.QTextBrowser):
         return cls(object, parent)
 
     def __init__(self, object, parent):
-        QtGui.QTextBrowser.__init__(self)
+        QtWidgets.QTextBrowser.__init__(self)
         View.__init__(self, parent)
         self.setOpenLinks(False)
         self.object = object

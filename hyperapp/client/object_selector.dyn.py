@@ -1,5 +1,5 @@
 import logging
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets
 
 from hyperapp.common.registry import Registry
 from hyperapp.common.module import Module
@@ -35,7 +35,7 @@ class ObjectSelectorObject(Object):
         return (await self._callback.set_ref(title, ref))
 
 
-class ObjectSelectorView(View, QtGui.QWidget):
+class ObjectSelectorView(View, QtWidgets.QWidget):
 
     impl_id = 'object_selector'
 
@@ -46,12 +46,12 @@ class ObjectSelectorView(View, QtGui.QWidget):
         return cls(parent, object, target_view)
 
     def __init__(self, parent, object, target_view):
-        QtGui.QWidget.__init__(self)
+        QtWidgets.QWidget.__init__(self)
         View.__init__(self, parent)
         self.object = object
         self.target_view = target_view
-        layout = QtGui.QVBoxLayout(spacing=1)
-        layout.addWidget(QtGui.QPushButton('Select object', focusPolicy=QtCore.Qt.NoFocus))
+        layout = QtWidgets.QVBoxLayout(spacing=1)
+        layout.addWidget(QtWidgets.QPushButton('Select object', focusPolicy=QtCore.Qt.NoFocus))
         layout.addWidget(target_view.get_widget())
         self.setLayout(layout)
         target_view.set_parent(self)

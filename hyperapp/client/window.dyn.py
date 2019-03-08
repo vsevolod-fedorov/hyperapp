@@ -1,6 +1,6 @@
 import logging
 import weakref
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets
 
 from hyperapp.common.util import is_list_inst
 from hyperapp.common.htypes import tInt, Field, TRecord, Interface
@@ -24,7 +24,7 @@ DEFAULT_SIZE = QtCore.QSize(800, 800)
 DUP_OFFSET = QtCore.QPoint(150, 50)
 
 
-class Window(View, QtGui.QMainWindow):
+class Window(View, QtWidgets.QMainWindow):
 
     @classmethod
     async def from_state(cls, state, app, module_command_registry, view_registry, resource_resolver):
@@ -36,7 +36,7 @@ class Window(View, QtGui.QMainWindow):
 
     def __init__(self, locale, view_registry, module_command_registry, resource_resolver, app, child, size=None, pos=None):
         assert isinstance(child, TabView), repr(child)
-        QtGui.QMainWindow.__init__(self)
+        QtWidgets.QMainWindow.__init__(self)
         View.__init__(self, app)
         self._locale = locale
         self._view_registry = view_registry
@@ -63,7 +63,7 @@ class Window(View, QtGui.QMainWindow):
         self._parent().window_created(self)
 
     def closeEvent(self, evt):
-        QtGui.QMainWindow.closeEvent(self, evt)
+        QtWidgets.QMainWindow.closeEvent(self, evt)
         ## self.deleteLater()  # seems not required, at least when moved to QMainWindow from QWidget
         self._parent().window_closed(self)
 

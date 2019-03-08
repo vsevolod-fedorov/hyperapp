@@ -2,7 +2,7 @@
 
 import logging
 from enum import Enum
-from PySide import QtCore, QtGui
+from PySide2 import QtCore, QtWidgets
 
 from hyperapp.client.object import Object
 from hyperapp.client.module import ClientModule
@@ -51,7 +51,7 @@ class LineObject(Object):
         log.info('~line_object %r', self)
 
 
-class LineEditView(View, QtGui.QLineEdit):
+class LineEditView(View, QtWidgets.QLineEdit):
 
     impl_id = 'line_edit'
 
@@ -65,7 +65,7 @@ class LineEditView(View, QtGui.QLineEdit):
         return cls(object, cls.Mode(state.mode), parent)
 
     def __init__(self, object, mode, parent):
-        QtGui.QLineEdit.__init__(self, object.line)
+        QtWidgets.QLineEdit.__init__(self, object.line)
         View.__init__(self, parent)
         self._object = object
         self._mode = mode

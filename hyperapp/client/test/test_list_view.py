@@ -8,8 +8,8 @@ from operator import attrgetter
 from pathlib import Path
 
 import pytest
-from PySide import QtCore, QtGui
-from PySide.QtTest import QTest
+from PySide2 import QtCore, QtWidgets
+from PySide2.QtTest import QTest
 
 from hyperapp.common.htypes import tInt, resource_key_t
 from hyperapp.common.ref import phony_ref
