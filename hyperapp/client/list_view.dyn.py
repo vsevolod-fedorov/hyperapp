@@ -190,6 +190,7 @@ class ListView(View, ListObserver, QtWidgets.QTableView):
         assert data_type is None or isinstance(data_type, Type), repr(data_type)
         assert sort_column_id, repr(sort_column_id)
         log.debug('new list_view self=%s', id(self))
+        self._elt_actions = []    # QtWidgets.QAction list - actions for selected elements, used from inside following init
         QtWidgets.QTableView.__init__(self)
         View.__init__(self, parent)
         self._locale = locale
@@ -209,7 +210,6 @@ class ListView(View, ListObserver, QtWidgets.QTableView):
         self.verticalScrollBar().valueChanged.connect(self.vscrollValueChanged)
         self.activated.connect(self._on_activated)
         self._elt_commands = []   # Command list - commands for selected elements
-        self._elt_actions = []    # QtWidgets.QAction list - actions for selected elements
         self.set_object(object, sort_column_id)
         self._wanted_current_key = key  # will set it to current when rows are loaded
 
