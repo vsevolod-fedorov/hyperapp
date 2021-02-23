@@ -80,16 +80,20 @@ class Server:
 
 class Connection:
 
-    def __init__(self, mosaic, ref_collector, unbundler, parcel_registry, transport, selector, address, sock):
+    def __init__(self, mosaic, ref_collector, unbundler, parcel_registry,
+                 route_table, transport, endpoint_registry, selector, address, sock):
         self._mosaic = mosaic
         self._ref_collector = ref_collector
         self._unbundler = unbundler
         self._parcel_registry = parcel_registry
+        self._route_table = route_table
         self._transport = transport
+        self._endpoint_registry = endpoint_registry
         self._selector = selector
         self._address = address
         self._socket = sock
         self._buffer = b''
+        self._this_route = IncomingConnectionRoute(self)
 
     def __repr__(self):
         return f"TCP:{address_to_str(self._address)}"
@@ -100,8 +104,7 @@ class Connection:
 
     def send(self, parcel):
         parcel_ref = self._mosaic.put(parcel.piece)
-        bundle = self._ref_collector([parcel_ref]).bundle
-        data = encode_tcp_packet(bundle, TCP_BUNDLE_ENCODING)
+        data = self._prepare_packet(parcel_ref)
         ofs = 0
         while ofs < len(data):
             sent_size = self._socket.send(data[ofs:])
@@ -110,6 +113,14 @@ class Connection:
                 raise RuntimeError(f"{self}: remote end closed connection")
             ofs += sent_size
         log.info("%s: Parcel is sent: %s", self, ref_repr(parcel_ref))
+
+    def _prepare_packet(self, parcel_ref):
+        collected = self._ref_collector([parcel_ref])
+        peer_ref_set = collected.ref_set & self._endpoint_registry.local_peer_ref_set
+        log.info("%s: Send bundle: parcel: %s, peer refs: %s", self, ref_repr(parcel_ref), [ref_repr(ref) for ref in peer_ref_set])
+        # First root is parce, others are peer refs.
+        bundle = bundle_t([parcel_ref, *peer_ref_set], collected.bundle.aux_roots, collected.bundle.capsule_list)
+        return encode_tcp_packet(bundle, TCP_BUNDLE_ENCODING)
 
     def on_read(self, sock, mask):
         data = sock.recv(1024**2)
@@ -127,9 +138,15 @@ class Connection:
             self._process_bundle(bundle)
 
     def _process_bundle(self, bundle):
+        parcel_ref = bundle.roots[0]
+        peer_ref_list = bundle.roots[1:]
+        log.info("%s: Received bundle: parcel: %s, peer refs: %s", self, ref_repr(parcel_ref), [ref_repr(ref) for ref in peer_ref_list])
         self._unbundler.register_bundle(bundle)
-        piece_ref = bundle.roots[0]
-        parcel = self._parcel_registry.invite(piece_ref)
+        # Add route first - it may be used during parcel processing.
+        for peer_ref in peer_ref_list:
+            log.info("%s will be routed via %s", ref_repr(peer_ref), self)
+            self._route_table.add_route(peer_ref, self._this_route)
+        parcel = self._parcel_registry.invite(parcel_ref)
         self._transport.send_parcel(parcel)
 
 
@@ -158,6 +175,21 @@ class Route:
         client.send(parcel)
 
 
+class IncomingConnectionRoute:
+
+    def __init__(self, connection):
+        self._connection = connection
+
+    @property
+    def piece(self):
+        return None  # Not persistable.
+
+    def send(self, parcel):
+        if self._connection.closed:
+            raise RuntimeError(f"Can not send {parcel} back to {self._connection}: it is already closed")
+        self._connection.send(parcel)
+
+
 class ThisModule(Module):
 
     def __init__(self, module_name, services, config):
@@ -166,7 +198,9 @@ class ThisModule(Module):
         self._ref_collector = services.ref_collector
         self._unbundler = services.unbundler
         self._parcel_registry = services.parcel_registry
+        self._route_table = services.route_table
         self._transport = services.transport
+        self._endpoint_registry = services.endpoint_registry
         self._on_failure = services.failed
         self._stop_flag = False
         self._selector = selectors.DefaultSelector()
@@ -198,7 +232,9 @@ class ThisModule(Module):
             self._ref_collector,
             self._unbundler,
             self._parcel_registry,
+            self._route_table,
             self._transport,
+            self._endpoint_registry,
             self._selector,
             address,
             sock,

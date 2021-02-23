@@ -78,6 +78,7 @@ def test_tcp_send(services):
             'transport.rsa_identity',
             'sync.async_stop',
             'sync.transport.transport',
+            'sync.transport.endpoint',
             'sync.subprocess_connection',
             'sync.subprocess_child',
             'sync.transport.tcp',

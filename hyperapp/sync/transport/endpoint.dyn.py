@@ -2,6 +2,7 @@ import logging
 from collections import namedtuple
 from concurrent.futures import ThreadPoolExecutor
 
+from hyperapp.common.ref import ref_repr
 from hyperapp.common.module import Module
 
 log = logging.getLogger(__name__)
@@ -36,11 +37,14 @@ class EndpointRegistry:
         self._unbundler = unbundler
         self._route_table = route_table
         self._thread_pool = thread_pool
+        self.local_peer_ref_set = set()
 
     def register(self, identity, endpoint):
         peer_ref = self._mosaic.put(identity.peer.piece)
+        log.info("Local peer %s: %s", ref_repr(peer_ref), endpoint)
         route = LocalRoute(self._unbundler, self._thread_pool, identity, endpoint)
         self._route_table.add_route(peer_ref, route)
+        self.local_peer_ref_set.add(peer_ref)
 
 
 class ThisModule(Module):
