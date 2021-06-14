@@ -1,5 +1,6 @@
 import abc
 import logging
+import sys
 import weakref
 from dataclasses import dataclass, field
 from collections import namedtuple
@@ -41,6 +42,13 @@ class Object(Commander, metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def piece(self):
         pass
+
+    @property
+    def dir_list(self):
+        module_name = self.__class__.__module__
+        module = sys.modules[module_name]
+        module_ref = module.__module_ref__
+        return [[module_ref]]
 
     @classmethod
     def resource_key(cls, path=()):
