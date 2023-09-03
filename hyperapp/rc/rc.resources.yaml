@@ -11,7 +11,7 @@ import:
 - builtin_service:module_dir_list
 - builtin_service:mosaic
 - builtin_service:resource_module_factory
-- builtin_service:resource_registry
+- builtin_service:resource_registry_factory
 - builtin_service:type_module_loader
 - builtin_service:types
 - builtin_service:web
@@ -91,7 +91,7 @@ definitions:
       services.module_dir_list: builtin_service:module_dir_list
       services.mosaic: builtin_service:mosaic
       services.resource_module_factory: builtin_service:resource_module_factory
-      services.resource_registry: builtin_service:resource_registry
+      services.resource_registry_factory: builtin_service:resource_registry_factory
       services.rpc_endpoint_factory: rpc.rpc_endpoint:rpc_endpoint_factory.service
       services.subprocess_rpc_server_running: subprocess.subprocess_rpc_server:subprocess_rpc_server_running.service
       services.type_module_loader: builtin_service:type_module_loader
