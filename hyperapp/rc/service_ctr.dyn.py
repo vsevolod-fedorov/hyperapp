@@ -88,6 +88,7 @@ class ServiceTemplateCtr(Constructor):
     @classmethod
     def from_template(cls, service_name, template):
         return cls(
+            module_name=template.module_name,
             attr_name=template.attr_name,
             name=service_name,
             free_params=template.free_params,
@@ -98,6 +99,7 @@ class ServiceTemplateCtr(Constructor):
     @classmethod
     def from_piece(cls, piece):
         return cls(
+            module_name=piece.module_name,
             attr_name=piece.attr_name,
             name=piece.name,
             free_params=piece.free_params,
@@ -105,7 +107,8 @@ class ServiceTemplateCtr(Constructor):
             want_config=piece.want_config,
             )
 
-    def __init__(self, attr_name, name, free_params, service_params, want_config):
+    def __init__(self, module_name, attr_name, name, free_params, service_params, want_config):
+        self._module_name = module_name
         self._attr_name = attr_name
         self._name = name
         self.free_params = free_params
@@ -115,6 +118,7 @@ class ServiceTemplateCtr(Constructor):
     @property
     def piece(self):
         return htypes.rc_constructors.service_template(
+            module_name=self._module_name,
             attr_name=self._attr_name,
             name=self._name,
             free_params=tuple(self.free_params),
