@@ -1,3 +1,5 @@
+# ~/proj/hyperapp/shell.sh scripts/file-bundle-profile-load.py
+
 import cProfile
 import pstats
 from pathlib import Path
