@@ -298,6 +298,9 @@ class ImportTarget(Target):
             yield ImportResource.from_type_src(self._src.name, src)
         for req, target in self._req_to_target.items():
             yield from req.make_resource_list(target)
+        # Some modules, like common.mark, are used before all imports are stated.
+        for target in self._target_set.completed_python_module_resources:
+            yield ImportResource(self._src.name, ['code', target.code_name], target.python_module_piece)
         module_name, recorder_piece, python_module = self.recorded_python_module(tag='test')
         for ctr in self._test_constructors:
             yield ctr.make_resource(self._types, self._src.name, python_module)
