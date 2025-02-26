@@ -81,7 +81,10 @@ def test_view_factory_list_with_model(factory):
         model_t=pyobj_creg.actor_to_ref(htypes.view_factory_list_tests.sample_model),
         )
     items = view_factory_list.view_factory_list(piece)
-    assert items == [factory.item]
+    assert len(items) >= 2
+    assert factory.item in items
+    k = htypes.view_factory_list_tests.layout_k()
+    assert mosaic.put(k) in {item.k for item in items}
 
 
 def test_open():
