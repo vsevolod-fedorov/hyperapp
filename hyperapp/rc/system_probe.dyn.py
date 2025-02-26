@@ -250,6 +250,7 @@ class SystemProbe(System):
         self._config_fixtures = defaultdict(list)  # service_name -> fixture list
         self._async_error = None  # (error message, exception) tuple
         self._used_keys = set()  # (service, key) set
+        self._fixture_keys = set()  # (service, key) set
         self._init_probe()
 
     # Do not _init before our own attributes are initialized.
@@ -290,6 +291,8 @@ class SystemProbe(System):
         for fixture in self._config_fixtures.get(service_name, []):
             fixture_cfg = fixture.resolve(self)
             ctl.merge(config, fixture_cfg)
+            for key, value in fixture_cfg.items():
+                self._fixture_keys.add((service_name, key))
         return self._make_config_probe(service_name, config)
 
     def bind_services(self, fn, params, requester=None):
@@ -333,4 +336,4 @@ class SystemProbe(System):
 
     @property
     def used_keys(self):
-        return self._used_keys
+        return self._used_keys - self._fixture_keys
