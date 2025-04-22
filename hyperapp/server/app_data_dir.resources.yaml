@@ -1,0 +1,33 @@
+# Automatically generated file. Do not edit.
+
+import:
+- base.mark:mark.module
+- legacy_type.builtin:attribute
+- legacy_type.builtin:python_module
+- legacy_type.system:dict_config_ctl
+- legacy_type.system:service_template
+definitions:
+  app_data_dir:
+    type: legacy_type.builtin:attribute
+    value:
+      object: app_data_dir.module
+      attr_name: app_data_dir
+  app_data_dir.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: app_data_dir
+      file_name: app_data_dir.dyn.py
+      import_list:
+        code.mark: base.mark:mark.module
+  app_data_dir.service:
+    type: legacy_type.system:service_template
+    value:
+      name: app_data_dir
+      ctl: system-dict_config_ctl.ctl
+      function: app_data_dir
+      service_params: []
+      want_config: false
+      free_params: []
+  system-dict_config_ctl.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value: {}

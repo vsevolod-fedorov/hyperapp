@@ -3,6 +3,7 @@
 import:
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
+- server.app_data_dir:app_data_dir.service
 - server.server:server_main.service
 definitions:
   config:
@@ -14,4 +15,5 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - server.app_data_dir:app_data_dir.service
       - server.server:server_main.service
