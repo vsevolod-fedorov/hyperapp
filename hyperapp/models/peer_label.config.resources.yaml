@@ -54,4 +54,4 @@ definitions:
     value: localhost
   string_3:
     type: legacy_type.builtin:string
-    value: h2-zt
+    value: host3
