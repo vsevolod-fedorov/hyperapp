@@ -1,0 +1,62 @@
+# Automatically generated file. Do not edit.
+
+import:
+- base.mark:mark.module
+- legacy_type.builtin:attribute
+- legacy_type.builtin:python_module
+- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.feed:feed_template
+- legacy_type.feed:list_feed_type
+- legacy_type.git:ref_item
+- legacy_type.git:ref_list_model
+- legacy_type.model:index_list_ui_t
+- legacy_type.model:model
+- legacy_type.system_fn:ctx_fn
+definitions:
+  git-ref_list_model.feed-template:
+    type: legacy_type.feed:feed_template
+    value:
+      feed_type: git-ref_list_model.feed-type
+  git-ref_list_model.feed-template-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.git:ref_list_model
+      value: git-ref_list_model.feed-template
+  git-ref_list_model.feed-type:
+    type: legacy_type.feed:list_feed_type
+    value:
+      item_t: legacy_type.git:ref_item
+  git-ref_list_model.index-list-ui-t:
+    type: legacy_type.model:index_list_ui_t
+    value:
+      item_t: legacy_type.git:ref_item
+  git-ref_list_model.model:
+    type: legacy_type.model:model
+    value:
+      ui_t: git-ref_list_model.index-list-ui-t
+      system_fn: git-ref_list_model.system-fn
+  git-ref_list_model.model-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.git:ref_list_model
+      value: git-ref_list_model.model
+  git-ref_list_model.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: ref_list
+      ctx_params:
+      - piece
+      service_params: []
+  git_ref_list.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: git_ref_list
+      file_name: git_ref_list.dyn.py
+      import_list:
+        code.mark: base.mark:mark.module
+        htypes.git.ref_item: legacy_type.git:ref_item
+  ref_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: git_ref_list.module
+      attr_name: ref_list

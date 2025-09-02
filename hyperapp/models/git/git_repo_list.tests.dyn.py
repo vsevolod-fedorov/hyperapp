@@ -1,4 +1,3 @@
-from pathlib import Path
 from unittest.mock import Mock
 
 import pygit2
@@ -9,6 +8,7 @@ from .services import (
     web,
     )
 from .code.mark import mark
+from .fixtures import git_fixtures
 from .tested.code import git_repo_list
 
 
@@ -18,18 +18,9 @@ def test_open():
 
 
 @mark.fixture
-def data_dir():
-    root = Path('/tmp/git-tests')
-    repo_dir = root / 'phony-repo-1'
-    if not repo_dir.exists():
-        pygit2.init_repository(repo_dir)
-    return root
-
-
-@mark.fixture
-def file_bundle_factory():
+def file_bundle_factory(repo_dir, path, encoding):
     storage = htypes.git.repo_list_storage(
-        path_list=('/tmp/git-tests/phony-repo-1',),
+        path_list=(str(repo_dir),),
         )
     file_bundle = Mock()
     file_bundle.load_piece.return_value = storage
@@ -41,14 +32,14 @@ def piece():
     return htypes.git.repo_list_model()
 
 
-def test_model(piece):
+def test_model(repo_name, repo_dir, piece):
     item_list = git_repo_list.repo_list_model(piece)
     assert type(item_list) is list
     assert item_list == [
         htypes.git.repo_item(
-            name='phony-repo-1',
-            path='/tmp/git-tests/phony-repo-1',
-            current_branch='',  # Phony repo has no commits.
+            name=repo_name,
+            path=str(repo_dir),
+            current_branch='master',
             ),
         ]
 
@@ -64,6 +55,16 @@ def test_add(piece):
 def test_remove(piece):
     result = git_repo_list.remove(piece, current_key='phony-repo-1')
     assert result
+
+
+def test_refs(piece):
+    current_item = htypes.git.repo_item(
+        name='<unused>',
+        path='/tmp/sample-path',
+        current_branch='unused',
+        )
+    result = git_repo_list.refs(piece, current_item)
+    assert isinstance(result, htypes.git.ref_list_model)
 
 
 def test_formatter(piece):

@@ -10,10 +10,10 @@ repo_item = record:
   current_branch: string
 
 
-branch_list_model = record:
+ref_list_model = record:
   repo_dir: string
 
-branch_item = record:
+ref_item = record:
   name: string
   commit_id_short: string
   commit_author: string

@@ -34,7 +34,15 @@ class RepoList:
 
     def enum_items(self):
         for name, path in self._name_to_path.items():
-            repo = pygit2.Repository(path)
+            try:
+                repo = pygit2.Repository(path)
+            except pygit2.GitError as x:
+                yield htypes.git.repo_item(
+                    name=name,
+                    path=str(path),
+                    current_branch=str(x),
+                    )
+                continue
             try:
                 current_branch = repo.head.shorthand
             except pygit2.GitError:
@@ -82,6 +90,13 @@ def remove(piece, current_key, repo_list):
         return
     repo_list.remove(current_key)
     return True
+
+
+@mark.command
+def refs(piece, current_item):
+    return htypes.git.ref_list_model(
+        repo_dir=current_item.path,
+        )
 
 
 @mark.global_command

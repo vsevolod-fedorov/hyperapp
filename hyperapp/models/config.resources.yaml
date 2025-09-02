@@ -76,8 +76,11 @@ import:
 - models.fs:fs-model.model-cfg-item
 - models.fs:fs-path.selector-cfg-item
 - models.fs:open_fs.global-model-command
+- models.git.git_ref_list:git-ref_list_model.feed-template-cfg-item
+- models.git.git_ref_list:git-ref_list_model.model-cfg-item
 - models.git.git_repo_list:formatter_creg-git-repo_list_model.actor-cfg-item
 - models.git.git_repo_list:git-repo_list_model-add.command-cfg-item
+- models.git.git_repo_list:git-repo_list_model-refs.command-cfg-item
 - models.git.git_repo_list:git-repo_list_model-remove.command-cfg-item
 - models.git.git_repo_list:git-repo_list_model.feed-template-cfg-item
 - models.git.git_repo_list:git-repo_list_model.model-cfg-item
@@ -198,6 +201,7 @@ definitions:
       - models.data_browser:data_browser-ref_list_view.feed-template-cfg-item
       - models.file_bundles:file_bundles-view.feed-template-cfg-item
       - models.fs:fs-model.feed-template-cfg-item
+      - models.git.git_ref_list:git-ref_list_model.feed-template-cfg-item
       - models.git.git_repo_list:git-repo_list_model.feed-template-cfg-item
       - models.global_commands:global_commands-model.feed-template-cfg-item
       - models.identity_command:model_commands-model.feed-template-cfg-item
@@ -305,6 +309,7 @@ definitions:
       - models.data_browser:data_browser-record_view-record_open.command-cfg-item
       - models.data_browser:data_browser-ref_list_view-ref_list_open.command-cfg-item
       - models.file_bundles:file_bundles-view-open.command-cfg-item
+      - models.git.git_repo_list:git-repo_list_model-refs.command-cfg-item
       - models.git.git_repo_list:git-repo_list_model-remove.command-cfg-item
       - models.global_commands:global_commands-model-run_command.command-cfg-item
       - models.identity_command:model_commands-model-add_identity_command.command-cfg-item
@@ -341,6 +346,7 @@ definitions:
       - models.data_browser:data_browser-ref_list_view.model-cfg-item
       - models.file_bundles:file_bundles-view.model-cfg-item
       - models.fs:fs-model.model-cfg-item
+      - models.git.git_ref_list:git-ref_list_model.model-cfg-item
       - models.git.git_repo_list:git-repo_list_model.model-cfg-item
       - models.global_commands:global_commands-model.model-cfg-item
       - models.model_commands:model_commands-model.model-cfg-item

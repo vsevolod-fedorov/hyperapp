@@ -19,6 +19,7 @@ import:
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.fs:path
+- legacy_type.git:ref_list_model
 - legacy_type.git:repo_item
 - legacy_type.git:repo_list_model
 - legacy_type.git:repo_list_storage
@@ -92,6 +93,15 @@ definitions:
     type: legacy_type.command:command_template
     value:
       command: add.model-command-enumerator
+  git-repo_list_model-refs.command-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.git:repo_list_model
+      value: git-repo_list_model-refs.command-template
+  git-repo_list_model-refs.command-template:
+    type: legacy_type.command:command_template
+    value:
+      command: refs.model-command
   git-repo_list_model-remove.command-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -145,6 +155,7 @@ definitions:
       file_name: git_repo_list.dyn.py
       import_list:
         code.mark: base.mark:mark.module
+        htypes.git.ref_list_model: legacy_type.git:ref_list_model
         htypes.git.repo_item: legacy_type.git:repo_item
         htypes.git.repo_list_model: legacy_type.git:repo_list_model
         htypes.git.repo_list_storage: legacy_type.git:repo_list_storage
@@ -177,6 +188,39 @@ definitions:
     value:
       module_name: git_repo_list
       name: open_repo_list_d
+      base: null
+      fields: {}
+  refs:
+    type: legacy_type.builtin:attribute
+    value:
+      object: git_repo_list.module
+      attr_name: refs
+  refs.d:
+    type: refs_d
+    value: {}
+  refs.fn:
+    type: legacy_type.command:model_command_fn
+    value:
+      function: refs
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  refs.model-command:
+    type: legacy_type.command:model_command
+    value:
+      d: refs.d
+      properties:
+        is_global: false
+        uses_state: true
+        remotable: true
+      system_fn: refs.fn
+      preserve_remote: false
+  refs_d:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: git_repo_list
+      name: refs_d
       base: null
       fields: {}
   remove:
