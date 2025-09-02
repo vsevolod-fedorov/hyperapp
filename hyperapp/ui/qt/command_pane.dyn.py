@@ -53,9 +53,9 @@ class CommandPaneView(View):
             shortcut = button.shortcut()
             if shortcut:
                 used_shortcuts.add(shortcut.toString())
-        return rctx.clone_with(
-            used_shortcuts=used_shortcuts,
-            )
+        return {
+            'used_shortcuts': used_shortcuts,
+            }
 
     async def children_changed(self, ctx, rctx, widget, save_layout):
         commands = rctx.get('commands', [])

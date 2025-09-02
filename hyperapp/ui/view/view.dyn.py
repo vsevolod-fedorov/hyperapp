@@ -47,7 +47,7 @@ class View(metaclass=abc.ABCMeta):
         return rctx
 
     def secondary_parent_context(self, rctx, widget):
-        return rctx
+        return {}
 
     async def children_changed(self, ctx, rctx, widget, save_layout):
         pass

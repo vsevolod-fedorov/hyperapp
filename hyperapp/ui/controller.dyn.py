@@ -163,7 +163,8 @@ class _Item:
             commands_rctx = await kid.current_child_rctx()
             kid.view_commands, _unused_rctx = kid.my_reverse_context(commands_rctx)
             if kid.view:
-                rctx = kid.view.secondary_parent_context(rctx, kid.widget)
+                items = kid.view.secondary_parent_context(rctx, kid.widget)
+                rctx = rctx.clone_with(items)
         return rctx
 
     def my_reverse_context(self, rctx):
