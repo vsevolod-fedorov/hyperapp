@@ -35,19 +35,18 @@ class RefAndAssSet:
 
 def _sort_deps(ref_set, dep_set):
     result = []
-    visited = set()
-
-    def visit(ref):
-        if ref in visited:
-            return
+    visited_set = set()
+    unvisited = [*ref_set]
+    while unvisited:
+        ref = unvisited.pop()
+        if all(dep in visited_set for dep in dep_set[ref]):
+            visited_set.add(ref)
+            result.append(ref)
+            continue
+        unvisited.append(ref)
         for dep in dep_set[ref]:
-            visit(dep)
-        result.append(ref)
-        visited.add(ref)
-
-    for ref in ref_set:
-        visit(ref)
-
+            if dep not in visited_set:
+                unvisited.append(dep)
     return result
 
 
