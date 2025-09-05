@@ -95,6 +95,7 @@ def remove(piece, current_key, repo_list):
 @mark.command
 def refs(piece, current_item):
     return htypes.git.ref_list_model(
+        repo_name=current_item.name,
         repo_dir=current_item.path,
         )
 

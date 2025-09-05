@@ -76,6 +76,7 @@ import:
 - models.fs:fs-model.model-cfg-item
 - models.fs:fs-path.selector-cfg-item
 - models.fs:open_fs.global-model-command
+- models.git.git_ref_list:formatter_creg-git-ref_list_model.actor-cfg-item
 - models.git.git_ref_list:git-ref_list_model.feed-template-cfg-item
 - models.git.git_ref_list:git-ref_list_model.model-cfg-item
 - models.git.git_repo_list:formatter_creg-git-repo_list_model.actor-cfg-item
@@ -228,6 +229,7 @@ definitions:
       - models.config.config_service_list:formatter_creg-config_service_list-model.actor-cfg-item
       - models.data_browser:formatter_creg-data_browser-record_view.actor-cfg-item
       - models.fs:formatter_creg-fs-model.actor-cfg-item
+      - models.git.git_ref_list:formatter_creg-git-ref_list_model.actor-cfg-item
       - models.git.git_repo_list:formatter_creg-git-repo_list_model.actor-cfg-item
       - models.global_commands:formatter_creg-global_commands-command_arg.actor-cfg-item
       - models.global_commands:formatter_creg-global_commands-model.actor-cfg-item

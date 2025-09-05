@@ -11,6 +11,7 @@ repo_item = record:
 
 
 ref_list_model = record:
+  repo_name: string
   repo_dir: string
 
 ref_item = record:
