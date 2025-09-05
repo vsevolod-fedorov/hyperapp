@@ -215,7 +215,7 @@ definitions:
         uses_state: true
         remotable: true
       system_fn: refs.fn
-      preserve_remote: false
+      preserve_remote: true
   refs_d:
     type: legacy_type.builtin:record_mt
     value:
