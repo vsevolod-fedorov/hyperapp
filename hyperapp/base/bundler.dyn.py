@@ -15,7 +15,7 @@ from .services import (
 log = logging.getLogger(__name__)
 
 
-RECURSION_LIMIT = 1000
+RECURSION_LIMIT = 10000
 
 _RefsAndBundle = namedtuple('_RefsAndBundle', 'ref_set bundle')
 
