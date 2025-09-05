@@ -2,11 +2,13 @@
 
 import:
 - base.mark:mark.module
+- builtins:mosaic.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
+- legacy_type.git:commit
 - legacy_type.git:ref_item
 - legacy_type.git:ref_list_model
 - legacy_type.model:index_list_ui_t
@@ -54,7 +56,9 @@ definitions:
       file_name: git_ref_list.dyn.py
       import_list:
         code.mark: base.mark:mark.module
+        htypes.git.commit: legacy_type.git:commit
         htypes.git.ref_item: legacy_type.git:ref_item
+        services.mosaic: builtins:mosaic.service
   ref_list:
     type: legacy_type.builtin:attribute
     value:

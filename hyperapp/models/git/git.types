@@ -18,3 +18,12 @@ ref_item = record:
   commit_id_short: string
   commit_author: string
   commit_dt: datetime
+  commit: ref
+
+
+commit = record:
+  parents: ref list
+  time: datetime
+  author: string
+  committer: string
+  message: string
