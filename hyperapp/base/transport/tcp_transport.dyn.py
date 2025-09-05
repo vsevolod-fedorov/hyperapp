@@ -91,7 +91,7 @@ class Connection:
             if sent_size == 0:
                 raise RuntimeError(f"{self}: remote end closed connection")
             ofs += sent_size
-        log.info("%s: Parcel is sent: %s", self, parcel_ref)
+        log.info("%s: Parcel is sent (%d bytes): %s", self, len(data), parcel_ref)
 
     def _socket_send(self, data):
         while True:
@@ -126,7 +126,7 @@ class Connection:
 
     def _process_bundle(self, bundle, packet_size):
         parcel_ref = bundle.roots[0]
-        log.info("%s: Received bundle: parcel: %s", self, parcel_ref)
+        log.info("%s: Received bundle, %d bytes: parcel: %s", self, packet_size, parcel_ref)
         ref_set = unbundler.register_bundle(bundle)
         self._seen_refs |= ref_set
         parcel = self._svc.parcel_creg.invite(parcel_ref)
