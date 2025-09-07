@@ -45,6 +45,8 @@ class Repository:
                 unloaded.add(git_commit)
                 continue
             commit = htypes.git.commit(
+                id=str(git_commit.id),
+                short_id=git_commit.short_id,
                 parents=tuple(mosaic.put(p) for p in parents),
                 time=datetime.fromtimestamp(git_commit.commit_time),
                 author=str(git_commit.author),

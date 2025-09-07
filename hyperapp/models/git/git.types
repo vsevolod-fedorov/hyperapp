@@ -23,6 +23,8 @@ ref_item = record:
 
 
 commit = record:
+  id: string
+  short_id: string
   parents: ref list
   time: datetime
   author: string
