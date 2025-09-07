@@ -1,5 +1,3 @@
-from unittest.mock import Mock
-
 import pygit2
 
 from . import htypes
@@ -15,16 +13,6 @@ from .tested.code import git_repo_list
 def test_open():
     piece = git_repo_list.open_repo_list()
     assert piece
-
-
-@mark.fixture
-def file_bundle_factory(repo_dir, path, encoding):
-    storage = htypes.git.repo_list_storage(
-        path_list=(str(repo_dir),),
-        )
-    file_bundle = Mock()
-    file_bundle.load_piece.return_value = storage
-    return file_bundle
 
 
 @mark.fixture
@@ -70,3 +58,7 @@ def test_refs(piece):
 def test_formatter(piece):
     title = git_repo_list.format_model(piece)
     assert type(title) is str
+
+
+def test_init_hook():
+    git_repo_list.load_repositories()

@@ -3,6 +3,7 @@
 import:
 - base.mark:mark.module
 - base.system.config_layer:one_way.key_ctl
+- builtins:mosaic.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
@@ -20,6 +21,7 @@ import:
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.fs:path
+- legacy_type.git:commit
 - legacy_type.git:ref_list_model
 - legacy_type.git:repo_item
 - legacy_type.git:repo_list_model
@@ -156,10 +158,12 @@ definitions:
       file_name: git_repo_list.dyn.py
       import_list:
         code.mark: base.mark:mark.module
+        htypes.git.commit: legacy_type.git:commit
         htypes.git.ref_list_model: legacy_type.git:ref_list_model
         htypes.git.repo_item: legacy_type.git:repo_item
         htypes.git.repo_list_model: legacy_type.git:repo_list_model
         htypes.git.repo_list_storage: legacy_type.git:repo_list_storage
+        services.mosaic: builtins:mosaic.service
   load_repositories:
     type: legacy_type.builtin:attribute
     value:

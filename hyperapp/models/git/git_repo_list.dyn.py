@@ -1,14 +1,58 @@
 import logging
+from datetime import datetime
+from functools import cached_property
 from pathlib import Path
 
 import pygit2
 
 from . import htypes
+from .services import (
+    mosaic,
+    )
 from .code.mark import mark
 
 log = logging.getLogger(__name__)
 
-_STORAGE_PATH = 'git_repo_list.json'
+_STORAGE_PATH = 'git_repo_list.cdr'
+
+
+class Repository:
+
+    def __init__(self, name, path):
+        self.name = name
+        self.path = path
+        self.id_to_commit = {}  # Git id -> htypes.git.commit
+
+    @cached_property
+    def repo(self):
+        return pygit2.Repository(self.path)
+
+    def get_commit(self, git_object):
+        unloaded = {git_object}
+        while unloaded:
+            git_commit = unloaded.pop()
+            if git_commit.id in self.id_to_commit:
+                continue
+            parents = []
+            for git_parent in git_commit.parents:
+                try:
+                    parent_commit = self.id_to_commit[git_parent.id]
+                except KeyError:
+                    unloaded.add(git_parent)
+                else:
+                    parents.append(parent_commit)
+            if len(parents) != len(git_commit.parents):
+                unloaded.add(git_commit)
+                continue
+            commit = htypes.git.commit(
+                parents=tuple(mosaic.put(p) for p in parents),
+                time=datetime.fromtimestamp(git_commit.commit_time),
+                author=str(git_commit.author),
+                committer=str(git_commit.committer),
+                message=git_commit.message,
+                )
+            self.id_to_commit[git_commit.id] = commit
+        return self.id_to_commit[git_object.id]
 
 
 class RepoList:
@@ -16,6 +60,7 @@ class RepoList:
     def __init__(self, file_bundle):
         self._file_bundle = file_bundle
         self._name_to_path = {}
+        self._path_to_repo = {}
 
     def load(self):
         try:
@@ -25,6 +70,7 @@ class RepoList:
         for path_str in storage.path_list:
             path = Path(path_str)
             self._name_to_path[path.name] = path
+            self._path_to_repo[path] = Repository(path.name, path)
 
     def _save(self):
         storage = htypes.git.repo_list_storage(
@@ -33,42 +79,48 @@ class RepoList:
         self._file_bundle.save_piece(storage)
 
     def items(self):
-        return self._name_to_path.items()
+        return self._path_to_repo.values()
+
+    def repo_by_dir(self, dir):
+        return self._path_to_repo[Path(dir)]
 
     def enum_items(self):
-        for name, path in self._name_to_path.items():
+        for repo in self.items():
             try:
-                repo = pygit2.Repository(path)
+                git_repo = repo.repo
             except pygit2.GitError as x:
                 yield htypes.git.repo_item(
-                    name=name,
-                    path=str(path),
+                    name=repo.name,
+                    path=str(repo.path),
                     current_branch=str(x),
                     )
                 continue
             try:
-                current_branch = repo.head.shorthand
+                current_branch = git_repo.head.shorthand
             except pygit2.GitError:
                 current_branch = ''
             yield htypes.git.repo_item(
-                name=name,
-                path=str(path),
+                name=repo.name,
+                path=str(repo.path),
                 current_branch=current_branch,
                 )
 
     def add(self, path):
         self._name_to_path[path.name] = path
+        self._path_to_repo[path] = Repository(path.name, path)
         self._save()
         return path.name
 
     def remove(self, name):
+        path = self._name_to_path[name]
         del self._name_to_path[name]
+        del self._path_to_repo[path]
         self._save()
 
 
 @mark.service
 def repo_list(file_bundle_factory, data_dir):
-    file_bundle = file_bundle_factory(data_dir / _STORAGE_PATH, encoding='json')
+    file_bundle = file_bundle_factory(data_dir / _STORAGE_PATH, encoding='cdr')
     repo_list = RepoList(file_bundle)
     repo_list.load()
     return repo_list
@@ -115,4 +167,10 @@ def format_model(piece):
 
 @mark.init_hook
 def load_repositories(repo_list):
-    log.info("Loading %d repositories", len(repo_list.items()))
+    for repo in repo_list.items():
+        log.info("Git: Loading repository: %s", repo.name)
+        roots = []
+        for ref in repo.repo.references.objects:
+            commit = repo.get_commit(ref.peel())
+            roots.append(commit)
+        log.info("Git: Loaded %d objects", len(repo.id_to_commit))

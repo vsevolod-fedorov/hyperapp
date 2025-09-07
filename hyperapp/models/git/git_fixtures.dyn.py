@@ -1,7 +1,9 @@
 from pathlib import Path
+from unittest.mock import Mock
 
 import pygit2
 
+from . import htypes
 from .code.mark import mark
 
 
@@ -30,3 +32,13 @@ def repo_dir(data_dir, repo_name):
         repo.create_commit('HEAD', author, author, "Test commit", tree, [])
 
     return dir
+
+
+@mark.fixture
+def file_bundle_factory(repo_dir, path, encoding):
+    storage = htypes.git.repo_list_storage(
+        path_list=(str(repo_dir),),
+        )
+    file_bundle = Mock()
+    file_bundle.load_piece.return_value = storage
+    return file_bundle
