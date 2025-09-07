@@ -4,6 +4,8 @@ import:
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.marker:marker_template
 - rc.init_hook_ctr:init_hook_ctr.module
+- rc.marker_utils:marker_utils.module
+- rc.probe:probe.module
 
 definitions:
 
@@ -14,6 +16,8 @@ definitions:
       file_name: init_hook_marker.dyn.py
       import_list:
         code.init_hook_ctr: rc.init_hook_ctr:init_hook_ctr.module
+        code.probe: rc.probe:probe.module
+        code.marker_utils: rc.marker_utils:marker_utils.module
 
   init_hook_marker:
     type: legacy_type.builtin:attribute
@@ -26,6 +30,7 @@ definitions:
     value:
       function: init_hook_marker
       service_params:
+      - system
       - ctr_collector
 
   init_hook.marker-cfg-item:
