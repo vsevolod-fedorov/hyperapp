@@ -30,3 +30,7 @@ commit = record:
   author: string
   committer: string
   message: string
+
+
+storage = record:
+  heads: ref list

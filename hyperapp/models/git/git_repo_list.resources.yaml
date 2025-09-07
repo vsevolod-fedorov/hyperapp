@@ -4,6 +4,7 @@ import:
 - base.mark:mark.module
 - base.system.config_layer:one_way.key_ctl
 - builtins:mosaic.service
+- builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
@@ -26,6 +27,7 @@ import:
 - legacy_type.git:repo_item
 - legacy_type.git:repo_list_model
 - legacy_type.git:repo_list_storage
+- legacy_type.git:storage
 - legacy_type.model:key_list_ui_t
 - legacy_type.model:model
 - legacy_type.system:actor_template
@@ -163,7 +165,9 @@ definitions:
         htypes.git.repo_item: legacy_type.git:repo_item
         htypes.git.repo_list_model: legacy_type.git:repo_list_model
         htypes.git.repo_list_storage: legacy_type.git:repo_list_storage
+        htypes.git.storage: legacy_type.git:storage
         services.mosaic: builtins:mosaic.service
+        services.web: builtins:web.service
   load_repositories:
     type: legacy_type.builtin:attribute
     value:

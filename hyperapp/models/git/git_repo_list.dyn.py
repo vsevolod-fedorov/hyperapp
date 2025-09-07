@@ -8,20 +8,30 @@ import pygit2
 from . import htypes
 from .services import (
     mosaic,
+    web,
     )
 from .code.mark import mark
 
 log = logging.getLogger(__name__)
 
-_STORAGE_PATH = 'git_repo_list.cdr'
+
+_REPO_LIST_PATH = 'git/repo-list.cdr'
+_REPO_OBJECTS_FMT = 'git/{repo_name}-objects.cdr'
 
 
 class Repository:
 
-    def __init__(self, name, path):
+    def __init__(self, file_bundle_factory, data_dir, name, path):
+        self._file_bundle_factory = file_bundle_factory
+        self._data_dir = data_dir
         self.name = name
         self.path = path
-        self.id_to_commit = {}  # Git id -> htypes.git.commit
+        self._id_to_commit = {}  # Git id -> htypes.git.commit
+        self._heads = []  # commit list
+
+    @property
+    def object_count(self):
+        return len(self._id_to_commit)
 
     @cached_property
     def repo(self):
@@ -31,12 +41,12 @@ class Repository:
         unloaded = {git_object}
         while unloaded:
             git_commit = unloaded.pop()
-            if git_commit.id in self.id_to_commit:
+            if git_commit.id in self._id_to_commit:
                 continue
             parents = []
             for git_parent in git_commit.parents:
                 try:
-                    parent_commit = self.id_to_commit[git_parent.id]
+                    parent_commit = self._id_to_commit[git_parent.id]
                 except KeyError:
                     unloaded.add(git_parent)
                 else:
@@ -53,13 +63,54 @@ class Repository:
                 committer=str(git_commit.committer),
                 message=git_commit.message,
                 )
-            self.id_to_commit[git_commit.id] = commit
-        return self.id_to_commit[git_object.id]
+            self._id_to_commit[git_commit.id] = commit
+        return self._id_to_commit[git_object.id]
+
+    @property
+    def _storage(self):
+        path = self._data_dir / _REPO_OBJECTS_FMT.format(repo_name=self.name)
+        return self._file_bundle_factory(path, encoding='cdr')
+
+    def add_head(self, git_object):
+        commit = self.get_commit(git_object)
+        self._heads.append(commit)
+
+    def save_objects(self):
+        storage = htypes.git.storage(
+            heads=tuple(
+                mosaic.put(commit)for commit in self._heads
+                ),
+            )
+        self._storage.save_piece(storage)
+        log.info("Git: Saved %d objects to: %s", self.object_count, self._storage.path)
+
+    def load_objects(self):
+        log.info("Git: Loading repository %s: %s", self.name, self._storage.path)
+        try:
+            storage = self._storage.load_piece()
+        except FileNotFoundError:
+            return
+        for ref in storage.heads:
+            commit = self._cache_ref(ref)
+            self._heads.append(commit)
+
+    def _cache_ref(self, commit_ref):
+        unprocessed = [commit_ref]
+        while unprocessed:
+            commit = web.summon(unprocessed.pop())
+            if commit.id in self._id_to_commit:
+                continue
+            self._id_to_commit[commit.id] = commit
+            for parent_ref in commit.parents:
+                unprocessed.append(parent_ref)
+        return commit
 
 
 class RepoList:
 
-    def __init__(self, file_bundle):
+    def __init__(self, file_bundle_factory, data_dir, file_bundle):
+        self._file_bundle_factory = file_bundle_factory
+        self._data_dir = data_dir
         self._file_bundle = file_bundle
         self._name_to_path = {}
         self._path_to_repo = {}
@@ -72,7 +123,7 @@ class RepoList:
         for path_str in storage.path_list:
             path = Path(path_str)
             self._name_to_path[path.name] = path
-            self._path_to_repo[path] = Repository(path.name, path)
+            self._path_to_repo[path] = Repository(self._file_bundle_factory, self._data_dir, path.name, path)
 
     def _save(self):
         storage = htypes.git.repo_list_storage(
@@ -109,7 +160,7 @@ class RepoList:
 
     def add(self, path):
         self._name_to_path[path.name] = path
-        self._path_to_repo[path] = Repository(path.name, path)
+        self._path_to_repo[path] = Repository(self._file_bundle_factory, self._data_dir, path.name, path)
         self._save()
         return path.name
 
@@ -122,8 +173,8 @@ class RepoList:
 
 @mark.service
 def repo_list(file_bundle_factory, data_dir):
-    file_bundle = file_bundle_factory(data_dir / _STORAGE_PATH, encoding='cdr')
-    repo_list = RepoList(file_bundle)
+    file_bundle = file_bundle_factory(data_dir / _REPO_LIST_PATH, encoding='cdr')
+    repo_list = RepoList(file_bundle_factory, data_dir, file_bundle)
     repo_list.load()
     return repo_list
 
@@ -170,9 +221,10 @@ def format_model(piece):
 @mark.init_hook
 def load_repositories(repo_list):
     for repo in repo_list.items():
-        log.info("Git: Loading repository: %s", repo.name)
-        roots = []
+        repo.load_objects()
+        obj_count = repo.object_count
+        log.info("Git: Loaded %d objects; loading missing git objects", obj_count)
         for ref in repo.repo.references.objects:
-            commit = repo.get_commit(ref.peel())
-            roots.append(commit)
-        log.info("Git: Loaded %d objects", len(repo.id_to_commit))
+            repo.add_head(ref.peel())
+        log.info("Git: Loaded %d new objects", repo.object_count - obj_count)
+        repo.save_objects()

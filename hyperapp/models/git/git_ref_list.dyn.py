@@ -17,9 +17,9 @@ def ref_list(piece, repo_list):
     for ref in repo.repo.references.objects:
         object = ref.peel()
         log.info("Loading commits for: %s", object.id)
-        old_count = len(repo.id_to_commit)
+        old_count = repo.object_count
         commit = repo.get_commit(object)
-        log.info("Loaded %d commits", len(repo.id_to_commit) - old_count)
+        log.info("Loaded %d commits", repo.object_count - old_count)
         item = htypes.git.ref_item(
             name=ref.name,
             commit_id_short=object.short_id,

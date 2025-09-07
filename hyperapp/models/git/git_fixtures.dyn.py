@@ -36,9 +36,14 @@ def repo_dir(data_dir, repo_name):
 
 @mark.fixture
 def file_bundle_factory(repo_dir, path, encoding):
-    storage = htypes.git.repo_list_storage(
-        path_list=(str(repo_dir),),
-        )
+    if path.stem.endswith('list'):
+        storage = htypes.git.repo_list_storage(
+            path_list=(str(repo_dir),),
+            )
+    elif path.stem.endswith('objects'):
+        storage = htypes.git.storage(heads=())
+    else:
+        assert False, "Unexpected file bundle path: {path}"
     file_bundle = Mock()
     file_bundle.load_piece.return_value = storage
     return file_bundle
