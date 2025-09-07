@@ -7,6 +7,7 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:command_template
 - legacy_type.command:global_model_command
@@ -159,6 +160,22 @@ definitions:
         htypes.git.repo_item: legacy_type.git:repo_item
         htypes.git.repo_list_model: legacy_type.git:repo_list_model
         htypes.git.repo_list_storage: legacy_type.git:repo_list_storage
+  load_repositories:
+    type: legacy_type.builtin:attribute
+    value:
+      object: git_repo_list.module
+      attr_name: load_repositories
+  load_repositories.hook:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: load_repositories.system-fn
+  load_repositories.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: load_repositories
+      ctx_params: []
+      service_params:
+      - repo_list
   open_repo_list:
     type: legacy_type.builtin:attribute
     value:

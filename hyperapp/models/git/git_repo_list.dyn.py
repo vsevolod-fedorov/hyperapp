@@ -32,6 +32,9 @@ class RepoList:
             )
         self._file_bundle.save_piece(storage)
 
+    def items(self):
+        return self._name_to_path.items()
+
     def enum_items(self):
         for name, path in self._name_to_path.items():
             try:
@@ -108,3 +111,8 @@ def open_repo_list():
 @mark.actor.formatter_creg
 def format_model(piece):
     return "Git repositories"
+
+
+@mark.init_hook
+def load_repositories(repo_list):
+    log.info("Loading %d repositories", len(repo_list.items()))

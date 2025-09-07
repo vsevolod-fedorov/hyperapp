@@ -85,6 +85,7 @@ import:
 - models.git.git_repo_list:git-repo_list_model-remove.command-cfg-item
 - models.git.git_repo_list:git-repo_list_model.feed-template-cfg-item
 - models.git.git_repo_list:git-repo_list_model.model-cfg-item
+- models.git.git_repo_list:load_repositories.hook
 - models.git.git_repo_list:open_repo_list.global-model-command
 - models.git.git_repo_list:repo_list.service
 - models.global_commands:formatter_creg-global_commands-command_arg.actor-cfg-item
@@ -269,6 +270,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - models.git.git_repo_list:load_repositories.hook
       - models.transport_log_model:init_hook.hook
   model_command_enumerator_reg:
     type: legacy_type.system:item_list_config
