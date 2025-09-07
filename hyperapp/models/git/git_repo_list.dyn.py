@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 from datetime import datetime
 from functools import cached_property
 from pathlib import Path
@@ -28,6 +29,7 @@ class Repository:
         self.path = path
         self._id_to_commit = {}  # Git id -> htypes.git.commit
         self._heads = []  # commit list
+        self._head_commit_list = defaultdict(list)
 
     @property
     def object_count(self):
@@ -36,6 +38,9 @@ class Repository:
     @cached_property
     def repo(self):
         return pygit2.Repository(self.path)
+
+    def head_commits(self, head_commit):
+        return self._head_commit_list[head_commit]
 
     def get_commit(self, git_object):
         unloaded = {git_object}

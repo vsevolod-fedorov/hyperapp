@@ -17,9 +17,22 @@ ref_list_model = record:
 ref_item = record:
   name: string
   commit_id_short: string
-  commit_author: string
   commit_dt: datetime
+  commit_author: string
   commit: ref
+
+
+log_model = record:
+  repo_name: string
+  repo_dir: string
+  head_commit: ref
+
+
+log_item = record:
+  id_short: string
+  dt: datetime
+  author: string
+  message: string
 
 
 commit = record:

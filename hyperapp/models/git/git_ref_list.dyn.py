@@ -23,12 +23,21 @@ def ref_list(piece, repo_list):
         item = htypes.git.ref_item(
             name=ref.name,
             commit_id_short=object.short_id,
-            commit_author=str(object.author),
             commit_dt=datetime.fromtimestamp(object.commit_time),
+            commit_author=str(object.author),
             commit=mosaic.put(commit),
             )
         item_list.append(item)
     return item_list
+
+
+@mark.command(preserve_remote=True)
+def ref_log(piece, current_item):
+    return htypes.git.log_model(
+        repo_name=piece.repo_name,
+        repo_dir=piece.repo_dir,
+        head_commit=mosaic.put(current_item.commit),
+        )
 
 
 @mark.actor.formatter_creg

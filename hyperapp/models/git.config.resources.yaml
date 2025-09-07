@@ -5,9 +5,11 @@ import:
 - legacy_type.data_service:config_item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
+- models.git.git_ref_list:ref_log.d
 - models.git.git_repo_list:add.commit-d
 - models.git.git_repo_list:add.open-d
 - models.git.git_repo_list:open_repo_list.d
+- models.git.git_repo_list:refs.d
 - models.git.git_repo_list:remove.d
 definitions:
   config:
@@ -15,6 +17,11 @@ definitions:
     value:
       services:
         shortcut_reg: shortcut_reg.config
+  config_item-models.git.git_ref_list-ref_log.d:
+    type: legacy_type.data_service:config_item
+    value:
+      key: models.git.git_ref_list:ref_log.d
+      value: shortcut_Return
   config_item-models.git.git_repo_list-add.commit-d:
     type: legacy_type.data_service:config_item
     value:
@@ -30,6 +37,11 @@ definitions:
     value:
       key: models.git.git_repo_list:open_repo_list.d
       value: shortcut_Alt_Shift_G
+  config_item-models.git.git_repo_list-refs.d:
+    type: legacy_type.data_service:config_item
+    value:
+      key: models.git.git_repo_list:refs.d
+      value: shortcut_R
   config_item-models.git.git_repo_list-remove.d:
     type: legacy_type.data_service:config_item
     value:
@@ -44,6 +56,9 @@ definitions:
   shortcut_Ins:
     type: legacy_type.builtin:string
     value: Ins
+  shortcut_R:
+    type: legacy_type.builtin:string
+    value: R
   shortcut_Return:
     type: legacy_type.builtin:string
     value: Return
@@ -55,3 +70,5 @@ definitions:
       - config_item-models.git.git_repo_list-add.commit-d
       - config_item-models.git.git_repo_list-open_repo_list.d
       - config_item-models.git.git_repo_list-remove.d
+      - config_item-models.git.git_ref_list-ref_log.d
+      - config_item-models.git.git_repo_list-refs.d
