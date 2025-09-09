@@ -1,5 +1,6 @@
 import logging
 from collections import defaultdict
+from dataclasses import dataclass
 from datetime import datetime
 from functools import cached_property
 from pathlib import Path
@@ -20,6 +21,12 @@ _REPO_LIST_PATH = 'git/repo-list.cdr'
 _REPO_OBJECTS_FMT = 'git/{repo_name}-objects.cdr'
 
 
+@dataclass
+class _Log:
+    commit_list: list
+    feed_is_running: bool = False
+
+
 class Repository:
 
     def __init__(self, file_bundle_factory, data_dir, name, path):
@@ -29,7 +36,7 @@ class Repository:
         self.path = path
         self._id_to_commit = {}  # Git id -> htypes.git.commit
         self._heads = []  # commit list
-        self._head_commit_list = defaultdict(list)
+        self._head_log = {}
 
     @property
     def object_count(self):
@@ -39,8 +46,14 @@ class Repository:
     def repo(self):
         return pygit2.Repository(self.path)
 
-    def head_commits(self, head_commit):
-        return self._head_commit_list[head_commit]
+    def head_log(self, head_commit):
+        try:
+            return self._head_log[head_commit]
+        except KeyError:
+            pass
+        log = _Log(commit_list=[])
+        self._head_log[head_commit] = log
+        return log
 
     def get_commit(self, git_object):
         unloaded = {git_object}

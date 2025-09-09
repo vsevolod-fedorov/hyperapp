@@ -5,6 +5,7 @@ from .services import (
     mosaic,
     )
 from .code.mark import mark
+from .fixtures import feed_fixtures
 from .fixtures import git_fixtures
 from .tested.code import git_log
 
@@ -31,9 +32,9 @@ def piece(repo_name, repo_dir, head_commit):
         )
 
 
-def test_model(repo_dir, repo_list, head_commit, piece):
+async def test_model(repo_dir, repo_list, head_commit, piece):
     repo = repo_list.repo_by_dir(repo_dir)
-    repo.head_commits(head_commit).append(head_commit)
+    repo.head_log(head_commit).commit_list.append(head_commit)
     item_list = git_log.log_model(piece)
     assert item_list
 

@@ -2,8 +2,10 @@
 
 import:
 - base.mark:mark.module
+- base.system.config_layer:one_way.key_ctl
 - builtins:mosaic.service
 - builtins:web.service
+- common.list_diff:list_diff.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
@@ -14,8 +16,24 @@ import:
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:model
 - legacy_type.system:actor_template
+- legacy_type.system:actor_value_ctl
+- legacy_type.system:dict_config_ctl
+- legacy_type.system:finalizer_gen_service_template
 - legacy_type.system_fn:ctx_fn
 definitions:
+  _git_log_thread_pool:
+    type: legacy_type.builtin:attribute
+    value:
+      object: git_log.module
+      attr_name: _git_log_thread_pool
+  _git_log_thread_pool.service:
+    type: legacy_type.system:finalizer_gen_service_template
+    value:
+      name: _git_log_thread_pool
+      ctl: system-dict_config.one_way.actor.ctl
+      function: _git_log_thread_pool
+      service_params: []
+      want_config: false
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -66,12 +84,15 @@ definitions:
       - piece
       service_params:
       - repo_list
+      - _git_log_thread_pool
+      - feed_factory
   git_log.module:
     type: legacy_type.builtin:python_module
     value:
       module_name: git_log
       file_name: git_log.dyn.py
       import_list:
+        code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
         htypes.git.log_item: legacy_type.git:log_item
         services.mosaic: builtins:mosaic.service
@@ -81,3 +102,11 @@ definitions:
     value:
       object: git_log.module
       attr_name: log_model
+  system-actor.value-ctl:
+    type: legacy_type.system:actor_value_ctl
+    value: {}
+  system-dict_config.one_way.actor.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: base.system.config_layer:one_way.key_ctl
+      value_ctl: system-actor.value-ctl

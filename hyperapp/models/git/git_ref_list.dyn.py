@@ -36,7 +36,7 @@ def ref_log(piece, current_item):
     return htypes.git.log_model(
         repo_name=piece.repo_name,
         repo_dir=piece.repo_dir,
-        head_commit=mosaic.put(current_item.commit),
+        head_commit=current_item.commit,
         )
 
 
