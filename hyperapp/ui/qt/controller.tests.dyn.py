@@ -106,3 +106,5 @@ async def test_controller_and_duplicate_window(
         ctl_ctx = ctx.clone_with(controller=ctl)
         item = canned_ctl_item_factory(item_piece, ctl_ctx)
         assert item.hook.canned_item_piece == item_piece
+
+        root._root_item._save_state()

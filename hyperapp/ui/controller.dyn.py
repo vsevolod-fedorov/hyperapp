@@ -8,7 +8,7 @@ from dataclasses import dataclass
 from functools import cached_property, partial
 from typing import Any, Self
 
-# from PySide6 import QtGui
+from PySide6 import QtCore
 
 from hyperapp.boot import dict_coders  # register codec
 
@@ -24,6 +24,9 @@ from .code.tree_diff import TreeDiff
 from .code.view import View
 
 log = logging.getLogger(__name__)
+
+
+_SAVE_STATE_TIMEOUT_MS = 1000
 
 
 # Services used by controller and it's items.
@@ -259,7 +262,7 @@ class _Item:
     def current_changed_hook(self):
         log.info("Controller: current changed from: %s", self)
         self.children_changed()
-        self.save_state()
+        self.schedule_save_state()
 
     # Should be on stack for proper module for feed constructor be picked up.
     def _send_model_diff(self, model_diff):
@@ -270,7 +273,7 @@ class _Item:
         item = self._make_child_item(view_items[idx])
         self._children[idx] = item
         self.children_changed(save_layout)
-        self.save_state()
+        self.schedule_save_state()
         model_diff = TreeDiff.Replace([*self.path, idx], item.model_item)
         self._send_model_diff(model_diff)
 
@@ -291,7 +294,7 @@ class _Item:
         item = self._make_child_item(view_items[idx])
         self._children.insert(idx, item)
         self.children_changed()
-        self.save_state()
+        self.schedule_save_state()
         model_diff = TreeDiff.Insert(item.path, item.model_item)
         self._send_model_diff(model_diff)
 
@@ -300,13 +303,13 @@ class _Item:
         model_diff = TreeDiff.Remove(kid.path)
         del self._children[idx]
         self.children_changed()
-        self.save_state()
+        self.schedule_save_state()
         self._send_model_diff(model_diff)
 
     def elements_changed_hook(self):
         self._children = None
         self.children_changed()
-        self.save_state()
+        self.schedule_save_state()
 
     def removed_hook(self):
         self.parent.element_removed_hook(self.idx)
@@ -323,10 +326,10 @@ class _Item:
             kid.invalidate_widget_and_commands()
 
     def save_state_hook(self):
-        self.save_state()
+        self.schedule_save_state()
 
-    def save_state(self):
-        self.parent.save_state()
+    def schedule_save_state(self):
+        self.parent.schedule_save_state()
 
     @property
     def model_item(self):
@@ -362,8 +365,8 @@ class _WindowItem(_Item):
     def children_changed(self, save_layout=True):
         asyncio.create_task(self.update_children(save_layout))
 
-    def save_state(self):
-        self.parent.save_state()
+    def schedule_save_state(self):
+        self.parent.schedule_save_state()
 
 
 @dataclass(repr=False)
@@ -371,12 +374,15 @@ class _RootItem(_Item):
 
     _layout_bundle: Any = None
     _show: bool = True
+    _save_state_timer: Any = None
 
     @classmethod
     def from_piece(cls, meta, show, ctx, layout_bundle, layout):
         item_id = 0
+        timer = QtCore.QTimer(singleShot=True)
         self = cls(meta, item_id, None, ctx, "root",
-                   view=None, focusable=False, _layout_bundle=layout_bundle, _show=show)
+                   view=None, focusable=False, _layout_bundle=layout_bundle, _show=show,
+                   _save_state_timer=timer)
         self.ctx = self.ctx.clone_with(
             root=Root(root_item=self),
             )
@@ -386,6 +392,7 @@ class _RootItem(_Item):
             in zip(layout.piece.window_list, layout.state.window_list)
             ]
         meta.id_to_item[item_id] = self
+        timer.timeout.connect(self._save_state)
         return self
 
     def show(self):
@@ -407,7 +414,10 @@ class _RootItem(_Item):
     def children_changed(self, save_layout=True):
         pass
 
-    def save_state(self):
+    def schedule_save_state(self):
+        self._save_state_timer.start(_SAVE_STATE_TIMEOUT_MS)
+
+    def _save_state(self):
         # TODO: Find out real active window.
         # all_windows = QtGui.QGuiApplication.allWindows()
         # current_idx_list = [idx for idx, w in enumerate(all_windows) if w.isActive()]
@@ -446,7 +456,7 @@ class _RootItem(_Item):
         await item.update_children()
         if self._show:
             item.widget.show()
-        self.save_state()
+        self.schedule_save_state()
         model_diff = TreeDiff.Insert(item.path, item.model_item)
         self._send_model_diff(model_diff)
 
@@ -458,7 +468,7 @@ class _RootItem(_Item):
             super().element_removed_hook(idx)
         else:
             # Last window is closed by user - we are actually exiting now.
-            self.save_state()
+            self.schedule_save_state()
 
 
 def _description(piece):
