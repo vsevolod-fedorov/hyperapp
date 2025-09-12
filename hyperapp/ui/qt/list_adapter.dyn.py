@@ -9,6 +9,7 @@ from . import htypes
 from .services import (
     deduce_t,
     pyobj_creg,
+    web,
     )
 from .code.list_diff import IndexListDiff, KeyListDiff
 
@@ -141,6 +142,16 @@ class KeyListAdapterMixin:
 
 
 class FnListAdapterBase(metaclass=abc.ABCMeta):
+
+    @staticmethod
+    def _resolve_model(peer_creg, model):
+        if isinstance(model, htypes.model.remote_model):
+            remote_peer = peer_creg.invite(model.remote_peer)
+            real_model = web.summon(model.model)
+        else:
+            remote_peer = None
+            real_model = model
+        return (remote_peer, real_model)
 
     def __init__(self, column_visible_reg, real_model, item_t):
         self._column_visible_reg = column_visible_reg

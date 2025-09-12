@@ -1,6 +1,9 @@
 from unittest.mock import Mock
 
 from . import htypes
+from .services import (
+    mosaic,
+    )
 from .tested.code.list_adapter import (
     IndexListAdapterMixin,
     KeyListAdapterMixin,
@@ -25,6 +28,17 @@ def test_colunn_types():
         )
     key = adapter._column_k('id')
     assert key
+
+
+def test_resolve_model(peer_creg, generate_rsa_identity):
+    identity = generate_rsa_identity(fast=True)
+    real_model = htypes.list_adapter_tests.sample_list()
+    model = htypes.model.remote_model(
+        model=mosaic.put(real_model),
+        remote_peer=mosaic.put(identity.peer.piece),
+        )
+    _remote_peer, resolved_model = FnListAdapterBase._resolve_model(peer_creg, model)
+    assert resolved_model == real_model
 
 
 def test_index_list_list_state():
