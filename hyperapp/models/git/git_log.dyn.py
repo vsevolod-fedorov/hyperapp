@@ -48,6 +48,8 @@ def _load_commits(feed, head_commit, git_log, scheduler=None):
         last_commit = head_commit
     count = 0
     while last_commit.parents:
+        # We do not need proper log history, just enough items to show.
+        # So, just taking first parent every time.
         last_commit = web.summon(last_commit.parents[0])
         git_log.commit_list.append(last_commit)
         _send_diff(feed, last_commit)
