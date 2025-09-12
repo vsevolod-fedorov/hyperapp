@@ -31,4 +31,4 @@ def log_model(piece, repo_list):
 
 @mark.actor.formatter_creg
 def format_model(piece):
-    return f"Git commits: {piece.repo_name}"
+    return f"Git commits: {piece.repo_name}/{piece.ref_name}"

@@ -25,6 +25,7 @@ ref_item = record:
 log_model = record:
   repo_name: string
   repo_dir: string
+  ref_name: string
   head_commit: ref
 
 log_model_data = record:

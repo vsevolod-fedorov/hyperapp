@@ -31,6 +31,7 @@ def ref_log(piece, current_item):
     return htypes.git.log_model(
         repo_name=piece.repo_name,
         repo_dir=piece.repo_dir,
+        ref_name=current_item.name,
         head_commit=current_item.commit,
         )
 

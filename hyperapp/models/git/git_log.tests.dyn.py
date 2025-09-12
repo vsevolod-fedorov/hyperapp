@@ -11,28 +11,19 @@ from .tested.code import git_log
 
 
 @mark.fixture
-def head_commit():
-    return htypes.git.commit(
-        id='<unused>',
-        short_id='<unused>',
-        parents=(),
-        time=datetime.fromtimestamp(0),
-        author='<unused>',
-        committer='<unused>',
-        message='<unused>',
-        )
-
-
-@mark.fixture
-def piece(repo_name, repo_dir, head_commit):
+def piece(repo_name, repo_dir, repo_list):
+    repo = repo_list.repo_by_dir(repo_dir)
+    repo.load_git_heads()
+    [(ref_name, head_commit)] = repo.heads
     return htypes.git.log_model(
         repo_name=repo_name,
         repo_dir=str(repo_dir),
+        ref_name=ref_name,
         head_commit=mosaic.put(head_commit),
         )
 
 
-async def test_model(repo_dir, repo_list, head_commit, piece):
+async def test_model(repo_dir, repo_list, piece):
     repo = repo_list.repo_by_dir(repo_dir)
     data = git_log.log_model(piece)
     assert isinstance(data, htypes.git.log_model_data)
