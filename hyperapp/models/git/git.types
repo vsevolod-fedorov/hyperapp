@@ -27,6 +27,9 @@ log_model = record:
   repo_dir: string
   head_commit: ref
 
+log_model_data = record:
+  head_commit: ref
+  commit_count: int
 
 log_item = record:
   id_short: string
@@ -45,5 +48,9 @@ commit = record:
   message: string
 
 
+head = record:
+  name: string
+  commit: ref
+
 storage = record:
-  heads: ref list
+  heads: head list

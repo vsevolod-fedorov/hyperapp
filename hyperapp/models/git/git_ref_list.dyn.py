@@ -14,17 +14,12 @@ log = logging.getLogger(__name__)
 def ref_list(piece, repo_list):
     repo = repo_list.repo_by_dir(piece.repo_dir)
     item_list = []
-    for ref in repo.repo.references.objects:
-        object = ref.peel()
-        log.info("Loading commits for: %s", object.id)
-        old_count = repo.object_count
-        commit = repo.get_commit(object)
-        log.info("Loaded %d commits", repo.object_count - old_count)
+    for name, commit in repo.heads:
         item = htypes.git.ref_item(
-            name=ref.name,
-            commit_id_short=object.short_id,
-            commit_dt=datetime.fromtimestamp(object.commit_time),
-            commit_author=str(object.author),
+            name=name,
+            commit_id_short=commit.short_id,
+            commit_dt=commit.time,
+            commit_author=commit.author,
             commit=mosaic.put(commit),
             )
         item_list.append(item)

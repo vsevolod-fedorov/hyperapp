@@ -17,9 +17,11 @@ def piece(repo_name, repo_dir):
         )
 
 
-def test_model(piece):
+def test_model(repo_dir, repo_list, piece):
+    repo = repo_list.repo_by_dir(repo_dir)
+    repo.load_git_heads()
     result = git_ref_list.ref_list(piece)
-    assert len(result) == 1
+    assert len(result) == 1, result
 
 
 def test_log(piece):

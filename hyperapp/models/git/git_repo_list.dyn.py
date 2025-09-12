@@ -21,12 +21,6 @@ _REPO_LIST_PATH = 'git/repo-list.cdr'
 _REPO_OBJECTS_FMT = 'git/{repo_name}-objects.cdr'
 
 
-@dataclass
-class _Log:
-    commit_list: list
-    feed_is_running: bool = False
-
-
 class Repository:
 
     def __init__(self, file_bundle_factory, data_dir, name, path):
@@ -35,8 +29,7 @@ class Repository:
         self.name = name
         self.path = path
         self._id_to_commit = {}  # Git id -> htypes.git.commit
-        self._heads = []  # commit list
-        self._head_log = {}
+        self._heads = {}  # name -> commit
 
     @property
     def object_count(self):
@@ -46,14 +39,9 @@ class Repository:
     def repo(self):
         return pygit2.Repository(self.path)
 
-    def head_log(self, head_commit):
-        try:
-            return self._head_log[head_commit]
-        except KeyError:
-            pass
-        log = _Log(commit_list=[])
-        self._head_log[head_commit] = log
-        return log
+    @property
+    def heads(self):
+        return self._heads.items()
 
     def get_commit(self, git_object):
         unloaded = {git_object}
@@ -89,14 +77,18 @@ class Repository:
         path = self._data_dir / _REPO_OBJECTS_FMT.format(repo_name=self.name)
         return self._file_bundle_factory(path, encoding='cdr')
 
-    def add_head(self, git_object):
+    def add_head(self, name, git_object):
         commit = self.get_commit(git_object)
-        self._heads.append(commit)
+        self._heads[name] = commit
 
     def save_objects(self):
         storage = htypes.git.storage(
             heads=tuple(
-                mosaic.put(commit)for commit in self._heads
+                htypes.git.head(
+                    name=name,
+                    commit=mosaic.put(commit),
+                    )
+                for name, commit in self._heads.items()
                 ),
             )
         self._storage.save_piece(storage)
@@ -108,9 +100,14 @@ class Repository:
             storage = self._storage.load_piece()
         except FileNotFoundError:
             return
-        for ref in storage.heads:
-            commit = self._cache_ref(ref)
-            self._heads.append(commit)
+        for head in storage.heads:
+            commit = self._cache_ref(head.commit)
+            self._heads[head.name] = commit
+
+    def load_git_heads(self):
+        for ref in self.repo.references.objects:
+            git_object = ref.peel()
+            self.add_head(ref.name, ref.peel())
 
     def _cache_ref(self, commit_ref):
         unprocessed = [commit_ref]
@@ -242,7 +239,6 @@ def load_repositories(repo_list):
         repo.load_objects()
         obj_count = repo.object_count
         log.info("Git: Loaded %d objects; loading missing git objects", obj_count)
-        for ref in repo.repo.references.objects:
-            repo.add_head(ref.peel())
+        repo.load_git_heads()
         log.info("Git: Loaded %d new objects", repo.object_count - obj_count)
         repo.save_objects()

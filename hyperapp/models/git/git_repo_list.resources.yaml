@@ -23,6 +23,7 @@ import:
 - legacy_type.feed:list_feed_type
 - legacy_type.fs:path
 - legacy_type.git:commit
+- legacy_type.git:head
 - legacy_type.git:ref_list_model
 - legacy_type.git:repo_item
 - legacy_type.git:repo_list_model
@@ -161,6 +162,7 @@ definitions:
       import_list:
         code.mark: base.mark:mark.module
         htypes.git.commit: legacy_type.git:commit
+        htypes.git.head: legacy_type.git:head
         htypes.git.ref_list_model: legacy_type.git:ref_list_model
         htypes.git.repo_item: legacy_type.git:repo_item
         htypes.git.repo_list_model: legacy_type.git:repo_list_model

@@ -30,20 +30,19 @@ def repo_dir(data_dir, repo_name):
         tree = repo.index.write_tree()
         author = pygit2.Signature('Test Author', 'test@nothwere.tld')
         repo.create_commit('HEAD', author, author, "Test commit", tree, [])
-
     return dir
 
 
 @mark.fixture
 def file_bundle_factory(repo_dir, path, encoding):
+    file_bundle = Mock()
     if path.stem.endswith('list'):
         storage = htypes.git.repo_list_storage(
             path_list=(str(repo_dir),),
             )
+        file_bundle.load_piece.return_value = storage
     elif path.stem.endswith('objects'):
-        storage = htypes.git.storage(heads=())
+        file_bundle.load_piece.side_effect = FileNotFoundError(path)
     else:
         assert False, "Unexpected file bundle path: {path}"
-    file_bundle = Mock()
-    file_bundle.load_piece.return_value = storage
     return file_bundle

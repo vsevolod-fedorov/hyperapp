@@ -34,9 +34,9 @@ def piece(repo_name, repo_dir, head_commit):
 
 async def test_model(repo_dir, repo_list, head_commit, piece):
     repo = repo_list.repo_by_dir(repo_dir)
-    repo.head_log(head_commit).commit_list.append(head_commit)
-    item_list = git_log.log_model(piece)
-    assert item_list
+    data = git_log.log_model(piece)
+    assert isinstance(data, htypes.git.log_model_data)
+    assert data.commit_count == 1
 
 
 def test_formatter(piece):
