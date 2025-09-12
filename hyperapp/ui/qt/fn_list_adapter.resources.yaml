@@ -4,13 +4,11 @@ import:
 - base.mark:mark.module
 - base.system_fn:system_fn.module
 - builtins:pyobj_creg.service
-- builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.list_adapter:index_fn_list_adapter
 - legacy_type.list_adapter:key_fn_list_adapter
-- legacy_type.model:remote_model
 - legacy_type.system:actor_template
 - ui.qt.list_adapter:list_adapter.module
 - ui.qt.list_servant_wrapper:list_servant_wrapper.module
@@ -67,9 +65,7 @@ definitions:
         code.list_servant_wrapper: ui.qt.list_servant_wrapper:list_servant_wrapper.module
         code.mark: base.mark:mark.module
         code.system_fn: base.system_fn:system_fn.module
-        htypes.model.remote_model: legacy_type.model:remote_model
         services.pyobj_creg: builtins:pyobj_creg.service
-        services.web: builtins:web.service
   ui_adapter_creg-list_adapter-index_fn_list_adapter.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

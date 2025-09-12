@@ -1,0 +1,15 @@
+# Automatically generated file. Do not edit.
+
+import:
+- base.mark:mark.module
+- legacy_type.builtin:python_module
+- ui.qt.list_adapter:list_adapter.module
+definitions:
+  git_log_adapter.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: git_log_adapter
+      file_name: git_log_adapter.dyn.py
+      import_list:
+        code.list_adapter: ui.qt.list_adapter:list_adapter.module
+        code.mark: base.mark:mark.module

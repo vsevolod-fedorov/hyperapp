@@ -1,10 +1,8 @@
 import logging
 from functools import partial
 
-from . import htypes
 from .services import (
     pyobj_creg,
-    web,
     )
 from .code.mark import mark
 from .code.system_fn import ContextFn
@@ -15,16 +13,6 @@ log = logging.getLogger(__name__)
 
 
 class FnListAdapter(FnListAdapterBase):
-
-    @staticmethod
-    def _resolve_model(peer_creg, model):
-        if isinstance(model, htypes.model.remote_model):
-            remote_peer = peer_creg.invite(model.remote_peer)
-            real_model = web.summon(model.model)
-        else:
-            remote_peer = None
-            real_model = model
-        return (remote_peer, real_model)
 
     def __init__(self, system_fn_creg, rpc_system_call_factory, client_feed_factory, model_servant, column_visible_reg,
                  model, real_model, item_t, remote_peer, ctx, fn):
