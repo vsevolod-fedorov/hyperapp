@@ -114,7 +114,8 @@ class FnIndexListAdapter(FnListAdapter, IndexListAdapterMixin):
     @classmethod
     @mark.actor.ui_adapter_creg
     def from_piece(cls, piece, model, ctx,
-                   system_fn_creg, rpc_system_call_factory, client_feed_factory, model_servant, column_visible_reg, peer_creg):
+                   system_fn_creg, rpc_system_call_factory, client_feed_factory,
+                   model_servant, column_visible_reg, peer_creg):
         item_t = pyobj_creg.invite(piece.item_t)
         fn = system_fn_creg.invite(piece.system_fn)
         remote_peer, real_model = cls._resolve_model(peer_creg, model)
@@ -127,7 +128,8 @@ class FnKeyListAdapter(FnListAdapter, KeyListAdapterMixin):
     @classmethod
     @mark.actor.ui_adapter_creg
     def from_piece(cls, piece, model, ctx,
-                   system_fn_creg, rpc_system_call_factory, client_feed_factory, model_servant, column_visible_reg, peer_creg):
+                   system_fn_creg, rpc_system_call_factory, client_feed_factory,
+                   model_servant, column_visible_reg, peer_creg):
         item_t = pyobj_creg.invite(piece.item_t)
         fn = system_fn_creg.invite(piece.system_fn)
         remote_peer, real_model = cls._resolve_model(peer_creg, model)
