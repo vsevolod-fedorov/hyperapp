@@ -5,7 +5,6 @@ from .services import (
     mosaic,
     )
 from .code.mark import mark
-from .fixtures import feed_fixtures
 from .fixtures import git_fixtures
 from .tested.code import git_log
 
@@ -23,7 +22,7 @@ def piece(repo_name, repo_dir, repo_list):
         )
 
 
-async def test_model(repo_dir, repo_list, piece):
+def test_model(repo_dir, repo_list, piece):
     repo = repo_list.repo_by_dir(repo_dir)
     data = git_log.log_model(piece)
     assert isinstance(data, htypes.git.log_model_data)
