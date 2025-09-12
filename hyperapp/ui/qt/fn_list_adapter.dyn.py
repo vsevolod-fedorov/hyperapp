@@ -47,6 +47,28 @@ class FnListAdapter(FnListAdapterBase):
     def function(self):
         return self._fn
 
+    def row_count(self):
+        return len(self._items)
+
+    def get_item(self, idx):
+        return self._items[idx]
+
+    @property
+    def _items(self):
+        self._ensure_populated()
+        return self._item_list
+
+    def _ensure_populated(self):
+        if self._item_list is None:
+            self._populate()
+
+    def _populate_item_list(self):
+        additional_kw = {
+            'model': self._real_model,
+            'piece': self._real_model,
+            }
+        self._item_list = list(self._call_fn(**additional_kw))
+
     def _call_fn(self, **kw):
         if self._remote_peer:
             remote_peer = self._remote_peer

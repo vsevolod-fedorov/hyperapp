@@ -10,7 +10,10 @@ from .tested.code.list_adapter import (
 
 class ListAdapterStub(FnListAdapterBase):
 
-    def _call_fn(self, **kw):
+    def row_count(self):
+        pass
+
+    def get_item(self, idx):
         pass
 
 

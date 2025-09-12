@@ -174,15 +174,17 @@ class FnListAdapterBase(metaclass=abc.ABCMeta):
     def column_title(self, column):
         return self._column_names[column]
 
+    @abc.abstractmethod
     def row_count(self):
-        return len(self._items)
+        pass
 
     def cell_data(self, row, column):
-        item = self._items[row]
+        item = self.get_item(row)
         return getattr(item, self._column_names[column])
 
+    @abc.abstractmethod
     def get_item(self, idx):
-        return self._items[idx]
+        pass
 
     def process_diff(self, diff):
         log.info("List adapter: process diff: %s", diff)
@@ -194,23 +196,3 @@ class FnListAdapterBase(metaclass=abc.ABCMeta):
     @property
     def item_t(self):
         return self._item_t
-
-    @property
-    def _items(self):
-        self._ensure_populated()
-        return self._item_list
-
-    def _ensure_populated(self):
-        if self._item_list is None:
-            self._populate()
-
-    def _populate_item_list(self):
-        additional_kw = {
-            'model': self._real_model,
-            'piece': self._real_model,
-            }
-        self._item_list = list(self._call_fn(**additional_kw))
-
-    @abc.abstractmethod
-    def _call_fn(self, **kw):
-        pass
