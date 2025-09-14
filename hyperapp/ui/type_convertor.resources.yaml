@@ -8,6 +8,7 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:int
 - legacy_type.builtin:python_module
+- legacy_type.builtin:ref
 - legacy_type.builtin:string
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.system:actor_template
@@ -16,6 +17,7 @@ import:
 - legacy_type.system:service_template
 - legacy_type.type_convertor:int_to_string_convertor
 - legacy_type.type_convertor:noop_convertor
+- legacy_type.type_convertor:one_way_to_string_convertor
 - legacy_type.type_convertor:opt_convertor
 definitions:
   IntToStringConvertor:
@@ -48,6 +50,21 @@ definitions:
     value:
       function: NoOpConvertor.from_piece
       service_params: []
+  OneWayToStringConvertor:
+    type: legacy_type.builtin:attribute
+    value:
+      object: type_convertor.module
+      attr_name: OneWayToStringConvertor
+  OneWayToStringConvertor.from_piece:
+    type: legacy_type.builtin:attribute
+    value:
+      object: OneWayToStringConvertor
+      attr_name: from_piece
+  OneWayToStringConvertor.from_piece.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: OneWayToStringConvertor.from_piece
+      service_params: []
   OptionalConvertor:
     type: legacy_type.builtin:attribute
     value:
@@ -79,6 +96,11 @@ definitions:
     value:
       t: legacy_type.type_convertor:noop_convertor
       value: NoOpConvertor.from_piece.actor-template
+  convertor_creg-type_convertor-one_way_to_string_convertor.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.type_convertor:one_way_to_string_convertor
+      value: OneWayToStringConvertor.from_piece.actor-template
   convertor_creg-type_convertor-opt_convertor.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -109,9 +131,11 @@ definitions:
       import_list:
         code.mark: base.mark:mark.module
         htypes.builtin.int: legacy_type.builtin:int
+        htypes.builtin.ref: legacy_type.builtin:ref
         htypes.builtin.string: legacy_type.builtin:string
         htypes.type_convertor.int_to_string_convertor: legacy_type.type_convertor:int_to_string_convertor
         htypes.type_convertor.noop_convertor: legacy_type.type_convertor:noop_convertor
+        htypes.type_convertor.one_way_to_string_convertor: legacy_type.type_convertor:one_way_to_string_convertor
         htypes.type_convertor.opt_convertor: legacy_type.type_convertor:opt_convertor
         services.code_registry_ctr: builtins:code_registry_ctr.service
         services.mosaic: builtins:mosaic.service

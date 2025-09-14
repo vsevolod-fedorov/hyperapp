@@ -1,6 +1,7 @@
 import:
 - legacy_type.builtin:optional_mt
 - legacy_type.builtin:int
+- legacy_type.builtin:ref
 - legacy_type.builtin:string
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.system:item_list_config
@@ -36,6 +37,7 @@ definitions:
       - config_item-string_opt-line_edit.factory-config-item
       - config_item-int-line_edit.factory-config-item
       - config_item-int-line_view.factory-config-item
+      - config_item-ref-line_view.factory-config-item
       - config_item-wiki-wiki.factory-config-item
       - config_item-wiki-text_edit.factory-config-item
 
@@ -79,6 +81,12 @@ definitions:
     value:
       t: legacy_type.builtin:int
       value: line_view.model-factory
+
+  config_item-ref-line_view.factory-config-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.builtin:ref
+      value: line_view_for_editables.model-factory
 
   config_item-string_opt-line_edit.factory-config-item:
     type: legacy_type.cfg_item:typed_cfg_item
@@ -126,6 +134,14 @@ definitions:
       properties:
         inline: true
         editable: false
+      layout_k: ui.qt.line_edit:line_view.k
+
+  line_view_for_editables.model-factory:
+    type: legacy_type.ui:default_model_factory
+    value:
+      properties:
+        inline: true
+        editable: true
       layout_k: ui.qt.line_edit:line_view.k
 
   line_edit.model-factory:

@@ -36,6 +36,20 @@ class IntToStringConvertor:
         return int(view_value)
 
 
+class OneWayToStringConvertor:
+
+    @classmethod
+    @mark.actor.convertor_creg
+    def from_piece(cls, piece):
+        return cls()
+
+    def value_to_view(self, value):
+        return str(value)
+
+    def view_to_value(self, old_value, view_value):
+        return old_value
+
+
 class OptionalConvertor:
 
     @classmethod
@@ -69,6 +83,8 @@ def type_to_text_convertor(t):
         return htypes.type_convertor.noop_convertor()
     if t is htypes.builtin.int:
         return htypes.type_convertor.int_to_string_convertor()
+    if t is htypes.builtin.ref:
+        return htypes.type_convertor.one_way_to_string_convertor()
     if isinstance(t, TOptional):
         return htypes.type_convertor.opt_convertor(
             base=mosaic.put(type_to_text_convertor(t.base_t)),

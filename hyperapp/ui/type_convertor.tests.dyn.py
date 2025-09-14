@@ -21,6 +21,13 @@ def test_int_to_string_convertor():
     assert cvt.view_to_value(0, '123') == 123
 
 
+def test_one_way_to_string_convertor():
+    piece = htypes.type_convertor.one_way_to_string_convertor()
+    cvt = type_convertor.OneWayToStringConvertor.from_piece(piece)
+    assert cvt.value_to_view(123) == '123'
+    assert cvt.view_to_value(123, '<unused>') == 123
+
+
 def test_optional_convertor():
     base_piece = htypes.type_convertor.int_to_string_convertor()
     piece = htypes.type_convertor.opt_convertor(
@@ -41,6 +48,11 @@ def test_string_to_text_cvt():
 def test_int_to_text_cvt():
     cvt = type_convertor.type_to_text_convertor(htypes.builtin.int)
     assert cvt == htypes.type_convertor.int_to_string_convertor()
+
+
+def test_ref_to_text_cvt():
+    cvt = type_convertor.type_to_text_convertor(htypes.builtin.ref)
+    assert cvt == htypes.type_convertor.one_way_to_string_convertor()
 
 
 def test_int_opt_to_text_cvt():

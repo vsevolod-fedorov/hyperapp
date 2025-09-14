@@ -125,6 +125,7 @@ def line_edit(model_t, accessor):
 @mark.view_factory.model_t(htypes.builtin.string)
 @mark.view_factory.model_t(TOptional(htypes.builtin.string))
 @mark.view_factory.model_t(htypes.builtin.int)
+@mark.view_factory.model_t(htypes.builtin.ref)
 def line_view(model_t, accessor):
     cvt = type_to_text_convertor(model_t)
     adapter = htypes.value_adapter.value_adapter(

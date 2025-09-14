@@ -1,5 +1,6 @@
 noop_convertor = record
 int_to_string_convertor = record
+one_way_to_string_convertor = record
 
 opt_convertor = record:
   base: ref
