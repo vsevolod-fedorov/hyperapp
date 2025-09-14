@@ -38,6 +38,10 @@ log_item = record:
   author: string
   message: string
 
+log_adapter = record:
+  accessor: ref
+  system_fn: ref
+
 
 commit = record:
   id: string

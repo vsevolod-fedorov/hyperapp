@@ -78,6 +78,8 @@ import:
 - models.fs:open_fs.global-model-command
 - models.git.git_log:formatter_creg-git-log_model.actor-cfg-item
 - models.git.git_log:git-log_model.model-cfg-item
+- models.git.git_log_adapter:git_log_layout.view-factory-cfg-item
+- models.git.git_log_adapter:ui_adapter_creg-git-log_adapter.actor-cfg-item
 - models.git.git_ref_list:formatter_creg-git-ref_list_model.actor-cfg-item
 - models.git.git_ref_list:git-ref_list_model-ref_log.command-cfg-item
 - models.git.git_ref_list:git-ref_list_model.feed-template-cfg-item
@@ -390,11 +392,13 @@ definitions:
     value:
       items:
       - models.data_browser_adapter:ui_adapter_creg-data_browser-record_data_adapter.actor-cfg-item
+      - models.git.git_log_adapter:ui_adapter_creg-git-log_adapter.actor-cfg-item
   view_factory_reg:
     type: legacy_type.system:item_list_config
     value:
       items:
       - models.data_browser_adapter:data_browser_data_view.view-factory-cfg-item
+      - models.git.git_log_adapter:git_log_layout.view-factory-cfg-item
   view_ui_model_command_reg:
     type: legacy_type.system:item_list_config
     value:

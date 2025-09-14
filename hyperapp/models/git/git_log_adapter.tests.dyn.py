@@ -42,9 +42,10 @@ def ctx():
     return Context()
 
 
-def test_adapter(repo_dir, repo_list, log_model_fn, model, ctx):
-    adapter_piece = htypes.record_adapter.fn_record_adapter(
-        record_t=pyobj_creg.actor_to_ref(htypes.git.log_model_data),
+def test_adapter(log_model_fn, model, ctx):
+    accessor = htypes.accessor.model_accessor()
+    adapter_piece = htypes.git.log_adapter(
+        accessor=mosaic.put(accessor),
         system_fn=mosaic.put(log_model_fn.piece),
         )
     adapter = git_log_adapter.GitLogAdapter.from_piece(adapter_piece, model, ctx)
@@ -55,3 +56,12 @@ def test_adapter(repo_dir, repo_list, log_model_fn, model, ctx):
     assert adapter.row_count() == 1
     # assert adapter.cell_data(1, 0) == 22
     # assert adapter.cell_data(2, 1) == "third"
+
+
+def test_factory(log_model_fn, model):
+    accessor = htypes.accessor.model_accessor()
+    ui_t = htypes.model.record_ui_t(
+        record_t=pyobj_creg.actor_to_ref(htypes.git.log_model_data),
+        )
+    view = git_log_adapter.git_log_layout(ui_t, accessor, log_model_fn)
+    assert isinstance(view, htypes.list.view)
