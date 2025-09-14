@@ -17,19 +17,22 @@ class GitLogAdapter(FnListAdapterBase, IndexListAdapterMixin):
     @classmethod
     @mark.actor.ui_adapter_creg
     def from_piece(cls, piece, model, ctx,
-                   accessor_creg, system_fn_creg, client_feed_factory, column_visible_reg, peer_creg):
+                   accessor_creg, system_fn_creg, rpc_system_call_factory,
+                   client_feed_factory, column_visible_reg, peer_creg):
         accessor = accessor_creg.invite(piece.accessor, model, ctx)
         my_model = accessor.get_value()
         fn = system_fn_creg.invite(piece.system_fn)
-        _unused_remote_peer, real_model = cls._resolve_model(peer_creg, my_model)
+        remote_peer, real_model = cls._resolve_model(peer_creg, my_model)
         assert isinstance(real_model, htypes.git.log_model)
-        return cls(system_fn_creg, client_feed_factory, column_visible_reg,
-                   my_model, real_model, ctx, fn)
+        return cls(system_fn_creg, rpc_system_call_factory, client_feed_factory, column_visible_reg,
+                   my_model, real_model, remote_peer, ctx, fn)
 
-    def __init__(self, system_fn_creg, client_feed_factory, column_visible_reg,
-                 model, real_model, ctx, fn):
+    def __init__(self, system_fn_creg, rpc_system_call_factory, client_feed_factory, column_visible_reg,
+                 model, real_model, remote_peer, ctx, fn):
         super().__init__(column_visible_reg, real_model, item_t=htypes.git.log_item)
         self._system_fn_creg = system_fn_creg
+        self._rpc_system_call_factory = rpc_system_call_factory
+        self._remote_peer = remote_peer
         self._ctx = ctx
         self._fn = fn
         self._commit_list = []
@@ -63,7 +66,16 @@ class GitLogAdapter(FnListAdapterBase, IndexListAdapterMixin):
             'model': self._real_model,
             'piece': self._real_model,
             }
-        return self._fn.call(self._ctx, **kw)
+        if self._remote_peer:
+            rpc_call = self._rpc_system_call_factory(
+                receiver_peer=self._remote_peer,
+                sender_identity=self._ctx.identity,
+                fn=self._fn,
+                )
+            call_kw = self._fn.call_kw(self._ctx, **kw)
+            return rpc_call(**call_kw)
+        else:
+            return self._fn.call(self._ctx, **kw)
 
     def _ensure_item_loaded(self, idx):
         if idx < len(self._items):
