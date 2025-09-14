@@ -15,7 +15,7 @@ from .services import (
 log = logging.getLogger(__name__)
 
 
-RECURSION_LIMIT = 10000
+BUNDLED_REFS_LIMIT = 100000
 
 _RefsAndBundle = namedtuple('_RefsAndBundle', 'ref_set bundle')
 
@@ -73,28 +73,30 @@ class Bundler:
         missing_ref_count = 0
         visited_refs = set(seen_refs)
         pending_refs = set(ref_list)
-        for i in range(RECURSION_LIMIT):
+
+        i = 0
+        while pending_refs:
+            if i > BUNDLED_REFS_LIMIT:
+                raise RuntimeError(f"Bundler: Reached refs limit {BUNDLED_REFS_LIMIT}")
             new_refs = set()
-            for ref in pending_refs:
-                if ref.hash_algorithm == 'phony':
-                    continue
-                rec = mosaic.resolve_ref(ref)
-                if rec is None:
-                    log.warning('Ref %s is failed to be resolved', ref_repr(ref))
-                    missing_ref_count += 1
-                    continue
-                ref_to_capsule[ref] = rec.capsule
-                new_refs.add(rec.type_ref)
-                collected = self._collect_refs_from_capsule(ref, rec)
-                new_refs |= collected.refs | collected.asss
-                result.asss |= collected.asss
-                deps[ref] |= collected.refs | {rec.type_ref}
-                visited_refs.add(ref)
-            pending_refs = new_refs - visited_refs
-            if not pending_refs:
-                break
-        else:
-            raise RuntimeError(f"Reached recursion limit {RECURSION_LIMIT} while resolving refs")
+            ref = pending_refs.pop()
+            if ref.hash_algorithm == 'phony':
+                continue
+            rec = mosaic.resolve_ref(ref)
+            if rec is None:
+                log.warning('Ref %s is failed to be resolved', ref_repr(ref))
+                missing_ref_count += 1
+                continue
+            ref_to_capsule[ref] = rec.capsule
+            new_refs.add(rec.type_ref)
+            collected = self._collect_refs_from_capsule(ref, rec)
+            new_refs |= collected.refs | collected.asss
+            result.asss |= collected.asss
+            deps[ref] |= collected.refs | {rec.type_ref}
+            visited_refs.add(ref)
+            pending_refs |= new_refs - visited_refs
+            i += 1
+
         if missing_ref_count:
             log.warning('Failed to resolve %d refs', missing_ref_count)
         result.refs = visited_refs
