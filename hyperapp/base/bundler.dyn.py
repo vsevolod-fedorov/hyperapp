@@ -71,11 +71,11 @@ class Bundler:
         ref_to_capsule = {}
         deps = defaultdict(set)
         missing_ref_count = 0
-        processed_ref_set = set(seen_refs)
-        ref_set = set(ref_list)
+        visited_refs = set(seen_refs)
+        pending_refs = set(ref_list)
         for i in range(RECURSION_LIMIT):
-            new_ref_set = set()
-            for ref in ref_set:
+            new_refs = set()
+            for ref in pending_refs:
                 if ref.hash_algorithm == 'phony':
                     continue
                 rec = mosaic.resolve_ref(ref)
@@ -84,20 +84,20 @@ class Bundler:
                     missing_ref_count += 1
                     continue
                 ref_to_capsule[ref] = rec.capsule
-                new_ref_set.add(rec.type_ref)
+                new_refs.add(rec.type_ref)
                 collected = self._collect_refs_from_capsule(ref, rec)
-                new_ref_set |= collected.refs | collected.asss
+                new_refs |= collected.refs | collected.asss
                 result.asss |= collected.asss
                 deps[ref] |= collected.refs | {rec.type_ref}
-                processed_ref_set.add(ref)
-            ref_set = new_ref_set - processed_ref_set
-            if not ref_set:
+                visited_refs.add(ref)
+            pending_refs = new_refs - visited_refs
+            if not pending_refs:
                 break
         else:
             raise RuntimeError(f"Reached recursion limit {RECURSION_LIMIT} while resolving refs")
         if missing_ref_count:
             log.warning('Failed to resolve %d refs', missing_ref_count)
-        result.refs = processed_ref_set
+        result.refs = visited_refs
         # Types should come first, or unbundler won't be able to decode capsules.
         sorted_refs = _sort_deps(ref_to_capsule, deps)
         capsules = [
