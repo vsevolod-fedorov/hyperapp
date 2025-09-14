@@ -4,6 +4,7 @@ from functools import cached_property
 from . import htypes
 from .services import (
     mosaic,
+    web,
     )
 from .code.mark import mark
 from .code.list_adapter import IndexListAdapterMixin, FnListAdapterBase
@@ -31,6 +32,8 @@ class GitLogAdapter(FnListAdapterBase, IndexListAdapterMixin):
         self._system_fn_creg = system_fn_creg
         self._ctx = ctx
         self._fn = fn
+        self._commit_list = []
+        self._items = []
         try:
             self._feed = client_feed_factory(model, ctx)
         except KeyError:
@@ -45,6 +48,15 @@ class GitLogAdapter(FnListAdapterBase, IndexListAdapterMixin):
         self._ensure_item_loaded(idx)
         return self._items[idx]
 
+    @staticmethod
+    def _commit_to_item(commit):
+        return htypes.git.log_item(
+            id_short=commit.short_id,
+            dt=commit.time,
+            author=commit.author,
+            message=commit.message,
+            )
+
     @cached_property
     def _data(self):
         kw = {
@@ -54,7 +66,16 @@ class GitLogAdapter(FnListAdapterBase, IndexListAdapterMixin):
         return self._fn.call(self._ctx, **kw)
 
     def _ensure_item_loaded(self, idx):
-        assert 0, (idx, self._data)
+        if idx < len(self._items):
+            return
+        if idx == 0:
+            commit = web.summon(self._data.head_commit)
+        else:
+            prev_commit = self._commit_list[idx - 1]
+            assert prev_commit.parents  # Actual commit count does not match data commit_count.
+            commit = web.summon(prev_commit.parents[0])
+        self._commit_list.append(commit)
+        self._items.append(self._commit_to_item(commit))
 
 
 # TODO: Add support for model_tt view_factory with system_fn.

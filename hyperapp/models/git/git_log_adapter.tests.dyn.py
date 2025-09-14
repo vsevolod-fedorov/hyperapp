@@ -54,8 +54,7 @@ def test_adapter(log_model_fn, model, ctx):
     assert adapter.column_title(0) == 'author'
     assert adapter.column_title(1) == 'dt'
     assert adapter.row_count() == 1
-    # assert adapter.cell_data(1, 0) == 22
-    # assert adapter.cell_data(2, 1) == "third"
+    assert adapter.cell_data(0, 0) == 'Test Author <test@nothwere.tld>'
 
 
 def test_factory(log_model_fn, model):

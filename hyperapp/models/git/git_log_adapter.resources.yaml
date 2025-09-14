@@ -3,6 +3,7 @@
 import:
 - base.mark:mark.module
 - builtins:mosaic.service
+- builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
@@ -51,6 +52,7 @@ definitions:
         htypes.git.log_model: legacy_type.git:log_model
         htypes.list.view: legacy_type.list:view
         services.mosaic: builtins:mosaic.service
+        services.web: builtins:web.service
   git_log_layout:
     type: legacy_type.builtin:attribute
     value:
