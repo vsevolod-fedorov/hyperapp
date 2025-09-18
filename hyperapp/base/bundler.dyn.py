@@ -4,7 +4,6 @@ import logging
 
 from hyperapp.boot.htypes import ref_t, bundle_t
 from hyperapp.boot.util import is_list_inst
-from hyperapp.boot.ref import ref_repr
 
 from .services import (
     association_reg,
@@ -20,102 +19,76 @@ BUNDLED_REFS_LIMIT = 100000
 _RefsAndBundle = namedtuple('_RefsAndBundle', 'ref_set bundle')
 
 
-class RefAndAssSet:
-
-    def __init__(self, refs=None, asss=None):
-        self.refs = refs or set()
-        self.asss = asss or set()
-
-    def __or__(self, rhs):
-        return RefAndAssSet(
-            refs=self.refs | rhs.refs,
-            asss=self.asss | rhs.asss,
-            )
-
-
-def _sort_deps(ref_set, dep_set):
-    result = []
-    visited_set = set()
-    unvisited = [*ref_set]
-    while unvisited:
-        ref = unvisited.pop()
-        if all(dep in visited_set for dep in dep_set[ref]):
-            visited_set.add(ref)
-            result.append(ref)
-            continue
-        unvisited.append(ref)
-        for dep in dep_set[ref]:
-            if dep not in visited_set:
-                unvisited.append(dep)
-    return result
-
-
 class Bundler:
 
     def __init__(self, pick_refs):
         self._pick_refs = pick_refs
 
-    def bundle(self, ref_list, seen_refs=None):
+    def bundle(self, ref_list, seen_refs=None, size_limit=None):
         assert is_list_inst(ref_list, ref_t), repr(ref_list)
-        log.debug('Making bundle from refs: %s', [ref_repr(ref) for ref in ref_list])
-        refass, capsule_list = self._collect_capsule_list(ref_list, seen_refs or [])
+        log.debug("Making bundle from refs: %s", [str(ref) for ref in ref_list])
+        refs, asss, capsule_list = self._collect_capsule_list(ref_list, seen_refs or [], size_limit)
         bundle = bundle_t(
             roots=tuple(ref_list),
-            associations=tuple(refass.asss),
+            associations=tuple(asss),
             capsule_list=tuple(capsule_list),
             )
-        return _RefsAndBundle(refass.refs, bundle)
+        return _RefsAndBundle(refs, bundle)
 
-    def _collect_capsule_list(self, ref_list, seen_refs):
-        result = RefAndAssSet()
-        ref_to_capsule = {}
-        deps = defaultdict(set)
+    def _collect_capsule_list(self, ref_list, seen_refs, size_limit):
+        result_capsule_list = []  # Capsules within size limit
+        result_size = 0
+        current_capsule_list = []  # Current ref capsule and it's type dependencies.
+        current_size = 0
         missing_ref_count = 0
+        seen_asss = set()
         visited_refs = set(seen_refs)
-        pending_refs = set(ref_list)
+        unvisited_refs = set(ref_list)
+        current_refs = set()
 
         i = 0
-        while pending_refs:
+        while unvisited_refs or current_refs:
             if i > BUNDLED_REFS_LIMIT:
                 raise RuntimeError(f"Bundler: Reached refs limit {BUNDLED_REFS_LIMIT}")
-            new_refs = set()
-            ref = pending_refs.pop()
+            if current_refs:
+                # Types and their deps should come first, or unbundler won't be able to decode capsules.
+                ref = current_refs.pop()
+                target_refs = current_refs
+            else:
+                ref = unvisited_refs.pop()
+                target_refs = unvisited_refs
             if ref.hash_algorithm == 'phony':
+                continue
+            if ref in visited_refs:
                 continue
             rec = mosaic.resolve_ref(ref)
             if rec is None:
-                log.warning('Ref %s is failed to be resolved', ref_repr(ref))
+                log.warning("Failed to resolve ref %s", ref)
                 missing_ref_count += 1
                 continue
-            ref_to_capsule[ref] = rec.capsule
-            new_refs.add(rec.type_ref)
-            collected = self._collect_refs_from_capsule(ref, rec)
-            new_refs |= collected.refs | collected.asss
-            result.asss |= collected.asss
-            deps[ref] |= collected.refs | {rec.type_ref}
+            current_capsule_list.append(rec.capsule)
+            current_size += len(rec.capsule.encoded_object)
+            if size_limit and result_size + current_size > size_limit:
+                break
+            if rec.type_ref.hash_algorithm != 'phony' and rec.type_ref not in visited_refs:
+                current_refs.add(rec.type_ref)
             visited_refs.add(ref)
-            pending_refs |= new_refs - visited_refs
+            associations = self._collect_associations(ref, rec.t, rec.value)
+            current_refs |= associations - visited_refs
+            seen_asss |= associations
+            dep_refs = self._pick_refs(rec.value, rec.t)
+            target_refs |= dep_refs - visited_refs
+            if not current_refs:
+                result_capsule_list += reversed(current_capsule_list)
+                current_capsule_list = []
+                result_size += current_size
+                current_size = 0
             i += 1
 
+        result_capsule_list += reversed(current_capsule_list)
         if missing_ref_count:
-            log.warning('Failed to resolve %d refs', missing_ref_count)
-        result.refs = visited_refs
-        # Types should come first, or unbundler won't be able to decode capsules.
-        sorted_refs = _sort_deps(ref_to_capsule, deps)
-        capsules = [
-            ref_to_capsule[ref]
-            for ref in sorted_refs
-            if ref in ref_to_capsule
-            ]
-        return (result, capsules)
-
-    def _collect_refs_from_capsule(self, ref, rec):
-        log.debug('Collecting refs from %r:', rec.value)
-        refs = self._pick_refs(rec.value, rec.t)
-        asss = self._collect_associations(ref, rec.t, rec.value)
-        log.debug('Collected %d refs from %s %s: %s', len(refs), rec.t, ref,
-                 ', '.join(map(ref_repr, refs)))
-        return RefAndAssSet(refs, asss)
+            log.warning("Failed to resolve %d refs", missing_ref_count)
+        return (visited_refs, seen_asss & visited_refs, result_capsule_list)
 
     def _collect_associations(self, ref, t, value):
         result = set()
