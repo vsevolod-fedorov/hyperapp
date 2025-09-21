@@ -1,6 +1,6 @@
 import argparse
+import difflib
 import logging
-import subprocess
 from collections import namedtuple
 from dataclasses import dataclass
 from pathlib import Path
@@ -224,18 +224,15 @@ class RcRunner:
                 continue
             path = hyperapp_dir / resource_path
             if path.exists():
-                p = subprocess.run(
-                    ['diff', '-u', str(path), '-'],
-                    input=text.encode(),
-                    stdout=subprocess.PIPE,
-                    )
-                if p.returncode == 0:
+                prev_text = path.read_text()
+                if text == prev_text:
                     rc_log.debug("%s: No diffs", resource_path)
                 else:
-                    diffs = p.stdout.decode()
-                    line_count = len(diffs.splitlines())
+                    diff_lines = list(difflib.unified_diff(prev_text.splitlines(), text.splitlines()))
+                    diff_text = '\n'.join(diff_lines)
+                    line_count = len(diff_lines)
                     if self._options.show_diffs:
-                        rc_log.info("%s: Diff %d lines\n%s", resource_path, line_count, diffs)
+                        rc_log.info("%s: Diff %d lines\n%s", resource_path, line_count, diff_text)
                     else:
                         rc_log.info("%s: Diff %d lines", resource_path, line_count)
                     if all_completed and not self._failures:
