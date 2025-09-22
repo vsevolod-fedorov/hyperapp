@@ -1,0 +1,5 @@
+simple = record:
+  id: int
+
+composite = record:
+  elements: ref list
