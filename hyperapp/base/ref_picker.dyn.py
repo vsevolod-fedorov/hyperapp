@@ -89,6 +89,6 @@ def pick_refs(ref_picker_cache, value, t=None):
         picker = ref_picker_cache.t_to_picker[t]
     except KeyError:
         picker = ref_picker_cache.t_to_picker[t] = _type_to_picker(t)
-    refs = set(picker.pick_refs(value))
+    refs = list(picker.pick_refs(value))
     ref_picker_cache.value_to_refs[value] = refs
     return refs

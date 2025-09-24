@@ -43,8 +43,10 @@ class Bundler:
         missing_ref_count = 0
         seen_asss = set()
         visited_refs = set(seen_refs)
-        unvisited_refs = set(ref_list)
-        current_refs = set()
+        unvisited_refs = [*ref_list]
+        current_refs = []
+        type_idx = {}  # ref -> index of type in current capsule list.
+        current_types = set()  # Type refs in current block.
 
         i = 0
         while unvisited_refs or current_refs:
@@ -52,10 +54,10 @@ class Bundler:
                 raise RuntimeError(f"Bundler: Reached refs limit {BUNDLED_REFS_LIMIT}")
             if current_refs:
                 # Types and their deps should come first, or unbundler won't be able to decode capsules.
-                ref = current_refs.pop()
+                ref = current_refs.pop(0)
                 target_refs = current_refs
             else:
-                ref = unvisited_refs.pop()
+                ref = unvisited_refs.pop(0)
                 target_refs = unvisited_refs
             if ref.hash_algorithm == 'phony':
                 continue
@@ -66,23 +68,31 @@ class Bundler:
                 log.warning("Failed to resolve ref %s", ref)
                 missing_ref_count += 1
                 continue
-            current_capsule_list.append(rec.capsule)
+            if rec.type_ref in type_idx:
+                target_idx = type_idx[rec.type_ref]
+            else:
+                target_idx = len(current_capsule_list)
+            current_capsule_list.insert(target_idx, rec.capsule)
+            if ref in current_types:
+                type_idx[ref] = target_idx
             current_size += len(rec.capsule.encoded_object)
             if size_limit and result_size + current_size > size_limit:
                 break
             if rec.type_ref.hash_algorithm != 'phony' and rec.type_ref not in visited_refs:
-                current_refs.add(rec.type_ref)
+                current_refs.append(rec.type_ref)
+                current_types.add(rec.type_ref)
             visited_refs.add(ref)
             associations = self._collect_associations(ref, rec.t, rec.value)
-            current_refs |= associations - visited_refs
-            seen_asss |= associations
+            current_refs += [ass for ass in associations if ass not in visited_refs]
+            seen_asss |= set(associations)
             dep_refs = self._pick_refs(rec.value, rec.t)
-            target_refs |= dep_refs - visited_refs
+            target_refs += [d for d in dep_refs if d not in visited_refs]
             if not current_refs:
                 result_capsule_list += reversed(current_capsule_list)
                 current_capsule_list = []
                 result_size += current_size
                 current_size = 0
+                current_types = set()
             i += 1
 
         result_capsule_list += reversed(current_capsule_list)
@@ -91,14 +101,14 @@ class Bundler:
         return (visited_refs, seen_asss & visited_refs, result_capsule_list)
 
     def _collect_associations(self, ref, t, value):
-        result = set()
+        result = []
         t_res = pyobj_creg.actor_to_piece(t)
         for obj in [t_res, value]:
             for ass in association_reg.base_to_ass_list(obj):
                 piece = ass.to_piece(mosaic)
                 ass_ref = mosaic.put(piece)
                 log.debug("Bundle association %s: %s (%s)", ass_ref, ass, piece)
-                result.add(ass_ref)
+                result.append(ass_ref)
         return result
 
 
