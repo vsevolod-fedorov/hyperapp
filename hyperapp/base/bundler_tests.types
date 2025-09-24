@@ -1,5 +1,15 @@
 simple = record:
   id: int
 
+derived = record(simple):
+  value: string
+
+complex = record:
+  inner: simple
+
+too_complex = record:
+  simple: simple
+  derived: derived
+
 composite = record:
   elements: ref list

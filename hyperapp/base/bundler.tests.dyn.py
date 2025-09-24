@@ -16,16 +16,46 @@ def simple_t():
 
 
 @mark.fixture.obj
+def derived_t():
+    return htypes.bundler_tests.derived
+
+
+@mark.fixture.obj
+def complex_t():
+    return htypes.bundler_tests.complex
+
+
+@mark.fixture.obj
+def too_complex_t():
+    return htypes.bundler_tests.too_complex
+
+
+@mark.fixture.obj
 def composite_t():
     return htypes.bundler_tests.composite
 
 
-@mark.fixture
+@mark.fixture.obj
 def simple_mt(simple_t):
     return pyobj_creg.actor_to_piece(simple_t)
 
 
-@mark.fixture
+@mark.fixture.obj
+def derived_mt(derived_t):
+    return pyobj_creg.actor_to_piece(derived_t)
+
+
+@mark.fixture.obj
+def complex_mt(complex_t):
+    return pyobj_creg.actor_to_piece(complex_t)
+
+
+@mark.fixture.obj
+def too_complex_mt(too_complex_t):
+    return pyobj_creg.actor_to_piece(too_complex_t)
+
+
+@mark.fixture.obj
 def composite_mt(composite_t):
     return pyobj_creg.actor_to_piece(composite_t)
 
@@ -58,10 +88,29 @@ def test_type_should_be_before_both_values(bundler, simple_t, composite_t, simpl
     assert index(rb.bundle, simple_mt) < index(rb.bundle, simple_2)
 
 
-def test_type_should_be_before_type_it_is_used_in(bundler, index, simple_t, composite_t, simple_mt, composite_mt):
-    simple = simple_t(id=123)
-    composite = composite_t(
-        elements=(mosaic.put(simple),),
+def test_base_type_should_be_before_derived_type(bundler, index, derived_t, simple_mt, derived_mt):
+    derived = derived_t(id=123, value='sample value')
+    rb = bundler([mosaic.put(derived)])
+    assert index(rb.bundle, simple_mt) < index(rb.bundle, derived_mt)
+
+
+def test_field_type_should_be_before_complex_type(bundler, index, simple_t, complex_t, simple_mt, complex_mt):
+    complex = complex_t(
+        inner=simple_t(id=123),
         )
-    rb = bundler([mosaic.put(composite)])
-    assert index(rb.bundle, simple_mt) < index(rb.bundle, composite_mt) < index(rb.bundle, composite)
+    rb = bundler([mosaic.put(complex)])
+    assert index(rb.bundle, simple_mt) < index(rb.bundle, complex_mt) < index(rb.bundle, complex)
+
+
+def test_both_field_types_should_be_before_complex_type(
+        bundler, index, simple_t, derived_t, too_complex_t, simple_mt, derived_mt, too_complex_mt):
+    too_complex = too_complex_t(
+        simple=simple_t(id=111),
+        derived=derived_t(id=222, value='sample value'),
+        )
+    rb = bundler([mosaic.put(too_complex)])
+    assert (index(rb.bundle, simple_mt)
+            < index(rb.bundle, derived_mt)
+            < index(rb.bundle, too_complex_mt)
+            < index(rb.bundle, too_complex)
+            )
