@@ -1,12 +1,10 @@
 from . import htypes
-from .code.mark import mark
 from .code.config_ctl import ConfigCtl
 
 
 class RecordConfigCtl(ConfigCtl):
 
     @classmethod
-    @mark.actor.config_ctl_creg
     def from_piece(cls, piece):
         return cls()
 

@@ -5,7 +5,6 @@ import:
 - common.list_diff:diff_creg-list_diff-append.actor-cfg-item
 - common.list_diff:diff_creg-list_diff-remove_idx.actor-cfg-item
 - common.list_diff:diff_creg-list_diff-remove_key.actor-cfg-item
-- common.record_config:config_ctl_creg-record_config-config_ctl.actor-cfg-item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 definitions:
@@ -13,14 +12,8 @@ definitions:
     type: legacy_type.system:system_config
     value:
       services:
-        config_ctl_creg: config_ctl_creg
         diff_creg: diff_creg
         system: system
-  config_ctl_creg:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - common.record_config:config_ctl_creg-record_config-config_ctl.actor-cfg-item
   diff_creg:
     type: legacy_type.system:item_list_config
     value:

@@ -16,6 +16,7 @@ import:
 - base.fn_cfg_item:cfg_value_creg-cfg_item-fn_value_template.actor-cfg-item
 - base.mark:marker_ctl.service
 - base.partial_ref:partial_ref.service
+- base.record_config:config_ctl_creg-record_config-config_ctl.actor-cfg-item
 - base.ref_picker:pick_refs.service
 - base.ref_picker:ref_picker_cache.service
 - base.rpc.rpc_call:rpc_call_factory.service
@@ -123,6 +124,7 @@ definitions:
       items:
       - base.data_service:config_ctl_creg-data_service-config_ctl.actor-cfg-item
       - base.data_service:config_ctl_creg-data_service-type_key_config_ctl.actor-cfg-item
+      - base.record_config:config_ctl_creg-record_config-config_ctl.actor-cfg-item
       - base.system.config_ctl:config_ctl_creg-system-flat_list_config_ctl.actor-cfg-item
       - base.system.list_config_ctl:config_ctl_creg-list_config_ctl-dict_list_config_ctl.actor-cfg-item
   identity_creg:
