@@ -10,11 +10,12 @@ class RemoteIsGoneError(Exception):
 
 class Transport:
 
-    def __init__(self, bundler, route_table, transport_log):
+    def __init__(self, bundler, route_table, transport_log, message_size_limit):
         self._bundler = bundler
         self._route_table = route_table
         self._log = transport_log
         self._receiver_peer_to_seen_refs = defaultdict(set)
+        self._message_size_limit = message_size_limit
 
     def send_parcel(self, parcel):
         route_list = self._route_table.peer_route_list(parcel.receiver)
@@ -31,12 +32,12 @@ class Transport:
     def send(self, receiver, sender_identity, ref_list):
         log.debug("Send ref list %s to %s from %s", ref_list, receiver, sender_identity)
         seen_refs = self._receiver_peer_to_seen_refs[receiver.piece]
-        refs_and_bundle = self._bundler(ref_list, seen_refs)
+        refs_and_bundle = self._bundler(ref_list, seen_refs, size_limit=self._message_size_limit)
         seen_refs |= refs_and_bundle.ref_set
         parcel = receiver.make_parcel(refs_and_bundle.bundle, sender_identity)
         self._log.add_out_message(parcel, refs_and_bundle.bundle)
         self.send_parcel(parcel)
 
 
-def transport(bundler, route_table, transport_log):
-    return Transport(bundler, route_table, transport_log)
+def transport(config, bundler, route_table, transport_log):
+    return Transport(bundler, route_table, transport_log, config.message_size_limit)

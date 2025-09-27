@@ -1,0 +1,16 @@
+import:
+- legacy_type.transport:config
+- legacy_type.system:system_config
+
+definitions:
+
+  config:
+    type: legacy_type.system:system_config
+    value:
+      services:
+        transport: transport.config
+
+  transport.config:
+    type: legacy_type.transport:config
+    value:
+      message_size_limit: 0
