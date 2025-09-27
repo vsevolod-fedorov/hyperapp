@@ -60,13 +60,12 @@ def composite_mt(composite_t):
     return pyobj_creg.actor_to_piece(composite_t)
 
 
-@mark.fixture
 def index(bundle, value):
     dcl = [decode_capsule(pyobj_creg, capsule) for capsule in bundle.capsule_list]
     return next(idx for idx, dc in enumerate(dcl) if dc.value == value)
 
 
-def test_type_should_be_before_value(bundler, index, simple_t, simple_mt):
+def test_type_should_be_before_value(bundler, simple_t, simple_mt):
     simple = simple_t(id=123)
     rb = bundler([mosaic.put(simple)])
     assert len(rb.bundle.roots) == 1
@@ -88,13 +87,13 @@ def test_type_should_be_before_both_values(bundler, simple_t, composite_t, simpl
     assert index(rb.bundle, simple_mt) < index(rb.bundle, simple_2)
 
 
-def test_base_type_should_be_before_derived_type(bundler, index, derived_t, simple_mt, derived_mt):
+def test_base_type_should_be_before_derived_type(bundler, derived_t, simple_mt, derived_mt):
     derived = derived_t(id=123, value='sample value')
     rb = bundler([mosaic.put(derived)])
     assert index(rb.bundle, simple_mt) < index(rb.bundle, derived_mt)
 
 
-def test_field_type_should_be_before_complex_type(bundler, index, simple_t, complex_t, simple_mt, complex_mt):
+def test_field_type_should_be_before_complex_type(bundler, simple_t, complex_t, simple_mt, complex_mt):
     complex = complex_t(
         inner=simple_t(id=123),
         )
@@ -103,7 +102,7 @@ def test_field_type_should_be_before_complex_type(bundler, index, simple_t, comp
 
 
 def test_both_field_types_should_be_before_complex_type(
-        bundler, index, simple_t, derived_t, too_complex_t, simple_mt, derived_mt, too_complex_mt):
+        bundler, simple_t, derived_t, too_complex_t, simple_mt, derived_mt, too_complex_mt):
     too_complex = too_complex_t(
         simple=simple_t(id=111),
         derived=derived_t(id=222, value='sample value'),
