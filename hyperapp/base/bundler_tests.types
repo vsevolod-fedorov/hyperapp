@@ -1,6 +1,9 @@
 simple = record:
   id: int
 
+big = record:
+  value: string
+
 derived = record(simple):
   value: string
 

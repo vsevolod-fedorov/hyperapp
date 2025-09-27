@@ -95,7 +95,8 @@ class Bundler:
                 current_types = set()
             i += 1
 
-        result_capsule_list += reversed(current_capsule_list)
+        if not size_limit or result_size + current_size <= size_limit:
+            result_capsule_list += reversed(current_capsule_list)
         if missing_ref_count:
             log.warning("Failed to resolve %d refs", missing_ref_count)
         return (visited_refs, seen_asss & visited_refs, result_capsule_list)
@@ -112,5 +113,5 @@ class Bundler:
         return result
 
 
-def bundler(pick_refs, ref_list, seen_refs=None):
-    return Bundler(pick_refs).bundle(ref_list, seen_refs)
+def bundler(pick_refs, ref_list, seen_refs=None, size_limit=None):
+    return Bundler(pick_refs).bundle(ref_list, seen_refs, size_limit)

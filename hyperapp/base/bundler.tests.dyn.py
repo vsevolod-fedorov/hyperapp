@@ -14,6 +14,10 @@ from .tested.code import bundler
 def simple_t():
     return htypes.bundler_tests.simple
 
+@mark.fixture.obj
+def big_t():
+    return htypes.bundler_tests.big
+
 
 @mark.fixture.obj
 def derived_t():
@@ -41,6 +45,11 @@ def simple_mt(simple_t):
 
 
 @mark.fixture.obj
+def big_mt(big_t):
+    return pyobj_creg.actor_to_piece(big_t)
+
+
+@mark.fixture.obj
 def derived_mt(derived_t):
     return pyobj_creg.actor_to_piece(derived_t)
 
@@ -63,6 +72,14 @@ def composite_mt(composite_t):
 def index(bundle, value):
     dcl = [decode_capsule(pyobj_creg, capsule) for capsule in bundle.capsule_list]
     return next(idx for idx, dc in enumerate(dcl) if dc.value == value)
+
+
+def has(bundle, value):
+    try:
+        _ = index(bundle, value)
+        return True
+    except StopIteration:
+        return False
 
 
 def test_type_should_be_before_value(bundler, simple_t, simple_mt):
@@ -113,3 +130,35 @@ def test_both_field_types_should_be_before_complex_type(
             < index(rb.bundle, too_complex_mt)
             < index(rb.bundle, too_complex)
             )
+
+
+def test_size_limit(bundler, simple_t, big_t, composite_t):
+    simple = simple_t(id=123)
+    big = big_t(value='x' * 102400)
+    composite = composite_t(
+        elements=(
+            mosaic.put(simple),
+            mosaic.put(big),
+            ),
+        )
+    rb = bundler([mosaic.put(too_complex)])
+    assert (index(rb.bundle, simple_mt)
+            < index(rb.bundle, derived_mt)
+            < index(rb.bundle, too_complex_mt)
+            < index(rb.bundle, too_complex)
+            )
+
+
+def test_size_limit(bundler, simple_t, big_t, composite_t):
+    simple = simple_t(id=123)
+    big = big_t(value='x' * 102400)
+    composite = composite_t(
+        elements=(
+            mosaic.put(simple),
+            mosaic.put(big),
+            ),
+        )
+    rb = bundler([mosaic.put(composite)], size_limit=1024)
+    assert has(rb.bundle, simple)
+    assert has(rb.bundle, composite)
+    assert not has(rb.bundle, big)
