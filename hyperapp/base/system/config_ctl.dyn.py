@@ -145,7 +145,7 @@ class LazyDictConfig:
 
     def get(self, key, default=None):
         try:
-            return self[key]
+            return self._resolve_key(key)
         except KeyError:
             return default
 
