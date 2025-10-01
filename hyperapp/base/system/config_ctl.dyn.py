@@ -138,7 +138,7 @@ class LazyDictConfig:
         self._system = system
         self._service_name = service_name
         self._config_template = config_template  # key -> template
-        self._resolved_config = {}
+        self._config = {}
 
     def __getitem__(self, key):
         return self._resolve_key(key)
@@ -157,7 +157,7 @@ class LazyDictConfig:
 
     @property
     def _items(self):
-        items = {**self._resolved_config}
+        items = {**self._config}
         for key, value_template in self._config_template.items():
             if key in items:
                 continue
@@ -169,15 +169,15 @@ class LazyDictConfig:
         try:
             return self._resolve_key(key)
         except KeyError:
-            self._resolved_config[key] = default
+            self._config[key] = default
             return default
 
     def update(self, config):
-        self._resolved_config.update(config)
+        self._config.update(config)
 
     def _resolve_key(self, key):
         try:
-            return self._resolved_config[key]
+            return self._config[key]
         except KeyError:
             pass
         value_template = self._config_template[key]  # KeyError is raised from here.
@@ -192,7 +192,7 @@ class LazyDictConfig:
             # This is not a key error for the caller.
             raise RuntimeError(
                 f"Error resolving {self._service_name} config tempate for {key!r}: {x.__class__.__name__}: {x}") from x
-        self._resolved_config[key] = value
+        self._config[key] = value
         return value
 
 
