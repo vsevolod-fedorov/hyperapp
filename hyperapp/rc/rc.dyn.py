@@ -5,6 +5,8 @@ from collections import namedtuple
 from dataclasses import dataclass
 from pathlib import Path
 
+import cProfile
+
 from hyperapp.boot.htypes import HException
 from hyperapp.boot.project import (
     config_project_name,
@@ -380,7 +382,14 @@ def rc_main(process_pool_running, compile_resources, name_to_project, sys_argv):
     if args.options.verbose:
         rc_log.setLevel(logging.DEBUG)
 
-    register_reconstructors()
+    with cProfile.Profile() as pr:
+        register_reconstructors()
 
-    with process_pool_running(args.process_count, args.options.timeout) as pool:
-        compile_resources(name_to_project, pool, args.projects, args.targets, args.options)
+        with process_pool_running(args.process_count, args.options.timeout) as pool:
+            compile_resources(name_to_project, pool, args.projects, args.targets, args.options)
+
+    profile_path = f'/tmp/rc.prof'
+    pr.dump_stats(profile_path)
+    log.info("Written profile: %s", profile_path)
+    pr.print_stats('cumulative')
+
