@@ -139,6 +139,7 @@ class LazyDictConfig:
         self._service_name = service_name
         self._config_template = config_template  # key -> template
         self._config = {}
+        system.add_dict_config(self)
 
     def __getitem__(self, key):
         return self._resolve_key(key)
@@ -174,6 +175,9 @@ class LazyDictConfig:
 
     def update(self, config):
         self._config.update(config)
+
+    def invalidate(self):
+        self._config = {}
 
     def _resolve_key(self, key):
         try:

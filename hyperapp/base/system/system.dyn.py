@@ -1,4 +1,5 @@
 import logging
+import weakref
 from collections import defaultdict
 from functools import partial
 
@@ -41,6 +42,7 @@ class System:
         self._finalizers = {}  # service name -> fn
         self._config_hooks = []
         self._default_layer_name = None
+        self._dict_configs = weakref.WeakSet()
         self._init()
 
     def _init(self):
@@ -232,8 +234,13 @@ class System:
             ctl = self._config_ctl[service_name]
             return ctl.empty_config_template()
 
+    def add_dict_config(self, config):
+        self._dict_configs.add(config)
+
     def invalidate_config_cache(self):
         self._config_templates_cache = None
+        for config in self._dict_configs:
+            config.invalidate()
 
     def _collect_layers_configs(self, layer_list):
         service_to_config = dict()
