@@ -178,6 +178,7 @@ class LazyDictConfig:
 
     def invalidate(self):
         self._config = {}
+        self._config_template = self._system.get_config_template(self._service_name)
 
     def _resolve_key(self, key):
         try:
