@@ -78,7 +78,7 @@ class ConfigCtl(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def merge(self, dest, src):
+    def merge_template(self, dest, src):
         pass
 
     @abstractmethod
@@ -220,7 +220,7 @@ class DictConfigCtl(MultiItemConfigCtl):
             value_ctl=mosaic.put(self._value_ctl.piece),
             )
 
-    def merge(self, dest, src):
+    def merge_template(self, dest, src):
         dest.update(src)
         return dest
 
@@ -261,7 +261,7 @@ class FlatListConfigCtl(MultiItemConfigCtl):
         assert key is None
         config_template.append(template)
 
-    def merge(self, dest, src):
+    def merge_template(self, dest, src):
         dest.extend(src)
         return dest
 

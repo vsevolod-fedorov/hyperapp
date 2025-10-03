@@ -22,7 +22,7 @@ class DictListConfigCtl(DictConfigCtl):
                 items.append((key, value))
         return items
 
-    def merge(self, dest, src):
+    def merge_template(self, dest, src):
         for key, value_list in src.items():
             dest.setdefault(key, []).extend(value_list)
         return dest

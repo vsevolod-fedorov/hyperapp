@@ -36,7 +36,7 @@ class DataServiceConfigCtl(ConfigCtl):
     def empty_config_template(self):
         return {}
 
-    def merge(self, dest, src):
+    def merge_template(self, dest, src):
         dest.update(src)
         return dest
 
