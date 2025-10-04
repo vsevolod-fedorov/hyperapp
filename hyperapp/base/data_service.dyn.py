@@ -57,10 +57,6 @@ class DataServiceConfigCtl(ConfigCtl):
         return (key, value)
 
     @staticmethod
-    def _update_config(config_template, key, value):
-        config_template[key] = value
-
-    @staticmethod
     def item_to_data(key, value):
         return htypes.data_service.config_item(
             key=mosaic.put(key),
@@ -69,6 +65,10 @@ class DataServiceConfigCtl(ConfigCtl):
 
     def resolve_value(self, system, service_name, key, template):
         return template
+
+    @staticmethod
+    def _update_config(config_template, key, value):
+        config_template[key] = value
 
 
 class TypeKeyDataServiceConfigCtl(DataServiceConfigCtl):
