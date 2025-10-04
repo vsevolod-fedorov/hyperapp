@@ -4,7 +4,7 @@ from .services import (
     pyobj_creg,
     web,
     )
-from .code.config_ctl import ConfigCtl, item_pieces_to_data
+from .code.config_ctl import ConfigCtl, LazyDictConfig, item_pieces_to_data
 
 
 class DataServiceConfigCtl(ConfigCtl):
@@ -45,7 +45,7 @@ class DataServiceConfigCtl(ConfigCtl):
         return dest
 
     def resolve(self, system, service_name, config_template):
-        return DataServiceConfig(system, system.default_layer, service_name)
+        return LazyDictConfig(self, system, service_name, system.default_layer, config_template)
 
     def config_to_items(self, config_template):
         return config_template.items()
@@ -66,6 +66,9 @@ class DataServiceConfigCtl(ConfigCtl):
             key=mosaic.put(key),
             value=mosaic.put(value),
             )
+
+    def resolve_value(self, system, service_name, key, template):
+        return template
 
 
 class TypeKeyDataServiceConfigCtl(DataServiceConfigCtl):
@@ -90,39 +93,6 @@ class TypeKeyDataServiceConfigCtl(DataServiceConfigCtl):
             key=pyobj_creg.actor_to_ref(key),
             value=mosaic.put(value),
             )
-
-
-class DataServiceConfig:
-
-    def __init__(self, system, target_layer, service_name):
-        self._system = system
-        self._target_layer = target_layer
-        self._service_name = service_name
-
-    def get(self, key, default=None):
-        config = self._system.get_config_template(self._service_name)
-        return config.get(key, default)
-
-    def __contains__(self, key):
-        config = self._system.get_config_template(self._service_name)
-        return key in config
-
-    def __getitem__(self, key):
-        config = self._system.get_config_template(self._service_name)
-        return config[key]
-
-    def __setitem__(self, key, value):
-        self._target_layer.set(self._service_name, key, value)
-
-    # def add(self, key, value):
-    #     self._target_layer.add(self._service_name, key, value)
-
-    def __delitem__(self, key):
-        self._target_layer.remove(self._service_name, key)
-
-    # Used with config fixtures.
-    def update(self, config):
-        self._target_layer.update(self._service_name, config)
 
 
 def config_item_name(piece, gen):

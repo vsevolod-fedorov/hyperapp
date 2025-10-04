@@ -137,16 +137,20 @@ class MultiItemConfigCtl(ConfigCtl, metaclass=ABCMeta):
 
 class LazyDictConfig:
 
-    def __init__(self, ctl, system, service_name, config_template):
+    def __init__(self, ctl, system, service_name, target_layer, config_template):
         self._ctl = ctl
         self._system = system
         self._service_name = service_name
+        self._target_layer = target_layer
         self._config_template = config_template  # key -> template
         self._config = {}
         system.add_dict_config(self)
 
     def __getitem__(self, key):
         return self._resolve_key(key)
+
+    def __contains__(self, key):
+        return key in self._config or key in self._config_template
 
     def get(self, key, default=None):
         try:
@@ -177,6 +181,16 @@ class LazyDictConfig:
             self._config[key] = default
             return default
 
+    def __setitem__(self, key, value):
+        self._target_layer.set(self._service_name, key, value)
+
+    # def add(self, key, value):
+    #     self._target_layer.add(self._service_name, key, value)
+
+    def __delitem__(self, key):
+        self._target_layer.remove(self._service_name, key)
+
+    # Updates only local cached, resolved config.
     def update(self, config):
         self._config.update(config)
 
@@ -233,7 +247,7 @@ class DictConfigCtl(MultiItemConfigCtl):
         return dest
 
     def _lazy_config(self, system, service_name, config_template):
-        return LazyDictConfig(self, system, service_name, config_template)
+        return LazyDictConfig(self, system, service_name, system.default_layer, config_template)
 
     def resolve(self, system, service_name, config_template):
         return self._lazy_config(system, service_name, config_template)
