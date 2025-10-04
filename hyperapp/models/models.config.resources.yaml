@@ -12,7 +12,7 @@ import:
 - legacy_type.config_item_list:layer_model
 - legacy_type.config_item_list:model
 - legacy_type.crud:layout_k
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.form:view
 - legacy_type.label:view
 - legacy_type.line_edit:edit_view
@@ -169,347 +169,347 @@ definitions:
         column_visible_reg: column_visible_reg.config
         model_layout_reg: model_layout_reg.config
   config_item-bundle_info.model-model_layout_k:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: bundle_info.model-model_layout_k
       value: form_view_2
   config_item-column_k-config_item_list.layer_model-key:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-config_item_list.layer_model-key
       value: bool-false
   config_item-column_k-config_item_list.layer_model-value:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-config_item_list.layer_model-value
       value: bool-false
   config_item-column_k-config_item_list.model-key:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-config_item_list.model-key
       value: bool-false
   config_item-column_k-config_item_list.model-layers:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-config_item_list.model-layers
       value: bool-false
   config_item-column_k-config_item_list.model-value:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-config_item_list.model-value
       value: bool-false
   config_item-column_k-model_list.model-model_t:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-model_list.model-model_t
       value: bool-false
   config_item-column_k-transport_log_model.model-msg_bundle:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-transport_log_model.model-msg_bundle
       value: bool-false
   config_item-column_k-transport_log_model.model-transport_bundle:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-transport_log_model.model-transport_bundle
       value: bool-false
   config_item-crud-layout_k-models.peer_list-add:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: crud-layout_k-models.peer_list-add
       value: box_layout_view_1
   config_item-crud-layout_k-models.ref_list-add_folder:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: crud-layout_k-models.ref_list-add_folder
       value: box_layout_view_1
   config_item-crud-layout_k-models.wiki_pages-add_folder:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: crud-layout_k-models.wiki_pages-add_folder
       value: box_layout_view_1
   config_item-models.bundle_info-open_association.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.bundle_info:open_association.d
       value: shortcut_Return
   config_item-models.bundle_info-open_associations.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.bundle_info:open_associations.d
       value: shortcut_A
   config_item-models.bundle_info-open_capsule.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.bundle_info:open_capsule.d
       value: shortcut_Return
   config_item-models.bundle_info-open_capsules.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.bundle_info:open_capsules.d
       value: shortcut_C
   config_item-models.bundle_info-open_root.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.bundle_info:open_root.d
       value: shortcut_Return
   config_item-models.column_list-open_column_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.column_list:open_column_list.d
       value: shortcut_Alt_Shift_C
   config_item-models.column_list-toggle_visibility.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.column_list:toggle_visibility.d
       value: shortcut_Space
   config_item-models.command_list_model-set_shortcut.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.command_list_model:set_shortcut.d
       value: shortcut_Space
   config_item-models.config.config_item_list-config_item_list-model.open_move.commit-command.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_item_list:config_item_list-model.open_move.commit-command.d
       value: shortcut_Return
   config_item-models.config.config_item_list-config_item_list-model.open_move.open-command.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_item_list:config_item_list-model.open_move.open-command.d
       value: shortcut_M
   config_item-models.config.config_item_list-layer_remove.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_item_list:layer_remove.d
       value: shortcut_Del
   config_item-models.config.config_item_list-open_config_item_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_item_list:open_config_item_list.d
       value: shortcut_Return
   config_item-models.config.config_item_list-open_config_key.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_item_list:open_config_key.d
       value: shortcut_K
   config_item-models.config.config_item_list-open_config_value.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_item_list:open_config_value.d
       value: shortcut_V
   config_item-models.config.config_item_list-remove.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_item_list:remove.d
       value: shortcut_Del
   config_item-models.config.config_layer_list-open_config_layer_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_layer_list:open_config_layer_list.d
       value: shortcut_Alt_L
   config_item-models.config.config_layer_list-open_service_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_layer_list:open_service_list.d
       value: shortcut_Return
   config_item-models.config.config_service_list-open_config_service_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_service_list:open_config_service_list.d
       value: shortcut_Alt_S
   config_item-models.config.config_service_list-toggle_assoc.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.config.config_service_list:toggle_assoc.d
       value: shortcut_A
   config_item-models.data_browser-browse_current_model.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.data_browser:browse_current_model.d
       value: shortcut_Ctrl_F1
   config_item-models.data_browser-list_open.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.data_browser:list_open.d
       value: shortcut_Return
   config_item-models.data_browser-record_open.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.data_browser:record_open.d
       value: shortcut_Return
   config_item-models.data_browser-ref_list_open.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.data_browser:ref_list_open.d
       value: shortcut_Return
   config_item-models.file_bundles-open.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.file_bundles:open.d
       value: shortcut_Return
   config_item-models.file_bundles-open_file_bundle_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.file_bundles:open_file_bundle_list.d
       value: shortcut_Alt_B
   config_item-models.fs-open_fs.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.fs:open_fs.d
       value: shortcut_Alt_F
   config_item-models.model_list-open_model_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.model_list:open_model_list.d
       value: shortcut_Ctrl_Alt_M
   config_item-models.peer_list-add.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:add.commit-d
       value: shortcut_Return
   config_item-models.peer_list-add.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:add.open-d
       value: shortcut_Ins
   config_item-models.peer_list-open_model.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:open_model.commit-d
       value: shortcut_Return
   config_item-models.peer_list-open_model.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:open_model.open-d
       value: shortcut_M
   config_item-models.peer_list-open_peer_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:open_peer_list.d
       value: shortcut_Alt_P
   config_item-models.peer_list-remove.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:remove.d
       value: shortcut_Del
   config_item-models.peer_list-run_command.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:run_command.commit-d
       value: shortcut_Shift_Return
   config_item-models.peer_list-run_command.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.peer_list:run_command.open-d
       value: shortcut_C
   config_item-models.ref_list-add_folder.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.ref_list:add_folder.commit-d
       value: shortcut_Return
   config_item-models.ref_list-add_folder.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.ref_list:add_folder.open-d
       value: shortcut_F
   config_item-models.ref_list-add_ref.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.ref_list:add_ref.open-d
       value: shortcut_Ins
   config_item-models.ref_list-open.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.ref_list:open.d
       value: shortcut_Return
   config_item-models.ref_list-open_parent.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.ref_list:open_parent.d
       value: shortcut_Backspace
   config_item-models.ref_list-open_ref_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.ref_list:open_ref_list.d
       value: shortcut_Alt_R
   config_item-models.ref_list-remove.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.ref_list:remove.d
       value: shortcut_Del
   config_item-models.show_current_context-show_current_context.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.show_current_context:show_current_context.d
       value: shortcut_Ctrl_Alt_C
   config_item-models.transport_log_model-message.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.transport_log_model:message.d
       value: shortcut_Return
   config_item-models.transport_log_model-message_bundle.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.transport_log_model:message_bundle.d
       value: shortcut_M
   config_item-models.transport_log_model-open_transport_log.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.transport_log_model:open_transport_log.d
       value: shortcut_Alt_T
   config_item-models.transport_log_model-transport_bundle.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.transport_log_model:transport_bundle.d
       value: shortcut_T
   config_item-models.wiki_pages-add_folder.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:add_folder.commit-d
       value: shortcut_Return
   config_item-models.wiki_pages-add_folder.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:add_folder.open-d
       value: shortcut_F
   config_item-models.wiki_pages-new_page.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:new_page.d
       value: shortcut_Ins
   config_item-models.wiki_pages-open.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:open.d
       value: shortcut_Return
   config_item-models.wiki_pages-open_parent.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:open_parent.d
       value: shortcut_Backspace
   config_item-models.wiki_pages-open_ref_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:open_ref_list.d
       value: shortcut_Ctrl_R
   config_item-models.wiki_pages-open_wiki_pages.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:open_wiki_pages.d
       value: shortcut_Ctrl_Alt_W
   config_item-models.wiki_pages-remove.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:remove.d
       value: shortcut_Del
   config_item-models.wiki_pages-save_page.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.wiki_pages:save_page.d
       value: shortcut_Return
   config_item-wiki_pages.page_model-model_layout_k:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: wiki_pages.page_model-model_layout_k
       value: form_view_1

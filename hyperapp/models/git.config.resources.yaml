@@ -2,7 +2,7 @@
 
 import:
 - legacy_type.builtin:string
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 - models.git.git_ref_list:ref_log.d
@@ -18,32 +18,32 @@ definitions:
       services:
         shortcut_reg: shortcut_reg.config
   config_item-models.git.git_ref_list-ref_log.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.git.git_ref_list:ref_log.d
       value: shortcut_Return
   config_item-models.git.git_repo_list-add.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.git.git_repo_list:add.commit-d
       value: shortcut_Return
   config_item-models.git.git_repo_list-add.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.git.git_repo_list:add.open-d
       value: shortcut_Ins
   config_item-models.git.git_repo_list-open_repo_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.git.git_repo_list:open_repo_list.d
       value: shortcut_Alt_Shift_G
   config_item-models.git.git_repo_list-refs.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.git.git_repo_list:refs.d
       value: shortcut_R
   config_item-models.git.git_repo_list-remove.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.git.git_repo_list:remove.d
       value: shortcut_Del

@@ -2,7 +2,7 @@
 
 import:
 - legacy_type.accessor:record_field_accessor
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.form:view
 - legacy_type.label:view
 - legacy_type.line_edit:edit_view
@@ -27,7 +27,7 @@ definitions:
       services:
         model_layout_reg: model_layout_reg.config
   config_item-wiki_pages.page_model-model_layout_k:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: wiki_pages.page_model-model_layout_k
       value: form_view_1

@@ -2,7 +2,7 @@
 
 import:
 - legacy_type.builtin:string
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 - sample.sample_commands:details.d
@@ -27,86 +27,83 @@ definitions:
       services:
         shortcut_reg: shortcut_reg.config
   config_item-sample.sample_commands-details.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_commands:details.d
       value: shortcut_Return
   config_item-sample.sample_commands-open_sample_wiki_text.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_commands:open_sample_wiki_text.d
       value: shortcut_Alt_Shift_W
   config_item-sample.sample_commands-sample_tree_info.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_commands:sample_tree_info.d
       value: shortcut_Shift_Return
   config_item-sample.sample_commands-show_state.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_commands:show_state.d
       value: shortcut_Ctrl_Return
   config_item-sample.sample_commands-system_info.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_commands:system_info.d
       value: shortcut_Alt_I
   config_item-sample.sample_list-open_feed_sample_fn_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_list:open_feed_sample_fn_list.d
       value: shortcut_F5
   config_item-sample.sample_list-open_sample_fn_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_list:open_sample_fn_list.d
       value: shortcut_F4
   config_item-sample.sample_list_crud-sample_list-sample_list.edit.commit-command.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_list_crud:sample_list-sample_list.edit.commit-command.d
       value: shortcut_Return
   config_item-sample.sample_list_crud-sample_list-sample_list.edit.open-command.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_list_crud:sample_list-sample_list.edit.open-command.d
       value: shortcut_Space
   config_item-sample.sample_record-apply.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_record:apply.d
       value: shortcut_Return
   config_item-sample.sample_record-open_sample_fn_record.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_record:open_sample_fn_record.d
       value: shortcut_F7
   config_item-sample.sample_tree-append_tree_item.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_tree:append_tree_item.d
       value: shortcut_A
   config_item-sample.sample_tree-insert_tree_item.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_tree:insert_tree_item.d
       value: shortcut_Ins
   config_item-sample.sample_tree-open_sample_fn_tree.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_tree:open_sample_fn_tree.d
       value: shortcut_F6
   config_item-sample.sample_tree-remove_tree_item.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: sample.sample_tree:remove_tree_item.d
       value: shortcut_Del
   shortcut_A:
     type: legacy_type.builtin:string
     value: A
-  shortcut_Alt_F:
-    type: legacy_type.builtin:string
-    value: Alt+F
   shortcut_Alt_I:
     type: legacy_type.builtin:string
     value: Alt+I

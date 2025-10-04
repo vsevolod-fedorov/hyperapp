@@ -5,7 +5,7 @@ import:
 - legacy_type.builtin:bool
 - legacy_type.builtin:string
 - legacy_type.column:column_k
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 - legacy_type.view_factory_list:model
@@ -78,172 +78,172 @@ definitions:
         column_visible_reg: column_visible_reg.config
         assoc_key: assoc_key.config
   config_item-column_k-view_factory_list.model-k:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-view_factory_list.model-k
       value: bool-false
   config_item-column_k-view_factory_list.model-system_fn:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-view_factory_list.model-system_fn
       value: bool-false
   config_item-column_k-view_factory_list.model-view_t:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-view_factory_list.model-view_t
       value: bool-false
   config_item-string_1:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: string_1
       value: key_base_association_1
   config_item-ui.arg_mark-add_mark.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.arg_mark:add_mark.d
       value: shortcut_Alt_M
   config_item-ui.arg_mark-remove_mark.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.arg_mark:remove_mark.d
       value: shortcut_Alt_Shift_M
   config_item-ui.layout-open_layout_tree.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.layout:open_layout_tree.d
       value: shortcut_Alt_Shift_L
   config_item-ui.layout-open_view_item_commands.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.layout:open_view_item_commands.d
       value: shortcut_C
   config_item-ui.layout-set_shortcut.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.layout:set_shortcut.d
       value: shortcut_Space
   config_item-ui.navigator-go_back.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.navigator:go_back.d
       value: shortcut_Esc
   config_item-ui.navigator-go_forward.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.navigator:go_forward.d
       value: shortcut_Alt_Right
   config_item-ui.qt.auto_tabs-close_tab.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.auto_tabs:close_tab.d
       value: shortcut_Ctrl_F4
   config_item-ui.qt.auto_tabs-duplicate_tab.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.auto_tabs:duplicate_tab.d
       value: shortcut_Shift_F4
   config_item-ui.qt.box_layout-add_element.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.box_layout:add_element.commit-d
       value: shortcut_Return
   config_item-ui.qt.box_layout-add_element.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.box_layout:add_element.open-d
       value: shortcut_Ins
   config_item-ui.qt.box_layout-add_stretch.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.box_layout:add_stretch.d
       value: shortcut_S
   config_item-ui.qt.box_layout-insert_element.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.box_layout:insert_element.commit-d
       value: shortcut_Return
   config_item-ui.qt.box_layout-insert_element.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.box_layout:insert_element.open-d
       value: shortcut_Ins
   config_item-ui.qt.box_layout-remove_element.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.box_layout:remove_element.d
       value: shortcut_Del
   config_item-ui.qt.box_layout-unwrap.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.box_layout:unwrap.d
       value: shortcut_U
   config_item-ui.qt.label-set_label_text.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.label:set_label_text.commit-d
       value: shortcut_Return
   config_item-ui.qt.label-set_label_text.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.label:set_label_text.open-d
       value: shortcut_Space
   config_item-ui.qt.tabs-add_element.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.tabs:add_element.commit-d
       value: shortcut_Return
   config_item-ui.qt.tabs-insert_element.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.tabs:insert_element.commit-d
       value: shortcut_Return
   config_item-ui.qt.tabs-insert_element.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.tabs:insert_element.open-d
       value: shortcut_Ins
   config_item-ui.qt.tabs-remove_element.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.tabs:remove_element.d
       value: shortcut_Del
   config_item-ui.qt.tabs-unwrap.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.tabs:unwrap.d
       value: shortcut_U
   config_item-ui.qt.window_commands-duplicate_window.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.window_commands:duplicate_window.d
       value: shortcut_Alt_W
   config_item-ui.qt.window_commands-quit.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.qt.window_commands:quit.d
       value: shortcut_Alt_Q
   config_item-ui.view.replace_view-replace_view.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.view.replace_view:replace_view.commit-d
       value: shortcut_Return
   config_item-ui.view.replace_view-replace_view.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.view.replace_view:replace_view.open-d
       value: shortcut_R
   config_item-ui.view.view_factory_list-open_view_factory_list.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.view.view_factory_list:open_view_factory_list.d
       value: shortcut_Alt_Shift_F
   config_item-ui.view.wrap_view-wrap_view.commit-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.view.wrap_view:wrap_view.commit-d
       value: shortcut_Return
   config_item-ui.view.wrap_view-wrap_view.open-d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: ui.view.wrap_view:wrap_view.open-d
       value: shortcut_W

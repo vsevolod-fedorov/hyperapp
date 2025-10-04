@@ -1,7 +1,7 @@
 import:
 - legacy_type.assoc_key:key_base_association
 - legacy_type.builtin:string
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 
@@ -20,7 +20,7 @@ definitions:
       - config_item-route_table
 
   config_item-route_table:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: string-route_table
       value: key_base_association

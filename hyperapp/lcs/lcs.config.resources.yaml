@@ -4,7 +4,7 @@ import:
 - lcs.lcs_view:lcs_view-view.open_move.commit-command.d
 - lcs.lcs_view:lcs_view-view.open_move.open-command.d
 - legacy_type.builtin:string
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 definitions:
@@ -14,12 +14,12 @@ definitions:
       services:
         shortcut_reg: shortcut_reg.config
   config_item-lcs.lcs_view-lcs_view-view.open_move.commit-command.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: lcs.lcs_view:lcs_view-view.open_move.commit-command.d
       value: shortcut_Return
   config_item-lcs.lcs_view-lcs_view-view.open_move.open-command.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: lcs.lcs_view:lcs_view-view.open_move.open-command.d
       value: shortcut_M

@@ -11,7 +11,7 @@ import:
 - legacy_type.data_browser:record_item
 - legacy_type.data_browser:record_view
 - legacy_type.data_browser:ref_list_view
-- legacy_type.data_service:config_item
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.details:view
 - legacy_type.global_commands:command_arg
 - legacy_type.line_edit:readonly_view
@@ -67,7 +67,7 @@ definitions:
       services:
         model_layout_reg: model_layout_reg.config
   config_item-data_browser.record_view-model_layout_k:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: data_browser.record_view-model_layout_k
       value: box_layout_view_2

@@ -3,8 +3,8 @@
 import:
 - legacy_type.builtin:bool
 - legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.column:column_k
-- legacy_type.data_service:config_item
 - legacy_type.global_commands:model
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
@@ -43,27 +43,27 @@ definitions:
         shortcut_reg: shortcut_reg.config
         column_visible_reg: column_visible_reg.config
   config_item-column_k-global_commands.model-model_command_d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-global_commands.model-model_command_d
       value: bool-false
   config_item-column_k-global_commands.model-repr:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-global_commands.model-repr
       value: bool-false
   config_item-column_k-global_commands.model-ui_command_d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: column_k-global_commands.model-ui_command_d
       value: bool-false
   config_item-models.global_commands-open_global_commands.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.global_commands:open_global_commands.d
       value: shortcut_Alt_F1
   config_item-models.global_commands-run_command.d:
-    type: legacy_type.data_service:config_item
+    type: legacy_type.cfg_item:data_cfg_item
     value:
       key: models.global_commands:run_command.d
       value: shortcut_Return
