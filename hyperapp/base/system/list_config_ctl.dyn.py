@@ -22,10 +22,13 @@ class DictListConfigCtl(DictConfigCtl):
                 items.append((key, value))
         return items
 
-    def merge_template(self, dest, src):
+    def merge(self, dest, src):
         for key, value_list in src.items():
             dest.setdefault(key, []).extend(value_list)
         return dest
+
+    def merge_template(self, dest, src):
+        return self.merge(dest, src)
 
     def _update_config(self, config_template, key, item):
         config_template.setdefault(key, []).append(item)
