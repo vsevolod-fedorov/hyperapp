@@ -38,10 +38,3 @@ class TypeKeyDataServiceConfigCtl(DictConfigCtl):
             key_ctl=TypeKeyCtl(),
             value_ctl=DataValueCtl(),
             )
-
-
-def config_item_name(piece, gen):
-    key = web.summon(piece.key)
-    key_name = gen.assigned_name(key)
-    suffix = key_name.replace(':', '-')
-    return f'config_item-{suffix}'

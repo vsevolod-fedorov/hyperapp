@@ -2,9 +2,11 @@ import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
 - builtins:web.service
+- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.system:actor_template
 - legacy_type.system:data_key_ctl
 - legacy_type.system:one_way_key_ctl
 - legacy_type.system:type_key_ctl
@@ -25,3 +27,21 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
+
+  data_cfg_item_name:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_key_ctl.module
+      attr_name: data_cfg_item_name
+
+  data_cfg_item_name.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: data_cfg_item_name
+      service_params: []
+
+  resource_name_creg-cfg_item-data_cfg_item.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.cfg_item:data_cfg_item
+      value: data_cfg_item_name.actor-template

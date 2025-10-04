@@ -6,7 +6,6 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.data_service:config_ctl
-- legacy_type.data_service:config_item
 - legacy_type.data_service:type_key_config_ctl
 - legacy_type.system:actor_template
 
@@ -71,24 +70,6 @@ definitions:
     value:
       t: legacy_type.data_service:type_key_config_ctl
       value: TypeKeyDataServiceConfigCtl.from_piece.actor-template
-
-  config_item_name:
-    type: legacy_type.builtin:attribute
-    value:
-      object: data_service.module
-      attr_name: config_item_name
-
-  config_item_name.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: config_item_name
-      service_params: []
-
-  resource_name_creg-data_service-config_item.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.data_service:config_item
-      value: config_item_name.actor-template
 
   data_service-config_ctl.ctl:
     type: legacy_type.data_service:config_ctl

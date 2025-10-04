@@ -8,7 +8,6 @@ import:
 - base.bundler:bundler.service
 - base.data_service:config_ctl_creg-data_service-config_ctl.actor-cfg-item
 - base.data_service:config_ctl_creg-data_service-type_key_config_ctl.actor-cfg-item
-- base.data_service:resource_name_creg-data_service-config_item.actor-cfg-item
 - base.data_to_pyobj:data_to_pyobj.service
 - base.data_to_pyobj:data_to_pyobj_ref.service
 - base.file_bundle:file_bundle_factory.service
@@ -51,6 +50,7 @@ import:
 - base.system.builtin_resource_name:resource_name_creg-builtin-record_mt.actor-cfg-item
 - base.system.builtin_resource_name:resource_name_creg-builtin-string.actor-cfg-item
 - base.system.config_ctl:config_ctl_creg-system-flat_list_config_ctl.actor-cfg-item
+- base.system.config_key_ctl:resource_name_creg-cfg_item-data_cfg_item.actor-cfg-item
 - base.system.config_layer:resource_name_creg.service
 - base.system.file_bundle_config_layer:file_bundle_config_layer_factory.service
 - base.system.file_bundle_config_layer:load_config_layers.service
@@ -151,11 +151,11 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - base.data_service:resource_name_creg-data_service-config_item.actor-cfg-item
       - base.system.builtin_resource_name:resource_name_creg-builtin-bool.actor-cfg-item
       - base.system.builtin_resource_name:resource_name_creg-builtin-call.actor-cfg-item
       - base.system.builtin_resource_name:resource_name_creg-builtin-record_mt.actor-cfg-item
       - base.system.builtin_resource_name:resource_name_creg-builtin-string.actor-cfg-item
+      - base.system.config_key_ctl:resource_name_creg-cfg_item-data_cfg_item.actor-cfg-item
   route_creg:
     type: legacy_type.system:item_list_config
     value:

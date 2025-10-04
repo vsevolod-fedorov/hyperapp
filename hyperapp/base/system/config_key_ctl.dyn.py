@@ -74,6 +74,13 @@ class TypeKeyCtl:
             )
 
 
+def data_cfg_item_name(piece, gen):
+    key = web.summon(piece.key)
+    key_name = gen.assigned_name(key)
+    suffix = key_name.replace(':', '-')
+    return f'config_item-{suffix}'
+
+
 def config_key_ctl_creg_config(cfg_item_creg):
     return {
         htypes.system.one_way_key_ctl: partial(OneWayKeyCtl.from_piece, cfg_item_creg=cfg_item_creg),
