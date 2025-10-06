@@ -1,4 +1,5 @@
 import:
+- base.system.config_ctl:data_service_config.ctl
 - base.system.system:actor_dict.config_ctl
 - builtins:association_reg.service
 - builtins:code_registry_ctr.service
@@ -7,7 +8,6 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.data_service:config_ctl
 - legacy_type.system:actor_template
 - legacy_type.system:service_template
 - legacy_type.system_fn:ctx_fn
@@ -29,15 +29,11 @@ definitions:
       object: assoc_key.module
       attr_name: assoc_key
 
-  data_service-config_ctl.ctl:
-    type: legacy_type.data_service:config_ctl
-    value: {}
-
   assoc_key.service:
     type: legacy_type.system:service_template
     value:
       name: assoc_key
-      ctl: data_service-config_ctl.ctl
+      ctl: base.system.config_ctl:data_service_config.ctl
       function: assoc_key
       free_params: []
       service_params:

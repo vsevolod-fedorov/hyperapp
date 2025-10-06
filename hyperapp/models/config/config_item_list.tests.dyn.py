@@ -5,7 +5,7 @@ from .services import (
     mosaic,
     )
 from .code.mark import mark
-from .code.data_service import DataServiceConfigCtl
+from .code.config_ctl import data_service_config_ctl
 from .tested.code import config_item_list
 
 
@@ -67,7 +67,7 @@ def test_open_layer_model(system):
     assert isinstance(model, htypes.config_item_list.layer_model)
 
 
-@mark.fixture(ctl=DataServiceConfigCtl())
+@mark.fixture(ctl=data_service_config_ctl())
 def sample_service(config):
     return config
 

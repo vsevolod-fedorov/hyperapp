@@ -8,7 +8,7 @@ from .services import (
     mosaic,
     web,
     )
-from .code.config_key_ctl import OneWayKeyCtl
+from .code.config_key_ctl import DataKeyCtl, OneWayKeyCtl
 
 
 class ActorValueCtl:
@@ -298,6 +298,13 @@ class FlatListConfigCtl(MultiItemConfigCtl):
             value = self._cfg_value_creg.animate(template, key, system, service_name)
             config.append(value)
         return config
+
+
+def data_service_config_ctl():
+    return DictConfigCtl(
+        key_ctl=DataKeyCtl(),
+        value_ctl=DataValueCtl(),
+        )
 
 
 def service_pieces_to_config(service_to_config_piece):

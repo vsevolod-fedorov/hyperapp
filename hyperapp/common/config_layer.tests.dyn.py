@@ -8,7 +8,7 @@ from .services import (
     project_factory,
     )
 from .code.mark import mark
-from .code.data_service import DataServiceConfigCtl
+from .code.config_ctl import data_service_config_ctl
 from .tested.code import config_layer
 
 
@@ -39,7 +39,7 @@ def layer(layer_factory):
     return layer_factory()
 
 
-@mark.fixture(ctl=DataServiceConfigCtl())
+@mark.fixture(ctl=data_service_config_ctl())
 def sample_service(config):
     return config
 
