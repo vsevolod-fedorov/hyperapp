@@ -9,8 +9,9 @@ from .services import (
     code_registry_ctr,
     pyobj_creg,
     )
-from .code.config_ctl import DictConfigCtl, config_value_ctl_creg_config, service_pieces_to_config
+from .code.config_ctl import DictConfigCtl, service_pieces_to_config
 from .code.config_key_ctl import config_key_ctl_creg_config
+from .code.config_value_ctl import config_value_ctl_creg_config
 from .code.config_layer import ProjectConfigLayer, StaticConfigLayer
 from .code.cfg_item import cfg_item_config
 from .code.service_template import service_template_cfg_item_config, service_template_cfg_value_config

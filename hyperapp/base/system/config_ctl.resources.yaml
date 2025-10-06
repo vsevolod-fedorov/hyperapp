@@ -1,12 +1,12 @@
 import:
 - base.system.config_key_ctl:config_key_ctl.module
+- base.system.config_value_ctl:config_value_ctl.module
 - builtins:mosaic.service
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.system:actor_template
-- legacy_type.system:actor_value_ctl
 - legacy_type.system:data_key_ctl
 - legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
@@ -23,8 +23,6 @@ definitions:
       module_name: config_ctl
       file_name: config_ctl.dyn.py
       import_list:
-        htypes.system.actor_value_ctl: legacy_type.system:actor_value_ctl
-        htypes.system.data_value_ctl: legacy_type.system:data_value_ctl
         htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
         htypes.system.flat_list_config_ctl: legacy_type.system:flat_list_config_ctl
         htypes.system.item_list_config: legacy_type.system:item_list_config
@@ -33,6 +31,7 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
         code.config_key_ctl: base.system.config_key_ctl:config_key_ctl.module
+        code.config_value_ctl: base.system.config_value_ctl:config_value_ctl.module
 
   FlatListConfigCtl:
     type: legacy_type.builtin:attribute
