@@ -21,7 +21,7 @@ class RecordConfigCtl(ConfigCtl):
     def empty_config_template(self):
         return None
 
-    def merge(self, dest, src):
+    def merge_config(self, dest, src):
         return src
 
     def merge_template(self, dest, src):
