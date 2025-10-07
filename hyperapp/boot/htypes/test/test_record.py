@@ -144,7 +144,7 @@ def test_comparison_with_ref_field_reverse(mosaic):
     complex < simple  # Should not raise TypeError
 
 
-def test_comparison_with_str_field(mosaic):
+def test_comparison_with_str_field():
     module_name = 'test_comparison_with_ref'
     simple_t = TRecord(module_name, 'simple', {})
     complex_t = TRecord(module_name, 'complex', {
@@ -155,7 +155,7 @@ def test_comparison_with_str_field(mosaic):
     simple < complex  # Should not raise TypeError
 
 
-def test_comparison_with_inner_rec(mosaic):
+def test_comparison_with_inner_rec():
     module_name = 'test_comparison_with_ref'
     simple_t = TRecord(module_name, 'simple', {})
     inner_t = TRecord(module_name, 'inner', {
@@ -169,7 +169,7 @@ def test_comparison_with_inner_rec(mosaic):
     simple < complex  # Should not raise TypeError
 
 
-def test_comparison_with_int(mosaic):
+def test_comparison_with_int():
     module_name = 'test_comparison_with_ref'
     record_t = TRecord(module_name, 'some_rec', {})
     rec = record_t()
