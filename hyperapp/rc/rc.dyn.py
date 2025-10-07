@@ -228,7 +228,11 @@ class RcRunner:
                 if text == prev_text:
                     rc_log.debug("%s: No diffs", resource_path)
                 else:
-                    diff_lines = list(difflib.unified_diff(prev_text.splitlines(), text.splitlines()))
+                    diff_lines = list(difflib.unified_diff(
+                        prev_text.splitlines(), text.splitlines(),
+                        fromfile=f"old:{resource_path}", tofile=f"new:{resource_path}",
+                        lineterm="",  # Prevent extra empty lines after diff control lines, ---/+++/@@
+                        ))
                     diff_text = '\n'.join(diff_lines)
                     line_count = len(diff_lines)
                     if self._options.show_diffs:
