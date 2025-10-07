@@ -1,0 +1,15 @@
+import:
+- legacy_type.builtin:python_module
+- legacy_type.system:list_struct_ctl
+- legacy_type.system:single_struct_ctl
+
+definitions:
+
+  config_struct_ctl.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: config_struct_ctl
+      file_name: config_struct_ctl.dyn.py
+      import_list:
+        htypes.system.list_struct_ctl: legacy_type.system:list_struct_ctl
+        htypes.system.single_struct_ctl: legacy_type.system:single_struct_ctl

@@ -3,9 +3,14 @@ from .services import (
     mosaic,
     )
 from .code.config_ctl import DictConfigCtl
+from .code.config_struct_ctl import ListStructCtl
 
 
 class DictListConfigCtl(DictConfigCtl):
+
+    def __init__(self, key_ctl=None, value_ctl=None, struct_ctl=None, cfg_item_creg=None, cfg_value_creg=None):
+        struct_ctl = ListStructCtl()
+        super().__init__(key_ctl, value_ctl, struct_ctl, cfg_item_creg, cfg_value_creg)
 
     @property
     def piece(self):
@@ -13,28 +18,3 @@ class DictListConfigCtl(DictConfigCtl):
             key_ctl=mosaic.put(self._key_ctl.piece),
             value_ctl=mosaic.put(self._value_ctl.piece),
             )
-
-    @staticmethod
-    def config_to_items(config_template):
-        items = []
-        for key, value_list in config_template.items():
-            for value in value_list:
-                items.append((key, value))
-        return items
-
-    def merge_config(self, dest, src):
-        for key, value_list in src.items():
-            dest.setdefault(key, []).extend(value_list)
-        return dest
-
-    def merge_template(self, dest, src):
-        return self.merge_config(dest, src)
-
-    def _update_config(self, config_template, key, item):
-        config_template.setdefault(key, []).append(item)
-
-    def resolve_value(self, system, service_name, key, template):
-        return [
-            self._value_ctl.resolve(elt, key, system, service_name)
-            for elt in template
-            ]

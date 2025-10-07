@@ -12,6 +12,7 @@ from .services import (
 from .code.config_ctl import DictConfigCtl, service_pieces_to_config
 from .code.config_key_ctl import config_key_ctl_creg_config
 from .code.config_value_ctl import config_value_ctl_creg_config
+from .code.config_struct_ctl import config_struct_ctl_creg_config
 from .code.config_layer import ProjectConfigLayer, StaticConfigLayer
 from .code.cfg_item import cfg_item_config
 from .code.service_template import service_template_cfg_item_config, service_template_cfg_value_config
@@ -56,6 +57,8 @@ class System:
             'config_key_ctl_creg', self._make_config_key_ctl_creg_config(self._cfg_item_creg))
         self._config_value_ctl_creg = code_registry_ctr(
             'config_value_ctl_creg', self._make_config_value_ctl_creg_config(self._cfg_value_creg))
+        self._cfg_struct_ctl_creg = code_registry_ctr(
+            'cfg_struct_ctl_creg', self._make_cfg_struct_ctl_creg_config())
         config_ctl_creg_config[htypes.system.dict_config_ctl] = partial(
             DictConfigCtl.from_piece,
             config_key_ctl_creg=self._config_key_ctl_creg,
@@ -94,6 +97,11 @@ class System:
     def _make_config_value_ctl_creg_config(self, cfg_value_creg):
         return {
             **config_value_ctl_creg_config(cfg_value_creg),
+            }
+
+    def _make_cfg_struct_ctl_creg_config(self):
+        return {
+            **config_struct_ctl_creg_config(),
             }
 
     def _make_config_ctl(self, config):

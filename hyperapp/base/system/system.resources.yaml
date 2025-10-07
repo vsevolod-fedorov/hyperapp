@@ -12,6 +12,7 @@ import:
 - base.system.config_layer:config_layer.module
 - base.system.config_layer:one_way.key_ctl
 - base.system.config_key_ctl:config_key_ctl.module
+- base.system.config_struct_ctl:config_struct_ctl.module
 - base.system.config_value_ctl:config_value_ctl.module
 - base.system.service_template:service_template.module
 - base.system.cfg_item:cfg_item.module
@@ -31,6 +32,7 @@ definitions:
         code.config_ctl: base.system.config_ctl:config_ctl.module
         code.config_key_ctl: base.system.config_key_ctl:config_key_ctl.module
         code.config_value_ctl: base.system.config_value_ctl:config_value_ctl.module
+        code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
         code.config_layer: base.system.config_layer:config_layer.module
         code.actor_template: base.system.actor_template:actor_template.module
         code.service_template: base.system.service_template:service_template.module

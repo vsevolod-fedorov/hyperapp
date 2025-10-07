@@ -1,5 +1,6 @@
 import:
 - base.system.config_key_ctl:config_key_ctl.module
+- base.system.config_struct_ctl:config_struct_ctl.module
 - base.system.config_value_ctl:config_value_ctl.module
 - builtins:mosaic.service
 - builtins:web.service
@@ -32,6 +33,7 @@ definitions:
         services.web: builtins:web.service
         code.config_key_ctl: base.system.config_key_ctl:config_key_ctl.module
         code.config_value_ctl: base.system.config_value_ctl:config_value_ctl.module
+        code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
 
   FlatListConfigCtl:
     type: legacy_type.builtin:attribute

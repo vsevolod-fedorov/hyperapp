@@ -23,6 +23,11 @@ type_key_ctl = record
 actor_value_ctl = record
 data_value_ctl = record
 
+# Dict config value structure.
+single_struct_ctl = record
+list_struct_ctl = record
+
+
 service_template_base = record:
   name: string
   ctl: ref
