@@ -4,15 +4,17 @@ import:
 - base.mark:mark.module
 - base.system.config_ctl:config_ctl.module
 - base.system.config_layer:one_way.key_ctl
-- base.system.list_config_ctl:list_config_ctl.module
+- base.system.config_struct_ctl:config_struct_ctl.module
+- base.system.config_value_ctl:config_value_ctl.module
 - builtins:deduce_t.service
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.list_config_ctl:dict_list_config_ctl
 - legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
+- legacy_type.system:list_struct_ctl
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 definitions:
   default_model_factory:
     type: legacy_type.builtin:attribute
@@ -23,7 +25,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: default_model_factory
-      ctl: list_config_ctl-dict_list_config.one_way.data.ctl
+      ctl: system-dict_config.one_way.data.list.ctl
       function: default_model_factory
       service_params:
       - view_factory_reg
@@ -40,7 +42,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: default_ui_factory
-      ctl: system-dict_config.one_way.data.ctl
+      ctl: system-dict_config.one_way.data.single.ctl
       function: default_ui_factory
       service_params:
       - view_factory_reg
@@ -54,20 +56,29 @@ definitions:
       file_name: default_view_factory.dyn.py
       import_list:
         code.config_ctl: base.system.config_ctl:config_ctl.module
-        code.list_config_ctl: base.system.list_config_ctl:list_config_ctl.module
+        code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
+        code.config_value_ctl: base.system.config_value_ctl:config_value_ctl.module
         code.mark: base.mark:mark.module
         services.deduce_t: builtins:deduce_t.service
         services.web: builtins:web.service
-  list_config_ctl-dict_list_config.one_way.data.ctl:
-    type: legacy_type.list_config_ctl:dict_list_config_ctl
-    value:
-      key_ctl: base.system.config_layer:one_way.key_ctl
-      value_ctl: system-data.value-ctl
   system-data.value-ctl:
     type: legacy_type.system:data_value_ctl
     value: {}
-  system-dict_config.one_way.data.ctl:
+  system-dict_config.one_way.data.list.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-data.value-ctl
+      struct_ctl: system-list.struct-ctl
+  system-dict_config.one_way.data.single.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: base.system.config_layer:one_way.key_ctl
+      value_ctl: system-data.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-list.struct-ctl:
+    type: legacy_type.system:list_struct_ctl
+    value: {}
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}

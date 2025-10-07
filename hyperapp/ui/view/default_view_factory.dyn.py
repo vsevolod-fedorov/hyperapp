@@ -3,8 +3,9 @@ from .services import (
     web,
     )
 from .code.mark import mark
-from .code.config_ctl import DataValueCtl, DictConfigCtl
-from .code.list_config_ctl import DictListConfigCtl
+from .code.config_ctl import DictConfigCtl
+from .code.config_value_ctl import DataValueCtl
+from .code.config_struct_ctl import ListStructCtl
 
 
 def _properties_match(factory_prop_list, wanted_props):
@@ -22,7 +23,7 @@ def _properties_match(factory_prop_list, wanted_props):
     return True
 
 
-@mark.service(ctl=DictListConfigCtl(value_ctl=DataValueCtl()))
+@mark.service(ctl=DictConfigCtl(value_ctl=DataValueCtl(), struct_ctl=ListStructCtl()))
 def default_model_factory(config, view_factory_reg, model_t, properties):
     for factory in config[model_t]:
         if _properties_match(factory.properties, properties):

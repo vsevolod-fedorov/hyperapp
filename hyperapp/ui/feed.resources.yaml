@@ -21,6 +21,7 @@ import:
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 - legacy_type.system:type_key_ctl
 - ui.feed_servant:feed_servant.module
 definitions:
@@ -33,7 +34,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: client_feed_factory
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: client_feed_factory
       service_params:
       - feed_factory
@@ -68,7 +69,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: feed_factory
-      ctl: system-dict_config.type.actor.ctl
+      ctl: system-dict_config.type.actor.single.ctl
       function: feed_factory
       service_params:
       - peer_creg
@@ -86,7 +87,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: feed_map
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: feed_map
       service_params: []
       want_config: false
@@ -129,16 +130,21 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
-  system-dict_config.one_way.actor.ctl:
+  system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
-  system-dict_config.type.actor.ctl:
+      struct_ctl: system-single.struct-ctl
+  system-dict_config.type.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: system-type.key-ctl
       value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
   system-type.key-ctl:
     type: legacy_type.system:type_key_ctl
     value: {}

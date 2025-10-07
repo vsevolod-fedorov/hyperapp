@@ -53,7 +53,6 @@ import:
 - base.system.file_bundle_config_layer:file_bundle_config_layer_factory.service
 - base.system.file_bundle_config_layer:load_config_layers.service
 - base.system.init_hook:init_hook.service
-- base.system.list_config_ctl:config_ctl_creg-list_config_ctl-dict_list_config_ctl.actor-cfg-item
 - base.system.system_stop:stop_signal.service
 - base.system.system_stop:system_failed.service
 - base.system_fn:system_fn_creg-system_fn-ctx_fn.actor-cfg-item
@@ -122,7 +121,6 @@ definitions:
       items:
       - base.record_config:config_ctl_creg-record_config-config_ctl.actor-cfg-item
       - base.system.config_ctl:config_ctl_creg-system-flat_list_config_ctl.actor-cfg-item
-      - base.system.list_config_ctl:config_ctl_creg-list_config_ctl-dict_list_config_ctl.actor-cfg-item
   identity_creg:
     type: legacy_type.system:item_list_config
     value:

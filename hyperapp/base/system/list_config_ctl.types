@@ -1,3 +1,0 @@
-from system import dict_config_ctl
-
-dict_list_config_ctl = record(dict_config_ctl)

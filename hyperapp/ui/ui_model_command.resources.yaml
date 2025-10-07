@@ -18,6 +18,7 @@ import:
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 - ui.command:command.module
 - ui.command_groups:command_groups.module
 - ui.model_command:model_command.module
@@ -32,7 +33,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: custom_ui_global_model_commands
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: custom_ui_global_model_commands
       service_params: []
       want_config: false
@@ -47,7 +48,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: custom_ui_model_commands
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: custom_ui_model_commands
       service_params: []
       want_config: false
@@ -63,7 +64,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: get_ui_model_commands
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: get_ui_model_commands
       service_params:
       - ui_model_command_items
@@ -75,11 +76,15 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
-  system-dict_config.one_way.actor.ctl:
+  system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
   ui_global_command_items:
     type: legacy_type.builtin:attribute
     value:
@@ -89,7 +94,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: ui_global_command_items
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: ui_global_command_items
       service_params:
       - format
@@ -134,7 +139,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: ui_model_command_items
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: ui_model_command_items
       service_params:
       - format

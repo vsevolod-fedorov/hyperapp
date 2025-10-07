@@ -57,12 +57,13 @@ class System:
             'config_key_ctl_creg', self._make_config_key_ctl_creg_config(self._cfg_item_creg))
         self._config_value_ctl_creg = code_registry_ctr(
             'config_value_ctl_creg', self._make_config_value_ctl_creg_config(self._cfg_value_creg))
-        self._cfg_struct_ctl_creg = code_registry_ctr(
-            'cfg_struct_ctl_creg', self._make_cfg_struct_ctl_creg_config())
+        self._config_struct_ctl_creg = code_registry_ctr(
+            'config_struct_ctl_creg', self._make_config_struct_ctl_creg_config())
         config_ctl_creg_config[htypes.system.dict_config_ctl] = partial(
             DictConfigCtl.from_piece,
             config_key_ctl_creg=self._config_key_ctl_creg,
             config_value_ctl_creg=self._config_value_ctl_creg,
+            config_struct_ctl_creg=self._config_struct_ctl_creg,
             cfg_item_creg=self._cfg_item_creg,
             cfg_value_creg=self._cfg_value_creg,
             )
@@ -99,7 +100,7 @@ class System:
             **config_value_ctl_creg_config(cfg_value_creg),
             }
 
-    def _make_cfg_struct_ctl_creg_config(self):
+    def _make_config_struct_ctl_creg_config(self):
         return {
             **config_struct_ctl_creg_config(),
             }

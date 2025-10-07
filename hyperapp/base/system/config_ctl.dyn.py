@@ -169,10 +169,12 @@ class LazyDictConfig:
 class DictConfigCtl(MultiItemConfigCtl):
 
     @classmethod
-    def from_piece(cls, piece, config_key_ctl_creg, config_value_ctl_creg, cfg_item_creg, cfg_value_creg):
+    def from_piece(
+            cls, piece,
+            config_key_ctl_creg, config_value_ctl_creg, config_struct_ctl_creg, cfg_item_creg, cfg_value_creg):
         key_ctl = config_key_ctl_creg.invite(piece.key_ctl)
         value_ctl = config_value_ctl_creg.invite(piece.value_ctl)
-        struct_ctl = None
+        struct_ctl = config_struct_ctl_creg.invite(piece.struct_ctl)
         return cls(key_ctl, value_ctl, struct_ctl, cfg_item_creg, cfg_value_creg)
 
     def __init__(self, key_ctl=None, value_ctl=None, struct_ctl=None, cfg_item_creg=None, cfg_value_creg=None):
@@ -185,6 +187,7 @@ class DictConfigCtl(MultiItemConfigCtl):
         return htypes.system.dict_config_ctl(
             key_ctl=mosaic.put(self._key_ctl.piece),
             value_ctl=mosaic.put(self._value_ctl.piece),
+            struct_ctl=mosaic.put(self._struct_ctl.piece),
             )
 
     def config_to_items(self, config_template):

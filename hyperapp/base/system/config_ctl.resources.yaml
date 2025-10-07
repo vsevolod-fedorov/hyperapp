@@ -14,6 +14,7 @@ import:
 - legacy_type.system:flat_list_config_ctl
 - legacy_type.system:item_list_config
 - legacy_type.system:service_config
+- legacy_type.system:single_struct_ctl
 - legacy_type.system:system_config
 
 definitions:
@@ -61,12 +62,6 @@ definitions:
       t: legacy_type.system:flat_list_config_ctl
       value: FlatListConfigCtl.from_piece.actor-template
 
-  data_service_config.ctl:
-    type: legacy_type.system:dict_config_ctl
-    value:
-      key_ctl: data_key.ctl
-      value_ctl: data_value.ctl
-
   data_key.ctl:
     type: legacy_type.system:data_key_ctl
     value: {}
@@ -74,3 +69,14 @@ definitions:
   data_value.ctl:
     type: legacy_type.system:data_value_ctl
     value: {}
+
+  single.struct_ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
+
+  data_service_config.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: data_key.ctl
+      value_ctl: data_value.ctl
+      struct_ctl: single.struct_ctl

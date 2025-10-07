@@ -13,6 +13,7 @@ import:
 - legacy_type.system:one_way_key_ctl
 - legacy_type.system:service_config
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 - legacy_type.system:system_config
 
 definitions:
@@ -57,8 +58,13 @@ definitions:
     type: legacy_type.system:actor_value_ctl
     value: {}
 
+  single.struct_ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
+
   actor_dict.config_ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: one_way.key_ctl
       value_ctl: actor.value_ctl
+      struct_ctl: single.struct_ctl

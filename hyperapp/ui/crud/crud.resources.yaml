@@ -28,6 +28,7 @@ import:
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 - legacy_type.system_fn:ctx_fn
 - ui.command:command.module
 - ui.construct_default_form:construct_default_form.module
@@ -148,7 +149,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: crud
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: crud
       service_params:
       - canned_ctl_item_factory
@@ -215,11 +216,15 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
-  system-dict_config.one_way.actor.ctl:
+  system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
   system_fn_creg-crud-open_command_fn.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

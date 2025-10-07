@@ -12,6 +12,7 @@ import:
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 definitions:
   cfg_value_creg-selector-template.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
@@ -45,7 +46,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: selector_reg
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: selector_reg
       service_params: []
       want_config: true
@@ -53,8 +54,12 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
-  system-dict_config.one_way.actor.ctl:
+  system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}

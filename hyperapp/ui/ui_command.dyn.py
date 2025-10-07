@@ -15,8 +15,8 @@ from .code.system_fn import ContextFn
 from .code.command import UnboundCommand, BoundCommand, CommandKind
 from .code.command_enumerator import UnboundCommandEnumerator
 from .code.command_groups import default_command_groups
-from .code.config_ctl import FlatListConfigCtl
-from .code.list_config_ctl import DictListConfigCtl
+from .code.config_ctl import DictConfigCtl, FlatListConfigCtl
+from .code.config_struct_ctl import ListStructCtl
 from .code.ui_model_command import wrap_model_command_to_ui_command
 
 log = logging.getLogger(__name__)
@@ -118,23 +118,23 @@ def _items_with_bases(config, view_t):
     return item_list
 
 
-@mark.service(ctl=DictListConfigCtl())
+@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
 def view_ui_command_reg(config, view_t):
     return _items_with_bases(config, view_t)
 
 
-@mark.service(ctl=DictListConfigCtl())
+@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
 def view_element_ui_command_reg(config, view_t):
     return _items_with_bases(config, view_t)
 
 
-@mark.service(ctl=DictListConfigCtl())
+@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
 def view_element_ui_command_enumerator_reg(config, view_t):
     return _items_with_bases(config, view_t)
 
 
 # UI commands returning model.
-@mark.service(ctl=DictListConfigCtl())
+@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
 def view_ui_model_command_reg(config, view_t):
     return _items_with_bases(config, view_t)
 
@@ -144,7 +144,7 @@ def universal_ui_command_reg(config):
     return config
 
 
-@mark.service(ctl=DictListConfigCtl())
+@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
 def ui_command_enumerator_reg(config, view_t):
     return _items_with_bases(config, view_t)
 

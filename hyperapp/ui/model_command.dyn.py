@@ -14,8 +14,8 @@ from .code.system_fn import ContextFn
 from .code.list_diff import IndexListDiff, KeyListDiff
 from .code.command import UnboundCommand, BoundCommand
 from .code.command_enumerator import UnboundCommandEnumerator
-from .code.config_ctl import FlatListConfigCtl
-from .code.list_config_ctl import DictListConfigCtl
+from .code.config_ctl import FlatListConfigCtl, DictConfigCtl
+from .code.config_struct_ctl import ListStructCtl
 
 log = logging.getLogger(__name__)
 
@@ -365,12 +365,12 @@ def global_model_command_reg(config):
     return CommandDict(config)
 
 
-@mark.service(ctl=DictListConfigCtl())
+@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
 def model_command_reg(config, model_t):
     return config.get(model_t, [])
 
 
-@mark.service(ctl=DictListConfigCtl())
+@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
 def model_command_enumerator_reg(config, model_t):
     return config.get(model_t, [])
 

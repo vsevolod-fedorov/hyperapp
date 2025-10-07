@@ -7,6 +7,7 @@ import:
 - legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:one_way_key_ctl
+- legacy_type.system:single_struct_ctl
 - base.system.actor_template:actor_template.module
 - base.system.config_ctl:config_ctl.module
 - base.system.config_layer:config_layer.module
@@ -46,14 +47,20 @@ definitions:
     type: legacy_type.system:data_value_ctl
     value: {}
 
+  single.struct_ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
+
   actor_dict.config_ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: actor.value_ctl
+      struct_ctl: single.struct_ctl
 
   data_dict.config_ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: data.value_ctl
+      struct_ctl: single.struct_ctl

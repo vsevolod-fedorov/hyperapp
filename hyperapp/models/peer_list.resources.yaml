@@ -36,6 +36,7 @@ import:
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 - legacy_type.system_fn:ctx_fn
 - ui.ui_model_command:ui_model_command.module
 definitions:
@@ -273,7 +274,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: peer_list_reg
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: peer_list_reg
       service_params:
       - file_bundle_factory
@@ -359,8 +360,12 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
-  system-dict_config.one_way.actor.ctl:
+  system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}

@@ -8,6 +8,7 @@ import:
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 definitions:
   sample_fn_service_2:
     type: legacy_type.builtin:attribute
@@ -18,7 +19,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: sample_fn_service_2
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: sample_fn_service_2
       service_params:
       - sample_value_service_2
@@ -42,7 +43,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: sample_value_service_2
-      ctl: system-dict_config.one_way.actor.ctl
+      ctl: system-dict_config.one_way.actor.single.ctl
       function: sample_value_service_2
       service_params:
       - sample_fn_service_1
@@ -51,8 +52,12 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
-  system-dict_config.one_way.actor.ctl:
+  system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
