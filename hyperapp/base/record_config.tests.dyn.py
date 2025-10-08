@@ -14,3 +14,4 @@ def test_config_ctl():
         )
     ctl = record_config.RecordConfigCtl.from_piece(ctl_piece)
     assert ctl.piece == ctl_piece
+    assert ctl.empty_config_template() == htypes.record_config_tests.sample_config(some_int=0)

@@ -28,7 +28,7 @@ class RecordConfigCtl(ConfigCtl):
         return config
 
     def empty_config_template(self):
-        return None
+        return self._t.make_default_value()
 
     def merge_config(self, dest, src):
         return src
