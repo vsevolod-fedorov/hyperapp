@@ -11,6 +11,7 @@ from hyperapp.boot.config_key_error import ConfigKeyError
 from .services import (
     pyobj_creg,
     )
+from .code.record_config import RecordConfigCtl
 from .code.system import UnknownServiceError, System
 from .code.probe import ProbeBase
 from .code.marker_utils import split_service_params
@@ -306,6 +307,8 @@ class SystemProbe(System):
         for fixture in self._config_fixtures.get(service_name, []):
             fixture_cfg = fixture.resolve(self)
             config = ctl.merge_config(config, fixture_cfg)
+        if isinstance(ctl, RecordConfigCtl):
+            return config  # No need to collect used keys from record config.
         return self._make_config_probe(service_name, config)
 
     def bind_services(self, fn, params, requester=None):
