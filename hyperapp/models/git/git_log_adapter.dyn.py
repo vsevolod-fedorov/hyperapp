@@ -82,12 +82,15 @@ class GitLogAdapter(FnListAdapterBase, IndexListAdapterMixin):
             return
         if idx == 0:
             commit = web.summon(self._data.head_commit)
-        else:
-            prev_commit = self._commit_list[idx - 1]
-            assert prev_commit.parents  # Actual commit count does not match data commit_count.
-            commit = web.summon(prev_commit.parents[0])
-        self._commit_list.append(commit)
-        self._items.append(self._commit_to_item(commit))
+            self._commit_list.append(commit)
+            self._items.append(self._commit_to_item(commit))
+            return
+        while len(self._items) - 1 < idx:
+            last_commit = self._commit_list[-1]
+            assert last_commit.parents  # Actual commit count does not match data commit_count.
+            commit = web.summon(last_commit.parents[0])
+            self._commit_list.append(commit)
+            self._items.append(self._commit_to_item(commit))
 
 
 # TODO: Add support for model_tt view_factory with system_fn.
