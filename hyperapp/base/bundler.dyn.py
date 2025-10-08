@@ -63,8 +63,9 @@ class Bundler:
                 continue
             if ref in visited_refs:
                 continue
-            rec = mosaic.resolve_ref(ref)
-            if rec is None:
+            try:
+                rec = mosaic.resolve_ref(ref)
+            except KeyError:
                 log.warning("Failed to resolve ref %s", ref)
                 missing_ref_count += 1
                 continue
