@@ -5,6 +5,7 @@ import:
 - base.record_config:record_config.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.data_dir:config
 - legacy_type.record_config:config_ctl
 - legacy_type.system:service_template
 definitions:
@@ -21,6 +22,7 @@ definitions:
       import_list:
         code.mark: base.mark:mark.module
         code.record_config: base.record_config:record_config.module
+        htypes.data_dir.config: legacy_type.data_dir:config
   data_dir.service:
     type: legacy_type.system:service_template
     value:
@@ -32,4 +34,5 @@ definitions:
       free_params: []
   record_config-config.ctl:
     type: legacy_type.record_config:config_ctl
-    value: {}
+    value:
+      t: legacy_type.data_dir:config

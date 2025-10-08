@@ -1,1 +1,2 @@
-config_ctl = record
+config_ctl = record:
+  t: ref

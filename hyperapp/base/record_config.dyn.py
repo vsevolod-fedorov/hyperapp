@@ -1,4 +1,7 @@
 from . import htypes
+from .services import (
+    pyobj_creg,
+    )
 from .code.config_ctl import ConfigCtl
 
 
@@ -6,11 +9,17 @@ class RecordConfigCtl(ConfigCtl):
 
     @classmethod
     def from_piece(cls, piece):
-        return cls()
+        t = pyobj_creg.invite(piece.t)
+        return cls(t)
+
+    def __init__(self, t):
+        self._t = t
 
     @property
     def piece(self):
-        return htypes.record_config.config_ctl()
+        return htypes.record_config.config_ctl(
+            t=pyobj_creg.actor_to_ref(self._t),
+            )
 
     def from_data(self, piece):
         return piece
