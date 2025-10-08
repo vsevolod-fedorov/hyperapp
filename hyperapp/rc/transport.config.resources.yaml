@@ -1,3 +1,5 @@
+# Not really required. Default config has the same value as this one.
+
 import:
 - legacy_type.transport:config
 - legacy_type.system:system_config
