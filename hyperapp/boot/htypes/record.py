@@ -267,6 +267,13 @@ class TRecord(Type):
             if not isinstance(value, t):
                 raise RuntimeError(f"{name}: expected {t}, but got: {value!r}")
 
+    def make_default_value(self):
+        kw = {
+            name: t.make_default_value()
+            for name, t in self.fields.items()
+            }
+        return self.instantiate(**kw)
+
 
 class TRef(TRecord):
 

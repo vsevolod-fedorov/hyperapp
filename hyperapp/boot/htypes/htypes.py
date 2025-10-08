@@ -33,6 +33,9 @@ class Type:
     def full_name(self):
         return f'{self.module_name}.{self.name}'
 
+    def make_default_value(self):
+        raise NotImplementedError(self.__class__)
+
     def __instancecheck__(self, value):
         raise NotImplementedError(self.__class__)
 
@@ -61,6 +64,9 @@ class TPrimitive(Type):
 
     def get_type(self):
         return self.type
+
+    def make_default_value(self):
+        return self.type()
 
 
 class TNone(TPrimitive):
@@ -112,6 +118,9 @@ class TOptional(Type):
     def __instancecheck__(self, value):
         return value is None or isinstance(value, self.base_t)
 
+    def make_default_value(self):
+        return None
+
 
 class TList(Type):
 
@@ -134,3 +143,6 @@ class TList(Type):
 
     def __instancecheck__(self, value):
         return is_iterable_inst(value, self.element_t)
+
+    def make_default_value(self):
+        return ()

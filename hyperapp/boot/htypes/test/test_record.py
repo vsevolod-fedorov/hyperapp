@@ -1,6 +1,7 @@
 from hyperapp.boot.htypes import (
     tString,
     tInt,
+    tBool,
     TOptional,
     TList,
     TRecord,
@@ -174,3 +175,22 @@ def test_comparison_with_int():
     record_t = TRecord(module_name, 'some_rec', {})
     rec = record_t()
     rec < 123  # Should not raise TypeError
+
+
+def test_default_value():
+    module_name = 'test_default_value'
+    t = TRecord(module_name, 'sample', {
+        'some_str': tString,
+        'some_int': tInt,
+        'some_bool': tBool,
+        'some_int_opt': TOptional(tInt),
+        'some_int_list': TList(tInt),
+        })
+    value = t.make_default_value()
+    assert value == t(
+        some_str='',
+        some_int=0,
+        some_bool=False,
+        some_int_opt=None,
+        some_int_list=(),
+        )
