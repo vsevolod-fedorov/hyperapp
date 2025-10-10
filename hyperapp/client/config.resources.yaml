@@ -2,6 +2,7 @@
 
 import:
 - client.client:client_async_main.service
+- client.client:client_identity.service
 - client.client:client_main.service
 - client.local_server_web_source:init_local_server_web_source.hook
 - legacy_type.system:item_list_config
@@ -23,4 +24,5 @@ definitions:
     value:
       items:
       - client.client:client_async_main.service
+      - client.client:client_identity.service
       - client.client:client_main.service

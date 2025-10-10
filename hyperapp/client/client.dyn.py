@@ -106,10 +106,15 @@ def _parse_args(sys_argv):
 
 
 @mark.service
+def client_identity(endpoint_registry, rpc_endpoint, generate_rsa_identity):
+    identity = generate_rsa_identity()
+    endpoint_registry.register(identity, rpc_endpoint)
+    return identity
+
+
+@mark.service
 async def client_async_main(
-        endpoint_registry,
-        generate_rsa_identity,
-        rpc_endpoint,
+        client_identity,
         file_bundle_factory,
         lcs_resource_storage_factory,
         visualizer,
@@ -122,12 +127,9 @@ async def client_async_main(
     project_imports = {client_project}
     lcs = LCSheet.from_layer_list_path(args.lcs_layers_path, lcs_resource_storage_factory, project_imports)
 
-    identity = generate_rsa_identity()
-    endpoint_registry.register(identity, rpc_endpoint)
-
     ctx = Context(
         lcs=lcs,
-        identity=identity,
+        identity=client_identity,
         )
     default_layout = await make_default_layout(visualizer, ctx)
     layout_bundle = file_bundle_factory(args.layout_path)

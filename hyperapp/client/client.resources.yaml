@@ -81,9 +81,7 @@ definitions:
       ctl: system-dict_config.one_way.actor.single.ctl
       function: client_async_main
       service_params:
-      - endpoint_registry
-      - generate_rsa_identity
-      - rpc_endpoint
+      - client_identity
       - file_bundle_factory
       - lcs_resource_storage_factory
       - visualizer
@@ -94,6 +92,23 @@ definitions:
       - client_project
       - app
       - stop_event
+  client_identity:
+    type: legacy_type.builtin:attribute
+    value:
+      object: client.module
+      attr_name: client_identity
+  client_identity.service:
+    type: legacy_type.system:service_template
+    value:
+      name: client_identity
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: client_identity
+      service_params:
+      - endpoint_registry
+      - rpc_endpoint
+      - generate_rsa_identity
+      want_config: false
+      free_params: []
   client_main:
     type: legacy_type.builtin:attribute
     value:
