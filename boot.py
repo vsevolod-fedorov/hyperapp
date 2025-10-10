@@ -4,7 +4,7 @@ import logging
 import sys
 
 from hyperapp.boot.init_logging import init_logging
-from hyperapp.boot import cdr_coders  # register codec
+from hyperapp.boot import cdr_coders, dict_coders  # register codec
 from hyperapp.boot.project import load_boot_config
 from hyperapp.boot.services import HYPERAPP_DIR, Services
 
