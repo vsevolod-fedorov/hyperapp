@@ -128,7 +128,6 @@ async def client_async_main(
     ctx = Context(
         lcs=lcs,
         identity=identity,
-        rpc_endpoint=rpc_endpoint,
         )
     default_layout = await make_default_layout(visualizer, ctx)
     layout_bundle = file_bundle_factory(args.layout_path)
