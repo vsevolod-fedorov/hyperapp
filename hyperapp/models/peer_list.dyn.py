@@ -24,9 +24,6 @@ peer_list_path = Path.home() / '.local/share/hyperapp/client/peer_list.json'
 server_bundle_path = '.local/share/hyperapp/server/peer.json'
 
 
-Peer = namedtuple('Peer', 'name peer')
-
-
 class PeerList:
 
     def __init__(self, file_bundle, peer_creg, path):
@@ -34,48 +31,44 @@ class PeerList:
         self._peer_creg = peer_creg
         self._path = path
 
-    def values(self):
-        return self._peer_list
+    def items(self):
+        return self._name_to_peer.items()
 
     def add(self, name, peer):
-        peer_list = self._peer_list
-        peer_list.append(Peer(name, peer))
-        self._save(peer_list)
+        self._name_to_peer[name] = peer
+        self._save()
 
     def remove(self, name):
-        peer_list = self._peer_list
-        for idx, rec in enumerate(self._peer_list):
-            if rec.name == name:
-                del peer_list[idx]
-                break
-        else:
+        try:
+            del self._name_to_peer[name]
+        except KeyError:
             log.warning("Peer list: Can not remove host %r; it is not in the list", name)
             return False
-        self._save(peer_list)
+        self._save()
         return True
 
     @cached_property
-    def _peer_list(self):
+    def _name_to_peer(self):
         try:
             bundle = self._file_bundle.load_piece()
         except FileNotFoundError:
             return []
-        return [
-            Peer(rec.name, self._peer_creg.invite(rec.peer))
+        return {
+            rec.name: self._peer_creg.invite(rec.peer)
             for rec in bundle.peer_list
-            ]
+            }
 
-    def _save(self, peer_list):
+    def _save(self):
         bundle = htypes.peer_list.bundle(
             peer_list=tuple(
                 htypes.peer_list.peer(
-                    name=rec.name,
-                    peer=mosaic.put(rec.peer.piece),
+                    name=name,
+                    peer=mosaic.put(peer.piece),
                     )
-                for rec in peer_list
+                for name, peer in self._name_to_peer.items()
                 ),
             )
-        log.info("Peer list: Save %d peers to %s", len(peer_list), self._file_bundle.path)
+        log.info("Peer list: Save %d peers to %s", len(self._name_to_peer), self._file_bundle.path)
         self._file_bundle.save_piece(bundle)
 
 
@@ -89,11 +82,11 @@ def peer_list_reg(file_bundle_factory, peer_creg):
 def peer_list_model(piece, peer_list_reg):
     return [
         htypes.peer_list.item(
-            name=rec.name,
-            peer=mosaic.put(rec.peer.piece),
-            peer_repr=repr(rec.peer),
+            name=name,
+            peer=mosaic.put(peer.piece),
+            peer_repr=repr(peer),
             )
-        for rec in peer_list_reg.values()
+        for name, peer in peer_list_reg.items()
         ]
 
 
