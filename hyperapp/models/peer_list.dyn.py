@@ -31,6 +31,9 @@ class PeerList:
         self._peer_creg = peer_creg
         self._path = path
 
+    def get(self, name):
+        return self._name_to_peer.get(name)
+
     def items(self):
         return self._name_to_peer.items()
 
