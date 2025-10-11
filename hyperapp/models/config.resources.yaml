@@ -150,6 +150,7 @@ import:
 - models.transport_log_model:transport_log_model-model-transport_bundle.command-cfg-item
 - models.transport_log_model:transport_log_model-model.feed-template-cfg-item
 - models.transport_log_model:transport_log_model-model.model-cfg-item
+- models.web_source:web_source.service
 - models.wiki_pages:formatter_creg-wiki_pages-list_model.actor-cfg-item
 - models.wiki_pages:formatter_creg-wiki_pages-page_model.actor-cfg-item
 - models.wiki_pages:formatter_creg-wiki_pages-ref_list_model.actor-cfg-item
@@ -386,6 +387,7 @@ definitions:
       - models.git.git_repo_list:repo_list.service
       - models.peer_list:peer_list_reg.service
       - models.ref_list:ref_list.service
+      - models.web_source:web_source.service
       - models.wiki_pages:wiki_pages.service
   ui_adapter_creg:
     type: legacy_type.system:item_list_config
