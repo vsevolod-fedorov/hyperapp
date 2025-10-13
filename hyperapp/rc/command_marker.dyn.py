@@ -88,6 +88,7 @@ class CommandProbe(ProbeBase):
 class UiCommandProbe(CommandProbe):
 
     def _add_constructor(self, params):
+        return
         if self._t:
             t = self._t
         else:
@@ -110,6 +111,7 @@ class UiCommandProbe(CommandProbe):
 class UiModelCommandProbe(CommandProbe):
 
     def _add_constructor(self, params):
+        return
         if self._t:
             t = self._t
         else:
@@ -126,6 +128,7 @@ class UiModelCommandProbe(CommandProbe):
 class UniversalUiCommandProbe(CommandProbe):
 
     def _add_constructor(self, params):
+        return
         ctr = UniversalUiCommandTemplateCtr(
             **self._common_ctr_kw(params),
             service_name='universal_ui_command_reg',
@@ -137,6 +140,7 @@ class UniversalUiCommandProbe(CommandProbe):
 class UiCommandEnumeratorProbe(CommandProbe):
 
     def _add_constructor(self, params):
+        return
         if self._t:
             t = self._t
         else:
@@ -158,6 +162,7 @@ class ModelCommandProbe(CommandProbe):
         self._command_fn_t = command_fn_t
 
     def _add_constructor(self, params):
+        return
         if self._t:
             t = self._t
         else:
@@ -176,6 +181,7 @@ class ModelCommandProbe(CommandProbe):
 class ModelCommandEnumeratorProbe(CommandProbe):
 
     def _add_constructor(self, params):
+        return
         if self._t:
             t = self._t
         else:
@@ -196,6 +202,7 @@ class GlobalModelCommandProbe(CommandProbe):
         self._preserve_remote = preserve_remote
 
     def _add_constructor(self, params):
+        return
         assert not self._t
         ctr = GlobalModelCommandTemplateCtr(
             **self._common_ctr_kw(params),
