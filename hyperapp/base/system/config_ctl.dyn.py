@@ -45,9 +45,8 @@ class MultiItemConfigCtl(ConfigCtl, metaclass=ABCMeta):
 
     is_multi_item = True
 
-    def __init__(self, cfg_item_creg=None, cfg_value_creg=None, key_ctl=None):
+    def __init__(self, cfg_item_creg=None, key_ctl=None):
         self._key_ctl = key_ctl or OneWayKeyCtl(cfg_item_creg)
-        self._cfg_value_creg = cfg_value_creg
 
     def from_data(self, piece):
         config_template = self.empty_config_template()
@@ -178,7 +177,7 @@ class DictConfigCtl(MultiItemConfigCtl):
         return cls(key_ctl, value_ctl, struct_ctl, cfg_item_creg, cfg_value_creg)
 
     def __init__(self, key_ctl=None, value_ctl=None, struct_ctl=None, cfg_item_creg=None, cfg_value_creg=None):
-        super().__init__(cfg_item_creg, cfg_value_creg, key_ctl)
+        super().__init__(cfg_item_creg, key_ctl)
         self._value_ctl = value_ctl or ActorValueCtl(cfg_value_creg)
         self._struct_ctl = struct_ctl or SingleStructCtl()
 
@@ -222,6 +221,10 @@ class FlatListConfigCtl(MultiItemConfigCtl):
     @classmethod
     def from_piece(cls, piece, cfg_item_creg, cfg_value_creg):
         return cls(cfg_item_creg, cfg_value_creg)
+
+    def __init__(self, cfg_item_creg=None, cfg_value_creg=None):
+        super().__init__(cfg_item_creg)
+        self._cfg_value_creg = cfg_value_creg
 
     @property
     def piece(self):
