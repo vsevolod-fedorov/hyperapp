@@ -3,6 +3,7 @@
 import:
 - base.mark:mark.module
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.text:edit_view
 - legacy_type.text:readonly_view
 definitions:
@@ -15,3 +16,13 @@ definitions:
         code.mark: base.mark:mark.module
         htypes.text.edit_view: legacy_type.text:edit_view
         htypes.text.readonly_view: legacy_type.text:readonly_view
+  toggle_editable:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: text_toggle_editable
+      name: toggle_editable
+      base: null
+      fields: {}
+  toggle_editable.ui-command:
+    type: toggle_editable
+    value: {}

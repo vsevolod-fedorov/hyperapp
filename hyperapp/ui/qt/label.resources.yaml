@@ -88,3 +88,13 @@ definitions:
       name: label_view_k
       base: null
       fields: {}
+  set_label_text:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: label
+      name: set_label_text
+      base: null
+      fields: {}
+  set_label_text.ui-command:
+    type: set_label_text
+    value: {}

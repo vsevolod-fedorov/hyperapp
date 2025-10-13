@@ -6,6 +6,7 @@ import:
 - legacy_type.auto_tabs:view
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.system_fn:ctx_fn
@@ -50,3 +51,23 @@ definitions:
         code.tabs: ui.qt.tabs:tabs.module
         htypes.auto_tabs.view: legacy_type.auto_tabs:view
         services.deduce_t: builtins:deduce_t.service
+  close_tab:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: auto_tabs
+      name: close_tab
+      base: null
+      fields: {}
+  close_tab.ui-command:
+    type: close_tab
+    value: {}
+  duplicate_tab:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: auto_tabs
+      name: duplicate_tab
+      base: null
+      fields: {}
+  duplicate_tab.ui-command:
+    type: duplicate_tab
+    value: {}

@@ -41,6 +41,36 @@ definitions:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: TabsView_from_piece.system-fn
+  add_element:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: tabs
+      name: add_element
+      base: null
+      fields: {}
+  add_element.ui-command:
+    type: add_element
+    value: {}
+  insert_element:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: tabs
+      name: insert_element
+      base: null
+      fields: {}
+  insert_element.ui-command:
+    type: insert_element
+    value: {}
+  remove_element:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: tabs
+      name: remove_element
+      base: null
+      fields: {}
+  remove_element.ui-command:
+    type: remove_element
+    value: {}
   tabs-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -60,6 +90,16 @@ definitions:
         htypes.tabs.view: legacy_type.tabs:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  unwrap:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: tabs
+      name: unwrap
+      base: null
+      fields: {}
+  unwrap.ui-command:
+    type: unwrap
+    value: {}
   wrap_in_tabs:
     type: legacy_type.builtin:attribute
     value:

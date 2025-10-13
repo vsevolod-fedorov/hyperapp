@@ -88,7 +88,6 @@ class CommandProbe(ProbeBase):
 class UiCommandProbe(CommandProbe):
 
     def _add_constructor(self, params):
-        return
         if self._t:
             t = self._t
         else:

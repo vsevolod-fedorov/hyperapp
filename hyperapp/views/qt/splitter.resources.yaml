@@ -39,6 +39,16 @@ definitions:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: SplitterView_from_piece.system-fn
+  split_horizontally:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: splitter
+      name: split_horizontally
+      base: null
+      fields: {}
+  split_horizontally.ui-command:
+    type: split_horizontally
+    value: {}
   splitter-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -56,6 +66,16 @@ definitions:
         htypes.splitter.view: legacy_type.splitter:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  unwrap:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: splitter
+      name: unwrap
+      base: null
+      fields: {}
+  unwrap.ui-command:
+    type: unwrap
+    value: {}
   wrap_splitter:
     type: legacy_type.builtin:attribute
     value:

@@ -180,8 +180,28 @@ definitions:
       name: list_as_tree_ui_type_layout_k
       base: null
       fields: {}
+  open_layers:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: list_as_tree
+      name: open_layers
+      base: null
+      fields: {}
+  open_layers.ui-command:
+    type: open_layers
+    value: {}
   opener_command_list:
     type: legacy_type.builtin:attribute
     value:
       object: list_as_tree.module
       attr_name: opener_command_list
+  switch_list_to_tree:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: list_as_tree
+      name: switch_list_to_tree
+      base: null
+      fields: {}
+  switch_list_to_tree.ui-command:
+    type: switch_list_to_tree
+    value: {}

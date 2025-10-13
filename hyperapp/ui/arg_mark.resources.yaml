@@ -8,6 +8,7 @@ import:
 - legacy_type.arg_mark:view
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.context_view:state
@@ -38,6 +39,16 @@ definitions:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: MarkView_from_piece.system-fn
+  add_mark:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: arg_mark
+      name: add_mark
+      base: null
+      fields: {}
+  add_mark.ui-command:
+    type: add_mark
+    value: {}
   arg_mark-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -56,3 +67,13 @@ definitions:
         services.deduce_t: builtins:deduce_t.service
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  remove_mark:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: arg_mark
+      name: remove_mark
+      base: null
+      fields: {}
+  remove_mark.ui-command:
+    type: remove_mark
+    value: {}

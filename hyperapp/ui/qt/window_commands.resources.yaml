@@ -3,10 +3,31 @@
 import:
 - base.mark:mark.module
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.window:pos
 - legacy_type.window:state
 - legacy_type.window:view
 definitions:
+  duplicate_window:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: window_commands
+      name: duplicate_window
+      base: null
+      fields: {}
+  duplicate_window.ui-command:
+    type: duplicate_window
+    value: {}
+  quit:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: window_commands
+      name: quit
+      base: null
+      fields: {}
+  quit.ui-command:
+    type: quit
+    value: {}
   window_commands.module:
     type: legacy_type.builtin:python_module
     value:

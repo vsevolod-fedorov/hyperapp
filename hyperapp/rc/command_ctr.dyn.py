@@ -1,3 +1,5 @@
+from hyperapp.boot.htypes import TRecord
+
 from . import htypes
 from .services import (
     mosaic,
@@ -123,6 +125,11 @@ class CommandTemplateCtr(Constructor):
             system_fn=mosaic.put(fn),
             )
 
+    def _make_command_t(self):
+        name = '_'.join(self._attr_qual_name)
+        code_name = self._module_name.split('.')[-1]
+        return TRecord(code_name, name)
+
     def _make_command_component(self, types, python_module, name_to_res=None):
         object = python_module
         prefix = []
@@ -226,21 +233,26 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
             )
 
     def get_component(self, name_to_res):
-        return name_to_res[f'{self._resource_name}.command-cfg-item']
+        name = '_'.join(self._attr_qual_name)
+        return name_to_res[f'{name}.ui-command']
 
     def make_component(self, types, python_module, name_to_res=None):
-        command = self._make_command_component(types, python_module, name_to_res)
-        template = htypes.command.command_template(
-            command=mosaic.put(command),
-            )
-        cfg_item = htypes.cfg_item.typed_cfg_item(
-            t=pyobj_creg.actor_to_ref(self._t),
-            value=mosaic.put(template),
-            )
+        command_t = self._make_command_t()
+        command = command_t()
+        # command = self._make_command_component(types, python_module, name_to_res)
+        # template = htypes.command.command_template(
+        #     command=mosaic.put(command),
+        #     )
+        # cfg_item = htypes.cfg_item.typed_cfg_item(
+        #     t=pyobj_creg.actor_to_ref(self._t),
+        #     value=mosaic.put(template),
+        #     )
         if name_to_res is not None:
-            name_to_res[f'{self._resource_name}.command-template'] = template
-            name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
-        return cfg_item
+            # name_to_res[command_t.name] = command_t
+            name_to_res[f'{command_t.name}.ui-command'] = command
+            # name_to_res[f'{self._resource_name}.command-template'] = template
+            # name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
+        return command
 
     @property
     def _resource_name(self):

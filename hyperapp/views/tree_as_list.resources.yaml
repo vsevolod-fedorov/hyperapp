@@ -173,6 +173,26 @@ definitions:
       name: key_tree_as_list_ui_type_layout_k
       base: null
       fields: {}
+  open:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: tree_as_list
+      name: open
+      base: null
+      fields: {}
+  open.ui-command:
+    type: open
+    value: {}
+  parent:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: tree_as_list
+      name: parent
+      base: null
+      fields: {}
+  parent.ui-command:
+    type: parent
+    value: {}
   tree_as_list-index_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
