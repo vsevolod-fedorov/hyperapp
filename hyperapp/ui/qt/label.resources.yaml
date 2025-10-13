@@ -5,13 +5,9 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
-- legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:open_args_picker_command_d
-- legacy_type.command:ui_args_picker_command_enumerator
 - legacy_type.label:state
 - legacy_type.label:view
 - legacy_type.system_fn:ctx_fn
@@ -40,15 +36,6 @@ definitions:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: LabelView_from_piece.system-fn
-  label-view-set_label_text.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.label:view
-      value: label-view-set_label_text.command-template
-  label-view-set_label_text.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: set_label_text.ui-command-enumerator
   label-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -99,45 +86,5 @@ definitions:
     value:
       module_name: label
       name: label_view_k
-      base: null
-      fields: {}
-  set_label_text:
-    type: legacy_type.builtin:attribute
-    value:
-      object: label.module
-      attr_name: set_label_text
-  set_label_text.commit-d:
-    type: set_label_text_d
-    value: {}
-  set_label_text.commit-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: set_label_text
-      ctx_params:
-      - piece
-      - text
-      - hook
-      - ctx
-      service_params:
-      - view_reg
-  set_label_text.open-d:
-    type: legacy_type.command:open_args_picker_command_d
-    value:
-      commit_command_d: set_label_text.commit-d
-  set_label_text.ui-command-enumerator:
-    type: legacy_type.command:ui_args_picker_command_enumerator
-    value:
-      name: set_label_text
-      is_global: false
-      required_args:
-        text: legacy_type.builtin:string
-      args_picker_command_d: set_label_text.open-d
-      commit_command_d: set_label_text.commit-d
-      commit_fn: set_label_text.commit-fn
-  set_label_text_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: label
-      name: set_label_text_d
       base: null
       fields: {}

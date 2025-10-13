@@ -7,9 +7,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.builtin:record_mt
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:global_model_command
 - legacy_type.command:model_command_fn
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -40,37 +38,6 @@ definitions:
     value:
       t: legacy_type.view_factory_list:model
       value: format_model.actor-template
-  open_view_factory_list:
-    type: legacy_type.builtin:attribute
-    value:
-      object: view_factory_list.module
-      attr_name: open_view_factory_list
-  open_view_factory_list.d:
-    type: open_view_factory_list_d
-    value: {}
-  open_view_factory_list.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_view_factory_list
-      ctx_params: []
-      service_params: []
-  open_view_factory_list.global-model-command:
-    type: legacy_type.command:global_model_command
-    value:
-      d: open_view_factory_list.d
-      properties:
-        is_global: true
-        uses_state: false
-        remotable: true
-      system_fn: open_view_factory_list.fn
-      preserve_remote: false
-  open_view_factory_list_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: view_factory_list
-      name: open_view_factory_list_d
-      base: null
-      fields: {}
   pick_view_factory_context:
     type: legacy_type.builtin:attribute
     value:

@@ -6,11 +6,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.builtin:record_mt
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:global_model_command
-- legacy_type.command:model_command
 - legacy_type.command:model_command_fn
 - legacy_type.command_list_model:item
 - legacy_type.feed:feed_template
@@ -91,15 +87,6 @@ definitions:
       - piece
       - current_item
       service_params: []
-  global_commands-model-run_command.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.global_commands:model
-      value: global_commands-model-run_command.command-template
-  global_commands-model-run_command.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: run_command.model-command
   global_commands-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -154,70 +141,3 @@ definitions:
     value:
       object: global_commands.module
       attr_name: list_global_commands
-  open_global_commands:
-    type: legacy_type.builtin:attribute
-    value:
-      object: global_commands.module
-      attr_name: open_global_commands
-  open_global_commands.d:
-    type: open_global_commands_d
-    value: {}
-  open_global_commands.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_global_commands
-      ctx_params: []
-      service_params: []
-  open_global_commands.global-model-command:
-    type: legacy_type.command:global_model_command
-    value:
-      d: open_global_commands.d
-      properties:
-        is_global: true
-        uses_state: false
-        remotable: true
-      system_fn: open_global_commands.fn
-      preserve_remote: false
-  open_global_commands_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: global_commands
-      name: open_global_commands_d
-      base: null
-      fields: {}
-  run_command:
-    type: legacy_type.builtin:attribute
-    value:
-      object: global_commands.module
-      attr_name: run_command
-  run_command.d:
-    type: run_command_d
-    value: {}
-  run_command.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: run_command
-      ctx_params:
-      - piece
-      - current_item
-      - lcs
-      - ctx
-      service_params:
-      - ui_global_command_items
-  run_command.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: run_command.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: run_command.fn
-      preserve_remote: false
-  run_command_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: global_commands
-      name: run_command_d
-      base: null
-      fields: {}

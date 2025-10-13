@@ -11,7 +11,6 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:command_template
-- legacy_type.command:global_model_command
 - legacy_type.command:model_command
 - legacy_type.command:model_command_fn
 - legacy_type.crud:open_command_fn
@@ -19,8 +18,6 @@ import:
 - legacy_type.feed:list_feed_type
 - legacy_type.lcs_layer:layer
 - legacy_type.lcs_view:item
-- legacy_type.lcs_view:lcs_open_piece_d
-- legacy_type.lcs_view:lcs_remove_d
 - legacy_type.lcs_view:view
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:model
@@ -38,84 +35,11 @@ definitions:
     value:
       object: lcs_view.module
       attr_name: lcs_move_to_another_layer
-  lcs_open_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: lcs_view.module
-      attr_name: lcs_open_piece
-  lcs_open_piece.d:
-    type: legacy_type.lcs_view:lcs_open_piece_d
-    value: {}
-  lcs_open_piece.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: lcs_open_piece
-      ctx_params:
-      - piece
-      - current_item
-      service_params: []
-  lcs_open_piece.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: lcs_open_piece.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: lcs_open_piece.fn
-      preserve_remote: false
-  lcs_remove:
-    type: legacy_type.builtin:attribute
-    value:
-      object: lcs_view.module
-      attr_name: lcs_remove
-  lcs_remove.d:
-    type: legacy_type.lcs_view:lcs_remove_d
-    value: {}
-  lcs_remove.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: lcs_remove
-      ctx_params:
-      - piece
-      - current_idx
-      - current_item
-      - lcs
-      service_params:
-      - feed_factory
-  lcs_remove.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: lcs_remove.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: lcs_remove.fn
-      preserve_remote: false
   lcs_view:
     type: legacy_type.builtin:attribute
     value:
       object: lcs_view.module
       attr_name: lcs_view
-  lcs_view-view-lcs_open_piece.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.lcs_view:view
-      value: lcs_view-view-lcs_open_piece.command-template
-  lcs_view-view-lcs_open_piece.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: lcs_open_piece.model-command
-  lcs_view-view-lcs_remove.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.lcs_view:view
-      value: lcs_view-view-lcs_remove.command-template
-  lcs_view-view-lcs_remove.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: lcs_remove.model-command
   lcs_view-view.crud.get_layer.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -228,37 +152,6 @@ definitions:
     value:
       module_name: lcs_view
       name: move_d
-      base: null
-      fields: {}
-  open_lcs_view:
-    type: legacy_type.builtin:attribute
-    value:
-      object: lcs_view.module
-      attr_name: open_lcs_view
-  open_lcs_view.d:
-    type: open_lcs_view_d
-    value: {}
-  open_lcs_view.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_lcs_view
-      ctx_params: []
-      service_params: []
-  open_lcs_view.global-model-command:
-    type: legacy_type.command:global_model_command
-    value:
-      d: open_lcs_view.d
-      properties:
-        is_global: true
-        uses_state: false
-        remotable: true
-      system_fn: open_lcs_view.fn
-      preserve_remote: false
-  open_lcs_view_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: lcs_view
-      name: open_lcs_view_d
       base: null
       fields: {}
   open_move_d:

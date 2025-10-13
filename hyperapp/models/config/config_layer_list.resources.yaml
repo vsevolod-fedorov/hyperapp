@@ -4,12 +4,8 @@ import:
 - base.mark:mark.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.builtin:record_mt
 - legacy_type.builtin:string
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:global_model_command
-- legacy_type.command:model_command
 - legacy_type.command:model_command_fn
 - legacy_type.config_layer_list:item
 - legacy_type.config_layer_list:layer
@@ -54,15 +50,6 @@ definitions:
       - piece
       - current_item
       service_params: []
-  config_layer_list-model-open_service_list.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_layer_list:model
-      value: config_layer_list-model-open_service_list.command-template
-  config_layer_list-model-open_service_list.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open_service_list.model-command
   config_layer_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -136,67 +123,3 @@ definitions:
     value:
       object: config_layer_list.module
       attr_name: layer_pick
-  open_config_layer_list:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_layer_list.module
-      attr_name: open_config_layer_list
-  open_config_layer_list.d:
-    type: open_config_layer_list_d
-    value: {}
-  open_config_layer_list.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_config_layer_list
-      ctx_params: []
-      service_params: []
-  open_config_layer_list.global-model-command:
-    type: legacy_type.command:global_model_command
-    value:
-      d: open_config_layer_list.d
-      properties:
-        is_global: true
-        uses_state: false
-        remotable: true
-      system_fn: open_config_layer_list.fn
-      preserve_remote: false
-  open_config_layer_list_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_layer_list
-      name: open_config_layer_list_d
-      base: null
-      fields: {}
-  open_service_list:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_layer_list.module
-      attr_name: open_service_list
-  open_service_list.d:
-    type: open_service_list_d
-    value: {}
-  open_service_list.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_service_list
-      ctx_params:
-      - piece
-      - current_key
-      service_params: []
-  open_service_list.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: open_service_list.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: open_service_list.fn
-      preserve_remote: false
-  open_service_list_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_layer_list
-      name: open_service_list_d
-      base: null
-      fields: {}

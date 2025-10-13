@@ -6,12 +6,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.builtin:record_mt
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
-- legacy_type.command:ui_command
 - legacy_type.command_list_model:item
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -45,15 +40,6 @@ definitions:
     value:
       object: model_commands.module
       attr_name: list_model_commands
-  model_commands-model-run_command.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.model_commands:model
-      value: model_commands-model-run_command.command-template
-  model_commands-model-run_command.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: run_command.model-command
   model_commands-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -105,80 +91,3 @@ definitions:
         htypes.navigator.view: legacy_type.navigator:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  navigator-view-open_model_commands.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.navigator:view
-      value: navigator-view-open_model_commands.command-template
-  navigator-view-open_model_commands.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open_model_commands.ui-model-command
-  open_model_commands:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_commands.module
-      attr_name: open_model_commands
-  open_model_commands.d:
-    type: open_model_commands_d
-    value: {}
-  open_model_commands.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_model_commands
-      ctx_params:
-      - view
-      - model_state
-      service_params: []
-  open_model_commands.ui-model-command:
-    type: legacy_type.command:ui_command
-    value:
-      d: open_model_commands.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: open_model_commands.fn
-  open_model_commands_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: model_commands
-      name: open_model_commands_d
-      base: null
-      fields: {}
-  run_command:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_commands.module
-      attr_name: run_command
-  run_command.d:
-    type: run_command_d
-    value: {}
-  run_command.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: run_command
-      ctx_params:
-      - piece
-      - current_item
-      - ctx
-      - lcs
-      service_params:
-      - ui_model_command_items
-  run_command.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: run_command.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: run_command.fn
-      preserve_remote: false
-  run_command_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: model_commands
-      name: run_command_d
-      base: null
-      fields: {}

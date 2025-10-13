@@ -6,15 +6,9 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.bundle_info:model
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:global_model_command
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.file_bundles:item
-- legacy_type.file_bundles:open_d
-- legacy_type.file_bundles:open_file_bundle_list_d
 - legacy_type.file_bundles:view
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:model
@@ -25,15 +19,6 @@ definitions:
     value:
       object: file_bundles.module
       attr_name: file_bundle_list
-  file_bundles-view-open.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.file_bundles:view
-      value: file_bundles-view-open.command-template
-  file_bundles-view-open.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open.model-command
   file_bundles-view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -78,54 +63,3 @@ definitions:
         htypes.bundle_info.model: legacy_type.bundle_info:model
         htypes.file_bundles.item: legacy_type.file_bundles:item
         htypes.file_bundles.view: legacy_type.file_bundles:view
-  open:
-    type: legacy_type.builtin:attribute
-    value:
-      object: file_bundles.module
-      attr_name: open
-  open.d:
-    type: legacy_type.file_bundles:open_d
-    value: {}
-  open.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open
-      ctx_params:
-      - piece
-      - current_item
-      service_params:
-      - file_bundle_factory
-  open.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: open.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: open.fn
-      preserve_remote: false
-  open_file_bundle_list:
-    type: legacy_type.builtin:attribute
-    value:
-      object: file_bundles.module
-      attr_name: open_file_bundle_list
-  open_file_bundle_list.d:
-    type: legacy_type.file_bundles:open_file_bundle_list_d
-    value: {}
-  open_file_bundle_list.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_file_bundle_list
-      ctx_params: []
-      service_params: []
-  open_file_bundle_list.global-model-command:
-    type: legacy_type.command:global_model_command
-    value:
-      d: open_file_bundle_list.d
-      properties:
-        is_global: true
-        uses_state: false
-        remotable: true
-      system_fn: open_file_bundle_list.fn
-      preserve_remote: false

@@ -7,60 +7,20 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.lcs_dirs_view:item
-- legacy_type.lcs_dirs_view:lcs_dirs_items_d
-- legacy_type.lcs_dirs_view:lcs_open_dirs_d
 - legacy_type.lcs_dirs_view:view
 - legacy_type.lcs_view:view
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:model
 - legacy_type.system_fn:ctx_fn
 definitions:
-  lcs_dirs_items:
-    type: legacy_type.builtin:attribute
-    value:
-      object: lcs_dirs_view.module
-      attr_name: lcs_dirs_items
-  lcs_dirs_items.d:
-    type: legacy_type.lcs_dirs_view:lcs_dirs_items_d
-    value: {}
-  lcs_dirs_items.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: lcs_dirs_items
-      ctx_params:
-      - piece
-      - current_item
-      service_params: []
-  lcs_dirs_items.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: lcs_dirs_items.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: lcs_dirs_items.fn
-      preserve_remote: false
   lcs_dirs_view:
     type: legacy_type.builtin:attribute
     value:
       object: lcs_dirs_view.module
       attr_name: lcs_dirs_view
-  lcs_dirs_view-view-lcs_dirs_items.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.lcs_dirs_view:view
-      value: lcs_dirs_view-view-lcs_dirs_items.command-template
-  lcs_dirs_view-view-lcs_dirs_items.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: lcs_dirs_items.model-command
   lcs_dirs_view-view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -108,37 +68,3 @@ definitions:
         htypes.lcs_dirs_view.view: legacy_type.lcs_dirs_view:view
         htypes.lcs_view.view: legacy_type.lcs_view:view
         services.mosaic: builtins:mosaic.service
-  lcs_open_dirs:
-    type: legacy_type.builtin:attribute
-    value:
-      object: lcs_dirs_view.module
-      attr_name: lcs_open_dirs
-  lcs_open_dirs.d:
-    type: legacy_type.lcs_dirs_view:lcs_open_dirs_d
-    value: {}
-  lcs_open_dirs.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: lcs_open_dirs
-      ctx_params:
-      - piece
-      service_params: []
-  lcs_open_dirs.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: lcs_open_dirs.d
-      properties:
-        is_global: false
-        uses_state: false
-        remotable: true
-      system_fn: lcs_open_dirs.fn
-      preserve_remote: false
-  lcs_view-view-lcs_open_dirs.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.lcs_view:view
-      value: lcs_view-view-lcs_open_dirs.command-template
-  lcs_view-view-lcs_open_dirs.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: lcs_open_dirs.model-command

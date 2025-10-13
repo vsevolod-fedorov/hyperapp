@@ -3,15 +3,11 @@
 import:
 - base.mark:mark.module
 - builtins:deduce_t.service
-- legacy_type.auto_tabs:close_tab_d
-- legacy_type.auto_tabs:duplicate_tab_d
 - legacy_type.auto_tabs:view
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:ui_command
 - legacy_type.system_fn:ctx_fn
 - ui.qt.tabs:tabs.module
 definitions:
@@ -39,24 +35,6 @@ definitions:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: AutoTabsView_from_piece.system-fn
-  auto_tabs-view-close_tab.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.auto_tabs:view
-      value: auto_tabs-view-close_tab.command-template
-  auto_tabs-view-close_tab.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: close_tab.ui-command
-  auto_tabs-view-duplicate_tab.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.auto_tabs:view
-      value: auto_tabs-view-duplicate_tab.command-template
-  auto_tabs-view-duplicate_tab.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: duplicate_tab.ui-command
   auto_tabs-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -72,57 +50,3 @@ definitions:
         code.tabs: ui.qt.tabs:tabs.module
         htypes.auto_tabs.view: legacy_type.auto_tabs:view
         services.deduce_t: builtins:deduce_t.service
-  close_tab:
-    type: legacy_type.builtin:attribute
-    value:
-      object: auto_tabs.module
-      attr_name: close_tab
-  close_tab.d:
-    type: legacy_type.auto_tabs:close_tab_d
-    value: {}
-  close_tab.fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: close_tab
-      ctx_params:
-      - view
-      - widget
-      - state
-      service_params: []
-  close_tab.ui-command:
-    type: legacy_type.command:ui_command
-    value:
-      d: close_tab.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: close_tab.fn
-  duplicate_tab:
-    type: legacy_type.builtin:attribute
-    value:
-      object: auto_tabs.module
-      attr_name: duplicate_tab
-  duplicate_tab.d:
-    type: legacy_type.auto_tabs:duplicate_tab_d
-    value: {}
-  duplicate_tab.fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: duplicate_tab
-      ctx_params:
-      - ctx
-      - view
-      - widget
-      - state
-      service_params:
-      - view_reg
-  duplicate_tab.ui-command:
-    type: legacy_type.command:ui_command
-    value:
-      d: duplicate_tab.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: duplicate_tab.fn

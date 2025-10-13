@@ -7,10 +7,7 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:global_model_command
-- legacy_type.command:model_command_fn
 - legacy_type.context_view:state
-- legacy_type.local_server_context:open_local_server_context_d
 - legacy_type.local_server_context:view
 - legacy_type.system_fn:ctx_fn
 - ui.qt.context_view:context_view.module
@@ -55,32 +52,3 @@ definitions:
         htypes.context_view.state: legacy_type.context_view:state
         htypes.local_server_context.view: legacy_type.local_server_context:view
         services.mosaic: builtins:mosaic.service
-  open_local_server_context:
-    type: legacy_type.builtin:attribute
-    value:
-      object: local_server_context.module
-      attr_name: open_local_server_context
-  open_local_server_context.d:
-    type: legacy_type.local_server_context:open_local_server_context_d
-    value: {}
-  open_local_server_context.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_local_server_context
-      ctx_params:
-      - view
-      - state
-      - hook
-      - ctx
-      service_params:
-      - view_reg
-  open_local_server_context.global-model-command:
-    type: legacy_type.command:global_model_command
-    value:
-      d: open_local_server_context.d
-      properties:
-        is_global: true
-        uses_state: true
-        remotable: false
-      system_fn: open_local_server_context.fn
-      preserve_remote: false

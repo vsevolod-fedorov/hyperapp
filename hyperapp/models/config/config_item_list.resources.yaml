@@ -14,13 +14,11 @@ import:
 - legacy_type.command:command_template
 - legacy_type.command:model_command
 - legacy_type.command:model_command_fn
-- legacy_type.command:model_command_remove_fn
 - legacy_type.config_item_list:item
 - legacy_type.config_item_list:layer_item
 - legacy_type.config_item_list:layer_model
 - legacy_type.config_item_list:model
 - legacy_type.config_layer_list:layer
-- legacy_type.config_service_list:model
 - legacy_type.crud:open_command_fn
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -45,33 +43,6 @@ definitions:
     value:
       object: config_item_list.module
       attr_name: config_item_list
-  config_item_list-layer_model-layer_remove.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:layer_model
-      value: config_item_list-layer_model-layer_remove.command-template
-  config_item_list-layer_model-layer_remove.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: layer_remove.model-command
-  config_item_list-layer_model-open_config_key.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:layer_model
-      value: config_item_list-layer_model-open_config_key.command-template
-  config_item_list-layer_model-open_config_key.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open_config_key.model-command
-  config_item_list-layer_model-open_config_value.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:layer_model
-      value: config_item_list-layer_model-open_config_value.command-template
-  config_item_list-layer_model-open_config_value.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open_config_value.model-command
   config_item_list-layer_model.crud.get_layer.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -162,33 +133,6 @@ definitions:
       service_params:
       - system
       - format
-  config_item_list-model-open_config_key.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:model
-      value: config_item_list-model-open_config_key.command-template
-  config_item_list-model-open_config_key.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open_config_key.model-command
-  config_item_list-model-open_config_value.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:model
-      value: config_item_list-model-open_config_value.command-template
-  config_item_list-model-open_config_value.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open_config_value.model-command
-  config_item_list-model-remove.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:model
-      value: config_item_list-model-remove.command-template
-  config_item_list-model-remove.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: remove.model-command
   config_item_list-model.crud.get_layer.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -314,15 +258,6 @@ definitions:
     value:
       object: config_item_list.module
       attr_name: config_layer_item_move_to_another_layer
-  config_service_list-model-open_config_item_list.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_service_list:model
-      value: config_service_list-model-open_config_item_list.command-template
-  config_service_list-model-open_config_item_list.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: open_config_item_list.model-command
   format_layer_model:
     type: legacy_type.builtin:attribute
     value:
@@ -353,40 +288,6 @@ definitions:
     value:
       t: legacy_type.config_item_list:model
       value: format_model.actor-template
-  layer_remove:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: layer_remove
-  layer_remove.d:
-    type: layer_remove_d
-    value: {}
-  layer_remove.fn:
-    type: legacy_type.command:model_command_remove_fn
-    value:
-      function: layer_remove
-      ctx_params:
-      - piece
-      - current_item
-      service_params:
-      - system
-  layer_remove.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: layer_remove.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: layer_remove.fn
-      preserve_remote: false
-  layer_remove_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_item_list
-      name: layer_remove_d
-      base: null
-      fields: {}
   move_d:
     type: legacy_type.builtin:record_mt
     value:
@@ -394,143 +295,10 @@ definitions:
       name: move_d
       base: null
       fields: {}
-  open_config_item_list:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: open_config_item_list
-  open_config_item_list.d:
-    type: open_config_item_list_d
-    value: {}
-  open_config_item_list.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_config_item_list
-      ctx_params:
-      - piece
-      - current_item
-      service_params: []
-  open_config_item_list.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: open_config_item_list.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: open_config_item_list.fn
-      preserve_remote: true
-  open_config_item_list_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_item_list
-      name: open_config_item_list_d
-      base: null
-      fields: {}
-  open_config_key:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: open_config_key
-  open_config_key.d:
-    type: open_config_key_d
-    value: {}
-  open_config_key.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_config_key
-      ctx_params:
-      - piece
-      - current_item
-      service_params: []
-  open_config_key.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: open_config_key.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: open_config_key.fn
-      preserve_remote: false
-  open_config_key_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_item_list
-      name: open_config_key_d
-      base: null
-      fields: {}
-  open_config_value:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: open_config_value
-  open_config_value.d:
-    type: open_config_value_d
-    value: {}
-  open_config_value.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_config_value
-      ctx_params:
-      - piece
-      - current_item
-      service_params: []
-  open_config_value.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: open_config_value.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: open_config_value.fn
-      preserve_remote: false
-  open_config_value_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_item_list
-      name: open_config_value_d
-      base: null
-      fields: {}
   open_move_d:
     type: legacy_type.builtin:record_mt
     value:
       module_name: config_item_list
       name: open_move_d
-      base: null
-      fields: {}
-  remove:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: remove
-  remove.d:
-    type: remove_d
-    value: {}
-  remove.fn:
-    type: legacy_type.command:model_command_remove_fn
-    value:
-      function: remove
-      ctx_params:
-      - piece
-      - current_item
-      service_params:
-      - system
-  remove.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: remove.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: remove.fn
-      preserve_remote: false
-  remove_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_item_list
-      name: remove_d
       base: null
       fields: {}

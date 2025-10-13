@@ -6,13 +6,8 @@ import:
 - legacy_type.assoc_key:key_base_association
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.builtin:record_mt
 - legacy_type.builtin:string
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:global_model_command
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
 - legacy_type.config_service_list:item
 - legacy_type.config_service_list:model
 - legacy_type.feed:feed_template
@@ -27,15 +22,6 @@ definitions:
     value:
       object: config_service_list.module
       attr_name: config_service_list
-  config_service_list-model-toggle_assoc.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_service_list:model
-      value: config_service_list-model-toggle_assoc.command-template
-  config_service_list-model-toggle_assoc.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: toggle_assoc.model-command
   config_service_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -101,71 +87,3 @@ definitions:
     value:
       t: legacy_type.config_service_list:model
       value: format_model.actor-template
-  open_config_service_list:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_service_list.module
-      attr_name: open_config_service_list
-  open_config_service_list.d:
-    type: open_config_service_list_d
-    value: {}
-  open_config_service_list.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: open_config_service_list
-      ctx_params: []
-      service_params: []
-  open_config_service_list.global-model-command:
-    type: legacy_type.command:global_model_command
-    value:
-      d: open_config_service_list.d
-      properties:
-        is_global: true
-        uses_state: false
-        remotable: true
-      system_fn: open_config_service_list.fn
-      preserve_remote: false
-  open_config_service_list_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_service_list
-      name: open_config_service_list_d
-      base: null
-      fields: {}
-  toggle_assoc:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_service_list.module
-      attr_name: toggle_assoc
-  toggle_assoc.d:
-    type: toggle_assoc_d
-    value: {}
-  toggle_assoc.fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: toggle_assoc
-      ctx_params:
-      - piece
-      - current_key
-      service_params:
-      - feed_factory
-      - format
-      - assoc_key
-      - system
-  toggle_assoc.model-command:
-    type: legacy_type.command:model_command
-    value:
-      d: toggle_assoc.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: true
-      system_fn: toggle_assoc.fn
-      preserve_remote: false
-  toggle_assoc_d:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_service_list
-      name: toggle_assoc_d
-      base: null
-      fields: {}
