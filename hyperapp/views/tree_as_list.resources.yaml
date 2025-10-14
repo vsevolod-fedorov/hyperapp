@@ -12,6 +12,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.list:view
 - legacy_type.list_adapter:index_fn_list_adapter
 - legacy_type.list_adapter:key_fn_list_adapter
@@ -193,11 +194,35 @@ definitions:
   parent.ui-command:
     type: parent
     value: {}
+  tree_as_list-index_view-open.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tree_as_list:index_view
+      name: open
+      command: open.ui-command
+  tree_as_list-index_view-parent.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tree_as_list:index_view
+      name: parent
+      command: parent.ui-command
   tree_as_list-index_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.tree_as_list:index_view
       value: IndexTreeAsListWrapperView_from_piece.view-template
+  tree_as_list-key_view-open.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tree_as_list:key_view
+      name: open
+      command: open.ui-command
+  tree_as_list-key_view-parent.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tree_as_list:key_view
+      name: parent
+      command: parent.ui-command
   tree_as_list-key_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

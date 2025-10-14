@@ -13,6 +13,7 @@ import:
 - legacy_type.builtin:ref
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.list:view
@@ -34,6 +35,12 @@ import:
 - ui.qt.fn_list_adapter:fn_list_adapter.module
 - views.list_as_tree_adapter:list_as_tree_adapter.module
 definitions:
+  list-view-switch_list_to_tree.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.list:view
+      name: switch_list_to_tree
+      command: switch_list_to_tree.ui-command
   list_as_tree-layer_list.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -205,3 +212,9 @@ definitions:
   switch_list_to_tree.ui-command:
     type: switch_list_to_tree
     value: {}
+  tree-view-open_layers.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tree:view
+      name: open_layers
+      command: open_layers.ui-command

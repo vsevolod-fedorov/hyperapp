@@ -126,9 +126,8 @@ class CommandTemplateCtr(Constructor):
             )
 
     def _make_command_t(self):
-        name = '_'.join(self._attr_qual_name)
         code_name = self._module_name.split('.')[-1]
-        return TRecord(code_name, name)
+        return TRecord(code_name, self._command_name)
 
     def _make_command_component(self, types, python_module, name_to_res=None):
         object = python_module
@@ -233,8 +232,7 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
             )
 
     def get_component(self, name_to_res):
-        name = '_'.join(self._attr_qual_name)
-        return name_to_res[f'{name}.ui-command']
+        return name_to_res[f'{self._resource_name}.command-cfg-item']
 
     def make_component(self, types, python_module, name_to_res=None):
         command_t = self._make_command_t()
@@ -243,20 +241,25 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
         # template = htypes.command.command_template(
         #     command=mosaic.put(command),
         #     )
-        # cfg_item = htypes.cfg_item.typed_cfg_item(
-        #     t=pyobj_creg.actor_to_ref(self._t),
-        #     value=mosaic.put(template),
-        #     )
+        cfg_item = htypes.command.type_str_command(
+            t=pyobj_creg.actor_to_ref(self._t),
+            name=command_t.name,
+            command=mosaic.put(command),
+            )
         if name_to_res is not None:
             # name_to_res[command_t.name] = command_t
-            name_to_res[f'{command_t.name}.ui-command'] = command
+            name_to_res[f'{self._command_name}.ui-command'] = command
             # name_to_res[f'{self._resource_name}.command-template'] = template
-            # name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
-        return command
+            name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
+        return cfg_item
+
+    @property
+    def _command_name(self):
+        return '_'.join(self._attr_qual_name)
 
     @property
     def _resource_name(self):
-        return f'{self._t.module_name}-{self._t.name}-{self._fn_name}'
+        return f'{self._t.module_name}-{self._t.name}-{self._command_name}'
 
 
 class UiCommandTemplateCtr(TypedCommandTemplateCtr):

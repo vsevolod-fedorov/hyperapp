@@ -10,6 +10,8 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
+- legacy_type.navigator:view
 - legacy_type.splitter:state
 - legacy_type.splitter:view
 - legacy_type.system_fn:ctx_fn
@@ -39,6 +41,12 @@ definitions:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: SplitterView_from_piece.system-fn
+  navigator-view-split_horizontally.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.navigator:view
+      name: split_horizontally
+      command: split_horizontally.ui-command
   split_horizontally:
     type: legacy_type.builtin:record_mt
     value:
@@ -49,6 +57,12 @@ definitions:
   split_horizontally.ui-command:
     type: split_horizontally
     value: {}
+  splitter-view-unwrap.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.splitter:view
+      name: unwrap
+      command: unwrap.ui-command
   splitter-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

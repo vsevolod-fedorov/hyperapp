@@ -13,6 +13,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.system_fn:ctx_fn
 - legacy_type.view_factory:template
 - ui.view.view:view.module
@@ -60,6 +61,36 @@ definitions:
   add_stretch.ui-command:
     type: add_stretch
     value: {}
+  box_layout-view-add_element.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.box_layout:view
+      name: add_element
+      command: add_element.ui-command
+  box_layout-view-add_stretch.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.box_layout:view
+      name: add_stretch
+      command: add_stretch.ui-command
+  box_layout-view-insert_element.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.box_layout:view
+      name: insert_element
+      command: insert_element.ui-command
+  box_layout-view-remove_element.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.box_layout:view
+      name: remove_element
+      command: remove_element.ui-command
+  box_layout-view-unwrap.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.box_layout:view
+      name: unwrap
+      command: unwrap.ui-command
   box_layout-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

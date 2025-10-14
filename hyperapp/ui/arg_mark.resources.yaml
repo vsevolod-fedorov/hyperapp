@@ -11,7 +11,9 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.context_view:state
+- legacy_type.navigator:view
 - legacy_type.system_fn:ctx_fn
 - ui.qt.context_view:context_view.module
 definitions:
@@ -49,6 +51,12 @@ definitions:
   add_mark.ui-command:
     type: add_mark
     value: {}
+  arg_mark-view-remove_mark.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.arg_mark:view
+      name: remove_mark
+      command: remove_mark.ui-command
   arg_mark-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -67,6 +75,12 @@ definitions:
         services.deduce_t: builtins:deduce_t.service
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  navigator-view-add_mark.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.navigator:view
+      name: add_mark
+      command: add_mark.ui-command
   remove_mark:
     type: legacy_type.builtin:record_mt
     value:

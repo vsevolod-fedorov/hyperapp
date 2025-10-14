@@ -10,6 +10,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.system_fn:ctx_fn
 - legacy_type.tabs:list_item
 - legacy_type.tabs:state
@@ -71,6 +72,30 @@ definitions:
   remove_element.ui-command:
     type: remove_element
     value: {}
+  tabs-view-add_element.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tabs:view
+      name: add_element
+      command: add_element.ui-command
+  tabs-view-insert_element.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tabs:view
+      name: insert_element
+      command: insert_element.ui-command
+  tabs-view-remove_element.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tabs:view
+      name: remove_element
+      command: remove_element.ui-command
+  tabs-view-unwrap.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tabs:view
+      name: unwrap
+      command: unwrap.ui-command
   tabs-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

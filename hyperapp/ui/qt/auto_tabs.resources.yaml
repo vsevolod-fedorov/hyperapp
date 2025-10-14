@@ -9,6 +9,7 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.system_fn:ctx_fn
 - ui.qt.tabs:tabs.module
 definitions:
@@ -36,6 +37,18 @@ definitions:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: AutoTabsView_from_piece.system-fn
+  auto_tabs-view-close_tab.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.auto_tabs:view
+      name: close_tab
+      command: close_tab.ui-command
+  auto_tabs-view-duplicate_tab.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.auto_tabs:view
+      name: duplicate_tab
+      command: duplicate_tab.ui-command
   auto_tabs-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
