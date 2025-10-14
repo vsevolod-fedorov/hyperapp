@@ -8,7 +8,6 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command_groups:pane_2_d
 - legacy_type.feed:feed_template
 - legacy_type.feed:index_tree_feed_type
 - legacy_type.feed:list_feed_type
@@ -16,7 +15,6 @@ import:
 - legacy_type.layout:command_list
 - legacy_type.layout:item
 - legacy_type.layout:model
-- legacy_type.model:index_list_ui_t
 - legacy_type.model:index_tree_ui_t
 - legacy_type.model:model
 - legacy_type.system:actor_template
@@ -53,30 +51,6 @@ definitions:
     type: legacy_type.feed:list_feed_type
     value:
       item_t: legacy_type.layout:command_item
-  layout-command_list.index-list-ui-t:
-    type: legacy_type.model:index_list_ui_t
-    value:
-      item_t: legacy_type.layout:command_item
-  layout-command_list.model:
-    type: legacy_type.model:model
-    value:
-      ui_t: layout-command_list.index-list-ui-t
-      system_fn: layout-command_list.system-fn
-  layout-command_list.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.layout:command_list
-      value: layout-command_list.model
-  layout-command_list.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: view_item_commands
-      ctx_params:
-      - piece
-      - controller
-      - ctx
-      service_params:
-      - shortcut_reg
   layout-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -124,7 +98,6 @@ definitions:
         code.key_input_dialog: ui.qt.key_input_dialog:key_input_dialog.module
         code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
-        htypes.command_groups.pane_2_d: legacy_type.command_groups:pane_2_d
         htypes.layout.command_item: legacy_type.layout:command_item
         htypes.layout.command_list: legacy_type.layout:command_list
         htypes.layout.model: legacy_type.layout:model
@@ -135,8 +108,3 @@ definitions:
     value:
       object: layout.module
       attr_name: layout_tree
-  view_item_commands:
-    type: legacy_type.builtin:attribute
-    value:
-      object: layout.module
-      attr_name: view_item_commands

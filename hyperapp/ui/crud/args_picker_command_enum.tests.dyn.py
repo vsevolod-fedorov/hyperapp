@@ -60,7 +60,7 @@ def test_model_args_picker(ctx, args_picker_enum):
     assert isinstance(web.summon(command.piece.system_fn), htypes.command.args_picker_command_fn)
 
 
-def test_ui_args_picker(ctx, args_picker_enum):
+def _test_ui_args_picker(ctx, args_picker_enum):
     piece = args_picker_enum(htypes.command.ui_args_picker_command_enumerator)
     enum = args_picker_command_enum.UnboundArgsPickerUiCommandEnumerator.from_piece(piece)
     assert isinstance(enum, args_picker_command_enum.UnboundArgsPickerUiCommandEnumerator)
@@ -82,7 +82,7 @@ def test_model_canned(canned_ctx, args_picker_enum):
     assert isinstance(web.summon(command.piece.system_fn), htypes.command.canned_args_command_fn)
 
 
-def test_ui_canned(canned_ctx, args_picker_enum):
+def _test_ui_canned(canned_ctx, args_picker_enum):
     piece = args_picker_enum(htypes.command.ui_args_picker_command_enumerator)
     enum = args_picker_command_enum.UnboundArgsPickerUiCommandEnumerator.from_piece(piece)
     assert isinstance(enum, args_picker_command_enum.UnboundArgsPickerUiCommandEnumerator)

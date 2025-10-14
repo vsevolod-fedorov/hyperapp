@@ -13,7 +13,6 @@ import:
 - legacy_type.command:model_args_picker_command_enumerator
 - legacy_type.command:open_args_picker_command_d
 - legacy_type.command:properties
-- legacy_type.command:ui_args_picker_command_enumerator
 - legacy_type.system:actor_template
 - ui.arg_mark:arg_mark.module
 - ui.command:command.module
@@ -38,25 +37,6 @@ definitions:
     type: legacy_type.system:actor_template
     value:
       function: UnboundArgsPickerModelCommandEnumerator.from_piece
-      service_params:
-      - crud
-      - editor_default_reg
-      - rpc_system_call_factory
-      - system_fn_creg
-  UnboundArgsPickerUiCommandEnumerator:
-    type: legacy_type.builtin:attribute
-    value:
-      object: args_picker_command_enum.module
-      attr_name: UnboundArgsPickerUiCommandEnumerator
-  UnboundArgsPickerUiCommandEnumerator.from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: UnboundArgsPickerUiCommandEnumerator
-      attr_name: from_piece
-  UnboundArgsPickerUiCommandEnumerator.from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: UnboundArgsPickerUiCommandEnumerator.from_piece
       service_params:
       - crud
       - editor_default_reg
@@ -88,11 +68,6 @@ definitions:
     value:
       t: legacy_type.command:model_args_picker_command_enumerator
       value: UnboundArgsPickerModelCommandEnumerator.from_piece.actor-template
-  command_creg-command-ui_args_picker_command_enumerator.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:ui_args_picker_command_enumerator
-      value: UnboundArgsPickerUiCommandEnumerator.from_piece.actor-template
   format_open_args_picker_command_d:
     type: legacy_type.builtin:attribute
     value:
