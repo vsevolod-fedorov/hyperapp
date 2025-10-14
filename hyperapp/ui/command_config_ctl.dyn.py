@@ -55,7 +55,7 @@ class TypeStrCommandConfigCtl(MultiItemConfigCtl):
             dest_name_to_command.update(src_name_to_command)
 
     def resolve(self, system, service_name, config_template):
-        assert 0, 'TODO'
+        return {}  # TODO
 
     def empty_config_template(self):
         return {}
