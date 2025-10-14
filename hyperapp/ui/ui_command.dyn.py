@@ -3,7 +3,7 @@ from functools import partial
 
 from hyperapp.boot.htypes import TRecord
 
-from . import htypes
+# from . import htypes
 from .services import (
     deduce_t,
     mosaic,
@@ -17,6 +17,7 @@ from .code.command_enumerator import UnboundCommandEnumerator
 from .code.command_groups import default_command_groups
 from .code.config_ctl import DictConfigCtl, FlatListConfigCtl
 from .code.config_struct_ctl import ListStructCtl
+from .code.command_config_ctl import TypeStrCommandConfigCtl
 from .code.ui_model_command import wrap_model_command_to_ui_command
 
 log = logging.getLogger(__name__)
@@ -108,7 +109,17 @@ def ui_command_enumerator_from_piece(piece, system_fn_creg):
         )
 
 
-def _items_with_bases(config, view_t):
+def _item_dict_with_bases(config, view_t):
+    item_dict = {}
+    while view_t:
+        item_dict.update(config.get(view_t, {}))
+        if not isinstance(view_t, TRecord):
+            break
+        view_t = view_t.base
+    return item_dict
+
+
+def _item_list_with_bases(config, view_t):
     item_list = []
     while view_t:
         item_list += config.get(view_t, [])
@@ -118,83 +129,85 @@ def _items_with_bases(config, view_t):
     return item_list
 
 
-@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
+@mark.service(ctl=TypeStrCommandConfigCtl())
 def view_ui_command_reg(config, view_t):
-    return _items_with_bases(config, view_t)
+    return _item_dict_with_bases(config, view_t)
 
 
-@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
+@mark.service(ctl=TypeStrCommandConfigCtl())
 def view_element_ui_command_reg(config, view_t):
-    return _items_with_bases(config, view_t)
+    return _item_dict_with_bases(config, view_t)
 
 
-@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
-def view_element_ui_command_enumerator_reg(config, view_t):
-    return _items_with_bases(config, view_t)
+# @mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
+# def view_element_ui_command_enumerator_reg(config, view_t):
+#     return _item_list_with_bases(config, view_t)
 
 
-# UI commands returning model.
-@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
-def view_ui_model_command_reg(config, view_t):
-    return _items_with_bases(config, view_t)
+# # UI commands returning model.
+# @mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
+# def view_ui_model_command_reg(config, view_t):
+#     return _item_list_with_bases(config, view_t)
 
 
-@mark.service(ctl=FlatListConfigCtl())
-def universal_ui_command_reg(config):
-    return config
+# @mark.service(ctl=FlatListConfigCtl())
+# def universal_ui_command_reg(config):
+#     return config
 
 
-@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
-def ui_command_enumerator_reg(config, view_t):
-    return _items_with_bases(config, view_t)
+# @mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
+# def ui_command_enumerator_reg(config, view_t):
+#     return _item_list_with_bases(config, view_t)
 
 
-@mark.service(ctl=FlatListConfigCtl())
-def universal_ui_command_enumerator_reg(config):
-    return config
+# @mark.service(ctl=FlatListConfigCtl())
+# def universal_ui_command_enumerator_reg(config):
+#     return config
 
 
 @mark.service
 def get_view_commands(
-        diff_creg,
-        feed_factory,
-        error_view,
-        view_reg,
-        visualizer,
+        # diff_creg,
+        # feed_factory,
+        # error_view,
+        # view_reg,
+        # visualizer,
         view_ui_command_reg,
-        view_ui_model_command_reg,
-        universal_ui_command_reg,
-        ui_command_enumerator_reg,
-        universal_ui_command_enumerator_reg,
+        # view_ui_model_command_reg,
+        # universal_ui_command_reg,
+        # ui_command_enumerator_reg,
+        # universal_ui_command_enumerator_reg,
         ctx,
         view,
         ):
     view_t = deduce_t(view.piece)
-    ui_model_command_list = [
-        wrap_model_command_to_ui_command(diff_creg, feed_factory, error_view, view_reg, visualizer, cmd)
-        for cmd in view_ui_model_command_reg(view_t)
-        ]
-    command_list = [
-        *view_ui_command_reg(view_t),
-        *ui_model_command_list,
-        *universal_ui_command_reg,
-        ]
-    for enumerator in ui_command_enumerator_reg(view_t):
-        command_list += enumerator.enum_commands(ctx)
-    for enumerator in universal_ui_command_enumerator_reg:
-        command_list += enumerator.enum_commands(ctx)
-    return command_list
+    return view_ui_command_reg(view_t)
+
+    # ui_model_command_list = [
+    #     wrap_model_command_to_ui_command(diff_creg, feed_factory, error_view, view_reg, visualizer, cmd)
+    #     for cmd in view_ui_model_command_reg(view_t)
+    #     ]
+    # command_list = [
+    #     *view_ui_command_reg(view_t),
+    #     *ui_model_command_list,
+    #     *universal_ui_command_reg,
+    #     ]
+    # for enumerator in ui_command_enumerator_reg(view_t):
+    #     command_list += enumerator.enum_commands(ctx)
+    # for enumerator in universal_ui_command_enumerator_reg:
+    #     command_list += enumerator.enum_commands(ctx)
+    # return command_list
 
 
 @mark.service
 def get_view_element_commands(
         view_element_ui_command_reg,
-        view_element_ui_command_enumerator_reg,
+        # view_element_ui_command_enumerator_reg,
         ctx,
         view,
         ):
     view_t = deduce_t(view.piece)
-    command_list = view_element_ui_command_reg(view_t)
-    for enumerator in view_element_ui_command_enumerator_reg(view_t):
-        command_list += enumerator.enum_commands(ctx)
-    return command_list
+    command_dict = view_element_ui_command_reg(view_t)
+    # for enumerator in view_element_ui_command_enumerator_reg(view_t):
+    #     command_list += enumerator.enum_commands(ctx)
+    return command_dict
