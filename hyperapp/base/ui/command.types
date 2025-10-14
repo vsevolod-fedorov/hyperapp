@@ -9,6 +9,12 @@ properties = record:
   uses_state: bool
   remotable: bool
 
+type_str_command = record:
+  t: ref
+  name: string
+  command: ref
+
+
 fn_command = record:
   d: ref
   properties: properties

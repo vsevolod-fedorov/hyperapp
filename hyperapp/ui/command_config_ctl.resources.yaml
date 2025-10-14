@@ -1,0 +1,48 @@
+# Automatically generated file. Do not edit.
+
+import:
+- base.mark:mark.module
+- base.system.config_ctl:config_ctl.module
+- builtins:mosaic.service
+- builtins:pyobj_creg.service
+- builtins:web.service
+- legacy_type.builtin:attribute
+- legacy_type.builtin:python_module
+- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
+- legacy_type.command_config_ctl:type_str_command_config_ctl
+- legacy_type.system:actor_template
+definitions:
+  TypeStrCommandConfigCtl:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_config_ctl.module
+      attr_name: TypeStrCommandConfigCtl
+  TypeStrCommandConfigCtl.from_piece:
+    type: legacy_type.builtin:attribute
+    value:
+      object: TypeStrCommandConfigCtl
+      attr_name: from_piece
+  TypeStrCommandConfigCtl.from_piece.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: TypeStrCommandConfigCtl.from_piece
+      service_params: []
+  command_config_ctl.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: command_config_ctl
+      file_name: command_config_ctl.dyn.py
+      import_list:
+        code.config_ctl: base.system.config_ctl:config_ctl.module
+        code.mark: base.mark:mark.module
+        htypes.command.type_str_command: legacy_type.command:type_str_command
+        htypes.command_config_ctl.type_str_command_config_ctl: legacy_type.command_config_ctl:type_str_command_config_ctl
+        services.mosaic: builtins:mosaic.service
+        services.pyobj_creg: builtins:pyobj_creg.service
+        services.web: builtins:web.service
+  config_ctl_creg-command_config_ctl-type_str_command_config_ctl.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.command_config_ctl:type_str_command_config_ctl
+      value: TypeStrCommandConfigCtl.from_piece.actor-template
