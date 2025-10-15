@@ -2,14 +2,11 @@
 
 import:
 - legacy_type.builtin:bool
-- legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.column:column_k
 - legacy_type.global_commands:model
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
-- models.global_commands:open_global_commands.d
-- models.global_commands:run_command.d
 definitions:
   bool-false:
     type: legacy_type.builtin:bool
@@ -40,7 +37,6 @@ definitions:
     type: legacy_type.system:system_config
     value:
       services:
-        shortcut_reg: shortcut_reg.config
         column_visible_reg: column_visible_reg.config
   config_item-column_k-global_commands.model-model_command_d:
     type: legacy_type.cfg_item:data_cfg_item
@@ -57,25 +53,3 @@ definitions:
     value:
       key: column_k-global_commands.model-ui_command_d
       value: bool-false
-  config_item-models.global_commands-open_global_commands.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: models.global_commands:open_global_commands.d
-      value: shortcut_Alt_F1
-  config_item-models.global_commands-run_command.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: models.global_commands:run_command.d
-      value: shortcut_Return
-  shortcut_Alt_F1:
-    type: legacy_type.builtin:string
-    value: Alt+F1
-  shortcut_Return:
-    type: legacy_type.builtin:string
-    value: Return
-  shortcut_reg.config:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - config_item-models.global_commands-open_global_commands.d
-      - config_item-models.global_commands-run_command.d

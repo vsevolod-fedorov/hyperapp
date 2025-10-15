@@ -2,14 +2,11 @@
 
 import:
 - legacy_type.builtin:bool
-- legacy_type.builtin:string
-- legacy_type.column:column_k
 - legacy_type.cfg_item:data_cfg_item
+- legacy_type.column:column_k
 - legacy_type.model_commands:model
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
-- models.model_commands:open_model_commands.d
-- models.model_commands:run_command.d
 definitions:
   bool-false:
     type: legacy_type.builtin:bool
@@ -49,7 +46,6 @@ definitions:
     type: legacy_type.system:system_config
     value:
       services:
-        shortcut_reg: shortcut_reg.config
         column_visible_reg: column_visible_reg.config
   config_item-column_k-model_commands.model-model_command_d:
     type: legacy_type.cfg_item:data_cfg_item
@@ -71,25 +67,3 @@ definitions:
     value:
       key: column_k-model_commands.model-ui_command_d
       value: bool-false
-  config_item-models.model_commands-open_model_commands.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: models.model_commands:open_model_commands.d
-      value: shortcut_F1
-  config_item-models.model_commands-run_command.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: models.model_commands:run_command.d
-      value: shortcut_Return
-  shortcut_F1:
-    type: legacy_type.builtin:string
-    value: F1
-  shortcut_Return:
-    type: legacy_type.builtin:string
-    value: Return
-  shortcut_reg.config:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - config_item-models.model_commands-open_model_commands.d
-      - config_item-models.model_commands-run_command.d

@@ -2,20 +2,11 @@
 
 import:
 - legacy_type.builtin:bool
-- legacy_type.builtin:string
-- legacy_type.column:column_k
 - legacy_type.cfg_item:data_cfg_item
+- legacy_type.column:column_k
 - legacy_type.list_as_tree:layer_list
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
-- views.list_as_tree:open_layers.d
-- views.list_as_tree:open_opener_commands.d
-- views.list_as_tree:toggle_open_command.d
-- views.local_server_context:open_local_server_context.d
-- views.qt.splitter:split_horizontally.d
-- views.qt.splitter:unwrap.d
-- views.tree_as_list:open.d
-- views.tree_as_list:parent.d
 definitions:
   bool-false:
     type: legacy_type.builtin:bool
@@ -40,7 +31,6 @@ definitions:
     type: legacy_type.system:system_config
     value:
       services:
-        shortcut_reg: shortcut_reg.config
         column_visible_reg: column_visible_reg.config
   config_item-column_k-list_as_tree.layer_list-open_command:
     type: legacy_type.cfg_item:data_cfg_item
@@ -52,79 +42,3 @@ definitions:
     value:
       key: column_k-list_as_tree.layer_list-piece_t
       value: bool-false
-  config_item-views.list_as_tree-open_layers.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.list_as_tree:open_layers.d
-      value: shortcut_Ctrl_Shift_L
-  config_item-views.list_as_tree-open_opener_commands.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.list_as_tree:open_opener_commands.d
-      value: shortcut_Ctrl_Shift_O
-  config_item-views.list_as_tree-toggle_open_command.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.list_as_tree:toggle_open_command.d
-      value: shortcut_Space
-  config_item-views.local_server_context-open_local_server_context.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.local_server_context:open_local_server_context.d
-      value: shortcut_Alt_Shift_S
-  config_item-views.qt.splitter-split_horizontally.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.qt.splitter:split_horizontally.d
-      value: shortcut_Ctrl_H
-  config_item-views.qt.splitter-unwrap.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.qt.splitter:unwrap.d
-      value: shortcut_Ctrl_U
-  config_item-views.tree_as_list-open.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.tree_as_list:open.d
-      value: shortcut_Return
-  config_item-views.tree_as_list-parent.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: views.tree_as_list:parent.d
-      value: shortcut_Backspace
-  shortcut_Alt_Shift_S:
-    type: legacy_type.builtin:string
-    value: Alt+Shift+S
-  shortcut_Backspace:
-    type: legacy_type.builtin:string
-    value: Backspace
-  shortcut_Ctrl_H:
-    type: legacy_type.builtin:string
-    value: Ctrl+H
-  shortcut_Ctrl_Shift_L:
-    type: legacy_type.builtin:string
-    value: Ctrl+Shift+L
-  shortcut_Ctrl_Shift_O:
-    type: legacy_type.builtin:string
-    value: Ctrl+Shift+O
-  shortcut_Ctrl_U:
-    type: legacy_type.builtin:string
-    value: Ctrl+U
-  shortcut_Return:
-    type: legacy_type.builtin:string
-    value: Return
-  shortcut_Space:
-    type: legacy_type.builtin:string
-    value: Space
-  shortcut_reg.config:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - config_item-views.local_server_context-open_local_server_context.d
-      - config_item-views.qt.splitter-split_horizontally.d
-      - config_item-views.qt.splitter-unwrap.d
-      - config_item-views.list_as_tree-open_opener_commands.d
-      - config_item-views.list_as_tree-toggle_open_command.d
-      - config_item-views.list_as_tree-open_layers.d
-      - config_item-views.tree_as_list-parent.d
-      - config_item-views.tree_as_list-open.d

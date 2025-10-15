@@ -1,37 +1,3 @@
 # Automatically generated file. Do not edit.
 
-import:
-- lcs.lcs_view:lcs_view-view.open_move.commit-command.d
-- lcs.lcs_view:lcs_view-view.open_move.open-command.d
-- legacy_type.builtin:string
-- legacy_type.cfg_item:data_cfg_item
-- legacy_type.system:item_list_config
-- legacy_type.system:system_config
-definitions:
-  config:
-    type: legacy_type.system:system_config
-    value:
-      services:
-        shortcut_reg: shortcut_reg.config
-  config_item-lcs.lcs_view-lcs_view-view.open_move.commit-command.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: lcs.lcs_view:lcs_view-view.open_move.commit-command.d
-      value: shortcut_Return
-  config_item-lcs.lcs_view-lcs_view-view.open_move.open-command.d:
-    type: legacy_type.cfg_item:data_cfg_item
-    value:
-      key: lcs.lcs_view:lcs_view-view.open_move.open-command.d
-      value: shortcut_M
-  shortcut_M:
-    type: legacy_type.builtin:string
-    value: M
-  shortcut_Return:
-    type: legacy_type.builtin:string
-    value: Return
-  shortcut_reg.config:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - config_item-lcs.lcs_view-lcs_view-view.open_move.commit-command.d
-      - config_item-lcs.lcs_view-lcs_view-view.open_move.open-command.d
+definitions: {}
