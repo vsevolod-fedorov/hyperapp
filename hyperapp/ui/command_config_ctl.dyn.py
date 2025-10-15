@@ -60,7 +60,8 @@ class TypeStrCommandConfigCtl(MultiItemConfigCtl):
             dest_name_to_command.update(src_name_to_command)
 
     def resolve(self, system, service_name, config_template):
-        return {}  # TODO
+        # TODO: Implement wrapper like LazyDictConfig but only for saving changes to a config layer.
+        return config_template
 
     def empty_config_template(self):
         return {}
