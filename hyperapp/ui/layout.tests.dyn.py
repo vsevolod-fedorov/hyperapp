@@ -7,7 +7,6 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.system_fn import ContextFn
-from .code.ui_command import UnboundUiCommand
 from .fixtures import qapp_fixtures, feed_fixtures
 from .tested.code import controller
 from .tested.code import layout

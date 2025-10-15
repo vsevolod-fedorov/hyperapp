@@ -5,7 +5,6 @@ import:
 - base.system.config_ctl:config_ctl.module
 - base.system.config_layer:one_way.key_ctl
 - base.system.config_struct_ctl:config_struct_ctl.module
-- base.system_fn:system_fn.module
 - builtins:deduce_t.service
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
@@ -17,11 +16,7 @@ import:
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
-- ui.command:command.module
 - ui.command_config_ctl:command_config_ctl.module
-- ui.command_enumerator:command_enumerator.module
-- ui.command_groups:command_groups.module
-- ui.ui_model_command:ui_model_command.module
 definitions:
   command_config_ctl-type_str_command_config.ctl:
     type: legacy_type.command_config_ctl:type_str_command_config_ctl
@@ -78,15 +73,10 @@ definitions:
       module_name: ui_command
       file_name: ui_command.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.command_config_ctl: ui.command_config_ctl:command_config_ctl.module
-        code.command_enumerator: ui.command_enumerator:command_enumerator.module
-        code.command_groups: ui.command_groups:command_groups.module
         code.config_ctl: base.system.config_ctl:config_ctl.module
         code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
         code.mark: base.mark:mark.module
-        code.system_fn: base.system_fn:system_fn.module
-        code.ui_model_command: ui.ui_model_command:ui_model_command.module
         services.deduce_t: builtins:deduce_t.service
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service

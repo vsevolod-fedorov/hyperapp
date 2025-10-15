@@ -11,102 +11,11 @@ from .services import (
     web,
     )
 from .code.mark import mark
-from .code.system_fn import ContextFn
-from .code.command import UnboundCommand, BoundCommand, CommandKind
-from .code.command_enumerator import UnboundCommandEnumerator
-from .code.command_groups import default_command_groups
 from .code.config_ctl import DictConfigCtl, FlatListConfigCtl
 from .code.config_struct_ctl import ListStructCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
-from .code.ui_model_command import wrap_model_command_to_ui_command
 
 log = logging.getLogger(__name__)
-
-
-class UiCommandEnumFn(ContextFn):
-
-    @classmethod
-    @mark.actor.system_fn_creg
-    def from_piece(cls, piece, system, rpc_system_call_factory):
-        return super().from_piece(piece, system, rpc_system_call_factory)
-
-    @property
-    def piece(self):
-        return htypes.command.ui_command_enum_fn(
-            function=pyobj_creg.actor_to_ref(self._raw_fn),
-            ctx_params=tuple(self._ctx_params),
-            service_params=tuple(self._service_params),
-            )
-
-    def call(self, ctx, **kw):
-        result = super().call(ctx, **kw)
-        return self._prepare_result(result)
-
-    @staticmethod
-    def _prepare_result(result):
-        if result is None:
-            return result
-        if type(result) is list:
-            result = tuple(result)
-        return result
-
-
-class UnboundUiCommand(UnboundCommand):
-
-    def __init__(self, d, ctx_fn, properties, groups):
-        super().__init__(d, ctx_fn)
-        self._properties = properties
-        self._groups = groups
-
-    @property
-    def piece(self):
-        return htypes.command.ui_command(
-            d=mosaic.put(self._d),
-            properties=self._properties,
-            system_fn=mosaic.put(self._ctx_fn.piece),
-            )
-
-    @property
-    def properties(self):
-        return self._properties
-
-    def bind(self, ctx):
-        return BoundUiCommand(self._d, self._ctx_fn, ctx, self._properties, self._groups)
-
-
-class BoundUiCommand(BoundCommand):
-
-    def __init__(self, d, ctx_fn, ctx, properties, groups):
-        super().__init__(d, ctx_fn, ctx)
-        self._properties = properties
-        self._groups = groups
-
-    @property
-    def properties(self):
-        return self._properties
-
-    @property
-    def groups(self):
-        return self._groups
-
-
-@mark.actor.command_creg
-def ui_command_from_piece(piece, system_fn_creg):
-    ctx_fn = system_fn_creg.invite(piece.system_fn)
-    return UnboundUiCommand(
-        d=web.summon(piece.d),
-        ctx_fn=ctx_fn,
-        properties=piece.properties,
-        groups=default_command_groups(piece.properties, CommandKind.VIEW),
-        )
-
-
-@mark.actor.command_creg
-def ui_command_enumerator_from_piece(piece, system_fn_creg):
-    ctx_fn = system_fn_creg.invite(piece.system_fn)
-    return UnboundCommandEnumerator(
-        ctx_fn=ctx_fn,
-        )
 
 
 def _item_dict_with_bases(config, view_t):

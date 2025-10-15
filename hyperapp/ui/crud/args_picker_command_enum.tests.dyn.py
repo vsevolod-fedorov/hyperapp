@@ -7,7 +7,6 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.model_command import UnboundModelCommand
-from .code.ui_command import UnboundUiCommand
 from .code.arg_mark import value_mark_name
 from .tested.code import args_picker_command_enum
 

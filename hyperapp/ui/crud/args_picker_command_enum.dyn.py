@@ -13,7 +13,6 @@ from .code.mark import mark
 from .code.command import CommandKind
 from .code.command_groups import default_command_groups
 from .code.model_command import UnboundModelCommand
-from .code.ui_command import UnboundUiCommand
 from .code.arg_mark import model_mark_prefix, value_mark_name
 from .code.canned_args_command_fn import CannedArgsCommandFn
 from .code.command_args import args_dict_to_tuple, args_t_tuple_to_dict
