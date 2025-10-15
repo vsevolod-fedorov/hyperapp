@@ -39,7 +39,12 @@ class TypeStrCommandConfigCtl(MultiItemConfigCtl):
         return htypes.command_config_ctl.type_str_command_config_ctl()
 
     def config_to_items(self, config_template):
-        assert 0 , 'TODO'
+        item_list = []
+        for t, name_to_command in config_template.items():
+            for name, command in name_to_command.items():
+                item = (t, (name, command))
+                item_list.append(item)
+        return item_list
 
     def merge_config(self, dest, src):
         self._merge(dest, src)
