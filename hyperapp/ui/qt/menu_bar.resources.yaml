@@ -34,6 +34,7 @@ definitions:
       - ctx
       service_params:
       - format
+      - ui_command_creg
       - shortcut_reg
   MenuBarView_from_piece.view-template:
     type: legacy_type.cfg_item:fn_value_template

@@ -1,4 +1,5 @@
 import logging
+from functools import partial
 
 from PySide6 import QtGui, QtWidgets
 
@@ -21,12 +22,13 @@ class MenuBarView(View):
 
     @classmethod
     @mark.view
-    def from_piece(cls, piece, ctx, format, shortcut_reg):
-        return cls(format, shortcut_reg)
+    def from_piece(cls, piece, ctx, format, ui_command_creg, shortcut_reg):
+        return cls(format, ui_command_creg, shortcut_reg)
 
-    def __init__(self, format, shortcut_reg):
+    def __init__(self, format, ui_command_creg, shortcut_reg):
         super().__init__()
         self._format = format
+        self._ui_command_creg = ui_command_creg
         self._shortcut_reg = shortcut_reg
 
     @property
@@ -57,28 +59,31 @@ class MenuBarView(View):
             action = widget.command_to_action.pop(cmd)
             global_menu.removeAction(action)
         for cmd in commands:
-            if global_d in cmd.groups:
-                menu = global_menu
-            elif view_d in cmd.groups:
-                menu = view_menu
-            elif model_d in cmd.groups:
-                menu = model_menu
-            else:
-                continue
+            menu = view_menu
+            # if global_d in cmd.groups:
+            #     menu = global_menu
+            # elif view_d in cmd.groups:
+            #     menu = view_menu
+            # elif model_d in cmd.groups:
+            #     menu = model_menu
+            # else:
+            #     continue
             action = self._make_action(cmd, used_shortcuts)
             menu.addAction(action)
             widget.command_to_action[cmd] = action
 
     def _make_action(self, cmd, used_shortcuts):
-        text = command_text(self._format, cmd)
-        action = QtGui.QAction(text, enabled=cmd.enabled)
-        action.triggered.connect(cmd.start)
-        shortcut = self._shortcut_reg.get(cmd.d)
-        if shortcut and shortcut not in used_shortcuts:
-            action.setShortcut(shortcut)
-            used_shortcuts.add(shortcut)
-        tooltip = str(cmd.d)
-        if not cmd.enabled:
-            tooltip += '\n' + cmd.disabled_reason
-        action.setToolTip(tooltip)
+        text = cmd.name
+        # text = command_text(self._format, cmd)
+        action = QtGui.QAction(text, enabled=True)
+        # action = QtGui.QAction(text, enabled=cmd.enabled)
+        action.triggered.connect(partial(cmd.start, self._ui_command_creg))
+        # shortcut = self._shortcut_reg.get(cmd.d)
+        # if shortcut and shortcut not in used_shortcuts:
+        #     action.setShortcut(shortcut)
+        #     used_shortcuts.add(shortcut)
+        # tooltip = str(cmd.d)
+        # if not cmd.enabled:
+        #     tooltip += '\n' + cmd.disabled_reason
+        # action.setToolTip(tooltip)
         return action

@@ -14,6 +14,7 @@ import:
 - ui.column_visible_reg:column_visible_reg.service
 - ui.command_config_ctl:config_ctl_creg-command_config_ctl-type_str_command_config_ctl.actor-cfg-item
 - ui.command_creg:command_creg.service
+- ui.command_creg:ui_command_creg.service
 - ui.controller:canned_ctl_item_factory.service
 - ui.controller:controller_running.service
 - ui.crud.args_picker_command_enum:command_creg-command-model_args_picker_command_enumerator.actor-cfg-item
@@ -289,6 +290,7 @@ definitions:
       - ui.accessor:accessor_creg.service
       - ui.column_visible_reg:column_visible_reg.service
       - ui.command_creg:command_creg.service
+      - ui.command_creg:ui_command_creg.service
       - ui.controller:canned_ctl_item_factory.service
       - ui.controller:controller_running.service
       - ui.crud.crud:crud.service
