@@ -33,7 +33,7 @@ class UiCommand:
         asyncio.create_task(self.run(ui_command_creg))
 
     async def run(self, ui_command_creg):
-        assert 0
+        ui_command_creg.animate(self.command, self.ctx)
 
 
 def _item_dict_with_bases(config, view_t):
