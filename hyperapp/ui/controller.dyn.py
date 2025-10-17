@@ -22,6 +22,7 @@ from .code.mark import mark
 from .code.context import Context
 from .code.tree_diff import TreeDiff
 from .code.view import View
+from .code.ui_command import UiCommand
 
 log = logging.getLogger(__name__)
 
@@ -175,7 +176,8 @@ class _Item:
             my_rctx = self.view.primary_parent_context(rctx, self.widget)
             my_cmd_ctx = self.command_context(my_rctx)
             view_commands = self._view_commands(my_cmd_ctx)
-            model_commands = self._model_commands(my_cmd_ctx)
+            model_commands = []
+            # model_commands = self._model_commands(my_cmd_ctx)
         else:
             my_rctx = rctx
             view_commands = []
@@ -189,18 +191,19 @@ class _Item:
         return ([*view_commands, *element_commands], commands_rctx)
 
     def _view_commands(self, command_ctx):
-        unbound_view_commands = self._meta.svc.get_view_commands(command_ctx, self.view)
-        return self._bind_commands(unbound_view_commands, command_ctx)
+        command_dict = self._meta.svc.get_view_commands(command_ctx, self.view)
+        return self._make_ui_commands(self.view, command_dict, command_ctx)
 
     def _element_commands(self, my_rctx):
         if not self.parent.view:
             return []
         parent_command_ctx = self.parent.command_context(my_rctx)
-        unbound_element_commands = self._meta.svc.get_view_element_commands(parent_command_ctx, self.parent.view)
+        view_t = deduce_t(self.parent.view.piece)
+        command_dict = self._meta.svc.get_view_element_commands(parent_command_ctx, self.parent.view)
         element_command_ctx = parent_command_ctx.clone_with(
             element_idx=self.idx,
             )
-        return self._bind_commands(unbound_element_commands, element_command_ctx)
+        return self._make_ui_commands(self.parent.view, command_dict, element_command_ctx)
 
     def _model_commands(self, command_ctx):
         if 'model' not in self.ctx.diffs(self.parent.ctx):  # Added or replaced by self.view.children_context.
@@ -210,9 +213,12 @@ class _Item:
             self.ctx.lcs, model_t, command_ctx)
         return self._bind_commands(unbound_model_commands, command_ctx)
 
-    @staticmethod
-    def _bind_commands(commands, ctx):
-        return [cmd.bind(ctx) for cmd in commands]
+    def _make_ui_commands(self, view, command_dict, ctx):
+        view_t = deduce_t(view.piece)
+        return [
+            UiCommand(view_t, name, command, ctx)
+            for name, command in command_dict.items()
+            ]
 
     def command_context(self, rctx):
         ctx = self.ctx.clone_with(
