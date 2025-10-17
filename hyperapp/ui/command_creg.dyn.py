@@ -5,5 +5,10 @@ from .code.mark import mark
 
 
 @mark.service
+def ui_command_creg(config):
+    return code_registry_ctr('ui_command_creg', config)
+
+
+@mark.service
 def command_creg(config):
     return code_registry_ctr('command_creg', config)
