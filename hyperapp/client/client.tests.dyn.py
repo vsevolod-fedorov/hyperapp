@@ -40,6 +40,11 @@ def view_factory_reg_config(text_view):
         }
 
 
+# Test it separately because it may be not resolved when called from main.
+def test_client_identity(client_identity):
+    assert client_identity.piece
+
+
 def test_client(client_main):
     client_project = project_factory(Path('/tmp/client-test'), 'mock-client')
     name_to_project = {
