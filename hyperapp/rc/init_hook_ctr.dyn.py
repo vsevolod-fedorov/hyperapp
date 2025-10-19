@@ -4,6 +4,7 @@ from .services import (
     )
 from .code.rc_constructor import Constructor, ModuleCtr
 from .code.init_hook_req import InitHookReq
+from .code.ctx_fn_actor_ctr import CtxFnCtr
 
 
 class BaseInitHookCtr(Constructor):
@@ -32,7 +33,7 @@ class BaseInitHookCtr(Constructor):
 
 
 
-class InitHookCtr(ModuleCtr):
+class InitHookCtr(ModuleCtr, CtxFnCtr):
 
     _service_name = 'init_hook'
 
@@ -42,8 +43,7 @@ class InitHookCtr(ModuleCtr):
 
     def __init__(self, module_name, attr_qual_name, service_params):
         super().__init__(module_name)
-        self._attr_qual_name = attr_qual_name
-        self._service_params = service_params
+        CtxFnCtr.__init__(self, attr_qual_name, ctx_params=(), service_params=service_params)
 
     @property
     def piece(self):
@@ -62,31 +62,10 @@ class InitHookCtr(ModuleCtr):
         resource_tgt.add_cfg_item_target(resolved_tgt)
 
     def get_component(self, name_to_res):
-        return name_to_res[f'{self._fn_name}.hook']
+        return name_to_res[f'{self._fn_name}.{self._value_template_suffix}']
 
     def make_component(self, types, python_module, name_to_res=None):
-        object = python_module
-        prefix = []
-        for name in self._attr_qual_name:
-            object = htypes.builtin.attribute(
-                object=mosaic.put(object),
-                attr_name=name,
-                )
-            if name_to_res is not None:
-                name_to_res['.'.join([*prefix, name])] = object
-            prefix.append(name)
-        system_fn = htypes.system_fn.ctx_fn(
-            function=mosaic.put(object),
-            ctx_params=(),
-            service_params=tuple(self._service_params),
-            )
-        template = htypes.cfg_item.fn_value_template(
-            system_fn=mosaic.put(system_fn),
-            )
-        if name_to_res is not None:
-            name_to_res[f'{self._fn_name}.system-fn'] = system_fn
-            name_to_res[f'{self._fn_name}.hook'] = template
-        return template
+        return self.make_value_template(python_module, name_to_res)
 
     @property
     def _config_name(self):

@@ -7,30 +7,16 @@ from .code.rc_constructor import ModuleCtr
 from .code.cfg_item_req import CfgItemReq
 
 
-class CtxFnActorTemplateCtr(ModuleCtr):
+class CtxFnCtr:
 
-    def __init__(self, module_name, attr_qual_name, service_name, t, ctx_params, service_params, create_t=False):
-        super().__init__(module_name)
-        self._service_name = service_name
-        self._t = t
+    _value_template_suffix = 'ctx-actor-template'
+
+    def __init__(self, attr_qual_name, ctx_params, service_params):
         self._attr_qual_name = attr_qual_name
         self._ctx_params = ctx_params
         self._service_params = service_params
-        self._create_t = create_t
 
-    def update_resource_targets(self, resource_tgt, target_set):
-        req = CfgItemReq.from_actor(self._service_name, self._t)
-        _, resolved_tgt, _ = target_set.factory.config_items(
-            self._service_name, self._type_name, req,
-            provider=resource_tgt,
-            ctr=self,
-            )
-        resource_tgt.add_cfg_item_target(resolved_tgt)
-
-    def get_component(self, name_to_res):
-        return name_to_res[self._resource_name]
-
-    def make_component(self, types, python_module, name_to_res=None):
+    def make_value_template(self, python_module, name_to_res=None):
         object = python_module
         prefix = []
         for name in self._attr_qual_name:
@@ -50,6 +36,35 @@ class CtxFnActorTemplateCtr(ModuleCtr):
         template = htypes.cfg_item.fn_value_template(
             system_fn=mosaic.put(system_fn),
             )
+        if name_to_res is not None:
+            name_to_res[f'{attr_name}.system-fn'] = system_fn
+            name_to_res[f'{attr_name}.{self._value_template_suffix}'] = template
+        return template
+
+
+class CtxFnActorTemplateCtr(ModuleCtr, CtxFnCtr):
+
+    def __init__(self, module_name, attr_qual_name, service_name, t, ctx_params, service_params, create_t=False):
+        super().__init__(module_name)
+        CtxFnCtr.__init__(self, attr_qual_name, ctx_params, service_params)
+        self._service_name = service_name
+        self._t = t
+        self._create_t = create_t
+
+    def update_resource_targets(self, resource_tgt, target_set):
+        req = CfgItemReq.from_actor(self._service_name, self._t)
+        _, resolved_tgt, _ = target_set.factory.config_items(
+            self._service_name, self._type_name, req,
+            provider=resource_tgt,
+            ctr=self,
+            )
+        resource_tgt.add_cfg_item_target(resolved_tgt)
+
+    def get_component(self, name_to_res):
+        return name_to_res[self._resource_name]
+
+    def make_component(self, types, python_module, name_to_res=None):
+        template = self.make_value_template(python_module, name_to_res)
         cfg_item = htypes.cfg_item.typed_cfg_item(
             t=pyobj_creg.actor_to_ref(self._t),
             value=mosaic.put(template),
@@ -58,8 +73,6 @@ class CtxFnActorTemplateCtr(ModuleCtr):
             if self._create_t:
                 t_piece = pyobj_creg.actor_to_piece(self._t)
                 name_to_res[f'{t_piece.name}.t'] = t_piece
-            name_to_res[f'{attr_name}.system-fn'] = system_fn
-            name_to_res[f'{attr_name}.ctx-actor-template'] = template
             name_to_res[self._resource_name] = cfg_item
         return cfg_item
 
