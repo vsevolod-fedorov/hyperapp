@@ -10,6 +10,7 @@ import:
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - ui.qt.tabs:tabs.module
 definitions:
@@ -65,6 +66,16 @@ definitions:
         htypes.auto_tabs.view: legacy_type.auto_tabs:view
         services.deduce_t: builtins:deduce_t.service
   close_tab:
+    type: legacy_type.builtin:attribute
+    value:
+      object: auto_tabs.module
+      attr_name: close_tab
+  close_tab.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: close_tab
+      service_params: []
+  close_tab.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: auto_tabs
@@ -72,9 +83,20 @@ definitions:
       base: null
       fields: {}
   close_tab.ui-command:
-    type: close_tab
+    type: close_tab.t
     value: {}
   duplicate_tab:
+    type: legacy_type.builtin:attribute
+    value:
+      object: auto_tabs.module
+      attr_name: duplicate_tab
+  duplicate_tab.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: duplicate_tab
+      service_params:
+      - view_reg
+  duplicate_tab.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: auto_tabs
@@ -82,5 +104,15 @@ definitions:
       base: null
       fields: {}
   duplicate_tab.ui-command:
-    type: duplicate_tab
+    type: duplicate_tab.t
     value: {}
+  ui_command_creg-auto_tabs-close_tab.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: close_tab.t
+      value: close_tab.actor-template
+  ui_command_creg-auto_tabs-duplicate_tab.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: duplicate_tab.t
+      value: duplicate_tab.actor-template

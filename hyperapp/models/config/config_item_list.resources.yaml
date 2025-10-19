@@ -119,10 +119,10 @@ definitions:
     value:
       command: config_item_list-layer_model.open_move.command
   config_item_list-layer_model.open_move.commit-command.d:
-    type: move_d
+    type: move_d.t
     value: {}
   config_item_list-layer_model.open_move.open-command.d:
-    type: open_move_d
+    type: open_move_d.t
     value: {}
   config_item_list-layer_model.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -212,10 +212,10 @@ definitions:
     value:
       command: config_item_list-model.open_move.command
   config_item_list-model.open_move.commit-command.d:
-    type: move_d
+    type: move_d.t
     value: {}
   config_item_list-model.open_move.open-command.d:
-    type: open_move_d
+    type: open_move_d.t
     value: {}
   config_item_list-model.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -288,14 +288,14 @@ definitions:
     value:
       t: legacy_type.config_item_list:model
       value: format_model.actor-template
-  move_d:
+  move_d.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: config_item_list
       name: move_d
       base: null
       fields: {}
-  open_move_d:
+  open_move_d.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: config_item_list

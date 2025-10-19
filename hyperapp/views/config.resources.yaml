@@ -13,11 +13,15 @@ import:
 - views.list_as_tree:list_as_tree-opener_commands.model-cfg-item
 - views.list_as_tree:list_as_tree_ui_type_layout.view-factory-cfg-item
 - views.list_as_tree:tree-view-open_layers.command-cfg-item
+- views.list_as_tree:ui_command_creg-list_as_tree-open_layers.actor-cfg-item
+- views.list_as_tree:ui_command_creg-list_as_tree-switch_list_to_tree.actor-cfg-item
 - views.list_as_tree_adapter:ui_adapter_creg-list_as_tree_adapter-adapter.actor-cfg-item
 - views.local_server_context:local_server_context-view.view-cfg-item
 - views.qt.splitter:navigator-view-split_horizontally.command-cfg-item
 - views.qt.splitter:splitter-view-unwrap.command-cfg-item
 - views.qt.splitter:splitter-view.view-cfg-item
+- views.qt.splitter:ui_command_creg-splitter-split_horizontally.actor-cfg-item
+- views.qt.splitter:ui_command_creg-splitter-unwrap.actor-cfg-item
 - views.qt.splitter:wrap_splitter.view-factory-cfg-item
 - views.tree_as_list:formatter_creg-tree_as_list-list_model.actor-cfg-item
 - views.tree_as_list:index_tree_as_list_ui_type_layout.view-factory-cfg-item
@@ -28,6 +32,8 @@ import:
 - views.tree_as_list:tree_as_list-key_view-open.command-cfg-item
 - views.tree_as_list:tree_as_list-key_view-parent.command-cfg-item
 - views.tree_as_list:tree_as_list-key_view.view-cfg-item
+- views.tree_as_list:ui_command_creg-tree_as_list-open.actor-cfg-item
+- views.tree_as_list:ui_command_creg-tree_as_list-parent.actor-cfg-item
 definitions:
   config:
     type: legacy_type.system:system_config
@@ -38,6 +44,7 @@ definitions:
         model_reg: model_reg
         system: system
         ui_adapter_creg: ui_adapter_creg
+        ui_command_creg: ui_command_creg
         view_factory_reg: view_factory_reg
         view_reg: view_reg
         view_ui_command_reg: view_ui_command_reg
@@ -69,6 +76,16 @@ definitions:
     value:
       items:
       - views.list_as_tree_adapter:ui_adapter_creg-list_as_tree_adapter-adapter.actor-cfg-item
+  ui_command_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - views.list_as_tree:ui_command_creg-list_as_tree-open_layers.actor-cfg-item
+      - views.list_as_tree:ui_command_creg-list_as_tree-switch_list_to_tree.actor-cfg-item
+      - views.qt.splitter:ui_command_creg-splitter-split_horizontally.actor-cfg-item
+      - views.qt.splitter:ui_command_creg-splitter-unwrap.actor-cfg-item
+      - views.tree_as_list:ui_command_creg-tree_as_list-open.actor-cfg-item
+      - views.tree_as_list:ui_command_creg-tree_as_list-parent.actor-cfg-item
   view_factory_reg:
     type: legacy_type.system:item_list_config
     value:

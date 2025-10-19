@@ -26,6 +26,7 @@ import:
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:key_list_ui_t
 - legacy_type.model:model
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.tree:view
 - legacy_type.ui:model_layout_k
@@ -153,7 +154,7 @@ definitions:
       object: list_as_tree.module
       attr_name: list_as_tree_ui_type_layout
   list_as_tree_ui_type_layout.k:
-    type: list_as_tree_ui_type_layout_k
+    type: list_as_tree_ui_type_layout_k.t
     value: {}
   list_as_tree_ui_type_layout.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -180,7 +181,7 @@ definitions:
       - model
       - ctx
       system_fn: list_as_tree_ui_type_layout.system-fn
-  list_as_tree_ui_type_layout_k:
+  list_as_tree_ui_type_layout_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: list_as_tree
@@ -188,6 +189,16 @@ definitions:
       base: null
       fields: {}
   open_layers:
+    type: legacy_type.builtin:attribute
+    value:
+      object: list_as_tree.module
+      attr_name: open_layers
+  open_layers.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: open_layers
+      service_params: []
+  open_layers.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: list_as_tree
@@ -195,7 +206,7 @@ definitions:
       base: null
       fields: {}
   open_layers.ui-command:
-    type: open_layers
+    type: open_layers.t
     value: {}
   opener_command_list:
     type: legacy_type.builtin:attribute
@@ -203,6 +214,17 @@ definitions:
       object: list_as_tree.module
       attr_name: opener_command_list
   switch_list_to_tree:
+    type: legacy_type.builtin:attribute
+    value:
+      object: list_as_tree.module
+      attr_name: switch_list_to_tree
+  switch_list_to_tree.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: switch_list_to_tree
+      service_params:
+      - view_reg
+  switch_list_to_tree.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: list_as_tree
@@ -210,7 +232,7 @@ definitions:
       base: null
       fields: {}
   switch_list_to_tree.ui-command:
-    type: switch_list_to_tree
+    type: switch_list_to_tree.t
     value: {}
   tree-view-open_layers.command-cfg-item:
     type: legacy_type.command:type_str_command
@@ -218,3 +240,13 @@ definitions:
       t: legacy_type.tree:view
       name: open_layers
       command: open_layers.ui-command
+  ui_command_creg-list_as_tree-open_layers.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_layers.t
+      value: open_layers.actor-template
+  ui_command_creg-list_as_tree-switch_list_to_tree.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: switch_list_to_tree.t
+      value: switch_list_to_tree.actor-template

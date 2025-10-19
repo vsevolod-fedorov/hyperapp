@@ -117,10 +117,10 @@ definitions:
     value:
       command: lcs_view-view.open_move.command
   lcs_view-view.open_move.commit-command.d:
-    type: move_d
+    type: move_d.t
     value: {}
   lcs_view-view.open_move.open-command.d:
-    type: open_move_d
+    type: open_move_d.t
     value: {}
   lcs_view-view.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -147,14 +147,14 @@ definitions:
         htypes.lcs_view.view: legacy_type.lcs_view:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  move_d:
+  move_d.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: lcs_view
       name: move_d
       base: null
       fields: {}
-  open_move_d:
+  open_move_d.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: lcs_view

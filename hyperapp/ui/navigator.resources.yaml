@@ -14,6 +14,7 @@ import:
 - legacy_type.command:type_str_command
 - legacy_type.navigator:history_rec
 - legacy_type.navigator:view
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.ui:model_layout_k
 - ui.remote_model:remote_model.module
@@ -45,6 +46,17 @@ definitions:
     value:
       system_fn: NavigatorView_from_piece.system-fn
   go_back:
+    type: legacy_type.builtin:attribute
+    value:
+      object: navigator.module
+      attr_name: go_back
+  go_back.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: go_back
+      service_params:
+      - view_reg
+  go_back.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: navigator
@@ -52,9 +64,20 @@ definitions:
       base: null
       fields: {}
   go_back.ui-command:
-    type: go_back
+    type: go_back.t
     value: {}
   go_forward:
+    type: legacy_type.builtin:attribute
+    value:
+      object: navigator.module
+      attr_name: go_forward
+  go_forward.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: go_forward
+      service_params:
+      - view_reg
+  go_forward.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: navigator
@@ -62,7 +85,7 @@ definitions:
       base: null
       fields: {}
   go_forward.ui-command:
-    type: go_forward
+    type: go_forward.t
     value: {}
   navigator-view-go_back.command-cfg-item:
     type: legacy_type.command:type_str_command
@@ -97,3 +120,13 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
+  ui_command_creg-navigator-go_back.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: go_back.t
+      value: go_back.actor-template
+  ui_command_creg-navigator-go_forward.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: go_forward.t
+      value: go_forward.actor-template

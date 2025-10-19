@@ -98,7 +98,7 @@ definitions:
       object: text.module
       attr_name: text_edit
   text_edit.k:
-    type: text_edit_k
+    type: text_edit_k.t
     value: {}
   text_edit.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -126,7 +126,7 @@ definitions:
       - model
       - ctx
       system_fn: text_edit.system-fn
-  text_edit_k:
+  text_edit_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: text
@@ -139,7 +139,7 @@ definitions:
       object: text.module
       attr_name: text_view
   text_view.k:
-    type: text_view_k
+    type: text_view_k.t
     value: {}
   text_view.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -167,7 +167,7 @@ definitions:
       - model
       - ctx
       system_fn: text_view.system-fn
-  text_view_k:
+  text_view_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: text

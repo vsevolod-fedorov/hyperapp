@@ -77,12 +77,12 @@ definitions:
     value:
       command: model_commands-model.open_rename.command
   model_commands-model.open_rename.commit-command.d:
-    type: rename_d
+    type: rename_d.t
     value: {}
   model_commands-model.open_rename.open-command.d:
-    type: open_rename_d
+    type: open_rename_d.t
     value: {}
-  open_rename_d:
+  open_rename_d.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: rename_command
@@ -100,7 +100,7 @@ definitions:
         code.model_command: ui.model_command:model_command.module
         htypes.rename_command.form: legacy_type.rename_command:form
         services.web: builtins:web.service
-  rename_d:
+  rename_d.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: rename_command

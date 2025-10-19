@@ -73,7 +73,7 @@ definitions:
       object: form.module
       attr_name: form_view_factory
   form_view_factory.k:
-    type: form_view_factory_k
+    type: form_view_factory_k.t
     value: {}
   form_view_factory.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -102,7 +102,7 @@ definitions:
       - model
       - ctx
       system_fn: form_view_factory.system-fn
-  form_view_factory_k:
+  form_view_factory_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: form
@@ -115,7 +115,7 @@ definitions:
       object: form.module
       attr_name: readonly_form_view_factory
   readonly_form_view_factory.k:
-    type: readonly_form_view_factory_k
+    type: readonly_form_view_factory_k.t
     value: {}
   readonly_form_view_factory.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -144,7 +144,7 @@ definitions:
       - model
       - ctx
       system_fn: readonly_form_view_factory.system-fn
-  readonly_form_view_factory_k:
+  readonly_form_view_factory_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: form

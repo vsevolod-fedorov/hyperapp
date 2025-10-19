@@ -49,7 +49,7 @@ definitions:
       object: data_browser_adapter.module
       attr_name: data_browser_data_view
   data_browser_data_view.k:
-    type: data_browser_data_view_k
+    type: data_browser_data_view_k.t
     value: {}
   data_browser_data_view.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -76,7 +76,7 @@ definitions:
       - model
       - ctx
       system_fn: data_browser_data_view.system-fn
-  data_browser_data_view_k:
+  data_browser_data_view_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: data_browser_adapter

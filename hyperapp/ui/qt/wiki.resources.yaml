@@ -116,7 +116,7 @@ definitions:
       t: legacy_type.wiki:wiki_view
       value: WikiView_from_piece.view-template
   wiki.k:
-    type: wiki_k
+    type: wiki_k.t
     value: {}
   wiki.module:
     type: legacy_type.builtin:python_module
@@ -173,7 +173,7 @@ definitions:
     value:
       function: wiki_convertor_resource_name
       service_params: []
-  wiki_k:
+  wiki_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: wiki
@@ -186,7 +186,7 @@ definitions:
       object: wiki.module
       attr_name: wiki_text_edit
   wiki_text_edit.k:
-    type: wiki_text_edit_k
+    type: wiki_text_edit_k.t
     value: {}
   wiki_text_edit.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -213,7 +213,7 @@ definitions:
       - model
       - ctx
       system_fn: wiki_text_edit.system-fn
-  wiki_text_edit_k:
+  wiki_text_edit_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: wiki
@@ -226,7 +226,7 @@ definitions:
       object: wiki.module
       attr_name: wiki_text_view
   wiki_text_view.k:
-    type: wiki_text_view_k
+    type: wiki_text_view_k.t
     value: {}
   wiki_text_view.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -253,7 +253,7 @@ definitions:
       - model
       - ctx
       system_fn: wiki_text_view.system-fn
-  wiki_text_view_k:
+  wiki_text_view_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: wiki
@@ -266,7 +266,7 @@ definitions:
       object: wiki.module
       attr_name: wiki_view
   wiki_view.k:
-    type: wiki_view_k
+    type: wiki_view_k.t
     value: {}
   wiki_view.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -293,7 +293,7 @@ definitions:
       - model
       - ctx
       system_fn: wiki_view.system-fn
-  wiki_view_k:
+  wiki_view_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: wiki

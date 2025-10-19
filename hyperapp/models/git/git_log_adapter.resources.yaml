@@ -60,7 +60,7 @@ definitions:
       object: git_log_adapter.module
       attr_name: git_log_layout
   git_log_layout.k:
-    type: git_log_layout_k
+    type: git_log_layout_k.t
     value: {}
   git_log_layout.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -88,7 +88,7 @@ definitions:
       - model
       - ctx
       system_fn: git_log_layout.system-fn
-  git_log_layout_k:
+  git_log_layout_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: git_log_adapter

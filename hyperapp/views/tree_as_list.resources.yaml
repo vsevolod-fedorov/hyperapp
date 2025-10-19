@@ -100,7 +100,7 @@ definitions:
       object: tree_as_list.module
       attr_name: index_tree_as_list_ui_type_layout
   index_tree_as_list_ui_type_layout.k:
-    type: index_tree_as_list_ui_type_layout_k
+    type: index_tree_as_list_ui_type_layout_k.t
     value: {}
   index_tree_as_list_ui_type_layout.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -127,7 +127,7 @@ definitions:
       - model
       - ctx
       system_fn: index_tree_as_list_ui_type_layout.system-fn
-  index_tree_as_list_ui_type_layout_k:
+  index_tree_as_list_ui_type_layout_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tree_as_list
@@ -140,7 +140,7 @@ definitions:
       object: tree_as_list.module
       attr_name: key_tree_as_list_ui_type_layout
   key_tree_as_list_ui_type_layout.k:
-    type: key_tree_as_list_ui_type_layout_k
+    type: key_tree_as_list_ui_type_layout_k.t
     value: {}
   key_tree_as_list_ui_type_layout.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -167,7 +167,7 @@ definitions:
       - model
       - ctx
       system_fn: key_tree_as_list_ui_type_layout.system-fn
-  key_tree_as_list_ui_type_layout_k:
+  key_tree_as_list_ui_type_layout_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tree_as_list
@@ -175,6 +175,17 @@ definitions:
       base: null
       fields: {}
   open:
+    type: legacy_type.builtin:attribute
+    value:
+      object: tree_as_list.module
+      attr_name: open
+  open.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: open
+      service_params:
+      - view_reg
+  open.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tree_as_list
@@ -182,9 +193,20 @@ definitions:
       base: null
       fields: {}
   open.ui-command:
-    type: open
+    type: open.t
     value: {}
   parent:
+    type: legacy_type.builtin:attribute
+    value:
+      object: tree_as_list.module
+      attr_name: parent
+  parent.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: parent
+      service_params:
+      - view_reg
+  parent.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tree_as_list
@@ -192,7 +214,7 @@ definitions:
       base: null
       fields: {}
   parent.ui-command:
-    type: parent
+    type: parent.t
     value: {}
   tree_as_list-index_view-open.command-cfg-item:
     type: legacy_type.command:type_str_command
@@ -249,3 +271,13 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
+  ui_command_creg-tree_as_list-open.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open.t
+      value: open.actor-template
+  ui_command_creg-tree_as_list-parent.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: parent.t
+      value: parent.actor-template

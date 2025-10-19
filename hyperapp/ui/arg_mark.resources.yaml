@@ -14,6 +14,7 @@ import:
 - legacy_type.command:type_str_command
 - legacy_type.context_view:state
 - legacy_type.navigator:view
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - ui.qt.context_view:context_view.module
 definitions:
@@ -42,6 +43,18 @@ definitions:
     value:
       system_fn: MarkView_from_piece.system-fn
   add_mark:
+    type: legacy_type.builtin:attribute
+    value:
+      object: arg_mark.module
+      attr_name: add_mark
+  add_mark.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: add_mark
+      service_params:
+      - view_reg
+      - selector_reg
+  add_mark.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: arg_mark
@@ -49,7 +62,7 @@ definitions:
       base: null
       fields: {}
   add_mark.ui-command:
-    type: add_mark
+    type: add_mark.t
     value: {}
   arg_mark-view-remove_mark.command-cfg-item:
     type: legacy_type.command:type_str_command
@@ -82,6 +95,17 @@ definitions:
       name: add_mark
       command: add_mark.ui-command
   remove_mark:
+    type: legacy_type.builtin:attribute
+    value:
+      object: arg_mark.module
+      attr_name: remove_mark
+  remove_mark.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: remove_mark
+      service_params:
+      - view_reg
+  remove_mark.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: arg_mark
@@ -89,5 +113,15 @@ definitions:
       base: null
       fields: {}
   remove_mark.ui-command:
-    type: remove_mark
+    type: remove_mark.t
     value: {}
+  ui_command_creg-arg_mark-add_mark.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_mark.t
+      value: add_mark.actor-template
+  ui_command_creg-arg_mark-remove_mark.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove_mark.t
+      value: remove_mark.actor-template

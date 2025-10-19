@@ -11,6 +11,7 @@ import:
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.tabs:list_item
 - legacy_type.tabs:state
@@ -43,6 +44,18 @@ definitions:
     value:
       system_fn: TabsView_from_piece.system-fn
   add_element:
+    type: legacy_type.builtin:attribute
+    value:
+      object: tabs.module
+      attr_name: add_element
+  add_element.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: add_element
+      service_params:
+      - view_reg
+      - view_factory_reg
+  add_element.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tabs
@@ -50,9 +63,21 @@ definitions:
       base: null
       fields: {}
   add_element.ui-command:
-    type: add_element
+    type: add_element.t
     value: {}
   insert_element:
+    type: legacy_type.builtin:attribute
+    value:
+      object: tabs.module
+      attr_name: insert_element
+  insert_element.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: insert_element
+      service_params:
+      - view_reg
+      - view_factory_reg
+  insert_element.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tabs
@@ -60,9 +85,19 @@ definitions:
       base: null
       fields: {}
   insert_element.ui-command:
-    type: insert_element
+    type: insert_element.t
     value: {}
   remove_element:
+    type: legacy_type.builtin:attribute
+    value:
+      object: tabs.module
+      attr_name: remove_element
+  remove_element.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: remove_element
+      service_params: []
+  remove_element.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tabs
@@ -70,7 +105,7 @@ definitions:
       base: null
       fields: {}
   remove_element.ui-command:
-    type: remove_element
+    type: remove_element.t
     value: {}
   tabs-view-add_element.command-cfg-item:
     type: legacy_type.command:type_str_command
@@ -115,7 +150,37 @@ definitions:
         htypes.tabs.view: legacy_type.tabs:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  ui_command_creg-tabs-add_element.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_element.t
+      value: add_element.actor-template
+  ui_command_creg-tabs-insert_element.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: insert_element.t
+      value: insert_element.actor-template
+  ui_command_creg-tabs-remove_element.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove_element.t
+      value: remove_element.actor-template
+  ui_command_creg-tabs-unwrap.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: unwrap.t
+      value: unwrap.actor-template
   unwrap:
+    type: legacy_type.builtin:attribute
+    value:
+      object: tabs.module
+      attr_name: unwrap
+  unwrap.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: unwrap
+      service_params: []
+  unwrap.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tabs
@@ -123,7 +188,7 @@ definitions:
       base: null
       fields: {}
   unwrap.ui-command:
-    type: unwrap
+    type: unwrap.t
     value: {}
   wrap_in_tabs:
     type: legacy_type.builtin:attribute
@@ -131,7 +196,7 @@ definitions:
       object: tabs.module
       attr_name: wrap_in_tabs
   wrap_in_tabs.k:
-    type: wrap_in_tabs_k
+    type: wrap_in_tabs_k.t
     value: {}
   wrap_in_tabs.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -156,7 +221,7 @@ definitions:
       - piece
       - ctx
       system_fn: wrap_in_tabs.system-fn
-  wrap_in_tabs_k:
+  wrap_in_tabs_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tabs

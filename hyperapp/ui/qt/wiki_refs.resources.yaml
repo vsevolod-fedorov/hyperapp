@@ -47,7 +47,7 @@ definitions:
       object: wiki_refs.module
       attr_name: wiki_refs
   wiki_refs.k:
-    type: wiki_refs_k
+    type: wiki_refs_k.t
     value: {}
   wiki_refs.module:
     type: legacy_type.builtin:python_module
@@ -89,7 +89,7 @@ definitions:
       - model
       - ctx
       system_fn: wiki_refs.system-fn
-  wiki_refs_k:
+  wiki_refs_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: wiki_refs

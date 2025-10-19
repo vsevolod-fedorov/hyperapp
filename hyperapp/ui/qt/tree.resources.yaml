@@ -50,7 +50,7 @@ definitions:
       object: tree.module
       attr_name: index_tree_ui_type_layout
   index_tree_ui_type_layout.k:
-    type: index_tree_ui_type_layout_k
+    type: index_tree_ui_type_layout_k.t
     value: {}
   index_tree_ui_type_layout.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -77,7 +77,7 @@ definitions:
       - model
       - ctx
       system_fn: index_tree_ui_type_layout.system-fn
-  index_tree_ui_type_layout_k:
+  index_tree_ui_type_layout_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tree
@@ -90,7 +90,7 @@ definitions:
       object: tree.module
       attr_name: key_tree_ui_type_layout
   key_tree_ui_type_layout.k:
-    type: key_tree_ui_type_layout_k
+    type: key_tree_ui_type_layout_k.t
     value: {}
   key_tree_ui_type_layout.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -117,7 +117,7 @@ definitions:
       - model
       - ctx
       system_fn: key_tree_ui_type_layout.system-fn
-  key_tree_ui_type_layout_k:
+  key_tree_ui_type_layout_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: tree

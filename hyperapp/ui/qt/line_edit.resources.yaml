@@ -92,7 +92,7 @@ definitions:
       t: legacy_type.line_edit:readonly_view
       value: ViewLineView_from_piece.view-template
   line_edit.k:
-    type: line_edit_k
+    type: line_edit_k.t
     value: {}
   line_edit.module:
     type: legacy_type.builtin:python_module
@@ -140,7 +140,7 @@ definitions:
       - model
       - ctx
       system_fn: line_edit.system-fn
-  line_edit_k:
+  line_edit_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: line_edit
@@ -163,7 +163,7 @@ definitions:
       object: line_edit.module
       attr_name: line_view
   line_view.k:
-    type: line_view_k
+    type: line_view_k.t
     value: {}
   line_view.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -194,7 +194,7 @@ definitions:
       - model
       - ctx
       system_fn: line_view.system-fn
-  line_view_k:
+  line_view_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: line_edit

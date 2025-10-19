@@ -14,6 +14,7 @@ import:
 - legacy_type.navigator:view
 - legacy_type.splitter:state
 - legacy_type.splitter:view
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.view_factory:template
 - ui.view.view:view.module
@@ -48,6 +49,17 @@ definitions:
       name: split_horizontally
       command: split_horizontally.ui-command
   split_horizontally:
+    type: legacy_type.builtin:attribute
+    value:
+      object: splitter.module
+      attr_name: split_horizontally
+  split_horizontally.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: split_horizontally
+      service_params:
+      - view_reg
+  split_horizontally.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: splitter
@@ -55,7 +67,7 @@ definitions:
       base: null
       fields: {}
   split_horizontally.ui-command:
-    type: split_horizontally
+    type: split_horizontally.t
     value: {}
   splitter-view-unwrap.command-cfg-item:
     type: legacy_type.command:type_str_command
@@ -80,7 +92,27 @@ definitions:
         htypes.splitter.view: legacy_type.splitter:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  ui_command_creg-splitter-split_horizontally.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: split_horizontally.t
+      value: split_horizontally.actor-template
+  ui_command_creg-splitter-unwrap.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: unwrap.t
+      value: unwrap.actor-template
   unwrap:
+    type: legacy_type.builtin:attribute
+    value:
+      object: splitter.module
+      attr_name: unwrap
+  unwrap.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: unwrap
+      service_params: []
+  unwrap.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: splitter
@@ -88,7 +120,7 @@ definitions:
       base: null
       fields: {}
   unwrap.ui-command:
-    type: unwrap
+    type: unwrap.t
     value: {}
   wrap_splitter:
     type: legacy_type.builtin:attribute
@@ -96,7 +128,7 @@ definitions:
       object: splitter.module
       attr_name: wrap_splitter
   wrap_splitter.k:
-    type: wrap_splitter_k
+    type: wrap_splitter_k.t
     value: {}
   wrap_splitter.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -121,7 +153,7 @@ definitions:
       - piece
       - ctx
       system_fn: wrap_splitter.system-fn
-  wrap_splitter_k:
+  wrap_splitter_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: splitter

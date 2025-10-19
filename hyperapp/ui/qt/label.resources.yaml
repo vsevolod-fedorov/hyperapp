@@ -11,6 +11,7 @@ import:
 - legacy_type.command:type_str_command
 - legacy_type.label:state
 - legacy_type.label:view
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.view_factory:template
 - ui.view.view:view.module
@@ -64,7 +65,7 @@ definitions:
       object: label.module
       attr_name: label_view
   label_view.k:
-    type: label_view_k
+    type: label_view_k.t
     value: {}
   label_view.system-fn:
     type: legacy_type.system_fn:ctx_fn
@@ -88,7 +89,7 @@ definitions:
       - piece
       - ctx
       system_fn: label_view.system-fn
-  label_view_k:
+  label_view_k.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: label
@@ -96,6 +97,17 @@ definitions:
       base: null
       fields: {}
   set_label_text:
+    type: legacy_type.builtin:attribute
+    value:
+      object: label.module
+      attr_name: set_label_text
+  set_label_text.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: set_label_text
+      service_params:
+      - view_reg
+  set_label_text.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: label
@@ -103,5 +115,10 @@ definitions:
       base: null
       fields: {}
   set_label_text.ui-command:
-    type: set_label_text
+    type: set_label_text.t
     value: {}
+  ui_command_creg-label-set_label_text.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_label_text.t
+      value: set_label_text.actor-template
