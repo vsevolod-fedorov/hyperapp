@@ -32,7 +32,6 @@ class BaseInitHookCtr(Constructor):
         return InitHookReq(self._fn_name)
 
 
-
 class InitHookCtr(ModuleCtr, CtxFnCtr):
 
     _service_name = 'init_hook'
