@@ -106,12 +106,13 @@ class ActorTemplateCtr(ActorTemplateCtrBase):
             service_params=piece.service_params,
             )
 
-    def __init__(self, module_name, attr_qual_name, service_name, t, creg_params, service_params):
+    def __init__(self, module_name, attr_qual_name, service_name, t, creg_params, service_params, create_t=False):
         super().__init__(service_name, t)
         self._module_name = module_name
         self._attr_qual_name = attr_qual_name
         self._creg_params = creg_params
         self._service_params = service_params
+        self._create_t = create_t
 
     @property
     def piece(self):
@@ -128,7 +129,7 @@ class ActorTemplateCtr(ActorTemplateCtrBase):
         resource_tgt = target_set.factory.python_module_resource_by_module_name(self._module_name)
         # Ready target may already have provider set, but when marker is non-typed it have not.
         req = CfgItemReq.from_actor(self._service_name, self._t)
-        ready_tgt, resolved_tgt, _ = target_set.factory.config_items(
+        _, resolved_tgt, _ = target_set.factory.config_items(
             self._service_name, self._type_name, req,
             provider=resource_tgt,
             ctr=self,
@@ -157,6 +158,9 @@ class ActorTemplateCtr(ActorTemplateCtrBase):
             value=mosaic.put(template),
             )
         if name_to_res is not None:
+            if self._create_t:
+                t_piece = pyobj_creg.actor_to_piece(self._t)
+                name_to_res[f'{t_piece.name}.t'] = t_piece
             name_to_res[f'{attr_name}.actor-template'] = template
             name_to_res[f'{self._resource_name}.actor-cfg-item'] = cfg_item
         return cfg_item
