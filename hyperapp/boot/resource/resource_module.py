@@ -208,12 +208,12 @@ class ResourceModule:
             else:
                 return full_name
         if isinstance(piece, record_mt):
-            name = piece.name
+            name = f'{piece.name}.t'
         elif isinstance(piece, list_mt):
             element_t = resource_type.resource_t.element_t
             element_type = self._resource_type_producer(element_t)
             element_name = self._add_resource_type(element_type)
-            name = f'{element_name}-list'
+            name = f'{element_name}-list.t'
         self._set(name, piece)
         return name
 
