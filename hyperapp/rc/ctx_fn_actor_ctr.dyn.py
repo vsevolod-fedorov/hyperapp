@@ -28,7 +28,7 @@ class CtxFnActorTemplateCtr(ModuleCtr):
         resource_tgt.add_cfg_item_target(resolved_tgt)
 
     def get_component(self, name_to_res):
-        return name_to_res[f'{self._resource_name}.ctx-actor-cfg-item']
+        return name_to_res[self._resource_name]
 
     def make_component(self, types, python_module, name_to_res=None):
         object = python_module
@@ -60,7 +60,7 @@ class CtxFnActorTemplateCtr(ModuleCtr):
                 name_to_res[f'{t_piece.name}.t'] = t_piece
             name_to_res[f'{attr_name}.system-fn'] = system_fn
             name_to_res[f'{attr_name}.ctx-actor-template'] = template
-            name_to_res[f'{self._resource_name}.ctx-actor-cfg-item'] = cfg_item
+            name_to_res[self._resource_name] = cfg_item
         return cfg_item
 
     @property
@@ -69,4 +69,4 @@ class CtxFnActorTemplateCtr(ModuleCtr):
 
     @property
     def _resource_name(self):
-        return f'{self._service_name}-{self._type_name}'
+        return f'{self._service_name}-{self._type_name}.ctx-actor-cfg-item'
