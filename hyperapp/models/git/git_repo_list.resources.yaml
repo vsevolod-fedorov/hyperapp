@@ -101,7 +101,7 @@ definitions:
     value:
       object: git_repo_list.module
       attr_name: load_repositories
-  load_repositories.hook:
+  load_repositories.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: load_repositories.system-fn

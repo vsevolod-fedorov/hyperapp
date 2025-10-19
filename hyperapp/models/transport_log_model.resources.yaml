@@ -24,7 +24,7 @@ definitions:
     value:
       object: transport_log_model.module
       attr_name: init_hook
-  init_hook.hook:
+  init_hook.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: init_hook.system-fn

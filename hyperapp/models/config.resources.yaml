@@ -59,7 +59,7 @@ import:
 - models.git.git_repo_list:formatter_creg-git-repo_list_model.actor-cfg-item
 - models.git.git_repo_list:git-repo_list_model.feed-template-cfg-item
 - models.git.git_repo_list:git-repo_list_model.model-cfg-item
-- models.git.git_repo_list:load_repositories.hook
+- models.git.git_repo_list:load_repositories.ctx-actor-template
 - models.git.git_repo_list:repo_list.service
 - models.global_commands:formatter_creg-global_commands-command_arg.actor-cfg-item
 - models.global_commands:formatter_creg-global_commands-model.actor-cfg-item
@@ -93,7 +93,7 @@ import:
 - models.show_current_context:show_current_context-model.feed-template-cfg-item
 - models.show_current_context:show_current_context-model.model-cfg-item
 - models.system_fn_format:formatter_creg-system_fn-ctx_fn.actor-cfg-item
-- models.transport_log_model:init_hook.hook
+- models.transport_log_model:init_hook.ctx-actor-template
 - models.transport_log_model:transport_log_model-model.feed-template-cfg-item
 - models.transport_log_model:transport_log_model-model.model-cfg-item
 - models.web_source:web_source.service
@@ -194,8 +194,8 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - models.git.git_repo_list:load_repositories.hook
-      - models.transport_log_model:init_hook.hook
+      - models.git.git_repo_list:load_repositories.ctx-actor-template
+      - models.transport_log_model:init_hook.ctx-actor-template
   model_command_reg:
     type: legacy_type.system:item_list_config
     value:

@@ -4,7 +4,7 @@ import:
 - client.client:client_async_main.service
 - client.client:client_identity.service
 - client.client:client_main.service
-- client.local_server_web_source:init_local_server_web_source.hook
+- client.local_server_web_source:init_local_server_web_source.ctx-actor-template
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 definitions:
@@ -18,7 +18,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - client.local_server_web_source:init_local_server_web_source.hook
+      - client.local_server_web_source:init_local_server_web_source.ctx-actor-template
   system:
     type: legacy_type.system:item_list_config
     value:

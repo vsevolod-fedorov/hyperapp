@@ -14,7 +14,7 @@ definitions:
     value:
       object: local_server_web_source.module
       attr_name: init_local_server_web_source
-  init_local_server_web_source.hook:
+  init_local_server_web_source.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
       system_fn: init_local_server_web_source.system-fn
