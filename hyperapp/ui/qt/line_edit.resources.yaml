@@ -34,7 +34,11 @@ definitions:
     value:
       object: EditLineView
       attr_name: from_piece
-  EditLineView_from_piece.system-fn:
+  EditLineView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: EditLineView.from_piece.system-fn
+  EditLineView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: EditLineView.from_piece
@@ -44,10 +48,6 @@ definitions:
       - ctx
       service_params:
       - ui_adapter_creg
-  EditLineView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: EditLineView_from_piece.system-fn
   ViewLineView:
     type: legacy_type.builtin:attribute
     value:
@@ -58,7 +58,11 @@ definitions:
     value:
       object: ViewLineView
       attr_name: from_piece
-  ViewLineView_from_piece.system-fn:
+  ViewLineView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: ViewLineView.from_piece.system-fn
+  ViewLineView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: ViewLineView.from_piece
@@ -68,10 +72,6 @@ definitions:
       - ctx
       service_params:
       - ui_adapter_creg
-  ViewLineView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: ViewLineView_from_piece.system-fn
   builtin-string-opt:
     type: legacy_type.builtin:optional_mt
     value:
@@ -85,12 +85,12 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.line_edit:edit_view
-      value: EditLineView_from_piece.view-template
+      value: EditLineView.from_piece.ctx-actor-template
   line_edit-readonly_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.line_edit:readonly_view
-      value: ViewLineView_from_piece.view-template
+      value: ViewLineView.from_piece.ctx-actor-template
   line_edit.k:
     type: line_edit_k.t
     value: {}

@@ -25,7 +25,11 @@ definitions:
     value:
       object: LabelView
       attr_name: from_piece
-  LabelView_from_piece.system-fn:
+  LabelView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: LabelView.from_piece.system-fn
+  LabelView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: LabelView.from_piece
@@ -33,10 +37,6 @@ definitions:
       - piece
       - ctx
       service_params: []
-  LabelView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: LabelView_from_piece.system-fn
   label-view-set_label_text.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -47,7 +47,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.label:view
-      value: LabelView_from_piece.view-template
+      value: LabelView.from_piece.ctx-actor-template
   label.module:
     type: legacy_type.builtin:python_module
     value:

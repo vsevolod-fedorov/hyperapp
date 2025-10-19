@@ -35,7 +35,11 @@ definitions:
     value:
       object: WikiTextView
       attr_name: from_piece
-  WikiTextView_from_piece.system-fn:
+  WikiTextView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: WikiTextView.from_piece.system-fn
+  WikiTextView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: WikiTextView.from_piece
@@ -45,10 +49,6 @@ definitions:
       - ctx
       service_params:
       - ui_adapter_creg
-  WikiTextView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: WikiTextView_from_piece.system-fn
   WikiToTextConvertor:
     type: legacy_type.builtin:attribute
     value:
@@ -74,7 +74,11 @@ definitions:
     value:
       object: WikiView
       attr_name: from_piece
-  WikiView_from_piece.system-fn:
+  WikiView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: WikiView.from_piece.system-fn
+  WikiView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: WikiView.from_piece
@@ -86,10 +90,6 @@ definitions:
       - ui_adapter_creg
       - view_reg
       - visualizer
-  WikiView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: WikiView_from_piece.system-fn
   convertor_creg-wiki-wiki_to_string_convertor.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -109,12 +109,12 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.wiki:text_view
-      value: WikiTextView_from_piece.view-template
+      value: WikiTextView.from_piece.ctx-actor-template
   wiki-wiki_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.wiki:wiki_view
-      value: WikiView_from_piece.view-template
+      value: WikiView.from_piece.ctx-actor-template
   wiki.k:
     type: wiki_k.t
     value: {}

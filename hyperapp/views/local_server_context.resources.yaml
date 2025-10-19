@@ -22,7 +22,11 @@ definitions:
     value:
       object: LocalServerContextView
       attr_name: from_piece
-  LocalServerContextView_from_piece.system-fn:
+  LocalServerContextView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: LocalServerContextView.from_piece.system-fn
+  LocalServerContextView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: LocalServerContextView.from_piece
@@ -32,15 +36,11 @@ definitions:
       service_params:
       - view_reg
       - local_server_peer
-  LocalServerContextView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: LocalServerContextView_from_piece.system-fn
   local_server_context-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.local_server_context:view
-      value: LocalServerContextView_from_piece.view-template
+      value: LocalServerContextView.from_piece.ctx-actor-template
   local_server_context.module:
     type: legacy_type.builtin:python_module
     value:

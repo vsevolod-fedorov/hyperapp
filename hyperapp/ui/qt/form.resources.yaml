@@ -31,7 +31,11 @@ definitions:
     value:
       object: FormView
       attr_name: from_piece
-  FormView_from_piece.system-fn:
+  FormView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: FormView.from_piece.system-fn
+  FormView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: FormView.from_piece
@@ -42,15 +46,11 @@ definitions:
       service_params:
       - ui_adapter_creg
       - view_reg
-  FormView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: FormView_from_piece.system-fn
   form-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.form:view
-      value: FormView_from_piece.view-template
+      value: FormView.from_piece.ctx-actor-template
   form.module:
     type: legacy_type.builtin:python_module
     value:

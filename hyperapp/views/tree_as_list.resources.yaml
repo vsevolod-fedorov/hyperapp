@@ -38,7 +38,11 @@ definitions:
     value:
       object: IndexTreeAsListWrapperView
       attr_name: from_piece
-  IndexTreeAsListWrapperView_from_piece.system-fn:
+  IndexTreeAsListWrapperView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: IndexTreeAsListWrapperView.from_piece.system-fn
+  IndexTreeAsListWrapperView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: IndexTreeAsListWrapperView.from_piece
@@ -49,10 +53,6 @@ definitions:
       service_params:
       - view_reg
       - system_fn_creg
-  IndexTreeAsListWrapperView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: IndexTreeAsListWrapperView_from_piece.system-fn
   KeyTreeAsListWrapperView:
     type: legacy_type.builtin:attribute
     value:
@@ -63,7 +63,11 @@ definitions:
     value:
       object: KeyTreeAsListWrapperView
       attr_name: from_piece
-  KeyTreeAsListWrapperView_from_piece.system-fn:
+  KeyTreeAsListWrapperView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: KeyTreeAsListWrapperView.from_piece.system-fn
+  KeyTreeAsListWrapperView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: KeyTreeAsListWrapperView.from_piece
@@ -74,10 +78,6 @@ definitions:
       service_params:
       - view_reg
       - system_fn_creg
-  KeyTreeAsListWrapperView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: KeyTreeAsListWrapperView_from_piece.system-fn
   format_list_model:
     type: legacy_type.builtin:attribute
     value:
@@ -254,7 +254,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.tree_as_list:index_view
-      value: IndexTreeAsListWrapperView_from_piece.view-template
+      value: IndexTreeAsListWrapperView.from_piece.ctx-actor-template
   tree_as_list-key_view-open.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -271,7 +271,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.tree_as_list:key_view
-      value: KeyTreeAsListWrapperView_from_piece.view-template
+      value: KeyTreeAsListWrapperView.from_piece.ctx-actor-template
   tree_as_list.module:
     type: legacy_type.builtin:python_module
     value:

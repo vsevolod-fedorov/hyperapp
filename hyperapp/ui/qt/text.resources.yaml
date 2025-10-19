@@ -29,7 +29,11 @@ definitions:
     value:
       object: EditTextView
       attr_name: from_piece
-  EditTextView_from_piece.system-fn:
+  EditTextView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: EditTextView.from_piece.system-fn
+  EditTextView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: EditTextView.from_piece
@@ -39,10 +43,6 @@ definitions:
       - ctx
       service_params:
       - ui_adapter_creg
-  EditTextView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: EditTextView_from_piece.system-fn
   ViewTextView:
     type: legacy_type.builtin:attribute
     value:
@@ -53,7 +53,11 @@ definitions:
     value:
       object: ViewTextView
       attr_name: from_piece
-  ViewTextView_from_piece.system-fn:
+  ViewTextView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: ViewTextView.from_piece.system-fn
+  ViewTextView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: ViewTextView.from_piece
@@ -63,20 +67,16 @@ definitions:
       - ctx
       service_params:
       - ui_adapter_creg
-  ViewTextView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: ViewTextView_from_piece.system-fn
   text-edit_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.text:edit_view
-      value: EditTextView_from_piece.view-template
+      value: EditTextView.from_piece.ctx-actor-template
   text-readonly_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.text:readonly_view
-      value: ViewTextView_from_piece.view-template
+      value: ViewTextView.from_piece.ctx-actor-template
   text.module:
     type: legacy_type.builtin:python_module
     value:

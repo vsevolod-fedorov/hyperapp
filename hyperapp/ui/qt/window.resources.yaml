@@ -25,7 +25,11 @@ definitions:
     value:
       object: WindowView
       attr_name: from_piece
-  WindowView_from_piece.system-fn:
+  WindowView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: WindowView.from_piece.system-fn
+  WindowView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: WindowView.from_piece
@@ -34,15 +38,11 @@ definitions:
       - ctx
       service_params:
       - view_reg
-  WindowView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: WindowView_from_piece.system-fn
   window-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.window:view
-      value: WindowView_from_piece.view-template
+      value: WindowView.from_piece.ctx-actor-template
   window.module:
     type: legacy_type.builtin:python_module
     value:

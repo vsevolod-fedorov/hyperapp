@@ -27,7 +27,11 @@ definitions:
     value:
       object: MarkView
       attr_name: from_piece
-  MarkView_from_piece.system-fn:
+  MarkView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: MarkView.from_piece.system-fn
+  MarkView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: MarkView.from_piece
@@ -37,10 +41,6 @@ definitions:
       service_params:
       - format
       - view_reg
-  MarkView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: MarkView_from_piece.system-fn
   add_mark:
     type: legacy_type.builtin:attribute
     value:
@@ -82,7 +82,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.arg_mark:view
-      value: MarkView_from_piece.view-template
+      value: MarkView.from_piece.ctx-actor-template
   arg_mark.module:
     type: legacy_type.builtin:python_module
     value:

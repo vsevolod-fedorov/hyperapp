@@ -21,7 +21,11 @@ definitions:
     value:
       object: ModelFieldWrapperView
       attr_name: from_piece
-  ModelFieldWrapperView_from_piece.system-fn:
+  ModelFieldWrapperView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: ModelFieldWrapperView.from_piece.system-fn
+  ModelFieldWrapperView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: ModelFieldWrapperView.from_piece
@@ -30,15 +34,11 @@ definitions:
       - ctx
       service_params:
       - view_reg
-  ModelFieldWrapperView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: ModelFieldWrapperView_from_piece.system-fn
   model_field_wrapper_view-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.model_field_wrapper_view:view
-      value: ModelFieldWrapperView_from_piece.view-template
+      value: ModelFieldWrapperView.from_piece.ctx-actor-template
   model_field_wrapper_view.module:
     type: legacy_type.builtin:python_module
     value:

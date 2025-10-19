@@ -33,7 +33,11 @@ definitions:
     value:
       object: DetailsView
       attr_name: from_piece
-  DetailsView_from_piece.system-fn:
+  DetailsView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: DetailsView.from_piece.system-fn
+  DetailsView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: DetailsView.from_piece
@@ -45,15 +49,11 @@ definitions:
       - error_view
       - command_creg
       - visualizer
-  DetailsView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: DetailsView_from_piece.system-fn
   details-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.details:view
-      value: DetailsView_from_piece.view-template
+      value: DetailsView.from_piece.ctx-actor-template
   details.module:
     type: legacy_type.builtin:python_module
     value:

@@ -28,7 +28,11 @@ definitions:
     value:
       object: BoxLayoutView
       attr_name: from_piece
-  BoxLayoutView_from_piece.system-fn:
+  BoxLayoutView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: BoxLayoutView.from_piece.system-fn
+  BoxLayoutView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: BoxLayoutView.from_piece
@@ -37,10 +41,6 @@ definitions:
       - ctx
       service_params:
       - view_reg
-  BoxLayoutView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: BoxLayoutView_from_piece.system-fn
   add_element:
     type: legacy_type.builtin:attribute
     value:
@@ -134,7 +134,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.box_layout:view
-      value: BoxLayoutView_from_piece.view-template
+      value: BoxLayoutView.from_piece.ctx-actor-template
   box_layout.module:
     type: legacy_type.builtin:python_module
     value:

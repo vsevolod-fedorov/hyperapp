@@ -28,7 +28,11 @@ definitions:
     value:
       object: SplitterView
       attr_name: from_piece
-  SplitterView_from_piece.system-fn:
+  SplitterView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: SplitterView.from_piece.system-fn
+  SplitterView.from_piece.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: SplitterView.from_piece
@@ -37,10 +41,6 @@ definitions:
       - ctx
       service_params:
       - view_reg
-  SplitterView_from_piece.view-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: SplitterView_from_piece.system-fn
   navigator-view-split_horizontally.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -87,7 +87,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.splitter:view
-      value: SplitterView_from_piece.view-template
+      value: SplitterView.from_piece.ctx-actor-template
   splitter.module:
     type: legacy_type.builtin:python_module
     value:
