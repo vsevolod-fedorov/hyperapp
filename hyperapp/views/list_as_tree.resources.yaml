@@ -12,6 +12,7 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:ref
 - legacy_type.cfg_item:data_cfg_item
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
@@ -26,7 +27,6 @@ import:
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:key_list_ui_t
 - legacy_type.model:model
-- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.tree:view
 - legacy_type.ui:model_layout_k
@@ -193,10 +193,18 @@ definitions:
     value:
       object: list_as_tree.module
       attr_name: open_layers
-  open_layers.actor-template:
-    type: legacy_type.system:actor_template
+  open_layers.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_layers.system-fn
+  open_layers.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: open_layers
+      ctx_params:
+      - view
+      - current_item
+      - model
       service_params: []
   open_layers.t:
     type: legacy_type.builtin:record_mt
@@ -218,10 +226,19 @@ definitions:
     value:
       object: list_as_tree.module
       attr_name: switch_list_to_tree
-  switch_list_to_tree.actor-template:
-    type: legacy_type.system:actor_template
+  switch_list_to_tree.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: switch_list_to_tree.system-fn
+  switch_list_to_tree.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: switch_list_to_tree
+      ctx_params:
+      - piece
+      - view
+      - hook
+      - ctx
       service_params:
       - view_reg
   switch_list_to_tree.t:
@@ -240,13 +257,13 @@ definitions:
       t: legacy_type.tree:view
       name: open_layers
       command: open_layers.ui-command
-  ui_command_creg-list_as_tree-open_layers.actor-cfg-item:
+  ui_command_creg-list_as_tree-open_layers.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: open_layers.t
-      value: open_layers.actor-template
-  ui_command_creg-list_as_tree-switch_list_to_tree.actor-cfg-item:
+      value: open_layers.ctx-actor-template
+  ui_command_creg-list_as_tree-switch_list_to_tree.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: switch_list_to_tree.t
-      value: switch_list_to_tree.actor-template
+      value: switch_list_to_tree.ctx-actor-template

@@ -9,8 +9,8 @@ import:
 - ui.arg_mark:arg_mark-view-remove_mark.command-cfg-item
 - ui.arg_mark:arg_mark-view.view-cfg-item
 - ui.arg_mark:navigator-view-add_mark.command-cfg-item
-- ui.arg_mark:ui_command_creg-arg_mark-add_mark.actor-cfg-item
-- ui.arg_mark:ui_command_creg-arg_mark-remove_mark.actor-cfg-item
+- ui.arg_mark:ui_command_creg-arg_mark-add_mark.ctx-actor-cfg-item
+- ui.arg_mark:ui_command_creg-arg_mark-remove_mark.ctx-actor-cfg-item
 - ui.column_format:formatter_creg-column-column_k.actor-cfg-item
 - ui.column_resource_name:resource_name_creg-column-column_k.actor-cfg-item
 - ui.column_visible_reg:column_visible_reg.service
@@ -69,23 +69,23 @@ import:
 - ui.navigator:navigator-view-go_back.command-cfg-item
 - ui.navigator:navigator-view-go_forward.command-cfg-item
 - ui.navigator:navigator-view.view-cfg-item
-- ui.navigator:ui_command_creg-navigator-go_back.actor-cfg-item
-- ui.navigator:ui_command_creg-navigator-go_forward.actor-cfg-item
+- ui.navigator:ui_command_creg-navigator-go_back.ctx-actor-cfg-item
+- ui.navigator:ui_command_creg-navigator-go_forward.ctx-actor-cfg-item
 - ui.peer_label_reg:peer_label_reg.service
 - ui.qt.auto_tabs:auto_tabs-view-close_tab.command-cfg-item
 - ui.qt.auto_tabs:auto_tabs-view-duplicate_tab.command-cfg-item
 - ui.qt.auto_tabs:auto_tabs-view.view-cfg-item
-- ui.qt.auto_tabs:ui_command_creg-auto_tabs-close_tab.actor-cfg-item
-- ui.qt.auto_tabs:ui_command_creg-auto_tabs-duplicate_tab.actor-cfg-item
+- ui.qt.auto_tabs:ui_command_creg-auto_tabs-close_tab.ctx-actor-cfg-item
+- ui.qt.auto_tabs:ui_command_creg-auto_tabs-duplicate_tab.ctx-actor-cfg-item
 - ui.qt.box_layout:box_layout-view-add_stretch.command-cfg-item
 - ui.qt.box_layout:box_layout-view-remove_element.command-cfg-item
 - ui.qt.box_layout:box_layout-view-unwrap.command-cfg-item
 - ui.qt.box_layout:box_layout-view.view-cfg-item
-- ui.qt.box_layout:ui_command_creg-box_layout-add_element.actor-cfg-item
-- ui.qt.box_layout:ui_command_creg-box_layout-add_stretch.actor-cfg-item
-- ui.qt.box_layout:ui_command_creg-box_layout-insert_element.actor-cfg-item
-- ui.qt.box_layout:ui_command_creg-box_layout-remove_element.actor-cfg-item
-- ui.qt.box_layout:ui_command_creg-box_layout-unwrap.actor-cfg-item
+- ui.qt.box_layout:ui_command_creg-box_layout-add_element.ctx-actor-cfg-item
+- ui.qt.box_layout:ui_command_creg-box_layout-add_stretch.ctx-actor-cfg-item
+- ui.qt.box_layout:ui_command_creg-box_layout-insert_element.ctx-actor-cfg-item
+- ui.qt.box_layout:ui_command_creg-box_layout-remove_element.ctx-actor-cfg-item
+- ui.qt.box_layout:ui_command_creg-box_layout-unwrap.ctx-actor-cfg-item
 - ui.qt.box_layout:wrap_box_layout.view-factory-cfg-item
 - ui.qt.command_pane:command_pane-view.view-cfg-item
 - ui.qt.fn_list_adapter:ui_adapter_creg-list_adapter-index_fn_list_adapter.actor-cfg-item
@@ -97,7 +97,7 @@ import:
 - ui.qt.form:readonly_form_view_factory.view-factory-cfg-item
 - ui.qt.label:label-view.view-cfg-item
 - ui.qt.label:label_view.view-factory-cfg-item
-- ui.qt.label:ui_command_creg-label-set_label_text.actor-cfg-item
+- ui.qt.label:ui_command_creg-label-set_label_text.ctx-actor-cfg-item
 - ui.qt.line_edit:line_edit-edit_view.view-cfg-item
 - ui.qt.line_edit:line_edit-readonly_view.view-cfg-item
 - ui.qt.line_edit:line_edit.view-factory-cfg-item
@@ -113,10 +113,10 @@ import:
 - ui.qt.tabs:tabs-view-remove_element.command-cfg-item
 - ui.qt.tabs:tabs-view-unwrap.command-cfg-item
 - ui.qt.tabs:tabs-view.view-cfg-item
-- ui.qt.tabs:ui_command_creg-tabs-add_element.actor-cfg-item
-- ui.qt.tabs:ui_command_creg-tabs-insert_element.actor-cfg-item
-- ui.qt.tabs:ui_command_creg-tabs-remove_element.actor-cfg-item
-- ui.qt.tabs:ui_command_creg-tabs-unwrap.actor-cfg-item
+- ui.qt.tabs:ui_command_creg-tabs-add_element.ctx-actor-cfg-item
+- ui.qt.tabs:ui_command_creg-tabs-insert_element.ctx-actor-cfg-item
+- ui.qt.tabs:ui_command_creg-tabs-remove_element.ctx-actor-cfg-item
+- ui.qt.tabs:ui_command_creg-tabs-unwrap.ctx-actor-cfg-item
 - ui.qt.tabs:wrap_in_tabs.view-factory-cfg-item
 - ui.qt.text:text-edit_view.view-cfg-item
 - ui.qt.text:text-readonly_view.view-cfg-item
@@ -136,8 +136,8 @@ import:
 - ui.qt.wiki_refs:ui_adapter_creg-wiki-ref_list_adapter.actor-cfg-item
 - ui.qt.wiki_refs:wiki_refs.view-factory-cfg-item
 - ui.qt.window:window-view.view-cfg-item
-- ui.qt.window_commands:ui_command_creg-window_commands-duplicate_window.actor-cfg-item
-- ui.qt.window_commands:ui_command_creg-window_commands-quit.actor-cfg-item
+- ui.qt.window_commands:ui_command_creg-window_commands-duplicate_window.ctx-actor-cfg-item
+- ui.qt.window_commands:ui_command_creg-window_commands-quit.ctx-actor-cfg-item
 - ui.qt.window_commands:window-view-duplicate_window.command-cfg-item
 - ui.qt.window_commands:window-view-quit.command-cfg-item
 - ui.record_adapter:ui_adapter_creg-record_adapter-fn_record_adapter.actor-cfg-item
@@ -151,10 +151,10 @@ import:
 - ui.selector:selector_reg.service
 - ui.shortcut_reg:shortcut_reg.service
 - ui.tab_groups:tabs-view-move_tab_to_new_group.command-cfg-item
-- ui.tab_groups:ui_command_creg-tab_groups-move_tab_to_new_group.actor-cfg-item
+- ui.tab_groups:ui_command_creg-tab_groups-move_tab_to_new_group.ctx-actor-cfg-item
 - ui.text_toggle_editable:text-edit_view-toggle_editable.command-cfg-item
 - ui.text_toggle_editable:text-readonly_view-toggle_editable.command-cfg-item
-- ui.text_toggle_editable:ui_command_creg-text_toggle_editable-toggle_editable.actor-cfg-item
+- ui.text_toggle_editable:ui_command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item
 - ui.type_convertor:convertor_creg-type_convertor-int_to_string_convertor.actor-cfg-item
 - ui.type_convertor:convertor_creg-type_convertor-noop_convertor.actor-cfg-item
 - ui.type_convertor:convertor_creg-type_convertor-one_way_to_string_convertor.actor-cfg-item
@@ -385,26 +385,26 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - ui.arg_mark:ui_command_creg-arg_mark-add_mark.actor-cfg-item
-      - ui.arg_mark:ui_command_creg-arg_mark-remove_mark.actor-cfg-item
-      - ui.navigator:ui_command_creg-navigator-go_back.actor-cfg-item
-      - ui.navigator:ui_command_creg-navigator-go_forward.actor-cfg-item
-      - ui.qt.auto_tabs:ui_command_creg-auto_tabs-close_tab.actor-cfg-item
-      - ui.qt.auto_tabs:ui_command_creg-auto_tabs-duplicate_tab.actor-cfg-item
-      - ui.qt.box_layout:ui_command_creg-box_layout-add_element.actor-cfg-item
-      - ui.qt.box_layout:ui_command_creg-box_layout-add_stretch.actor-cfg-item
-      - ui.qt.box_layout:ui_command_creg-box_layout-insert_element.actor-cfg-item
-      - ui.qt.box_layout:ui_command_creg-box_layout-remove_element.actor-cfg-item
-      - ui.qt.box_layout:ui_command_creg-box_layout-unwrap.actor-cfg-item
-      - ui.qt.label:ui_command_creg-label-set_label_text.actor-cfg-item
-      - ui.qt.tabs:ui_command_creg-tabs-add_element.actor-cfg-item
-      - ui.qt.tabs:ui_command_creg-tabs-insert_element.actor-cfg-item
-      - ui.qt.tabs:ui_command_creg-tabs-remove_element.actor-cfg-item
-      - ui.qt.tabs:ui_command_creg-tabs-unwrap.actor-cfg-item
-      - ui.qt.window_commands:ui_command_creg-window_commands-duplicate_window.actor-cfg-item
-      - ui.qt.window_commands:ui_command_creg-window_commands-quit.actor-cfg-item
-      - ui.tab_groups:ui_command_creg-tab_groups-move_tab_to_new_group.actor-cfg-item
-      - ui.text_toggle_editable:ui_command_creg-text_toggle_editable-toggle_editable.actor-cfg-item
+      - ui.arg_mark:ui_command_creg-arg_mark-add_mark.ctx-actor-cfg-item
+      - ui.arg_mark:ui_command_creg-arg_mark-remove_mark.ctx-actor-cfg-item
+      - ui.navigator:ui_command_creg-navigator-go_back.ctx-actor-cfg-item
+      - ui.navigator:ui_command_creg-navigator-go_forward.ctx-actor-cfg-item
+      - ui.qt.auto_tabs:ui_command_creg-auto_tabs-close_tab.ctx-actor-cfg-item
+      - ui.qt.auto_tabs:ui_command_creg-auto_tabs-duplicate_tab.ctx-actor-cfg-item
+      - ui.qt.box_layout:ui_command_creg-box_layout-add_element.ctx-actor-cfg-item
+      - ui.qt.box_layout:ui_command_creg-box_layout-add_stretch.ctx-actor-cfg-item
+      - ui.qt.box_layout:ui_command_creg-box_layout-insert_element.ctx-actor-cfg-item
+      - ui.qt.box_layout:ui_command_creg-box_layout-remove_element.ctx-actor-cfg-item
+      - ui.qt.box_layout:ui_command_creg-box_layout-unwrap.ctx-actor-cfg-item
+      - ui.qt.label:ui_command_creg-label-set_label_text.ctx-actor-cfg-item
+      - ui.qt.tabs:ui_command_creg-tabs-add_element.ctx-actor-cfg-item
+      - ui.qt.tabs:ui_command_creg-tabs-insert_element.ctx-actor-cfg-item
+      - ui.qt.tabs:ui_command_creg-tabs-remove_element.ctx-actor-cfg-item
+      - ui.qt.tabs:ui_command_creg-tabs-unwrap.ctx-actor-cfg-item
+      - ui.qt.window_commands:ui_command_creg-window_commands-duplicate_window.ctx-actor-cfg-item
+      - ui.qt.window_commands:ui_command_creg-window_commands-quit.ctx-actor-cfg-item
+      - ui.tab_groups:ui_command_creg-tab_groups-move_tab_to_new_group.ctx-actor-cfg-item
+      - ui.text_toggle_editable:ui_command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item
   view_element_ui_command_reg:
     type: legacy_type.system:item_list_config
     value:

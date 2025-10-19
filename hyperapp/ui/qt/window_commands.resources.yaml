@@ -5,9 +5,10 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
-- legacy_type.system:actor_template
+- legacy_type.system_fn:ctx_fn
 - legacy_type.window:pos
 - legacy_type.window:state
 - legacy_type.window:view
@@ -17,10 +18,18 @@ definitions:
     value:
       object: window_commands.module
       attr_name: duplicate_window
-  duplicate_window.actor-template:
-    type: legacy_type.system:actor_template
+  duplicate_window.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: duplicate_window.system-fn
+  duplicate_window.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: duplicate_window
+      ctx_params:
+      - root
+      - view
+      - state
       service_params: []
   duplicate_window.t:
     type: legacy_type.builtin:record_mt
@@ -37,10 +46,16 @@ definitions:
     value:
       object: window_commands.module
       attr_name: quit
-  quit.actor-template:
-    type: legacy_type.system:actor_template
+  quit.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: quit.system-fn
+  quit.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: quit
+      ctx_params:
+      - hook
       service_params: []
   quit.t:
     type: legacy_type.builtin:record_mt
@@ -52,16 +67,16 @@ definitions:
   quit.ui-command:
     type: quit.t
     value: {}
-  ui_command_creg-window_commands-duplicate_window.actor-cfg-item:
+  ui_command_creg-window_commands-duplicate_window.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: duplicate_window.t
-      value: duplicate_window.actor-template
-  ui_command_creg-window_commands-quit.actor-cfg-item:
+      value: duplicate_window.ctx-actor-template
+  ui_command_creg-window_commands-quit.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: quit.t
-      value: quit.actor-template
+      value: quit.ctx-actor-template
   window-view-duplicate_window.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

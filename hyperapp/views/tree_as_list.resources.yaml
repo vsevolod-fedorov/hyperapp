@@ -179,10 +179,22 @@ definitions:
     value:
       object: tree_as_list.module
       attr_name: open
-  open.actor-template:
-    type: legacy_type.system:actor_template
+  open.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open.system-fn
+  open.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: open
+      ctx_params:
+      - model
+      - current_path
+      - current_item
+      - view
+      - state
+      - ctx
+      - hook
       service_params:
       - view_reg
   open.t:
@@ -200,10 +212,20 @@ definitions:
     value:
       object: tree_as_list.module
       attr_name: parent
-  parent.actor-template:
-    type: legacy_type.system:actor_template
+  parent.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: parent.system-fn
+  parent.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: parent
+      ctx_params:
+      - model
+      - view
+      - state
+      - ctx
+      - hook
       service_params:
       - view_reg
   parent.t:
@@ -271,13 +293,13 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
-  ui_command_creg-tree_as_list-open.actor-cfg-item:
+  ui_command_creg-tree_as_list-open.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: open.t
-      value: open.actor-template
-  ui_command_creg-tree_as_list-parent.actor-cfg-item:
+      value: open.ctx-actor-template
+  ui_command_creg-tree_as_list-parent.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: parent.t
-      value: parent.actor-template
+      value: parent.ctx-actor-template

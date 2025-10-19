@@ -14,7 +14,6 @@ import:
 - legacy_type.navigator:view
 - legacy_type.splitter:state
 - legacy_type.splitter:view
-- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.view_factory:template
 - ui.view.view:view.module
@@ -53,10 +52,19 @@ definitions:
     value:
       object: splitter.module
       attr_name: split_horizontally
-  split_horizontally.actor-template:
-    type: legacy_type.system:actor_template
+  split_horizontally.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: split_horizontally.system-fn
+  split_horizontally.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: split_horizontally
+      ctx_params:
+      - view
+      - state
+      - hook
+      - ctx
       service_params:
       - view_reg
   split_horizontally.t:
@@ -92,25 +100,34 @@ definitions:
         htypes.splitter.view: legacy_type.splitter:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  ui_command_creg-splitter-split_horizontally.actor-cfg-item:
+  ui_command_creg-splitter-split_horizontally.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: split_horizontally.t
-      value: split_horizontally.actor-template
-  ui_command_creg-splitter-unwrap.actor-cfg-item:
+      value: split_horizontally.ctx-actor-template
+  ui_command_creg-splitter-unwrap.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: unwrap.t
-      value: unwrap.actor-template
+      value: unwrap.ctx-actor-template
   unwrap:
     type: legacy_type.builtin:attribute
     value:
       object: splitter.module
       attr_name: unwrap
-  unwrap.actor-template:
-    type: legacy_type.system:actor_template
+  unwrap.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: unwrap.system-fn
+  unwrap.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: unwrap
+      ctx_params:
+      - view
+      - state
+      - hook
+      - ctx
       service_params: []
   unwrap.t:
     type: legacy_type.builtin:record_mt

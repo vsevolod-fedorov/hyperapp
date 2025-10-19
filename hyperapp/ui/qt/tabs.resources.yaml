@@ -11,7 +11,6 @@ import:
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
-- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.tabs:list_item
 - legacy_type.tabs:state
@@ -48,10 +47,19 @@ definitions:
     value:
       object: tabs.module
       attr_name: add_element
-  add_element.actor-template:
-    type: legacy_type.system:actor_template
+  add_element.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_element.system-fn
+  add_element.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: add_element
+      ctx_params:
+      - view
+      - widget
+      - view_factory
+      - ctx
       service_params:
       - view_reg
       - view_factory_reg
@@ -70,10 +78,20 @@ definitions:
     value:
       object: tabs.module
       attr_name: insert_element
-  insert_element.actor-template:
-    type: legacy_type.system:actor_template
+  insert_element.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: insert_element.system-fn
+  insert_element.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: insert_element
+      ctx_params:
+      - view
+      - widget
+      - element_idx
+      - view_factory
+      - ctx
       service_params:
       - view_reg
       - view_factory_reg
@@ -92,10 +110,18 @@ definitions:
     value:
       object: tabs.module
       attr_name: remove_element
-  remove_element.actor-template:
-    type: legacy_type.system:actor_template
+  remove_element.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: remove_element.system-fn
+  remove_element.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: remove_element
+      ctx_params:
+      - view
+      - widget
+      - element_idx
       service_params: []
   remove_element.t:
     type: legacy_type.builtin:record_mt
@@ -150,35 +176,44 @@ definitions:
         htypes.tabs.view: legacy_type.tabs:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  ui_command_creg-tabs-add_element.actor-cfg-item:
+  ui_command_creg-tabs-add_element.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: add_element.t
-      value: add_element.actor-template
-  ui_command_creg-tabs-insert_element.actor-cfg-item:
+      value: add_element.ctx-actor-template
+  ui_command_creg-tabs-insert_element.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: insert_element.t
-      value: insert_element.actor-template
-  ui_command_creg-tabs-remove_element.actor-cfg-item:
+      value: insert_element.ctx-actor-template
+  ui_command_creg-tabs-remove_element.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: remove_element.t
-      value: remove_element.actor-template
-  ui_command_creg-tabs-unwrap.actor-cfg-item:
+      value: remove_element.ctx-actor-template
+  ui_command_creg-tabs-unwrap.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: unwrap.t
-      value: unwrap.actor-template
+      value: unwrap.ctx-actor-template
   unwrap:
     type: legacy_type.builtin:attribute
     value:
       object: tabs.module
       attr_name: unwrap
-  unwrap.actor-template:
-    type: legacy_type.system:actor_template
+  unwrap.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: unwrap.system-fn
+  unwrap.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: unwrap
+      ctx_params:
+      - view
+      - state
+      - hook
+      - ctx
       service_params: []
   unwrap.t:
     type: legacy_type.builtin:record_mt

@@ -14,7 +14,6 @@ import:
 - legacy_type.command:type_str_command
 - legacy_type.navigator:history_rec
 - legacy_type.navigator:view
-- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.ui:model_layout_k
 - ui.remote_model:remote_model.module
@@ -50,10 +49,18 @@ definitions:
     value:
       object: navigator.module
       attr_name: go_back
-  go_back.actor-template:
-    type: legacy_type.system:actor_template
+  go_back.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: go_back.system-fn
+  go_back.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: go_back
+      ctx_params:
+      - view
+      - widget
+      - ctx
       service_params:
       - view_reg
   go_back.t:
@@ -71,10 +78,18 @@ definitions:
     value:
       object: navigator.module
       attr_name: go_forward
-  go_forward.actor-template:
-    type: legacy_type.system:actor_template
+  go_forward.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: go_forward.system-fn
+  go_forward.system-fn:
+    type: legacy_type.system_fn:ctx_fn
     value:
       function: go_forward
+      ctx_params:
+      - view
+      - widget
+      - ctx
       service_params:
       - view_reg
   go_forward.t:
@@ -120,13 +135,13 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
-  ui_command_creg-navigator-go_back.actor-cfg-item:
+  ui_command_creg-navigator-go_back.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: go_back.t
-      value: go_back.actor-template
-  ui_command_creg-navigator-go_forward.actor-cfg-item:
+      value: go_back.ctx-actor-template
+  ui_command_creg-navigator-go_forward.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: go_forward.t
-      value: go_forward.actor-template
+      value: go_forward.ctx-actor-template
