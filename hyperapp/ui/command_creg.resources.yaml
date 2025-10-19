@@ -10,6 +10,7 @@ import:
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
+- ui.context_code_registry:context_code_registry.module
 definitions:
   command_creg:
     type: legacy_type.builtin:attribute
@@ -22,6 +23,7 @@ definitions:
       module_name: command_creg
       file_name: command_creg.dyn.py
       import_list:
+        code.context_code_registry: ui.context_code_registry:context_code_registry.module
         code.mark: base.mark:mark.module
         services.code_registry_ctr: builtins:code_registry_ctr.service
   command_creg.service:
