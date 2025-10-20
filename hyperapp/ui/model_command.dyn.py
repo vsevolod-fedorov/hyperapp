@@ -16,6 +16,7 @@ from .code.command import UnboundCommand, BoundCommand
 from .code.command_enumerator import UnboundCommandEnumerator
 from .code.config_ctl import FlatListConfigCtl, DictConfigCtl
 from .code.config_struct_ctl import ListStructCtl
+from .code.command_config_ctl import TypeStrCommandConfigCtl
 
 log = logging.getLogger(__name__)
 
@@ -29,12 +30,12 @@ def model_command_ctx(ctx, model, model_state):
         )
 
 
-@mark.service(ctl=FlatListConfigCtl())
+@mark.service(ctl=TypeStrCommandConfigCtl())
 def global_model_command_reg(config):
     return CommandDict(config)
 
 
-@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
+@mark.service(ctl=TypeStrCommandConfigCtl())
 def model_command_reg(config, model_t):
     return config.get(model_t, [])
 
