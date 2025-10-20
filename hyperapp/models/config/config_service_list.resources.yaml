@@ -6,8 +6,11 @@ import:
 - legacy_type.assoc_key:key_base_association
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.config_service_list:item
 - legacy_type.config_service_list:model
 - legacy_type.feed:feed_template
@@ -22,6 +25,12 @@ definitions:
     value:
       object: config_service_list.module
       attr_name: config_service_list
+  config_service_list-model-toggle_assoc.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_service_list:model
+      name: toggle_assoc
+      command: toggle_assoc.command
   config_service_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -87,3 +96,39 @@ definitions:
     value:
       t: legacy_type.config_service_list:model
       value: format_model.actor-template
+  toggle_assoc:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_service_list.module
+      attr_name: toggle_assoc
+  toggle_assoc.command:
+    type: toggle_assoc.t
+    value: {}
+  toggle_assoc.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: toggle_assoc.system-fn
+  toggle_assoc.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: toggle_assoc
+      ctx_params:
+      - piece
+      - current_key
+      service_params:
+      - feed_factory
+      - format
+      - assoc_key
+      - system
+  toggle_assoc.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_service_list
+      name: toggle_assoc
+      base: null
+      fields: {}
+  ui_command_creg-config_service_list-toggle_assoc.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: toggle_assoc.t
+      value: toggle_assoc.ctx-actor-template

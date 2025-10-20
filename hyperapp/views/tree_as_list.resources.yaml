@@ -179,6 +179,9 @@ definitions:
     value:
       object: tree_as_list.module
       attr_name: open
+  open.command:
+    type: open.t
+    value: {}
   open.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -204,14 +207,14 @@ definitions:
       name: open
       base: null
       fields: {}
-  open.ui-command:
-    type: open.t
-    value: {}
   parent:
     type: legacy_type.builtin:attribute
     value:
       object: tree_as_list.module
       attr_name: parent
+  parent.command:
+    type: parent.t
+    value: {}
   parent.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -235,21 +238,18 @@ definitions:
       name: parent
       base: null
       fields: {}
-  parent.ui-command:
-    type: parent.t
-    value: {}
   tree_as_list-index_view-open.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.tree_as_list:index_view
       name: open
-      command: open.ui-command
+      command: open.command
   tree_as_list-index_view-parent.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.tree_as_list:index_view
       name: parent
-      command: parent.ui-command
+      command: parent.command
   tree_as_list-index_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -260,13 +260,13 @@ definitions:
     value:
       t: legacy_type.tree_as_list:key_view
       name: open
-      command: open.ui-command
+      command: open.command
   tree_as_list-key_view-parent.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.tree_as_list:key_view
       name: parent
-      command: parent.ui-command
+      command: parent.command
   tree_as_list-key_view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

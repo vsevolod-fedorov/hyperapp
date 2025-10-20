@@ -18,6 +18,9 @@ definitions:
     value:
       object: window_commands.module
       attr_name: duplicate_window
+  duplicate_window.command:
+    type: duplicate_window.t
+    value: {}
   duplicate_window.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -38,14 +41,14 @@ definitions:
       name: duplicate_window
       base: null
       fields: {}
-  duplicate_window.ui-command:
-    type: duplicate_window.t
-    value: {}
   quit:
     type: legacy_type.builtin:attribute
     value:
       object: window_commands.module
       attr_name: quit
+  quit.command:
+    type: quit.t
+    value: {}
   quit.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -64,9 +67,6 @@ definitions:
       name: quit
       base: null
       fields: {}
-  quit.ui-command:
-    type: quit.t
-    value: {}
   ui_command_creg-window_commands-duplicate_window.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -82,13 +82,13 @@ definitions:
     value:
       t: legacy_type.window:view
       name: duplicate_window
-      command: duplicate_window.ui-command
+      command: duplicate_window.command
   window-view-quit.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.window:view
       name: quit
-      command: quit.ui-command
+      command: quit.command
   window_commands.module:
     type: legacy_type.builtin:python_module
     value:

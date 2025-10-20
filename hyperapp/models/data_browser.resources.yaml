@@ -7,8 +7,11 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.builtin:ref
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.data_browser:list_item
 - legacy_type.data_browser:list_view
 - legacy_type.data_browser:primitive_item
@@ -45,6 +48,12 @@ definitions:
     value:
       object: data_browser.module
       attr_name: browse_ref_list
+  data_browser-list_view-list_open.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.data_browser:list_view
+      name: list_open
+      command: list_open.command
   data_browser-list_view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -100,6 +109,12 @@ definitions:
       ctx_params:
       - piece
       service_params: []
+  data_browser-record_view-record_open.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.data_browser:record_view
+      name: record_open
+      command: record_open.command
   data_browser-record_view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -134,6 +149,12 @@ definitions:
       ctx_params:
       - piece
       service_params: []
+  data_browser-ref_list_view-ref_list_open.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.data_browser:ref_list_view
+      name: ref_list_open
+      command: ref_list_open.command
   data_browser-ref_list_view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -203,3 +224,99 @@ definitions:
     value:
       t: legacy_type.data_browser:record_view
       value: format_record_view.actor-template
+  list_open:
+    type: legacy_type.builtin:attribute
+    value:
+      object: data_browser.module
+      attr_name: list_open
+  list_open.command:
+    type: list_open.t
+    value: {}
+  list_open.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: list_open.system-fn
+  list_open.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: list_open
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  list_open.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: data_browser
+      name: list_open
+      base: null
+      fields: {}
+  record_open:
+    type: legacy_type.builtin:attribute
+    value:
+      object: data_browser.module
+      attr_name: record_open
+  record_open.command:
+    type: record_open.t
+    value: {}
+  record_open.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: record_open.system-fn
+  record_open.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: record_open
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  record_open.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: data_browser
+      name: record_open
+      base: null
+      fields: {}
+  ref_list_open:
+    type: legacy_type.builtin:attribute
+    value:
+      object: data_browser.module
+      attr_name: ref_list_open
+  ref_list_open.command:
+    type: ref_list_open.t
+    value: {}
+  ref_list_open.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: ref_list_open.system-fn
+  ref_list_open.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: ref_list_open
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  ref_list_open.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: data_browser
+      name: ref_list_open
+      base: null
+      fields: {}
+  ui_command_creg-data_browser-list_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: list_open.t
+      value: list_open.ctx-actor-template
+  ui_command_creg-data_browser-record_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: record_open.t
+      value: record_open.ctx-actor-template
+  ui_command_creg-data_browser-ref_list_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: ref_list_open.t
+      value: ref_list_open.ctx-actor-template

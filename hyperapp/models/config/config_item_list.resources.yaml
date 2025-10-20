@@ -10,15 +10,18 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:ref
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:command_template
 - legacy_type.command:model_command
 - legacy_type.command:model_command_fn
+- legacy_type.command:type_str_command
 - legacy_type.config_item_list:item
 - legacy_type.config_item_list:layer_item
 - legacy_type.config_item_list:layer_model
 - legacy_type.config_item_list:model
 - legacy_type.config_layer_list:layer
+- legacy_type.config_service_list:model
 - legacy_type.crud:open_command_fn
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -43,6 +46,24 @@ definitions:
     value:
       object: config_item_list.module
       attr_name: config_item_list
+  config_item_list-layer_model-layer_remove.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:layer_model
+      name: layer_remove
+      command: layer_remove.command
+  config_item_list-layer_model-open_config_key.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:layer_model
+      name: open_config_key
+      command: open_config_key.command
+  config_item_list-layer_model-open_config_value.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:layer_model
+      name: open_config_value
+      command: open_config_value.command
   config_item_list-layer_model.crud.get_layer.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -133,6 +154,24 @@ definitions:
       service_params:
       - system
       - format
+  config_item_list-model-open_config_key.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:model
+      name: open_config_key
+      command: open_config_key.command
+  config_item_list-model-open_config_value.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:model
+      name: open_config_value
+      command: open_config_value.command
+  config_item_list-model-remove.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:model
+      name: remove
+      command: remove.command
   config_item_list-model.crud.get_layer.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -258,6 +297,12 @@ definitions:
     value:
       object: config_item_list.module
       attr_name: config_layer_item_move_to_another_layer
+  config_service_list-model-open_config_item_list.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_service_list:model
+      name: open_config_item_list
+      command: open_config_item_list.command
   format_layer_model:
     type: legacy_type.builtin:attribute
     value:
@@ -288,11 +333,120 @@ definitions:
     value:
       t: legacy_type.config_item_list:model
       value: format_model.actor-template
+  layer_remove:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_item_list.module
+      attr_name: layer_remove
+  layer_remove.command:
+    type: layer_remove.t
+    value: {}
+  layer_remove.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: layer_remove.system-fn
+  layer_remove.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: layer_remove
+      ctx_params:
+      - piece
+      - current_item
+      service_params:
+      - system
+  layer_remove.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_item_list
+      name: layer_remove
+      base: null
+      fields: {}
   move_d.t:
     type: legacy_type.builtin:record_mt
     value:
       module_name: config_item_list
       name: move_d
+      base: null
+      fields: {}
+  open_config_item_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_item_list.module
+      attr_name: open_config_item_list
+  open_config_item_list.command:
+    type: open_config_item_list.t
+    value: {}
+  open_config_item_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_config_item_list.system-fn
+  open_config_item_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_config_item_list
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  open_config_item_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_item_list
+      name: open_config_item_list
+      base: null
+      fields: {}
+  open_config_key:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_item_list.module
+      attr_name: open_config_key
+  open_config_key.command:
+    type: open_config_key.t
+    value: {}
+  open_config_key.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_config_key.system-fn
+  open_config_key.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_config_key
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  open_config_key.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_item_list
+      name: open_config_key
+      base: null
+      fields: {}
+  open_config_value:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_item_list.module
+      attr_name: open_config_value
+  open_config_value.command:
+    type: open_config_value.t
+    value: {}
+  open_config_value.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_config_value.system-fn
+  open_config_value.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_config_value
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  open_config_value.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_item_list
+      name: open_config_value
       base: null
       fields: {}
   open_move_d.t:
@@ -302,3 +456,56 @@ definitions:
       name: open_move_d
       base: null
       fields: {}
+  remove:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_item_list.module
+      attr_name: remove
+  remove.command:
+    type: remove.t
+    value: {}
+  remove.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: remove.system-fn
+  remove.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: remove
+      ctx_params:
+      - piece
+      - current_item
+      service_params:
+      - system
+  remove.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_item_list
+      name: remove
+      base: null
+      fields: {}
+  ui_command_creg-config_item_list-layer_remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: layer_remove.t
+      value: layer_remove.ctx-actor-template
+  ui_command_creg-config_item_list-open_config_item_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_config_item_list.t
+      value: open_config_item_list.ctx-actor-template
+  ui_command_creg-config_item_list-open_config_key.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_config_key.t
+      value: open_config_key.ctx-actor-template
+  ui_command_creg-config_item_list-open_config_value.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_config_value.t
+      value: open_config_value.ctx-actor-template
+  ui_command_creg-config_item_list-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template

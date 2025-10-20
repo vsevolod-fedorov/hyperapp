@@ -11,8 +11,11 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:bundle
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.model:key_list_ui_t
@@ -29,6 +32,37 @@ import:
 - legacy_type.system_fn:ctx_fn
 - ui.ui_model_command:ui_model_command.module
 definitions:
+  add:
+    type: legacy_type.builtin:attribute
+    value:
+      object: peer_list.module
+      attr_name: add
+  add.command:
+    type: add.t
+    value: {}
+  add.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add.system-fn
+  add.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add
+      ctx_params:
+      - piece
+      - host
+      service_params:
+      - peer_list_reg
+      - file_bundle_factory
+      - peer_creg
+      - peer_label_reg
+  add.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: peer_list
+      name: add
+      base: null
+      fields: {}
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -44,6 +78,18 @@ definitions:
     value:
       t: legacy_type.peer_list:model
       value: format_model.actor-template
+  peer_list-model-add.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.peer_list:model
+      name: add
+      command: add.command
+  peer_list-model-remove.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.peer_list:model
+      name: remove
+      command: remove.command
   peer_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -120,6 +166,34 @@ definitions:
       - peer_creg
       want_config: false
       free_params: []
+  remove:
+    type: legacy_type.builtin:attribute
+    value:
+      object: peer_list.module
+      attr_name: remove
+  remove.command:
+    type: remove.t
+    value: {}
+  remove.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: remove.system-fn
+  remove.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: remove
+      ctx_params:
+      - piece
+      - current_item
+      service_params:
+      - peer_list_reg
+  remove.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: peer_list
+      name: remove
+      base: null
+      fields: {}
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
@@ -132,3 +206,13 @@ definitions:
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}
+  ui_command_creg-peer_list-add.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add.t
+      value: add.ctx-actor-template
+  ui_command_creg-peer_list-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template

@@ -7,9 +7,11 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.builtin:string
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.git:commit
@@ -28,6 +30,34 @@ import:
 - legacy_type.system:single_struct_ctl
 - legacy_type.system_fn:ctx_fn
 definitions:
+  add:
+    type: legacy_type.builtin:attribute
+    value:
+      object: git_repo_list.module
+      attr_name: add
+  add.command:
+    type: add.t
+    value: {}
+  add.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add.system-fn
+  add.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add
+      ctx_params:
+      - piece
+      - path
+      service_params:
+      - repo_list
+  add.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: git_repo_list
+      name: add
+      base: null
+      fields: {}
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -43,6 +73,24 @@ definitions:
     value:
       t: legacy_type.git:repo_list_model
       value: format_model.actor-template
+  git-repo_list_model-add.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.git:repo_list_model
+      name: add
+      command: add.command
+  git-repo_list_model-refs.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.git:repo_list_model
+      name: refs
+      command: refs.command
+  git-repo_list_model-remove.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.git:repo_list_model
+      name: remove
+      command: remove.command
   git-repo_list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -112,6 +160,61 @@ definitions:
       ctx_params: []
       service_params:
       - repo_list
+  refs:
+    type: legacy_type.builtin:attribute
+    value:
+      object: git_repo_list.module
+      attr_name: refs
+  refs.command:
+    type: refs.t
+    value: {}
+  refs.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: refs.system-fn
+  refs.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: refs
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  refs.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: git_repo_list
+      name: refs
+      base: null
+      fields: {}
+  remove:
+    type: legacy_type.builtin:attribute
+    value:
+      object: git_repo_list.module
+      attr_name: remove
+  remove.command:
+    type: remove.t
+    value: {}
+  remove.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: remove.system-fn
+  remove.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: remove
+      ctx_params:
+      - piece
+      - current_key
+      service_params:
+      - repo_list
+  remove.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: git_repo_list
+      name: remove
+      base: null
+      fields: {}
   repo_list:
     type: legacy_type.builtin:attribute
     value:
@@ -145,3 +248,18 @@ definitions:
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}
+  ui_command_creg-git_repo_list-add.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add.t
+      value: add.ctx-actor-template
+  ui_command_creg-git_repo_list-refs.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: refs.t
+      value: refs.ctx-actor-template
+  ui_command_creg-git_repo_list-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template

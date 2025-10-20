@@ -3,6 +3,10 @@
 import:
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
+- sample.sample_commands:sample_list-sample_list-details.command-cfg-item
+- sample.sample_commands:sample_tree-model-sample_tree_info.command-cfg-item
+- sample.sample_commands:ui_command_creg-sample_commands-details.ctx-actor-cfg-item
+- sample.sample_commands:ui_command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item
 - sample.sample_feed:sample_feed-sample_list_feed.feed-template-cfg-item
 - sample.sample_feed:sample_feed-sample_tree_feed.feed-template-cfg-item
 - sample.sample_list:_sample_thread_pool.service
@@ -14,12 +18,20 @@ import:
 - sample.sample_list:sample_list-sample_list.model-cfg-item
 - sample.sample_list_arg:sample_list_selector-item.editor_default.cfg-item
 - sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
+- sample.sample_record:sample_record-sample_record-apply.command-cfg-item
 - sample.sample_record:sample_record-sample_record.model-cfg-item
+- sample.sample_record:ui_command_creg-sample_record-apply.ctx-actor-cfg-item
 - sample.sample_tree:formatter_creg-sample_tree-model.actor-cfg-item
 - sample.sample_tree:get_sample_tree_items.service
+- sample.sample_tree:sample_tree-model-append_tree_item.command-cfg-item
+- sample.sample_tree:sample_tree-model-insert_tree_item.command-cfg-item
+- sample.sample_tree:sample_tree-model-remove_tree_item.command-cfg-item
 - sample.sample_tree:sample_tree-model.feed-template-cfg-item
 - sample.sample_tree:sample_tree-model.model-cfg-item
 - sample.sample_tree:sample_tree_data.service
+- sample.sample_tree:ui_command_creg-sample_tree-append_tree_item.ctx-actor-cfg-item
+- sample.sample_tree:ui_command_creg-sample_tree-insert_tree_item.ctx-actor-cfg-item
+- sample.sample_tree:ui_command_creg-sample_tree-remove_tree_item.ctx-actor-cfg-item
 definitions:
   config:
     type: legacy_type.system:system_config
@@ -31,6 +43,7 @@ definitions:
         model_command_reg: model_command_reg
         model_reg: model_reg
         system: system
+        ui_command_creg: ui_command_creg
   editor_default_reg:
     type: legacy_type.system:item_list_config
     value:
@@ -56,7 +69,13 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - sample.sample_commands:sample_list-sample_list-details.command-cfg-item
+      - sample.sample_commands:sample_tree-model-sample_tree_info.command-cfg-item
       - sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
+      - sample.sample_record:sample_record-sample_record-apply.command-cfg-item
+      - sample.sample_tree:sample_tree-model-append_tree_item.command-cfg-item
+      - sample.sample_tree:sample_tree-model-insert_tree_item.command-cfg-item
+      - sample.sample_tree:sample_tree-model-remove_tree_item.command-cfg-item
   model_reg:
     type: legacy_type.system:item_list_config
     value:
@@ -72,3 +91,13 @@ definitions:
       - sample.sample_list:_sample_thread_pool.service
       - sample.sample_tree:get_sample_tree_items.service
       - sample.sample_tree:sample_tree_data.service
+  ui_command_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_commands:ui_command_creg-sample_commands-details.ctx-actor-cfg-item
+      - sample.sample_commands:ui_command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item
+      - sample.sample_record:ui_command_creg-sample_record-apply.ctx-actor-cfg-item
+      - sample.sample_tree:ui_command_creg-sample_tree-append_tree_item.ctx-actor-cfg-item
+      - sample.sample_tree:ui_command_creg-sample_tree-insert_tree_item.ctx-actor-cfg-item
+      - sample.sample_tree:ui_command_creg-sample_tree-remove_tree_item.ctx-actor-cfg-item

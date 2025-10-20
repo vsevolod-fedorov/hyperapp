@@ -1,14 +1,24 @@
 # Automatically generated file. Do not edit.
 
 import:
+- lcs.lcs_dirs_view:lcs_dirs_view-view-lcs_dirs_items.command-cfg-item
 - lcs.lcs_dirs_view:lcs_dirs_view-view.feed-template-cfg-item
 - lcs.lcs_dirs_view:lcs_dirs_view-view.model-cfg-item
+- lcs.lcs_dirs_view:lcs_view-view-lcs_open_dirs.command-cfg-item
+- lcs.lcs_dirs_view:ui_command_creg-lcs_dirs_view-lcs_dirs_items.ctx-actor-cfg-item
+- lcs.lcs_dirs_view:ui_command_creg-lcs_dirs_view-lcs_open_dirs.ctx-actor-cfg-item
 - lcs.lcs_layer:lcs_layer-model.feed-template-cfg-item
 - lcs.lcs_layer:lcs_layer-model.model-cfg-item
+- lcs.lcs_layer:lcs_view-view-lcs_open_layers.command-cfg-item
+- lcs.lcs_layer:ui_command_creg-lcs_layer-lcs_open_layers.ctx-actor-cfg-item
 - lcs.lcs_resource_storage:lcs_resource_storage_factory.service
+- lcs.lcs_view:lcs_view-view-lcs_open_piece.command-cfg-item
+- lcs.lcs_view:lcs_view-view-lcs_remove.command-cfg-item
 - lcs.lcs_view:lcs_view-view.feed-template-cfg-item
 - lcs.lcs_view:lcs_view-view.model-cfg-item
 - lcs.lcs_view:lcs_view-view.open_move.command-cfg-item
+- lcs.lcs_view:ui_command_creg-lcs_view-lcs_open_piece.ctx-actor-cfg-item
+- lcs.lcs_view:ui_command_creg-lcs_view-lcs_remove.ctx-actor-cfg-item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 definitions:
@@ -20,6 +30,7 @@ definitions:
         model_command_reg: model_command_reg
         model_reg: model_reg
         system: system
+        ui_command_creg: ui_command_creg
   feed_factory:
     type: legacy_type.system:item_list_config
     value:
@@ -31,6 +42,11 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - lcs.lcs_dirs_view:lcs_dirs_view-view-lcs_dirs_items.command-cfg-item
+      - lcs.lcs_dirs_view:lcs_view-view-lcs_open_dirs.command-cfg-item
+      - lcs.lcs_layer:lcs_view-view-lcs_open_layers.command-cfg-item
+      - lcs.lcs_view:lcs_view-view-lcs_open_piece.command-cfg-item
+      - lcs.lcs_view:lcs_view-view-lcs_remove.command-cfg-item
       - lcs.lcs_view:lcs_view-view.open_move.command-cfg-item
   model_reg:
     type: legacy_type.system:item_list_config
@@ -44,3 +60,12 @@ definitions:
     value:
       items:
       - lcs.lcs_resource_storage:lcs_resource_storage_factory.service
+  ui_command_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - lcs.lcs_dirs_view:ui_command_creg-lcs_dirs_view-lcs_dirs_items.ctx-actor-cfg-item
+      - lcs.lcs_dirs_view:ui_command_creg-lcs_dirs_view-lcs_open_dirs.ctx-actor-cfg-item
+      - lcs.lcs_layer:ui_command_creg-lcs_layer-lcs_open_layers.ctx-actor-cfg-item
+      - lcs.lcs_view:ui_command_creg-lcs_view-lcs_open_piece.ctx-actor-cfg-item
+      - lcs.lcs_view:ui_command_creg-lcs_view-lcs_remove.ctx-actor-cfg-item

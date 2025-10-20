@@ -49,6 +49,9 @@ definitions:
     value:
       object: navigator.module
       attr_name: go_back
+  go_back.command:
+    type: go_back.t
+    value: {}
   go_back.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -70,14 +73,14 @@ definitions:
       name: go_back
       base: null
       fields: {}
-  go_back.ui-command:
-    type: go_back.t
-    value: {}
   go_forward:
     type: legacy_type.builtin:attribute
     value:
       object: navigator.module
       attr_name: go_forward
+  go_forward.command:
+    type: go_forward.t
+    value: {}
   go_forward.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -99,21 +102,18 @@ definitions:
       name: go_forward
       base: null
       fields: {}
-  go_forward.ui-command:
-    type: go_forward.t
-    value: {}
   navigator-view-go_back.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.navigator:view
       name: go_back
-      command: go_back.ui-command
+      command: go_back.command
   navigator-view-go_forward.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.navigator:view
       name: go_forward
-      command: go_forward.ui-command
+      command: go_forward.command
   navigator-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

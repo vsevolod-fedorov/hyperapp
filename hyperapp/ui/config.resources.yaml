@@ -39,7 +39,15 @@ import:
 - ui.format:format.service
 - ui.formatter_creg:formatter_creg.service
 - ui.layout:formatter_creg-layout-model.actor-cfg-item
+- ui.layout:layout-command_list-add_view_command.command-cfg-item
+- ui.layout:layout-command_list-set_escape_shortcut.command-cfg-item
+- ui.layout:layout-command_list-set_shortcut.command-cfg-item
 - ui.layout:layout-command_list.feed-template-cfg-item
+- ui.layout:layout-model-open_view_item_commands.command-cfg-item
+- ui.layout:ui_command_creg-layout-add_view_command.ctx-actor-cfg-item
+- ui.layout:ui_command_creg-layout-open_view_item_commands.ctx-actor-cfg-item
+- ui.layout:ui_command_creg-layout-set_escape_shortcut.ctx-actor-cfg-item
+- ui.layout:ui_command_creg-layout-set_shortcut.ctx-actor-cfg-item
 - ui.local_server:local_server_peer.service
 - ui.local_server:local_server_peer_path.service
 - ui.model_command:get_model_commands.service
@@ -191,6 +199,7 @@ definitions:
         feed_factory: feed_factory
         feed_type_creg: feed_type_creg
         formatter_creg: formatter_creg
+        model_command_reg: model_command_reg
         model_reg: model_reg
         resource_name_creg: resource_name_creg
         system: system
@@ -248,6 +257,14 @@ definitions:
       - ui.remote_model:formatter_creg-model-remote_model.actor-cfg-item
       - ui.view.view_factory_list:formatter_creg-view_factory_list-model.actor-cfg-item
       - ui.visualizer:formatter_creg-ui-model_layout_k.actor-cfg-item
+  model_command_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.layout:layout-command_list-add_view_command.command-cfg-item
+      - ui.layout:layout-command_list-set_escape_shortcut.command-cfg-item
+      - ui.layout:layout-command_list-set_shortcut.command-cfg-item
+      - ui.layout:layout-model-open_view_item_commands.command-cfg-item
   model_reg:
     type: legacy_type.system:item_list_config
     value:
@@ -327,6 +344,10 @@ definitions:
       items:
       - ui.arg_mark:ui_command_creg-arg_mark-add_mark.ctx-actor-cfg-item
       - ui.arg_mark:ui_command_creg-arg_mark-remove_mark.ctx-actor-cfg-item
+      - ui.layout:ui_command_creg-layout-add_view_command.ctx-actor-cfg-item
+      - ui.layout:ui_command_creg-layout-open_view_item_commands.ctx-actor-cfg-item
+      - ui.layout:ui_command_creg-layout-set_escape_shortcut.ctx-actor-cfg-item
+      - ui.layout:ui_command_creg-layout-set_shortcut.ctx-actor-cfg-item
       - ui.navigator:ui_command_creg-navigator-go_back.ctx-actor-cfg-item
       - ui.navigator:ui_command_creg-navigator-go_forward.ctx-actor-cfg-item
       - ui.qt.auto_tabs:ui_command_creg-auto_tabs-close_tab.ctx-actor-cfg-item

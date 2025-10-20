@@ -7,9 +7,11 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:int
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.bundle_info:model
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.data_browser:record_view
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -37,11 +39,110 @@ definitions:
       - format
       - feed_factory
       - transport_log
+  message:
+    type: legacy_type.builtin:attribute
+    value:
+      object: transport_log_model.module
+      attr_name: message
+  message.command:
+    type: message.t
+    value: {}
+  message.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: message.system-fn
+  message.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: message
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  message.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: transport_log_model
+      name: message
+      base: null
+      fields: {}
+  message_bundle:
+    type: legacy_type.builtin:attribute
+    value:
+      object: transport_log_model.module
+      attr_name: message_bundle
+  message_bundle.command:
+    type: message_bundle.t
+    value: {}
+  message_bundle.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: message_bundle.system-fn
+  message_bundle.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: message_bundle
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  message_bundle.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: transport_log_model
+      name: message_bundle
+      base: null
+      fields: {}
+  transport_bundle:
+    type: legacy_type.builtin:attribute
+    value:
+      object: transport_log_model.module
+      attr_name: transport_bundle
+  transport_bundle.command:
+    type: transport_bundle.t
+    value: {}
+  transport_bundle.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: transport_bundle.system-fn
+  transport_bundle.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: transport_bundle
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  transport_bundle.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: transport_log_model
+      name: transport_bundle
+      base: null
+      fields: {}
   transport_log_model:
     type: legacy_type.builtin:attribute
     value:
       object: transport_log_model.module
       attr_name: transport_log_model
+  transport_log_model-model-message.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.transport_log_model:model
+      name: message
+      command: message.command
+  transport_log_model-model-message_bundle.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.transport_log_model:model
+      name: message_bundle
+      command: message_bundle.command
+  transport_log_model-model-transport_bundle.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.transport_log_model:model
+      name: transport_bundle
+      command: transport_bundle.command
   transport_log_model-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -93,3 +194,18 @@ definitions:
         htypes.transport_log_model.item: legacy_type.transport_log_model:item
         htypes.transport_log_model.model: legacy_type.transport_log_model:model
         services.web: builtins:web.service
+  ui_command_creg-transport_log_model-message.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: message.t
+      value: message.ctx-actor-template
+  ui_command_creg-transport_log_model-message_bundle.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: message_bundle.t
+      value: message_bundle.ctx-actor-template
+  ui_command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: transport_bundle.t
+      value: transport_bundle.ctx-actor-template

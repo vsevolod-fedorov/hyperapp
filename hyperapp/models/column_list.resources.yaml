@@ -7,10 +7,13 @@ import:
 - common.list_diff:list_diff.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.column:column_k
 - legacy_type.column_list:item
 - legacy_type.column_list:view
+- legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.list:view
@@ -23,6 +26,12 @@ definitions:
     value:
       object: column_list.module
       attr_name: column_list
+  column_list-view-toggle_visibility.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.column_list:view
+      name: toggle_visibility
+      command: toggle_visibility.command
   column_list-view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -72,3 +81,38 @@ definitions:
         htypes.list.view: legacy_type.list:view
         services.deduce_t: builtins:deduce_t.service
         services.pyobj_creg: builtins:pyobj_creg.service
+  toggle_visibility:
+    type: legacy_type.builtin:attribute
+    value:
+      object: column_list.module
+      attr_name: toggle_visibility
+  toggle_visibility.command:
+    type: toggle_visibility.t
+    value: {}
+  toggle_visibility.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: toggle_visibility.system-fn
+  toggle_visibility.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: toggle_visibility
+      ctx_params:
+      - piece
+      - current_idx
+      - current_item
+      service_params:
+      - feed_factory
+      - column_visible_reg
+  toggle_visibility.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: column_list
+      name: toggle_visibility
+      base: null
+      fields: {}
+  ui_command_creg-column_list-toggle_visibility.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: toggle_visibility.t
+      value: toggle_visibility.ctx-actor-template

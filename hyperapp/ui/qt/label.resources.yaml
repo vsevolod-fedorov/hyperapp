@@ -42,7 +42,7 @@ definitions:
     value:
       t: legacy_type.label:view
       name: set_label_text
-      command: set_label_text.ui-command
+      command: set_label_text.command
   label-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -100,6 +100,9 @@ definitions:
     value:
       object: label.module
       attr_name: set_label_text
+  set_label_text.command:
+    type: set_label_text.t
+    value: {}
   set_label_text.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -122,9 +125,6 @@ definitions:
       name: set_label_text
       base: null
       fields: {}
-  set_label_text.ui-command:
-    type: set_label_text.t
-    value: {}
   ui_command_creg-label-set_label_text.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

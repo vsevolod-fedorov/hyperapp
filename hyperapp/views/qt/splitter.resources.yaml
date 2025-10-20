@@ -46,12 +46,15 @@ definitions:
     value:
       t: legacy_type.navigator:view
       name: split_horizontally
-      command: split_horizontally.ui-command
+      command: split_horizontally.command
   split_horizontally:
     type: legacy_type.builtin:attribute
     value:
       object: splitter.module
       attr_name: split_horizontally
+  split_horizontally.command:
+    type: split_horizontally.t
+    value: {}
   split_horizontally.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -74,15 +77,12 @@ definitions:
       name: split_horizontally
       base: null
       fields: {}
-  split_horizontally.ui-command:
-    type: split_horizontally.t
-    value: {}
   splitter-view-unwrap.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.splitter:view
       name: unwrap
-      command: unwrap.ui-command
+      command: unwrap.command
   splitter-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -115,6 +115,9 @@ definitions:
     value:
       object: splitter.module
       attr_name: unwrap
+  unwrap.command:
+    type: unwrap.t
+    value: {}
   unwrap.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -136,9 +139,6 @@ definitions:
       name: unwrap
       base: null
       fields: {}
-  unwrap.ui-command:
-    type: unwrap.t
-    value: {}
   wrap_splitter:
     type: legacy_type.builtin:attribute
     value:

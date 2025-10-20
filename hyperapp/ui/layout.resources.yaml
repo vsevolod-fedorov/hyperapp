@@ -7,17 +7,48 @@ import:
 - common.list_diff:list_diff.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.layout:command_item
 - legacy_type.layout:command_list
 - legacy_type.layout:model
 - legacy_type.system:actor_template
+- legacy_type.system_fn:ctx_fn
 - ui.command:command.module
 - ui.directory:directory.module
 - ui.qt.key_input_dialog:key_input_dialog.module
 definitions:
+  add_view_command:
+    type: legacy_type.builtin:attribute
+    value:
+      object: layout.module
+      attr_name: add_view_command
+  add_view_command.command:
+    type: add_view_command.t
+    value: {}
+  add_view_command.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_view_command.system-fn
+  add_view_command.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add_view_command
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  add_view_command.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: layout
+      name: add_view_command
+      base: null
+      fields: {}
   format_layout_model:
     type: legacy_type.builtin:attribute
     value:
@@ -33,6 +64,24 @@ definitions:
     value:
       t: legacy_type.layout:model
       value: format_layout_model.actor-template
+  layout-command_list-add_view_command.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.layout:command_list
+      name: add_view_command
+      command: add_view_command.command
+  layout-command_list-set_escape_shortcut.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.layout:command_list
+      name: set_escape_shortcut
+      command: set_escape_shortcut.command
+  layout-command_list-set_shortcut.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.layout:command_list
+      name: set_shortcut
+      command: set_shortcut.command
   layout-command_list.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -46,6 +95,12 @@ definitions:
     type: legacy_type.feed:list_feed_type
     value:
       item_t: legacy_type.layout:command_item
+  layout-model-open_view_item_commands.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.layout:model
+      name: open_view_item_commands
+      command: open_view_item_commands.command
   layout.module:
     type: legacy_type.builtin:python_module
     value:
@@ -62,3 +117,110 @@ definitions:
         htypes.layout.model: legacy_type.layout:model
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  open_view_item_commands:
+    type: legacy_type.builtin:attribute
+    value:
+      object: layout.module
+      attr_name: open_view_item_commands
+  open_view_item_commands.command:
+    type: open_view_item_commands.t
+    value: {}
+  open_view_item_commands.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_view_item_commands.system-fn
+  open_view_item_commands.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_view_item_commands
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  open_view_item_commands.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: layout
+      name: open_view_item_commands
+      base: null
+      fields: {}
+  set_escape_shortcut:
+    type: legacy_type.builtin:attribute
+    value:
+      object: layout.module
+      attr_name: set_escape_shortcut
+  set_escape_shortcut.command:
+    type: set_escape_shortcut.t
+    value: {}
+  set_escape_shortcut.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: set_escape_shortcut.system-fn
+  set_escape_shortcut.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: set_escape_shortcut
+      ctx_params:
+      - piece
+      - current_idx
+      - current_item
+      service_params:
+      - shortcut_reg
+      - feed_factory
+  set_escape_shortcut.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: layout
+      name: set_escape_shortcut
+      base: null
+      fields: {}
+  set_shortcut:
+    type: legacy_type.builtin:attribute
+    value:
+      object: layout.module
+      attr_name: set_shortcut
+  set_shortcut.command:
+    type: set_shortcut.t
+    value: {}
+  set_shortcut.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: set_shortcut.system-fn
+  set_shortcut.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: set_shortcut
+      ctx_params:
+      - piece
+      - current_idx
+      - current_item
+      service_params:
+      - shortcut_reg
+      - feed_factory
+  set_shortcut.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: layout
+      name: set_shortcut
+      base: null
+      fields: {}
+  ui_command_creg-layout-add_view_command.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_view_command.t
+      value: add_view_command.ctx-actor-template
+  ui_command_creg-layout-open_view_item_commands.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_view_item_commands.t
+      value: open_view_item_commands.ctx-actor-template
+  ui_command_creg-layout-set_escape_shortcut.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_escape_shortcut.t
+      value: set_escape_shortcut.ctx-actor-template
+  ui_command_creg-layout-set_shortcut.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_shortcut.t
+      value: set_shortcut.ctx-actor-template

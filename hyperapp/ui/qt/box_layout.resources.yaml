@@ -46,6 +46,9 @@ definitions:
     value:
       object: box_layout.module
       attr_name: add_element
+  add_element.command:
+    type: add_element.t
+    value: {}
   add_element.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -69,14 +72,14 @@ definitions:
       name: add_element
       base: null
       fields: {}
-  add_element.ui-command:
-    type: add_element.t
-    value: {}
   add_stretch:
     type: legacy_type.builtin:attribute
     value:
       object: box_layout.module
       attr_name: add_stretch
+  add_stretch.command:
+    type: add_stretch.t
+    value: {}
   add_stretch.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -97,39 +100,36 @@ definitions:
       name: add_stretch
       base: null
       fields: {}
-  add_stretch.ui-command:
-    type: add_stretch.t
-    value: {}
   box_layout-view-add_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: add_element
-      command: add_element.ui-command
+      command: add_element.command
   box_layout-view-add_stretch.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: add_stretch
-      command: add_stretch.ui-command
+      command: add_stretch.command
   box_layout-view-insert_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: insert_element
-      command: insert_element.ui-command
+      command: insert_element.command
   box_layout-view-remove_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: remove_element
-      command: remove_element.ui-command
+      command: remove_element.command
   box_layout-view-unwrap.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: unwrap
-      command: unwrap.ui-command
+      command: unwrap.command
   box_layout-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -153,6 +153,9 @@ definitions:
     value:
       object: box_layout.module
       attr_name: insert_element
+  insert_element.command:
+    type: insert_element.t
+    value: {}
   insert_element.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -177,14 +180,14 @@ definitions:
       name: insert_element
       base: null
       fields: {}
-  insert_element.ui-command:
-    type: insert_element.t
-    value: {}
   remove_element:
     type: legacy_type.builtin:attribute
     value:
       object: box_layout.module
       attr_name: remove_element
+  remove_element.command:
+    type: remove_element.t
+    value: {}
   remove_element.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -205,9 +208,6 @@ definitions:
       name: remove_element
       base: null
       fields: {}
-  remove_element.ui-command:
-    type: remove_element.t
-    value: {}
   ui_command_creg-box_layout-add_element.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -238,6 +238,9 @@ definitions:
     value:
       object: box_layout.module
       attr_name: unwrap
+  unwrap.command:
+    type: unwrap.t
+    value: {}
   unwrap.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -259,9 +262,6 @@ definitions:
       name: unwrap
       base: null
       fields: {}
-  unwrap.ui-command:
-    type: unwrap.t
-    value: {}
   wrap_box_layout:
     type: legacy_type.builtin:attribute
     value:

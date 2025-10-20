@@ -5,13 +5,18 @@ import:
 - builtins:mosaic.service
 - builtins:web.service
 - common.list_diff:list_diff.module
+- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.command_list_model:item
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.global_commands:model
 - legacy_type.model_commands:model
+- legacy_type.system_fn:ctx_fn
 - ui.directory:directory.module
 - ui.qt.key_input_dialog:key_input_dialog.module
 definitions:
@@ -28,6 +33,12 @@ definitions:
         htypes.command_list_model.item: legacy_type.command_list_model:item
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  global_commands-model-set_shortcut.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.global_commands:model
+      name: set_shortcut
+      command: set_shortcut.command
   global_commands-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -41,6 +52,12 @@ definitions:
     type: legacy_type.feed:list_feed_type
     value:
       item_t: legacy_type.command_list_model:item
+  model_commands-model-set_shortcut.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.model_commands:model
+      name: set_shortcut
+      command: set_shortcut.command
   model_commands-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -54,3 +71,38 @@ definitions:
     type: legacy_type.feed:list_feed_type
     value:
       item_t: legacy_type.command_list_model:item
+  set_shortcut:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_list_model.module
+      attr_name: set_shortcut
+  set_shortcut.command:
+    type: set_shortcut.t
+    value: {}
+  set_shortcut.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: set_shortcut.system-fn
+  set_shortcut.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: set_shortcut
+      ctx_params:
+      - piece
+      - current_idx
+      - current_item
+      service_params:
+      - shortcut_reg
+      - feed_factory
+  set_shortcut.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: command_list_model
+      name: set_shortcut
+      base: null
+      fields: {}
+  ui_command_creg-command_list_model-set_shortcut.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_shortcut.t
+      value: set_shortcut.ctx-actor-template

@@ -6,12 +6,15 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:bundle
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.bundle_info:ass_list_model
 - legacy_type.bundle_info:bundle_info
 - legacy_type.bundle_info:capsule_item
 - legacy_type.bundle_info:capsule_list_model
 - legacy_type.bundle_info:model
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.data_browser:record_view
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -31,6 +34,12 @@ definitions:
     value:
       object: bundle_info.module
       attr_name: bundle_info
+  bundle_info-ass_list_model-open_association.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.bundle_info:ass_list_model
+      name: open_association
+      command: open_association.command
   bundle_info-ass_list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -66,6 +75,12 @@ definitions:
       - piece
       service_params:
       - format
+  bundle_info-capsule_list_model-open_capsule.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.bundle_info:capsule_list_model
+      name: open_capsule
+      command: open_capsule.command
   bundle_info-capsule_list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -101,6 +116,24 @@ definitions:
       - piece
       service_params:
       - format
+  bundle_info-model-open_associations.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.bundle_info:model
+      name: open_associations
+      command: open_associations.command
+  bundle_info-model-open_capsules.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.bundle_info:model
+      name: open_capsules
+      command: open_capsules.command
+  bundle_info-model-open_root.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.bundle_info:model
+      name: open_root
+      command: open_root.command
   bundle_info-model.model:
     type: legacy_type.model:model
     value:
@@ -187,3 +220,160 @@ definitions:
     value:
       t: legacy_type.bundle_info:model
       value: format_model.actor-template
+  open_association:
+    type: legacy_type.builtin:attribute
+    value:
+      object: bundle_info.module
+      attr_name: open_association
+  open_association.command:
+    type: open_association.t
+    value: {}
+  open_association.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_association.system-fn
+  open_association.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_association
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  open_association.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: bundle_info
+      name: open_association
+      base: null
+      fields: {}
+  open_associations:
+    type: legacy_type.builtin:attribute
+    value:
+      object: bundle_info.module
+      attr_name: open_associations
+  open_associations.command:
+    type: open_associations.t
+    value: {}
+  open_associations.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_associations.system-fn
+  open_associations.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_associations
+      ctx_params:
+      - piece
+      service_params: []
+  open_associations.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: bundle_info
+      name: open_associations
+      base: null
+      fields: {}
+  open_capsule:
+    type: legacy_type.builtin:attribute
+    value:
+      object: bundle_info.module
+      attr_name: open_capsule
+  open_capsule.command:
+    type: open_capsule.t
+    value: {}
+  open_capsule.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_capsule.system-fn
+  open_capsule.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_capsule
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  open_capsule.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: bundle_info
+      name: open_capsule
+      base: null
+      fields: {}
+  open_capsules:
+    type: legacy_type.builtin:attribute
+    value:
+      object: bundle_info.module
+      attr_name: open_capsules
+  open_capsules.command:
+    type: open_capsules.t
+    value: {}
+  open_capsules.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_capsules.system-fn
+  open_capsules.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_capsules
+      ctx_params:
+      - piece
+      service_params: []
+  open_capsules.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: bundle_info
+      name: open_capsules
+      base: null
+      fields: {}
+  open_root:
+    type: legacy_type.builtin:attribute
+    value:
+      object: bundle_info.module
+      attr_name: open_root
+  open_root.command:
+    type: open_root.t
+    value: {}
+  open_root.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_root.system-fn
+  open_root.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_root
+      ctx_params:
+      - piece
+      service_params: []
+  open_root.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: bundle_info
+      name: open_root
+      base: null
+      fields: {}
+  ui_command_creg-bundle_info-open_association.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_association.t
+      value: open_association.ctx-actor-template
+  ui_command_creg-bundle_info-open_associations.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_associations.t
+      value: open_associations.ctx-actor-template
+  ui_command_creg-bundle_info-open_capsule.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_capsule.t
+      value: open_capsule.ctx-actor-template
+  ui_command_creg-bundle_info-open_capsules.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_capsules.t
+      value: open_capsules.ctx-actor-template
+  ui_command_creg-bundle_info-open_root.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_root.t
+      value: open_root.ctx-actor-template

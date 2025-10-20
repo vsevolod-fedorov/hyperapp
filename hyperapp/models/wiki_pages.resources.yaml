@@ -8,8 +8,11 @@ import:
 - common.value_diff:value_diff.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.feed:value_feed_type
@@ -34,6 +37,64 @@ import:
 - legacy_type.wiki_pages:ref_list_model
 - legacy_type.wiki_pages:storage
 definitions:
+  add_folder:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: add_folder
+  add_folder.command:
+    type: add_folder.t
+    value: {}
+  add_folder.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_folder.system-fn
+  add_folder.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add_folder
+      ctx_params:
+      - piece
+      - name
+      service_params:
+      - wiki_pages
+  add_folder.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: add_folder
+      base: null
+      fields: {}
+  add_ref:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: add_ref
+  add_ref.command:
+    type: add_ref.t
+    value: {}
+  add_ref.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_ref.system-fn
+  add_ref.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add_ref
+      ctx_params:
+      - piece
+      - value
+      - ref
+      service_params:
+      - wiki_pages
+      - feed_factory
+  add_ref.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: add_ref
+      base: null
+      fields: {}
   format_page_list_model:
     type: legacy_type.builtin:attribute
     value:
@@ -80,6 +141,114 @@ definitions:
     value:
       t: legacy_type.wiki_pages:ref_list_model
       value: format_ref_list_model.actor-template
+  new_page:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: new_page
+  new_page.command:
+    type: new_page.t
+    value: {}
+  new_page.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: new_page.system-fn
+  new_page.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: new_page
+      ctx_params:
+      - piece
+      service_params:
+      - wiki_pages
+  new_page.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: new_page
+      base: null
+      fields: {}
+  open:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: open
+  open.command:
+    type: open.t
+    value: {}
+  open.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open.system-fn
+  open.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open
+      ctx_params:
+      - piece
+      - current_key
+      service_params:
+      - wiki_pages
+  open.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: open
+      base: null
+      fields: {}
+  open_parent:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: open_parent
+  open_parent.command:
+    type: open_parent.t
+    value: {}
+  open_parent.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_parent.system-fn
+  open_parent.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_parent
+      ctx_params:
+      - piece
+      service_params:
+      - wiki_pages
+  open_parent.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: open_parent
+      base: null
+      fields: {}
+  open_ref_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: open_ref_list
+  open_ref_list.command:
+    type: open_ref_list.t
+    value: {}
+  open_ref_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_ref_list.system-fn
+  open_ref_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_ref_list
+      ctx_params:
+      - piece
+      service_params: []
+  open_ref_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: open_ref_list
+      base: null
+      fields: {}
   page_list_model:
     type: legacy_type.builtin:attribute
     value:
@@ -95,6 +264,62 @@ definitions:
     value:
       object: wiki_pages.module
       attr_name: ref_list_model
+  remove:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: remove
+  remove.command:
+    type: remove.t
+    value: {}
+  remove.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: remove.system-fn
+  remove.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: remove
+      ctx_params:
+      - piece
+      - current_id
+      service_params:
+      - wiki_pages
+  remove.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: remove
+      base: null
+      fields: {}
+  save_page:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: save_page
+  save_page.command:
+    type: save_page.t
+    value: {}
+  save_page.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: save_page.system-fn
+  save_page.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: save_page
+      ctx_params:
+      - piece
+      - value
+      service_params:
+      - wiki_pages
+  save_page.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: save_page
+      base: null
+      fields: {}
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
@@ -107,11 +332,81 @@ definitions:
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}
+  ui_command_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_folder.t
+      value: add_folder.ctx-actor-template
+  ui_command_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_ref.t
+      value: add_ref.ctx-actor-template
+  ui_command_creg-wiki_pages-new_page.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: new_page.t
+      value: new_page.ctx-actor-template
+  ui_command_creg-wiki_pages-open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open.t
+      value: open.ctx-actor-template
+  ui_command_creg-wiki_pages-open_parent.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_parent.t
+      value: open_parent.ctx-actor-template
+  ui_command_creg-wiki_pages-open_ref_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_ref_list.t
+      value: open_ref_list.ctx-actor-template
+  ui_command_creg-wiki_pages-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template
+  ui_command_creg-wiki_pages-save_page.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: save_page.t
+      value: save_page.ctx-actor-template
   wiki_pages:
     type: legacy_type.builtin:attribute
     value:
       object: wiki_pages.module
       attr_name: wiki_pages
+  wiki_pages-list_model-add_folder.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:list_model
+      name: add_folder
+      command: add_folder.command
+  wiki_pages-list_model-new_page.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:list_model
+      name: new_page
+      command: new_page.command
+  wiki_pages-list_model-open.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:list_model
+      name: open
+      command: open.command
+  wiki_pages-list_model-open_parent.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:list_model
+      name: open_parent
+      command: open_parent.command
+  wiki_pages-list_model-remove.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:list_model
+      name: remove
+      command: remove.command
   wiki_pages-list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -150,6 +445,24 @@ definitions:
       service_params:
       - format
       - wiki_pages
+  wiki_pages-page_model-add_ref.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:page_model
+      name: add_ref
+      command: add_ref.command
+  wiki_pages-page_model-open_ref_list.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:page_model
+      name: open_ref_list
+      command: open_ref_list.command
+  wiki_pages-page_model-save_page.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:page_model
+      name: save_page
+      command: save_page.command
   wiki_pages-page_model.feed-template:
     type: legacy_type.feed:feed_template
     value:

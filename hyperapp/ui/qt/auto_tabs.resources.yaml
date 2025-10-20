@@ -42,13 +42,13 @@ definitions:
     value:
       t: legacy_type.auto_tabs:view
       name: close_tab
-      command: close_tab.ui-command
+      command: close_tab.command
   auto_tabs-view-duplicate_tab.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.auto_tabs:view
       name: duplicate_tab
-      command: duplicate_tab.ui-command
+      command: duplicate_tab.command
   auto_tabs-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -69,6 +69,9 @@ definitions:
     value:
       object: auto_tabs.module
       attr_name: close_tab
+  close_tab.command:
+    type: close_tab.t
+    value: {}
   close_tab.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -89,14 +92,14 @@ definitions:
       name: close_tab
       base: null
       fields: {}
-  close_tab.ui-command:
-    type: close_tab.t
-    value: {}
   duplicate_tab:
     type: legacy_type.builtin:attribute
     value:
       object: auto_tabs.module
       attr_name: duplicate_tab
+  duplicate_tab.command:
+    type: duplicate_tab.t
+    value: {}
   duplicate_tab.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -119,9 +122,6 @@ definitions:
       name: duplicate_tab
       base: null
       fields: {}
-  duplicate_tab.ui-command:
-    type: duplicate_tab.t
-    value: {}
   ui_command_creg-auto_tabs-close_tab.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

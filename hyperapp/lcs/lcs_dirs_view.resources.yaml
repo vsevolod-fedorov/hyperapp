@@ -6,7 +6,10 @@ import:
 - lcs.lcs_view:lcs_view.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.lcs_dirs_view:item
@@ -16,11 +19,44 @@ import:
 - legacy_type.model:model
 - legacy_type.system_fn:ctx_fn
 definitions:
+  lcs_dirs_items:
+    type: legacy_type.builtin:attribute
+    value:
+      object: lcs_dirs_view.module
+      attr_name: lcs_dirs_items
+  lcs_dirs_items.command:
+    type: lcs_dirs_items.t
+    value: {}
+  lcs_dirs_items.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: lcs_dirs_items.system-fn
+  lcs_dirs_items.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: lcs_dirs_items
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  lcs_dirs_items.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: lcs_dirs_view
+      name: lcs_dirs_items
+      base: null
+      fields: {}
   lcs_dirs_view:
     type: legacy_type.builtin:attribute
     value:
       object: lcs_dirs_view.module
       attr_name: lcs_dirs_view
+  lcs_dirs_view-view-lcs_dirs_items.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.lcs_dirs_view:view
+      name: lcs_dirs_items
+      command: lcs_dirs_items.command
   lcs_dirs_view-view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -68,3 +104,45 @@ definitions:
         htypes.lcs_dirs_view.view: legacy_type.lcs_dirs_view:view
         htypes.lcs_view.view: legacy_type.lcs_view:view
         services.mosaic: builtins:mosaic.service
+  lcs_open_dirs:
+    type: legacy_type.builtin:attribute
+    value:
+      object: lcs_dirs_view.module
+      attr_name: lcs_open_dirs
+  lcs_open_dirs.command:
+    type: lcs_open_dirs.t
+    value: {}
+  lcs_open_dirs.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: lcs_open_dirs.system-fn
+  lcs_open_dirs.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: lcs_open_dirs
+      ctx_params:
+      - piece
+      service_params: []
+  lcs_open_dirs.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: lcs_dirs_view
+      name: lcs_open_dirs
+      base: null
+      fields: {}
+  lcs_view-view-lcs_open_dirs.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.lcs_view:view
+      name: lcs_open_dirs
+      command: lcs_open_dirs.command
+  ui_command_creg-lcs_dirs_view-lcs_dirs_items.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: lcs_dirs_items.t
+      value: lcs_dirs_items.ctx-actor-template
+  ui_command_creg-lcs_dirs_view-lcs_open_dirs.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: lcs_open_dirs.t
+      value: lcs_open_dirs.ctx-actor-template

@@ -46,6 +46,9 @@ definitions:
     value:
       object: arg_mark.module
       attr_name: add_mark
+  add_mark.command:
+    type: add_mark.t
+    value: {}
   add_mark.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -69,15 +72,12 @@ definitions:
       name: add_mark
       base: null
       fields: {}
-  add_mark.ui-command:
-    type: add_mark.t
-    value: {}
   arg_mark-view-remove_mark.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.arg_mark:view
       name: remove_mark
-      command: remove_mark.ui-command
+      command: remove_mark.command
   arg_mark-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -101,12 +101,15 @@ definitions:
     value:
       t: legacy_type.navigator:view
       name: add_mark
-      command: add_mark.ui-command
+      command: add_mark.command
   remove_mark:
     type: legacy_type.builtin:attribute
     value:
       object: arg_mark.module
       attr_name: remove_mark
+  remove_mark.command:
+    type: remove_mark.t
+    value: {}
   remove_mark.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -129,9 +132,6 @@ definitions:
       name: remove_mark
       base: null
       fields: {}
-  remove_mark.ui-command:
-    type: remove_mark.t
-    value: {}
   ui_command_creg-arg_mark-add_mark.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
