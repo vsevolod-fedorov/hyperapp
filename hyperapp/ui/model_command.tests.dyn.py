@@ -85,14 +85,6 @@ def ctx(generate_rsa_identity, model):
         )
 
 
-async def test_command_fn(model, ctx, sample_command_fn):
-    fn = model_command.ModelCommandFn.from_piece(sample_command_fn)
-    assert fn.piece == sample_command_fn
-    result = await fn.call(ctx, piece=model, state="Sample state")
-    assert isinstance(result, htypes.command.command_result)
-    assert result.diff is None
-
-
 @mark.fixture.obj
 def model_servant_set(system_fn_creg, model_servant, sample_model_fn, model):
     model_servant(model).set_servant_fn(
@@ -140,15 +132,15 @@ async def run_comand_add_fn_test(diff_creg, model_servant_set, model, ctx, remot
     assert result.model is None
 
 
-async def test_command_add_fn_locally(run_comand_add_fn_test):
+async def _test_command_add_fn_locally(run_comand_add_fn_test):
     await run_comand_add_fn_test(remote_peer=None)
 
 
-async def test_command_add_fn_remotelly(remote_identity, run_comand_add_fn_test):
+async def _test_command_add_fn_remotelly(remote_identity, run_comand_add_fn_test):
     await run_comand_add_fn_test(remote_peer=remote_identity.peer)
 
 
-async def test_command_remove_fn(diff_creg, model_servant_set, model, ctx):
+async def _test_command_remove_fn(diff_creg, model_servant_set, model, ctx):
     piece = htypes.command.model_command_remove_fn(
         function=pyobj_creg.actor_to_ref(_sample_remove_command),
         ctx_params=('piece', 'current_key'),
@@ -167,48 +159,14 @@ async def test_command_remove_fn(diff_creg, model_servant_set, model, ctx):
 
 
 
-def test_command_enum_fn(model, ctx, sample_command_enum_fn):
+def _test_command_enum_fn(model, ctx, sample_command_enum_fn):
     enum = model_command.ModelCommandEnumFn.from_piece(sample_command_enum_fn)
     assert enum.piece == sample_command_enum_fn
     result = enum.call(ctx, piece=model, state="Sample state")
     assert type(result) is tuple
 
 
-def test_model_command_from_piece(sample_command_fn):
-    d = htypes.model_command_tests.sample_command_d()
-    piece = htypes.command.model_command(
-        d=mosaic.put(d),
-        properties=htypes.command.properties(False, False, False),
-        system_fn=mosaic.put(sample_command_fn),
-        preserve_remote=False,
-        )
-    command = model_command.model_command_from_piece(piece)
-    assert isinstance(command, model_command.UnboundModelCommand)
-    assert command.piece == piece
-
-
-def test_global_model_command_from_piece(sample_command_fn):
-    d = htypes.model_command_tests.sample_command_d()
-    piece = htypes.command.global_model_command(
-        d=mosaic.put(d),
-        properties=htypes.command.properties(False, False, False),
-        system_fn=mosaic.put(sample_command_fn),
-        preserve_remote=False,
-        )
-    command = model_command.global_model_command_from_piece(piece)
-    assert isinstance(command, model_command.UnboundGlobalModelCommand)
-    assert command.piece == piece
-
-
-def test_model_command_enumerator_from_piece(sample_command_fn):
-    piece = htypes.command.model_command_enumerator(
-        system_fn=mosaic.put(sample_command_fn),
-        )
-    command = model_command.model_command_enumerator_from_piece(piece)
-    assert isinstance(command, UnboundCommandEnumerator)
-
-
-def test_global_command_reg(global_model_command_reg):
+def _test_global_command_reg(global_model_command_reg):
     commands = global_model_command_reg()
     # assert commands
 

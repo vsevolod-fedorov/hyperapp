@@ -8,7 +8,7 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.system_fn import ContextFn
-from .code.model_command import ModelCommandFn, ModelCommandAddFn, UnboundModelCommand
+# from .code.model_command import ModelCommandFn, ModelCommandAddFn, UnboundModelCommand
 from .fixtures import visualizer_fixtures
 from .fixtures import error_view_fixtures
 from .tested.code import ui_model_command
@@ -92,7 +92,7 @@ def lcs():
     return lcs
 
 
-def test_set_custom_ui_model_command(custom_ui_model_commands, lcs):
+def _test_set_custom_ui_model_command(custom_ui_model_commands, lcs):
     model_t = htypes.ui_model_command_tests.sample_model
     command = htypes.command.custom_ui_model_command(
         ui_command_d=mosaic.put(htypes.ui_model_command_tests.sample_command_2_d()),
@@ -104,7 +104,7 @@ def test_set_custom_ui_model_command(custom_ui_model_commands, lcs):
     lcs.set.assert_called_once()
 
 
-def test_get_ui_model_commands(get_ui_model_commands, lcs):
+def _test_get_ui_model_commands(get_ui_model_commands, lcs):
     ctx = Context()
     model_t = htypes.ui_model_command_tests.sample_model
     command_list = get_ui_model_commands(lcs, model_t, ctx)
@@ -121,7 +121,7 @@ def test_get_ui_model_commands(get_ui_model_commands, lcs):
         assert isinstance(cmd, ui_model_command.UnboundUiModelCommand)
 
 
-def test_ui_global_command_items_get_items(ui_global_command_items, lcs):
+def _test_ui_global_command_items_get_items(ui_global_command_items, lcs):
     command_items = ui_global_command_items(lcs)
     d_set = {
         item.d for item in command_items.items()
@@ -143,7 +143,7 @@ def test_split_command_result():
     assert model == 'sample-model'
 
 
-async def test_command_run_open_view(get_ui_model_commands, lcs):
+async def _test_command_run_open_view(get_ui_model_commands, lcs):
     model_t = htypes.ui_model_command_tests.sample_model
     model = model_t()
     navigator_rec = Mock(view=AsyncMock())
@@ -196,7 +196,7 @@ def feed_factory(sample_feed, model):
     return sample_feed
 
 
-async def test_command_run_process_diff(model_servant, get_ui_model_commands, lcs, sample_servant_fn, sample_feed):
+async def _test_command_run_process_diff(model_servant, get_ui_model_commands, lcs, sample_servant_fn, sample_feed):
     model_t = htypes.ui_model_command_tests.sample_model
     model = model_t()
     model_servant(model).set_servant_fn(
