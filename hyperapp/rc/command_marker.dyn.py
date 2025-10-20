@@ -161,7 +161,6 @@ class ModelCommandProbe(CommandProbe):
         self._command_fn_t = command_fn_t
 
     def _add_constructor(self, params):
-        return
         if self._t:
             t = self._t
         else:

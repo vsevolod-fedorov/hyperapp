@@ -259,7 +259,7 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
             )
         if name_to_res is not None:
             # name_to_res[f'{self._command_t.name}.t'] = pyobj_creg.actor_to_piece(self._command_t)
-            name_to_res[f'{self._command_name}.ui-command'] = command
+            name_to_res[f'{self._command_name}.command'] = command
             # name_to_res[f'{self._resource_name}.command-template'] = template
             name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
         return cfg_item
