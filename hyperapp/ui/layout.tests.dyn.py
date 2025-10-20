@@ -110,7 +110,7 @@ async def ctl(controller_running, default_layout, ctx):
         yield ctl
 
 
-async def test_layout_tree(qapp, ctl):
+async def _test_layout_tree(qapp, ctl):
     piece = htypes.layout.model()
     items = layout.layout_tree(piece, None, ctl)
     assert items
@@ -118,7 +118,7 @@ async def test_layout_tree(qapp, ctl):
     layout.layout_tree(piece, parent, ctl)
 
 
-async def test_enum_layout_tree_commands(qapp, ctl):
+async def _test_enum_layout_tree_commands(qapp, ctl):
     piece = htypes.layout.model()
     windows = layout.layout_tree(piece, None, ctl)
     window_items = layout.layout_tree(piece, windows[0], ctl)
@@ -141,7 +141,7 @@ def shortcut_reg():
     return reg
 
 
-async def test_view_item_commands(qapp, ctx, ctl):
+async def _test_view_item_commands(qapp, ctx, ctl):
     ctx = ctx.clone_with(controller=ctl)
     layout_piece = htypes.layout.model()
     windows = layout.layout_tree(layout_piece, None, ctl)

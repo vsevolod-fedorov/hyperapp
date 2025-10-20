@@ -16,7 +16,7 @@ from .code.mark import mark
 from .code.context import Context
 from .code.remote_model import real_model_t
 from .code.command import BoundCommandBase, UnboundCommandBase
-from .code.ui_model_command import split_command_result, wrap_model_command_to_ui_command
+# from .code.ui_model_command import split_command_result, wrap_model_command_to_ui_command
 from .code.context_view import ContextView
 from .code.record_adapter import FnRecordAdapterBase
 from .code.construct_default_form import construct_default_form
@@ -339,9 +339,9 @@ class Crud:
         return init_action_fn.call(fn_ctx)
 
 
-@mark.service
-def crud(canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg):
-    return Crud(canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg)
+# @mark.service
+# def crud(canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg):
+#     return Crud(canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg)
 
 
 class UnboundCrudCommitCommand(UnboundCommandBase):

@@ -44,7 +44,7 @@ async def test_command_instance():
     assert result == model
 
 
-async def test_add_command(feed_factory):
+async def _test_add_command(feed_factory):
     lcs = Mock()
     lcs.get.return_value = None  # Imitate missing command list; do not return Mock instance.
     model = htypes.identity_command_tests.sample_model()

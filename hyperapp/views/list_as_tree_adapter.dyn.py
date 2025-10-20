@@ -31,7 +31,7 @@ class ListAsTreeAdapter(TreeAdapter, IndexTreeAdapterMixin):
         list_fn: ContextFn|None = None
 
     @classmethod
-    @mark.actor.ui_adapter_creg(htypes.list_as_tree_adapter.adapter)
+    # @mark.actor.ui_adapter_creg(htypes.list_as_tree_adapter.adapter)
     def from_piece(cls, piece, model, ctx, system_fn_creg, command_creg, get_model_commands, visualizer_reg):
         layers = {}
         for rec in piece.layers:

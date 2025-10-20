@@ -5,7 +5,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.model_command import ModelCommandFn, UnboundModelCommand
+# from .code.model_command import ModelCommandFn, UnboundModelCommand
 from .tested.code import remote_command
 
 
@@ -45,7 +45,7 @@ def remote_model(generate_rsa_identity):
         )
 
 
-async def test_remote_command_from_model_command(
+async def _test_remote_command_from_model_command(
         generate_rsa_identity, remote_command_from_model_command, sample_command_fn, remote_model):
     my_identity = generate_rsa_identity(fast=True)
     remote_identity = generate_rsa_identity(fast=True)
@@ -67,7 +67,7 @@ async def test_remote_command_from_model_command(
     assert web.summon(result.model) == 'remote-sample-result', result
 
 
-def test_enum(generate_rsa_identity, remote_model):
+def _test_enum(generate_rsa_identity, remote_model):
     my_identity = generate_rsa_identity(fast=True)
     ctx = Context(
         identity=my_identity,

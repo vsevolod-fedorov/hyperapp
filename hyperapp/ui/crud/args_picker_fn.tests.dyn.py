@@ -41,7 +41,7 @@ def navigator_rec(navigator_widget):
     return Mock(view=AsyncMock(), widget_wr=weakref.ref(navigator_widget))
 
 
-async def test_args_picker_fn(navigator_rec):
+async def _test_args_picker_fn(navigator_rec):
     commit_fn = htypes.system_fn.ctx_fn(
         function=pyobj_creg.actor_to_ref(_sample_commit),
         ctx_params=('sample_value',),

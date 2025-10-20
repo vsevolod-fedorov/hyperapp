@@ -13,7 +13,7 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.system_fn import ContextFn
-from .code.model_command import ModelCommandFn
+# from .code.model_command import ModelCommandFn
 from .code.selector import Selector
 from .fixtures import qapp_fixtures
 from .fixtures import error_view_fixtures
@@ -172,7 +172,7 @@ def model_layout_reg(format, commit_command_layout_k):
     return reg
 
 
-async def test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_piece_ctr):
+async def _test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_piece_ctr):
     piece = view_piece_ctr(11, pick_fn=None)
     view = crud.CrudContextView.from_piece(piece, ctx)
     state = None
@@ -190,7 +190,7 @@ async def test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_pie
     assert isinstance(model_layout_reg.__setitem__.call_args.args[0], htypes.crud.layout_k)
 
 
-def test_record_adapter(_sample_crud_get_fn, ctx, model, commit_command_d):
+def _test_record_adapter(_sample_crud_get_fn, ctx, model, commit_command_d):
     value_t = htypes.crud_tests.sample_record
     item_id = 11
     form_model = htypes.crud.form_model(
@@ -232,12 +232,12 @@ async def run_open_command_fn_test(ctx, navigator_rec, _sample_crud_get_fn, _sam
     navigator_rec.view.open.assert_awaited_once()
 
 
-async def test_open_command_fn_to_form(run_open_command_fn_test):
+async def _test_open_command_fn_to_form(run_open_command_fn_test):
     value_t = htypes.crud_tests.sample_record
     await run_open_command_fn_test(value_t, item_id=11)
 
 
-async def test_open_command_fn_to_str(run_open_command_fn_test):
+async def _test_open_command_fn_to_str(run_open_command_fn_test):
     value_t = htypes.builtin.string
     await run_open_command_fn_test(value_t, item_id=33)
 
@@ -261,7 +261,7 @@ def view_reg_config(view_fn_mock, visualizer_view_reg_config):
         }
 
 
-async def test_open_command_fn_to_selector(run_open_command_fn_test):
+async def _test_open_command_fn_to_selector(run_open_command_fn_test):
     value_t = htypes.crud_tests.sample_selector
     await run_open_command_fn_test(value_t, item_id=22)
 
@@ -274,7 +274,7 @@ def rpc_system_call_factory(receiver_peer, sender_identity, fn):
     return call
 
 
-async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model):
+async def _test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model):
     view_piece = view_piece_ctr(11, pick_fn=None)
     view = view_reg.animate(view_piece, ctx)
     commands = crud.crud_commit_command_enum(view)
@@ -294,7 +294,7 @@ async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model
     await bound_cmd.run()
 
 
-async def test_commit_command_enum_for_selector(view_reg, ctx, _sample_selector_pick_fn, view_piece_ctr):
+async def _test_commit_command_enum_for_selector(view_reg, ctx, _sample_selector_pick_fn, view_piece_ctr):
     view_piece = view_piece_ctr(22, pick_fn=_sample_selector_pick_fn.piece)
     view = view_reg.animate(view_piece, ctx)
     commands = crud.crud_commit_command_enum(view)

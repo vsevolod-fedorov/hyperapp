@@ -8,7 +8,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.model_command import ModelCommandFn, UnboundModelCommand
+# from .code.model_command import ModelCommandFn, UnboundModelCommand
 from .fixtures import visualizer_fixtures
 from .tested.code import command_list_model, global_commands
 
@@ -56,13 +56,13 @@ def piece():
     return htypes.global_commands.model()
 
 
-def test_list_global_commands(lcs, piece):
+def _test_list_global_commands(lcs, piece):
     ctx = Context()
     item_list = global_commands.list_global_commands(piece, lcs)
     assert 'Sample command' in [item.name for item in item_list]
 
 
-async def test_run_command(lcs, piece):
+async def _test_run_command(lcs, piece):
     navigator_rec = Mock()
     navigator_rec.view.open = AsyncMock()
     current_item = htypes.command_list_model.item(

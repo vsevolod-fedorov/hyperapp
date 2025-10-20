@@ -100,17 +100,17 @@ def format_factory_k(piece, format, command_creg):
     return f"details: {command_d_str}"
 
 
-@mark.service
-def details_commands(global_model_command_reg, get_model_commands, model_t, command_ctx):
-    command_list = [
-        *global_model_command_reg.values(),
-        *get_model_commands(model_t, command_ctx),
-        ]
-    d_to_command = {
-        cmd.d: cmd for cmd in command_list
-        if not cmd.properties.is_global or cmd.properties.uses_state
-        }
-    return d_to_command
+# @mark.service
+# def details_commands(global_model_command_reg, get_model_commands, model_t, command_ctx):
+#     command_list = [
+#         *global_model_command_reg.values(),
+#         *get_model_commands(model_t, command_ctx),
+#         ]
+#     d_to_command = {
+#         cmd.d: cmd for cmd in command_list
+#         if not cmd.properties.is_global or cmd.properties.uses_state
+#         }
+#     return d_to_command
 
 
 def details_command_list(model, model_state, ctx, details_commands):

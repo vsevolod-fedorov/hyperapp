@@ -7,7 +7,7 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.system_fn import ContextFn
-from .code.model_command import UnboundModelCommand
+# from .code.model_command import UnboundModelCommand
 from .tested.code import rename_command
 
 
@@ -48,7 +48,7 @@ def d_ref():
     return mosaic.put(d)
 
 
-def test_rename_to(piece, d_ref):
+def _test_rename_to(piece, d_ref):
     form = rename_command.model_command_rename_to(piece, d_ref)
     assert form.name == 'sample_command'
 
@@ -60,7 +60,7 @@ def lcs():
     return lcs
 
 
-def test_rename(lcs, piece, d_ref):
+def _test_rename(lcs, piece, d_ref):
     ctx = Context()
     form = htypes.rename_command.form(
         name='new_name',

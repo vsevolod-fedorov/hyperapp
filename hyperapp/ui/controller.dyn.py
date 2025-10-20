@@ -37,7 +37,7 @@ CtlServices = namedtuple(
         'view_reg',
         'get_view_commands',
         'get_view_element_commands',
-        'get_ui_model_commands',
+        # 'get_ui_model_commands',
         ])
 
 # attributes shared by all items.
@@ -610,7 +610,7 @@ async def controller_running(
         view_reg,
         get_view_commands,
         get_view_element_commands,
-        get_ui_model_commands,
+        # get_ui_model_commands,
         layout_bundle,
         default_layout,
         ctx,
@@ -622,7 +622,7 @@ async def controller_running(
         view_reg=view_reg,
         get_view_commands=get_view_commands,
         get_view_element_commands=get_view_element_commands,
-        get_ui_model_commands=get_ui_model_commands,
+        # get_ui_model_commands=get_ui_model_commands,
         )
     ctl = Controller(svc, layout_bundle, default_layout, ctx, show, load_state)
     await ctl.async_init()

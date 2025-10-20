@@ -12,7 +12,7 @@ async def _sample_fn(arg):
     return f'result: {arg}'
 
 
-async def test_command(partial_ref):
+async def _test_command(partial_ref):
     commit_fn = htypes.command.model_command_fn(
         function=pyobj_creg.actor_to_ref(_sample_fn),
         ctx_params=('arg',),

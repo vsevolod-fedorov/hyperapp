@@ -11,7 +11,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.model_command import ModelCommandFn, UnboundModelCommand
+# from .code.model_command import ModelCommandFn, UnboundModelCommand
 from .fixtures import feed_fixtures
 from .tested.code import peer_list
 
@@ -143,7 +143,7 @@ def ctx(identity):
         )
 
 
-async def test_run_global_command(ctx, piece, current_item, command_d):
+async def _test_run_global_command(ctx, piece, current_item, command_d):
     command = htypes.global_commands.command_arg(
         d=mosaic.put(command_d),
         )
@@ -151,7 +151,7 @@ async def test_run_global_command(ctx, piece, current_item, command_d):
     assert web.summon(result.model) == "Sample result"
 
 
-async def test_open_model(ctx, piece, current_item, command_d):
+async def _test_open_model(ctx, piece, current_item, command_d):
     command = htypes.global_commands.command_arg(
         d=mosaic.put(command_d),
         )

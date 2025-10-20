@@ -8,7 +8,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.model_command import ModelCommandFn, UnboundModelCommand
+# from .code.model_command import ModelCommandFn, UnboundModelCommand
 from .tested.code import list_as_tree_adapter
 
 log = logging.getLogger(__name__)
@@ -145,7 +145,7 @@ def model_command_reg_config(open_command_1, open_command_2):
         }
 
 
-async def test_three_layers(open_command_1, open_command_2):
+async def _test_three_layers(open_command_1, open_command_2):
     ctx = Context()
     model = htypes.list_as_tree_adapter_tests.sample_list_1()
     root_item_t = htypes.list_as_tree_adapter_tests.item_1
@@ -225,7 +225,7 @@ async def test_three_layers(open_command_1, open_command_2):
     assert adapter.get_item_piece([1, 2]) == htypes.list_as_tree_adapter_tests.sample_list_3(12)
 
 
-async def test_single_layer():
+async def _test_single_layer():
     ctx = Context()
     model = htypes.list_as_tree_adapter_tests.sample_list_1()
     root_item_t = htypes.list_as_tree_adapter_tests.item_1

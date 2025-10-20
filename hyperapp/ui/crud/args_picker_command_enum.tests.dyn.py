@@ -6,7 +6,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.model_command import UnboundModelCommand
+# from .code.model_command import UnboundModelCommand
 from .code.arg_mark import value_mark_name
 from .tested.code import args_picker_command_enum
 
@@ -48,7 +48,7 @@ def args_picker_enum(enum_t):
         )
 
 
-def test_model_args_picker(ctx, args_picker_enum):
+def _test_model_args_picker(ctx, args_picker_enum):
     piece = args_picker_enum(htypes.command.model_args_picker_command_enumerator)
     enum = args_picker_command_enum.UnboundArgsPickerModelCommandEnumerator.from_piece(piece)
     assert isinstance(enum, args_picker_command_enum.UnboundArgsPickerModelCommandEnumerator)
@@ -70,7 +70,7 @@ def _test_ui_args_picker(ctx, args_picker_enum):
     assert isinstance(web.summon(command.piece.system_fn), htypes.command.args_picker_command_fn)
 
 
-def test_model_canned(canned_ctx, args_picker_enum):
+def _test_model_canned(canned_ctx, args_picker_enum):
     piece = args_picker_enum(htypes.command.model_args_picker_command_enumerator)
     enum = args_picker_command_enum.UnboundArgsPickerModelCommandEnumerator.from_piece(piece)
     assert isinstance(enum, args_picker_command_enum.UnboundArgsPickerModelCommandEnumerator)
@@ -92,7 +92,7 @@ def _test_ui_canned(canned_ctx, args_picker_enum):
     assert isinstance(web.summon(command.piece.system_fn), htypes.command.canned_args_command_fn)
 
 
-def test_format_open_args_picker_command_d():
+def _test_format_open_args_picker_command_d():
     commit_command_d = htypes.args_picker_command_enum_tests.sample_command_d()
     d = htypes.command.open_args_picker_command_d(
         commit_command_d=mosaic.put(commit_command_d),

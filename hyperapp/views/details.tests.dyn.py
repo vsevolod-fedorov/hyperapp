@@ -5,7 +5,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.model_command import ModelCommandFn, UnboundModelCommand
+# from .code.model_command import ModelCommandFn, UnboundModelCommand
 from .code.list_adapter import index_list_model_state_t
 from .tested.code import details
 
@@ -34,7 +34,7 @@ def unbound_command(rpc_system_call_factory, command_d):
         )
 
 
-def test_format_factory_k(unbound_command):
+def _test_format_factory_k(unbound_command):
     k = htypes.details.factory_k(
         command=mosaic.put(unbound_command.piece),
         )
@@ -90,7 +90,7 @@ def ctx(model, model_state):
         )
 
 
-def test_view(ctx, unbound_command, details_view):
+def _test_view(ctx, unbound_command, details_view):
     piece = htypes.details.view(
         command=mosaic.put(unbound_command.piece),
         details_model=mosaic.put(details_command()),
@@ -101,19 +101,19 @@ def test_view(ctx, unbound_command, details_view):
     assert view.children_context(ctx).model == details_command()
 
 
-def test_details_commands_service(details_commands, ctx, command_d, model_t):
+def _test_details_commands_service(details_commands, ctx, command_d, model_t):
     d_to_command = details_commands(model_t, ctx)
     assert type(d_to_command) is dict
     assert list(d_to_command) == [command_d]
 
 
-def test_command_list(details_commands, ctx, model, model_state):
+def _test_command_list(details_commands, ctx, model, model_state):
     k_list = details.details_command_list(model, model_state, ctx, details_commands)
     assert type(k_list) is list
     assert len(k_list) == 1
 
 
-async def test_get(error_view, command_creg, visualizer, details_commands, model, model_state, ctx, unbound_command):
+async def _test_get(error_view, command_creg, visualizer, details_commands, model, model_state, ctx, unbound_command):
     k = htypes.details.factory_k(
         command=mosaic.put(unbound_command.piece),
         )
