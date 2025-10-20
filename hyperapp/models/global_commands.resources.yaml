@@ -7,17 +7,9 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:model_command_fn
-- legacy_type.command_list_model:item
-- legacy_type.feed:feed_template
-- legacy_type.feed:list_feed_type
 - legacy_type.global_commands:command_arg
 - legacy_type.global_commands:model
-- legacy_type.model:index_list_ui_t
-- legacy_type.model:model
-- legacy_type.selector:template
 - legacy_type.system:actor_template
-- legacy_type.system_fn:ctx_fn
 - models.command_list_model:command_list_model.module
 definitions:
   format_command_arg:
@@ -51,79 +43,6 @@ definitions:
     value:
       t: legacy_type.global_commands:model
       value: format_model.actor-template
-  global_command_get:
-    type: legacy_type.builtin:attribute
-    value:
-      object: global_commands.module
-      attr_name: global_command_get
-  global_command_pick:
-    type: legacy_type.builtin:attribute
-    value:
-      object: global_commands.module
-      attr_name: global_command_pick
-  global_commands-command_arg.selector-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.global_commands:command_arg
-      value: global_commands-command_arg.selector-template
-  global_commands-command_arg.selector-template:
-    type: legacy_type.selector:template
-    value:
-      model_t: legacy_type.global_commands:model
-      get_fn: global_commands-command_arg.selector.get.system-fn
-      pick_fn: global_commands-command_arg.selector.pick.system-fn
-  global_commands-command_arg.selector.get.system-fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: global_command_get
-      ctx_params:
-      - value
-      service_params: []
-  global_commands-command_arg.selector.pick.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: global_command_pick
-      ctx_params:
-      - piece
-      - current_item
-      service_params: []
-  global_commands-model.feed-template:
-    type: legacy_type.feed:feed_template
-    value:
-      feed_type: global_commands-model.feed-type
-  global_commands-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.global_commands:model
-      value: global_commands-model.feed-template
-  global_commands-model.feed-type:
-    type: legacy_type.feed:list_feed_type
-    value:
-      item_t: legacy_type.command_list_model:item
-  global_commands-model.index-list-ui-t:
-    type: legacy_type.model:index_list_ui_t
-    value:
-      item_t: legacy_type.command_list_model:item
-  global_commands-model.model:
-    type: legacy_type.model:model
-    value:
-      ui_t: global_commands-model.index-list-ui-t
-      system_fn: global_commands-model.system-fn
-  global_commands-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.global_commands:model
-      value: global_commands-model.model
-  global_commands-model.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: list_global_commands
-      ctx_params:
-      - piece
-      - lcs
-      service_params:
-      - ui_global_command_items
-      - shortcut_reg
   global_commands.module:
     type: legacy_type.builtin:python_module
     value:
@@ -136,8 +55,3 @@ definitions:
         htypes.global_commands.model: legacy_type.global_commands:model
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  list_global_commands:
-    type: legacy_type.builtin:attribute
-    value:
-      object: global_commands.module
-      attr_name: list_global_commands

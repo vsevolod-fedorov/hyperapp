@@ -7,15 +7,9 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command_list_model:item
-- legacy_type.feed:feed_template
-- legacy_type.feed:list_feed_type
-- legacy_type.model:index_list_ui_t
-- legacy_type.model:model
 - legacy_type.model_commands:model
 - legacy_type.navigator:view
 - legacy_type.system:actor_template
-- legacy_type.system_fn:ctx_fn
 - models.command_list_model:command_list_model.module
 - ui.model_command:model_command.module
 definitions:
@@ -35,49 +29,6 @@ definitions:
     value:
       t: legacy_type.model_commands:model
       value: format_model.actor-template
-  list_model_commands:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_commands.module
-      attr_name: list_model_commands
-  model_commands-model.feed-template:
-    type: legacy_type.feed:feed_template
-    value:
-      feed_type: model_commands-model.feed-type
-  model_commands-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.model_commands:model
-      value: model_commands-model.feed-template
-  model_commands-model.feed-type:
-    type: legacy_type.feed:list_feed_type
-    value:
-      item_t: legacy_type.command_list_model:item
-  model_commands-model.index-list-ui-t:
-    type: legacy_type.model:index_list_ui_t
-    value:
-      item_t: legacy_type.command_list_model:item
-  model_commands-model.model:
-    type: legacy_type.model:model
-    value:
-      ui_t: model_commands-model.index-list-ui-t
-      system_fn: model_commands-model.system-fn
-  model_commands-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.model_commands:model
-      value: model_commands-model.model
-  model_commands-model.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: list_model_commands
-      ctx_params:
-      - piece
-      - ctx
-      - lcs
-      service_params:
-      - ui_model_command_items
-      - shortcut_reg
   model_commands.module:
     type: legacy_type.builtin:python_module
     value:

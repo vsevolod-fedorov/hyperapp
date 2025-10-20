@@ -3,7 +3,6 @@
 import:
 - lcs.lcs_dirs_view:lcs_dirs_view-view.feed-template-cfg-item
 - lcs.lcs_dirs_view:lcs_dirs_view-view.model-cfg-item
-- lcs.lcs_layer:lcs_layer-layer.selector-cfg-item
 - lcs.lcs_layer:lcs_layer-model.feed-template-cfg-item
 - lcs.lcs_layer:lcs_layer-model.model-cfg-item
 - lcs.lcs_resource_storage:lcs_resource_storage_factory.service
@@ -20,7 +19,6 @@ definitions:
         feed_factory: feed_factory
         model_command_reg: model_command_reg
         model_reg: model_reg
-        selector_reg: selector_reg
         system: system
   feed_factory:
     type: legacy_type.system:item_list_config
@@ -41,11 +39,6 @@ definitions:
       - lcs.lcs_dirs_view:lcs_dirs_view-view.model-cfg-item
       - lcs.lcs_layer:lcs_layer-model.model-cfg-item
       - lcs.lcs_view:lcs_view-view.model-cfg-item
-  selector_reg:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - lcs.lcs_layer:lcs_layer-layer.selector-cfg-item
   system:
     type: legacy_type.system:item_list_config
     value:

@@ -19,17 +19,10 @@ import:
 - ui.command_creg:ui_command_creg.service
 - ui.controller:canned_ctl_item_factory.service
 - ui.controller:controller_running.service
-- ui.crud.args_picker_command_enum:command_creg-command-model_args_picker_command_enumerator.actor-cfg-item
-- ui.crud.args_picker_command_enum:formatter_creg-command-open_args_picker_command_d.actor-cfg-item
-- ui.crud.args_picker_fn:system_fn_creg-command-args_picker_command_fn.actor-cfg-item
+- ui.controller:layout-model.feed-template-cfg-item
 - ui.crud.canned_args_command_fn:formatter_creg-command-canned_arg_command_d.actor-cfg-item
-- ui.crud.canned_args_command_fn:system_fn_creg-command-canned_args_command_fn.actor-cfg-item
-- ui.crud.crud:crud-view.view-cfg-item
-- ui.crud.crud:crud.service
 - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
 - ui.crud.crud:resource_name_creg-crud-layout_k.actor-cfg-item
-- ui.crud.crud:system_fn_creg-crud-open_command_fn.actor-cfg-item
-- ui.crud.crud:ui_adapter_creg-crud-record_adapter.actor-cfg-item
 - ui.crud.crud_field_view_factory:formatter_creg-crud_field_view_factory-factory_k.actor-cfg-item
 - ui.crud.editor_default_reg:editor_default_reg.service
 - ui.crud.editor_defaults:builtin-string.editor_default.cfg-item
@@ -47,21 +40,12 @@ import:
 - ui.formatter_creg:formatter_creg.service
 - ui.layout:formatter_creg-layout-model.actor-cfg-item
 - ui.layout:layout-command_list.feed-template-cfg-item
-- ui.layout:layout-model.feed-template-cfg-item
-- ui.layout:layout-model.model-cfg-item
 - ui.local_server:local_server_peer.service
 - ui.local_server:local_server_peer_path.service
-- ui.model_command:command_creg-command-global_model_command.actor-cfg-item
-- ui.model_command:command_creg-command-model_command.actor-cfg-item
-- ui.model_command:command_creg-command-model_command_enumerator.actor-cfg-item
 - ui.model_command:get_model_commands.service
 - ui.model_command:global_model_command_reg.service
 - ui.model_command:model_command_enumerator_reg.service
 - ui.model_command:model_command_reg.service
-- ui.model_command:system_fn_creg-command-model_command_add_fn.actor-cfg-item
-- ui.model_command:system_fn_creg-command-model_command_enum_fn.actor-cfg-item
-- ui.model_command:system_fn_creg-command-model_command_fn.actor-cfg-item
-- ui.model_command:system_fn_creg-command-model_command_remove_fn.actor-cfg-item
 - ui.model_field_wrapper_view:model_field_wrapper_view-view.view-cfg-item
 - ui.model_layout_reg:model_layout_reg.service
 - ui.model_servant:model_servant.service
@@ -144,7 +128,6 @@ import:
 - ui.record_adapter:ui_adapter_creg-record_adapter-static_record_adapter.actor-cfg-item
 - ui.record_field_view_factory:formatter_creg-record_field_view_factory-factory_k.actor-cfg-item
 - ui.ref_formatter:formatter_creg-builtin-ref.actor-cfg-item
-- ui.remote_command:remote_command_from_model_command.service
 - ui.remote_feed_receiver:remote_feed_receiver.service
 - ui.remote_model:formatter_creg-model-remote_model.actor-cfg-item
 - ui.selector:cfg_value_creg-selector-template.actor-cfg-item
@@ -165,11 +148,6 @@ import:
 - ui.ui_command:get_view_element_commands.service
 - ui.ui_command:view_element_ui_command_reg.service
 - ui.ui_command:view_ui_command_reg.service
-- ui.ui_model_command:custom_ui_global_model_commands.service
-- ui.ui_model_command:custom_ui_model_commands.service
-- ui.ui_model_command:get_ui_model_commands.service
-- ui.ui_model_command:ui_global_command_items.service
-- ui.ui_model_command:ui_model_command_items.service
 - ui.value_adapter:ui_adapter_creg-value_adapter-value_adapter.actor-cfg-item
 - ui.view.default_view_factory:default_model_factory.service
 - ui.view.default_view_factory:default_ui_factory.service
@@ -178,7 +156,6 @@ import:
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-template.actor-cfg-item
 - ui.view.view_factory_list:formatter_creg-view_factory_list-model.actor-cfg-item
 - ui.view.view_factory_list:view_factory-factory.editor_default.cfg-item
-- ui.view.view_factory_list:view_factory-factory.selector-cfg-item
 - ui.view.view_factory_list:view_factory_list-model.feed-template-cfg-item
 - ui.view.view_factory_list:view_factory_list-model.model-cfg-item
 - ui.view.view_registry:view_reg.service
@@ -202,21 +179,12 @@ definitions:
       - ui.selector:cfg_value_creg-selector-template.actor-cfg-item
       - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-multi_template.actor-cfg-item
       - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-template.actor-cfg-item
-  command_creg:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - ui.crud.args_picker_command_enum:command_creg-command-model_args_picker_command_enumerator.actor-cfg-item
-      - ui.model_command:command_creg-command-global_model_command.actor-cfg-item
-      - ui.model_command:command_creg-command-model_command.actor-cfg-item
-      - ui.model_command:command_creg-command-model_command_enumerator.actor-cfg-item
   config:
     type: legacy_type.system:system_config
     value:
       services:
         accessor_creg: accessor_creg
         cfg_value_creg: cfg_value_creg
-        command_creg: command_creg
         config_ctl_creg: config_ctl_creg
         convertor_creg: convertor_creg
         editor_default_reg: editor_default_reg
@@ -225,9 +193,7 @@ definitions:
         formatter_creg: formatter_creg
         model_reg: model_reg
         resource_name_creg: resource_name_creg
-        selector_reg: selector_reg
         system: system
-        system_fn_creg: system_fn_creg
         ui_adapter_creg: ui_adapter_creg
         ui_command_creg: ui_command_creg
         view_element_ui_command_reg: view_element_ui_command_reg
@@ -258,8 +224,8 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - ui.controller:layout-model.feed-template-cfg-item
       - ui.layout:layout-command_list.feed-template-cfg-item
-      - ui.layout:layout-model.feed-template-cfg-item
       - ui.view.view_factory_list:view_factory_list-model.feed-template-cfg-item
   feed_type_creg:
     type: legacy_type.system:item_list_config
@@ -273,7 +239,6 @@ definitions:
     value:
       items:
       - ui.column_format:formatter_creg-column-column_k.actor-cfg-item
-      - ui.crud.args_picker_command_enum:formatter_creg-command-open_args_picker_command_d.actor-cfg-item
       - ui.crud.canned_args_command_fn:formatter_creg-command-canned_arg_command_d.actor-cfg-item
       - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
       - ui.crud.crud_field_view_factory:formatter_creg-crud_field_view_factory-factory_k.actor-cfg-item
@@ -287,7 +252,6 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - ui.layout:layout-model.model-cfg-item
       - ui.view.view_factory_list:view_factory_list-model.model-cfg-item
   resource_name_creg:
     type: legacy_type.system:item_list_config
@@ -299,11 +263,6 @@ definitions:
       - ui.qt.line_edit:resource_name_creg-line_edit-readonly_view.actor-cfg-item
       - ui.qt.wiki:resource_name_creg-wiki-wiki_to_string_convertor.actor-cfg-item
       - ui.visualizer:resource_name_creg-ui-model_layout_k.actor-cfg-item
-  selector_reg:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - ui.view.view_factory_list:view_factory-factory.selector-cfg-item
   system:
     type: legacy_type.system:item_list_config
     value:
@@ -314,7 +273,6 @@ definitions:
       - ui.command_creg:ui_command_creg.service
       - ui.controller:canned_ctl_item_factory.service
       - ui.controller:controller_running.service
-      - ui.crud.crud:crud.service
       - ui.crud.editor_default_reg:editor_default_reg.service
       - ui.error_view:error_view.service
       - ui.feed:client_feed_factory.service
@@ -334,7 +292,6 @@ definitions:
       - ui.model_servant:model_servant.service
       - ui.model_servant:model_to_servant_dict.service
       - ui.peer_label_reg:peer_label_reg.service
-      - ui.remote_command:remote_command_from_model_command.service
       - ui.remote_feed_receiver:remote_feed_receiver.service
       - ui.selector:selector_reg.service
       - ui.shortcut_reg:shortcut_reg.service
@@ -344,11 +301,6 @@ definitions:
       - ui.ui_command:get_view_element_commands.service
       - ui.ui_command:view_element_ui_command_reg.service
       - ui.ui_command:view_ui_command_reg.service
-      - ui.ui_model_command:custom_ui_global_model_commands.service
-      - ui.ui_model_command:custom_ui_model_commands.service
-      - ui.ui_model_command:get_ui_model_commands.service
-      - ui.ui_model_command:ui_global_command_items.service
-      - ui.ui_model_command:ui_model_command_items.service
       - ui.view.default_view_factory:default_model_factory.service
       - ui.view.default_view_factory:default_ui_factory.service
       - ui.view.view_factory:view_factory_reg.service
@@ -356,22 +308,10 @@ definitions:
       - ui.visualizer:visualizer.service
       - ui.visualizer_reg:model_reg.service
       - ui.visualizer_reg:visualizer_reg.service
-  system_fn_creg:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - ui.crud.args_picker_fn:system_fn_creg-command-args_picker_command_fn.actor-cfg-item
-      - ui.crud.canned_args_command_fn:system_fn_creg-command-canned_args_command_fn.actor-cfg-item
-      - ui.crud.crud:system_fn_creg-crud-open_command_fn.actor-cfg-item
-      - ui.model_command:system_fn_creg-command-model_command_add_fn.actor-cfg-item
-      - ui.model_command:system_fn_creg-command-model_command_enum_fn.actor-cfg-item
-      - ui.model_command:system_fn_creg-command-model_command_fn.actor-cfg-item
-      - ui.model_command:system_fn_creg-command-model_command_remove_fn.actor-cfg-item
   ui_adapter_creg:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - ui.crud.crud:ui_adapter_creg-crud-record_adapter.actor-cfg-item
       - ui.qt.fn_list_adapter:ui_adapter_creg-list_adapter-index_fn_list_adapter.actor-cfg-item
       - ui.qt.fn_list_adapter:ui_adapter_creg-list_adapter-key_fn_list_adapter.actor-cfg-item
       - ui.qt.fn_tree_adapter:ui_adapter_creg-tree_adapter-fn_index_tree_adapter.actor-cfg-item
@@ -439,7 +379,6 @@ definitions:
     value:
       items:
       - ui.arg_mark:arg_mark-view.view-cfg-item
-      - ui.crud.crud:crud-view.view-cfg-item
       - ui.model_field_wrapper_view:model_field_wrapper_view-view.view-cfg-item
       - ui.navigator:navigator-view.view-cfg-item
       - ui.qt.auto_tabs:auto_tabs-view.view-cfg-item

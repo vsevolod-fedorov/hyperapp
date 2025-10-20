@@ -3,92 +3,10 @@
 import:
 - base.mark:mark.module
 - builtins:web.service
-- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.builtin:record_mt
-- legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
-- legacy_type.crud:open_command_fn
-- legacy_type.model_commands:model
-- legacy_type.rename_command:form
-- legacy_type.system_fn:ctx_fn
 - ui.directory:directory.module
 - ui.model_command:model_command.module
 definitions:
-  model_command_rename:
-    type: legacy_type.builtin:attribute
-    value:
-      object: rename_command.module
-      attr_name: model_command_rename
-  model_command_rename_to:
-    type: legacy_type.builtin:attribute
-    value:
-      object: rename_command.module
-      attr_name: model_command_rename_to
-  model_commands-model.crud.rename.system-fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: model_command_rename
-      ctx_params:
-      - piece
-      - ui_command_d
-      - value
-      - lcs
-      - ctx
-      service_params:
-      - ui_model_command_items
-  model_commands-model.crud.rename_to.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: model_command_rename_to
-      ctx_params:
-      - piece
-      - ui_command_d
-      service_params: []
-  model_commands-model.open_rename.command:
-    type: legacy_type.command:model_command
-    value:
-      d: model_commands-model.open_rename.open-command.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: model_commands-model.open_rename.command-fn
-      preserve_remote: false
-  model_commands-model.open_rename.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.model_commands:model
-      value: model_commands-model.open_rename.command-template
-  model_commands-model.open_rename.command-fn:
-    type: legacy_type.crud:open_command_fn
-    value:
-      name: open_rename
-      value_t: legacy_type.rename_command:form
-      key_fields:
-      - ui_command_d
-      init_action_fn: model_commands-model.crud.rename_to.system-fn
-      commit_command_d: model_commands-model.open_rename.commit-command.d
-      commit_action_fn: model_commands-model.crud.rename.system-fn
-  model_commands-model.open_rename.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: model_commands-model.open_rename.command
-  model_commands-model.open_rename.commit-command.d:
-    type: rename_d.t
-    value: {}
-  model_commands-model.open_rename.open-command.d:
-    type: open_rename_d.t
-    value: {}
-  open_rename_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: rename_command
-      name: open_rename_d
-      base: null
-      fields: {}
   rename_command.module:
     type: legacy_type.builtin:python_module
     value:
@@ -98,12 +16,4 @@ definitions:
         code.directory: ui.directory:directory.module
         code.mark: base.mark:mark.module
         code.model_command: ui.model_command:model_command.module
-        htypes.rename_command.form: legacy_type.rename_command:form
         services.web: builtins:web.service
-  rename_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: rename_command
-      name: rename_d
-      base: null
-      fields: {}

@@ -13,18 +13,6 @@ import:
 - common.list_diff:list_diff.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_result
-- legacy_type.command:global_model_command
-- legacy_type.command:model_command
-- legacy_type.command:model_command_add_fn
-- legacy_type.command:model_command_enum_fn
-- legacy_type.command:model_command_enumerator
-- legacy_type.command:model_command_fn
-- legacy_type.command:model_command_remove_fn
-- legacy_type.diff:model_diff
-- legacy_type.model:remote_model
-- legacy_type.system:actor_template
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:flat_list_config_ctl
@@ -34,91 +22,6 @@ import:
 - ui.command:command.module
 - ui.command_enumerator:command_enumerator.module
 definitions:
-  ModelCommandAddFn:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_command.module
-      attr_name: ModelCommandAddFn
-  ModelCommandAddFn.from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: ModelCommandAddFn
-      attr_name: from_piece
-  ModelCommandAddFn.from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: ModelCommandAddFn.from_piece
-      service_params:
-      - system
-      - rpc_system_call_factory
-      - model_servant
-  ModelCommandEnumFn:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_command.module
-      attr_name: ModelCommandEnumFn
-  ModelCommandEnumFn.from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: ModelCommandEnumFn
-      attr_name: from_piece
-  ModelCommandEnumFn.from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: ModelCommandEnumFn.from_piece
-      service_params:
-      - system
-      - rpc_system_call_factory
-  ModelCommandFn:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_command.module
-      attr_name: ModelCommandFn
-  ModelCommandFn.from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: ModelCommandFn
-      attr_name: from_piece
-  ModelCommandFn.from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: ModelCommandFn.from_piece
-      service_params:
-      - system
-      - rpc_system_call_factory
-  ModelCommandRemoveFn:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_command.module
-      attr_name: ModelCommandRemoveFn
-  ModelCommandRemoveFn.from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: ModelCommandRemoveFn
-      attr_name: from_piece
-  ModelCommandRemoveFn.from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: ModelCommandRemoveFn.from_piece
-      service_params:
-      - system
-      - rpc_system_call_factory
-      - model_servant
-  command_creg-command-global_model_command.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:global_model_command
-      value: global_model_command_from_piece.actor-template
-  command_creg-command-model_command.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:model_command
-      value: model_command_from_piece.actor-template
-  command_creg-command-model_command_enumerator.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:model_command_enumerator
-      value: model_command_enumerator_from_piece.actor-template
   get_model_commands:
     type: legacy_type.builtin:attribute
     value:
@@ -137,17 +40,6 @@ definitions:
       free_params:
       - model_t
       - ctx
-  global_model_command_from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_command.module
-      attr_name: global_model_command_from_piece
-  global_model_command_from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: global_model_command_from_piece
-      service_params:
-      - system_fn_creg
   global_model_command_reg:
     type: legacy_type.builtin:attribute
     value:
@@ -175,30 +67,10 @@ definitions:
         code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
         code.system_fn: base.system_fn:system_fn.module
-        htypes.command.command_result: legacy_type.command:command_result
-        htypes.command.global_model_command: legacy_type.command:global_model_command
-        htypes.command.model_command: legacy_type.command:model_command
-        htypes.command.model_command_add_fn: legacy_type.command:model_command_add_fn
-        htypes.command.model_command_enum_fn: legacy_type.command:model_command_enum_fn
-        htypes.command.model_command_fn: legacy_type.command:model_command_fn
-        htypes.command.model_command_remove_fn: legacy_type.command:model_command_remove_fn
-        htypes.diff.model_diff: legacy_type.diff:model_diff
-        htypes.model.remote_model: legacy_type.model:remote_model
         services.deduce_t: builtins:deduce_t.service
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
-  model_command_enumerator_from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_command.module
-      attr_name: model_command_enumerator_from_piece
-  model_command_enumerator_from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: model_command_enumerator_from_piece
-      service_params:
-      - system_fn_creg
   model_command_enumerator_reg:
     type: legacy_type.builtin:attribute
     value:
@@ -214,17 +86,6 @@ definitions:
       want_config: true
       free_params:
       - model_t
-  model_command_from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_command.module
-      attr_name: model_command_from_piece
-  model_command_from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: model_command_from_piece
-      service_params:
-      - system_fn_creg
   model_command_reg:
     type: legacy_type.builtin:attribute
     value:
@@ -264,23 +125,3 @@ definitions:
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}
-  system_fn_creg-command-model_command_add_fn.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:model_command_add_fn
-      value: ModelCommandAddFn.from_piece.actor-template
-  system_fn_creg-command-model_command_enum_fn.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:model_command_enum_fn
-      value: ModelCommandEnumFn.from_piece.actor-template
-  system_fn_creg-command-model_command_fn.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:model_command_fn
-      value: ModelCommandFn.from_piece.actor-template
-  system_fn_creg-command-model_command_remove_fn.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.command:model_command_remove_fn
-      value: ModelCommandRemoveFn.from_piece.actor-template

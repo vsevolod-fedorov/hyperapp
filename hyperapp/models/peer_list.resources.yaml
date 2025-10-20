@@ -17,7 +17,6 @@ import:
 - legacy_type.feed:list_feed_type
 - legacy_type.model:key_list_ui_t
 - legacy_type.model:model
-- legacy_type.model:remote_model
 - legacy_type.peer_list:bundle
 - legacy_type.peer_list:item
 - legacy_type.peer_list:model
@@ -92,7 +91,6 @@ definitions:
         code.mark: base.mark:mark.module
         code.ui_model_command: ui.ui_model_command:ui_model_command.module
         htypes.builtin.bundle: legacy_type.builtin:bundle
-        htypes.model.remote_model: legacy_type.model:remote_model
         htypes.peer_list.bundle: legacy_type.peer_list:bundle
         htypes.peer_list.item: legacy_type.peer_list:item
         htypes.peer_list.model: legacy_type.peer_list:model
