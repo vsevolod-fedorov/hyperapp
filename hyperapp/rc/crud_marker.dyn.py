@@ -102,6 +102,7 @@ class CrudProbe:
             )
 
     def _add_constructor(self, params, result):
+        return
         if self._action == 'get' or self._commit_action:
             ctr = self._init_constructor(params, result)
         else:
