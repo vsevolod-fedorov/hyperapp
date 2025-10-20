@@ -2,78 +2,10 @@
 
 import:
 - base.mark:mark.module
-- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.builtin:record_mt
-- legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
-- legacy_type.crud:open_command_fn
-- legacy_type.sample_list:sample_list
 - legacy_type.sample_list_crud:form_item
-- legacy_type.system_fn:ctx_fn
 - sample.sample_list:sample_list.module
 definitions:
-  edit_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: sample_list_crud
-      name: edit_d
-      base: null
-      fields: {}
-  sample_list-sample_list.crud.get.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: sample_list_get
-      ctx_params:
-      - piece
-      - id
-      service_params: []
-  sample_list-sample_list.crud.update.system-fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: sample_list_update
-      ctx_params:
-      - piece
-      - id
-      - value
-      service_params: []
-  sample_list-sample_list.edit.command:
-    type: legacy_type.command:model_command
-    value:
-      d: sample_list-sample_list.edit.open-command.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: sample_list-sample_list.edit.command-fn
-      preserve_remote: false
-  sample_list-sample_list.edit.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.sample_list:sample_list
-      value: sample_list-sample_list.edit.command-template
-  sample_list-sample_list.edit.command-fn:
-    type: legacy_type.crud:open_command_fn
-    value:
-      name: edit
-      value_t: legacy_type.sample_list_crud:form_item
-      key_fields:
-      - id
-      init_action_fn: sample_list-sample_list.crud.get.system-fn
-      commit_command_d: sample_list-sample_list.edit.commit-command.d
-      commit_action_fn: sample_list-sample_list.crud.update.system-fn
-  sample_list-sample_list.edit.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: sample_list-sample_list.edit.command
-  sample_list-sample_list.edit.commit-command.d:
-    type: save_d.t
-    value: {}
-  sample_list-sample_list.edit.open-command.d:
-    type: edit_d.t
-    value: {}
   sample_list_crud.module:
     type: legacy_type.builtin:python_module
     value:
@@ -83,20 +15,3 @@ definitions:
         code.mark: base.mark:mark.module
         code.sample_list: sample.sample_list:sample_list.module
         htypes.sample_list_crud.form_item: legacy_type.sample_list_crud:form_item
-  sample_list_get:
-    type: legacy_type.builtin:attribute
-    value:
-      object: sample_list_crud.module
-      attr_name: sample_list_get
-  sample_list_update:
-    type: legacy_type.builtin:attribute
-    value:
-      object: sample_list_crud.module
-      attr_name: sample_list_update
-  save_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: sample_list_crud
-      name: save_d
-      base: null
-      fields: {}

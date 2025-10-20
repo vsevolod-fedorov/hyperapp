@@ -12,9 +12,6 @@ import:
 - legacy_type.builtin:ref
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
 - legacy_type.command:type_str_command
 - legacy_type.config_item_list:item
 - legacy_type.config_item_list:layer_item
@@ -22,7 +19,6 @@ import:
 - legacy_type.config_item_list:model
 - legacy_type.config_layer_list:layer
 - legacy_type.config_service_list:model
-- legacy_type.crud:open_command_fn
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.model:key_list_ui_t
@@ -56,11 +52,6 @@ definitions:
     value:
       t: remove.t
       value: remove.ctx-actor-template
-  config_item_get_layer:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: config_item_get_layer
   config_item_layer_list:
     type: legacy_type.builtin:attribute
     value:
@@ -89,23 +80,6 @@ definitions:
       t: legacy_type.config_item_list:layer_model
       name: open_config_value
       command: open_config_value.command
-  config_item_list-layer_model.crud.get_layer.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: config_layer_item_get_layer
-      ctx_params:
-      - piece
-      service_params: []
-  config_item_list-layer_model.crud.move.system-fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: config_layer_item_move_to_another_layer
-      ctx_params:
-      - piece
-      - key
-      - value
-      service_params:
-      - system
   config_item_list-layer_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -135,41 +109,6 @@ definitions:
     value:
       t: legacy_type.config_item_list:layer_model
       value: config_item_list-layer_model.model
-  config_item_list-layer_model.open_move.command:
-    type: legacy_type.command:model_command
-    value:
-      d: config_item_list-layer_model.open_move.open-command.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: config_item_list-layer_model.open_move.command-fn
-      preserve_remote: false
-  config_item_list-layer_model.open_move.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:layer_model
-      value: config_item_list-layer_model.open_move.command-template
-  config_item_list-layer_model.open_move.command-fn:
-    type: legacy_type.crud:open_command_fn
-    value:
-      name: open_move
-      value_t: legacy_type.config_layer_list:layer
-      key_fields:
-      - key
-      init_action_fn: config_item_list-layer_model.crud.get_layer.system-fn
-      commit_command_d: config_item_list-layer_model.open_move.commit-command.d
-      commit_action_fn: config_item_list-layer_model.crud.move.system-fn
-  config_item_list-layer_model.open_move.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: config_item_list-layer_model.open_move.command
-  config_item_list-layer_model.open_move.commit-command.d:
-    type: move_d.t
-    value: {}
-  config_item_list-layer_model.open_move.open-command.d:
-    type: open_move_d.t
-    value: {}
   config_item_list-layer_model.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -197,25 +136,6 @@ definitions:
       t: legacy_type.config_item_list:model
       name: remove
       command: remove.command
-  config_item_list-model.crud.get_layer.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: config_item_get_layer
-      ctx_params:
-      - piece
-      - layers
-      service_params: []
-  config_item_list-model.crud.move.system-fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: config_item_move_to_another_layer
-      ctx_params:
-      - piece
-      - key
-      - layers
-      - value
-      service_params:
-      - system
   config_item_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -245,42 +165,6 @@ definitions:
     value:
       t: legacy_type.config_item_list:model
       value: config_item_list-model.model
-  config_item_list-model.open_move.command:
-    type: legacy_type.command:model_command
-    value:
-      d: config_item_list-model.open_move.open-command.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: config_item_list-model.open_move.command-fn
-      preserve_remote: false
-  config_item_list-model.open_move.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.config_item_list:model
-      value: config_item_list-model.open_move.command-template
-  config_item_list-model.open_move.command-fn:
-    type: legacy_type.crud:open_command_fn
-    value:
-      name: open_move
-      value_t: legacy_type.config_layer_list:layer
-      key_fields:
-      - key
-      - layers
-      init_action_fn: config_item_list-model.crud.get_layer.system-fn
-      commit_command_d: config_item_list-model.open_move.commit-command.d
-      commit_action_fn: config_item_list-model.crud.move.system-fn
-  config_item_list-model.open_move.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: config_item_list-model.open_move.command
-  config_item_list-model.open_move.commit-command.d:
-    type: move_d.t
-    value: {}
-  config_item_list-model.open_move.open-command.d:
-    type: open_move_d.t
-    value: {}
   config_item_list-model.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -307,21 +191,6 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
-  config_item_move_to_another_layer:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: config_item_move_to_another_layer
-  config_layer_item_get_layer:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: config_layer_item_get_layer
-  config_layer_item_move_to_another_layer:
-    type: legacy_type.builtin:attribute
-    value:
-      object: config_item_list.module
-      attr_name: config_layer_item_move_to_another_layer
   config_service_list-model-open_config_item_list.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -384,13 +253,6 @@ definitions:
     value:
       module_name: config_item_list
       name: layer_remove
-      base: null
-      fields: {}
-  move_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_item_list
-      name: move_d
       base: null
       fields: {}
   open_config_item_list:
@@ -472,13 +334,6 @@ definitions:
     value:
       module_name: config_item_list
       name: open_config_value
-      base: null
-      fields: {}
-  open_move_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: config_item_list
-      name: open_move_d
       base: null
       fields: {}
   remove:

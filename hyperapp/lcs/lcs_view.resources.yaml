@@ -11,11 +11,7 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:command_template
-- legacy_type.command:model_command
-- legacy_type.command:model_command_fn
 - legacy_type.command:type_str_command
-- legacy_type.crud:open_command_fn
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.lcs_layer:layer
@@ -37,16 +33,6 @@ definitions:
     value:
       t: lcs_remove.t
       value: lcs_remove.ctx-actor-template
-  lcs_get_layer:
-    type: legacy_type.builtin:attribute
-    value:
-      object: lcs_view.module
-      attr_name: lcs_get_layer
-  lcs_move_to_another_layer:
-    type: legacy_type.builtin:attribute
-    value:
-      object: lcs_view.module
-      attr_name: lcs_move_to_another_layer
   lcs_open_piece:
     type: legacy_type.builtin:attribute
     value:
@@ -121,25 +107,6 @@ definitions:
       t: legacy_type.lcs_view:view
       name: lcs_remove
       command: lcs_remove.command
-  lcs_view-view.crud.get_layer.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: lcs_get_layer
-      ctx_params:
-      - piece
-      - layer_d
-      service_params: []
-  lcs_view-view.crud.move.system-fn:
-    type: legacy_type.command:model_command_fn
-    value:
-      function: lcs_move_to_another_layer
-      ctx_params:
-      - piece
-      - dir
-      - layer_d
-      - value
-      - lcs
-      service_params: []
   lcs_view-view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -167,42 +134,6 @@ definitions:
     value:
       t: legacy_type.lcs_view:view
       value: lcs_view-view.model
-  lcs_view-view.open_move.command:
-    type: legacy_type.command:model_command
-    value:
-      d: lcs_view-view.open_move.open-command.d
-      properties:
-        is_global: false
-        uses_state: true
-        remotable: false
-      system_fn: lcs_view-view.open_move.command-fn
-      preserve_remote: false
-  lcs_view-view.open_move.command-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.lcs_view:view
-      value: lcs_view-view.open_move.command-template
-  lcs_view-view.open_move.command-fn:
-    type: legacy_type.crud:open_command_fn
-    value:
-      name: open_move
-      value_t: legacy_type.lcs_layer:layer
-      key_fields:
-      - dir
-      - layer_d
-      init_action_fn: lcs_view-view.crud.get_layer.system-fn
-      commit_command_d: lcs_view-view.open_move.commit-command.d
-      commit_action_fn: lcs_view-view.crud.move.system-fn
-  lcs_view-view.open_move.command-template:
-    type: legacy_type.command:command_template
-    value:
-      command: lcs_view-view.open_move.command
-  lcs_view-view.open_move.commit-command.d:
-    type: move_d.t
-    value: {}
-  lcs_view-view.open_move.open-command.d:
-    type: open_move_d.t
-    value: {}
   lcs_view-view.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -228,17 +159,3 @@ definitions:
         htypes.lcs_view.view: legacy_type.lcs_view:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  move_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: lcs_view
-      name: move_d
-      base: null
-      fields: {}
-  open_move_d.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: lcs_view
-      name: open_move_d
-      base: null
-      fields: {}

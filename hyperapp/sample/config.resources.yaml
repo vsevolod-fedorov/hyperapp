@@ -17,7 +17,6 @@ import:
 - sample.sample_list:sample_list-sample_list.feed-template-cfg-item
 - sample.sample_list:sample_list-sample_list.model-cfg-item
 - sample.sample_list_arg:sample_list_selector-item.editor_default.cfg-item
-- sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
 - sample.sample_record:command_creg-sample_record-apply.ctx-actor-cfg-item
 - sample.sample_record:sample_record-sample_record-apply.command-cfg-item
 - sample.sample_record:sample_record-sample_record.model-cfg-item
@@ -81,7 +80,6 @@ definitions:
       items:
       - sample.sample_commands:sample_list-sample_list-details.command-cfg-item
       - sample.sample_commands:sample_tree-model-sample_tree_info.command-cfg-item
-      - sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
       - sample.sample_record:sample_record-sample_record-apply.command-cfg-item
       - sample.sample_tree:sample_tree-model-append_tree_item.command-cfg-item
       - sample.sample_tree:sample_tree-model-insert_tree_item.command-cfg-item
