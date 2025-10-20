@@ -173,6 +173,8 @@ class ModelCommandProbe(CommandProbe):
             t=t,
             command_fn_t=self._command_fn_t,
             )
+        if ctr._have_args:
+            return  # TODO
         self._ctr_collector.add_constructor(ctr)
 
 
