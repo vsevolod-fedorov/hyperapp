@@ -19,6 +19,11 @@ import:
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 definitions:
+  command_creg-git_ref_list-ref_log.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: ref_log.t
+      value: ref_log.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -117,8 +122,3 @@ definitions:
       name: ref_log
       base: null
       fields: {}
-  ui_command_creg-git_ref_list-ref_log.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: ref_log.t
-      value: ref_log.ctx-actor-template

@@ -12,6 +12,11 @@ import:
 - legacy_type.text:edit_view
 - legacy_type.text:readonly_view
 definitions:
+  command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: toggle_editable.t
+      value: toggle_editable.ctx-actor-template
   text-edit_view-toggle_editable.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -63,8 +68,3 @@ definitions:
       name: toggle_editable
       base: null
       fields: {}
-  ui_command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: toggle_editable.t
-      value: toggle_editable.ctx-actor-template

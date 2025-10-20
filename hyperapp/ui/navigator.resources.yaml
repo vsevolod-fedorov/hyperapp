@@ -44,6 +44,16 @@ definitions:
       - view_reg
       - model_layout_reg
       - error_view
+  command_creg-navigator-go_back.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: go_back.t
+      value: go_back.ctx-actor-template
+  command_creg-navigator-go_forward.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: go_forward.t
+      value: go_forward.ctx-actor-template
   go_back:
     type: legacy_type.builtin:attribute
     value:
@@ -135,13 +145,3 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
-  ui_command_creg-navigator-go_back.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: go_back.t
-      value: go_back.ctx-actor-template
-  ui_command_creg-navigator-go_forward.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: go_forward.t
-      value: go_forward.ctx-actor-template

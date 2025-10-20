@@ -21,6 +21,21 @@ import:
 - legacy_type.transport_log_model:item
 - legacy_type.transport_log_model:model
 definitions:
+  command_creg-transport_log_model-message.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: message.t
+      value: message.ctx-actor-template
+  command_creg-transport_log_model-message_bundle.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: message_bundle.t
+      value: message_bundle.ctx-actor-template
+  command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: transport_bundle.t
+      value: transport_bundle.ctx-actor-template
   init_hook:
     type: legacy_type.builtin:attribute
     value:
@@ -194,18 +209,3 @@ definitions:
         htypes.transport_log_model.item: legacy_type.transport_log_model:item
         htypes.transport_log_model.model: legacy_type.transport_log_model:model
         services.web: builtins:web.service
-  ui_command_creg-transport_log_model-message.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: message.t
-      value: message.ctx-actor-template
-  ui_command_creg-transport_log_model-message_bundle.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: message_bundle.t
-      value: message_bundle.ctx-actor-template
-  ui_command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: transport_bundle.t
-      value: transport_bundle.ctx-actor-template

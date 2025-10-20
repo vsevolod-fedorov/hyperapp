@@ -21,6 +21,11 @@ import:
 - legacy_type.system_fn:ctx_fn
 - ui.directory:directory.module
 definitions:
+  command_creg-lcs_layer-lcs_open_layers.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: lcs_open_layers.t
+      value: lcs_open_layers.ctx-actor-template
   lcs_layer-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -106,8 +111,3 @@ definitions:
       t: legacy_type.lcs_view:view
       name: lcs_open_layers
       command: lcs_open_layers.command
-  ui_command_creg-lcs_layer-lcs_open_layers.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: lcs_open_layers.t
-      value: lcs_open_layers.ctx-actor-template

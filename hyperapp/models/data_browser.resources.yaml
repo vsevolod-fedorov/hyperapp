@@ -48,6 +48,21 @@ definitions:
     value:
       object: data_browser.module
       attr_name: browse_ref_list
+  command_creg-data_browser-list_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: list_open.t
+      value: list_open.ctx-actor-template
+  command_creg-data_browser-record_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: record_open.t
+      value: record_open.ctx-actor-template
+  command_creg-data_browser-ref_list_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: ref_list_open.t
+      value: ref_list_open.ctx-actor-template
   data_browser-list_view-list_open.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -305,18 +320,3 @@ definitions:
       name: ref_list_open
       base: null
       fields: {}
-  ui_command_creg-data_browser-list_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: list_open.t
-      value: list_open.ctx-actor-template
-  ui_command_creg-data_browser-record_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: record_open.t
-      value: record_open.ctx-actor-template
-  ui_command_creg-data_browser-ref_list_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: ref_list_open.t
-      value: ref_list_open.ctx-actor-template

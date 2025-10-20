@@ -38,7 +38,7 @@ definitions:
       - ctx
       service_params:
       - format
-      - ui_command_creg
+      - command_creg
       - shortcut_reg
   menu_bar-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item

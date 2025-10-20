@@ -148,6 +148,31 @@ definitions:
         htypes.box_layout.view: legacy_type.box_layout:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  command_creg-box_layout-add_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_element.t
+      value: add_element.ctx-actor-template
+  command_creg-box_layout-add_stretch.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_stretch.t
+      value: add_stretch.ctx-actor-template
+  command_creg-box_layout-insert_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: insert_element.t
+      value: insert_element.ctx-actor-template
+  command_creg-box_layout-remove_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove_element.t
+      value: remove_element.ctx-actor-template
+  command_creg-box_layout-unwrap.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: unwrap.t
+      value: unwrap.ctx-actor-template
   insert_element:
     type: legacy_type.builtin:attribute
     value:
@@ -208,31 +233,6 @@ definitions:
       name: remove_element
       base: null
       fields: {}
-  ui_command_creg-box_layout-add_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_element.t
-      value: add_element.ctx-actor-template
-  ui_command_creg-box_layout-add_stretch.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_stretch.t
-      value: add_stretch.ctx-actor-template
-  ui_command_creg-box_layout-insert_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: insert_element.t
-      value: insert_element.ctx-actor-template
-  ui_command_creg-box_layout-remove_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: remove_element.t
-      value: remove_element.ctx-actor-template
-  ui_command_creg-box_layout-unwrap.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: unwrap.t
-      value: unwrap.ctx-actor-template
   unwrap:
     type: legacy_type.builtin:attribute
     value:

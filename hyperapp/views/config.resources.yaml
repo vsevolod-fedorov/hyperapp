@@ -4,12 +4,14 @@ import:
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 - views.local_server_context:local_server_context-view.view-cfg-item
+- views.qt.splitter:command_creg-splitter-split_horizontally.ctx-actor-cfg-item
+- views.qt.splitter:command_creg-splitter-unwrap.ctx-actor-cfg-item
 - views.qt.splitter:navigator-view-split_horizontally.command-cfg-item
 - views.qt.splitter:splitter-view-unwrap.command-cfg-item
 - views.qt.splitter:splitter-view.view-cfg-item
-- views.qt.splitter:ui_command_creg-splitter-split_horizontally.ctx-actor-cfg-item
-- views.qt.splitter:ui_command_creg-splitter-unwrap.ctx-actor-cfg-item
 - views.qt.splitter:wrap_splitter.view-factory-cfg-item
+- views.tree_as_list:command_creg-tree_as_list-open.ctx-actor-cfg-item
+- views.tree_as_list:command_creg-tree_as_list-parent.ctx-actor-cfg-item
 - views.tree_as_list:formatter_creg-tree_as_list-list_model.actor-cfg-item
 - views.tree_as_list:index_tree_as_list_ui_type_layout.view-factory-cfg-item
 - views.tree_as_list:key_tree_as_list_ui_type_layout.view-factory-cfg-item
@@ -19,15 +21,21 @@ import:
 - views.tree_as_list:tree_as_list-key_view-open.command-cfg-item
 - views.tree_as_list:tree_as_list-key_view-parent.command-cfg-item
 - views.tree_as_list:tree_as_list-key_view.view-cfg-item
-- views.tree_as_list:ui_command_creg-tree_as_list-open.ctx-actor-cfg-item
-- views.tree_as_list:ui_command_creg-tree_as_list-parent.ctx-actor-cfg-item
 definitions:
+  command_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - views.qt.splitter:command_creg-splitter-split_horizontally.ctx-actor-cfg-item
+      - views.qt.splitter:command_creg-splitter-unwrap.ctx-actor-cfg-item
+      - views.tree_as_list:command_creg-tree_as_list-open.ctx-actor-cfg-item
+      - views.tree_as_list:command_creg-tree_as_list-parent.ctx-actor-cfg-item
   config:
     type: legacy_type.system:system_config
     value:
       services:
+        command_creg: command_creg
         formatter_creg: formatter_creg
-        ui_command_creg: ui_command_creg
         view_factory_reg: view_factory_reg
         view_reg: view_reg
         view_ui_command_reg: view_ui_command_reg
@@ -36,14 +44,6 @@ definitions:
     value:
       items:
       - views.tree_as_list:formatter_creg-tree_as_list-list_model.actor-cfg-item
-  ui_command_creg:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - views.qt.splitter:ui_command_creg-splitter-split_horizontally.ctx-actor-cfg-item
-      - views.qt.splitter:ui_command_creg-splitter-unwrap.ctx-actor-cfg-item
-      - views.tree_as_list:ui_command_creg-tree_as_list-open.ctx-actor-cfg-item
-      - views.tree_as_list:ui_command_creg-tree_as_list-parent.ctx-actor-cfg-item
   view_factory_reg:
     type: legacy_type.system:item_list_config
     value:

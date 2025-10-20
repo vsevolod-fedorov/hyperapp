@@ -175,6 +175,31 @@ definitions:
     value:
       object: bundle_info.module
       attr_name: capsule_list
+  command_creg-bundle_info-open_association.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_association.t
+      value: open_association.ctx-actor-template
+  command_creg-bundle_info-open_associations.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_associations.t
+      value: open_associations.ctx-actor-template
+  command_creg-bundle_info-open_capsule.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_capsule.t
+      value: open_capsule.ctx-actor-template
+  command_creg-bundle_info-open_capsules.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_capsules.t
+      value: open_capsules.ctx-actor-template
+  command_creg-bundle_info-open_root.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_root.t
+      value: open_root.ctx-actor-template
   format_ass_list_model:
     type: legacy_type.builtin:attribute
     value:
@@ -352,28 +377,3 @@ definitions:
       name: open_root
       base: null
       fields: {}
-  ui_command_creg-bundle_info-open_association.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_association.t
-      value: open_association.ctx-actor-template
-  ui_command_creg-bundle_info-open_associations.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_associations.t
-      value: open_associations.ctx-actor-template
-  ui_command_creg-bundle_info-open_capsule.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_capsule.t
-      value: open_capsule.ctx-actor-template
-  ui_command_creg-bundle_info-open_capsules.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_capsules.t
-      value: open_capsules.ctx-actor-template
-  ui_command_creg-bundle_info-open_root.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_root.t
-      value: open_root.ctx-actor-template

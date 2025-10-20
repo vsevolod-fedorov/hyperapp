@@ -81,6 +81,11 @@ definitions:
         htypes.list.view: legacy_type.list:view
         services.deduce_t: builtins:deduce_t.service
         services.pyobj_creg: builtins:pyobj_creg.service
+  command_creg-column_list-toggle_visibility.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: toggle_visibility.t
+      value: toggle_visibility.ctx-actor-template
   toggle_visibility:
     type: legacy_type.builtin:attribute
     value:
@@ -111,8 +116,3 @@ definitions:
       name: toggle_visibility
       base: null
       fields: {}
-  ui_command_creg-column_list-toggle_visibility.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: toggle_visibility.t
-      value: toggle_visibility.ctx-actor-template

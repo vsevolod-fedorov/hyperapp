@@ -58,6 +58,21 @@ definitions:
       name: add
       base: null
       fields: {}
+  command_creg-git_repo_list-add.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add.t
+      value: add.ctx-actor-template
+  command_creg-git_repo_list-refs.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: refs.t
+      value: refs.ctx-actor-template
+  command_creg-git_repo_list-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -248,18 +263,3 @@ definitions:
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}
-  ui_command_creg-git_repo_list-add.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add.t
-      value: add.ctx-actor-template
-  ui_command_creg-git_repo_list-refs.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: refs.t
-      value: refs.ctx-actor-template
-  ui_command_creg-git_repo_list-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: remove.t
-      value: remove.ctx-actor-template

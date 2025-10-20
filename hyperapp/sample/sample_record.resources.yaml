@@ -42,6 +42,11 @@ definitions:
       name: apply
       base: null
       fields: {}
+  command_creg-sample_record-apply.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: apply.t
+      value: apply.ctx-actor-template
   sample_record:
     type: legacy_type.builtin:attribute
     value:
@@ -84,8 +89,3 @@ definitions:
         htypes.sample_record.item: legacy_type.sample_record:item
         htypes.sample_record.sample_record: legacy_type.sample_record:sample_record
         htypes.sample_record.sub_item: legacy_type.sample_record:sub_item
-  ui_command_creg-sample_record-apply.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: apply.t
-      value: apply.ctx-actor-template

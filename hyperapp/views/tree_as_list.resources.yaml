@@ -78,6 +78,16 @@ definitions:
       service_params:
       - view_reg
       - system_fn_creg
+  command_creg-tree_as_list-open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open.t
+      value: open.ctx-actor-template
+  command_creg-tree_as_list-parent.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: parent.t
+      value: parent.ctx-actor-template
   format_list_model:
     type: legacy_type.builtin:attribute
     value:
@@ -293,13 +303,3 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
-  ui_command_creg-tree_as_list-open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open.t
-      value: open.ctx-actor-template
-  ui_command_creg-tree_as_list-parent.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: parent.t
-      value: parent.ctx-actor-template

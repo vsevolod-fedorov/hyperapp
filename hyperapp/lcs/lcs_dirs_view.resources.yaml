@@ -19,6 +19,16 @@ import:
 - legacy_type.model:model
 - legacy_type.system_fn:ctx_fn
 definitions:
+  command_creg-lcs_dirs_view-lcs_dirs_items.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: lcs_dirs_items.t
+      value: lcs_dirs_items.ctx-actor-template
+  command_creg-lcs_dirs_view-lcs_open_dirs.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: lcs_open_dirs.t
+      value: lcs_open_dirs.ctx-actor-template
   lcs_dirs_items:
     type: legacy_type.builtin:attribute
     value:
@@ -136,13 +146,3 @@ definitions:
       t: legacy_type.lcs_view:view
       name: lcs_open_dirs
       command: lcs_open_dirs.command
-  ui_command_creg-lcs_dirs_view-lcs_dirs_items.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: lcs_dirs_items.t
-      value: lcs_dirs_items.ctx-actor-template
-  ui_command_creg-lcs_dirs_view-lcs_open_dirs.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: lcs_open_dirs.t
-      value: lcs_open_dirs.ctx-actor-template

@@ -17,6 +17,16 @@ import:
 - legacy_type.wiki:wiki
 - legacy_type.wiki:wiki_ref
 definitions:
+  command_creg-sample_commands-details.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: details.t
+      value: details.ctx-actor-template
+  command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: sample_tree_info.t
+      value: sample_tree_info.ctx-actor-template
   details:
     type: legacy_type.builtin:attribute
     value:
@@ -95,13 +105,3 @@ definitions:
       name: sample_tree_info
       base: null
       fields: {}
-  ui_command_creg-sample_commands-details.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: details.t
-      value: details.ctx-actor-template
-  ui_command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: sample_tree_info.t
-      value: sample_tree_info.ctx-actor-template

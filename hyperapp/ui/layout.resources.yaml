@@ -49,6 +49,26 @@ definitions:
       name: add_view_command
       base: null
       fields: {}
+  command_creg-layout-add_view_command.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_view_command.t
+      value: add_view_command.ctx-actor-template
+  command_creg-layout-open_view_item_commands.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_view_item_commands.t
+      value: open_view_item_commands.ctx-actor-template
+  command_creg-layout-set_escape_shortcut.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_escape_shortcut.t
+      value: set_escape_shortcut.ctx-actor-template
+  command_creg-layout-set_shortcut.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_shortcut.t
+      value: set_shortcut.ctx-actor-template
   format_layout_model:
     type: legacy_type.builtin:attribute
     value:
@@ -204,23 +224,3 @@ definitions:
       name: set_shortcut
       base: null
       fields: {}
-  ui_command_creg-layout-add_view_command.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_view_command.t
-      value: add_view_command.ctx-actor-template
-  ui_command_creg-layout-open_view_item_commands.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_view_item_commands.t
-      value: open_view_item_commands.ctx-actor-template
-  ui_command_creg-layout-set_escape_shortcut.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: set_escape_shortcut.t
-      value: set_escape_shortcut.ctx-actor-template
-  ui_command_creg-layout-set_shortcut.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: set_shortcut.t
-      value: set_shortcut.ctx-actor-template

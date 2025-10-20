@@ -13,6 +13,16 @@ import:
 - legacy_type.window:state
 - legacy_type.window:view
 definitions:
+  command_creg-window_commands-duplicate_window.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: duplicate_window.t
+      value: duplicate_window.ctx-actor-template
+  command_creg-window_commands-quit.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: quit.t
+      value: quit.ctx-actor-template
   duplicate_window:
     type: legacy_type.builtin:attribute
     value:
@@ -67,16 +77,6 @@ definitions:
       name: quit
       base: null
       fields: {}
-  ui_command_creg-window_commands-duplicate_window.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: duplicate_window.t
-      value: duplicate_window.ctx-actor-template
-  ui_command_creg-window_commands-quit.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: quit.t
-      value: quit.ctx-actor-template
   window-view-duplicate_window.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

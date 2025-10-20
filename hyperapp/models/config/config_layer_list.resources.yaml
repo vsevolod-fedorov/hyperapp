@@ -20,6 +20,11 @@ import:
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 definitions:
+  command_creg-config_layer_list-open_service_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_service_list.t
+      value: open_service_list.ctx-actor-template
   config_layer_list:
     type: legacy_type.builtin:attribute
     value:
@@ -121,8 +126,3 @@ definitions:
       name: open_service_list
       base: null
       fields: {}
-  ui_command_creg-config_layer_list-open_service_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_service_list.t
-      value: open_service_list.ctx-actor-template

@@ -95,6 +95,46 @@ definitions:
       name: add_ref
       base: null
       fields: {}
+  command_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_folder.t
+      value: add_folder.ctx-actor-template
+  command_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_ref.t
+      value: add_ref.ctx-actor-template
+  command_creg-wiki_pages-new_page.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: new_page.t
+      value: new_page.ctx-actor-template
+  command_creg-wiki_pages-open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open.t
+      value: open.ctx-actor-template
+  command_creg-wiki_pages-open_parent.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_parent.t
+      value: open_parent.ctx-actor-template
+  command_creg-wiki_pages-open_ref_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_ref_list.t
+      value: open_ref_list.ctx-actor-template
+  command_creg-wiki_pages-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template
+  command_creg-wiki_pages-save_page.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: save_page.t
+      value: save_page.ctx-actor-template
   format_page_list_model:
     type: legacy_type.builtin:attribute
     value:
@@ -332,46 +372,6 @@ definitions:
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}
-  ui_command_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_folder.t
-      value: add_folder.ctx-actor-template
-  ui_command_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_ref.t
-      value: add_ref.ctx-actor-template
-  ui_command_creg-wiki_pages-new_page.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: new_page.t
-      value: new_page.ctx-actor-template
-  ui_command_creg-wiki_pages-open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open.t
-      value: open.ctx-actor-template
-  ui_command_creg-wiki_pages-open_parent.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_parent.t
-      value: open_parent.ctx-actor-template
-  ui_command_creg-wiki_pages-open_ref_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_ref_list.t
-      value: open_ref_list.ctx-actor-template
-  ui_command_creg-wiki_pages-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: remove.t
-      value: remove.ctx-actor-template
-  ui_command_creg-wiki_pages-save_page.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: save_page.t
-      value: save_page.ctx-actor-template
   wiki_pages:
     type: legacy_type.builtin:attribute
     value:

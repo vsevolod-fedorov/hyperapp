@@ -92,6 +92,16 @@ definitions:
       name: close_tab
       base: null
       fields: {}
+  command_creg-auto_tabs-close_tab.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: close_tab.t
+      value: close_tab.ctx-actor-template
+  command_creg-auto_tabs-duplicate_tab.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: duplicate_tab.t
+      value: duplicate_tab.ctx-actor-template
   duplicate_tab:
     type: legacy_type.builtin:attribute
     value:
@@ -122,13 +132,3 @@ definitions:
       name: duplicate_tab
       base: null
       fields: {}
-  ui_command_creg-auto_tabs-close_tab.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: close_tab.t
-      value: close_tab.ctx-actor-template
-  ui_command_creg-auto_tabs-duplicate_tab.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: duplicate_tab.t
-      value: duplicate_tab.ctx-actor-template

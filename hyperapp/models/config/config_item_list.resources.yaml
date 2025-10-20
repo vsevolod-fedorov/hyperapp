@@ -31,6 +31,31 @@ import:
 - legacy_type.system_fn:ctx_fn
 - models.data_browser:data_browser.module
 definitions:
+  command_creg-config_item_list-layer_remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: layer_remove.t
+      value: layer_remove.ctx-actor-template
+  command_creg-config_item_list-open_config_item_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_config_item_list.t
+      value: open_config_item_list.ctx-actor-template
+  command_creg-config_item_list-open_config_key.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_config_key.t
+      value: open_config_key.ctx-actor-template
+  command_creg-config_item_list-open_config_value.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_config_value.t
+      value: open_config_value.ctx-actor-template
+  command_creg-config_item_list-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template
   config_item_get_layer:
     type: legacy_type.builtin:attribute
     value:
@@ -484,28 +509,3 @@ definitions:
       name: remove
       base: null
       fields: {}
-  ui_command_creg-config_item_list-layer_remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: layer_remove.t
-      value: layer_remove.ctx-actor-template
-  ui_command_creg-config_item_list-open_config_item_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_config_item_list.t
-      value: open_config_item_list.ctx-actor-template
-  ui_command_creg-config_item_list-open_config_key.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_config_key.t
-      value: open_config_key.ctx-actor-template
-  ui_command_creg-config_item_list-open_config_value.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_config_value.t
-      value: open_config_value.ctx-actor-template
-  ui_command_creg-config_item_list-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: remove.t
-      value: remove.ctx-actor-template

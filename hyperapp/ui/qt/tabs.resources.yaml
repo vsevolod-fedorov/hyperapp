@@ -73,6 +73,26 @@ definitions:
       name: add_element
       base: null
       fields: {}
+  command_creg-tabs-add_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_element.t
+      value: add_element.ctx-actor-template
+  command_creg-tabs-insert_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: insert_element.t
+      value: insert_element.ctx-actor-template
+  command_creg-tabs-remove_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove_element.t
+      value: remove_element.ctx-actor-template
+  command_creg-tabs-unwrap.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: unwrap.t
+      value: unwrap.ctx-actor-template
   insert_element:
     type: legacy_type.builtin:attribute
     value:
@@ -176,26 +196,6 @@ definitions:
         htypes.tabs.view: legacy_type.tabs:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  ui_command_creg-tabs-add_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_element.t
-      value: add_element.ctx-actor-template
-  ui_command_creg-tabs-insert_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: insert_element.t
-      value: insert_element.ctx-actor-template
-  ui_command_creg-tabs-remove_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: remove_element.t
-      value: remove_element.ctx-actor-template
-  ui_command_creg-tabs-unwrap.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: unwrap.t
-      value: unwrap.ctx-actor-template
   unwrap:
     type: legacy_type.builtin:attribute
     value:

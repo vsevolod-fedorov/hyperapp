@@ -17,6 +17,11 @@ import:
 - legacy_type.model:model
 - legacy_type.system_fn:ctx_fn
 definitions:
+  command_creg-file_bundles-open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open.t
+      value: open.ctx-actor-template
   file_bundle_list:
     type: legacy_type.builtin:attribute
     value:
@@ -100,8 +105,3 @@ definitions:
       name: open
       base: null
       fields: {}
-  ui_command_creg-file_bundles-open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open.t
-      value: open.ctx-actor-template

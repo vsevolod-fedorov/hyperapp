@@ -41,6 +41,16 @@ definitions:
       - ctx
       service_params:
       - view_reg
+  command_creg-splitter-split_horizontally.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: split_horizontally.t
+      value: split_horizontally.ctx-actor-template
+  command_creg-splitter-unwrap.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: unwrap.t
+      value: unwrap.ctx-actor-template
   navigator-view-split_horizontally.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -100,16 +110,6 @@ definitions:
         htypes.splitter.view: legacy_type.splitter:view
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
-  ui_command_creg-splitter-split_horizontally.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: split_horizontally.t
-      value: split_horizontally.ctx-actor-template
-  ui_command_creg-splitter-unwrap.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: unwrap.t
-      value: unwrap.ctx-actor-template
   unwrap:
     type: legacy_type.builtin:attribute
     value:

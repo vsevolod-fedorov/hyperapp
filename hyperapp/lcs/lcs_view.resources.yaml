@@ -27,6 +27,16 @@ import:
 - models.data_browser:data_browser.module
 - ui.directory:directory.module
 definitions:
+  command_creg-lcs_view-lcs_open_piece.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: lcs_open_piece.t
+      value: lcs_open_piece.ctx-actor-template
+  command_creg-lcs_view-lcs_remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: lcs_remove.t
+      value: lcs_remove.ctx-actor-template
   lcs_get_layer:
     type: legacy_type.builtin:attribute
     value:
@@ -232,13 +242,3 @@ definitions:
       name: open_move_d
       base: null
       fields: {}
-  ui_command_creg-lcs_view-lcs_open_piece.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: lcs_open_piece.t
-      value: lcs_open_piece.ctx-actor-template
-  ui_command_creg-lcs_view-lcs_remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: lcs_remove.t
-      value: lcs_remove.ctx-actor-template

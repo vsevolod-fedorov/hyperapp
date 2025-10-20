@@ -85,6 +85,31 @@ definitions:
       name: add_ref
       base: null
       fields: {}
+  command_creg-ref_list-add_folder.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_folder.t
+      value: add_folder.ctx-actor-template
+  command_creg-ref_list-add_ref.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_ref.t
+      value: add_ref.ctx-actor-template
+  command_creg-ref_list-open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open.t
+      value: open.ctx-actor-template
+  command_creg-ref_list-open_parent.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_parent.t
+      value: open_parent.ctx-actor-template
+  command_creg-ref_list-remove.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: remove.t
+      value: remove.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -301,28 +326,3 @@ definitions:
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}
-  ui_command_creg-ref_list-add_folder.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_folder.t
-      value: add_folder.ctx-actor-template
-  ui_command_creg-ref_list-add_ref.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_ref.t
-      value: add_ref.ctx-actor-template
-  ui_command_creg-ref_list-open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open.t
-      value: open.ctx-actor-template
-  ui_command_creg-ref_list-open_parent.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: open_parent.t
-      value: open_parent.ctx-actor-template
-  ui_command_creg-ref_list-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: remove.t
-      value: remove.ctx-actor-template

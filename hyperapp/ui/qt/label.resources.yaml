@@ -37,6 +37,11 @@ definitions:
       - piece
       - ctx
       service_params: []
+  command_creg-label-set_label_text.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_label_text.t
+      value: set_label_text.ctx-actor-template
   label-view-set_label_text.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -125,8 +130,3 @@ definitions:
       name: set_label_text
       base: null
       fields: {}
-  ui_command_creg-label-set_label_text.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: set_label_text.t
-      value: set_label_text.ctx-actor-template
