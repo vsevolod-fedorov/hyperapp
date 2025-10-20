@@ -32,42 +32,6 @@ import:
 - legacy_type.system_fn:ctx_fn
 - ui.ui_model_command:ui_model_command.module
 definitions:
-  add:
-    type: legacy_type.builtin:attribute
-    value:
-      object: peer_list.module
-      attr_name: add
-  add.command:
-    type: add.t
-    value: {}
-  add.ctx-actor-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: add.system-fn
-  add.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: add
-      ctx_params:
-      - piece
-      - host
-      service_params:
-      - peer_list_reg
-      - file_bundle_factory
-      - peer_creg
-      - peer_label_reg
-  add.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: peer_list
-      name: add
-      base: null
-      fields: {}
-  command_creg-peer_list-add.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add.t
-      value: add.ctx-actor-template
   command_creg-peer_list-remove.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -88,12 +52,6 @@ definitions:
     value:
       t: legacy_type.peer_list:model
       value: format_model.actor-template
-  peer_list-model-add.command-cfg-item:
-    type: legacy_type.command:type_str_command
-    value:
-      t: legacy_type.peer_list:model
-      name: add
-      command: add.command
   peer_list-model-remove.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

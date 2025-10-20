@@ -29,72 +29,6 @@ import:
 - legacy_type.system:single_struct_ctl
 - legacy_type.system_fn:ctx_fn
 definitions:
-  add_folder:
-    type: legacy_type.builtin:attribute
-    value:
-      object: ref_list.module
-      attr_name: add_folder
-  add_folder.command:
-    type: add_folder.t
-    value: {}
-  add_folder.ctx-actor-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: add_folder.system-fn
-  add_folder.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: add_folder
-      ctx_params:
-      - piece
-      - name
-      service_params:
-      - ref_list
-  add_folder.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: ref_list
-      name: add_folder
-      base: null
-      fields: {}
-  add_ref:
-    type: legacy_type.builtin:attribute
-    value:
-      object: ref_list.module
-      attr_name: add_ref
-  add_ref.command:
-    type: add_ref.t
-    value: {}
-  add_ref.ctx-actor-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: add_ref.system-fn
-  add_ref.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: add_ref
-      ctx_params:
-      - piece
-      - ref
-      service_params:
-      - ref_list
-  add_ref.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: ref_list
-      name: add_ref
-      base: null
-      fields: {}
-  command_creg-ref_list-add_folder.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_folder.t
-      value: add_folder.ctx-actor-template
-  command_creg-ref_list-add_ref.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_ref.t
-      value: add_ref.ctx-actor-template
   command_creg-ref_list-open.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -187,18 +121,6 @@ definitions:
     value:
       object: ref_list.module
       attr_name: ref_list
-  ref_list-model-add_folder.command-cfg-item:
-    type: legacy_type.command:type_str_command
-    value:
-      t: legacy_type.ref_list:model
-      name: add_folder
-      command: add_folder.command
-  ref_list-model-add_ref.command-cfg-item:
-    type: legacy_type.command:type_str_command
-    value:
-      t: legacy_type.ref_list:model
-      name: add_ref
-      command: add_ref.command
   ref_list-model-open.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

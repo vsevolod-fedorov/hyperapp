@@ -37,74 +37,6 @@ import:
 - legacy_type.wiki_pages:ref_list_model
 - legacy_type.wiki_pages:storage
 definitions:
-  add_folder:
-    type: legacy_type.builtin:attribute
-    value:
-      object: wiki_pages.module
-      attr_name: add_folder
-  add_folder.command:
-    type: add_folder.t
-    value: {}
-  add_folder.ctx-actor-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: add_folder.system-fn
-  add_folder.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: add_folder
-      ctx_params:
-      - piece
-      - name
-      service_params:
-      - wiki_pages
-  add_folder.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: wiki_pages
-      name: add_folder
-      base: null
-      fields: {}
-  add_ref:
-    type: legacy_type.builtin:attribute
-    value:
-      object: wiki_pages.module
-      attr_name: add_ref
-  add_ref.command:
-    type: add_ref.t
-    value: {}
-  add_ref.ctx-actor-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: add_ref.system-fn
-  add_ref.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: add_ref
-      ctx_params:
-      - piece
-      - value
-      - ref
-      service_params:
-      - wiki_pages
-      - feed_factory
-  add_ref.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: wiki_pages
-      name: add_ref
-      base: null
-      fields: {}
-  command_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_folder.t
-      value: add_folder.ctx-actor-template
-  command_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_ref.t
-      value: add_ref.ctx-actor-template
   command_creg-wiki_pages-new_page.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -377,12 +309,6 @@ definitions:
     value:
       object: wiki_pages.module
       attr_name: wiki_pages
-  wiki_pages-list_model-add_folder.command-cfg-item:
-    type: legacy_type.command:type_str_command
-    value:
-      t: legacy_type.wiki_pages:list_model
-      name: add_folder
-      command: add_folder.command
   wiki_pages-list_model-new_page.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -445,12 +371,6 @@ definitions:
       service_params:
       - format
       - wiki_pages
-  wiki_pages-page_model-add_ref.command-cfg-item:
-    type: legacy_type.command:type_str_command
-    value:
-      t: legacy_type.wiki_pages:page_model
-      name: add_ref
-      command: add_ref.command
   wiki_pages-page_model-open_ref_list.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

@@ -95,11 +95,9 @@ import:
 - models.git.git_ref_list:git-ref_list_model-ref_log.command-cfg-item
 - models.git.git_ref_list:git-ref_list_model.feed-template-cfg-item
 - models.git.git_ref_list:git-ref_list_model.model-cfg-item
-- models.git.git_repo_list:command_creg-git_repo_list-add.ctx-actor-cfg-item
 - models.git.git_repo_list:command_creg-git_repo_list-refs.ctx-actor-cfg-item
 - models.git.git_repo_list:command_creg-git_repo_list-remove.ctx-actor-cfg-item
 - models.git.git_repo_list:formatter_creg-git-repo_list_model.actor-cfg-item
-- models.git.git_repo_list:git-repo_list_model-add.command-cfg-item
 - models.git.git_repo_list:git-repo_list_model-refs.command-cfg-item
 - models.git.git_repo_list:git-repo_list_model-remove.command-cfg-item
 - models.git.git_repo_list:git-repo_list_model.feed-template-cfg-item
@@ -114,22 +112,16 @@ import:
 - models.model_list:formatter_creg-model_list-model_arg.actor-cfg-item
 - models.model_list:model_list-model.feed-template-cfg-item
 - models.model_list:model_list-model.model-cfg-item
-- models.peer_list:command_creg-peer_list-add.ctx-actor-cfg-item
 - models.peer_list:command_creg-peer_list-remove.ctx-actor-cfg-item
 - models.peer_list:formatter_creg-peer_list-model.actor-cfg-item
-- models.peer_list:peer_list-model-add.command-cfg-item
 - models.peer_list:peer_list-model-remove.command-cfg-item
 - models.peer_list:peer_list-model.feed-template-cfg-item
 - models.peer_list:peer_list-model.model-cfg-item
 - models.peer_list:peer_list_reg.service
-- models.ref_list:command_creg-ref_list-add_folder.ctx-actor-cfg-item
-- models.ref_list:command_creg-ref_list-add_ref.ctx-actor-cfg-item
 - models.ref_list:command_creg-ref_list-open.ctx-actor-cfg-item
 - models.ref_list:command_creg-ref_list-open_parent.ctx-actor-cfg-item
 - models.ref_list:command_creg-ref_list-remove.ctx-actor-cfg-item
 - models.ref_list:formatter_creg-ref_list-model.actor-cfg-item
-- models.ref_list:ref_list-model-add_folder.command-cfg-item
-- models.ref_list:ref_list-model-add_ref.command-cfg-item
 - models.ref_list:ref_list-model-open.command-cfg-item
 - models.ref_list:ref_list-model-open_parent.command-cfg-item
 - models.ref_list:ref_list-model-remove.command-cfg-item
@@ -155,8 +147,6 @@ import:
 - models.transport_log_model:transport_log_model-model.feed-template-cfg-item
 - models.transport_log_model:transport_log_model-model.model-cfg-item
 - models.web_source:web_source.service
-- models.wiki_pages:command_creg-wiki_pages-add_folder.ctx-actor-cfg-item
-- models.wiki_pages:command_creg-wiki_pages-add_ref.ctx-actor-cfg-item
 - models.wiki_pages:command_creg-wiki_pages-new_page.ctx-actor-cfg-item
 - models.wiki_pages:command_creg-wiki_pages-open.ctx-actor-cfg-item
 - models.wiki_pages:command_creg-wiki_pages-open_parent.ctx-actor-cfg-item
@@ -166,14 +156,12 @@ import:
 - models.wiki_pages:formatter_creg-wiki_pages-list_model.actor-cfg-item
 - models.wiki_pages:formatter_creg-wiki_pages-page_model.actor-cfg-item
 - models.wiki_pages:formatter_creg-wiki_pages-ref_list_model.actor-cfg-item
-- models.wiki_pages:wiki_pages-list_model-add_folder.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model-new_page.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model-open.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model-open_parent.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model-remove.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model.feed-template-cfg-item
 - models.wiki_pages:wiki_pages-list_model.model-cfg-item
-- models.wiki_pages:wiki_pages-page_model-add_ref.command-cfg-item
 - models.wiki_pages:wiki_pages-page_model-open_ref_list.command-cfg-item
 - models.wiki_pages:wiki_pages-page_model-save_page.command-cfg-item
 - models.wiki_pages:wiki_pages-page_model.feed-template-cfg-item
@@ -205,22 +193,16 @@ definitions:
       - models.data_browser:command_creg-data_browser-ref_list_open.ctx-actor-cfg-item
       - models.file_bundles:command_creg-file_bundles-open.ctx-actor-cfg-item
       - models.git.git_ref_list:command_creg-git_ref_list-ref_log.ctx-actor-cfg-item
-      - models.git.git_repo_list:command_creg-git_repo_list-add.ctx-actor-cfg-item
       - models.git.git_repo_list:command_creg-git_repo_list-refs.ctx-actor-cfg-item
       - models.git.git_repo_list:command_creg-git_repo_list-remove.ctx-actor-cfg-item
       - models.identity_command:command_creg-identity_command-identity_command.actor-cfg-item
-      - models.peer_list:command_creg-peer_list-add.ctx-actor-cfg-item
       - models.peer_list:command_creg-peer_list-remove.ctx-actor-cfg-item
-      - models.ref_list:command_creg-ref_list-add_folder.ctx-actor-cfg-item
-      - models.ref_list:command_creg-ref_list-add_ref.ctx-actor-cfg-item
       - models.ref_list:command_creg-ref_list-open.ctx-actor-cfg-item
       - models.ref_list:command_creg-ref_list-open_parent.ctx-actor-cfg-item
       - models.ref_list:command_creg-ref_list-remove.ctx-actor-cfg-item
       - models.transport_log_model:command_creg-transport_log_model-message.ctx-actor-cfg-item
       - models.transport_log_model:command_creg-transport_log_model-message_bundle.ctx-actor-cfg-item
       - models.transport_log_model:command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item
-      - models.wiki_pages:command_creg-wiki_pages-add_folder.ctx-actor-cfg-item
-      - models.wiki_pages:command_creg-wiki_pages-add_ref.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-new_page.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-open.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-open_parent.ctx-actor-cfg-item
@@ -235,7 +217,6 @@ definitions:
         feed_factory: feed_factory
         formatter_creg: formatter_creg
         init_hook: init_hook
-        model_command_enumerator_reg: model_command_enumerator_reg
         model_command_reg: model_command_reg
         model_reg: model_reg
         system: system
@@ -310,16 +291,6 @@ definitions:
       items:
       - models.git.git_repo_list:load_repositories.ctx-actor-template
       - models.transport_log_model:init_hook.ctx-actor-template
-  model_command_enumerator_reg:
-    type: legacy_type.system:item_list_config
-    value:
-      items:
-      - models.git.git_repo_list:git-repo_list_model-add.command-cfg-item
-      - models.peer_list:peer_list-model-add.command-cfg-item
-      - models.ref_list:ref_list-model-add_folder.command-cfg-item
-      - models.ref_list:ref_list-model-add_ref.command-cfg-item
-      - models.wiki_pages:wiki_pages-list_model-add_folder.command-cfg-item
-      - models.wiki_pages:wiki_pages-page_model-add_ref.command-cfg-item
   model_command_reg:
     type: legacy_type.system:item_list_config
     value:
