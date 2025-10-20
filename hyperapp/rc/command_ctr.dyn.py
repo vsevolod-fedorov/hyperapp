@@ -74,7 +74,7 @@ class CommandTemplateCtr(Constructor):
         actor_ctr = CtxFnActorTemplateCtr(
             module_name=self._module_name,
             attr_qual_name=self._attr_qual_name,
-            service_name='ui_command_creg',
+            service_name='command_creg',
             t=self._command_t,
             ctx_params=self._ctx_params,
             service_params=self._service_params,

@@ -22,13 +22,13 @@ class MenuBarView(View):
 
     @classmethod
     @mark.view
-    def from_piece(cls, piece, ctx, format, ui_command_creg, shortcut_reg):
-        return cls(format, ui_command_creg, shortcut_reg)
+    def from_piece(cls, piece, ctx, format, command_creg, shortcut_reg):
+        return cls(format, command_creg, shortcut_reg)
 
-    def __init__(self, format, ui_command_creg, shortcut_reg):
+    def __init__(self, format, command_creg, shortcut_reg):
         super().__init__()
         self._format = format
-        self._ui_command_creg = ui_command_creg
+        self._command_creg = command_creg
         self._shortcut_reg = shortcut_reg
 
     @property
@@ -77,7 +77,7 @@ class MenuBarView(View):
         # text = command_text(self._format, cmd)
         action = QtGui.QAction(text, enabled=True)
         # action = QtGui.QAction(text, enabled=cmd.enabled)
-        action.triggered.connect(partial(cmd.start, self._ui_command_creg))
+        action.triggered.connect(partial(cmd.start, self._command_creg))
         # shortcut = self._shortcut_reg.get(cmd.d)
         # if shortcut and shortcut not in used_shortcuts:
         #     action.setShortcut(shortcut)

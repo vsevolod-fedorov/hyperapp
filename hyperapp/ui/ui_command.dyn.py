@@ -28,12 +28,12 @@ class UiCommand:
         self.command = command
         self.ctx = ctx
 
-    def start(self, ui_command_creg):
+    def start(self, command_creg):
         log.info("Start command: %r", self.name)
-        asyncio.create_task(self.run(ui_command_creg))
+        asyncio.create_task(self.run(command_creg))
 
-    async def run(self, ui_command_creg):
-        ui_command_creg.animate(self.command, self.ctx)
+    async def run(self, command_creg):
+        command_creg.animate(self.command, self.ctx)
 
 
 def _item_dict_with_bases(config, view_t):
