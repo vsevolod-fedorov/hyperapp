@@ -14,7 +14,7 @@ from .code.system_fn import ContextFn
 from .code.list_diff import IndexListDiff, KeyListDiff
 from .code.command import UnboundCommand, BoundCommand
 from .code.command_enumerator import UnboundCommandEnumerator
-from .code.config_ctl import FlatListConfigCtl, DictConfigCtl
+from .code.config_ctl import DataValueCtl, DictConfigCtl
 from .code.config_struct_ctl import ListStructCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
 
@@ -30,7 +30,7 @@ def model_command_ctx(ctx, model, model_state):
         )
 
 
-@mark.service(ctl=TypeStrCommandConfigCtl())
+@mark.service(ctl=DictConfigCtl(value_ctl=DataValueCtl(), struct_ctl=ListStructCtl()))
 def global_model_command_reg(config):
     return CommandDict(config)
 

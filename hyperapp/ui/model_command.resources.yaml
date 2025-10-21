@@ -15,6 +15,7 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.command_config_ctl:type_str_command_config_ctl
 - legacy_type.system:actor_value_ctl
+- legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:list_struct_ctl
 - legacy_type.system:service_template
@@ -53,7 +54,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: global_model_command_reg
-      ctl: command_config_ctl-type_str_command_config.ctl
+      ctl: system-dict_config.one_way.data.list.ctl
       function: global_model_command_reg
       service_params: []
       want_config: true
@@ -109,6 +110,9 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
+  system-data.value-ctl:
+    type: legacy_type.system:data_value_ctl
+    value: {}
   system-dict_config.one_way.actor.list.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
@@ -121,6 +125,12 @@ definitions:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
       struct_ctl: system-single.struct-ctl
+  system-dict_config.one_way.data.list.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: base.system.config_layer:one_way.key_ctl
+      value_ctl: system-data.value-ctl
+      struct_ctl: system-list.struct-ctl
   system-list.struct-ctl:
     type: legacy_type.system:list_struct_ctl
     value: {}
