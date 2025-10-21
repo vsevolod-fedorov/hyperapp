@@ -14,10 +14,6 @@ type_str_command = record:
   name: string
   command: ref
 
-str_command = record:
-  name: string
-  command: ref
-
 
 fn_command = record:
   d: ref

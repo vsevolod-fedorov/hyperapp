@@ -213,9 +213,9 @@ class UntypedCommandTemplateCtr(CommandTemplateCtr):
     def make_component(self, types, python_module, name_to_res=None):
         # return self._make_command_component(types, python_module, name_to_res)
         command = self._command_t()
-        cfg_item = htypes.command.str_command(
-            name=self._command_t.name,
-            command=mosaic.put(command),
+        cfg_item = htypes.cfg_item.str_cfg_item(
+            key=self._command_t.name,
+            value=mosaic.put(command),
             )
         if name_to_res is not None:
             name_to_res[f'{self._command_name}.command'] = command
