@@ -5,7 +5,7 @@ from typing import Any
 
 from hyperapp.boot.htypes import TPrimitive, TOptional, tString
 
-from . import htypes
+# from . import htypes
 from .services import (
     deduce_t,
     pyobj_creg,
