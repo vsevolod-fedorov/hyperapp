@@ -78,6 +78,7 @@ definitions:
       - view_reg
       - get_view_commands
       - get_view_element_commands
+      - global_model_command_reg
       want_config: false
       free_params:
       - layout_bundle

@@ -37,6 +37,7 @@ CtlServices = namedtuple(
         'view_reg',
         'get_view_commands',
         'get_view_element_commands',
+        'global_model_command_reg',
         # 'get_ui_model_commands',
         ])
 
@@ -176,8 +177,7 @@ class _Item:
             my_rctx = self.view.primary_parent_context(rctx, self.widget)
             my_cmd_ctx = self.command_context(my_rctx)
             view_commands = self._view_commands(my_cmd_ctx)
-            model_commands = []
-            # model_commands = self._model_commands(my_cmd_ctx)
+            model_commands = self._model_commands(my_cmd_ctx)
         else:
             my_rctx = rctx
             view_commands = []
@@ -206,6 +206,7 @@ class _Item:
         return self._make_ui_commands(self.parent.view, command_dict, element_command_ctx)
 
     def _model_commands(self, command_ctx):
+        return []  # TODO
         if 'model' not in self.ctx.diffs(self.parent.ctx):  # Added or replaced by self.view.children_context.
             return []
         model_t = deduce_t(command_ctx.model)
@@ -370,6 +371,15 @@ class _WindowItem(_Item):
 
     def children_changed(self, save_layout=True):
         asyncio.create_task(self.update_children(save_layout))
+
+    def _model_commands(self, command_ctx):
+        model_commands = super()._model_commands(command_ctx)
+        global_command_dict = self._meta.svc.global_model_command_reg
+        return [
+            *model_commands,
+            *self._make_ui_commands(self.view, global_command_dict, command_ctx),
+            ]
+
 
     def schedule_save_state(self):
         self.parent.schedule_save_state()
@@ -610,6 +620,7 @@ async def controller_running(
         view_reg,
         get_view_commands,
         get_view_element_commands,
+        global_model_command_reg,
         # get_ui_model_commands,
         layout_bundle,
         default_layout,
@@ -622,6 +633,7 @@ async def controller_running(
         view_reg=view_reg,
         get_view_commands=get_view_commands,
         get_view_element_commands=get_view_element_commands,
+        global_model_command_reg=global_model_command_reg,
         # get_ui_model_commands=get_ui_model_commands,
         )
     ctl = Controller(svc, layout_bundle, default_layout, ctx, show, load_state)
