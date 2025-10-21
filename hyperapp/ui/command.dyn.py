@@ -1,6 +1,23 @@
+import asyncio
 import logging
 
 log = logging.getLogger(__name__)
+
+
+class Command:
+
+    def __init__(self, t, name, command, ctx):
+        self.t = t
+        self.name = name
+        self.command = command
+        self.ctx = ctx
+
+    def start(self, command_creg):
+        log.info("Start command: %r", self.name)
+        asyncio.create_task(self.run(command_creg))
+
+    async def run(self, command_creg):
+        command_creg.animate(self.command, self.ctx)
 
 
 def _amend_fragment(text):

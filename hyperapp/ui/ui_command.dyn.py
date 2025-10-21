@@ -1,8 +1,6 @@
 import logging
 from functools import partial
 
-import asyncio
-
 from hyperapp.boot.htypes import TRecord
 
 # from . import htypes
@@ -18,22 +16,6 @@ from .code.config_struct_ctl import ListStructCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
 
 log = logging.getLogger(__name__)
-
-
-class UiCommand:
-
-    def __init__(self, t, name, command, ctx):
-        self.t = t
-        self.name = name
-        self.command = command
-        self.ctx = ctx
-
-    def start(self, command_creg):
-        log.info("Start command: %r", self.name)
-        asyncio.create_task(self.run(command_creg))
-
-    async def run(self, command_creg):
-        command_creg.animate(self.command, self.ctx)
 
 
 def _item_dict_with_bases(config, view_t):

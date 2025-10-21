@@ -2,7 +2,7 @@ from unittest.mock import Mock
 
 from . import htypes
 from .code.context import Context
-from .code.ui_command import UiCommand
+from .code.command import Command
 from .fixtures import qapp_fixtures
 from .tested.code import menu_bar
 
@@ -21,7 +21,7 @@ async def test_widget(qapp):
         )
     piece = make_piece()
     state = make_state()
-    command = UiCommand(
+    command = Command(
         t=htypes.menu_bar_tests.sample_view,
         name="Sample command",
         command=htypes.menu_bar_tests.sample_command(),

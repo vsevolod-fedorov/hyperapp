@@ -23,7 +23,7 @@ import:
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
 - legacy_type.ui:canned_ctl_item
-- ui.ui_command:ui_command.module
+- ui.command:command.module
 - ui.view.view:view.module
 definitions:
   canned_ctl_item_factory:
@@ -48,10 +48,10 @@ definitions:
       module_name: controller
       file_name: controller.dyn.py
       import_list:
+        code.command: ui.command:command.module
         code.context: base.context:context.module
         code.mark: base.mark:mark.module
         code.tree_diff: common.tree_diff:tree_diff.module
-        code.ui_command: ui.ui_command:ui_command.module
         code.view: ui.view.view:view.module
         htypes.layout.item: legacy_type.layout:item
         htypes.layout.model: legacy_type.layout:model

@@ -22,7 +22,7 @@ from .code.mark import mark
 from .code.context import Context
 from .code.tree_diff import TreeDiff
 from .code.view import View
-from .code.ui_command import UiCommand
+from .code.command import Command
 
 log = logging.getLogger(__name__)
 
@@ -217,7 +217,7 @@ class _Item:
     def _make_ui_commands(self, view, command_dict, ctx):
         view_t = deduce_t(view.piece)
         return [
-            UiCommand(view_t, name, command, ctx)
+            Command(view_t, name, command, ctx)
             for name, command in command_dict.items()
             ]
 
