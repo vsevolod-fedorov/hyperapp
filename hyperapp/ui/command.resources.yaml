@@ -2,12 +2,10 @@
 
 import:
 - legacy_type.builtin:python_module
-- ui.directory:directory.module
 definitions:
   command.module:
     type: legacy_type.builtin:python_module
     value:
       module_name: command
       file_name: command.dyn.py
-      import_list:
-        code.directory: ui.directory:directory.module
+      import_list: {}

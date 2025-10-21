@@ -15,7 +15,7 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.remote_model import real_model_t
-from .code.command import BoundCommandBase, UnboundCommandBase
+# from .code.command import BoundCommandBase, UnboundCommandBase
 # from .code.ui_model_command import split_command_result, wrap_model_command_to_ui_command
 from .code.context_view import ContextView
 from .code.record_adapter import FnRecordAdapterBase
@@ -344,104 +344,104 @@ class Crud:
 #     return Crud(canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg)
 
 
-class UnboundCrudCommitCommand(UnboundCommandBase):
+# class UnboundCrudCommitCommand(UnboundCommandBase):
 
-    def __init__(self, crud, remote_peer, d, model, args, pick_fn, commit_fn, commit_value_field):
-        super().__init__(d)
-        self._crud = crud
-        self._remote_peer = remote_peer
-        self._model = model
-        self._args = args
-        self._pick_fn = pick_fn
-        self._commit_fn = commit_fn
-        self._commit_value_field = commit_value_field
+#     def __init__(self, crud, remote_peer, d, model, args, pick_fn, commit_fn, commit_value_field):
+#         super().__init__(d)
+#         self._crud = crud
+#         self._remote_peer = remote_peer
+#         self._model = model
+#         self._args = args
+#         self._pick_fn = pick_fn
+#         self._commit_fn = commit_fn
+#         self._commit_value_field = commit_value_field
 
-    @property
-    def properties(self):
-        return htypes.command.properties(
-            is_global=False,
-            uses_state=False,
-            remotable=False,
-            )
+#     @property
+#     def properties(self):
+#         return htypes.command.properties(
+#             is_global=False,
+#             uses_state=False,
+#             remotable=False,
+#             )
 
-    def bind(self, ctx):
-        return BoundCrudCommitCommand(
-            self._crud, self._remote_peer, self._d, self.properties, self._model,
-            self._args, self._pick_fn, self._commit_fn, self._commit_value_field, ctx)
+#     def bind(self, ctx):
+#         return BoundCrudCommitCommand(
+#             self._crud, self._remote_peer, self._d, self.properties, self._model,
+#             self._args, self._pick_fn, self._commit_fn, self._commit_value_field, ctx)
 
 
-class BoundCrudCommitCommand(BoundCommandBase):
+# class BoundCrudCommitCommand(BoundCommandBase):
 
-    def __init__(self, crud, remote_peer, d, properties, model, args, pick_fn, commit_fn, commit_value_field, ctx):
-        super().__init__(d, ctx)
-        self._crud = crud
-        self._remote_peer = remote_peer
-        self._properties = properties
-        self._model = model
-        self._args = args
-        self._pick_fn = pick_fn
-        self._commit_fn = commit_fn
-        self._commit_value_field = commit_value_field
+#     def __init__(self, crud, remote_peer, d, properties, model, args, pick_fn, commit_fn, commit_value_field, ctx):
+#         super().__init__(d, ctx)
+#         self._crud = crud
+#         self._remote_peer = remote_peer
+#         self._properties = properties
+#         self._model = model
+#         self._args = args
+#         self._pick_fn = pick_fn
+#         self._commit_fn = commit_fn
+#         self._commit_value_field = commit_value_field
 
-    @property
-    def enabled(self):
-        return not self._missing_params
+#     @property
+#     def enabled(self):
+#         return not self._missing_params
 
-    @property
-    def disabled_reason(self):
-        params = ", ".join(self._missing_params)
-        return f"Params not ready: {params}"
+#     @property
+#     def disabled_reason(self):
+#         params = ", ".join(self._missing_params)
+#         return f"Params not ready: {params}"
 
-    @property
-    def properties(self):
-        return self._properties
+#     @property
+#     def properties(self):
+#         return self._properties
 
-    @cached_property
-    def _missing_params(self):
-        required_kw = {'model'}
-        if not self._pick_fn:
-            required_kw |= {'input'}
-        return required_kw - self._ctx.as_dict().keys()
+#     @cached_property
+#     def _missing_params(self):
+#         required_kw = {'model'}
+#         if not self._pick_fn:
+#             required_kw |= {'input'}
+#         return required_kw - self._ctx.as_dict().keys()
 
-    async def run(self):
-        if self._pick_fn:
-            value = self._pick_fn.call(self._ctx)
-        else:
-            value = self._pick_ctx_value(self._ctx)
-        log.info("Run CRUD commit command %r: args=%s; %s=%r", self.name, self._args, self._commit_value_field, value)
-        fn_ctx = self._crud.fn_ctx(
-            self._ctx, self._model, self._args,
-            kw={self._commit_value_field: value},
-            )
-        result = self._commit_fn.call(fn_ctx, remote_peer=self._remote_peer)
-        if inspect.iscoroutine(result):
-            result = await result
-        if result is None:
-            return None
-        assert isinstance(result, htypes.command.command_result), result
-        if result.key and not result.model:
-            # Navigate back to original model view.
-            if self._remote_peer:
-                model = htypes.model.remote_model(
-                    model=mosaic.put(self._model),
-                    remote_peer=mosaic.put(self._remote_peer.piece),
-                    )
-            else:
-                model = self._model
-            return htypes.command.command_result(
-                model=mosaic.put(model),
-                key=result.key,
-                diff=result.diff,
-                )
-        return result
+#     async def run(self):
+#         if self._pick_fn:
+#             value = self._pick_fn.call(self._ctx)
+#         else:
+#             value = self._pick_ctx_value(self._ctx)
+#         log.info("Run CRUD commit command %r: args=%s; %s=%r", self.name, self._args, self._commit_value_field, value)
+#         fn_ctx = self._crud.fn_ctx(
+#             self._ctx, self._model, self._args,
+#             kw={self._commit_value_field: value},
+#             )
+#         result = self._commit_fn.call(fn_ctx, remote_peer=self._remote_peer)
+#         if inspect.iscoroutine(result):
+#             result = await result
+#         if result is None:
+#             return None
+#         assert isinstance(result, htypes.command.command_result), result
+#         if result.key and not result.model:
+#             # Navigate back to original model view.
+#             if self._remote_peer:
+#                 model = htypes.model.remote_model(
+#                     model=mosaic.put(self._model),
+#                     remote_peer=mosaic.put(self._remote_peer.piece),
+#                     )
+#             else:
+#                 model = self._model
+#             return htypes.command.command_result(
+#                 model=mosaic.put(model),
+#                 key=result.key,
+#                 diff=result.diff,
+#                 )
+#         return result
 
-    @staticmethod
-    def _pick_ctx_value(ctx):
-        try:
-            return ctx.value
-        except KeyError:
-            input = ctx.input
-            return input.get_value()
+#     @staticmethod
+#     def _pick_ctx_value(ctx):
+#         try:
+#             return ctx.value
+#         except KeyError:
+#             input = ctx.input
+#             return input.get_value()
 
 
 @mark.ui_command_enum

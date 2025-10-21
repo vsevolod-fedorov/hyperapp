@@ -8,51 +8,51 @@ from .services import (
 from .code.mark import mark
 from .code.list_diff import IndexListDiff
 from .code.directory import name_to_d
-from .code.command import CommandKind, BoundCommandBase, UnboundCommandBase
+# from .code.command import CommandKind, BoundCommandBase, UnboundCommandBase
 from .code.model_command import model_command_ctx
 from .code.command_list_model import command_item_to_model_item
 
 
-class UnboundIdentityModelCommand(UnboundCommandBase):
+# class UnboundIdentityModelCommand(UnboundCommandBase):
 
-    @classmethod
-    @mark.actor.command_creg
-    def from_piece(cls, piece):
-        d = web.summon(piece.d)
-        return cls(d)
+#     @classmethod
+#     @mark.actor.command_creg
+#     def from_piece(cls, piece):
+#         d = web.summon(piece.d)
+#         return cls(d)
 
-    def __repr__(self):
-        return f"<UnboundIdentityModelCommand>"
+#     def __repr__(self):
+#         return f"<UnboundIdentityModelCommand>"
 
-    @property
-    def properties(self):
-        return htypes.command.properties(
-            is_global=False,
-            uses_state=False,
-            remotable=False,
-            )
+#     @property
+#     def properties(self):
+#         return htypes.command.properties(
+#             is_global=False,
+#             uses_state=False,
+#             remotable=False,
+#             )
 
-    def bind(self, ctx):
-        return BoundIdentityModelCommand(self._d, ctx)
+#     def bind(self, ctx):
+#         return BoundIdentityModelCommand(self._d, ctx)
 
 
-class BoundIdentityModelCommand(BoundCommandBase):
+# class BoundIdentityModelCommand(BoundCommandBase):
 
-    @property
-    def enabled(self):
-        return not self._missing_params
+#     @property
+#     def enabled(self):
+#         return not self._missing_params
 
-    @property
-    def disabled_reason(self):
-        params = ", ".join(self._missing_params)
-        return f"Params not ready: {params}"
+#     @property
+#     def disabled_reason(self):
+#         params = ", ".join(self._missing_params)
+#         return f"Params not ready: {params}"
 
-    async def run(self):
-        return self._ctx.model
+#     async def run(self):
+#         return self._ctx.model
 
-    @cached_property
-    def _missing_params(self):
-        return {'model'} - self._ctx.as_dict().keys()
+#     @cached_property
+#     def _missing_params(self):
+#         return {'model'} - self._ctx.as_dict().keys()
 
 
 @mark.command

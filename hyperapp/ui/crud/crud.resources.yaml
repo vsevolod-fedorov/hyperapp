@@ -12,7 +12,6 @@ import:
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.crud:layout_k
 - legacy_type.system:actor_template
-- ui.command:command.module
 - ui.construct_default_form:construct_default_form.module
 - ui.qt.context_view:context_view.module
 - ui.record_adapter:record_adapter.module
@@ -24,7 +23,6 @@ definitions:
       module_name: crud
       file_name: crud.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.construct_default_form: ui.construct_default_form:construct_default_form.module
         code.context: base.context:context.module
         code.context_view: ui.qt.context_view:context_view.module

@@ -19,7 +19,6 @@ import:
 - legacy_type.layout:model
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
-- ui.command:command.module
 - ui.directory:directory.module
 - ui.qt.key_input_dialog:key_input_dialog.module
 definitions:
@@ -133,7 +132,6 @@ definitions:
       module_name: layout
       file_name: layout.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.directory: ui.directory:directory.module
         code.key_input_dialog: ui.qt.key_input_dialog:key_input_dialog.module
         code.list_diff: common.list_diff:list_diff.module

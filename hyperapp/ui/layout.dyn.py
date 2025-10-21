@@ -9,60 +9,9 @@ from .services import (
 from .code.mark import mark
 from .code.list_diff import IndexListDiff
 from .code.directory import d_to_name
-from .code.command import BoundCommandBase, UnboundCommandBase
 from .code.key_input_dialog import run_key_input_dialog
 
 log = logging.getLogger(__name__)
-
-
-class UnboundLayoutCommand(UnboundCommandBase):
-
-    def __init__(self, ui_command):
-        super().__init__(ui_command.d)
-        self._ui_command = ui_command
-
-    @property
-    def properties(self):
-        return self._ui_command.properties
-
-    @property
-    def groups(self):
-        pane_2_d = htypes.command_groups.pane_2_d()
-        return {pane_2_d}
-
-    def bind(self, ctx):
-        self._ui_command.update_ctx(
-            navigator=ctx.navigator,
-            )
-        return BoundLayoutCommand(self._ui_command, self.groups, ctx)
-
-
-class BoundLayoutCommand(BoundCommandBase):
-
-    def __init__(self, ui_command, groups, ctx):
-        super().__init__(ui_command.d, ctx)
-        self._ui_command = ui_command
-        self._groups = groups
-
-    @property
-    def name(self):
-        return f'layout:{self._ui_command.name}'
-
-    @property
-    def enabled(self):
-        return self._ui_command.enabled
-
-    @property
-    def disabled_reason(self):
-        return self._ui_command.disabled_reason
-
-    @property
-    def groups(self):
-        return self._groups
-
-    async def run(self):
-        log.info("Run layout command: %r", self.name)
-        return await self._ui_command.run()
 
 
 @mark.model

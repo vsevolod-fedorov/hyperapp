@@ -118,7 +118,6 @@ import:
 - models.global_commands:formatter_creg-global_commands-command_arg.actor-cfg-item
 - models.global_commands:formatter_creg-global_commands-model.actor-cfg-item
 - models.global_commands:open_global_commands.command-cfg-item
-- models.identity_command:command_creg-identity_command-identity_command.actor-cfg-item
 - models.model_commands:formatter_creg-model_commands-model.actor-cfg-item
 - models.model_list:command_creg-model_list-open_model_list.ctx-actor-cfg-item
 - models.model_list:formatter_creg-model_list-model.actor-cfg-item
@@ -226,7 +225,6 @@ definitions:
       - models.git.git_repo_list:command_creg-git_repo_list-refs.ctx-actor-cfg-item
       - models.git.git_repo_list:command_creg-git_repo_list-remove.ctx-actor-cfg-item
       - models.global_commands:command_creg-global_commands-open_global_commands.ctx-actor-cfg-item
-      - models.identity_command:command_creg-identity_command-identity_command.actor-cfg-item
       - models.model_list:command_creg-model_list-open_model_list.ctx-actor-cfg-item
       - models.peer_list:command_creg-peer_list-open_peer_list.ctx-actor-cfg-item
       - models.peer_list:command_creg-peer_list-remove.ctx-actor-cfg-item

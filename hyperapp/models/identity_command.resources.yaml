@@ -5,49 +5,21 @@ import:
 - builtins:mosaic.service
 - builtins:web.service
 - common.list_diff:list_diff.module
-- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:properties
-- legacy_type.identity_command:identity_command
-- legacy_type.system:actor_template
 - models.command_list_model:command_list_model.module
-- ui.command:command.module
 - ui.directory:directory.module
 - ui.model_command:model_command.module
 definitions:
-  UnboundIdentityModelCommand:
-    type: legacy_type.builtin:attribute
-    value:
-      object: identity_command.module
-      attr_name: UnboundIdentityModelCommand
-  UnboundIdentityModelCommand.from_piece:
-    type: legacy_type.builtin:attribute
-    value:
-      object: UnboundIdentityModelCommand
-      attr_name: from_piece
-  UnboundIdentityModelCommand.from_piece.actor-template:
-    type: legacy_type.system:actor_template
-    value:
-      function: UnboundIdentityModelCommand.from_piece
-      service_params: []
-  command_creg-identity_command-identity_command.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: legacy_type.identity_command:identity_command
-      value: UnboundIdentityModelCommand.from_piece.actor-template
   identity_command.module:
     type: legacy_type.builtin:python_module
     value:
       module_name: identity_command
       file_name: identity_command.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.command_list_model: models.command_list_model:command_list_model.module
         code.directory: ui.directory:directory.module
         code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
         code.model_command: ui.model_command:model_command.module
-        htypes.command.properties: legacy_type.command:properties
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service

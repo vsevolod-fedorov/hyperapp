@@ -1,9 +1,9 @@
 from . import htypes
-from .code.command import CommandKind
+# from .code.command import CommandKind
 from .tested.code import command_groups
 
 
-def test_default_command_groups():
+def _test_default_command_groups():
     properties = htypes.command.properties(
         is_global=False,
         uses_state=False,

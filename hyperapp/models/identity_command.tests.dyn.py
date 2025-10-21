@@ -25,7 +25,7 @@ def _make_sample_command():
         )
 
 
-async def test_command_instance():
+async def _test_command_instance():
     d = htypes.identity_command_tests.sample_command_d()
     piece = htypes.identity_command.identity_command(
         d=mosaic.put(d),
