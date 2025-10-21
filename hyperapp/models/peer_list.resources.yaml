@@ -14,8 +14,8 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
 - legacy_type.cfg_item:fn_value_template
+- legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -67,10 +67,10 @@ definitions:
     type: open_peer_list.t
     value: {}
   open_peer_list.command-cfg-item:
-    type: legacy_type.command:str_command
+    type: legacy_type.cfg_item:str_cfg_item
     value:
-      name: open_peer_list
-      command: open_peer_list.command
+      key: open_peer_list
+      value: open_peer_list.command
   open_peer_list.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:

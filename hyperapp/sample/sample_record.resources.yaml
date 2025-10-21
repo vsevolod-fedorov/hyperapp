@@ -6,8 +6,8 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
+- legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
-- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.model:model
 - legacy_type.model:record_ui_t
@@ -62,10 +62,10 @@ definitions:
     type: open_sample_fn_record.t
     value: {}
   open_sample_fn_record.command-cfg-item:
-    type: legacy_type.command:str_command
+    type: legacy_type.cfg_item:str_cfg_item
     value:
-      name: open_sample_fn_record
-      command: open_sample_fn_record.command
+      key: open_sample_fn_record
+      value: open_sample_fn_record.command
   open_sample_fn_record.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
