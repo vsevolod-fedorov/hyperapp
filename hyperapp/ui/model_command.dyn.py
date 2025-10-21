@@ -15,6 +15,7 @@ from .code.list_diff import IndexListDiff, KeyListDiff
 from .code.command import UnboundCommand, BoundCommand
 from .code.command_enumerator import UnboundCommandEnumerator
 from .code.config_ctl import DataValueCtl, DictConfigCtl
+from .code.config_key_ctl import StrKeyCtl
 from .code.config_struct_ctl import ListStructCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
 
@@ -30,7 +31,7 @@ def model_command_ctx(ctx, model, model_state):
         )
 
 
-@mark.service(ctl=DictConfigCtl(value_ctl=DataValueCtl(), struct_ctl=ListStructCtl()))
+@mark.service(ctl=DictConfigCtl(key_ctl=StrKeyCtl(), value_ctl=DataValueCtl()))
 def global_model_command_reg(config):
     return config
 

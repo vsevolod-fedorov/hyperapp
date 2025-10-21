@@ -3,6 +3,7 @@
 import:
 - base.mark:mark.module
 - base.system.config_ctl:config_ctl.module
+- base.system.config_key_ctl:config_key_ctl.module
 - base.system.config_layer:one_way.key_ctl
 - base.system.config_struct_ctl:config_struct_ctl.module
 - base.system_fn:system_fn.module
@@ -20,6 +21,7 @@ import:
 - legacy_type.system:list_struct_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
+- legacy_type.system:str_key_ctl
 - ui.command:command.module
 - ui.command_config_ctl:command_config_ctl.module
 - ui.command_enumerator:command_enumerator.module
@@ -54,7 +56,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: global_model_command_reg
-      ctl: system-dict_config.one_way.data.list.ctl
+      ctl: system-dict_config.str.data.single.ctl
       function: global_model_command_reg
       service_params: []
       want_config: true
@@ -69,6 +71,7 @@ definitions:
         code.command_config_ctl: ui.command_config_ctl:command_config_ctl.module
         code.command_enumerator: ui.command_enumerator:command_enumerator.module
         code.config_ctl: base.system.config_ctl:config_ctl.module
+        code.config_key_ctl: base.system.config_key_ctl:config_key_ctl.module
         code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
         code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
@@ -125,15 +128,18 @@ definitions:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
       struct_ctl: system-single.struct-ctl
-  system-dict_config.one_way.data.list.ctl:
+  system-dict_config.str.data.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
-      key_ctl: base.system.config_layer:one_way.key_ctl
+      key_ctl: system-str.key-ctl
       value_ctl: system-data.value-ctl
-      struct_ctl: system-list.struct-ctl
+      struct_ctl: system-single.struct-ctl
   system-list.struct-ctl:
     type: legacy_type.system:list_struct_ctl
     value: {}
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
+    value: {}
+  system-str.key-ctl:
+    type: legacy_type.system:str_key_ctl
     value: {}
