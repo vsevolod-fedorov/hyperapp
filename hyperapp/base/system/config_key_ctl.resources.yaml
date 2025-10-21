@@ -5,10 +5,12 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:data_cfg_item
+- legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.system:actor_template
 - legacy_type.system:data_key_ctl
 - legacy_type.system:one_way_key_ctl
+- legacy_type.system:str_key_ctl
 - legacy_type.system:type_key_ctl
 
 definitions:
@@ -20,9 +22,11 @@ definitions:
       file_name: config_key_ctl.dyn.py
       import_list:
         htypes.cfg_item.data_cfg_item: legacy_type.cfg_item:data_cfg_item
+        htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
         htypes.cfg_item.typed_cfg_item: legacy_type.cfg_item:typed_cfg_item
         htypes.system.one_way_key_ctl: legacy_type.system:one_way_key_ctl
         htypes.system.data_key_ctl: legacy_type.system:data_key_ctl
+        htypes.system.str_key_ctl: legacy_type.system:str_key_ctl
         htypes.system.type_key_ctl: legacy_type.system:type_key_ctl
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service

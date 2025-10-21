@@ -30,6 +30,27 @@ class OneWayKeyCtl:
         return self._cfg_item_creg.actor_to_piece((key, template))
 
 
+class StrKeyCtl:
+
+    @classmethod
+    def from_piece(cls, piece):
+        return cls()
+
+    @property
+    def piece(self):
+        return htypes.system.str_key_ctl()
+
+    def data_to_item(self, piece):
+        template = web.summon(piece.value)
+        return (piece.key, template)
+
+    def item_to_data(self, key, template):
+        return htypes.cfg_item.data_cfg_item(
+            key=key,
+            value=mosaic.put(template),
+            )
+
+
 class DataKeyCtl:
 
     @classmethod
@@ -84,6 +105,7 @@ def data_cfg_item_name(piece, gen):
 def config_key_ctl_creg_config(cfg_item_creg):
     return {
         htypes.system.one_way_key_ctl: partial(OneWayKeyCtl.from_piece, cfg_item_creg=cfg_item_creg),
+        htypes.system.str_key_ctl: StrKeyCtl.from_piece,
         htypes.system.data_key_ctl: DataKeyCtl.from_piece,
         htypes.system.type_key_ctl: TypeKeyCtl.from_piece,
         }
