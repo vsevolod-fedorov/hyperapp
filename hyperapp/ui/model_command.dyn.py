@@ -32,7 +32,7 @@ def model_command_ctx(ctx, model, model_state):
 
 @mark.service(ctl=DictConfigCtl(value_ctl=DataValueCtl(), struct_ctl=ListStructCtl()))
 def global_model_command_reg(config):
-    return CommandDict(config)
+    return config
 
 
 @mark.service(ctl=TypeStrCommandConfigCtl())
