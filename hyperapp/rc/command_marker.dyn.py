@@ -209,6 +209,8 @@ class GlobalModelCommandProbe(CommandProbe):
             service_name='global_model_command_reg',
             enum_service_name=None,
             )
+        if ctr._have_args:
+            return  # TODO
         self._ctr_collector.add_constructor(ctr)
 
 
