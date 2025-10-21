@@ -1,11 +1,15 @@
 # Automatically generated file. Do not edit.
 
 import:
+- builtins:mosaic.service
 - legacy_type.builtin:python_module
+- legacy_type.command:command_result
 definitions:
   command.module:
     type: legacy_type.builtin:python_module
     value:
       module_name: command
       file_name: command.dyn.py
-      import_list: {}
+      import_list:
+        htypes.command.command_result: legacy_type.command:command_result
+        services.mosaic: builtins:mosaic.service
