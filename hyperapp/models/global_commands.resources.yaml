@@ -6,12 +6,21 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.global_commands:command_arg
 - legacy_type.global_commands:model
 - legacy_type.system:actor_template
+- legacy_type.system_fn:ctx_fn
 - models.command_list_model:command_list_model.module
 definitions:
+  command_creg-global_commands-open_global_commands.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_global_commands.t
+      value: open_global_commands.ctx-actor-template
   format_command_arg:
     type: legacy_type.builtin:attribute
     value:
@@ -55,3 +64,33 @@ definitions:
         htypes.global_commands.model: legacy_type.global_commands:model
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  open_global_commands:
+    type: legacy_type.builtin:attribute
+    value:
+      object: global_commands.module
+      attr_name: open_global_commands
+  open_global_commands.command:
+    type: open_global_commands.t
+    value: {}
+  open_global_commands.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_global_commands
+      command: open_global_commands.command
+  open_global_commands.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_global_commands.system-fn
+  open_global_commands.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_global_commands
+      ctx_params: []
+      service_params: []
+  open_global_commands.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: global_commands
+      name: open_global_commands
+      base: null
+      fields: {}

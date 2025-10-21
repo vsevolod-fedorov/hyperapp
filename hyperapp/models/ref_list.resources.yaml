@@ -11,6 +11,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -39,6 +40,11 @@ definitions:
     value:
       t: open_parent.t
       value: open_parent.ctx-actor-template
+  command_creg-ref_list-open_ref_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_ref_list.t
+      value: open_ref_list.ctx-actor-template
   command_creg-ref_list-remove.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -114,6 +120,36 @@ definitions:
     value:
       module_name: ref_list
       name: open_parent
+      base: null
+      fields: {}
+  open_ref_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: ref_list.module
+      attr_name: open_ref_list
+  open_ref_list.command:
+    type: open_ref_list.t
+    value: {}
+  open_ref_list.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_ref_list
+      command: open_ref_list.command
+  open_ref_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_ref_list.system-fn
+  open_ref_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_ref_list
+      ctx_params: []
+      service_params: []
+  open_ref_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: ref_list
+      name: open_ref_list
       base: null
       fields: {}
   ref_list:

@@ -7,7 +7,10 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.model:index_list_ui_t
@@ -20,6 +23,11 @@ import:
 - ui.directory:directory.module
 - ui.remote_model:remote_model.module
 definitions:
+  command_creg-view_factory_list-open_view_factory_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_view_factory_list.t
+      value: open_view_factory_list.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -36,6 +44,36 @@ definitions:
     value:
       t: legacy_type.view_factory_list:model
       value: format_model.actor-template
+  open_view_factory_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: view_factory_list.module
+      attr_name: open_view_factory_list
+  open_view_factory_list.command:
+    type: open_view_factory_list.t
+    value: {}
+  open_view_factory_list.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_view_factory_list
+      command: open_view_factory_list.command
+  open_view_factory_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_view_factory_list.system-fn
+  open_view_factory_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_view_factory_list
+      ctx_params: []
+      service_params: []
+  open_view_factory_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: view_factory_list
+      name: open_view_factory_list
+      base: null
+      fields: {}
   pick_view_factory_context:
     type: legacy_type.builtin:attribute
     value:

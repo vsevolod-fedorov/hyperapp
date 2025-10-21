@@ -4,27 +4,45 @@ import:
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 - sample.sample_commands:command_creg-sample_commands-details.ctx-actor-cfg-item
+- sample.sample_commands:command_creg-sample_commands-open_sample_static_list.ctx-actor-cfg-item
+- sample.sample_commands:command_creg-sample_commands-open_sample_static_text.ctx-actor-cfg-item
+- sample.sample_commands:command_creg-sample_commands-open_sample_wiki_text.ctx-actor-cfg-item
 - sample.sample_commands:command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item
+- sample.sample_commands:command_creg-sample_commands-show_state.ctx-actor-cfg-item
+- sample.sample_commands:command_creg-sample_commands-system_info.ctx-actor-cfg-item
+- sample.sample_commands:open_sample_static_list.command-cfg-item
+- sample.sample_commands:open_sample_static_text.command-cfg-item
+- sample.sample_commands:open_sample_wiki_text.command-cfg-item
 - sample.sample_commands:sample_list-sample_list-details.command-cfg-item
 - sample.sample_commands:sample_tree-model-sample_tree_info.command-cfg-item
+- sample.sample_commands:show_state.command-cfg-item
+- sample.sample_commands:system_info.command-cfg-item
 - sample.sample_feed:sample_feed-sample_list_feed.feed-template-cfg-item
 - sample.sample_feed:sample_feed-sample_tree_feed.feed-template-cfg-item
 - sample.sample_list:_sample_thread_pool.service
+- sample.sample_list:command_creg-sample_list-open_feed_sample_fn_list.ctx-actor-cfg-item
+- sample.sample_list:command_creg-sample_list-open_sample_fn_list.ctx-actor-cfg-item
 - sample.sample_list:formatter_creg-sample_list-feed_sample_list.actor-cfg-item
 - sample.sample_list:formatter_creg-sample_list-sample_list.actor-cfg-item
+- sample.sample_list:open_feed_sample_fn_list.command-cfg-item
+- sample.sample_list:open_sample_fn_list.command-cfg-item
 - sample.sample_list:sample_list-feed_sample_list.feed-template-cfg-item
 - sample.sample_list:sample_list-feed_sample_list.model-cfg-item
 - sample.sample_list:sample_list-sample_list.feed-template-cfg-item
 - sample.sample_list:sample_list-sample_list.model-cfg-item
 - sample.sample_list_arg:sample_list_selector-item.editor_default.cfg-item
 - sample.sample_record:command_creg-sample_record-apply.ctx-actor-cfg-item
+- sample.sample_record:command_creg-sample_record-open_sample_fn_record.ctx-actor-cfg-item
+- sample.sample_record:open_sample_fn_record.command-cfg-item
 - sample.sample_record:sample_record-sample_record-apply.command-cfg-item
 - sample.sample_record:sample_record-sample_record.model-cfg-item
 - sample.sample_tree:command_creg-sample_tree-append_tree_item.ctx-actor-cfg-item
 - sample.sample_tree:command_creg-sample_tree-insert_tree_item.ctx-actor-cfg-item
+- sample.sample_tree:command_creg-sample_tree-open_sample_fn_tree.ctx-actor-cfg-item
 - sample.sample_tree:command_creg-sample_tree-remove_tree_item.ctx-actor-cfg-item
 - sample.sample_tree:formatter_creg-sample_tree-model.actor-cfg-item
 - sample.sample_tree:get_sample_tree_items.service
+- sample.sample_tree:open_sample_fn_tree.command-cfg-item
 - sample.sample_tree:sample_tree-model-append_tree_item.command-cfg-item
 - sample.sample_tree:sample_tree-model-insert_tree_item.command-cfg-item
 - sample.sample_tree:sample_tree-model-remove_tree_item.command-cfg-item
@@ -37,10 +55,19 @@ definitions:
     value:
       items:
       - sample.sample_commands:command_creg-sample_commands-details.ctx-actor-cfg-item
+      - sample.sample_commands:command_creg-sample_commands-open_sample_static_list.ctx-actor-cfg-item
+      - sample.sample_commands:command_creg-sample_commands-open_sample_static_text.ctx-actor-cfg-item
+      - sample.sample_commands:command_creg-sample_commands-open_sample_wiki_text.ctx-actor-cfg-item
       - sample.sample_commands:command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item
+      - sample.sample_commands:command_creg-sample_commands-show_state.ctx-actor-cfg-item
+      - sample.sample_commands:command_creg-sample_commands-system_info.ctx-actor-cfg-item
+      - sample.sample_list:command_creg-sample_list-open_feed_sample_fn_list.ctx-actor-cfg-item
+      - sample.sample_list:command_creg-sample_list-open_sample_fn_list.ctx-actor-cfg-item
       - sample.sample_record:command_creg-sample_record-apply.ctx-actor-cfg-item
+      - sample.sample_record:command_creg-sample_record-open_sample_fn_record.ctx-actor-cfg-item
       - sample.sample_tree:command_creg-sample_tree-append_tree_item.ctx-actor-cfg-item
       - sample.sample_tree:command_creg-sample_tree-insert_tree_item.ctx-actor-cfg-item
+      - sample.sample_tree:command_creg-sample_tree-open_sample_fn_tree.ctx-actor-cfg-item
       - sample.sample_tree:command_creg-sample_tree-remove_tree_item.ctx-actor-cfg-item
   config:
     type: legacy_type.system:system_config
@@ -50,6 +77,7 @@ definitions:
         editor_default_reg: editor_default_reg
         feed_factory: feed_factory
         formatter_creg: formatter_creg
+        global_model_command_reg: global_model_command_reg
         model_command_reg: model_command_reg
         model_reg: model_reg
         system: system
@@ -74,6 +102,19 @@ definitions:
       - sample.sample_list:formatter_creg-sample_list-feed_sample_list.actor-cfg-item
       - sample.sample_list:formatter_creg-sample_list-sample_list.actor-cfg-item
       - sample.sample_tree:formatter_creg-sample_tree-model.actor-cfg-item
+  global_model_command_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_commands:open_sample_static_list.command-cfg-item
+      - sample.sample_commands:open_sample_static_text.command-cfg-item
+      - sample.sample_commands:open_sample_wiki_text.command-cfg-item
+      - sample.sample_commands:show_state.command-cfg-item
+      - sample.sample_commands:system_info.command-cfg-item
+      - sample.sample_list:open_feed_sample_fn_list.command-cfg-item
+      - sample.sample_list:open_sample_fn_list.command-cfg-item
+      - sample.sample_record:open_sample_fn_record.command-cfg-item
+      - sample.sample_tree:open_sample_fn_tree.command-cfg-item
   model_command_reg:
     type: legacy_type.system:item_list_config
     value:

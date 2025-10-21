@@ -9,6 +9,7 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:index_tree_feed_type
@@ -62,6 +63,11 @@ definitions:
     value:
       t: insert_tree_item.t
       value: insert_tree_item.ctx-actor-template
+  command_creg-sample_tree-open_sample_fn_tree.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_sample_fn_tree.t
+      value: open_sample_fn_tree.ctx-actor-template
   command_creg-sample_tree-remove_tree_item.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -125,6 +131,36 @@ definitions:
     value:
       module_name: sample_tree
       name: insert_tree_item
+      base: null
+      fields: {}
+  open_sample_fn_tree:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_tree.module
+      attr_name: open_sample_fn_tree
+  open_sample_fn_tree.command:
+    type: open_sample_fn_tree.t
+    value: {}
+  open_sample_fn_tree.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_sample_fn_tree
+      command: open_sample_fn_tree.command
+  open_sample_fn_tree.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_sample_fn_tree.system-fn
+  open_sample_fn_tree.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_sample_fn_tree
+      ctx_params: []
+      service_params: []
+  open_sample_fn_tree.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_tree
+      name: open_sample_fn_tree
       base: null
       fields: {}
   remove_tree_item:

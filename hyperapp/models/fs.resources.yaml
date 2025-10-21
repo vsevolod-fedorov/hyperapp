@@ -4,8 +4,11 @@ import:
 - base.mark:mark.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:index_tree_feed_type
 - legacy_type.fs:item
@@ -16,6 +19,11 @@ import:
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 definitions:
+  command_creg-fs-open_fs.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_fs.t
+      value: open_fs.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -83,3 +91,33 @@ definitions:
     value:
       object: fs.module
       attr_name: fs_model
+  open_fs:
+    type: legacy_type.builtin:attribute
+    value:
+      object: fs.module
+      attr_name: open_fs
+  open_fs.command:
+    type: open_fs.t
+    value: {}
+  open_fs.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_fs
+      command: open_fs.command
+  open_fs.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_fs.system-fn
+  open_fs.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_fs
+      ctx_params: []
+      service_params: []
+  open_fs.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: fs
+      name: open_fs
+      base: null
+      fields: {}

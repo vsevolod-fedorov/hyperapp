@@ -8,6 +8,7 @@ import:
 - legacy_type.bundle_info:model
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -22,6 +23,11 @@ definitions:
     value:
       t: open.t
       value: open.ctx-actor-template
+  command_creg-file_bundles-open_file_bundle_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_file_bundle_list.t
+      value: open_file_bundle_list.ctx-actor-template
   file_bundle_list:
     type: legacy_type.builtin:attribute
     value:
@@ -103,5 +109,35 @@ definitions:
     value:
       module_name: file_bundles
       name: open
+      base: null
+      fields: {}
+  open_file_bundle_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: file_bundles.module
+      attr_name: open_file_bundle_list
+  open_file_bundle_list.command:
+    type: open_file_bundle_list.t
+    value: {}
+  open_file_bundle_list.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_file_bundle_list
+      command: open_file_bundle_list.command
+  open_file_bundle_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_file_bundle_list.system-fn
+  open_file_bundle_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_file_bundle_list
+      ctx_params: []
+      service_params: []
+  open_file_bundle_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: file_bundles
+      name: open_file_bundle_list
       base: null
       fields: {}

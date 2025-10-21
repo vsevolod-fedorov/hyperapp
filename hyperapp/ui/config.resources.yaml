@@ -38,6 +38,7 @@ import:
 - ui.format:format.service
 - ui.formatter_creg:formatter_creg.service
 - ui.layout:command_creg-layout-add_view_command.ctx-actor-cfg-item
+- ui.layout:command_creg-layout-open_layout_tree.ctx-actor-cfg-item
 - ui.layout:command_creg-layout-open_view_item_commands.ctx-actor-cfg-item
 - ui.layout:command_creg-layout-set_escape_shortcut.ctx-actor-cfg-item
 - ui.layout:command_creg-layout-set_shortcut.ctx-actor-cfg-item
@@ -47,6 +48,7 @@ import:
 - ui.layout:layout-command_list-set_shortcut.command-cfg-item
 - ui.layout:layout-command_list.feed-template-cfg-item
 - ui.layout:layout-model-open_view_item_commands.command-cfg-item
+- ui.layout:open_layout_tree.command-cfg-item
 - ui.local_server:local_server_peer.service
 - ui.local_server:local_server_peer_path.service
 - ui.model_command:get_model_commands.service
@@ -161,7 +163,9 @@ import:
 - ui.view.view_factory:view_factory_reg.service
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-multi_template.actor-cfg-item
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-template.actor-cfg-item
+- ui.view.view_factory_list:command_creg-view_factory_list-open_view_factory_list.ctx-actor-cfg-item
 - ui.view.view_factory_list:formatter_creg-view_factory_list-model.actor-cfg-item
+- ui.view.view_factory_list:open_view_factory_list.command-cfg-item
 - ui.view.view_factory_list:view_factory-factory.editor_default.cfg-item
 - ui.view.view_factory_list:view_factory_list-model.feed-template-cfg-item
 - ui.view.view_factory_list:view_factory_list-model.model-cfg-item
@@ -193,6 +197,7 @@ definitions:
       - ui.arg_mark:command_creg-arg_mark-add_mark.ctx-actor-cfg-item
       - ui.arg_mark:command_creg-arg_mark-remove_mark.ctx-actor-cfg-item
       - ui.layout:command_creg-layout-add_view_command.ctx-actor-cfg-item
+      - ui.layout:command_creg-layout-open_layout_tree.ctx-actor-cfg-item
       - ui.layout:command_creg-layout-open_view_item_commands.ctx-actor-cfg-item
       - ui.layout:command_creg-layout-set_escape_shortcut.ctx-actor-cfg-item
       - ui.layout:command_creg-layout-set_shortcut.ctx-actor-cfg-item
@@ -214,6 +219,7 @@ definitions:
       - ui.qt.window_commands:command_creg-window_commands-quit.ctx-actor-cfg-item
       - ui.tab_groups:command_creg-tab_groups-move_tab_to_new_group.ctx-actor-cfg-item
       - ui.text_toggle_editable:command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item
+      - ui.view.view_factory_list:command_creg-view_factory_list-open_view_factory_list.ctx-actor-cfg-item
   config:
     type: legacy_type.system:system_config
     value:
@@ -227,6 +233,7 @@ definitions:
         feed_factory: feed_factory
         feed_type_creg: feed_type_creg
         formatter_creg: formatter_creg
+        global_model_command_reg: global_model_command_reg
         model_command_reg: model_command_reg
         model_reg: model_reg
         resource_name_creg: resource_name_creg
@@ -284,6 +291,12 @@ definitions:
       - ui.remote_model:formatter_creg-model-remote_model.actor-cfg-item
       - ui.view.view_factory_list:formatter_creg-view_factory_list-model.actor-cfg-item
       - ui.visualizer:formatter_creg-ui-model_layout_k.actor-cfg-item
+  global_model_command_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.layout:open_layout_tree.command-cfg-item
+      - ui.view.view_factory_list:open_view_factory_list.command-cfg-item
   model_command_reg:
     type: legacy_type.system:item_list_config
     value:

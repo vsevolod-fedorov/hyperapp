@@ -8,6 +8,7 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.sample_commands:system_info_item
 - legacy_type.sample_list:item
@@ -22,11 +23,36 @@ definitions:
     value:
       t: details.t
       value: details.ctx-actor-template
+  command_creg-sample_commands-open_sample_static_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_sample_static_list.t
+      value: open_sample_static_list.ctx-actor-template
+  command_creg-sample_commands-open_sample_static_text.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_sample_static_text.t
+      value: open_sample_static_text.ctx-actor-template
+  command_creg-sample_commands-open_sample_wiki_text.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_sample_wiki_text.t
+      value: open_sample_wiki_text.ctx-actor-template
   command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: sample_tree_info.t
       value: sample_tree_info.ctx-actor-template
+  command_creg-sample_commands-show_state.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: show_state.t
+      value: show_state.ctx-actor-template
+  command_creg-sample_commands-system_info.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: system_info.t
+      value: system_info.ctx-actor-template
   details:
     type: legacy_type.builtin:attribute
     value:
@@ -52,6 +78,96 @@ definitions:
     value:
       module_name: sample_commands
       name: details
+      base: null
+      fields: {}
+  open_sample_static_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_commands.module
+      attr_name: open_sample_static_list
+  open_sample_static_list.command:
+    type: open_sample_static_list.t
+    value: {}
+  open_sample_static_list.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_sample_static_list
+      command: open_sample_static_list.command
+  open_sample_static_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_sample_static_list.system-fn
+  open_sample_static_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_sample_static_list
+      ctx_params: []
+      service_params: []
+  open_sample_static_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_commands
+      name: open_sample_static_list
+      base: null
+      fields: {}
+  open_sample_static_text:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_commands.module
+      attr_name: open_sample_static_text
+  open_sample_static_text.command:
+    type: open_sample_static_text.t
+    value: {}
+  open_sample_static_text.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_sample_static_text
+      command: open_sample_static_text.command
+  open_sample_static_text.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_sample_static_text.system-fn
+  open_sample_static_text.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_sample_static_text
+      ctx_params: []
+      service_params: []
+  open_sample_static_text.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_commands
+      name: open_sample_static_text
+      base: null
+      fields: {}
+  open_sample_wiki_text:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_commands.module
+      attr_name: open_sample_wiki_text
+  open_sample_wiki_text.command:
+    type: open_sample_wiki_text.t
+    value: {}
+  open_sample_wiki_text.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_sample_wiki_text
+      command: open_sample_wiki_text.command
+  open_sample_wiki_text.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_sample_wiki_text.system-fn
+  open_sample_wiki_text.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_sample_wiki_text
+      ctx_params: []
+      service_params: []
+  open_sample_wiki_text.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_commands
+      name: open_sample_wiki_text
       base: null
       fields: {}
   sample_commands.module:
@@ -103,5 +219,66 @@ definitions:
     value:
       module_name: sample_commands
       name: sample_tree_info
+      base: null
+      fields: {}
+  show_state:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_commands.module
+      attr_name: show_state
+  show_state.command:
+    type: show_state.t
+    value: {}
+  show_state.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: show_state
+      command: show_state.command
+  show_state.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: show_state.system-fn
+  show_state.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: show_state
+      ctx_params:
+      - model_state
+      service_params: []
+  show_state.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_commands
+      name: show_state
+      base: null
+      fields: {}
+  system_info:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_commands.module
+      attr_name: system_info
+  system_info.command:
+    type: system_info.t
+    value: {}
+  system_info.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: system_info
+      command: system_info.command
+  system_info.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: system_info.system-fn
+  system_info.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: system_info
+      ctx_params: []
+      service_params: []
+  system_info.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_commands
+      name: system_info
       base: null
       fields: {}

@@ -50,16 +50,22 @@ import:
 - models.config.config_item_list:config_service_list-model-open_config_item_list.command-cfg-item
 - models.config.config_item_list:formatter_creg-config_item_list-layer_model.actor-cfg-item
 - models.config.config_item_list:formatter_creg-config_item_list-model.actor-cfg-item
+- models.config.config_layer_list:command_creg-config_layer_list-open_config_layer_list.ctx-actor-cfg-item
 - models.config.config_layer_list:command_creg-config_layer_list-open_service_list.ctx-actor-cfg-item
 - models.config.config_layer_list:config_layer_list-model-open_service_list.command-cfg-item
 - models.config.config_layer_list:config_layer_list-model.feed-template-cfg-item
 - models.config.config_layer_list:config_layer_list-model.model-cfg-item
 - models.config.config_layer_list:formatter_creg-config_layer_list-model.actor-cfg-item
+- models.config.config_layer_list:open_config_layer_list.command-cfg-item
+- models.config.config_service_list:command_creg-config_service_list-open_config_service_list.ctx-actor-cfg-item
 - models.config.config_service_list:command_creg-config_service_list-toggle_assoc.ctx-actor-cfg-item
 - models.config.config_service_list:config_service_list-model-toggle_assoc.command-cfg-item
 - models.config.config_service_list:config_service_list-model.feed-template-cfg-item
 - models.config.config_service_list:config_service_list-model.model-cfg-item
 - models.config.config_service_list:formatter_creg-config_service_list-model.actor-cfg-item
+- models.config.config_service_list:open_config_service_list.command-cfg-item
+- models.data_browser:browse_current_model.command-cfg-item
+- models.data_browser:command_creg-data_browser-browse_current_model.ctx-actor-cfg-item
 - models.data_browser:command_creg-data_browser-list_open.ctx-actor-cfg-item
 - models.data_browser:command_creg-data_browser-record_open.ctx-actor-cfg-item
 - models.data_browser:command_creg-data_browser-ref_list_open.ctx-actor-cfg-item
@@ -78,12 +84,16 @@ import:
 - models.data_browser_adapter:ui_adapter_creg-data_browser-record_data_adapter.actor-cfg-item
 - models.data_dir:data_dir.service
 - models.file_bundles:command_creg-file_bundles-open.ctx-actor-cfg-item
+- models.file_bundles:command_creg-file_bundles-open_file_bundle_list.ctx-actor-cfg-item
 - models.file_bundles:file_bundles-view-open.command-cfg-item
 - models.file_bundles:file_bundles-view.feed-template-cfg-item
 - models.file_bundles:file_bundles-view.model-cfg-item
+- models.file_bundles:open_file_bundle_list.command-cfg-item
+- models.fs:command_creg-fs-open_fs.ctx-actor-cfg-item
 - models.fs:formatter_creg-fs-model.actor-cfg-item
 - models.fs:fs-model.feed-template-cfg-item
 - models.fs:fs-model.model-cfg-item
+- models.fs:open_fs.command-cfg-item
 - models.git.git_log:formatter_creg-git-log_model.actor-cfg-item
 - models.git.git_log:git-log_model.model-cfg-item
 - models.git.git_log_adapter:git_log_layout.view-factory-cfg-item
@@ -93,6 +103,7 @@ import:
 - models.git.git_ref_list:git-ref_list_model-ref_log.command-cfg-item
 - models.git.git_ref_list:git-ref_list_model.feed-template-cfg-item
 - models.git.git_ref_list:git-ref_list_model.model-cfg-item
+- models.git.git_repo_list:command_creg-git_repo_list-open_repo_list.ctx-actor-cfg-item
 - models.git.git_repo_list:command_creg-git_repo_list-refs.ctx-actor-cfg-item
 - models.git.git_repo_list:command_creg-git_repo_list-remove.ctx-actor-cfg-item
 - models.git.git_repo_list:formatter_creg-git-repo_list_model.actor-cfg-item
@@ -101,25 +112,34 @@ import:
 - models.git.git_repo_list:git-repo_list_model.feed-template-cfg-item
 - models.git.git_repo_list:git-repo_list_model.model-cfg-item
 - models.git.git_repo_list:load_repositories.ctx-actor-template
+- models.git.git_repo_list:open_repo_list.command-cfg-item
 - models.git.git_repo_list:repo_list.service
+- models.global_commands:command_creg-global_commands-open_global_commands.ctx-actor-cfg-item
 - models.global_commands:formatter_creg-global_commands-command_arg.actor-cfg-item
 - models.global_commands:formatter_creg-global_commands-model.actor-cfg-item
+- models.global_commands:open_global_commands.command-cfg-item
 - models.identity_command:command_creg-identity_command-identity_command.actor-cfg-item
 - models.model_commands:formatter_creg-model_commands-model.actor-cfg-item
+- models.model_list:command_creg-model_list-open_model_list.ctx-actor-cfg-item
 - models.model_list:formatter_creg-model_list-model.actor-cfg-item
 - models.model_list:formatter_creg-model_list-model_arg.actor-cfg-item
 - models.model_list:model_list-model.feed-template-cfg-item
 - models.model_list:model_list-model.model-cfg-item
+- models.model_list:open_model_list.command-cfg-item
+- models.peer_list:command_creg-peer_list-open_peer_list.ctx-actor-cfg-item
 - models.peer_list:command_creg-peer_list-remove.ctx-actor-cfg-item
 - models.peer_list:formatter_creg-peer_list-model.actor-cfg-item
+- models.peer_list:open_peer_list.command-cfg-item
 - models.peer_list:peer_list-model-remove.command-cfg-item
 - models.peer_list:peer_list-model.feed-template-cfg-item
 - models.peer_list:peer_list-model.model-cfg-item
 - models.peer_list:peer_list_reg.service
 - models.ref_list:command_creg-ref_list-open.ctx-actor-cfg-item
 - models.ref_list:command_creg-ref_list-open_parent.ctx-actor-cfg-item
+- models.ref_list:command_creg-ref_list-open_ref_list.ctx-actor-cfg-item
 - models.ref_list:command_creg-ref_list-remove.ctx-actor-cfg-item
 - models.ref_list:formatter_creg-ref_list-model.actor-cfg-item
+- models.ref_list:open_ref_list.command-cfg-item
 - models.ref_list:ref_list-model-open.command-cfg-item
 - models.ref_list:ref_list-model-open_parent.command-cfg-item
 - models.ref_list:ref_list-model-remove.command-cfg-item
@@ -131,14 +151,18 @@ import:
 - models.rpc_message_format:formatter_creg-rpc-request.actor-cfg-item
 - models.rpc_message_format:formatter_creg-rpc-response.actor-cfg-item
 - models.rpc_message_format:formatter_creg-rpc-system_fn_target.actor-cfg-item
+- models.show_current_context:command_creg-show_current_context-show_current_context.ctx-actor-cfg-item
 - models.show_current_context:formatter_creg-show_current_context-model.actor-cfg-item
 - models.show_current_context:show_current_context-model.feed-template-cfg-item
 - models.show_current_context:show_current_context-model.model-cfg-item
+- models.show_current_context:show_current_context.command-cfg-item
 - models.system_fn_format:formatter_creg-system_fn-ctx_fn.actor-cfg-item
 - models.transport_log_model:command_creg-transport_log_model-message.ctx-actor-cfg-item
 - models.transport_log_model:command_creg-transport_log_model-message_bundle.ctx-actor-cfg-item
+- models.transport_log_model:command_creg-transport_log_model-open_transport_log.ctx-actor-cfg-item
 - models.transport_log_model:command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item
 - models.transport_log_model:init_hook.ctx-actor-template
+- models.transport_log_model:open_transport_log.command-cfg-item
 - models.transport_log_model:transport_log_model-model-message.command-cfg-item
 - models.transport_log_model:transport_log_model-model-message_bundle.command-cfg-item
 - models.transport_log_model:transport_log_model-model-transport_bundle.command-cfg-item
@@ -149,11 +173,13 @@ import:
 - models.wiki_pages:command_creg-wiki_pages-open.ctx-actor-cfg-item
 - models.wiki_pages:command_creg-wiki_pages-open_parent.ctx-actor-cfg-item
 - models.wiki_pages:command_creg-wiki_pages-open_ref_list.ctx-actor-cfg-item
+- models.wiki_pages:command_creg-wiki_pages-open_wiki_pages.ctx-actor-cfg-item
 - models.wiki_pages:command_creg-wiki_pages-remove.ctx-actor-cfg-item
 - models.wiki_pages:command_creg-wiki_pages-save_page.ctx-actor-cfg-item
 - models.wiki_pages:formatter_creg-wiki_pages-list_model.actor-cfg-item
 - models.wiki_pages:formatter_creg-wiki_pages-page_model.actor-cfg-item
 - models.wiki_pages:formatter_creg-wiki_pages-ref_list_model.actor-cfg-item
+- models.wiki_pages:open_wiki_pages.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model-new_page.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model-open.command-cfg-item
 - models.wiki_pages:wiki_pages-list_model-open_parent.command-cfg-item
@@ -184,27 +210,40 @@ definitions:
       - models.config.config_item_list:command_creg-config_item_list-open_config_key.ctx-actor-cfg-item
       - models.config.config_item_list:command_creg-config_item_list-open_config_value.ctx-actor-cfg-item
       - models.config.config_item_list:command_creg-config_item_list-remove.ctx-actor-cfg-item
+      - models.config.config_layer_list:command_creg-config_layer_list-open_config_layer_list.ctx-actor-cfg-item
       - models.config.config_layer_list:command_creg-config_layer_list-open_service_list.ctx-actor-cfg-item
+      - models.config.config_service_list:command_creg-config_service_list-open_config_service_list.ctx-actor-cfg-item
       - models.config.config_service_list:command_creg-config_service_list-toggle_assoc.ctx-actor-cfg-item
+      - models.data_browser:command_creg-data_browser-browse_current_model.ctx-actor-cfg-item
       - models.data_browser:command_creg-data_browser-list_open.ctx-actor-cfg-item
       - models.data_browser:command_creg-data_browser-record_open.ctx-actor-cfg-item
       - models.data_browser:command_creg-data_browser-ref_list_open.ctx-actor-cfg-item
       - models.file_bundles:command_creg-file_bundles-open.ctx-actor-cfg-item
+      - models.file_bundles:command_creg-file_bundles-open_file_bundle_list.ctx-actor-cfg-item
+      - models.fs:command_creg-fs-open_fs.ctx-actor-cfg-item
       - models.git.git_ref_list:command_creg-git_ref_list-ref_log.ctx-actor-cfg-item
+      - models.git.git_repo_list:command_creg-git_repo_list-open_repo_list.ctx-actor-cfg-item
       - models.git.git_repo_list:command_creg-git_repo_list-refs.ctx-actor-cfg-item
       - models.git.git_repo_list:command_creg-git_repo_list-remove.ctx-actor-cfg-item
+      - models.global_commands:command_creg-global_commands-open_global_commands.ctx-actor-cfg-item
       - models.identity_command:command_creg-identity_command-identity_command.actor-cfg-item
+      - models.model_list:command_creg-model_list-open_model_list.ctx-actor-cfg-item
+      - models.peer_list:command_creg-peer_list-open_peer_list.ctx-actor-cfg-item
       - models.peer_list:command_creg-peer_list-remove.ctx-actor-cfg-item
       - models.ref_list:command_creg-ref_list-open.ctx-actor-cfg-item
       - models.ref_list:command_creg-ref_list-open_parent.ctx-actor-cfg-item
+      - models.ref_list:command_creg-ref_list-open_ref_list.ctx-actor-cfg-item
       - models.ref_list:command_creg-ref_list-remove.ctx-actor-cfg-item
+      - models.show_current_context:command_creg-show_current_context-show_current_context.ctx-actor-cfg-item
       - models.transport_log_model:command_creg-transport_log_model-message.ctx-actor-cfg-item
       - models.transport_log_model:command_creg-transport_log_model-message_bundle.ctx-actor-cfg-item
+      - models.transport_log_model:command_creg-transport_log_model-open_transport_log.ctx-actor-cfg-item
       - models.transport_log_model:command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-new_page.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-open.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-open_parent.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-open_ref_list.ctx-actor-cfg-item
+      - models.wiki_pages:command_creg-wiki_pages-open_wiki_pages.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-remove.ctx-actor-cfg-item
       - models.wiki_pages:command_creg-wiki_pages-save_page.ctx-actor-cfg-item
   config:
@@ -214,6 +253,7 @@ definitions:
         command_creg: command_creg
         feed_factory: feed_factory
         formatter_creg: formatter_creg
+        global_model_command_reg: global_model_command_reg
         init_hook: init_hook
         model_command_reg: model_command_reg
         model_reg: model_reg
@@ -283,6 +323,23 @@ definitions:
       - models.wiki_pages:formatter_creg-wiki_pages-list_model.actor-cfg-item
       - models.wiki_pages:formatter_creg-wiki_pages-page_model.actor-cfg-item
       - models.wiki_pages:formatter_creg-wiki_pages-ref_list_model.actor-cfg-item
+  global_model_command_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - models.config.config_layer_list:open_config_layer_list.command-cfg-item
+      - models.config.config_service_list:open_config_service_list.command-cfg-item
+      - models.data_browser:browse_current_model.command-cfg-item
+      - models.file_bundles:open_file_bundle_list.command-cfg-item
+      - models.fs:open_fs.command-cfg-item
+      - models.git.git_repo_list:open_repo_list.command-cfg-item
+      - models.global_commands:open_global_commands.command-cfg-item
+      - models.model_list:open_model_list.command-cfg-item
+      - models.peer_list:open_peer_list.command-cfg-item
+      - models.ref_list:open_ref_list.command-cfg-item
+      - models.show_current_context:show_current_context.command-cfg-item
+      - models.transport_log_model:open_transport_log.command-cfg-item
+      - models.wiki_pages:open_wiki_pages.command-cfg-item
   init_hook:
     type: legacy_type.system:item_list_config
     value:

@@ -6,7 +6,10 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.model:index_list_ui_t
@@ -17,6 +20,11 @@ import:
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 definitions:
+  command_creg-model_list-open_model_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_model_list.t
+      value: open_model_list.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:
@@ -99,3 +107,33 @@ definitions:
     value:
       object: model_list.module
       attr_name: model_list_model
+  open_model_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: model_list.module
+      attr_name: open_model_list
+  open_model_list.command:
+    type: open_model_list.t
+    value: {}
+  open_model_list.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_model_list
+      command: open_model_list.command
+  open_model_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_model_list.system-fn
+  open_model_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_model_list
+      ctx_params: []
+      service_params: []
+  open_model_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: model_list
+      name: open_model_list
+      base: null
+      fields: {}

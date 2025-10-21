@@ -3,7 +3,9 @@
 import:
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
+- views.local_server_context:command_creg-local_server_context-open_local_server_context.ctx-actor-cfg-item
 - views.local_server_context:local_server_context-view.view-cfg-item
+- views.local_server_context:open_local_server_context.command-cfg-item
 - views.qt.splitter:command_creg-splitter-split_horizontally.ctx-actor-cfg-item
 - views.qt.splitter:command_creg-splitter-unwrap.ctx-actor-cfg-item
 - views.qt.splitter:navigator-view-split_horizontally.command-cfg-item
@@ -26,6 +28,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - views.local_server_context:command_creg-local_server_context-open_local_server_context.ctx-actor-cfg-item
       - views.qt.splitter:command_creg-splitter-split_horizontally.ctx-actor-cfg-item
       - views.qt.splitter:command_creg-splitter-unwrap.ctx-actor-cfg-item
       - views.tree_as_list:command_creg-tree_as_list-open.ctx-actor-cfg-item
@@ -36,6 +39,7 @@ definitions:
       services:
         command_creg: command_creg
         formatter_creg: formatter_creg
+        global_model_command_reg: global_model_command_reg
         view_factory_reg: view_factory_reg
         view_reg: view_reg
         view_ui_command_reg: view_ui_command_reg
@@ -44,6 +48,11 @@ definitions:
     value:
       items:
       - views.tree_as_list:formatter_creg-tree_as_list-list_model.actor-cfg-item
+  global_model_command_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - views.local_server_context:open_local_server_context.command-cfg-item
   view_factory_reg:
     type: legacy_type.system:item_list_config
     value:

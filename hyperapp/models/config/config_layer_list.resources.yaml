@@ -8,6 +8,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.config_layer_list:item
 - legacy_type.config_layer_list:layer
@@ -20,6 +21,11 @@ import:
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 definitions:
+  command_creg-config_layer_list-open_config_layer_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_config_layer_list.t
+      value: open_config_layer_list.ctx-actor-template
   command_creg-config_layer_list-open_service_list.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -99,6 +105,36 @@ definitions:
     value:
       t: legacy_type.config_layer_list:model
       value: format_model.actor-template
+  open_config_layer_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_layer_list.module
+      attr_name: open_config_layer_list
+  open_config_layer_list.command:
+    type: open_config_layer_list.t
+    value: {}
+  open_config_layer_list.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_config_layer_list
+      command: open_config_layer_list.command
+  open_config_layer_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_config_layer_list.system-fn
+  open_config_layer_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_config_layer_list
+      ctx_params: []
+      service_params: []
+  open_config_layer_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_layer_list
+      name: open_config_layer_list
+      base: null
+      fields: {}
   open_service_list:
     type: legacy_type.builtin:attribute
     value:

@@ -11,6 +11,7 @@ import:
 - legacy_type.bundle_info:model
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:str_command
 - legacy_type.command:type_str_command
 - legacy_type.data_browser:record_view
 - legacy_type.feed:feed_template
@@ -31,6 +32,11 @@ definitions:
     value:
       t: message_bundle.t
       value: message_bundle.ctx-actor-template
+  command_creg-transport_log_model-open_transport_log.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_transport_log.t
+      value: open_transport_log.ctx-actor-template
   command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -106,6 +112,36 @@ definitions:
     value:
       module_name: transport_log_model
       name: message_bundle
+      base: null
+      fields: {}
+  open_transport_log:
+    type: legacy_type.builtin:attribute
+    value:
+      object: transport_log_model.module
+      attr_name: open_transport_log
+  open_transport_log.command:
+    type: open_transport_log.t
+    value: {}
+  open_transport_log.command-cfg-item:
+    type: legacy_type.command:str_command
+    value:
+      name: open_transport_log
+      command: open_transport_log.command
+  open_transport_log.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_transport_log.system-fn
+  open_transport_log.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_transport_log
+      ctx_params: []
+      service_params: []
+  open_transport_log.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: transport_log_model
+      name: open_transport_log
       base: null
       fields: {}
   transport_bundle:
