@@ -202,7 +202,6 @@ class GlobalModelCommandProbe(CommandProbe):
         self._preserve_remote = preserve_remote
 
     def _add_constructor(self, params):
-        return
         assert not self._t
         ctr = GlobalModelCommandTemplateCtr(
             **self._common_ctr_kw(params),

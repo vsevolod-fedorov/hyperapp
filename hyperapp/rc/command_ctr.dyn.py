@@ -82,6 +82,9 @@ class CommandTemplateCtr(Constructor):
             )
         actor_ctr.update_resource_targets(resource_tgt, target_set)
 
+    def get_component(self, name_to_res):
+        return name_to_res[f'{self._resource_name}.command-cfg-item']
+
     # @property
     # def _fn_name(self):
     #     return '_'.join(self._attr_qual_name)
@@ -135,6 +138,10 @@ class CommandTemplateCtr(Constructor):
     #         properties=properties,
     #         system_fn=mosaic.put(fn),
     #         )
+
+    @property
+    def _command_name(self):
+        return '_'.join(self._attr_qual_name)
 
     @cached_property
     def _command_t(self):
@@ -200,15 +207,24 @@ class UntypedCommandTemplateCtr(CommandTemplateCtr):
             args=self._args_tuple,
             )
 
-    def get_component(self, name_to_res):
-        return name_to_res[f'{self._resource_name}.{self._command_resource_suffix}']
+    # def get_component(self, name_to_res):
+    #     return name_to_res[f'{self._resource_name}.{self._command_resource_suffix}']
 
     def make_component(self, types, python_module, name_to_res=None):
-        return self._make_command_component(types, python_module, name_to_res)
+        # return self._make_command_component(types, python_module, name_to_res)
+        command = self._command_t()
+        cfg_item = htypes.command.str_command(
+            name=self._command_t.name,
+            command=mosaic.put(command),
+            )
+        if name_to_res is not None:
+            name_to_res[f'{self._command_name}.command'] = command
+            name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
+        return cfg_item
 
-    # @property
-    # def _resource_name(self):
-    #     return self._fn_name
+    @property
+    def _resource_name(self):
+        return self._command_name
 
 
 class TypedCommandTemplateCtr(CommandTemplateCtr):
@@ -243,9 +259,6 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
             t=pyobj_creg.actor_to_ref(self._t),
             )
 
-    def get_component(self, name_to_res):
-        return name_to_res[f'{self._resource_name}.command-cfg-item']
-
     def make_component(self, types, python_module, name_to_res=None):
         command = self._command_t()
         # command = self._make_command_component(types, python_module, name_to_res)
@@ -263,10 +276,6 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
             # name_to_res[f'{self._resource_name}.command-template'] = template
             name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
         return cfg_item
-
-    @property
-    def _command_name(self):
-        return '_'.join(self._attr_qual_name)
 
     @property
     def _resource_name(self):
