@@ -2,7 +2,6 @@ from unittest.mock import Mock
 
 from . import htypes
 from .code.context import Context
-from .code.command import Command
 from .fixtures import qapp_fixtures
 from .tested.code import menu_bar
 
@@ -15,13 +14,13 @@ def make_state():
     return htypes.menu_bar.state()
 
 
-async def test_widget(qapp):
+async def test_widget(command_factory, qapp):
     ctx = Context(
         lcs=Mock(),
         )
     piece = make_piece()
     state = make_state()
-    command = Command(
+    command = command_factory(
         t=htypes.menu_bar_tests.sample_view,
         name="Sample command",
         command=htypes.menu_bar_tests.sample_command(),

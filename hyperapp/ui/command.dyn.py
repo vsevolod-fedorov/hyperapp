@@ -6,24 +6,26 @@ from . import htypes
 from .services import (
     mosaic,
     )
+from .code.mark import mark
 
 log = logging.getLogger(__name__)
 
 
 class Command:
 
-    def __init__(self, t, name, command, ctx):
+    def __init__(self, command_creg, t, name, command, ctx):
+        self._command_creg = command_creg
         self.t = t
         self.name = name
         self.command = command
         self.ctx = ctx
 
-    def start(self, command_creg):
+    def start(self):
         log.info("Start command: %r", self.name)
-        asyncio.create_task(self.run(command_creg))
+        asyncio.create_task(self.run())
 
-    async def run(self, command_creg):
-        result = command_creg.animate(self.command, self.ctx)
+    async def run(self):
+        result = self._command_creg.animate(self.command, self.ctx)
         if inspect.iscoroutine(result):
             result = await result
         if result is None:
@@ -48,6 +50,11 @@ class Command:
             key=mosaic.put_opt(key),
             diff=None,
             )
+
+
+@mark.service
+def command_factory(command_creg, t, name, command, ctx):
+    return Command(command_creg, t, name, command, ctx)
 
 
 def _amend_fragment(text):

@@ -14,6 +14,7 @@ import:
 - ui.column_format:formatter_creg-column-column_k.actor-cfg-item
 - ui.column_resource_name:resource_name_creg-column-column_k.actor-cfg-item
 - ui.column_visible_reg:column_visible_reg.service
+- ui.command:command_factory.service
 - ui.command_config_ctl:config_ctl_creg-command_config_ctl-type_str_command_config_ctl.actor-cfg-item
 - ui.command_creg:command_creg.service
 - ui.controller:canned_ctl_item_factory.service
@@ -327,6 +328,7 @@ definitions:
       items:
       - ui.accessor:accessor_creg.service
       - ui.column_visible_reg:column_visible_reg.service
+      - ui.command:command_factory.service
       - ui.command_creg:command_creg.service
       - ui.controller:canned_ctl_item_factory.service
       - ui.controller:controller_running.service

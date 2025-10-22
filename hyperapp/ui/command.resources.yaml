@@ -1,9 +1,16 @@
 # Automatically generated file. Do not edit.
 
 import:
+- base.mark:mark.module
+- base.system.config_layer:one_way.key_ctl
 - builtins:mosaic.service
+- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.command:command_result
+- legacy_type.system:actor_value_ctl
+- legacy_type.system:dict_config_ctl
+- legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
 definitions:
   command.module:
     type: legacy_type.builtin:python_module
@@ -11,5 +18,37 @@ definitions:
       module_name: command
       file_name: command.dyn.py
       import_list:
+        code.mark: base.mark:mark.module
         htypes.command.command_result: legacy_type.command:command_result
         services.mosaic: builtins:mosaic.service
+  command_factory:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command.module
+      attr_name: command_factory
+  command_factory.service:
+    type: legacy_type.system:service_template
+    value:
+      name: command_factory
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: command_factory
+      service_params:
+      - command_creg
+      want_config: false
+      free_params:
+      - t
+      - name
+      - command
+      - ctx
+  system-actor.value-ctl:
+    type: legacy_type.system:actor_value_ctl
+    value: {}
+  system-dict_config.one_way.actor.single.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: base.system.config_layer:one_way.key_ctl
+      value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}

@@ -22,7 +22,6 @@ import:
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
 - legacy_type.system:str_key_ctl
-- ui.command:command.module
 - ui.command_config_ctl:command_config_ctl.module
 - ui.command_enumerator:command_enumerator.module
 definitions:
@@ -41,6 +40,7 @@ definitions:
       ctl: system-dict_config.one_way.actor.single.ctl
       function: get_global_model_commands
       service_params:
+      - command_factory
       - global_model_command_reg
       want_config: false
       free_params:
@@ -83,7 +83,6 @@ definitions:
       module_name: model_command
       file_name: model_command.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.command_config_ctl: ui.command_config_ctl:command_config_ctl.module
         code.command_enumerator: ui.command_enumerator:command_enumerator.module
         code.config_ctl: base.system.config_ctl:config_ctl.module

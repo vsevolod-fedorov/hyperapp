@@ -16,7 +16,6 @@ import:
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
-- ui.command:command.module
 - ui.command_config_ctl:command_config_ctl.module
 definitions:
   command_config_ctl-type_str_command_config.ctl:
@@ -34,6 +33,7 @@ definitions:
       ctl: system-dict_config.one_way.actor.single.ctl
       function: get_view_commands
       service_params:
+      - command_factory
       - view_ui_command_reg
       want_config: false
       free_params:
@@ -51,6 +51,7 @@ definitions:
       ctl: system-dict_config.one_way.actor.single.ctl
       function: get_view_element_commands
       service_params:
+      - command_factory
       - view_element_ui_command_reg
       want_config: false
       free_params:
@@ -74,7 +75,6 @@ definitions:
       module_name: ui_command
       file_name: ui_command.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.command_config_ctl: ui.command_config_ctl:command_config_ctl.module
         code.config_ctl: base.system.config_ctl:config_ctl.module
         code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module

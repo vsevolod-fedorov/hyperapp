@@ -2,10 +2,10 @@ from . import htypes
 from .tested.code import command as command_module
 
 
-def test_prepare_result():
-    command = command_module.Command(
+def test_command_factory_and_prepare_result(command_factory):
+    command = command_factory(
         t=None,
-        name=None,
+        name='sample_command',
         command=None,
         ctx=None,
         )

@@ -14,7 +14,6 @@ from .code.mark import mark
 from .code.config_ctl import DictConfigCtl, FlatListConfigCtl
 from .code.config_struct_ctl import ListStructCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
-from .code.command import Command
 
 log = logging.getLogger(__name__)
 
@@ -82,6 +81,7 @@ def get_view_commands(
         # error_view,
         # view_reg,
         # visualizer,
+        command_factory,
         view_ui_command_reg,
         # view_ui_model_command_reg,
         # universal_ui_command_reg,
@@ -93,7 +93,7 @@ def get_view_commands(
     view_t = deduce_t(view.piece)
     name_to_command = view_ui_command_reg(view_t)
     return [
-        Command(view_t, name, command, ctx)
+        command_factory(view_t, name, command, ctx)
         for name, command in name_to_command.items()
         ]
 
@@ -115,6 +115,7 @@ def get_view_commands(
 
 @mark.service
 def get_view_element_commands(
+        command_factory,
         view_element_ui_command_reg,
         # view_element_ui_command_enumerator_reg,
         ctx,
@@ -125,6 +126,6 @@ def get_view_element_commands(
     # for enumerator in view_element_ui_command_enumerator_reg(view_t):
     #     command_list += enumerator.enum_commands(ctx)
     return [
-        Command(view_t, name, command, ctx)
+        command_factory(view_t, name, command, ctx)
         for name, command in name_to_command.items()
         ]
