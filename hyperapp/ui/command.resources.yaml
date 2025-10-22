@@ -4,6 +4,7 @@ import:
 - base.mark:mark.module
 - base.system.config_layer:one_way.key_ctl
 - builtins:mosaic.service
+- builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.command:command_result
@@ -11,6 +12,7 @@ import:
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
+- ui.remote_model:remote_model.module
 definitions:
   command.module:
     type: legacy_type.builtin:python_module
@@ -19,8 +21,10 @@ definitions:
       file_name: command.dyn.py
       import_list:
         code.mark: base.mark:mark.module
+        code.remote_model: ui.remote_model:remote_model.module
         htypes.command.command_result: legacy_type.command:command_result
         services.mosaic: builtins:mosaic.service
+        services.web: builtins:web.service
   command_factory:
     type: legacy_type.builtin:attribute
     value:
@@ -33,6 +37,8 @@ definitions:
       ctl: system-dict_config.one_way.actor.single.ctl
       function: command_factory
       service_params:
+      - view_reg
+      - visualizer
       - command_creg
       want_config: false
       free_params:
