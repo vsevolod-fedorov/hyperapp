@@ -57,8 +57,8 @@ definitions:
       ctl: system-dict_config.one_way.actor.single.ctl
       function: get_model_commands
       service_params:
+      - command_factory
       - model_command_reg
-      - model_command_enumerator_reg
       want_config: false
       free_params:
       - model_t

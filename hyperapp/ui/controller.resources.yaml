@@ -77,6 +77,7 @@ definitions:
       - get_view_commands
       - get_view_element_commands
       - get_global_model_commands
+      - get_model_commands
       want_config: false
       free_params:
       - layout_bundle

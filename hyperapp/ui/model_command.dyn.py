@@ -46,7 +46,7 @@ def get_global_model_commands(command_factory, global_model_command_reg, ctx):
 
 @mark.service(ctl=TypeStrCommandConfigCtl())
 def model_command_reg(config, model_t):
-    return config.get(model_t, [])
+    return config.get(model_t, {})
 
 
 @mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
@@ -60,8 +60,11 @@ def model_command_enumerator_reg(config, model_t):
 
 
 @mark.service
-def get_model_commands(model_command_reg, model_command_enumerator_reg, model_t, ctx):
-    command_list = [*model_command_reg(model_t)]
-    for enumerator in model_command_enumerator_reg(model_t):
-        command_list += enumerator.enum_commands(ctx)
-    return command_list
+def get_model_commands(command_factory, model_command_reg, model_t, ctx):
+    name_to_command = model_command_reg(model_t)
+    # for enumerator in model_command_enumerator_reg(model_t):
+    #     command_list += enumerator.enum_commands(ctx)
+    return [
+        command_factory(None, name, command, ctx)
+        for name, command in name_to_command.items()
+        ]

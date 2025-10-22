@@ -37,7 +37,7 @@ CtlServices = namedtuple(
         'get_view_commands',
         'get_view_element_commands',
         'get_global_model_commands',
-        # 'get_ui_model_commands',
+        'get_model_commands',
         ])
 
 # attributes shared by all items.
@@ -203,13 +203,10 @@ class _Item:
         return self._meta.svc.get_view_element_commands(element_command_ctx, self.parent.view)
 
     def _model_commands(self, command_ctx):
-        return []  # TODO
         if 'model' not in self.ctx.diffs(self.parent.ctx):  # Added or replaced by self.view.children_context.
             return []
         model_t = deduce_t(command_ctx.model)
-        unbound_model_commands = self._meta.svc.get_ui_model_commands(
-            self.ctx.lcs, model_t, command_ctx)
-        return self._bind_commands(unbound_model_commands, command_ctx)
+        return self._meta.svc.get_model_commands(model_t, command_ctx)
 
     def command_context(self, rctx):
         ctx = self.ctx.clone_with(
@@ -611,7 +608,7 @@ async def controller_running(
         get_view_commands,
         get_view_element_commands,
         get_global_model_commands,
-        # get_ui_model_commands,
+        get_model_commands,
         layout_bundle,
         default_layout,
         ctx,
@@ -624,7 +621,7 @@ async def controller_running(
         get_view_commands=get_view_commands,
         get_view_element_commands=get_view_element_commands,
         get_global_model_commands=get_global_model_commands,
-        # get_ui_model_commands=get_ui_model_commands,
+        get_model_commands=get_model_commands,
         )
     ctl = Controller(svc, layout_bundle, default_layout, ctx, show, load_state)
     await ctl.async_init()
