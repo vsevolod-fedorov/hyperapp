@@ -181,6 +181,11 @@ def test_model_command_enumerator_reg(model_command_enumerator_reg):
     commands = model_command_enumerator_reg(model_t)
 
 
+def test_get_global_model_commands(get_global_model_commands, ctx):
+    command_list = get_global_model_commands(ctx)
+    assert type(command_list) is list
+
+
 def test_get_model_commands(ctx, get_model_commands):
     model_t = htypes.model_command_tests.sample_model
     commands = get_model_commands(model_t, ctx)

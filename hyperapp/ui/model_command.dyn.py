@@ -17,6 +17,7 @@ from .code.config_ctl import DataValueCtl, DictConfigCtl
 from .code.config_key_ctl import StrKeyCtl
 from .code.config_struct_ctl import ListStructCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
+from .code.command import Command
 
 log = logging.getLogger(__name__)
 
@@ -33,6 +34,15 @@ def model_command_ctx(ctx, model, model_state):
 @mark.service(ctl=DictConfigCtl(key_ctl=StrKeyCtl(), value_ctl=DataValueCtl()))
 def global_model_command_reg(config):
     return config
+
+
+@mark.service
+def get_global_model_commands(global_model_command_reg, ctx):
+    name_to_command = global_model_command_reg
+    return [
+        Command(None, name, command, ctx)
+        for name, command in name_to_command.items()
+        ]
 
 
 @mark.service(ctl=TypeStrCommandConfigCtl())

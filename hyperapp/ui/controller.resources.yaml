@@ -23,7 +23,6 @@ import:
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
 - legacy_type.ui:canned_ctl_item
-- ui.command:command.module
 - ui.view.view:view.module
 definitions:
   canned_ctl_item_factory:
@@ -48,7 +47,6 @@ definitions:
       module_name: controller
       file_name: controller.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.context: base.context:context.module
         code.mark: base.mark:mark.module
         code.tree_diff: common.tree_diff:tree_diff.module
@@ -78,7 +76,7 @@ definitions:
       - view_reg
       - get_view_commands
       - get_view_element_commands
-      - global_model_command_reg
+      - get_global_model_commands
       want_config: false
       free_params:
       - layout_bundle

@@ -104,8 +104,7 @@ def test_view_ui_command_reg(view_ui_command_reg):
 
 
 async def test_view_commands(get_view_commands, view, ctx):
-    name_to_command = get_view_commands(ctx, view)
-    assert type(name_to_command) is dict
+    command_list = get_view_commands(ctx, view)
     return  # TODO
     [unbound_command] = command_list
     bound_command = unbound_command.bind(ctx)
@@ -114,8 +113,8 @@ async def test_view_commands(get_view_commands, view, ctx):
 
 
 async def test_view_element_commands(get_view_element_commands, view, ctx):
-    command_dict = get_view_element_commands(ctx, view)
-    assert type(command_dict) is dict
+    command_list = get_view_element_commands(ctx, view)
+    assert type(command_list) is list
 
 
 def _test_ui_command_from_piece(sample_command_fn):

@@ -22,12 +22,29 @@ import:
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
 - legacy_type.system:str_key_ctl
+- ui.command:command.module
 - ui.command_config_ctl:command_config_ctl.module
 - ui.command_enumerator:command_enumerator.module
 definitions:
   command_config_ctl-type_str_command_config.ctl:
     type: legacy_type.command_config_ctl:type_str_command_config_ctl
     value: {}
+  get_global_model_commands:
+    type: legacy_type.builtin:attribute
+    value:
+      object: model_command.module
+      attr_name: get_global_model_commands
+  get_global_model_commands.service:
+    type: legacy_type.system:service_template
+    value:
+      name: get_global_model_commands
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: get_global_model_commands
+      service_params:
+      - global_model_command_reg
+      want_config: false
+      free_params:
+      - ctx
   get_model_commands:
     type: legacy_type.builtin:attribute
     value:
@@ -66,6 +83,7 @@ definitions:
       module_name: model_command
       file_name: model_command.dyn.py
       import_list:
+        code.command: ui.command:command.module
         code.command_config_ctl: ui.command_config_ctl:command_config_ctl.module
         code.command_enumerator: ui.command_enumerator:command_enumerator.module
         code.config_ctl: base.system.config_ctl:config_ctl.module

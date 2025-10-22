@@ -22,7 +22,6 @@ from .code.mark import mark
 from .code.context import Context
 from .code.tree_diff import TreeDiff
 from .code.view import View
-from .code.command import Command
 
 log = logging.getLogger(__name__)
 
@@ -37,7 +36,7 @@ CtlServices = namedtuple(
         'view_reg',
         'get_view_commands',
         'get_view_element_commands',
-        'global_model_command_reg',
+        'get_global_model_commands',
         # 'get_ui_model_commands',
         ])
 
@@ -191,19 +190,17 @@ class _Item:
         return ([*view_commands, *element_commands], commands_rctx)
 
     def _view_commands(self, command_ctx):
-        command_dict = self._meta.svc.get_view_commands(command_ctx, self.view)
-        return self._make_ui_commands(self.view, command_dict, command_ctx)
+        return self._meta.svc.get_view_commands(command_ctx, self.view)
 
     def _element_commands(self, my_rctx):
         if not self.parent.view:
             return []
         parent_command_ctx = self.parent.command_context(my_rctx)
         view_t = deduce_t(self.parent.view.piece)
-        command_dict = self._meta.svc.get_view_element_commands(parent_command_ctx, self.parent.view)
         element_command_ctx = parent_command_ctx.clone_with(
             element_idx=self.idx,
             )
-        return self._make_ui_commands(self.parent.view, command_dict, element_command_ctx)
+        return self._meta.svc.get_view_element_commands(element_command_ctx, self.parent.view)
 
     def _model_commands(self, command_ctx):
         return []  # TODO
@@ -215,7 +212,6 @@ class _Item:
         return self._bind_commands(unbound_model_commands, command_ctx)
 
     def _make_ui_commands(self, view, command_dict, ctx):
-        view_t = deduce_t(view.piece)
         return [
             Command(view_t, name, command, ctx)
             for name, command in command_dict.items()
@@ -374,10 +370,10 @@ class _WindowItem(_Item):
 
     def _model_commands(self, command_ctx):
         model_commands = super()._model_commands(command_ctx)
-        global_command_dict = self._meta.svc.global_model_command_reg
+        global_commands = self._meta.svc.get_global_model_commands(command_ctx)
         return [
             *model_commands,
-            *self._make_ui_commands(self.view, global_command_dict, command_ctx),
+            *global_commands,
             ]
 
 
@@ -620,7 +616,7 @@ async def controller_running(
         view_reg,
         get_view_commands,
         get_view_element_commands,
-        global_model_command_reg,
+        get_global_model_commands,
         # get_ui_model_commands,
         layout_bundle,
         default_layout,
@@ -633,7 +629,7 @@ async def controller_running(
         view_reg=view_reg,
         get_view_commands=get_view_commands,
         get_view_element_commands=get_view_element_commands,
-        global_model_command_reg=global_model_command_reg,
+        get_global_model_commands=get_global_model_commands,
         # get_ui_model_commands=get_ui_model_commands,
         )
     ctl = Controller(svc, layout_bundle, default_layout, ctx, show, load_state)

@@ -51,6 +51,7 @@ import:
 - ui.layout:open_layout_tree.command-cfg-item
 - ui.local_server:local_server_peer.service
 - ui.local_server:local_server_peer_path.service
+- ui.model_command:get_global_model_commands.service
 - ui.model_command:get_model_commands.service
 - ui.model_command:global_model_command_reg.service
 - ui.model_command:model_command_enumerator_reg.service
@@ -340,6 +341,7 @@ definitions:
       - ui.formatter_creg:formatter_creg.service
       - ui.local_server:local_server_peer.service
       - ui.local_server:local_server_peer_path.service
+      - ui.model_command:get_global_model_commands.service
       - ui.model_command:get_model_commands.service
       - ui.model_command:global_model_command_reg.service
       - ui.model_command:model_command_enumerator_reg.service
