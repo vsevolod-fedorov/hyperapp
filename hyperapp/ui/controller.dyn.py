@@ -211,12 +211,6 @@ class _Item:
             self.ctx.lcs, model_t, command_ctx)
         return self._bind_commands(unbound_model_commands, command_ctx)
 
-    def _make_ui_commands(self, view, command_dict, ctx):
-        return [
-            Command(view_t, name, command, ctx)
-            for name, command in command_dict.items()
-            ]
-
     def command_context(self, rctx):
         ctx = self.ctx.clone_with(
             navigator=self.navigator_rec(rctx),
