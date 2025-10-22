@@ -3,7 +3,7 @@ from functools import partial
 
 from hyperapp.boot.htypes import TRecord
 
-# from . import htypes
+from . import htypes
 from .services import (
     deduce_t,
     mosaic,
@@ -91,9 +91,15 @@ def get_view_commands(
         view,
         ):
     view_t = deduce_t(view.piece)
+    view_t_ref = pyobj_creg.actor_to_ref(view_t)
     name_to_command = view_ui_command_reg(view_t)
     return [
-        command_factory(view_t, name, command, ctx)
+        command_factory(
+            key=htypes.command.ui_command_key(view_t_ref, name),
+            name=name,
+            command=command,
+            ctx=ctx,
+            )
         for name, command in name_to_command.items()
         ]
 
@@ -122,10 +128,16 @@ def get_view_element_commands(
         view,
         ):
     view_t = deduce_t(view.piece)
+    view_t_ref = pyobj_creg.actor_to_ref(view_t)
     name_to_command = view_element_ui_command_reg(view_t)
     # for enumerator in view_element_ui_command_enumerator_reg(view_t):
     #     command_list += enumerator.enum_commands(ctx)
     return [
-        command_factory(view_t, name, command, ctx)
+        command_factory(
+            key=htypes.command.ui_command_key(view_t_ref, name),
+            name=name,
+            command=command,
+            ctx=ctx,
+            )
         for name, command in name_to_command.items()
         ]

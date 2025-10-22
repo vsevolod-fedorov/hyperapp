@@ -1,2 +1,2 @@
-sample_command_d = record
+sample_command = record
 sample_view = record

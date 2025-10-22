@@ -11,6 +11,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.command:ui_command_key
 - legacy_type.command_config_ctl:type_str_command_config_ctl
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
@@ -79,6 +80,7 @@ definitions:
         code.config_ctl: base.system.config_ctl:config_ctl.module
         code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
         code.mark: base.mark:mark.module
+        htypes.command.ui_command_key: legacy_type.command:ui_command_key
         services.deduce_t: builtins:deduce_t.service
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service

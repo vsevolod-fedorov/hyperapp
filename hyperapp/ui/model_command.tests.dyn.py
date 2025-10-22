@@ -166,26 +166,34 @@ def _test_command_enum_fn(model, ctx, sample_command_enum_fn):
     assert type(result) is tuple
 
 
-def _test_global_command_reg(global_model_command_reg):
-    commands = global_model_command_reg()
-    # assert commands
-
-
-def test_model_command_reg(model_command_reg):
-    model_t = htypes.model_command_tests.sample_model
-    commands = model_command_reg(model_t)
-
-
 def test_model_command_enumerator_reg(model_command_enumerator_reg):
     model_t = htypes.model_command_tests.sample_model
     commands = model_command_enumerator_reg(model_t)
 
 
+@mark.config_fixture('global_model_command_reg')
+def global_model_command_reg_config():
+    return {
+        'sample_global_command': htypes.model_command_tests.sample_command(),
+        }
+
+
 def test_get_global_model_commands(get_global_model_commands, ctx):
     command_list = get_global_model_commands(ctx)
     assert type(command_list) is list
+    assert len(command_list) == 1
+
+
+@mark.config_fixture('model_command_reg')
+def model_command_reg_config():
+    return {
+        htypes.model_command_tests.sample_model: {
+            'sample_model_command': htypes.model_command_tests.sample_command(),
+            },
+        }
 
 
 def test_get_model_commands(ctx, get_model_commands):
     model_t = htypes.model_command_tests.sample_model
-    commands = get_model_commands(model_t, ctx)
+    command_list = get_model_commands(model_t, ctx)
+    assert len(command_list) == 1

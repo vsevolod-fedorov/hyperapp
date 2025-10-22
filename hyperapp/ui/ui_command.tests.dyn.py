@@ -28,19 +28,9 @@ class PhonyView:
         return 'a-state'
 
 
-def _sample_command(view, state, sample_service):
+@mark.actor.command_creg(htypes.ui_command_tests.sample_command)
+def sample_command(view, state, sample_service):
     return f'sample-fn: {state}, {sample_service}'
-
-
-@mark.fixture
-def sample_command_fn(rpc_system_call_factory):
-    return ContextFn(
-        rpc_system_call_factory=rpc_system_call_factory,
-        ctx_params=('view', 'state'),
-        service_params=('sample_service',),
-        raw_fn=_sample_command,
-        bound_fn=partial(_sample_command, sample_service='a-service'),
-        )
 
 
 def _sample_command_enum(view, state, sample_service):
@@ -79,15 +69,22 @@ def widget():
     return PhonyWidget()
 
 
-# @mark.config_fixture('view_ui_command_reg')
-def view_ui_command_reg_config(sample_command_fn):
-    command = ui_command.UnboundUiCommand(
-        d=htypes.ui_command_tests.sample_command_d(),
-        ctx_fn=sample_command_fn,
-        properties=htypes.command.properties(False, False, False),
-        groups=set(),
-        )
-    return {htypes.ui_command_tests.sample_view: [command]}
+@mark.config_fixture('view_ui_command_reg')
+def view_ui_command_reg_config():
+    return {
+        htypes.ui_command_tests.sample_view: {
+            'sample_view_command': htypes.ui_command_tests.sample_command(),
+            },
+        }
+
+
+@mark.config_fixture('view_element_ui_command_reg')
+def view_ui_command_reg_config():
+    return {
+        htypes.ui_command_tests.sample_view: {
+            'sample_element_command': htypes.ui_command_tests.sample_command(),
+            },
+        }
 
 
 @mark.fixture
@@ -101,35 +98,23 @@ def ctx(view, widget):
 def test_view_ui_command_reg(view_ui_command_reg):
     name_to_command = view_ui_command_reg(htypes.ui_command_tests.sample_view)
     assert type(name_to_command) is dict
+    assert len(name_to_command) == 1
 
 
 async def test_view_commands(get_view_commands, view, ctx):
-    command_list = get_view_commands(ctx, view)
-    return  # TODO
-    [unbound_command] = command_list
-    bound_command = unbound_command.bind(ctx)
-    result = await bound_command.run()
+    [command] = get_view_commands(ctx, view)
+    return  # TODO: ctx-actor for commands.
+    result = await command.run()
     assert result == 'sample-fn: a-state, a-service', repr(result)
 
 
 async def test_view_element_commands(get_view_element_commands, view, ctx):
     command_list = get_view_element_commands(ctx, view)
     assert type(command_list) is list
+    assert len(command_list) == 1
 
 
-def _test_ui_command_from_piece(sample_command_fn):
-    d = htypes.ui_command_tests.sample_command_d()
-    piece = htypes.command.ui_command(
-        d=mosaic.put(d),
-        properties=htypes.command.properties(False, False, False),
-        system_fn=mosaic.put(sample_command_fn.piece),
-        )
-    command = ui_command.ui_command_from_piece(piece)
-    assert isinstance(command, ui_command.UnboundUiCommand)
-    assert command.piece == piece
-
-
-def _test_ui_command_enumerator_from_piece(sample_command_fn):
+def _test_ui_command_enumerator_from_piece():
     piece = htypes.command.ui_command_enumerator(
         system_fn=mosaic.put(sample_command_fn.piece),
         )

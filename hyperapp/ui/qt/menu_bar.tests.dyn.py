@@ -1,6 +1,9 @@
 from unittest.mock import Mock
 
 from . import htypes
+from .services import (
+    pyobj_creg,
+    )
 from .code.context import Context
 from .fixtures import qapp_fixtures
 from .tested.code import menu_bar
@@ -21,8 +24,11 @@ async def test_widget(command_factory, qapp):
     piece = make_piece()
     state = make_state()
     command = command_factory(
-        t=htypes.menu_bar_tests.sample_view,
-        name="Sample command",
+        key=htypes.command.ui_command_key(
+            view_t=pyobj_creg.actor_to_ref(htypes.menu_bar_tests.sample_view),
+            name='sample_command',
+            ),
+        name='sample_command',
         command=htypes.menu_bar_tests.sample_command(),
         ctx=ctx,
         )

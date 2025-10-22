@@ -15,6 +15,18 @@ type_str_command = record:
   command: ref
 
 
+ui_command_key = record:
+  view_t: ref
+  name: string
+
+model_command_key = record:
+  model_t: ref
+  name: string
+
+global_model_command_key = record:
+  name: string
+
+
 fn_command = record:
   d: ref
   properties: properties

@@ -42,7 +42,7 @@ definitions:
       - command_creg
       want_config: false
       free_params:
-      - t
+      - key
       - name
       - command
       - ctx

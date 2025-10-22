@@ -2,7 +2,7 @@ import inspect
 import logging
 from functools import partial
 
-# from . import htypes
+from . import htypes
 from .services import (
     deduce_t,
     mosaic,
@@ -39,7 +39,12 @@ def global_model_command_reg(config):
 def get_global_model_commands(command_factory, global_model_command_reg, ctx):
     name_to_command = global_model_command_reg
     return [
-        command_factory(None, name, command, ctx)
+        command_factory(
+            key=htypes.command.global_model_command_key(name),
+            name=name,
+            command=command,
+            ctx=ctx,
+            )
         for name, command in name_to_command.items()
         ]
 
@@ -62,9 +67,15 @@ def model_command_enumerator_reg(config, model_t):
 @mark.service
 def get_model_commands(command_factory, model_command_reg, model_t, ctx):
     name_to_command = model_command_reg(model_t)
+    model_t_ref = pyobj_creg.actor_to_ref(model_t)
     # for enumerator in model_command_enumerator_reg(model_t):
     #     command_list += enumerator.enum_commands(ctx)
     return [
-        command_factory(None, name, command, ctx)
+        command_factory(
+            key=htypes.command.model_command_key(model_t_ref, name),
+            name=name,
+            command=command,
+            ctx=ctx,
+            )
         for name, command in name_to_command.items()
         ]
