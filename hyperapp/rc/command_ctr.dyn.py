@@ -7,7 +7,7 @@ from .services import (
     pyobj_creg,
     )
 from .code.rc_constructor import Constructor
-from .code.ctx_fn_actor_ctr import CtxFnActorTemplateCtr
+from .code.ctx_actor_ctr import CtxActorTemplateCtr
 
 
 STATE_PARAMS = {'state', 'model_state', 'current_item', 'current_idx', 'current_key', 'current_path'}
@@ -71,7 +71,7 @@ class CommandTemplateCtr(Constructor):
         # resource target may already have resolved target, but in case of
         # non-typed marker it have not.
         resource_tgt.add_cfg_item_target(reg_resolved_tgt)
-        actor_ctr = CtxFnActorTemplateCtr(
+        actor_ctr = CtxActorTemplateCtr(
             module_name=self._module_name,
             attr_qual_name=self._attr_qual_name,
             service_name='command_creg',

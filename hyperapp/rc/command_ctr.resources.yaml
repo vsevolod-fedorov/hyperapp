@@ -31,7 +31,7 @@ import:
 - legacy_type.command_resource:universal_ui_command_template_ctr
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
-- rc.ctx_fn_actor_ctr:ctx_fn_actor_ctr.module
+- rc.ctx_actor_ctr:ctx_actor_ctr.module
 - rc.rc_constructor:rc_constructor.module
 
 definitions:
@@ -73,7 +73,7 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         code.rc_constructor: rc.rc_constructor:rc_constructor.module
-        code.ctx_fn_actor_ctr: rc.ctx_fn_actor_ctr:ctx_fn_actor_ctr.module
+        code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
 
   UiCommandTemplateCtr:
     type: legacy_type.builtin:attribute

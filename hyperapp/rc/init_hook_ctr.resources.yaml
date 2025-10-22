@@ -9,7 +9,7 @@ import:
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.init_hook_ctr:init_hook_ctr
 - legacy_type.system_fn:ctx_fn
-- rc.ctx_fn_actor_ctr:ctx_fn_actor_ctr.module
+- rc.ctx_actor_ctr:ctx_actor_ctr.module
 - rc.init_hook_req:init_hook_req.module
 - rc.rc_constructor:rc_constructor.module
 
@@ -28,7 +28,7 @@ definitions:
         services.mosaic: builtins:mosaic.service
         code.rc_constructor: rc.rc_constructor:rc_constructor.module
         code.init_hook_req: rc.init_hook_req:init_hook_req.module
-        code.ctx_fn_actor_ctr: rc.ctx_fn_actor_ctr:ctx_fn_actor_ctr.module
+        code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
 
   BaseInitHookCtr:
     type: legacy_type.builtin:attribute

@@ -4,7 +4,7 @@ from .services import (
     )
 from .code.rc_constructor import Constructor, ModuleCtr
 from .code.init_hook_req import InitHookReq
-from .code.ctx_fn_actor_ctr import CtxFnCtr
+from .code.ctx_actor_ctr import CtxFnCtr
 
 
 class BaseInitHookCtr(Constructor):

@@ -42,7 +42,7 @@ class CtxFnCtr:
         return template
 
 
-class CtxFnActorTemplateCtr(ModuleCtr, CtxFnCtr):
+class CtxActorTemplateCtr(ModuleCtr, CtxFnCtr):
 
     def __init__(self, module_name, attr_qual_name, service_name, t, ctx_params, service_params, create_t=False):
         super().__init__(module_name)
