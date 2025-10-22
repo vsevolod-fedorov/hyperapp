@@ -8,6 +8,11 @@ actor_probe_ctr = record:
   service_name: string
   t: ref
 
+ctx_actor_probe_ctr = record:
+  attr_qual_name: string list
+  service_name: string
+  t: ref
+
 actor_template_ctr = record:
   module_name: string
   attr_qual_name: string list
@@ -16,5 +21,16 @@ actor_template_ctr = record:
   creg_params: string list  # Not used by constructor.
   service_params: string list
 
+ctx_actor_template_ctr = record:
+  module_name: string
+  attr_qual_name: string list
+  service_name: string
+  t: ref
+  ctx_params: string list
+  service_params: string list
+
 actor_probe_template = record:
+  function: ref
+
+ctx_actor_probe_template = record:
   function: ref

@@ -8,6 +8,7 @@ import:
 - rc.actor_ctr:ctr_from_template_creg-cfg_item-typed_cfg_item.actor-cfg-item
 - rc.actor_marker:actor.marker-cfg-item
 - rc.actor_probe:cfg_value_creg-actor_resource-actor_probe_template.actor-cfg-item
+- rc.actor_probe:cfg_value_creg-actor_resource-ctx_actor_probe_template.actor-cfg-item
 - rc.builtin_service_target:builtin_service-builtin_service_req.actor-cfg-item
 - rc.cfg_item_req:actor_resource-cfg_item_req.actor-cfg-item
 - rc.crud_ctr:crud_ctr-commit_ctr.actor-cfg-item
@@ -16,6 +17,8 @@ import:
 - rc.ctr_collector:cfg_value_creg-ctr_collector-mark_module_template.actor-cfg-item
 - rc.ctr_collector:cfg_value_creg-ctr_collector-ignore_module_template.actor-cfg-item
 - rc.ctr_collector:ctr_collector.service
+- rc.ctx_actor_ctr:actor_resource-ctx_actor_probe_ctr.actor-cfg-item
+- rc.ctx_actor_marker:ctx_actor.marker-cfg-item
 - rc.command_ctr:command_resource-global_model_command_template_ctr.actor-cfg-item
 - rc.command_ctr:command_resource-model_command_template_ctr.actor-cfg-item
 - rc.command_ctr:command_resource-model_command_enumerator_template_ctr.actor-cfg-item
@@ -141,6 +144,7 @@ definitions:
     value:
       items:
       - rc.actor_probe:cfg_value_creg-actor_resource-actor_probe_template.actor-cfg-item
+      - rc.actor_probe:cfg_value_creg-actor_resource-ctx_actor_probe_template.actor-cfg-item
       - rc.ctr_collector:cfg_value_creg-ctr_collector-mark_module_template.actor-cfg-item
       - rc.ctr_collector:cfg_value_creg-ctr_collector-ignore_module_template.actor-cfg-item
       - rc.fixture_probe:cfg_value_creg-fixture_resource-fixture_obj_template.actor-cfg-item
@@ -174,6 +178,7 @@ definitions:
       - rc.config_fixture_marker:config_fixture.marker-cfg-item
       - rc.config_fixture_marker:config_template_fixture.marker-cfg-item
       - rc.crud_marker:crud.marker-cfg-item
+      - rc.ctx_actor_marker:ctx_actor.marker-cfg-item
       - rc.editor_marker:editor.marker-cfg-item
       - rc.fixture_marker:fixture.marker-cfg-item
       - rc.init_hook_marker:init_hook.marker-cfg-item
@@ -205,6 +210,7 @@ definitions:
       - rc.command_ctr:command_resource-universal_ui_command_template_ctr.actor-cfg-item
       - rc.crud_ctr:crud_ctr-commit_ctr.actor-cfg-item
       - rc.crud_ctr:crud_ctr-init_ctr.actor-cfg-item
+      - rc.ctx_actor_ctr:actor_resource-ctx_actor_probe_ctr.actor-cfg-item
       - rc.editor_ctr:editor_ctr-default_ctr.actor-cfg-item
       - rc.feed_ctr:feed-list_feed_ctr.actor-cfg-item
       - rc.feed_ctr:feed-index_tree_feed_ctr.actor-cfg-item

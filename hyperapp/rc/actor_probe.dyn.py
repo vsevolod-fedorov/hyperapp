@@ -4,6 +4,7 @@ from .services import (
     web,
     )
 from .code.actor_ctr import ActorTemplateCtr
+from .code.ctx_actor_ctr import CtxActorTemplateCtr
 from .code.probe import ProbeBase
 from .code.marker_utils import split_actor_params
 
@@ -54,10 +55,37 @@ class ActorProbe(ActorProbeBase):
         self._ctr_collector.add_constructor(ctr)
 
 
+class CtxActorProbe(ActorProbeBase):
+
+    def __init__(self, system_probe, ctr_collector, module_name, service_name, fn, t=None):
+        super().__init__(system_probe, ctr_collector, module_name, fn, t)
+        self._service_name = service_name
+
+    def _add_constructor(self, params, t):
+        ctr = CtxActorTemplateCtr(
+            module_name=self._module_name,
+            attr_qual_name=params.real_qual_name(self.real_fn),
+            service_name=self._service_name,
+            t=t,
+            ctx_params=params.ctx_names,
+            service_params=params.service_names,
+            )
+        self._ctr_collector.add_constructor(ctr)
+
+
 def resolve_actor_probe_cfg_value(piece, key, system, service_name):
     fn = pyobj_creg.invite(piece.function)
     assert (
         isinstance(fn, ActorProbe)
         or hasattr(fn, '__self__') and isinstance(fn.__func__, ActorProbe)
+        ) , repr(fn)
+    return fn
+
+
+def resolve_ctx_actor_probe_cfg_value(piece, key, system, service_name):
+    fn = pyobj_creg.invite(piece.function)
+    assert (
+        isinstance(fn, CtxActorProbe)
+        or hasattr(fn, '__self__') and isinstance(fn.__func__, CtxActorProbe)
         ) , repr(fn)
     return fn

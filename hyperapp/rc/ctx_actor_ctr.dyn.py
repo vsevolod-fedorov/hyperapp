@@ -3,8 +3,66 @@ from .services import (
     mosaic,
     pyobj_creg,
     )
-from .code.rc_constructor import ModuleCtr
+from .code.rc_constructor import Constructor, ModuleCtr
+from .code.config_item_resource import ConfigItemResource
 from .code.cfg_item_req import CfgItemReq
+
+
+class CtxActorProbeCtr(Constructor):
+
+    @classmethod
+    def from_piece(cls, piece):
+        return cls(
+            attr_qual_name=piece.attr_qual_name,
+            service_name=piece.service_name,
+            t=pyobj_creg.invite(piece.t),
+            )
+
+    def __init__(self, attr_qual_name, service_name, t):
+        self._attr_qual_name = attr_qual_name
+        self._service_name = service_name
+        self._t = t
+
+    @property
+    def piece(self):
+        return htypes.actor_resource.ctx_actor_probe_ctr(
+            attr_qual_name=tuple(self._attr_qual_name),
+            service_name=self._service_name,
+            t=pyobj_creg.actor_to_ref(self._t),
+            )
+
+    def update_resource_targets(self, resource_tgt, target_set):
+        resource_tgt.import_tgt.add_test_ctr(self)
+        ready_tgt = target_set.factory.config_item_ready(self._service_name, self._type_name)
+        ready_tgt.set_provider(resource_tgt)
+        resolved_tgt = target_set.factory.config_item_resolved(self._service_name, self._type_name)
+        resource_tgt.add_cfg_item_target(resolved_tgt)
+
+    def make_component(self, types, python_module, name_to_res=None):
+        object = python_module
+        for name in self._attr_qual_name:
+            object = htypes.builtin.attribute(
+                object=mosaic.put(object),
+                attr_name=name,
+                )
+        template = htypes.actor_resource.ctx_actor_probe_template(
+            function=mosaic.put(object),
+            )
+        return htypes.cfg_item.typed_cfg_item(
+            t=pyobj_creg.actor_to_ref(self._t),
+            value=mosaic.put(template),
+            )
+
+    def make_resource(self, types, module_name, python_module):
+        item = self.make_component(types, python_module)
+        return ConfigItemResource(
+            service_name=self._service_name,
+            cfg_item_ref=mosaic.put(item),
+            )
+
+    @property
+    def _type_name(self):
+        return f'{self._t.module_name}-{self._t.name}'
 
 
 class CtxFnCtr:
