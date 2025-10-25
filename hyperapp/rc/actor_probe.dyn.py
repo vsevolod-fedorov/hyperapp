@@ -20,16 +20,23 @@ class ActorProbeBase(ProbeBase):
         self._system = system_probe
         self._ctr_collector = system_probe.resolve_service('ctr_collector')
 
-    def __call__(self, *args, **kw):
+    def _call(self, *args, **kw):
         params = split_actor_params(self.real_fn, args, kw)
-        if len(params.ctx_names) < 1 or params.ctx_names[0] != 'piece':
-            raise RuntimeError(f"First parameter expected to be a 'piece': {self.real_fn!r}: {params.ctx_names!r}")
-        piece = params.values[params.ctx_names[0]]
-        if self._t is None:
-            t = deduce_t(piece)
+        if 'piece' in params.ctx_names:
+            if params.ctx_names[0] != 'piece':
+                raise RuntimeError(f"'piece' should be first parameter: {self.real_fn!r}: {params.ctx_names!r}")
+            piece = params.values[params.ctx_names[0]]
+            piece_t = deduce_t(piece)
+            if self._t is not None and piece_t is not self._t:
+                raise RuntimeError(
+                    f"Actual type for 'piece' parameter does not match declared by decorator: {self.real_fn!r}:"
+                    " actual: {piece_t}, declared: {self._t}"
+                    )
+        elif self._t is None:
+            raise RuntimeError(f"Add 'piece' parameter or declare it's type in decorator: {self.real_fn!r}: {params.ctx_names!r}")
         else:
-            t = self._t
-        self._add_constructor(params, t)
+            piece_t = self._t
+        self._add_constructor(params, piece_t)
         service_kw = {
             name: self._system.resolve_service(name)
             for name in params.service_names
@@ -37,7 +44,13 @@ class ActorProbeBase(ProbeBase):
         return self._fn(*args, **kw, **service_kw)
 
 
-class ActorProbe(ActorProbeBase):
+class FnActorProbe(ActorProbeBase):
+
+    def __call__(self, *args, **kw):
+        return self._call(*args, **kw)
+
+
+class ActorProbe(FnActorProbe):
 
     def __init__(self, system_probe, ctr_collector, module_name, service_name, fn, t=None):
         super().__init__(system_probe, ctr_collector, module_name, fn, t)
@@ -60,6 +73,9 @@ class CtxActorProbe(ActorProbeBase):
     def __init__(self, system_probe, ctr_collector, module_name, service_name, fn, t=None):
         super().__init__(system_probe, ctr_collector, module_name, fn, t)
         self._service_name = service_name
+
+    def call(self, *args, **kw):
+        return self._call(*args, **kw)
 
     def _add_constructor(self, params, t):
         ctr = CtxActorTemplateCtr(
