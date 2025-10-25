@@ -28,7 +28,7 @@ class PhonyView:
         return 'a-state'
 
 
-@mark.actor.command_creg(htypes.ui_command_tests.sample_command)
+@mark.ctx_actor.command_creg(htypes.ui_command_tests.sample_command)
 def sample_command(view, state, sample_service):
     return f'sample-fn: {state}, {sample_service}'
 
@@ -103,7 +103,6 @@ def test_view_ui_command_reg(view_ui_command_reg):
 
 async def test_view_commands(get_view_commands, view, ctx):
     [command] = get_view_commands(ctx, view)
-    return  # TODO: ctx-actor for commands.
     result = await command.run()
     assert result == 'sample-fn: a-state, a-service', repr(result)
 
