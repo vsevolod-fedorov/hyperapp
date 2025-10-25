@@ -173,11 +173,12 @@ class SystemJob:
         for resource in sorted_resource_list:
             resource.configure_system(system)
 
-    def _prepare_system(self, resources):
-        for res in resources:
+    def _prepare_system(self, module_piece, resources):
+        all_resources = [*resources, *self._job_resources(module_piece)]
+        for res in all_resources:
             self._tested_modules += res.tested_modules
         system = SystemProbe()
-        resources_config = self._compose_resources_config(system, resources)
+        resources_config = self._compose_resources_config(system, all_resources)
         config = merge_system_config_pieces(self._rc_config, resources_config)
         system.load_static_config(config)
         system.load_config_layer('memory', MemoryConfigLayer(system))
@@ -185,9 +186,22 @@ class SystemJob:
         ImportRecorder.configure_pyobj_creg(system)
         system.migrate_globals()
         _ = system.resolve_service('marker_registry')  # Init markers.
-        self._configure_system(system, resources)
+        self._configure_system(system, all_resources)
         system['init_hook'].run_hooks()
         return system
+
+    def _job_resources(self, module_piece):
+        template = htypes.ctr_collector.mark_module_template(
+            name=self._src.name,
+            )
+        cfg_item = htypes.cfg_item.data_cfg_item(
+            key=mosaic.put(module_piece),
+            value=mosaic.put(template),
+            )
+        yield ConfigItemResource(
+            service_name='ctr_collector',
+            cfg_item_ref=mosaic.put(cfg_item),
+            )
 
     _system_files = {
         'rc/system_job',

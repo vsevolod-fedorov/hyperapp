@@ -12,7 +12,6 @@ from .services import (
 from .code.rc_constants import JobStatus
 from .code.python_src import PythonModuleSrc
 from .code.builtin_resources import enum_builtin_resources
-from .code.config_item_resource import ConfigItemResource
 from .code.job_result import JobResult
 from .code.system_job import Result, SystemJob, SystemJobResult
 from .code.test_module_resources_req import TestModuleResourcesReq
@@ -295,13 +294,12 @@ class ImportJob(SystemJob):
     def run(self):
         resources = [*enum_builtin_resources(self._src.name), *flatten(self._req_to_resources.values())]
         recorder_piece, module_piece = self._src.recorded_python_module(tag='import')
-        system_resources = [*resources, *self._job_resources(module_piece)]
         system = None
         key_to_req = {}
         recorder = None
         module = None
         try:
-            system = self.convert_errors(self._prepare_system, system_resources)
+            system = self.convert_errors(self._prepare_system, module_piece, resources)
             key_to_req = self._make_key_to_req_map(system['cfg_item_creg'])
             _ = system['ctr_collector']
             recorder = pyobj_creg.animate(recorder_piece)
@@ -311,19 +309,6 @@ class ImportJob(SystemJob):
         else:
             result = _Succeeded(self._src.name)
         return result.make_result(recorder, module, key_to_req, system)
-
-    def _job_resources(self, module_piece):
-        template = htypes.ctr_collector.mark_module_template(
-            name=self._src.name,
-            )
-        cfg_item = htypes.cfg_item.data_cfg_item(
-            key=mosaic.put(module_piece),
-            value=mosaic.put(template),
-            )
-        yield ConfigItemResource(
-            service_name='ctr_collector',
-            cfg_item_ref=mosaic.put(cfg_item),
-            )
 
     def incomplete_error(self, module_name, error_msg, traceback=None, missing_reqs=None):
         raise _IncompleteError(module_name, error_msg, traceback[:-1] if traceback else None, missing_reqs)
