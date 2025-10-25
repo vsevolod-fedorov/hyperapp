@@ -31,6 +31,9 @@ class CtxActorProbeCtr(Constructor):
             t=pyobj_creg.actor_to_ref(self._t),
             )
 
+    def update_fixtures_targets(self, import_tgt, target_set):
+        import_tgt.add_test_ctr(self)
+
     def update_resource_targets(self, resource_tgt, target_set):
         resource_tgt.import_tgt.add_test_ctr(self)
         ready_tgt = target_set.factory.config_item_ready(self._service_name, self._type_name)
