@@ -30,6 +30,9 @@ class FixtureCtrBase(ModuleCtr):
     def is_fixture(self):
         return True
 
+    def update_resource_targets(self, resource_tgt, target_set):
+        pass
+
     def update_fixtures_targets(self, import_tgt, target_set):
         assert import_tgt.module_name == self._module_name
         import_tgt.add_test_ctr(self)
@@ -125,6 +128,9 @@ class ConfigFixtureCtr(ModuleCtr):
     def is_fixture(self):
         return True
 
+    def update_resource_targets(self, resource_tgt, target_set):
+        pass
+
     def update_fixtures_targets(self, import_tgt, target_set):
         assert import_tgt.module_name == self._module_name
         import_tgt.add_test_ctr(self)
@@ -167,6 +173,9 @@ class ConfigTemplateFixtureCtr(ModuleCtr):
     @property
     def is_fixture(self):
         return True
+
+    def update_resource_targets(self, resource_tgt, target_set):
+        pass
 
     def update_fixtures_targets(self, import_tgt, target_set):
         assert import_tgt.module_name == self._module_name
