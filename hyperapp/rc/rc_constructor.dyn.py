@@ -29,6 +29,10 @@ class ModuleCtr(Constructor):
     def __init__(self, module_name):
         self._module_name = module_name
 
+    @property
+    def module_name(self):
+        return self._module_name
+
     def update_targets(self, target_set):
         resource_tgt = target_set.factory.python_module_resource_by_module_name(self._module_name)
         self.update_resource_targets(resource_tgt, target_set)

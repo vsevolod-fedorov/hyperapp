@@ -92,15 +92,16 @@ class SucceededTestResult(_SucceededTestResultBase):
     def used_reqs(self):
         return self._used_reqs
 
-    def update_targets(self, test_target, target_set):
+    def update_targets(self, test_target, tested_module_names, target_set):
         self._update_tested_imports(target_set.factory)
-        self._update_ctr_targets(target_set)
+        self._update_ctr_targets(tested_module_names, target_set)
         test_target.set_completed()
 
-    def _update_ctr_targets(self, target_set):
+    def _update_ctr_targets(self, tested_module_names, target_set):
         for ctr in self._constructors:
-            ctr.update_targets(target_set)
-
+            if ctr.module_name in tested_module_names:  # Expecting only constructors with module_name property.
+                ctr.update_targets(target_set)
+            # Otherwise it is a module with tests or fixtures - regular imports should not be marked.
 
 class IncompleteTestResult(_SucceededTestResultBase):
 
@@ -133,7 +134,7 @@ class IncompleteTestResult(_SucceededTestResultBase):
     def desc(self):
         return super().desc + f", needs {self._reqs_desc}"
 
-    def update_targets(self, test_target, target_set):
+    def update_targets(self, test_target, tested_module_names, target_set):
         self._update_tested_imports(target_set.factory)
         req_to_target = self._resolve_requirements(target_set.factory, self._missing_reqs | self._used_reqs)
         if set(req_to_target) <= test_target.req_set:
@@ -161,7 +162,7 @@ class FailedTestResult(SystemJobResult):
             traceback=tuple(self.traceback),
             )
 
-    def update_targets(self, test_target, target_set):
+    def update_targets(self, test_target, tested_module_names, target_set):
         pass
 
 

@@ -22,9 +22,17 @@ def _resolve_requirements(target_factory, requirements):
     return req_to_target
 
 
+def _import_targets_to_module_names(import_targets):
+    return [
+        tgt.module_name
+        for tgt
+        in import_targets
+        ]
+
+
 class TestCachedTarget(Target):
 
-    def __init__(self, cached_count, target_set, test_target, src, function, deps, req_to_target, job_result):
+    def __init__(self, cached_count, target_set, test_target, src, function, deps, req_to_target, tested_imports, job_result):
         self._cached_count = cached_count
         self._target_set = target_set
         self._test_target = test_target
@@ -32,6 +40,7 @@ class TestCachedTarget(Target):
         self._function = function
         self._deps = deps
         self._req_to_target = req_to_target
+        self._tested_imports = tested_imports  # import targets being tested.
         self._job_result = job_result
         self._completed = False
 
@@ -83,7 +92,8 @@ class TestCachedTarget(Target):
         self._test_target.create_first_job_target()
 
     def _use_job_result(self):
-        self._job_result.update_targets(self._test_target, self._target_set)
+        self._job_result.update_targets(
+            self._test_target, _import_targets_to_module_names(self._tested_imports), self._target_set)
         self._cached_count.incr()
         rc_log.debug("%s: %s", self.name, self._job_result.desc)
 
@@ -207,7 +217,7 @@ class TestJobTarget(Target):
 
     def handle_job_result(self, target_set, result):
         self._completed = True
-        result.update_targets(self._test_target, target_set)
+        result.update_targets(self._test_target, _import_targets_to_module_names(self._tested_imports), target_set)
 
     @property
     def src(self):
@@ -312,6 +322,7 @@ class TestTarget(Target):
             function=self._function,
             deps=entry.deps,
             req_to_target=req_to_target,
+            tested_imports=self._tested_imports,
             job_result=entry.result,
             )
         self._current_job_target = target
