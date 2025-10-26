@@ -12,6 +12,7 @@ service_probe_ctr = record:
   params: string list
 
 service_probe_template = record:
+  module_name: string
   attr_name: string
   ctl: ref
   function: ref
@@ -19,6 +20,7 @@ service_probe_template = record:
 
 
 service_template_ctr_base = record:
+  module_name: string
   attr_name: string
   name: string
   ctl: ref

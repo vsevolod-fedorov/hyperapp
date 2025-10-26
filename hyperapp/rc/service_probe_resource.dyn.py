@@ -14,9 +14,10 @@ from .code.service_req import ServiceReq
 
 class ServiceProbe(Probe):
 
-    def __init__(self, system_probe, config_ctl, attr_name, service_name, ctl_ref, fn, params):
+    def __init__(self, system_probe, config_ctl, module_name, attr_name, service_name, ctl_ref, fn, params):
         super().__init__(system_probe, service_name, fn, params)
         self._config_ctl = config_ctl
+        self._module_name = module_name
         self._attr_name = attr_name
         self._ctl_ref = ctl_ref
 
@@ -34,6 +35,7 @@ class ServiceProbe(Probe):
                 )
         ctr = ctr_cls(
             config_ctl=self._config_ctl,
+            module_name=self._module_name,
             attr_name=self._attr_name,
             name=self._name,
             ctl_ref=self._ctl_ref,
@@ -47,7 +49,7 @@ class ServiceProbe(Probe):
 def resolve_service_probe_cfg_value(piece, key, system, service_name):
     config_ctl = system.resolve_service('config_ctl')
     fn = pyobj_creg.invite(piece.function)
-    probe = ServiceProbe(system, config_ctl, piece.attr_name, key, piece.ctl, fn, piece.params)
+    probe = ServiceProbe(system, config_ctl, piece.module_name, piece.attr_name, key, piece.ctl, fn, piece.params)
     probe.apply_if_no_params()
     return probe
 
@@ -91,6 +93,7 @@ class ServiceProbeCtr(ModuleCtr):
         if tuple(self._params) in {(), ('config',)}:
             ctr_kw = dict(
                 config_ctl=self._config_ctl,
+                module_name=self._module_name,
                 attr_name=self._attr_name,
                 name=self._name,
                 ctl_ref=self._ctl_ref,
@@ -119,6 +122,7 @@ class ServiceProbeCtr(ModuleCtr):
             attr_name=self._attr_name,
             )
         template = htypes.service_resource.service_probe_template(
+            module_name=self._module_name,
             attr_name=self._attr_name,
             ctl=self._ctl_ref,
             function=mosaic.put(function),

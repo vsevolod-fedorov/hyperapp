@@ -22,13 +22,18 @@ class CoreServiceTemplateCtr(Constructor):
 
 class ServiceTemplateCtrBase(CoreServiceTemplateCtr):
 
-    def __init__(self, config_ctl, attr_name, name, ctl_ref, service_params, want_config):
+    def __init__(self, config_ctl, module_name, attr_name, name, ctl_ref, service_params, want_config):
         super().__init__(name)
         self._config_ctl = config_ctl
+        self._module_name = module_name
         self._attr_name = attr_name
         self._ctl_ref = ctl_ref
         self._service_params = service_params
         self._want_config = want_config
+
+    @property
+    def module_name(self):
+        return self._module_name
 
     def update_targets(self, target_set):
         resolved_tgt = target_set.factory.config_item_resolved('system', self._name)
@@ -93,6 +98,7 @@ class ServiceTemplateCtr(ServiceTemplateCtrBase):
     def from_piece(cls, piece, config_ctl):
         return cls(
             config_ctl=config_ctl,
+            module_name=piece.module_name,
             attr_name=piece.attr_name,
             name=piece.name,
             ctl_ref=piece.ctl,
@@ -101,13 +107,14 @@ class ServiceTemplateCtr(ServiceTemplateCtrBase):
             free_params=piece.free_params,
             )
 
-    def __init__(self, config_ctl, attr_name, name, ctl_ref, service_params, want_config, free_params):
-        super().__init__(config_ctl, attr_name, name, ctl_ref, service_params, want_config)
+    def __init__(self, config_ctl, module_name, attr_name, name, ctl_ref, service_params, want_config, free_params):
+        super().__init__(config_ctl, module_name, attr_name, name, ctl_ref, service_params, want_config)
         self._free_params = free_params
 
     @property
     def piece(self):
         return self._template_ctr_t(
+            module_name=self._module_name,
             attr_name=self._attr_name,
             name=self._name,
             ctl=self._ctl_ref,
@@ -131,6 +138,7 @@ class FinalizerGenServiceTemplateCtr(ServiceTemplateCtrBase):
     def from_piece(cls, piece, config_ctl):
         return cls(
             config_ctl=config_ctl,
+            module_name=piece.module_name,
             attr_name=piece.attr_name,
             name=piece.name,
             ctl_ref=piece.ctl,
@@ -142,6 +150,7 @@ class FinalizerGenServiceTemplateCtr(ServiceTemplateCtrBase):
     def piece(self):
         return self._template_ctr_t(
             attr_name=self._attr_name,
+            module_name=self._module_name,
             name=self._name,
             ctl=self._ctl_ref,
             service_params=tuple(self._service_params),

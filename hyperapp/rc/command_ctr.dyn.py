@@ -6,7 +6,7 @@ from .services import (
     mosaic,
     pyobj_creg,
     )
-from .code.rc_constructor import Constructor
+from .code.rc_constructor import ModuleCtr
 from .code.ctx_actor_ctr import CtxActorTemplateCtr
 
 
@@ -18,10 +18,10 @@ def _is_state_param(name):
     return name in STATE_PARAMS or name.startswith('current_')
 
 
-class CommandTemplateCtr(Constructor):
+class CommandTemplateCtr(ModuleCtr):
 
     def __init__(self, module_name, attr_qual_name, service_name, enum_service_name, ctx_params, service_params, args):
-        self._module_name = module_name
+        super().__init__(module_name)
         self._attr_qual_name = attr_qual_name
         self._service_name = service_name
         self._enum_service_name = enum_service_name

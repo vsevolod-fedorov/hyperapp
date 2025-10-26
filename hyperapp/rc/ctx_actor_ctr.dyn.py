@@ -3,22 +3,24 @@ from .services import (
     mosaic,
     pyobj_creg,
     )
-from .code.rc_constructor import Constructor, ModuleCtr
+from .code.rc_constructor import ModuleCtr
 from .code.config_item_resource import ConfigItemResource
 from .code.cfg_item_req import CfgItemReq
 
 
-class CtxActorProbeCtr(Constructor):
+class CtxActorProbeCtr(ModuleCtr):
 
     @classmethod
     def from_piece(cls, piece):
         return cls(
+            module_name=piece.module_name,
             attr_qual_name=piece.attr_qual_name,
             service_name=piece.service_name,
             t=pyobj_creg.invite(piece.t),
             )
 
-    def __init__(self, attr_qual_name, service_name, t):
+    def __init__(self, module_name, attr_qual_name, service_name, t):
+        super().__init__(module_name)
         self._attr_qual_name = attr_qual_name
         self._service_name = service_name
         self._t = t
@@ -26,6 +28,7 @@ class CtxActorProbeCtr(Constructor):
     @property
     def piece(self):
         return htypes.actor_resource.ctx_actor_probe_ctr(
+            module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             service_name=self._service_name,
             t=pyobj_creg.actor_to_ref(self._t),
