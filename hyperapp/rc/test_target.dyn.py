@@ -304,7 +304,16 @@ class TestTarget(Target):
 
     def _create_cached_target(self, entry):
         req_to_target = _resolve_requirements(self._target_set.factory, entry.deps.keys())
-        target = TestCachedTarget(self._cached_count, self._target_set, self, self._src, self._function, entry.deps, req_to_target, entry.result)
+        target = TestCachedTarget(
+            cached_count=self._cached_count,
+            target_set=self._target_set,
+            test_target=self,
+            src=self._src,
+            function=self._function,
+            deps=entry.deps,
+            req_to_target=req_to_target,
+            job_result=entry.result,
+            )
         self._current_job_target = target
         self._target_set.add(target)
 
