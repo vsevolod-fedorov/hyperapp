@@ -37,8 +37,9 @@ class Command:
         asyncio.create_task(self.run())
 
     async def run(self):
+        ctx = self._prepare_ctx()
         try:
-            result = self._command_creg.animate(self._command, self._ctx)
+            result = self._command_creg.animate(self._command, ctx)
             if inspect.iscoroutine(result):
                 result = await result
         except Exception as x:
@@ -52,6 +53,23 @@ class Command:
         if result.diff:
             self._process_diff(result.diff)
         await self._open(model, key)
+
+    def _prepare_ctx(self):
+        ctx = self._ctx
+        kw = {}
+        if 'widget' in ctx:
+            widget = ctx.widget()
+            if widget is None:
+                raise RuntimeError(f"{self!r}: widget is gone")
+            kw['widget'] = widget  # Replace weakref with actual widget.
+            if 'view' in ctx:
+                kw['state'] = ctx.view.widget_state(widget)
+        if 'input' in ctx and 'value' not in ctx:
+            kw['value'] = ctx.input.get_value()
+        if kw:
+            return ctx.clone_with(**kw)
+        else:
+            return ctx
 
     @staticmethod
     def _prepare_result(result):

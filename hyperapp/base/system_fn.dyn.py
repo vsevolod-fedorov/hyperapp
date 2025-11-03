@@ -40,7 +40,7 @@ class ContextFn:
     def fn_kw(self, ctx, **kw):
         return {
             'request': None,  # Can be overridden by actual request from ctx or kw.
-            **self._ctx_kw(ctx),
+            **ctx.as_dict(),
             **kw,
             'ctx': ctx,
             }
@@ -67,37 +67,3 @@ class ContextFn:
             name: fn_kw[name]
             for name in self._ctx_params
             }
-
-    def _ctx_kw(self, ctx):
-        kw = {
-            **ctx.as_dict(),
-            }
-        try:
-            kw['value'] = self._pick_ctx_value(ctx)
-        except KeyError:
-            pass
-        if not {'widget', 'state'} & self._ctx_params_set:
-            return kw
-        try:
-            view = ctx.view
-        except KeyError:
-            return kw
-        try:
-            widget = ctx.widget()
-        except KeyError:
-            return kw
-        if widget is None:
-            raise RuntimeError(f"{self!r}: widget is gone")
-        kw['widget'] = widget
-        if 'state' in self._ctx_params_set:
-            kw['state'] = view.widget_state(widget)
-        return kw
-
-    @staticmethod
-    def _pick_ctx_value(ctx):
-        try:
-            return ctx.value
-        except KeyError:
-            pass
-        input = ctx.input
-        return input.get_value()
