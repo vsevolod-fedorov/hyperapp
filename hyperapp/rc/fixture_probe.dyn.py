@@ -13,6 +13,10 @@ class FixtureProbe(Probe):
         super().__init__(system_probe, service_name, fn, params)
         self._ctl_ref = ctl_ref
 
+    def __str__(self):
+        service = self.apply_obj()
+        return str(service)
+
     def __repr__(self):
         return f"<FixtureProbe {self._fn} {self._params} {self._ctl_ref}>"
 
