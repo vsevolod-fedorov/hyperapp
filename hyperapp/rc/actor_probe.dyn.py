@@ -6,7 +6,7 @@ from .services import (
 from .code.actor_ctr import ActorTemplateCtr
 from .code.ctx_actor_ctr import CtxActorTemplateCtr
 from .code.probe import ProbeBase
-from .code.marker_utils import split_actor_params
+from .code.marker_utils import split_actor_params, split_ctx_actor_params
 
 
 class ActorProbeBase(ProbeBase):
@@ -21,7 +21,7 @@ class ActorProbeBase(ProbeBase):
         self._ctr_collector = system_probe.resolve_service('ctr_collector')
 
     def _call(self, *args, **kw):
-        params = split_actor_params(self.real_fn, args, kw)
+        params = self._split_params(args, kw)
         if 'piece' in params.ctx_names:
             if params.ctx_names[0] != 'piece':
                 raise RuntimeError(f"'piece' should be first parameter: {self.real_fn!r}: {params.ctx_names!r}")
@@ -41,6 +41,12 @@ class ActorProbeBase(ProbeBase):
             name: self._system.resolve_service(name)
             for name in params.service_names
             }
+        return self._call_fn(params, args, kw, service_kw)
+
+    def _split_params(self, args, kw):
+        return split_actor_params(self.real_fn, args, kw)
+
+    def _call_fn(self, params, args, kw, service_kw):
         return self._fn(*args, **kw, **service_kw)
 
 
@@ -76,6 +82,12 @@ class CtxActorProbe(ActorProbeBase):
 
     def call(self, *args, **kw):
         return self._call(*args, **kw)
+
+    def _split_params(self, args, kw):
+        return split_ctx_actor_params(self.real_fn, args, kw)
+
+    def _call_fn(self, params, args, kw, service_kw):
+        return self._fn(**params.values, **service_kw)
 
     def _add_constructor(self, params, t):
         ctr = CtxActorTemplateCtr(

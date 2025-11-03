@@ -1,6 +1,7 @@
 import inspect
 from collections import namedtuple
 
+from .code.context import Context
 from .code.probe import real_fn
 
 
@@ -122,6 +123,34 @@ def split_actor_params(fn, args, kw):
         name for name in param_names[ofs:]
         if name not in ctx_names
         ]
+    return ActorParams(called_class_name, ctx_names, service_names, values)
+
+
+def split_ctx_actor_params(fn, args, kw):
+    fn_params = inspect.signature(fn).parameters
+    param_names = list(fn_params)
+    if args and is_cls_arg(fn, args[0]):
+        # fn is a classmethod and args[0] is a 'cls' argument.
+        called_class_name = args[0].__name__
+        ofs = 1
+    else:
+        called_class_name = None
+        ofs = 0
+    if len(args) != ofs + 1 or not isinstance(args[ofs], Context) or kw:
+        raise RuntimeError(f"Context actor expects single positional parameter, Context: {fn}: {args}")
+    ctx = args[ofs]
+    ctx_names = [
+        name for name in param_names[ofs:]
+        if name in ctx
+        ]
+    service_names = [
+        name for name in param_names[ofs:]
+        if name not in ctx_names
+        ]
+    values = {
+        name: ctx[name]
+        for name in ctx_names
+        }
     return ActorParams(called_class_name, ctx_names, service_names, values)
 
 
