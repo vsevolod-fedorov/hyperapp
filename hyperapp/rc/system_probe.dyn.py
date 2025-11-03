@@ -173,6 +173,10 @@ class Probe:
             raise RuntimeError(f"Error resolving service or fixture: {x}") from x
         return getattr(service, name)
 
+    def __contains__(self, key):
+        service = self.apply_obj()
+        return key in service
+
     def __getitem__(self, key):
         service = self.apply_obj()
         return service[key]
