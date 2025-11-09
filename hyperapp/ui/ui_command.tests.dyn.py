@@ -1,6 +1,6 @@
 import weakref
 from functools import partial
-from unittest.mock import Mock
+from unittest.mock import AsyncMock
 
 from . import htypes
 from .services import (
@@ -10,7 +10,7 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.system_fn import ContextFn
-from .code.command_enumerator import UnboundCommandEnumerator
+from .fixtures import visualizer_fixtures
 from .tested.code import ui_command
 
 
@@ -46,7 +46,7 @@ def sample_command_enum_fn():
         )
 
 
-@mark.fixture
+@mark.fixture.obj
 def sample_service():
     return 'a-service'
 
@@ -88,8 +88,15 @@ def view_ui_command_reg_config():
 
 
 @mark.fixture
-def ctx(view, widget):
+def navigator():
+    return AsyncMock()
+
+
+@mark.fixture
+def ctx(navigator, view, widget):
     return Context(
+        navigator=navigator,
+        ).push(
         view=view,
         widget=weakref.ref(widget),
         )
@@ -101,10 +108,11 @@ def test_view_ui_command_reg(view_ui_command_reg):
     assert len(name_to_command) == 1
 
 
-async def test_view_commands(get_view_commands, view, ctx):
+async def test_view_commands(get_view_commands, view, navigator, ctx):
     [command] = get_view_commands(ctx, view)
     result = await command.run()
-    assert result == 'sample-fn: a-state, a-service', repr(result)
+    # Second argument to navigator open method is model returned from sample command.
+    assert navigator.view.open.call_args.args[1] == 'sample-fn: a-state, a-service'
 
 
 async def test_view_element_commands(get_view_element_commands, view, ctx):
