@@ -59,8 +59,6 @@ class CommandPaneView(View):
 
     async def children_changed(self, ctx, rctx, widget, save_layout):
         commands = rctx.get('commands', [])
-        pane_1_d = htypes.command_groups.pane_1_d()
-        pane_2_d = htypes.command_groups.pane_2_d()
         layout = widget.layout()
         new_commands = []
         # new_commands = [
@@ -79,7 +77,7 @@ class CommandPaneView(View):
         used_shortcuts = set()
         for cmd in new_commands:
             button = self._make_button(cmd, used_shortcuts)
-            if pane_1_d in cmd.groups:
+            if False:  # pane_1_d in cmd.groups:
                 layout.insertWidget(widget.spacing_idx, button)
             else:
                 layout.addWidget(button)

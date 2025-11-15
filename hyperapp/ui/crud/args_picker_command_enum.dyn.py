@@ -11,7 +11,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.command import CommandKind
-from .code.command_groups import default_command_groups
+# from .code.command_groups import default_command_groups
 from .code.model_command import UnboundModelCommand
 from .code.arg_mark import model_mark_prefix, value_mark_name
 from .code.canned_args_command_fn import CannedArgsCommandFn

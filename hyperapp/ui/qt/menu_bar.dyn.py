@@ -46,9 +46,6 @@ class MenuBarView(View):
     async def children_changed(self, ctx, rctx, widget, save_layout):
         commands = rctx.get('commands', [])
         used_shortcuts = rctx.get('used_shortcuts', set())
-        global_d = htypes.command_groups.global_d()
-        view_d = htypes.command_groups.view_d()
-        model_d = htypes.command_groups.model_d()
 
         global_menu, view_menu, model_menu = [
             action.menu() for action in widget.actions()

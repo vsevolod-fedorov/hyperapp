@@ -14,7 +14,7 @@ async def test_widget(qapp):
     state = htypes.command_pane.state()
     command = Mock(
         d=htypes.command_pane_tests.sample_command_d(),
-        groups={htypes.command_groups.pane_1_d()},
+        groups={},
         enabled=True,
         )
     view = command_pane.CommandPaneView.from_piece(piece, ctx)

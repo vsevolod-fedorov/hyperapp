@@ -8,7 +8,6 @@ import:
 - legacy_type.builtin:python_module
 - ui.arg_mark:arg_mark.module
 - ui.command:command.module
-- ui.command_groups:command_groups.module
 - ui.crud.args_picker_fn:args_picker_fn.module
 - ui.crud.canned_args_command_fn:canned_args_command_fn.module
 - ui.crud.command_args:command_args.module
@@ -25,7 +24,6 @@ definitions:
         code.canned_args_command_fn: ui.crud.canned_args_command_fn:canned_args_command_fn.module
         code.command: ui.command:command.module
         code.command_args: ui.crud.command_args:command_args.module
-        code.command_groups: ui.command_groups:command_groups.module
         code.mark: base.mark:mark.module
         code.model_command: ui.model_command:model_command.module
         services.deduce_t: builtins:deduce_t.service
