@@ -3,6 +3,7 @@ import:
 - builtins:pyobj_creg.service
 - legacy_type.actor_resource:ctx_actor_probe_ctr
 - legacy_type.actor_resource:ctx_actor_probe_template
+- legacy_type.actor_resource:ctx_actor_template_ctr
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:fn_value_template
@@ -23,6 +24,7 @@ definitions:
       import_list:
         htypes.actor_resource.ctx_actor_probe_ctr: legacy_type.actor_resource:ctx_actor_probe_ctr
         htypes.actor_resource.ctx_actor_probe_template: legacy_type.actor_resource:ctx_actor_probe_template
+        htypes.actor_resource.ctx_actor_template_ctr: legacy_type.actor_resource:ctx_actor_template_ctr
         htypes.builtin.attribute: legacy_type.builtin:attribute
         htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
         htypes.cfg_item.fn_value_template: legacy_type.cfg_item:fn_value_template
@@ -56,3 +58,27 @@ definitions:
     value:
       t: legacy_type.actor_resource:ctx_actor_probe_ctr
       value: CtxActorProbeCtr.from_piece.actor-template
+
+  CtxActorTemplateCtr:
+    type: legacy_type.builtin:attribute
+    value:
+      object: ctx_actor_ctr.module
+      attr_name: CtxActorTemplateCtr
+
+  CtxActorTemplateCtr.from_piece:
+    type: legacy_type.builtin:attribute
+    value:
+      object: CtxActorTemplateCtr
+      attr_name: from_piece
+
+  CtxActorTemplateCtr.from_piece.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: CtxActorTemplateCtr.from_piece
+      service_params: []
+
+  actor_resource-ctx_actor_template_ctr.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.actor_resource:ctx_actor_template_ctr
+      value: CtxActorTemplateCtr.from_piece.actor-template

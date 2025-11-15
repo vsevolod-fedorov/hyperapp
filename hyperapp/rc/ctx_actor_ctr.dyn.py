@@ -108,12 +108,34 @@ class CtxFnCtr:
 
 class CtxActorTemplateCtr(ModuleCtr, CtxFnCtr):
 
+    @classmethod
+    def from_piece(cls, piece):
+        return cls(
+            module_name=piece.module_name,
+            attr_qual_name=piece.attr_qual_name,
+            service_name=piece.service_name,
+            t=pyobj_creg.invite(piece.t),
+            ctx_params=piece.ctx_params,
+            service_params=piece.service_params,
+            )
+
     def __init__(self, module_name, attr_qual_name, service_name, t, ctx_params, service_params, create_t=False):
         super().__init__(module_name)
         CtxFnCtr.__init__(self, attr_qual_name, ctx_params, service_params)
         self._service_name = service_name
         self._t = t
         self._create_t = create_t
+
+    @property
+    def piece(self):
+        return htypes.actor_resource.ctx_actor_template_ctr(
+            module_name=self._module_name,
+            attr_qual_name=tuple(self._attr_qual_name),
+            service_name=self._service_name,
+            t=pyobj_creg.actor_to_ref(self._t),
+            ctx_params=tuple(self._ctx_params),
+            service_params=tuple(self._service_params),
+            )
 
     def update_resource_targets(self, resource_tgt, target_set):
         req = CfgItemReq.from_actor(self._service_name, self._t)
