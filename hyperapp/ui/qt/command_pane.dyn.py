@@ -23,12 +23,13 @@ class CommandPaneView(View):
 
     @classmethod
     @mark.view
-    def from_piece(cls, piece, ctx, format, shortcut_reg):
-        return cls(format, shortcut_reg)
+    def from_piece(cls, piece, ctx, format, get_command_group, shortcut_reg):
+        return cls(format, get_command_group, shortcut_reg)
 
-    def __init__(self, format, shortcut_reg):
+    def __init__(self, format, get_command_group, shortcut_reg):
         super().__init__()
         self._format = format
+        self._get_command_group = get_command_group
         self._shortcut_reg = shortcut_reg
 
     @property
@@ -60,13 +61,16 @@ class CommandPaneView(View):
     async def children_changed(self, ctx, rctx, widget, save_layout):
         commands = rctx.get('commands', [])
         layout = widget.layout()
-        new_commands = []
-        # new_commands = [
-        #     cmd for cmd in commands
-        #     if {pane_1_d, pane_2_d} & cmd.groups
-        #     ]
+        command_group = {
+            cmd: self._get_command_group(cmd.key)
+            for cmd in commands
+            }
+        new_commands = [
+            cmd for cmd in commands
+            if command_group[cmd] == 'context'
+            ]
         removed_commands = set(widget.command_to_button) - set(new_commands)
-        widget.spacing_idx -= sum(1 for cmd in removed_commands if pane_1_d in cmd.groups)
+        # widget.spacing_idx -= sum(1 for cmd in removed_commands if 'context' in cmd.groups)
         new_commands = [
             cmd for cmd in new_commands
             if cmd not in set(widget.command_to_button)
@@ -82,21 +86,23 @@ class CommandPaneView(View):
             else:
                 layout.addWidget(button)
             widget.command_to_button[cmd] = button
-        widget.spacing_idx += sum(1 for cmd in new_commands if pane_1_d in cmd.groups)
+        # widget.spacing_idx += sum(1 for cmd in new_commands if pane_1_d in cmd.groups)
 
     def _make_button(self, cmd, used_shortcuts):
-        text = command_text(self._format, cmd)
-        shortcut = self._shortcut_reg.get(cmd.d)
+        # text = command_text(self._format, cmd)
+        text = cmd.name
+        shortcut = None  # self._shortcut_reg.get(cmd.d)
+        enabled = True
         if shortcut and shortcut not in used_shortcuts:
             text += f' ({shortcut})'
         button = QtWidgets.QPushButton(
-            text, focusPolicy=QtCore.Qt.NoFocus, enabled=cmd.enabled)
+            text, focusPolicy=QtCore.Qt.NoFocus, enabled=enabled)
         button.pressed.connect(cmd.start)
         if shortcut and shortcut not in used_shortcuts:
             button.setShortcut(shortcut)
             used_shortcuts.add(shortcut)
-        tooltip = str(cmd.d)
-        if not cmd.enabled:
-            tooltip += '\n' + cmd.disabled_reason
+        tooltip = cmd.name
+        # if not enabled:
+        #     tooltip += '\n' + cmd.disabled_reason
         button.setToolTip(tooltip)
         return button

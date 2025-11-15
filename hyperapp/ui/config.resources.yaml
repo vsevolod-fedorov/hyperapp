@@ -17,6 +17,7 @@ import:
 - ui.command:command_factory.service
 - ui.command_config_ctl:config_ctl_creg-command_config_ctl-type_str_command_config_ctl.actor-cfg-item
 - ui.command_creg:command_creg.service
+- ui.command_group:get_command_group.service
 - ui.controller:canned_ctl_item_factory.service
 - ui.controller:controller_running.service
 - ui.controller:layout-model.feed-template-cfg-item
@@ -330,6 +331,7 @@ definitions:
       - ui.column_visible_reg:column_visible_reg.service
       - ui.command:command_factory.service
       - ui.command_creg:command_creg.service
+      - ui.command_group:get_command_group.service
       - ui.controller:canned_ctl_item_factory.service
       - ui.controller:controller_running.service
       - ui.crud.editor_default_reg:editor_default_reg.service

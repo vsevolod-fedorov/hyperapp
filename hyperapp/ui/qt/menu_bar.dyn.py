@@ -22,12 +22,13 @@ class MenuBarView(View):
 
     @classmethod
     @mark.view
-    def from_piece(cls, piece, ctx, format, shortcut_reg):
-        return cls(format, shortcut_reg)
+    def from_piece(cls, piece, ctx, format, get_command_group, shortcut_reg):
+        return cls(format, get_command_group, shortcut_reg)
 
-    def __init__(self, format, shortcut_reg):
+    def __init__(self, format, get_command_group, shortcut_reg):
         super().__init__()
         self._format = format
+        self._get_command_group = get_command_group
         self._shortcut_reg = shortcut_reg
 
     @property
@@ -45,6 +46,10 @@ class MenuBarView(View):
 
     async def children_changed(self, ctx, rctx, widget, save_layout):
         commands = rctx.get('commands', [])
+        command_group = {
+            cmd: self._get_command_group(cmd.key)
+            for cmd in commands
+            }
         used_shortcuts = rctx.get('used_shortcuts', set())
 
         global_menu, view_menu, model_menu = [
@@ -56,14 +61,15 @@ class MenuBarView(View):
             global_menu.removeAction(action)
         for cmd in commands:
             menu = view_menu
-            # if global_d in cmd.groups:
-            #     menu = global_menu
-            # elif view_d in cmd.groups:
-            #     menu = view_menu
+            group = command_group[cmd]
+            if group == 'global':
+                menu = global_menu
+            elif group == 'view':
+                menu = view_menu
             # elif model_d in cmd.groups:
             #     menu = model_menu
-            # else:
-            #     continue
+            else:
+                continue
             action = self._make_action(cmd, used_shortcuts)
             menu.addAction(action)
             widget.command_to_action[cmd] = action
@@ -78,8 +84,8 @@ class MenuBarView(View):
         # if shortcut and shortcut not in used_shortcuts:
         #     action.setShortcut(shortcut)
         #     used_shortcuts.add(shortcut)
-        # tooltip = str(cmd.d)
+        tooltip = cmd.name
         # if not cmd.enabled:
         #     tooltip += '\n' + cmd.disabled_reason
-        # action.setToolTip(tooltip)
+        action.setToolTip(tooltip)
         return action

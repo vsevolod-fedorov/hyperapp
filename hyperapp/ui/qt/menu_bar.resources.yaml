@@ -35,6 +35,7 @@ definitions:
       - ctx
       service_params:
       - format
+      - get_command_group
       - shortcut_reg
   menu_bar-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item

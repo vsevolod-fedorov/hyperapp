@@ -1,21 +1,25 @@
 from unittest.mock import Mock
 
 from . import htypes
+from .services import (
+    pyobj_creg,
+    )
 from .code.context import Context
 from .fixtures import qapp_fixtures
 from .tested.code import command_pane
 
 
 async def test_widget(qapp):
-    ctx = Context(
-        lcs=Mock(),
-        )
+    ctx = Context()
     piece = htypes.command_pane.view()
     state = htypes.command_pane.state()
+    command_key = htypes.command.model_command_key(
+        model_t=pyobj_creg.actor_to_ref(htypes.command_pane_tests.sample_model),
+        name='sample_context_command',
+        ),
     command = Mock(
-        d=htypes.command_pane_tests.sample_command_d(),
-        groups={},
-        enabled=True,
+        key=command_key,
+        name='sample_context_command',
         )
     view = command_pane.CommandPaneView.from_piece(piece, ctx)
     widget = view.construct_widget(state, ctx)
