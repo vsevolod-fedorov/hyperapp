@@ -8,6 +8,7 @@ from .services import (
     )
 from .code.rc_constructor import ModuleCtr
 from .code.ctx_actor_ctr import CtxActorTemplateCtr
+from .code.data_config_ctr import DataConfigCtr
 
 
 STATE_PARAMS = {'state', 'model_state', 'current_item', 'current_idx', 'current_key', 'current_path'}
@@ -50,6 +51,16 @@ class CommandTemplateCtr(ModuleCtr):
             for arg in arg_list
             }
 
+    def _create_group_ctr(self, resource_tgt, target_set):
+        group_ctr = DataConfigCtr(
+            module_name=self._module_name,
+            service_name='command_group_reg',
+            name=self._command_key_name,
+            key=self._command_key,
+            value=self._command_group,
+            )
+        group_ctr.update_resource_targets(resource_tgt, target_set)
+
     def update_targets(self, target_set):
         if self._have_args:
             service_name = self._enum_service_name
@@ -68,6 +79,7 @@ class CommandTemplateCtr(ModuleCtr):
             provider=resource_tgt,
             ctr=self,
             )
+        self._create_group_ctr(resource_tgt, target_set)
         # resource target may already have resolved target, but in case of
         # non-typed marker it have not.
         resource_tgt.add_cfg_item_target(reg_resolved_tgt)
@@ -278,8 +290,16 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
         return cfg_item
 
     @property
+    def _type_name(self):
+        return f'{self._t.module_name}-{self._t.name}'
+
+    @property
+    def _command_key_name(self):
+        return f'{self._type_name}-{self._command_name}'
+
+    @property
     def _resource_name(self):
-        return f'{self._t.module_name}-{self._t.name}-{self._command_name}'
+        return f'{self._type_name}-{self._command_name}'
 
 
 class UiCommandTemplateCtr(TypedCommandTemplateCtr):
@@ -291,6 +311,17 @@ class UiCommandTemplateCtr(TypedCommandTemplateCtr):
     _is_global = False
     _direct_command_resource_suffix = 'ui-command'
     _command_enum_resource_suffix = 'ui-command-enumerator'
+
+    @property
+    def _command_key(self):
+        return htypes.command.ui_command_key(
+            view_t=pyobj_creg.actor_to_ref(self._t),
+            name=self._command_name,
+            )
+
+    @property
+    def _command_group(self):
+        return 'view'
 
 
 class UiModelCommandTemplateCtr(TypedCommandTemplateCtr):
@@ -380,6 +411,17 @@ class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
     _direct_command_resource_suffix = 'model-command'
     _command_enum_resource_suffix = 'model-command-enumerator'
 
+    @property
+    def _command_key(self):
+        return htypes.command.model_command_key(
+            model_t=pyobj_creg.actor_to_ref(self._t),
+            name=self._command_name,
+            )
+
+    @property
+    def _command_group(self):
+        return 'model'
+
 
 class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
 
@@ -439,3 +481,15 @@ class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr):
     #         system_fn=mosaic.put(fn),
     #         preserve_remote=self._preserve_remote,
     #         )
+
+    @property
+    def _command_key_name(self):
+        return self._command_name
+
+    @property
+    def _command_key(self):
+        return htypes.command.global_model_command_key(self._command_name)
+
+    @property
+    def _command_group(self):
+        return 'global'
