@@ -23,6 +23,20 @@ definitions:
         htypes.command.global_model_command_key: legacy_type.command:global_model_command_key
         htypes.command.model_command_key: legacy_type.command:model_command_key
         htypes.command.ui_command_key: legacy_type.command:ui_command_key
+  command_group_reg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_group.module
+      attr_name: command_group_reg
+  command_group_reg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: command_group_reg
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: command_group_reg
+      service_params: []
+      want_config: true
+      free_params: []
   get_command_group:
     type: legacy_type.builtin:attribute
     value:
@@ -34,7 +48,8 @@ definitions:
       name: get_command_group
       ctl: system-dict_config.one_way.actor.single.ctl
       function: get_command_group
-      service_params: []
+      service_params:
+      - command_group_reg
       want_config: false
       free_params:
       - command_key
