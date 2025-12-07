@@ -10,10 +10,12 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
+- legacy_type.command:ui_command_key
 - legacy_type.system_fn:ctx_fn
 - legacy_type.view_factory:template
 - ui.view.view:view.module
@@ -106,30 +108,95 @@ definitions:
       t: legacy_type.box_layout:view
       name: add_element
       command: add_element.command
+  box_layout-view-add_element.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  box_layout-view-add_element.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: box_layout-view-add_element.command-key
+      value: box_layout-view-add_element.command-group
+  box_layout-view-add_element.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.box_layout:view
+      name: add_element
   box_layout-view-add_stretch.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: add_stretch
       command: add_stretch.command
+  box_layout-view-add_stretch.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  box_layout-view-add_stretch.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: box_layout-view-add_stretch.command-key
+      value: box_layout-view-add_stretch.command-group
+  box_layout-view-add_stretch.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.box_layout:view
+      name: add_stretch
   box_layout-view-insert_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: insert_element
       command: insert_element.command
+  box_layout-view-insert_element.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  box_layout-view-insert_element.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: box_layout-view-insert_element.command-key
+      value: box_layout-view-insert_element.command-group
+  box_layout-view-insert_element.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.box_layout:view
+      name: insert_element
   box_layout-view-remove_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: remove_element
       command: remove_element.command
+  box_layout-view-remove_element.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  box_layout-view-remove_element.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: box_layout-view-remove_element.command-key
+      value: box_layout-view-remove_element.command-group
+  box_layout-view-remove_element.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.box_layout:view
+      name: remove_element
   box_layout-view-unwrap.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.box_layout:view
       name: unwrap
       command: unwrap.command
+  box_layout-view-unwrap.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  box_layout-view-unwrap.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: box_layout-view-unwrap.command-key
+      value: box_layout-view-unwrap.command-group
+  box_layout-view-unwrap.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.box_layout:view
+      name: unwrap
   box_layout-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

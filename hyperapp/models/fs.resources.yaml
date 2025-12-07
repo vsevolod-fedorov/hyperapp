@@ -6,9 +6,11 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
 - legacy_type.feed:feed_template
 - legacy_type.feed:index_tree_feed_type
 - legacy_type.fs:item
@@ -104,6 +106,18 @@ definitions:
     value:
       key: open_fs
       value: open_fs.command
+  open_fs.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_fs.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_fs.command-key
+      value: open_fs.command-group
+  open_fs.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_fs
   open_fs.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:

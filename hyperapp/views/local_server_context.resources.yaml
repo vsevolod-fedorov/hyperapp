@@ -6,9 +6,12 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
 - legacy_type.context_view:state
 - legacy_type.local_server_context:view
 - legacy_type.system_fn:ctx_fn
@@ -72,6 +75,18 @@ definitions:
     value:
       key: open_local_server_context
       value: open_local_server_context.command
+  open_local_server_context.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_local_server_context.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_local_server_context.command-key
+      value: open_local_server_context.command-group
+  open_local_server_context.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_local_server_context
   open_local_server_context.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:

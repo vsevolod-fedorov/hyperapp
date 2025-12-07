@@ -8,9 +8,12 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.config_service_list:item
 - legacy_type.config_service_list:model
@@ -42,6 +45,19 @@ definitions:
       t: legacy_type.config_service_list:model
       name: toggle_assoc
       command: toggle_assoc.command
+  config_service_list-model-toggle_assoc.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_service_list-model-toggle_assoc.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_service_list-model-toggle_assoc.command-key
+      value: config_service_list-model-toggle_assoc.command-group
+  config_service_list-model-toggle_assoc.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_service_list:model
+      name: toggle_assoc
   config_service_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -120,6 +136,18 @@ definitions:
     value:
       key: open_config_service_list
       value: open_config_service_list.command
+  open_config_service_list.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_config_service_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_config_service_list.command-key
+      value: open_config_service_list.command-group
+  open_config_service_list.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_config_service_list
   open_config_service_list.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:

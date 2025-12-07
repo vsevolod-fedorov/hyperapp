@@ -9,9 +9,13 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:ref
+- legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.data_browser:list_item
 - legacy_type.data_browser:list_view
@@ -42,6 +46,18 @@ definitions:
     value:
       key: browse_current_model
       value: browse_current_model.command
+  browse_current_model.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  browse_current_model.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: browse_current_model.command-key
+      value: browse_current_model.command-group
+  browse_current_model.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: browse_current_model
   browse_current_model.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -106,6 +122,19 @@ definitions:
       t: legacy_type.data_browser:list_view
       name: list_open
       command: list_open.command
+  data_browser-list_view-list_open.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  data_browser-list_view-list_open.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: data_browser-list_view-list_open.command-key
+      value: data_browser-list_view-list_open.command-group
+  data_browser-list_view-list_open.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.data_browser:list_view
+      name: list_open
   data_browser-list_view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -167,6 +196,19 @@ definitions:
       t: legacy_type.data_browser:record_view
       name: record_open
       command: record_open.command
+  data_browser-record_view-record_open.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  data_browser-record_view-record_open.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: data_browser-record_view-record_open.command-key
+      value: data_browser-record_view-record_open.command-group
+  data_browser-record_view-record_open.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.data_browser:record_view
+      name: record_open
   data_browser-record_view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -207,6 +249,19 @@ definitions:
       t: legacy_type.data_browser:ref_list_view
       name: ref_list_open
       command: ref_list_open.command
+  data_browser-ref_list_view-ref_list_open.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  data_browser-ref_list_view-ref_list_open.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: data_browser-ref_list_view-ref_list_open.command-key
+      value: data_browser-ref_list_view-ref_list_open.command-group
+  data_browser-ref_list_view-ref_list_open.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.data_browser:ref_list_view
+      name: ref_list_open
   data_browser-ref_list_view.feed-template:
     type: legacy_type.feed:feed_template
     value:

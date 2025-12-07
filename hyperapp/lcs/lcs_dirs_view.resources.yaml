@@ -7,8 +7,11 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -67,6 +70,19 @@ definitions:
       t: legacy_type.lcs_dirs_view:view
       name: lcs_dirs_items
       command: lcs_dirs_items.command
+  lcs_dirs_view-view-lcs_dirs_items.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  lcs_dirs_view-view-lcs_dirs_items.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: lcs_dirs_view-view-lcs_dirs_items.command-key
+      value: lcs_dirs_view-view-lcs_dirs_items.command-group
+  lcs_dirs_view-view-lcs_dirs_items.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.lcs_dirs_view:view
+      name: lcs_dirs_items
   lcs_dirs_view-view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -146,3 +162,16 @@ definitions:
       t: legacy_type.lcs_view:view
       name: lcs_open_dirs
       command: lcs_open_dirs.command
+  lcs_view-view-lcs_open_dirs.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  lcs_view-view-lcs_open_dirs.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: lcs_view-view-lcs_open_dirs.command-key
+      value: lcs_view-view-lcs_open_dirs.command-group
+  lcs_view-view-lcs_open_dirs.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.lcs_view:view
+      name: lcs_open_dirs

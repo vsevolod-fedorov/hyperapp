@@ -7,10 +7,12 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
+- legacy_type.command:ui_command_key
 - legacy_type.system_fn:ctx_fn
 - legacy_type.tabs:list_item
 - legacy_type.tabs:state
@@ -159,24 +161,76 @@ definitions:
       t: legacy_type.tabs:view
       name: add_element
       command: add_element.command
+  tabs-view-add_element.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  tabs-view-add_element.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: tabs-view-add_element.command-key
+      value: tabs-view-add_element.command-group
+  tabs-view-add_element.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.tabs:view
+      name: add_element
   tabs-view-insert_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.tabs:view
       name: insert_element
       command: insert_element.command
+  tabs-view-insert_element.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  tabs-view-insert_element.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: tabs-view-insert_element.command-key
+      value: tabs-view-insert_element.command-group
+  tabs-view-insert_element.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.tabs:view
+      name: insert_element
   tabs-view-remove_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.tabs:view
       name: remove_element
       command: remove_element.command
+  tabs-view-remove_element.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  tabs-view-remove_element.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: tabs-view-remove_element.command-key
+      value: tabs-view-remove_element.command-group
+  tabs-view-remove_element.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.tabs:view
+      name: remove_element
   tabs-view-unwrap.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.tabs:view
       name: unwrap
       command: unwrap.command
+  tabs-view-unwrap.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  tabs-view-unwrap.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: tabs-view-unwrap.command-key
+      value: tabs-view-unwrap.command-group
+  tabs-view-unwrap.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.tabs:view
+      name: unwrap
   tabs-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

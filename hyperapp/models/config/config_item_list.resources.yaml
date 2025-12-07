@@ -10,8 +10,11 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:ref
+- legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.config_item_list:item
 - legacy_type.config_item_list:layer_item
@@ -68,18 +71,57 @@ definitions:
       t: legacy_type.config_item_list:layer_model
       name: layer_remove
       command: layer_remove.command
+  config_item_list-layer_model-layer_remove.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_item_list-layer_model-layer_remove.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_item_list-layer_model-layer_remove.command-key
+      value: config_item_list-layer_model-layer_remove.command-group
+  config_item_list-layer_model-layer_remove.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_item_list:layer_model
+      name: layer_remove
   config_item_list-layer_model-open_config_key.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.config_item_list:layer_model
       name: open_config_key
       command: open_config_key.command
+  config_item_list-layer_model-open_config_key.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_item_list-layer_model-open_config_key.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_item_list-layer_model-open_config_key.command-key
+      value: config_item_list-layer_model-open_config_key.command-group
+  config_item_list-layer_model-open_config_key.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_item_list:layer_model
+      name: open_config_key
   config_item_list-layer_model-open_config_value.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.config_item_list:layer_model
       name: open_config_value
       command: open_config_value.command
+  config_item_list-layer_model-open_config_value.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_item_list-layer_model-open_config_value.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_item_list-layer_model-open_config_value.command-key
+      value: config_item_list-layer_model-open_config_value.command-group
+  config_item_list-layer_model-open_config_value.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_item_list:layer_model
+      name: open_config_value
   config_item_list-layer_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -124,18 +166,57 @@ definitions:
       t: legacy_type.config_item_list:model
       name: open_config_key
       command: open_config_key.command
+  config_item_list-model-open_config_key.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_item_list-model-open_config_key.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_item_list-model-open_config_key.command-key
+      value: config_item_list-model-open_config_key.command-group
+  config_item_list-model-open_config_key.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_item_list:model
+      name: open_config_key
   config_item_list-model-open_config_value.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.config_item_list:model
       name: open_config_value
       command: open_config_value.command
+  config_item_list-model-open_config_value.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_item_list-model-open_config_value.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_item_list-model-open_config_value.command-key
+      value: config_item_list-model-open_config_value.command-group
+  config_item_list-model-open_config_value.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_item_list:model
+      name: open_config_value
   config_item_list-model-remove.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.config_item_list:model
       name: remove
       command: remove.command
+  config_item_list-model-remove.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_item_list-model-remove.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_item_list-model-remove.command-key
+      value: config_item_list-model-remove.command-group
+  config_item_list-model-remove.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_item_list:model
+      name: remove
   config_item_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -197,6 +278,19 @@ definitions:
       t: legacy_type.config_service_list:model
       name: open_config_item_list
       command: open_config_item_list.command
+  config_service_list-model-open_config_item_list.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  config_service_list-model-open_config_item_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: config_service_list-model-open_config_item_list.command-key
+      value: config_service_list-model-open_config_item_list.command-group
+  config_service_list-model-open_config_item_list.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.config_service_list:model
+      name: open_config_item_list
   format_layer_model:
     type: legacy_type.builtin:attribute
     value:

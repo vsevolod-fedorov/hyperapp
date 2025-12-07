@@ -6,9 +6,13 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.sample_commands:system_info_item
 - legacy_type.sample_list:item
@@ -93,6 +97,18 @@ definitions:
     value:
       key: open_sample_static_list
       value: open_sample_static_list.command
+  open_sample_static_list.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_sample_static_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_sample_static_list.command-key
+      value: open_sample_static_list.command-group
+  open_sample_static_list.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_sample_static_list
   open_sample_static_list.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -123,6 +139,18 @@ definitions:
     value:
       key: open_sample_static_text
       value: open_sample_static_text.command
+  open_sample_static_text.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_sample_static_text.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_sample_static_text.command-key
+      value: open_sample_static_text.command-group
+  open_sample_static_text.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_sample_static_text
   open_sample_static_text.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -153,6 +181,18 @@ definitions:
     value:
       key: open_sample_wiki_text
       value: open_sample_wiki_text.command
+  open_sample_wiki_text.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_sample_wiki_text.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_sample_wiki_text.command-key
+      value: open_sample_wiki_text.command-group
+  open_sample_wiki_text.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_sample_wiki_text
   open_sample_wiki_text.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -189,12 +229,38 @@ definitions:
       t: legacy_type.sample_list:sample_list
       name: details
       command: details.command
+  sample_list-sample_list-details.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  sample_list-sample_list-details.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: sample_list-sample_list-details.command-key
+      value: sample_list-sample_list-details.command-group
+  sample_list-sample_list-details.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.sample_list:sample_list
+      name: details
   sample_tree-model-sample_tree_info.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.sample_tree:model
       name: sample_tree_info
       command: sample_tree_info.command
+  sample_tree-model-sample_tree_info.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  sample_tree-model-sample_tree_info.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: sample_tree-model-sample_tree_info.command-key
+      value: sample_tree-model-sample_tree_info.command-group
+  sample_tree-model-sample_tree_info.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.sample_tree:model
+      name: sample_tree_info
   sample_tree_info:
     type: legacy_type.builtin:attribute
     value:
@@ -234,6 +300,18 @@ definitions:
     value:
       key: show_state
       value: show_state.command
+  show_state.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  show_state.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: show_state.command-key
+      value: show_state.command-group
+  show_state.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: show_state
   show_state.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -265,6 +343,18 @@ definitions:
     value:
       key: system_info
       value: system_info.command
+  system_info.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  system_info.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: system_info.command-key
+      value: system_info.command-group
+  system_info.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: system_info
   system_info.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:

@@ -7,10 +7,12 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:type_str_command
+- legacy_type.command:ui_command_key
 - legacy_type.navigator:view
 - legacy_type.splitter:state
 - legacy_type.splitter:view
@@ -57,6 +59,19 @@ definitions:
       t: legacy_type.navigator:view
       name: split_horizontally
       command: split_horizontally.command
+  navigator-view-split_horizontally.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  navigator-view-split_horizontally.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: navigator-view-split_horizontally.command-key
+      value: navigator-view-split_horizontally.command-group
+  navigator-view-split_horizontally.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.navigator:view
+      name: split_horizontally
   split_horizontally:
     type: legacy_type.builtin:attribute
     value:
@@ -93,6 +108,19 @@ definitions:
       t: legacy_type.splitter:view
       name: unwrap
       command: unwrap.command
+  splitter-view-unwrap.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  splitter-view-unwrap.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: splitter-view-unwrap.command-key
+      value: splitter-view-unwrap.command-group
+  splitter-view-unwrap.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.splitter:view
+      name: unwrap
   splitter-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

@@ -13,9 +13,12 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -71,6 +74,18 @@ definitions:
     value:
       key: open_peer_list
       value: open_peer_list.command
+  open_peer_list.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_peer_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_peer_list.command-key
+      value: open_peer_list.command-group
+  open_peer_list.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_peer_list
   open_peer_list.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -94,6 +109,19 @@ definitions:
       t: legacy_type.peer_list:model
       name: remove
       command: remove.command
+  peer_list-model-remove.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  peer_list-model-remove.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: peer_list-model-remove.command-key
+      value: peer_list-model-remove.command-group
+  peer_list-model-remove.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.peer_list:model
+      name: remove
   peer_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:

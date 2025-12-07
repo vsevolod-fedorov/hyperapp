@@ -11,12 +11,19 @@ import:
 - sample.sample_commands:command_creg-sample_commands-show_state.ctx-actor-cfg-item
 - sample.sample_commands:command_creg-sample_commands-system_info.ctx-actor-cfg-item
 - sample.sample_commands:open_sample_static_list.command-cfg-item
+- sample.sample_commands:open_sample_static_list.command-group-item
 - sample.sample_commands:open_sample_static_text.command-cfg-item
+- sample.sample_commands:open_sample_static_text.command-group-item
 - sample.sample_commands:open_sample_wiki_text.command-cfg-item
+- sample.sample_commands:open_sample_wiki_text.command-group-item
 - sample.sample_commands:sample_list-sample_list-details.command-cfg-item
+- sample.sample_commands:sample_list-sample_list-details.command-group-item
 - sample.sample_commands:sample_tree-model-sample_tree_info.command-cfg-item
+- sample.sample_commands:sample_tree-model-sample_tree_info.command-group-item
 - sample.sample_commands:show_state.command-cfg-item
+- sample.sample_commands:show_state.command-group-item
 - sample.sample_commands:system_info.command-cfg-item
+- sample.sample_commands:system_info.command-group-item
 - sample.sample_feed:sample_feed-sample_list_feed.feed-template-cfg-item
 - sample.sample_feed:sample_feed-sample_tree_feed.feed-template-cfg-item
 - sample.sample_list:_sample_thread_pool.service
@@ -25,7 +32,9 @@ import:
 - sample.sample_list:formatter_creg-sample_list-feed_sample_list.actor-cfg-item
 - sample.sample_list:formatter_creg-sample_list-sample_list.actor-cfg-item
 - sample.sample_list:open_feed_sample_fn_list.command-cfg-item
+- sample.sample_list:open_feed_sample_fn_list.command-group-item
 - sample.sample_list:open_sample_fn_list.command-cfg-item
+- sample.sample_list:open_sample_fn_list.command-group-item
 - sample.sample_list:sample_list-feed_sample_list.feed-template-cfg-item
 - sample.sample_list:sample_list-feed_sample_list.model-cfg-item
 - sample.sample_list:sample_list-sample_list.feed-template-cfg-item
@@ -34,7 +43,9 @@ import:
 - sample.sample_record:command_creg-sample_record-apply.ctx-actor-cfg-item
 - sample.sample_record:command_creg-sample_record-open_sample_fn_record.ctx-actor-cfg-item
 - sample.sample_record:open_sample_fn_record.command-cfg-item
+- sample.sample_record:open_sample_fn_record.command-group-item
 - sample.sample_record:sample_record-sample_record-apply.command-cfg-item
+- sample.sample_record:sample_record-sample_record-apply.command-group-item
 - sample.sample_record:sample_record-sample_record.model-cfg-item
 - sample.sample_tree:command_creg-sample_tree-append_tree_item.ctx-actor-cfg-item
 - sample.sample_tree:command_creg-sample_tree-insert_tree_item.ctx-actor-cfg-item
@@ -43,9 +54,13 @@ import:
 - sample.sample_tree:formatter_creg-sample_tree-model.actor-cfg-item
 - sample.sample_tree:get_sample_tree_items.service
 - sample.sample_tree:open_sample_fn_tree.command-cfg-item
+- sample.sample_tree:open_sample_fn_tree.command-group-item
 - sample.sample_tree:sample_tree-model-append_tree_item.command-cfg-item
+- sample.sample_tree:sample_tree-model-append_tree_item.command-group-item
 - sample.sample_tree:sample_tree-model-insert_tree_item.command-cfg-item
+- sample.sample_tree:sample_tree-model-insert_tree_item.command-group-item
 - sample.sample_tree:sample_tree-model-remove_tree_item.command-cfg-item
+- sample.sample_tree:sample_tree-model-remove_tree_item.command-group-item
 - sample.sample_tree:sample_tree-model.feed-template-cfg-item
 - sample.sample_tree:sample_tree-model.model-cfg-item
 - sample.sample_tree:sample_tree_data.service
@@ -69,11 +84,31 @@ definitions:
       - sample.sample_tree:command_creg-sample_tree-insert_tree_item.ctx-actor-cfg-item
       - sample.sample_tree:command_creg-sample_tree-open_sample_fn_tree.ctx-actor-cfg-item
       - sample.sample_tree:command_creg-sample_tree-remove_tree_item.ctx-actor-cfg-item
+  command_group_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_commands:open_sample_static_list.command-group-item
+      - sample.sample_commands:open_sample_static_text.command-group-item
+      - sample.sample_commands:open_sample_wiki_text.command-group-item
+      - sample.sample_commands:sample_list-sample_list-details.command-group-item
+      - sample.sample_commands:sample_tree-model-sample_tree_info.command-group-item
+      - sample.sample_commands:show_state.command-group-item
+      - sample.sample_commands:system_info.command-group-item
+      - sample.sample_list:open_feed_sample_fn_list.command-group-item
+      - sample.sample_list:open_sample_fn_list.command-group-item
+      - sample.sample_record:open_sample_fn_record.command-group-item
+      - sample.sample_record:sample_record-sample_record-apply.command-group-item
+      - sample.sample_tree:open_sample_fn_tree.command-group-item
+      - sample.sample_tree:sample_tree-model-append_tree_item.command-group-item
+      - sample.sample_tree:sample_tree-model-insert_tree_item.command-group-item
+      - sample.sample_tree:sample_tree-model-remove_tree_item.command-group-item
   config:
     type: legacy_type.system:system_config
     value:
       services:
         command_creg: command_creg
+        command_group_reg: command_group_reg
         editor_default_reg: editor_default_reg
         feed_factory: feed_factory
         formatter_creg: formatter_creg

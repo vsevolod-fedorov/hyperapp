@@ -10,9 +10,12 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -240,6 +243,18 @@ definitions:
     value:
       key: open_wiki_pages
       value: open_wiki_pages.command
+  open_wiki_pages.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_wiki_pages.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_wiki_pages.command-key
+      value: open_wiki_pages.command-group
+  open_wiki_pages.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_wiki_pages
   open_wiki_pages.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -351,24 +366,76 @@ definitions:
       t: legacy_type.wiki_pages:list_model
       name: new_page
       command: new_page.command
+  wiki_pages-list_model-new_page.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-list_model-new_page.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-list_model-new_page.command-key
+      value: wiki_pages-list_model-new_page.command-group
+  wiki_pages-list_model-new_page.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:list_model
+      name: new_page
   wiki_pages-list_model-open.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.wiki_pages:list_model
       name: open
       command: open.command
+  wiki_pages-list_model-open.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-list_model-open.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-list_model-open.command-key
+      value: wiki_pages-list_model-open.command-group
+  wiki_pages-list_model-open.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:list_model
+      name: open
   wiki_pages-list_model-open_parent.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.wiki_pages:list_model
       name: open_parent
       command: open_parent.command
+  wiki_pages-list_model-open_parent.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-list_model-open_parent.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-list_model-open_parent.command-key
+      value: wiki_pages-list_model-open_parent.command-group
+  wiki_pages-list_model-open_parent.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:list_model
+      name: open_parent
   wiki_pages-list_model-remove.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.wiki_pages:list_model
       name: remove
       command: remove.command
+  wiki_pages-list_model-remove.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-list_model-remove.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-list_model-remove.command-key
+      value: wiki_pages-list_model-remove.command-group
+  wiki_pages-list_model-remove.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:list_model
+      name: remove
   wiki_pages-list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -413,12 +480,38 @@ definitions:
       t: legacy_type.wiki_pages:page_model
       name: open_ref_list
       command: open_ref_list.command
+  wiki_pages-page_model-open_ref_list.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-page_model-open_ref_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-page_model-open_ref_list.command-key
+      value: wiki_pages-page_model-open_ref_list.command-group
+  wiki_pages-page_model-open_ref_list.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:page_model
+      name: open_ref_list
   wiki_pages-page_model-save_page.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.wiki_pages:page_model
       name: save_page
       command: save_page.command
+  wiki_pages-page_model-save_page.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-page_model-save_page.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-page_model-save_page.command-key
+      value: wiki_pages-page_model-save_page.command-group
+  wiki_pages-page_model-save_page.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:page_model
+      name: save_page
   wiki_pages-page_model.feed-template:
     type: legacy_type.feed:feed_template
     value:

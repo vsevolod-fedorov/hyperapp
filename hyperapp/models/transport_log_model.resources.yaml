@@ -8,10 +8,14 @@ import:
 - legacy_type.builtin:int
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
 - legacy_type.bundle_info:model
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.data_browser:record_view
 - legacy_type.feed:feed_template
@@ -127,6 +131,18 @@ definitions:
     value:
       key: open_transport_log
       value: open_transport_log.command
+  open_transport_log.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_transport_log.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_transport_log.command-key
+      value: open_transport_log.command-group
+  open_transport_log.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_transport_log
   open_transport_log.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -182,18 +198,57 @@ definitions:
       t: legacy_type.transport_log_model:model
       name: message
       command: message.command
+  transport_log_model-model-message.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  transport_log_model-model-message.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: transport_log_model-model-message.command-key
+      value: transport_log_model-model-message.command-group
+  transport_log_model-model-message.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.transport_log_model:model
+      name: message
   transport_log_model-model-message_bundle.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.transport_log_model:model
       name: message_bundle
       command: message_bundle.command
+  transport_log_model-model-message_bundle.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  transport_log_model-model-message_bundle.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: transport_log_model-model-message_bundle.command-key
+      value: transport_log_model-model-message_bundle.command-group
+  transport_log_model-model-message_bundle.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.transport_log_model:model
+      name: message_bundle
   transport_log_model-model-transport_bundle.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.transport_log_model:model
       name: transport_bundle
       command: transport_bundle.command
+  transport_log_model-model-transport_bundle.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  transport_log_model-model-transport_bundle.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: transport_log_model-model-transport_bundle.command-key
+      value: transport_log_model-model-transport_bundle.command-group
+  transport_log_model-model-transport_bundle.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.transport_log_model:model
+      name: transport_bundle
   transport_log_model-model.feed-template:
     type: legacy_type.feed:feed_template
     value:

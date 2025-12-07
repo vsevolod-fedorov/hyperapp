@@ -5,9 +5,13 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.model:model
 - legacy_type.model:record_ui_t
@@ -66,6 +70,18 @@ definitions:
     value:
       key: open_sample_fn_record
       value: open_sample_fn_record.command
+  open_sample_fn_record.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_sample_fn_record.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_sample_fn_record.command-key
+      value: open_sample_fn_record.command-group
+  open_sample_fn_record.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_sample_fn_record
   open_sample_fn_record.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
@@ -94,6 +110,19 @@ definitions:
       t: legacy_type.sample_record:sample_record
       name: apply
       command: apply.command
+  sample_record-sample_record-apply.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  sample_record-sample_record-apply.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: sample_record-sample_record-apply.command-key
+      value: sample_record-sample_record-apply.command-group
+  sample_record-sample_record-apply.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.sample_record:sample_record
+      name: apply
   sample_record-sample_record.model:
     type: legacy_type.model:model
     value:

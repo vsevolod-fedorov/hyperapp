@@ -7,10 +7,12 @@ import:
 - ui.accessor:accessor_creg-accessor-record_field_accessor.actor-cfg-item
 - ui.accessor:accessor_creg.service
 - ui.arg_mark:arg_mark-view-remove_mark.command-cfg-item
+- ui.arg_mark:arg_mark-view-remove_mark.command-group-item
 - ui.arg_mark:arg_mark-view.view-cfg-item
 - ui.arg_mark:command_creg-arg_mark-add_mark.ctx-actor-cfg-item
 - ui.arg_mark:command_creg-arg_mark-remove_mark.ctx-actor-cfg-item
 - ui.arg_mark:navigator-view-add_mark.command-cfg-item
+- ui.arg_mark:navigator-view-add_mark.command-group-item
 - ui.column_format:formatter_creg-column-column_k.actor-cfg-item
 - ui.column_resource_name:resource_name_creg-column-column_k.actor-cfg-item
 - ui.column_visible_reg:column_visible_reg.service
@@ -47,11 +49,16 @@ import:
 - ui.layout:command_creg-layout-set_shortcut.ctx-actor-cfg-item
 - ui.layout:formatter_creg-layout-model.actor-cfg-item
 - ui.layout:layout-command_list-add_view_command.command-cfg-item
+- ui.layout:layout-command_list-add_view_command.command-group-item
 - ui.layout:layout-command_list-set_escape_shortcut.command-cfg-item
+- ui.layout:layout-command_list-set_escape_shortcut.command-group-item
 - ui.layout:layout-command_list-set_shortcut.command-cfg-item
+- ui.layout:layout-command_list-set_shortcut.command-group-item
 - ui.layout:layout-command_list.feed-template-cfg-item
 - ui.layout:layout-model-open_view_item_commands.command-cfg-item
+- ui.layout:layout-model-open_view_item_commands.command-group-item
 - ui.layout:open_layout_tree.command-cfg-item
+- ui.layout:open_layout_tree.command-group-item
 - ui.local_server:local_server_peer.service
 - ui.local_server:local_server_peer_path.service
 - ui.model_command:get_global_model_commands.service
@@ -66,17 +73,26 @@ import:
 - ui.navigator:command_creg-navigator-go_back.ctx-actor-cfg-item
 - ui.navigator:command_creg-navigator-go_forward.ctx-actor-cfg-item
 - ui.navigator:navigator-view-go_back.command-cfg-item
+- ui.navigator:navigator-view-go_back.command-group-item
 - ui.navigator:navigator-view-go_forward.command-cfg-item
+- ui.navigator:navigator-view-go_forward.command-group-item
 - ui.navigator:navigator-view.view-cfg-item
 - ui.peer_label_reg:peer_label_reg.service
 - ui.qt.auto_tabs:auto_tabs-view-close_tab.command-cfg-item
+- ui.qt.auto_tabs:auto_tabs-view-close_tab.command-group-item
 - ui.qt.auto_tabs:auto_tabs-view-duplicate_tab.command-cfg-item
+- ui.qt.auto_tabs:auto_tabs-view-duplicate_tab.command-group-item
 - ui.qt.auto_tabs:auto_tabs-view.view-cfg-item
 - ui.qt.auto_tabs:command_creg-auto_tabs-close_tab.ctx-actor-cfg-item
 - ui.qt.auto_tabs:command_creg-auto_tabs-duplicate_tab.ctx-actor-cfg-item
+- ui.qt.box_layout:box_layout-view-add_element.command-group-item
 - ui.qt.box_layout:box_layout-view-add_stretch.command-cfg-item
+- ui.qt.box_layout:box_layout-view-add_stretch.command-group-item
+- ui.qt.box_layout:box_layout-view-insert_element.command-group-item
 - ui.qt.box_layout:box_layout-view-remove_element.command-cfg-item
+- ui.qt.box_layout:box_layout-view-remove_element.command-group-item
 - ui.qt.box_layout:box_layout-view-unwrap.command-cfg-item
+- ui.qt.box_layout:box_layout-view-unwrap.command-group-item
 - ui.qt.box_layout:box_layout-view.view-cfg-item
 - ui.qt.box_layout:command_creg-box_layout-add_element.ctx-actor-cfg-item
 - ui.qt.box_layout:command_creg-box_layout-add_stretch.ctx-actor-cfg-item
@@ -93,6 +109,7 @@ import:
 - ui.qt.form:form_view_factory.view-factory-cfg-item
 - ui.qt.form:readonly_form_view_factory.view-factory-cfg-item
 - ui.qt.label:command_creg-label-set_label_text.ctx-actor-cfg-item
+- ui.qt.label:label-view-set_label_text.command-group-item
 - ui.qt.label:label-view.view-cfg-item
 - ui.qt.label:label_view.view-factory-cfg-item
 - ui.qt.line_edit:line_edit-edit_view.view-cfg-item
@@ -111,8 +128,12 @@ import:
 - ui.qt.tabs:command_creg-tabs-insert_element.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-remove_element.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-unwrap.ctx-actor-cfg-item
+- ui.qt.tabs:tabs-view-add_element.command-group-item
+- ui.qt.tabs:tabs-view-insert_element.command-group-item
 - ui.qt.tabs:tabs-view-remove_element.command-cfg-item
+- ui.qt.tabs:tabs-view-remove_element.command-group-item
 - ui.qt.tabs:tabs-view-unwrap.command-cfg-item
+- ui.qt.tabs:tabs-view-unwrap.command-group-item
 - ui.qt.tabs:tabs-view.view-cfg-item
 - ui.qt.tabs:wrap_in_tabs.view-factory-cfg-item
 - ui.qt.text:text-edit_view.view-cfg-item
@@ -136,7 +157,9 @@ import:
 - ui.qt.window_commands:command_creg-window_commands-duplicate_window.ctx-actor-cfg-item
 - ui.qt.window_commands:command_creg-window_commands-quit.ctx-actor-cfg-item
 - ui.qt.window_commands:window-view-duplicate_window.command-cfg-item
+- ui.qt.window_commands:window-view-duplicate_window.command-group-item
 - ui.qt.window_commands:window-view-quit.command-cfg-item
+- ui.qt.window_commands:window-view-quit.command-group-item
 - ui.record_adapter:ui_adapter_creg-record_adapter-fn_record_adapter.actor-cfg-item
 - ui.record_adapter:ui_adapter_creg-record_adapter-static_record_adapter.actor-cfg-item
 - ui.record_field_view_factory:formatter_creg-record_field_view_factory-factory_k.actor-cfg-item
@@ -148,9 +171,12 @@ import:
 - ui.shortcut_reg:shortcut_reg.service
 - ui.tab_groups:command_creg-tab_groups-move_tab_to_new_group.ctx-actor-cfg-item
 - ui.tab_groups:tabs-view-move_tab_to_new_group.command-cfg-item
+- ui.tab_groups:tabs-view-move_tab_to_new_group.command-group-item
 - ui.text_toggle_editable:command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item
 - ui.text_toggle_editable:text-edit_view-toggle_editable.command-cfg-item
+- ui.text_toggle_editable:text-edit_view-toggle_editable.command-group-item
 - ui.text_toggle_editable:text-readonly_view-toggle_editable.command-cfg-item
+- ui.text_toggle_editable:text-readonly_view-toggle_editable.command-group-item
 - ui.type_convertor:convertor_creg-type_convertor-int_to_string_convertor.actor-cfg-item
 - ui.type_convertor:convertor_creg-type_convertor-noop_convertor.actor-cfg-item
 - ui.type_convertor:convertor_creg-type_convertor-one_way_to_string_convertor.actor-cfg-item
@@ -170,6 +196,7 @@ import:
 - ui.view.view_factory_list:command_creg-view_factory_list-open_view_factory_list.ctx-actor-cfg-item
 - ui.view.view_factory_list:formatter_creg-view_factory_list-model.actor-cfg-item
 - ui.view.view_factory_list:open_view_factory_list.command-cfg-item
+- ui.view.view_factory_list:open_view_factory_list.command-group-item
 - ui.view.view_factory_list:view_factory-factory.editor_default.cfg-item
 - ui.view.view_factory_list:view_factory_list-model.feed-template-cfg-item
 - ui.view.view_factory_list:view_factory_list-model.model-cfg-item
@@ -224,6 +251,37 @@ definitions:
       - ui.tab_groups:command_creg-tab_groups-move_tab_to_new_group.ctx-actor-cfg-item
       - ui.text_toggle_editable:command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item
       - ui.view.view_factory_list:command_creg-view_factory_list-open_view_factory_list.ctx-actor-cfg-item
+  command_group_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.arg_mark:arg_mark-view-remove_mark.command-group-item
+      - ui.arg_mark:navigator-view-add_mark.command-group-item
+      - ui.layout:layout-command_list-add_view_command.command-group-item
+      - ui.layout:layout-command_list-set_escape_shortcut.command-group-item
+      - ui.layout:layout-command_list-set_shortcut.command-group-item
+      - ui.layout:layout-model-open_view_item_commands.command-group-item
+      - ui.layout:open_layout_tree.command-group-item
+      - ui.navigator:navigator-view-go_back.command-group-item
+      - ui.navigator:navigator-view-go_forward.command-group-item
+      - ui.qt.auto_tabs:auto_tabs-view-close_tab.command-group-item
+      - ui.qt.auto_tabs:auto_tabs-view-duplicate_tab.command-group-item
+      - ui.qt.box_layout:box_layout-view-add_element.command-group-item
+      - ui.qt.box_layout:box_layout-view-add_stretch.command-group-item
+      - ui.qt.box_layout:box_layout-view-insert_element.command-group-item
+      - ui.qt.box_layout:box_layout-view-remove_element.command-group-item
+      - ui.qt.box_layout:box_layout-view-unwrap.command-group-item
+      - ui.qt.label:label-view-set_label_text.command-group-item
+      - ui.qt.tabs:tabs-view-add_element.command-group-item
+      - ui.qt.tabs:tabs-view-insert_element.command-group-item
+      - ui.qt.tabs:tabs-view-remove_element.command-group-item
+      - ui.qt.tabs:tabs-view-unwrap.command-group-item
+      - ui.qt.window_commands:window-view-duplicate_window.command-group-item
+      - ui.qt.window_commands:window-view-quit.command-group-item
+      - ui.tab_groups:tabs-view-move_tab_to_new_group.command-group-item
+      - ui.text_toggle_editable:text-edit_view-toggle_editable.command-group-item
+      - ui.text_toggle_editable:text-readonly_view-toggle_editable.command-group-item
+      - ui.view.view_factory_list:open_view_factory_list.command-group-item
   config:
     type: legacy_type.system:system_config
     value:
@@ -231,6 +289,7 @@ definitions:
         accessor_creg: accessor_creg
         cfg_value_creg: cfg_value_creg
         command_creg: command_creg
+        command_group_reg: command_group_reg
         config_ctl_creg: config_ctl_creg
         convertor_creg: convertor_creg
         editor_default_reg: editor_default_reg

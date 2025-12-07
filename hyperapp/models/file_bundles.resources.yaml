@@ -5,10 +5,14 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
 - legacy_type.bundle_info:model
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -39,6 +43,19 @@ definitions:
       t: legacy_type.file_bundles:view
       name: open
       command: open.command
+  file_bundles-view-open.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  file_bundles-view-open.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: file_bundles-view-open.command-key
+      value: file_bundles-view-open.command-group
+  file_bundles-view-open.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.file_bundles:view
+      name: open
   file_bundles-view.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -124,6 +141,18 @@ definitions:
     value:
       key: open_file_bundle_list
       value: open_file_bundle_list.command
+  open_file_bundle_list.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_file_bundle_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_file_bundle_list.command-key
+      value: open_file_bundle_list.command-group
+  open_file_bundle_list.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_file_bundle_list
   open_file_bundle_list.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:

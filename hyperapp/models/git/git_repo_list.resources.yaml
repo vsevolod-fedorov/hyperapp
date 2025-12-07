@@ -9,9 +9,12 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -67,12 +70,38 @@ definitions:
       t: legacy_type.git:repo_list_model
       name: refs
       command: refs.command
+  git-repo_list_model-refs.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  git-repo_list_model-refs.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: git-repo_list_model-refs.command-key
+      value: git-repo_list_model-refs.command-group
+  git-repo_list_model-refs.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.git:repo_list_model
+      name: refs
   git-repo_list_model-remove.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.git:repo_list_model
       name: remove
       command: remove.command
+  git-repo_list_model-remove.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  git-repo_list_model-remove.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: git-repo_list_model-remove.command-key
+      value: git-repo_list_model-remove.command-group
+  git-repo_list_model-remove.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.git:repo_list_model
+      name: remove
   git-repo_list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -155,6 +184,18 @@ definitions:
     value:
       key: open_repo_list
       value: open_repo_list.command
+  open_repo_list.command-group:
+    type: legacy_type.builtin:string
+    value: global
+  open_repo_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: open_repo_list.command-key
+      value: open_repo_list.command-group
+  open_repo_list.command-key:
+    type: legacy_type.command:global_model_command_key
+    value:
+      name: open_repo_list
   open_repo_list.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:

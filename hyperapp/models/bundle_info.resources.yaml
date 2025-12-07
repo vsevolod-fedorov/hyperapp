@@ -7,13 +7,16 @@ import:
 - legacy_type.builtin:bundle
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:string
 - legacy_type.bundle_info:ass_list_model
 - legacy_type.bundle_info:bundle_info
 - legacy_type.bundle_info:capsule_item
 - legacy_type.bundle_info:capsule_list_model
 - legacy_type.bundle_info:model
+- legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.data_browser:record_view
 - legacy_type.feed:feed_template
@@ -40,6 +43,19 @@ definitions:
       t: legacy_type.bundle_info:ass_list_model
       name: open_association
       command: open_association.command
+  bundle_info-ass_list_model-open_association.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  bundle_info-ass_list_model-open_association.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: bundle_info-ass_list_model-open_association.command-key
+      value: bundle_info-ass_list_model-open_association.command-group
+  bundle_info-ass_list_model-open_association.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.bundle_info:ass_list_model
+      name: open_association
   bundle_info-ass_list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -81,6 +97,19 @@ definitions:
       t: legacy_type.bundle_info:capsule_list_model
       name: open_capsule
       command: open_capsule.command
+  bundle_info-capsule_list_model-open_capsule.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  bundle_info-capsule_list_model-open_capsule.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: bundle_info-capsule_list_model-open_capsule.command-key
+      value: bundle_info-capsule_list_model-open_capsule.command-group
+  bundle_info-capsule_list_model-open_capsule.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.bundle_info:capsule_list_model
+      name: open_capsule
   bundle_info-capsule_list_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -122,18 +151,57 @@ definitions:
       t: legacy_type.bundle_info:model
       name: open_associations
       command: open_associations.command
+  bundle_info-model-open_associations.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  bundle_info-model-open_associations.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: bundle_info-model-open_associations.command-key
+      value: bundle_info-model-open_associations.command-group
+  bundle_info-model-open_associations.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.bundle_info:model
+      name: open_associations
   bundle_info-model-open_capsules.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.bundle_info:model
       name: open_capsules
       command: open_capsules.command
+  bundle_info-model-open_capsules.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  bundle_info-model-open_capsules.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: bundle_info-model-open_capsules.command-key
+      value: bundle_info-model-open_capsules.command-group
+  bundle_info-model-open_capsules.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.bundle_info:model
+      name: open_capsules
   bundle_info-model-open_root.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
       t: legacy_type.bundle_info:model
       name: open_root
       command: open_root.command
+  bundle_info-model-open_root.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  bundle_info-model-open_root.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: bundle_info-model-open_root.command-key
+      value: bundle_info-model-open_root.command-group
+  bundle_info-model-open_root.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.bundle_info:model
+      name: open_root
   bundle_info-model.model:
     type: legacy_type.model:model
     value:
