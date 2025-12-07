@@ -302,7 +302,7 @@ definitions:
       value: show_state.command
   show_state.command-group:
     type: legacy_type.builtin:string
-    value: global
+    value: context
   show_state.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

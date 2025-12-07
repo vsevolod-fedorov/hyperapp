@@ -77,7 +77,7 @@ definitions:
       value: open_local_server_context.command
   open_local_server_context.command-group:
     type: legacy_type.builtin:string
-    value: global
+    value: context
   open_local_server_context.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

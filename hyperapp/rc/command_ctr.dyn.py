@@ -498,4 +498,7 @@ class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr):
 
     @property
     def _command_group(self):
-        return 'global'
+        if set(self._ctx_params) & STATE_PARAMS:
+            return 'context'
+        else:
+            return 'global'
