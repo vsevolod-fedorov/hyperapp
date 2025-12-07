@@ -1,8 +1,9 @@
 from . import htypes
 from .code.mark import mark
+from .code.config_ctl import data_service_config_ctl
 
 
-@mark.service
+@mark.service(ctl=data_service_config_ctl())
 def command_group_reg(config):
     return config
 
