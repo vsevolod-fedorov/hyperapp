@@ -60,7 +60,6 @@ class MenuBarView(View):
             action = widget.command_to_action.pop(cmd)
             global_menu.removeAction(action)
         for cmd in commands:
-            menu = view_menu
             group = command_group[cmd]
             if group == 'global':
                 menu = global_menu
