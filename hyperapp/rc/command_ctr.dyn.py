@@ -56,6 +56,9 @@ class CommandTemplateCtr(ModuleCtr):
             module_name=self._module_name,
             service_name='command_group_reg',
             name=self._command_key_name,
+            key_resource_suffix='command-key',
+            value_resource_suffix='command-group',
+            item_resource_suffix='command-group-item',
             key=self._command_key,
             value=self._command_group,
             )
