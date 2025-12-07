@@ -423,7 +423,10 @@ class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
 
     @property
     def _command_group(self):
-        return 'model'
+        if set(self._ctx_params) & STATE_PARAMS:
+            return 'context'
+        else:
+            return 'model'
 
 
 class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):

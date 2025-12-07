@@ -72,7 +72,7 @@ definitions:
       command: lcs_dirs_items.command
   lcs_dirs_view-view-lcs_dirs_items.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   lcs_dirs_view-view-lcs_dirs_items.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

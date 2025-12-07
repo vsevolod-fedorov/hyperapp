@@ -73,7 +73,7 @@ definitions:
       command: layer_remove.command
   config_item_list-layer_model-layer_remove.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_item_list-layer_model-layer_remove.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -92,7 +92,7 @@ definitions:
       command: open_config_key.command
   config_item_list-layer_model-open_config_key.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_item_list-layer_model-open_config_key.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -111,7 +111,7 @@ definitions:
       command: open_config_value.command
   config_item_list-layer_model-open_config_value.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_item_list-layer_model-open_config_value.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -168,7 +168,7 @@ definitions:
       command: open_config_key.command
   config_item_list-model-open_config_key.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_item_list-model-open_config_key.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -187,7 +187,7 @@ definitions:
       command: open_config_value.command
   config_item_list-model-open_config_value.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_item_list-model-open_config_value.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -206,7 +206,7 @@ definitions:
       command: remove.command
   config_item_list-model-remove.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_item_list-model-remove.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -280,7 +280,7 @@ definitions:
       command: open_config_item_list.command
   config_service_list-model-open_config_item_list.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_service_list-model-open_config_item_list.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

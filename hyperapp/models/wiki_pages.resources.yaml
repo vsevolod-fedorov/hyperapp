@@ -387,7 +387,7 @@ definitions:
       command: open.command
   wiki_pages-list_model-open.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   wiki_pages-list_model-open.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

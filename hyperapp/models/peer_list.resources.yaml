@@ -111,7 +111,7 @@ definitions:
       command: remove.command
   peer_list-model-remove.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   peer_list-model-remove.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

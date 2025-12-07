@@ -221,7 +221,7 @@ definitions:
       command: append_tree_item.command
   sample_tree-model-append_tree_item.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   sample_tree-model-append_tree_item.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -240,7 +240,7 @@ definitions:
       command: insert_tree_item.command
   sample_tree-model-insert_tree_item.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   sample_tree-model-insert_tree_item.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -259,7 +259,7 @@ definitions:
       command: remove_tree_item.command
   sample_tree-model-remove_tree_item.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   sample_tree-model-remove_tree_item.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

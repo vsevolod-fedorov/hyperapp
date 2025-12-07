@@ -124,7 +124,7 @@ definitions:
       command: list_open.command
   data_browser-list_view-list_open.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   data_browser-list_view-list_open.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -198,7 +198,7 @@ definitions:
       command: record_open.command
   data_browser-record_view-record_open.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   data_browser-record_view-record_open.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -251,7 +251,7 @@ definitions:
       command: ref_list_open.command
   data_browser-ref_list_view-ref_list_open.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   data_browser-ref_list_view-ref_list_open.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

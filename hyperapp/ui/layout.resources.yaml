@@ -101,7 +101,7 @@ definitions:
       command: add_view_command.command
   layout-command_list-add_view_command.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   layout-command_list-add_view_command.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -120,7 +120,7 @@ definitions:
       command: set_escape_shortcut.command
   layout-command_list-set_escape_shortcut.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   layout-command_list-set_escape_shortcut.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -139,7 +139,7 @@ definitions:
       command: set_shortcut.command
   layout-command_list-set_shortcut.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   layout-command_list-set_shortcut.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -171,7 +171,7 @@ definitions:
       command: open_view_item_commands.command
   layout-model-open_view_item_commands.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   layout-model-open_view_item_commands.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

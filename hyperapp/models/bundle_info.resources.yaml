@@ -45,7 +45,7 @@ definitions:
       command: open_association.command
   bundle_info-ass_list_model-open_association.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   bundle_info-ass_list_model-open_association.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -99,7 +99,7 @@ definitions:
       command: open_capsule.command
   bundle_info-capsule_list_model-open_capsule.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   bundle_info-capsule_list_model-open_capsule.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

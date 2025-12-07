@@ -231,7 +231,7 @@ definitions:
       command: details.command
   sample_list-sample_list-details.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   sample_list-sample_list-details.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

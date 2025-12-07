@@ -180,7 +180,7 @@ definitions:
       command: open.command
   ref_list-model-open.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   ref_list-model-open.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

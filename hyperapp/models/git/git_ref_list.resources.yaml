@@ -50,7 +50,7 @@ definitions:
       command: ref_log.command
   git-ref_list_model-ref_log.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   git-ref_list_model-ref_log.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

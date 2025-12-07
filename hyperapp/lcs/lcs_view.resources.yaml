@@ -113,7 +113,7 @@ definitions:
       command: lcs_open_piece.command
   lcs_view-view-lcs_open_piece.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   lcs_view-view-lcs_open_piece.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -132,7 +132,7 @@ definitions:
       command: lcs_remove.command
   lcs_view-view-lcs_remove.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   lcs_view-view-lcs_remove.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

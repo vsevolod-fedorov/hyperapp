@@ -49,7 +49,7 @@ definitions:
       command: set_shortcut.command
   global_commands-model-set_shortcut.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   global_commands-model-set_shortcut.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -81,7 +81,7 @@ definitions:
       command: set_shortcut.command
   model_commands-model-set_shortcut.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   model_commands-model-set_shortcut.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

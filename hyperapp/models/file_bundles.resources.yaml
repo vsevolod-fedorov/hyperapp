@@ -45,7 +45,7 @@ definitions:
       command: open.command
   file_bundles-view-open.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   file_bundles-view-open.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

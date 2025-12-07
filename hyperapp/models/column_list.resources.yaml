@@ -37,7 +37,7 @@ definitions:
       command: toggle_visibility.command
   column_list-view-toggle_visibility.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   column_list-view-toggle_visibility.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

@@ -72,7 +72,7 @@ definitions:
       command: refs.command
   git-repo_list_model-refs.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   git-repo_list_model-refs.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -91,7 +91,7 @@ definitions:
       command: remove.command
   git-repo_list_model-remove.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   git-repo_list_model-remove.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

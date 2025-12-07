@@ -200,7 +200,7 @@ definitions:
       command: message.command
   transport_log_model-model-message.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   transport_log_model-model-message.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -219,7 +219,7 @@ definitions:
       command: message_bundle.command
   transport_log_model-model-message_bundle.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   transport_log_model-model-message_bundle.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
@@ -238,7 +238,7 @@ definitions:
       command: transport_bundle.command
   transport_log_model-model-transport_bundle.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   transport_log_model-model-transport_bundle.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:

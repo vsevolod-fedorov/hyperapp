@@ -47,7 +47,7 @@ definitions:
       command: toggle_assoc.command
   config_service_list-model-toggle_assoc.command-group:
     type: legacy_type.builtin:string
-    value: model
+    value: context
   config_service_list-model-toggle_assoc.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
