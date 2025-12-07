@@ -66,8 +66,8 @@ class MenuBarView(View):
                 menu = global_menu
             elif group == 'view':
                 menu = view_menu
-            # elif model_d in cmd.groups:
-            #     menu = model_menu
+            elif group == 'model':
+                menu = model_menu
             else:
                 continue
             action = self._make_action(cmd, used_shortcuts)
