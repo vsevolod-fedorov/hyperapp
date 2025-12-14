@@ -141,3 +141,7 @@ def _test_global_command_update(lcs, global_piece, command_d):
     value = htypes.command_list_model.form("new text", "new tooltip")
     command_list_model.command_update(global_piece, command_d, value, lcs)
 
+
+def test_open_model():
+    model = command_list_model.open_commands()
+    assert isinstance(model, htypes.command_list_model.model)

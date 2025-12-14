@@ -33,6 +33,7 @@ import:
 - models.column_list:column_list-view.feed-template-cfg-item
 - models.column_list:column_list-view.model-cfg-item
 - models.column_list:command_creg-column_list-toggle_visibility.ctx-actor-cfg-item
+- models.command_list_model:command_creg-command_list_model-open_commands.ctx-actor-cfg-item
 - models.command_list_model:command_creg-command_list_model-set_shortcut.ctx-actor-cfg-item
 - models.command_list_model:global_commands-model-set_shortcut.command-cfg-item
 - models.command_list_model:global_commands-model-set_shortcut.command-group-item
@@ -40,6 +41,8 @@ import:
 - models.command_list_model:model_commands-model-set_shortcut.command-cfg-item
 - models.command_list_model:model_commands-model-set_shortcut.command-group-item
 - models.command_list_model:model_commands-model.feed-template-cfg-item
+- models.command_list_model:open_commands.command-cfg-item
+- models.command_list_model:open_commands.command-group-item
 - models.config.config_item_list:command_creg-config_item_list-layer_remove.ctx-actor-cfg-item
 - models.config.config_item_list:command_creg-config_item_list-open_config_item_list.ctx-actor-cfg-item
 - models.config.config_item_list:command_creg-config_item_list-open_config_key.ctx-actor-cfg-item
@@ -253,6 +256,7 @@ definitions:
       - models.bundle_info:command_creg-bundle_info-open_capsules.ctx-actor-cfg-item
       - models.bundle_info:command_creg-bundle_info-open_root.ctx-actor-cfg-item
       - models.column_list:command_creg-column_list-toggle_visibility.ctx-actor-cfg-item
+      - models.command_list_model:command_creg-command_list_model-open_commands.ctx-actor-cfg-item
       - models.command_list_model:command_creg-command_list_model-set_shortcut.ctx-actor-cfg-item
       - models.config.config_item_list:command_creg-config_item_list-layer_remove.ctx-actor-cfg-item
       - models.config.config_item_list:command_creg-config_item_list-open_config_item_list.ctx-actor-cfg-item
@@ -306,6 +310,7 @@ definitions:
       - models.column_list:column_list-view-toggle_visibility.command-group-item
       - models.command_list_model:global_commands-model-set_shortcut.command-group-item
       - models.command_list_model:model_commands-model-set_shortcut.command-group-item
+      - models.command_list_model:open_commands.command-group-item
       - models.config.config_item_list:config_item_list-layer_model-layer_remove.command-group-item
       - models.config.config_item_list:config_item_list-layer_model-open_config_key.command-group-item
       - models.config.config_item_list:config_item_list-layer_model-open_config_value.command-group-item
@@ -430,6 +435,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - models.command_list_model:open_commands.command-cfg-item
       - models.config.config_layer_list:open_config_layer_list.command-cfg-item
       - models.config.config_service_list:open_config_service_list.command-cfg-item
       - models.data_browser:browse_current_model.command-cfg-item

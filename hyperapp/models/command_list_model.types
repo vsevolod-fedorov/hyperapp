@@ -11,3 +11,5 @@ item = record:
 form = record:
   text: string
   tooltip: string
+
+model = record

@@ -77,3 +77,8 @@ def command_update(piece, ui_command_d, value, lcs):
         log.info("Set text for %s: %r", d, value.text)
     if value.tooltip != prev_tooltip:
         log.info("Set tooltip for %s: %r", d, value.tooltip)
+
+
+@mark.global_command
+def open_commands():
+    return htypes.command_list_model.model()
