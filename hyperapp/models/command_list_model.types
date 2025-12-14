@@ -11,5 +11,3 @@ item = record:
 form = record:
   text: string
   tooltip: string
-
-set_shortcut_d = record
