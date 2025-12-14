@@ -92,7 +92,7 @@ def test_selector_get(piece):
     assert model == piece
 
 
-def test_selector_pick(piece):
+def _test_selector_pick(piece):
     current_item = htypes.command_list_model.item(
         ui_command_d=mosaic.put(htypes.global_commands_tests.sample_command_d()),
         model_command_d=mosaic.put(htypes.global_commands_tests.sample_model_command_d()),

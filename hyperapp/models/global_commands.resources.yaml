@@ -63,7 +63,6 @@ definitions:
       import_list:
         code.command_list_model: models.command_list_model:command_list_model.module
         code.mark: base.mark:mark.module
-        htypes.global_commands.command_arg: legacy_type.global_commands:command_arg
         htypes.global_commands.model: legacy_type.global_commands:model
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service

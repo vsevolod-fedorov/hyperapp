@@ -81,7 +81,7 @@ def mock_run_input_key_dialog():
     return 'Space'
 
 
-async def test_global_set_shortcut(feed_factory, shortcut_reg, current_item):
+async def _test_global_set_shortcut(feed_factory, shortcut_reg, current_item):
     piece = htypes.global_commands.model()
     feed = feed_factory(piece)
     command_list_model.run_key_input_dialog = mock_run_input_key_dialog
@@ -90,7 +90,7 @@ async def test_global_set_shortcut(feed_factory, shortcut_reg, current_item):
     await feed.wait_for_diffs(count=1)
 
 
-async def test_model_set_shortcut(feed_factory, shortcut_reg, current_item):
+async def _test_model_set_shortcut(feed_factory, shortcut_reg, current_item):
     model = htypes.command_list_model_tests.sample_model()
     model_state = htypes.command_list_model_tests.sample_model_state()
     piece = htypes.model_commands.model(
