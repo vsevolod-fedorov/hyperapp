@@ -80,11 +80,11 @@ def command_update(piece, ui_command_d, value, lcs):
 
 
 @mark.model
-def commands_model(piece):
+def commands_model(piece, get_command_group):
     return [
         htypes.command_list_model.item(
             name=cmd.name,
-            groups="",
+            groups=get_command_group(web.summon(cmd.key)) or '',
             shortcut="",
             text="",
             tooltip="",

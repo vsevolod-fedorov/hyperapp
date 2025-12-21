@@ -63,7 +63,8 @@ definitions:
       function: commands_model
       ctx_params:
       - piece
-      service_params: []
+      service_params:
+      - get_command_group
   command_list_model.module:
     type: legacy_type.builtin:python_module
     value:
