@@ -81,14 +81,16 @@ def command_update(piece, ui_command_d, value, lcs):
 
 @mark.model
 def commands_model(piece):
-    item = htypes.command_list_model.item(
-        name="",
-        groups="",
-        shortcut="",
-        text="",
-        tooltip="",
+    return [
+        htypes.command_list_model.item(
+            name=cmd.name,
+            groups="",
+            shortcut="",
+            text="",
+            tooltip="",
         )
-    return [item]
+        for cmd in piece.commands
+    ]
 
 
 @mark.global_command
