@@ -35,6 +35,10 @@ class Command:
     def name(self):
         return self._name
 
+    @property
+    def ctx(self):
+        return self._ctx
+
     def start(self):
         log.info("Start command: %r", self._name)
         asyncio.create_task(self.run())

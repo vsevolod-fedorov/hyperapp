@@ -143,19 +143,26 @@ def _test_global_command_update(lcs, global_piece, command_d):
     command_list_model.command_update(global_piece, command_d, value, lcs)
 
 
-def _test_commands_model():
-    commands = []
-    model = htypes.command_list_model.model()
-    item_list = command_list_model.commands_model(model, commands)
+def test_commands_model():
+    model = htypes.command_list_model.model(commands=())
+    item_list = command_list_model.commands_model(model)
     assert item_list
     assert isinstance(item_list[0], htypes.command_list_model.item)
 
 
 @mark.fixture
-def ctx():
-    return Context(
-        commands=[],
-        )
+def ctx(command_factory):
+    ctx = Context()
+    return ctx.clone_with(
+        commands=[
+            command_factory(
+                key=htypes.command.global_model_command_key(name='sample_command'),
+                name='sample_command',
+                command=None,  # Unused
+                ctx=ctx,
+            ),
+        ],
+    )
 
 
 def test_open_model(ctx):

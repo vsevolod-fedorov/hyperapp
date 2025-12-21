@@ -81,7 +81,6 @@ def command_update(piece, ui_command_d, value, lcs):
 
 @mark.model
 def commands_model(piece):
-    assert 0, commands
     item = htypes.command_list_model.item(
         name="",
         groups="",
@@ -94,4 +93,14 @@ def commands_model(piece):
 
 @mark.global_command
 def open_commands(commands):
-    return htypes.command_list_model.model()
+    return htypes.command_list_model.model(
+        commands=tuple(
+            htypes.command_list_model.command(
+                name=cmd.name,
+                key=mosaic.put(cmd.key),
+                model=mosaic.put_opt(cmd.ctx.get('model')),
+                model_state=mosaic.put_opt(cmd.ctx.get('model_state')),
+            )
+            for cmd in commands
+        ),
+    )

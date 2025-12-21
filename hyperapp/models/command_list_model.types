@@ -9,4 +9,11 @@ form = record:
   text: string
   tooltip: string
 
-model = record
+command = record:
+  name: string
+  key: ref
+  model: ref
+  model_state:ref
+
+model = record:
+  commands: command list
