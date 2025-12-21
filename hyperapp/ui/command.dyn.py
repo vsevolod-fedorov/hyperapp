@@ -25,7 +25,7 @@ class Command:
         self._ctx = ctx
 
     def __repr__(self):
-        return f"<Command {self.key}: {self._name!r}>"
+        return f"<Command {self._name!r}, key={self.key}>"
 
     @property
     def key(self):
