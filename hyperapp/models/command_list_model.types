@@ -12,8 +12,8 @@ form = record:
 command = record:
   name: string
   key: ref
-  model: ref
-  model_state:ref
+  model: ref opt
+  model_state: ref opt
 
 model = record:
   commands: command list

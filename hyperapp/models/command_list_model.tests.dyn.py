@@ -152,19 +152,17 @@ def test_commands_model():
 
 @mark.fixture
 def ctx(command_factory):
-    ctx = Context()
-    return ctx.clone_with(
-        commands=[
-            command_factory(
-                key=htypes.command.global_model_command_key(name='sample_command'),
-                name='sample_command',
-                command=None,  # Unused
-                ctx=ctx,
-            ),
-        ],
-    )
+    return Context()
 
 
-def test_open_model(ctx):
-    model = command_list_model.open_commands(ctx)
+def test_open_model(command_factory, ctx):
+    commands= [
+        command_factory(
+            key=htypes.command.global_model_command_key(name='sample_command'),
+            name='sample_command',
+            command=None,  # Unused
+            ctx=ctx,
+        ),
+    ]
+    model = command_list_model.open_commands(commands)
     assert isinstance(model, htypes.command_list_model.model)

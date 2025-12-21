@@ -14,7 +14,13 @@ import:
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:global_model_command_key
+- legacy_type.command_list_model:command
+- legacy_type.command_list_model:item
 - legacy_type.command_list_model:model
+- legacy_type.feed:feed_template
+- legacy_type.feed:list_feed_type
+- legacy_type.model:index_list_ui_t
+- legacy_type.model:model
 - legacy_type.system_fn:ctx_fn
 - ui.directory:directory.module
 - ui.qt.key_input_dialog:key_input_dialog.module
@@ -24,6 +30,40 @@ definitions:
     value:
       t: open_commands.t
       value: open_commands.ctx-actor-template
+  command_list_model-model.feed-template:
+    type: legacy_type.feed:feed_template
+    value:
+      feed_type: command_list_model-model.feed-type
+  command_list_model-model.feed-template-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.command_list_model:model
+      value: command_list_model-model.feed-template
+  command_list_model-model.feed-type:
+    type: legacy_type.feed:list_feed_type
+    value:
+      item_t: legacy_type.command_list_model:item
+  command_list_model-model.index-list-ui-t:
+    type: legacy_type.model:index_list_ui_t
+    value:
+      item_t: legacy_type.command_list_model:item
+  command_list_model-model.model:
+    type: legacy_type.model:model
+    value:
+      ui_t: command_list_model-model.index-list-ui-t
+      system_fn: command_list_model-model.system-fn
+  command_list_model-model.model-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.command_list_model:model
+      value: command_list_model-model.model
+  command_list_model-model.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: commands_model
+      ctx_params:
+      - piece
+      service_params: []
   command_list_model.module:
     type: legacy_type.builtin:python_module
     value:
@@ -34,9 +74,16 @@ definitions:
         code.key_input_dialog: ui.qt.key_input_dialog:key_input_dialog.module
         code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
+        htypes.command_list_model.command: legacy_type.command_list_model:command
+        htypes.command_list_model.item: legacy_type.command_list_model:item
         htypes.command_list_model.model: legacy_type.command_list_model:model
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  commands_model:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_list_model.module
+      attr_name: commands_model
   open_commands:
     type: legacy_type.builtin:attribute
     value:
