@@ -144,7 +144,16 @@ def _test_global_command_update(lcs, global_piece, command_d):
 
 
 def test_commands_model():
-    model = htypes.command_list_model.model(commands=())
+    model = htypes.command_list_model.model(
+        commands=(
+            htypes.command_list_model.command(
+                name='sample_command',
+                key=mosaic.put(htypes.command.global_model_command_key(name='sample_command')),
+                model=None,
+                model_state=None,
+            ),
+        ),
+    )
     item_list = command_list_model.commands_model(model)
     assert item_list
     assert isinstance(item_list[0], htypes.command_list_model.item)
