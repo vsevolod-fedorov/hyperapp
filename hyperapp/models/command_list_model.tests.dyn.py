@@ -5,6 +5,7 @@ from .services import (
     mosaic,
     )
 from .code.mark import mark
+from .code.context import Context
 from .code.system_fn import ContextFn
 # from .code.model_command import UnboundModelCommand
 # from .code.ui_model_command import UnboundUiModelCommand, CommandItem
@@ -142,6 +143,21 @@ def _test_global_command_update(lcs, global_piece, command_d):
     command_list_model.command_update(global_piece, command_d, value, lcs)
 
 
-def test_open_model():
-    model = command_list_model.open_commands()
+def _test_commands_model():
+    commands = []
+    model = htypes.command_list_model.model()
+    item_list = command_list_model.commands_model(model, commands)
+    assert item_list
+    assert isinstance(item_list[0], htypes.command_list_model.item)
+
+
+@mark.fixture
+def ctx():
+    return Context(
+        commands=[],
+        )
+
+
+def test_open_model(ctx):
+    model = command_list_model.open_commands(ctx)
     assert isinstance(model, htypes.command_list_model.model)

@@ -79,6 +79,19 @@ def command_update(piece, ui_command_d, value, lcs):
         log.info("Set tooltip for %s: %r", d, value.tooltip)
 
 
+@mark.model
+def commands_model(piece):
+    assert 0, commands
+    item = htypes.command_list_model.item(
+        name="",
+        groups="",
+        shortcut="",
+        text="",
+        tooltip="",
+        )
+    return [item]
+
+
 @mark.global_command
-def open_commands():
+def open_commands(commands):
     return htypes.command_list_model.model()
