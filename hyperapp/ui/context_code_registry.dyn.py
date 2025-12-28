@@ -13,6 +13,6 @@ class ContextCodeRegistry(CodeRegistry):
 
     def _call(self, fn, piece, args, kw):
         if len(args) != 1 or kw:
-            raise RuntimeError(f"View registry expects single argument, 'ctx': {args!r} / {kw!r}")
+            raise RuntimeError(f"Context code registry expects single argument, 'ctx': {args!r} / {kw!r}")
         ctx = args[0].clone_with(piece=piece)
         return fn.call(ctx)
