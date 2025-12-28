@@ -79,10 +79,10 @@ class MenuBarView(View):
         action = QtGui.QAction(text, enabled=True)
         # action = QtGui.QAction(text, enabled=cmd.enabled)
         action.triggered.connect(partial(cmd.start))
-        # shortcut = self._shortcut_reg.get(cmd.d)
-        # if shortcut and shortcut not in used_shortcuts:
-        #     action.setShortcut(shortcut)
-        #     used_shortcuts.add(shortcut)
+        shortcut = self._shortcut_reg.get(cmd.key)
+        if shortcut and shortcut not in used_shortcuts:
+            action.setShortcut(shortcut)
+            used_shortcuts.add(shortcut)
         tooltip = cmd.name
         # if not cmd.enabled:
         #     tooltip += '\n' + cmd.disabled_reason

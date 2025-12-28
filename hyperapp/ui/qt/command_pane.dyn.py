@@ -91,7 +91,7 @@ class CommandPaneView(View):
     def _make_button(self, cmd, used_shortcuts):
         # text = command_text(self._format, cmd)
         text = cmd.name
-        shortcut = None  # self._shortcut_reg.get(cmd.d)
+        shortcut = self._shortcut_reg.get(cmd.key)
         enabled = True
         if shortcut and shortcut not in used_shortcuts:
             text += f' ({shortcut})'
