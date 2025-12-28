@@ -89,6 +89,13 @@ def open_commands(commands):
     )
 
 
+def _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg):
+    log.info("Set shortcut for %s: %r", key, shortcut)
+    shortcut_reg[key] = shortcut
+    new_item = _view_item(cmd, get_command_group, shortcut_reg)
+    feed.send(IndexListDiff.Replace(current_idx, new_item))
+
+
 @mark.command
 def set_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
     feed = feed_factory(model)
@@ -97,7 +104,13 @@ def set_shortcut(model, current_idx, current_item, feed_factory, get_command_gro
     shortcut = run_key_input_dialog()
     if not shortcut:
         return
-    log.info("Set shortcut for %s: %r", key, shortcut)
-    shortcut_reg[key] = shortcut
-    new_item = _view_item(cmd, get_command_group, shortcut_reg)
-    feed.send(IndexListDiff.Replace(current_idx, new_item))
+    _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg)
+
+
+@mark.command
+def set_escape_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
+    feed = feed_factory(model)
+    cmd = web.summon(current_item.command)
+    key = web.summon(cmd.key)
+    shortcut = 'Esc'
+    _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg)
