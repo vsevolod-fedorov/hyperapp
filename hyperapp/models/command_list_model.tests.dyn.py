@@ -62,47 +62,8 @@ def _test_command_item_to_item(rpc_system_call_factory, format, diff_creg, feed_
     assert view_item
 
 
-@mark.fixture
-def current_item():
-    command_d = htypes.command_list_model_tests.sample_model_command_d()
-    model_command_d = htypes.command_list_model_tests.sample_model_command_d()
-    return htypes.command_list_model.item(
-        ui_command_d=mosaic.put(command_d),
-        model_command_d=mosaic.put(model_command_d),
-        name="sample-command",
-        groups="<unused>",
-        repr="<unused>",
-        shortcut="",
-        text="",
-        tooltip="",
-        )
-
-
 def mock_run_input_key_dialog():
     return 'Space'
-
-
-async def _test_global_set_shortcut(feed_factory, shortcut_reg, current_item):
-    piece = htypes.global_commands.model()
-    feed = feed_factory(piece)
-    command_list_model.run_key_input_dialog = mock_run_input_key_dialog
-    command_list_model.set_shortcut(piece, 0, current_item)
-    shortcut_reg.__setitem__.assert_called_once()
-    await feed.wait_for_diffs(count=1)
-
-
-async def _test_model_set_shortcut(feed_factory, shortcut_reg, current_item):
-    model = htypes.command_list_model_tests.sample_model()
-    model_state = htypes.command_list_model_tests.sample_model_state()
-    piece = htypes.model_commands.model(
-        model=mosaic.put(model),
-        model_state=mosaic.put(model_state)
-        )
-    feed = feed_factory(piece)
-    command_list_model.run_key_input_dialog = mock_run_input_key_dialog
-    command_list_model.set_shortcut(piece, 0, current_item)
-    shortcut_reg.__setitem__.assert_called_once()
-    await feed.wait_for_diffs(count=1)
 
 
 @mark.fixture
@@ -143,17 +104,24 @@ def _test_global_command_update(lcs, global_piece, command_d):
     command_list_model.command_update(global_piece, command_d, value, lcs)
 
 
-def test_commands_model():
-    model = htypes.command_list_model.model(
-        commands=(
-            htypes.command_list_model.command(
-                name='sample_command',
-                key=mosaic.put(htypes.command.global_model_command_key(name='sample_command')),
-                model=None,
-                model_state=None,
-            ),
-        ),
+@mark.fixture.obj
+def command():
+    return htypes.command_list_model.command(
+        name='sample_command',
+        key=mosaic.put(htypes.command.global_model_command_key(name='sample_command')),
+        model=None,
+        model_state=None,
     )
+
+
+@mark.fixture.obj
+def model(command):
+    return htypes.command_list_model.model(
+        commands=(command,),
+        )
+
+
+def test_commands_model(model):
     item_list = command_list_model.commands_model(model)
     assert item_list
     assert isinstance(item_list[0], htypes.command_list_model.item)
@@ -175,3 +143,24 @@ def test_open_model(command_factory, ctx):
     ]
     model = command_list_model.open_commands(commands)
     assert isinstance(model, htypes.command_list_model.model)
+
+
+@mark.fixture
+def current_item(command):
+    return htypes.command_list_model.item(
+        name='sample_command',
+        groups="",
+        shortcut="",
+        text="",
+        tooltip="",
+        command=mosaic.put(command),
+    )
+
+
+async def test_set_shortcut(feed_factory, shortcut_reg, model, current_item):
+    feed = feed_factory(model)
+    command_list_model.run_key_input_dialog = mock_run_input_key_dialog
+    current_idx = 0
+    command_list_model.set_shortcut(model, current_idx, current_item)
+    shortcut_reg.__setitem__.assert_called_once()
+    await feed.wait_for_diffs(count=1)

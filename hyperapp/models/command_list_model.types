@@ -4,6 +4,7 @@ item = record:
   shortcut: string
   text: string
   tooltip: string
+  command: ref
 
 form = record:
   text: string

@@ -14,6 +14,8 @@ import:
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:global_model_command_key
+- legacy_type.command:model_command_key
+- legacy_type.command:type_str_command
 - legacy_type.command_list_model:command
 - legacy_type.command_list_model:item
 - legacy_type.command_list_model:model
@@ -30,6 +32,30 @@ definitions:
     value:
       t: open_commands.t
       value: open_commands.ctx-actor-template
+  command_creg-command_list_model-set_shortcut.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: set_shortcut.t
+      value: set_shortcut.ctx-actor-template
+  command_list_model-model-set_shortcut.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.command_list_model:model
+      name: set_shortcut
+      command: set_shortcut.command
+  command_list_model-model-set_shortcut.command-group:
+    type: legacy_type.builtin:string
+    value: context
+  command_list_model-model-set_shortcut.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: command_list_model-model-set_shortcut.command-key
+      value: command_list_model-model-set_shortcut.command-group
+  command_list_model-model-set_shortcut.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.command_list_model:model
+      name: set_shortcut
   command_list_model-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -65,6 +91,7 @@ definitions:
       - piece
       service_params:
       - get_command_group
+      - shortcut_reg
   command_list_model.module:
     type: legacy_type.builtin:python_module
     value:
@@ -126,5 +153,36 @@ definitions:
     value:
       module_name: command_list_model
       name: open_commands
+      base: null
+      fields: {}
+  set_shortcut:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_list_model.module
+      attr_name: set_shortcut
+  set_shortcut.command:
+    type: set_shortcut.t
+    value: {}
+  set_shortcut.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: set_shortcut.system-fn
+  set_shortcut.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: set_shortcut
+      ctx_params:
+      - piece
+      - current_idx
+      - current_item
+      service_params:
+      - feed_factory
+      - get_command_group
+      - shortcut_reg
+  set_shortcut.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: command_list_model
+      name: set_shortcut
       base: null
       fields: {}
