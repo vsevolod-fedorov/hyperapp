@@ -90,8 +90,8 @@ def open_commands(commands):
 
 
 @mark.command
-def set_shortcut(piece, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
-    feed = feed_factory(piece)
+def set_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
+    feed = feed_factory(model)
     cmd = web.summon(current_item.command)
     key = web.summon(cmd.key)
     shortcut = run_key_input_dialog()

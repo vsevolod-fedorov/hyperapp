@@ -172,7 +172,7 @@ definitions:
     value:
       function: set_shortcut
       ctx_params:
-      - piece
+      - model
       - current_idx
       - current_item
       service_params:
