@@ -172,3 +172,11 @@ async def test_set_escape_shortcut(feed_factory, shortcut_reg, model, current_it
     command_list_model.set_escape_shortcut(model, current_idx, current_item)
     shortcut_reg.__setitem__.assert_called_once()
     await feed.wait_for_diffs(count=1)
+
+
+async def test_remove_shortcut(feed_factory, shortcut_reg, model, current_item):
+    feed = feed_factory(model)
+    current_idx = 0
+    command_list_model.remove_shortcut(model, current_idx, current_item)
+    shortcut_reg.__delitem__.assert_called_once()
+    await feed.wait_for_diffs(count=1)

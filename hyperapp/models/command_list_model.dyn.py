@@ -114,3 +114,14 @@ def set_escape_shortcut(model, current_idx, current_item, feed_factory, get_comm
     key = web.summon(cmd.key)
     shortcut = 'Esc'
     _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg)
+
+
+@mark.command
+def remove_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
+    feed = feed_factory(model)
+    cmd = web.summon(current_item.bound_command)
+    key = web.summon(cmd.key)
+    log.info("Remove shortcut for %s", key)
+    del shortcut_reg[key]
+    new_item = _view_item(cmd, get_command_group, shortcut_reg)
+    feed.send(IndexListDiff.Replace(current_idx, new_item))
