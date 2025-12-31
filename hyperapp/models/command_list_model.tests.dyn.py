@@ -7,10 +7,8 @@ from .services import (
 from .code.mark import mark
 from .code.context import Context
 from .code.system_fn import ContextFn
-# from .code.model_command import UnboundModelCommand
-# from .code.ui_model_command import UnboundUiModelCommand, CommandItem
 from .fixtures import feed_fixtures
-from .tested.code import command_list_model, model_commands, global_commands
+from .tested.code import command_list_model
 
 
 @mark.fixture.obj
@@ -29,16 +27,6 @@ def lcs():
 
 def mock_run_input_key_dialog():
     return 'Space'
-
-
-@mark.fixture
-def global_piece():
-    return htypes.global_commands.model()
-
-
-@mark.fixture
-def command_d():
-    return mosaic.put(htypes.command_list_model_tests.sample_command_d())
 
 
 def _test_model_command_get(lcs, model_piece, command_d):
