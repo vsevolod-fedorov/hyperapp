@@ -72,8 +72,8 @@ def config_item_list(piece, system, format):
 
 
 @mark.model(key='key')
-def config_item_layer_list(piece, system, format):
-    config_template = system.get_layer_config_templates(piece.layer).get(piece.service_name)
+def config_item_layer_list(model, system, format):
+    config_template = system.get_layer_config_templates(model.layer).get(model.service_name)
     item_list = []
     for key, value in sorted(_enum_items(config_template), key=lambda rec: str(rec[0])):
         if isinstance(key, Type):
@@ -96,10 +96,10 @@ def config_item_layer_list(piece, system, format):
 
 
 @mark.command(preserve_remote=True)
-def open_config_item_list(piece, current_item):
-    if piece.layer:
+def open_config_item_list(model, current_item):
+    if model.layer:
         return htypes.config_item_list.layer_model(
-            layer=piece.layer,
+            layer=model.layer,
             service_name=current_item.service_name,
             )
     else:
@@ -109,13 +109,13 @@ def open_config_item_list(piece, current_item):
 
 
 @mark.command
-def open_config_key(piece, current_item):
+def open_config_key(model, current_item):
     key = web.summon(current_item.key)
     return data_browser(key)
 
 
 @mark.command
-def open_config_value(piece, current_item):
+def open_config_value(model, current_item):
     value = web.summon(current_item.value)
     return data_browser(value)
 
@@ -178,16 +178,16 @@ def _remove_item(system, layer_name, service_name, key):
 
 
 @mark.command.remove
-def remove(piece, current_item, system):
+def remove(model, current_item, system):
     layer_name = current_item.layers[0]  # Will remove from first layer.
-    _remove_item(system, layer_name, piece.service_name, current_item.key)
+    _remove_item(system, layer_name, model.service_name, current_item.key)
     return True
 
 
 @mark.command.remove
-def layer_remove(piece, current_item, system):
-    layer_name = piece.layer
-    _remove_item(system, layer_name, piece.service_name, current_item.key)
+def layer_remove(model, current_item, system):
+    layer_name = model.layer
+    _remove_item(system, layer_name, model.service_name, current_item.key)
     return True
 
 

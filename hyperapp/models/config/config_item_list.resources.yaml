@@ -156,7 +156,7 @@ definitions:
     value:
       function: config_item_layer_list
       ctx_params:
-      - piece
+      - model
       service_params:
       - system
       - format
@@ -338,7 +338,7 @@ definitions:
     value:
       function: layer_remove
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params:
       - system
@@ -366,7 +366,7 @@ definitions:
     value:
       function: open_config_item_list
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params: []
   open_config_item_list.t:
@@ -393,7 +393,7 @@ definitions:
     value:
       function: open_config_key
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params: []
   open_config_key.t:
@@ -420,7 +420,7 @@ definitions:
     value:
       function: open_config_value
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params: []
   open_config_value.t:
@@ -447,7 +447,7 @@ definitions:
     value:
       function: remove
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params:
       - system
