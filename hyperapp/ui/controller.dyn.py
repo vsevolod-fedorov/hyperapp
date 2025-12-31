@@ -172,22 +172,28 @@ class _Item:
         return rctx
 
     def my_reverse_context(self, rctx):
+        # View, element and model commands need all commands available in context, including themselves.
+        view_commands = []
+        commands = rctx.get('commands', [])[:]
         if self.view:
             my_rctx = self.view.primary_parent_context(rctx, self.widget)
             my_cmd_ctx = self.command_context(my_rctx)
-            view_commands = self._view_commands(my_cmd_ctx)
-            model_commands = self._model_commands(my_cmd_ctx)
         else:
-            my_rctx = rctx
-            view_commands = []
-            model_commands = []
+            my_rctx = my_cmd_ctx = rctx
+        my_cmd_ctx = my_cmd_ctx.clone_with(
+            commands=commands,
+            )
+        if self.view:
+            view_commands += self._view_commands(my_cmd_ctx)
+            model_commands = self._model_commands(my_cmd_ctx)
+            commands += view_commands + model_commands
         # Element commands should be collected even when view is missing,
         # for example for stretch elements of a box layout.
-        element_commands = self._element_commands(my_rctx)
-        commands_rctx = my_rctx.clone_with(
-            commands=rctx.get('commands', []) + view_commands + element_commands + model_commands,
+        view_commands += self._element_commands(my_cmd_ctx)
+        new_rctx = my_rctx.clone_with(
+            commands=commands,
             )
-        return ([*view_commands, *element_commands], commands_rctx)
+        return (view_commands, new_rctx)
 
     def _view_commands(self, command_ctx):
         return self._meta.svc.get_view_commands(command_ctx, self.view)
