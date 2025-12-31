@@ -61,8 +61,8 @@ def _item_path(get_sample_tree_items, item_id):
 
 
 @mark.command
-def remove_tree_item(piece, current_item, feed_factory, get_sample_tree_items):
-    feed = feed_factory(piece)
+def remove_tree_item(model, current_item, feed_factory, get_sample_tree_items):
+    feed = feed_factory(model)
     item_id = current_item.id
     log.info("Sample tree: Remove item #%d", item_id)
     path = _item_path(get_sample_tree_items, item_id)
@@ -76,8 +76,8 @@ def remove_tree_item(piece, current_item, feed_factory, get_sample_tree_items):
 
 
 @mark.command
-def append_tree_item(piece, current_item, feed_factory, get_sample_tree_items):
-    feed = feed_factory(piece)
+def append_tree_item(model, current_item, feed_factory, get_sample_tree_items):
+    feed = feed_factory(model)
     item_id = current_item.id
     parent_id = item_id // 10
     log.info("Sample tree: Append item to parent #%d", parent_id)
@@ -95,8 +95,8 @@ def append_tree_item(piece, current_item, feed_factory, get_sample_tree_items):
 
 
 @mark.command
-def insert_tree_item(piece, current_item, feed_factory, get_sample_tree_items):
-    feed = feed_factory(piece)
+def insert_tree_item(model, current_item, feed_factory, get_sample_tree_items):
+    feed = feed_factory(model)
     item_id = current_item.id
     log.info("Sample tree: Insert to item #%d", item_id)
     path = _item_path(get_sample_tree_items, item_id)

@@ -45,7 +45,7 @@ definitions:
     value:
       function: append_tree_item
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params:
       - feed_factory
@@ -125,7 +125,7 @@ definitions:
     value:
       function: insert_tree_item
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params:
       - feed_factory
@@ -196,7 +196,7 @@ definitions:
     value:
       function: remove_tree_item
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params:
       - feed_factory
