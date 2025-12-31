@@ -62,7 +62,7 @@ def _view_item(cmd, get_command_group, shortcut_reg):
         shortcut=shortcut or "",
         text="",
         tooltip="",
-        command=mosaic.put(cmd),
+        bound_command=mosaic.put(cmd),
     )
 
 
@@ -78,7 +78,7 @@ def commands_model(piece, get_command_group, shortcut_reg):
 def open_commands(commands):
     return htypes.command_list_model.model(
         commands=tuple(
-            htypes.command_list_model.command(
+            htypes.command_list_model.bound_command(
                 name=cmd.name,
                 key=mosaic.put(cmd.key),
                 model=mosaic.put_opt(cmd.ctx.get('model')),
@@ -99,7 +99,7 @@ def _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shor
 @mark.command
 def set_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
     feed = feed_factory(model)
-    cmd = web.summon(current_item.command)
+    cmd = web.summon(current_item.bound_command)
     key = web.summon(cmd.key)
     shortcut = run_key_input_dialog()
     if not shortcut:
@@ -110,7 +110,7 @@ def set_shortcut(model, current_idx, current_item, feed_factory, get_command_gro
 @mark.command
 def set_escape_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
     feed = feed_factory(model)
-    cmd = web.summon(current_item.command)
+    cmd = web.summon(current_item.bound_command)
     key = web.summon(cmd.key)
     shortcut = 'Esc'
     _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg)

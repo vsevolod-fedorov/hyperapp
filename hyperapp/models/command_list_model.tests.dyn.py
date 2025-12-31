@@ -105,8 +105,8 @@ def _test_global_command_update(lcs, global_piece, command_d):
 
 
 @mark.fixture.obj
-def command():
-    return htypes.command_list_model.command(
+def bound_command():
+    return htypes.command_list_model.bound_command(
         name='sample_command',
         key=mosaic.put(htypes.command.global_model_command_key(name='sample_command')),
         model=None,
@@ -115,9 +115,9 @@ def command():
 
 
 @mark.fixture.obj
-def model(command):
+def model(bound_command):
     return htypes.command_list_model.model(
-        commands=(command,),
+        commands=(bound_command,),
         )
 
 
@@ -146,14 +146,14 @@ def test_open_model(command_factory, ctx):
 
 
 @mark.fixture
-def current_item(command):
+def current_item(bound_command):
     return htypes.command_list_model.item(
         name='sample_command',
         groups="",
         shortcut="",
         text="",
         tooltip="",
-        command=mosaic.put(command),
+        bound_command=mosaic.put(bound_command),
     )
 
 

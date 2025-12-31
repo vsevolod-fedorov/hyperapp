@@ -4,17 +4,17 @@ item = record:
   shortcut: string
   text: string
   tooltip: string
-  command: ref
+  bound_command: ref
 
 form = record:
   text: string
   tooltip: string
 
-command = record:
+bound_command = record:
   name: string
   key: ref
   model: ref opt
   model_state: ref opt
 
 model = record:
-  commands: command list
+  commands: bound_command list
