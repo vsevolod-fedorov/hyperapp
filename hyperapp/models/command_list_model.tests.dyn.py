@@ -13,10 +13,6 @@ from .fixtures import feed_fixtures
 from .tested.code import command_list_model, model_commands, global_commands
 
 
-def _sample_fn(model, state):
-    return f'sample-fn: {state}'
-
-
 @mark.fixture.obj
 def shortcut_reg():
     reg = MagicMock()
@@ -31,49 +27,8 @@ def lcs():
     return lcs
 
 
-def _test_command_item_to_item(rpc_system_call_factory, format, diff_creg, feed_factory, error_view, view_reg, visualizer, shortcut_reg, lcs):
-    system_fn = ContextFn(
-        rpc_system_call_factory=rpc_system_call_factory,
-        ctx_params=('view', 'state'),
-        service_params=(),
-        raw_fn=_sample_fn,
-        )
-    model_command = UnboundModelCommand(
-        d=htypes.command_list_model_tests.sample_model_command_d(),
-        ctx_fn=system_fn,
-        properties=htypes.command.properties(False, False, False),
-        )
-    command = UnboundUiModelCommand(
-        diff_creg=diff_creg,
-        feed_factory=feed_factory,
-        error_view=error_view,
-        view_reg=view_reg,
-        visualizer=visualizer,
-        d=htypes.command_list_model_tests.sample_model_command_d(),
-        model_command=model_command,
-        )
-    command_item = CommandItem(
-        format=format,
-        d=htypes.command_list_model_tests.sample_command_d(),
-        model_command_d=htypes.command_list_model_tests.sample_model_command_d(),
-        command=command,
-        )
-    view_item = command_list_model.command_item_to_model_item(shortcut_reg, lcs, command_item)
-    assert view_item
-
-
 def mock_run_input_key_dialog():
     return 'Space'
-
-
-@mark.fixture
-def model_piece():
-    model = htypes.command_list_model_tests.sample_model()
-    model_state = htypes.command_list_model_tests.sample_model_state()
-    return htypes.model_commands.model(
-        model=mosaic.put(model),
-        model_state=mosaic.put(model_state)
-        )
 
 
 @mark.fixture

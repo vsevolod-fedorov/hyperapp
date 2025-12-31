@@ -21,19 +21,6 @@ def _get_command_tooltip(lcs, d):
     return ""
 
 
-def command_item_to_model_item(shortcut_reg, lcs, item):
-    return htypes.command_list_model.item(
-        ui_command_d=mosaic.put(item.d),
-        model_command_d=mosaic.put(item.model_command_d),
-        name=item.name,
-        groups=", ".join(d_to_name(g) for g in item.command.groups) if item.enabled else "",
-        repr=repr(item.command),
-        shortcut=shortcut_reg.get(item.d) or "",
-        text=_get_command_text(lcs, item.d),
-        tooltip=_get_command_tooltip(lcs, item.d),
-        )
-
-
 @mark.crud.get
 def command_get(piece, ui_command_d, lcs):
     return htypes.command_list_model.form(

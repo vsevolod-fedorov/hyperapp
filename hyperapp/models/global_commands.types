@@ -1,4 +1,0 @@
-model = record
-
-command_arg = record:
-  d: ref
