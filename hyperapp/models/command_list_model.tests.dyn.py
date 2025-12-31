@@ -188,3 +188,8 @@ async def test_remove_shortcut(feed_factory, shortcut_reg, hook, model, current_
     shortcut_reg.__delitem__.assert_called_once()
     await feed.wait_for_diffs(count=1)
     hook.parent_context_changed.assert_called_once()
+
+
+def test_format_model(model):
+    title = command_list_model.format_model(model)
+    assert type(title) is str

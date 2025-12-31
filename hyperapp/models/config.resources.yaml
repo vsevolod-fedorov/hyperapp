@@ -45,6 +45,7 @@ import:
 - models.command_list_model:command_list_model-model-set_shortcut.command-group-item
 - models.command_list_model:command_list_model-model.feed-template-cfg-item
 - models.command_list_model:command_list_model-model.model-cfg-item
+- models.command_list_model:formatter_creg-command_list_model-model.actor-cfg-item
 - models.command_list_model:open_commands.command-cfg-item
 - models.command_list_model:open_commands.command-group-item
 - models.config.config_item_list:command_creg-config_item_list-layer_remove.ctx-actor-cfg-item
@@ -411,6 +412,7 @@ definitions:
       - models.bundle_info:formatter_creg-bundle_info-ass_list_model.actor-cfg-item
       - models.bundle_info:formatter_creg-bundle_info-capsule_list_model.actor-cfg-item
       - models.bundle_info:formatter_creg-bundle_info-model.actor-cfg-item
+      - models.command_list_model:formatter_creg-command_list_model-model.actor-cfg-item
       - models.config.config_item_list:formatter_creg-config_item_list-layer_model.actor-cfg-item
       - models.config.config_item_list:formatter_creg-config_item_list-model.actor-cfg-item
       - models.config.config_layer_list:formatter_creg-config_layer_list-model.actor-cfg-item

@@ -23,6 +23,7 @@ import:
 - legacy_type.feed:list_feed_type
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:model
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - ui.directory:directory.module
 - ui.qt.key_input_dialog:key_input_dialog.module
@@ -160,6 +161,21 @@ definitions:
     value:
       object: command_list_model.module
       attr_name: commands_model
+  format_model:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_list_model.module
+      attr_name: format_model
+  format_model.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: format_model
+      service_params: []
+  formatter_creg-command_list_model-model.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.command_list_model:model
+      value: format_model.actor-template
   open_commands:
     type: legacy_type.builtin:attribute
     value:

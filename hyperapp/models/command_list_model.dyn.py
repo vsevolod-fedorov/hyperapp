@@ -127,3 +127,8 @@ def remove_shortcut(model, current_idx, current_item, hook, feed_factory, get_co
     new_item = _view_item(cmd, get_command_group, shortcut_reg)
     feed.send(IndexListDiff.Replace(current_idx, new_item))
     hook.parent_context_changed()
+
+
+@mark.actor.formatter_creg
+def format_model(piece):
+    return "Commands"
