@@ -157,26 +157,34 @@ def current_item(bound_command):
     )
 
 
-async def test_set_shortcut(feed_factory, shortcut_reg, model, current_item):
+@mark.fixture
+def hook():
+    return Mock()
+
+
+async def test_set_shortcut(feed_factory, shortcut_reg, hook, model, current_item):
     feed = feed_factory(model)
     command_list_model.run_key_input_dialog = mock_run_input_key_dialog
     current_idx = 0
-    command_list_model.set_shortcut(model, current_idx, current_item)
+    command_list_model.set_shortcut(model, current_idx, current_item, hook)
     shortcut_reg.__setitem__.assert_called_once()
     await feed.wait_for_diffs(count=1)
+    hook.parent_context_changed.assert_called_once()
 
 
-async def test_set_escape_shortcut(feed_factory, shortcut_reg, model, current_item):
+async def test_set_escape_shortcut(feed_factory, shortcut_reg, hook, model, current_item):
     feed = feed_factory(model)
     current_idx = 0
-    command_list_model.set_escape_shortcut(model, current_idx, current_item)
+    command_list_model.set_escape_shortcut(model, current_idx, current_item, hook)
     shortcut_reg.__setitem__.assert_called_once()
     await feed.wait_for_diffs(count=1)
+    hook.parent_context_changed.assert_called_once()
 
 
-async def test_remove_shortcut(feed_factory, shortcut_reg, model, current_item):
+async def test_remove_shortcut(feed_factory, shortcut_reg, hook, model, current_item):
     feed = feed_factory(model)
     current_idx = 0
-    command_list_model.remove_shortcut(model, current_idx, current_item)
+    command_list_model.remove_shortcut(model, current_idx, current_item, hook)
     shortcut_reg.__delitem__.assert_called_once()
     await feed.wait_for_diffs(count=1)
+    hook.parent_context_changed.assert_called_once()

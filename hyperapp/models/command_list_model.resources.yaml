@@ -223,6 +223,7 @@ definitions:
       - model
       - current_idx
       - current_item
+      - hook
       service_params:
       - feed_factory
       - get_command_group
@@ -254,6 +255,7 @@ definitions:
       - model
       - current_idx
       - current_item
+      - hook
       service_params:
       - feed_factory
       - get_command_group
@@ -285,6 +287,7 @@ definitions:
       - model
       - current_idx
       - current_item
+      - hook
       service_params:
       - feed_factory
       - get_command_group

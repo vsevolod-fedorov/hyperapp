@@ -89,35 +89,36 @@ def open_commands(commands):
     )
 
 
-def _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg):
+def _set_shortcut(current_idx, key, cmd, shortcut, hook, feed, get_command_group, shortcut_reg):
     log.info("Set shortcut for %s: %r", key, shortcut)
     shortcut_reg[key] = shortcut
     new_item = _view_item(cmd, get_command_group, shortcut_reg)
     feed.send(IndexListDiff.Replace(current_idx, new_item))
+    hook.parent_context_changed()
 
 
 @mark.command
-def set_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
+def set_shortcut(model, current_idx, current_item, hook, feed_factory, get_command_group, shortcut_reg):
     feed = feed_factory(model)
     cmd = web.summon(current_item.bound_command)
     key = web.summon(cmd.key)
     shortcut = run_key_input_dialog()
     if not shortcut:
         return
-    _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg)
+    _set_shortcut(current_idx, key, cmd, shortcut, hook, feed, get_command_group, shortcut_reg)
 
 
 @mark.command
-def set_escape_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
+def set_escape_shortcut(model, current_idx, current_item, hook, feed_factory, get_command_group, shortcut_reg):
     feed = feed_factory(model)
     cmd = web.summon(current_item.bound_command)
     key = web.summon(cmd.key)
     shortcut = 'Esc'
-    _set_shortcut(current_idx, key, cmd, shortcut, feed, get_command_group, shortcut_reg)
+    _set_shortcut(current_idx, key, cmd, shortcut, hook, feed, get_command_group, shortcut_reg)
 
 
 @mark.command
-def remove_shortcut(model, current_idx, current_item, feed_factory, get_command_group, shortcut_reg):
+def remove_shortcut(model, current_idx, current_item, hook, feed_factory, get_command_group, shortcut_reg):
     feed = feed_factory(model)
     cmd = web.summon(current_item.bound_command)
     key = web.summon(cmd.key)
@@ -125,3 +126,4 @@ def remove_shortcut(model, current_idx, current_item, feed_factory, get_command_
     del shortcut_reg[key]
     new_item = _view_item(cmd, get_command_group, shortcut_reg)
     feed.send(IndexListDiff.Replace(current_idx, new_item))
+    hook.parent_context_changed()
