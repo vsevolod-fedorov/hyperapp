@@ -50,8 +50,8 @@ def _format_field_value(t, value):
 
 
 @mark.model
-def browse_record(piece):
-    data, data_t = web.summon_with_t(piece.data)
+def browse_record(model):
+    data, data_t = web.summon_with_t(model.data)
     return [
         htypes.data_browser.record_item(
             name=name,
@@ -63,8 +63,8 @@ def browse_record(piece):
 
 
 @mark.command
-def record_open(piece, current_item):
-    data, data_t = web.summon_with_t(piece.data)
+def record_open(model, current_item):
+    data, data_t = web.summon_with_t(model.data)
     name = current_item.name
     field_t = data_t.fields[name]
     value = getattr(data, name)
@@ -82,8 +82,8 @@ def format_record_view(piece, format):
 
 
 @mark.model
-def browse_list(piece):
-    data, data_t = web.summon_with_t(piece.data)
+def browse_list(model):
+    data, data_t = web.summon_with_t(model.data)
     return [
         htypes.data_browser.list_item(
             idx=idx,
@@ -96,15 +96,15 @@ def browse_list(piece):
 
 
 @mark.command
-def list_open(piece, current_item):
-    data, data_t = web.summon_with_t(piece.data)
+def list_open(model, current_item):
+    data, data_t = web.summon_with_t(model.data)
     value = data[current_item.idx]
     return data_browser(value, data_t.element_t)
 
 
 @mark.model
-def browse_ref_list(piece):
-    data = web.summon(piece.data)
+def browse_ref_list(model):
+    data = web.summon(model.data)
     result = []
     for idx, elt_ref in enumerate(data):
         elt, t = web.summon_with_t(elt_ref)
@@ -119,16 +119,16 @@ def browse_ref_list(piece):
 
 
 @mark.command
-def ref_list_open(piece, current_item):
-    data = web.summon(piece.data)
+def ref_list_open(model, current_item):
+    data = web.summon(model.data)
     value_ref = data[current_item.idx]
     value, t = web.summon_with_t(value_ref)
     return data_browser(value, t)
 
 
 @mark.model
-def browse_primitive(piece):
-    data, data_t = web.summon_with_t(piece.data)
+def browse_primitive(model):
+    data, data_t = web.summon_with_t(model.data)
     return htypes.data_browser.primitive_item(
         type=str(data_t),
         value=str(data),
@@ -136,5 +136,5 @@ def browse_primitive(piece):
 
 
 @mark.global_command
-def browse_current_model(piece):
-    return data_browser(piece)
+def browse_current_model(model):
+    return data_browser(model)

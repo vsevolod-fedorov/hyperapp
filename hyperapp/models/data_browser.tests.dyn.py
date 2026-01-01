@@ -7,11 +7,11 @@ from .tested.code import data_browser
 
 
 def test_browse_current_model_record():
-    piece_1 = htypes.data_browser_tests.sample_model_1()
-    result_1 = data_browser.browse_current_model(piece_1)
+    model_1 = htypes.data_browser_tests.sample_model_1()
+    result_1 = data_browser.browse_current_model(model_1)
     assert isinstance(result_1, htypes.data_browser.record_view)
-    piece_2 = htypes.data_browser_tests.sample_model_2()
-    result_2 = data_browser.browse_current_model(piece_2)
+    model_2 = htypes.data_browser_tests.sample_model_2()
+    result_2 = data_browser.browse_current_model(model_2)
     assert isinstance(result_2, htypes.data_browser.record_view)
 
 
@@ -22,10 +22,10 @@ def test_browse_record():
         inner=htypes.data_browser_tests.inner_data("Sample inner text"),
         value=mosaic.put("Sample value"),
         )
-    piece = htypes.data_browser.record_view(
+    model = htypes.data_browser.record_view(
         data=mosaic.put(data),
         )
-    result = data_browser.browse_record(piece)
+    result = data_browser.browse_record(model)
     assert len(result) == 4
     assert isinstance(result[0], htypes.data_browser.record_item)
     assert result[0].name == 'name'
@@ -36,10 +36,10 @@ def test_browse_record():
 
 def test_format_record_view():
     data = "Sample string"
-    piece = htypes.data_browser.record_view(
+    model = htypes.data_browser.record_view(
         data=mosaic.put(data),
         )
-    title = data_browser.format_record_view(piece)
+    title = data_browser.format_record_view(model)
     assert type(title) is str
 
 
@@ -47,9 +47,9 @@ def test_browse_list():
     elt_1 = "Sample element 1"
     elt_2 = "Sample element 2"
     data = (elt_1, elt_2)
-    piece = data_browser.browse_current_model(data)
-    assert isinstance(piece, htypes.data_browser.list_view)
-    result = data_browser.browse_list(piece)
+    model = data_browser.browse_current_model(data)
+    assert isinstance(model, htypes.data_browser.list_view)
+    result = data_browser.browse_list(model)
     assert type(result) is list
     assert len(result) == 2
     assert isinstance(result[0], htypes.data_browser.list_item)
@@ -59,7 +59,7 @@ def test_browse_list():
     assert result[1].value == str(elt_2)
 
     current_item = result[1]
-    view = data_browser.list_open(piece, current_item)
+    view = data_browser.list_open(model, current_item)
     assert isinstance(view, htypes.data_browser.primitive_view)
     assert web.summon(view.data) == elt_2
 
@@ -68,9 +68,9 @@ def test_browse_ref_list():
     elt_1 = "Sample element 1"
     elt_2 = 12345
     data = (mosaic.put(elt_1), mosaic.put(elt_2))
-    piece = data_browser.browse_current_model(data)
-    assert isinstance(piece, htypes.data_browser.ref_list_view)
-    result = data_browser.browse_ref_list(piece)
+    model = data_browser.browse_current_model(data)
+    assert isinstance(model, htypes.data_browser.ref_list_view)
+    result = data_browser.browse_ref_list(model)
     assert type(result) is list
     assert len(result) == 2
     assert isinstance(result[0], htypes.data_browser.ref_list_item)
@@ -82,16 +82,16 @@ def test_browse_ref_list():
     assert result[1].value == str(elt_2)
 
     current_item = result[1]
-    view = data_browser.ref_list_open(piece, current_item)
+    view = data_browser.ref_list_open(model, current_item)
     assert isinstance(view, htypes.data_browser.primitive_view)
     assert web.summon(view.data) == elt_2
 
 
 def test_browse_primitive():
     data = "Sample primitive string"
-    piece = data_browser.browse_current_model(data)
-    assert isinstance(piece, htypes.data_browser.primitive_view)
-    result = data_browser.browse_primitive(piece)
+    model = data_browser.browse_current_model(data)
+    assert isinstance(model, htypes.data_browser.primitive_view)
+    result = data_browser.browse_primitive(model)
     assert isinstance(result, htypes.data_browser.primitive_item)
     assert result.type == 'str'
     assert result.value == data
@@ -102,13 +102,13 @@ def test_browse_primitive_string_opt():
     data = htypes.data_browser_tests.sample_opt_data(
         str_field=field,
         )
-    piece = htypes.data_browser.record_view(mosaic.put(data))
+    model = htypes.data_browser.record_view(mosaic.put(data))
     current_item = htypes.data_browser.record_item(
         name="str_field",
         type="",
         value="",
         )
-    view = data_browser.record_open(piece, current_item)
+    view = data_browser.record_open(model, current_item)
     assert isinstance(view, htypes.data_browser.primitive_view)
     assert web.summon(view.data) == field
 
@@ -117,13 +117,13 @@ def test_browse_primitive_string_opt_none():
     data = htypes.data_browser_tests.sample_opt_data(
         str_field=None,
         )
-    piece = htypes.data_browser.record_view(mosaic.put(data))
+    model = htypes.data_browser.record_view(mosaic.put(data))
     current_item = htypes.data_browser.record_item(
         name="str_field",
         type="",
         value="",
         )
-    view = data_browser.record_open(piece, current_item)
+    view = data_browser.record_open(model, current_item)
     assert isinstance(view, htypes.data_browser.primitive_view)
     assert web.summon(view.data) == None
 
@@ -135,7 +135,7 @@ def test_record_open():
         inner=htypes.data_browser_tests.inner_data("Sample inner text"),
         value=mosaic.put("Sample value"),
         )
-    piece = htypes.data_browser.record_view(
+    model = htypes.data_browser.record_view(
         data=mosaic.put(data),
         )
     current_item = htypes.data_browser.record_item(
@@ -143,7 +143,7 @@ def test_record_open():
         type="",
         value="",
         )
-    result = data_browser.record_open(piece, current_item)
+    result = data_browser.record_open(model, current_item)
     assert isinstance(result, htypes.data_browser.record_view)
     assert web.summon(result.data) == data.inner
 
@@ -161,7 +161,7 @@ def test_record_open_ref():
         inner=htypes.data_browser_tests.inner_data("Sample inner text"),
         value=mosaic.put(data_1),
         )
-    piece = htypes.data_browser.record_view(
+    model = htypes.data_browser.record_view(
         data=mosaic.put(data_2),
         )
     current_item = htypes.data_browser.record_item(
@@ -169,6 +169,6 @@ def test_record_open_ref():
         type="",
         value="",
         )
-    result = data_browser.record_open(piece, current_item)
+    result = data_browser.record_open(model, current_item)
     assert isinstance(result, htypes.data_browser.record_view)
     assert web.summon(result.data) == data_1
