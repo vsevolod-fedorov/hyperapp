@@ -223,12 +223,7 @@ class _Item:
             widget=weakref.ref(self.widget),
             hook=self.hook,
             )
-        ctx = ctx.copy_from(rctx)
-        if 'model' in ctx:
-            ctx = ctx.clone_with(
-                piece=ctx.model,  # An alias for model.
-                )
-        return ctx
+        return ctx.copy_from(rctx)
 
     def navigator_rec(self, rctx):
         try:
