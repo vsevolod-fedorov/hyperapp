@@ -64,6 +64,8 @@ class Command:
     def _prepare_ctx(self):
         ctx = self._ctx
         kw = {}
+        if 'model_state' in ctx:
+            kw.update(ctx.attributes(ctx.model_state))
         if 'widget' in ctx:
             widget = ctx.widget()
             if widget is None:

@@ -228,8 +228,6 @@ class _Item:
             ctx = ctx.clone_with(
                 piece=ctx.model,  # An alias for model.
                 )
-        if 'model_state' in ctx:
-            ctx = ctx.clone_with(**ctx.attributes(ctx.model_state))
         return ctx
 
     def navigator_rec(self, rctx):
