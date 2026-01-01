@@ -174,7 +174,7 @@ class _Item:
     def my_reverse_context(self, rctx):
         # View, element and model commands need all commands available in context, including themselves.
         view_commands = []
-        commands = rctx.get('commands', [])[:]
+        commands = rctx.get('commands', [])
         if self.view:
             my_rctx = self.view.primary_parent_context(rctx, self.widget)
             my_cmd_ctx = self.command_context(my_rctx)

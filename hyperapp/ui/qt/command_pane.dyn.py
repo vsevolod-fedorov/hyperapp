@@ -1,3 +1,4 @@
+import asyncio
 import logging
 from functools import partial
 
@@ -60,6 +61,10 @@ class CommandPaneView(View):
 
     async def children_changed(self, ctx, rctx, widget, save_layout):
         commands = rctx.get('commands', [])
+        # Postpone until upper-level views added their commands too.
+        asyncio.create_task(self._update_commands(commands, widget))
+
+    async def _update_commands(self, commands, widget):
         layout = widget.layout()
         command_group = {
             cmd: self._get_command_group(cmd.key)
