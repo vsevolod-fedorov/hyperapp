@@ -66,12 +66,13 @@ def open_commands(commands):
     return htypes.command_list_model.model(
         commands=tuple(
             htypes.command_list_model.bound_command(
-                name=bcmd.name,
-                key=mosaic.put(bcmd.key),
-                model=mosaic.put_opt(bcmd.ctx.get('model')),
-                model_state=mosaic.put_opt(bcmd.ctx.get('model_state')),
+                name=cmd.name,
+                key=mosaic.put(cmd.key),
+                command=mosaic.put(cmd.command),
+                model=mosaic.put_opt(cmd.ctx.get('model')),
+                model_state=mosaic.put_opt(cmd.ctx.get('model_state')),
             )
-            for bcmd in commands
+            for cmd in commands
         ),
     )
 
@@ -114,6 +115,25 @@ def remove_shortcut(model, current_idx, current_item, hook, feed_factory, get_co
     new_item = _view_item(bcmd, get_command_group, shortcut_reg)
     feed.send(IndexListDiff.Replace(current_idx, new_item))
     hook.parent_context_changed()
+
+
+@mark.command
+async def run_command(model, current_item, ctx, command_factory):
+    bcmd = web.summon(current_item.bound_command)
+    kw = {}
+    if bcmd.model is not None:
+        kw['model'] = web.summon(bcmd.model)
+    if bcmd.model_state is not None:
+        kw['model_state'] = web.summon(bcmd.model_state)
+    if kw:
+        ctx = ctx.clone_with(**kw)
+    command = command_factory(
+        key=web.summon(bcmd.key),
+        name=bcmd.name,
+        command=web.summon(bcmd.command),
+        ctx=ctx,
+        )
+    await command.run()
 
 
 @mark.actor.formatter_creg

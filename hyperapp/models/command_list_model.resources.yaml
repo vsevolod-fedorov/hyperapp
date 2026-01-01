@@ -38,6 +38,11 @@ definitions:
     value:
       t: remove_shortcut.t
       value: remove_shortcut.ctx-actor-template
+  command_creg-command_list_model-run_command.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: run_command.t
+      value: run_command.ctx-actor-template
   command_creg-command_list_model-set_escape_shortcut.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -67,6 +72,25 @@ definitions:
     value:
       model_t: legacy_type.command_list_model:model
       name: remove_shortcut
+  command_list_model-model-run_command.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.command_list_model:model
+      name: run_command
+      command: run_command.command
+  command_list_model-model-run_command.command-group:
+    type: legacy_type.builtin:string
+    value: context
+  command_list_model-model-run_command.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: command_list_model-model-run_command.command-key
+      value: command_list_model-model-run_command.command-group
+  command_list_model-model-run_command.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.command_list_model:model
+      name: run_command
   command_list_model-model-set_escape_shortcut.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -249,6 +273,35 @@ definitions:
     value:
       module_name: command_list_model
       name: remove_shortcut
+      base: null
+      fields: {}
+  run_command:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_list_model.module
+      attr_name: run_command
+  run_command.command:
+    type: run_command.t
+    value: {}
+  run_command.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: run_command.system-fn
+  run_command.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: run_command
+      ctx_params:
+      - model
+      - current_item
+      - ctx
+      service_params:
+      - command_factory
+  run_command.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: command_list_model
+      name: run_command
       base: null
       fields: {}
   set_escape_shortcut:

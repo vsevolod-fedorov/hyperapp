@@ -13,6 +13,7 @@ form = record:
 bound_command = record:
   name: string
   key: ref
+  command: ref
   model: ref opt
   model_state: ref opt
 

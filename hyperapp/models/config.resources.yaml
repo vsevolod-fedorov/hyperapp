@@ -35,10 +35,13 @@ import:
 - models.column_list:command_creg-column_list-toggle_visibility.ctx-actor-cfg-item
 - models.command_list_model:command_creg-command_list_model-open_commands.ctx-actor-cfg-item
 - models.command_list_model:command_creg-command_list_model-remove_shortcut.ctx-actor-cfg-item
+- models.command_list_model:command_creg-command_list_model-run_command.ctx-actor-cfg-item
 - models.command_list_model:command_creg-command_list_model-set_escape_shortcut.ctx-actor-cfg-item
 - models.command_list_model:command_creg-command_list_model-set_shortcut.ctx-actor-cfg-item
 - models.command_list_model:command_list_model-model-remove_shortcut.command-cfg-item
 - models.command_list_model:command_list_model-model-remove_shortcut.command-group-item
+- models.command_list_model:command_list_model-model-run_command.command-cfg-item
+- models.command_list_model:command_list_model-model-run_command.command-group-item
 - models.command_list_model:command_list_model-model-set_escape_shortcut.command-cfg-item
 - models.command_list_model:command_list_model-model-set_escape_shortcut.command-group-item
 - models.command_list_model:command_list_model-model-set_shortcut.command-cfg-item
@@ -257,6 +260,7 @@ definitions:
       - models.column_list:command_creg-column_list-toggle_visibility.ctx-actor-cfg-item
       - models.command_list_model:command_creg-command_list_model-open_commands.ctx-actor-cfg-item
       - models.command_list_model:command_creg-command_list_model-remove_shortcut.ctx-actor-cfg-item
+      - models.command_list_model:command_creg-command_list_model-run_command.ctx-actor-cfg-item
       - models.command_list_model:command_creg-command_list_model-set_escape_shortcut.ctx-actor-cfg-item
       - models.command_list_model:command_creg-command_list_model-set_shortcut.ctx-actor-cfg-item
       - models.config.config_item_list:command_creg-config_item_list-layer_remove.ctx-actor-cfg-item
@@ -309,6 +313,7 @@ definitions:
       - models.bundle_info:bundle_info-model-open_root.command-group-item
       - models.column_list:column_list-view-toggle_visibility.command-group-item
       - models.command_list_model:command_list_model-model-remove_shortcut.command-group-item
+      - models.command_list_model:command_list_model-model-run_command.command-group-item
       - models.command_list_model:command_list_model-model-set_escape_shortcut.command-group-item
       - models.command_list_model:command_list_model-model-set_shortcut.command-group-item
       - models.command_list_model:open_commands.command-group-item
@@ -462,6 +467,7 @@ definitions:
       - models.bundle_info:bundle_info-model-open_root.command-cfg-item
       - models.column_list:column_list-view-toggle_visibility.command-cfg-item
       - models.command_list_model:command_list_model-model-remove_shortcut.command-cfg-item
+      - models.command_list_model:command_list_model-model-run_command.command-cfg-item
       - models.command_list_model:command_list_model-model-set_escape_shortcut.command-cfg-item
       - models.command_list_model:command_list_model-model-set_shortcut.command-cfg-item
       - models.config.config_item_list:config_item_list-layer_model-layer_remove.command-cfg-item

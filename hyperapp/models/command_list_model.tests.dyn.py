@@ -1,4 +1,4 @@
-from unittest.mock import MagicMock, Mock
+from unittest.mock import AsyncMock, MagicMock, Mock
 
 from . import htypes
 from .services import (
@@ -8,6 +8,7 @@ from .code.mark import mark
 from .code.context import Context
 from .code.system_fn import ContextFn
 from .fixtures import feed_fixtures
+from .fixtures import visualizer_fixtures
 from .tested.code import command_list_model
 
 
@@ -47,11 +48,28 @@ def _test_global_command_update(lcs, global_piece, command_d):
     command_list_model.command_update(global_piece, command_d, value, lcs)
 
 
+@mark.ctx_actor.command_creg(htypes.command_list_model_tests.sample_command)
+def sample_command():
+    return 'sample-command-result'
+
+
 @mark.fixture.obj
-def bound_command():
+def command():
+    return htypes.command_list_model_tests.sample_command()
+
+
+def test_sample_command():
+    ctx = Context()
+    result = sample_command.call(ctx)
+    assert result == 'sample-command-result'
+
+
+@mark.fixture.obj
+def bound_command(command):
     return htypes.command_list_model.bound_command(
         name='sample_command',
         key=mosaic.put(htypes.command.global_model_command_key(name='sample_command')),
+        command=mosaic.put(command),
         model=None,
         model_state=None,
     )
@@ -71,7 +89,7 @@ def test_commands_model(model):
 
 
 @mark.fixture
-def ctx(command_factory):
+def ctx():
     return Context()
 
 
@@ -131,6 +149,17 @@ async def test_remove_shortcut(feed_factory, shortcut_reg, hook, model, current_
     shortcut_reg.__delitem__.assert_called_once()
     await feed.wait_for_diffs(count=1)
     hook.parent_context_changed.assert_called_once()
+
+
+async def test_run_command(model, current_item):
+    navigator_rec = Mock()
+    navigator_rec.view.open = AsyncMock()
+    ctx = Context(
+        navigator=navigator_rec,
+        ).push()
+    await command_list_model.run_command(model, current_item, ctx)
+    navigator_rec.view.open.assert_awaited_once()
+    assert navigator_rec.view.open.await_args.args[1] == 'sample-command-result'
 
 
 def test_format_model(model):

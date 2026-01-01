@@ -36,6 +36,10 @@ class Command:
         return self._name
 
     @property
+    def command(self):
+        return self._command
+
+    @property
     def ctx(self):
         return self._ctx
 
