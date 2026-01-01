@@ -11,8 +11,8 @@ from .tested.code import ref_list
 
 
 def test_open():
-    piece = ref_list.open_ref_list()
-    assert isinstance(piece, htypes.ref_list.model)
+    model = ref_list.open_ref_list()
+    assert isinstance(model, htypes.ref_list.model)
 
 
 @mark.fixture
@@ -22,7 +22,7 @@ def data_dir():
 
 @mark.fixture
 def file_bundle_factory():
-    ref_1_piece = htypes.ref_list_tests.sample_model(id=123)
+    ref_1_model = htypes.ref_list_tests.sample_model(id=123)
     storage = htypes.ref_list.storage(
         folders=(
             htypes.ref_list.folder(
@@ -40,7 +40,7 @@ def file_bundle_factory():
             htypes.ref_list.ref(
                 id='ref_1',
                 parent_id=None,
-                ref=mosaic.put(ref_1_piece),
+                ref=mosaic.put(ref_1_model),
                 ),
             ),
         )
@@ -49,8 +49,8 @@ def file_bundle_factory():
     return file_bundle
 
 
-def format_sample_model(piece):
-    return f'sample-model({piece.id})'
+def format_sample_model(model):
+    return f'sample-model({model.id})'
 
 
 @mark.config_fixture('formatter_creg')
@@ -82,31 +82,31 @@ def test_root_model(root_model):
 
 def test_open_folder_locally(root_model, folder_2_model):
     current_key = folder_2_model.parent_id
-    piece = ref_list.open(root_model, current_key, request=None)
-    assert piece == folder_2_model
+    model = ref_list.open(root_model, current_key, request=None)
+    assert model == folder_2_model
 
 
 def test_open_folder_remotely(generate_rsa_identity, root_model, folder_2_model):
     identity = generate_rsa_identity(fast=True)
     request = Mock(receiver_identity=identity)
     current_key = folder_2_model.parent_id
-    piece = ref_list.open(root_model, current_key, request)
-    assert isinstance(piece, htypes.model.remote_model)
-    assert web.summon(piece.model) == folder_2_model
+    model = ref_list.open(root_model, current_key, request)
+    assert isinstance(model, htypes.model.remote_model)
+    assert web.summon(model.model) == folder_2_model
 
 
 def test_open_parent_locally(root_model, folder_2_model):
-    piece, key = ref_list.open_parent(folder_2_model, request=None)
-    assert piece == root_model
+    model, key = ref_list.open_parent(folder_2_model, request=None)
+    assert model == root_model
     assert key == folder_2_model.parent_id
 
 
 def test_open_parent_remotelly(generate_rsa_identity, root_model, folder_2_model):
     identity = generate_rsa_identity(fast=True)
     request = Mock(receiver_identity=identity)
-    piece, key = ref_list.open_parent(folder_2_model, request)
-    assert isinstance(piece, htypes.model.remote_model)
-    assert web.summon(piece.model) == root_model
+    model, key = ref_list.open_parent(folder_2_model, request)
+    assert isinstance(model, htypes.model.remote_model)
+    assert web.summon(model.model) == root_model
     assert key == folder_2_model.parent_id
 
 
@@ -117,8 +117,8 @@ def test_add_root_folder(root_model, file_bundle_factory):
 
 
 def test_add_ref(folder_2_model, file_bundle_factory):
-    ref_2_piece = htypes.ref_list_tests.sample_model(id=456)
-    ref_2 = mosaic.put(ref_2_piece)
+    ref_2_model = htypes.ref_list_tests.sample_model(id=456)
+    ref_2 = mosaic.put(ref_2_model)
     ref_id = ref_list.add_ref(folder_2_model, ref_2)
     assert type(ref_id) is str
     file_bundle_factory.save_piece.assert_called_once()

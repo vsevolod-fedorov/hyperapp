@@ -251,7 +251,7 @@ definitions:
     value:
       function: config_item_list
       ctx_params:
-      - piece
+      - model
       service_params:
       - system
       - format

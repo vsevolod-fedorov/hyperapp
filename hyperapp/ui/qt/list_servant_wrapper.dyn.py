@@ -19,6 +19,7 @@ def list_wrapper(servant_fn_piece, model, key_field, key_field_t, system_fn_creg
         fn=servant_fn,
         )
     log.info("List servant wrapper: Loading items using %s", servant_fn)
+    kw = {**kw, 'model': model}
     if 'ctx' in kw:
         ctx = kw['ctx'].clone_with(**kw)
     else:

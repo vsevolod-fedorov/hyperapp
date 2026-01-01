@@ -18,9 +18,9 @@ from .tested.code import fn_list_adapter
 log = logging.getLogger(__name__)
 
 
-def sample_list_model(piece):
-    log.info("Sample list fn: %s", piece)
-    assert isinstance(piece, htypes.list_adapter_tests.sample_list), repr(piece)
+def sample_list_model(model):
+    log.info("Sample list fn: %s", model)
+    assert isinstance(model, htypes.list_adapter_tests.sample_list), repr(model)
     return [
         htypes.list_adapter_tests.item(11, "first", "First item"),
         htypes.list_adapter_tests.item(22, "second", "Second item"),
@@ -32,7 +32,7 @@ def sample_list_model(piece):
 def sample_list_model_fn(rpc_system_call_factory):
     return ContextFn(
         rpc_system_call_factory=rpc_system_call_factory,
-        ctx_params=('piece',),
+        ctx_params=('model',),
         service_params=(),
         raw_fn=sample_list_model,
         )
@@ -60,7 +60,7 @@ def column_visible_reg_config(model_t):
 @mark.fixture
 def ctx(model):
     return Context(
-        piece=model,
+        model=model,
         )
 
 
@@ -141,9 +141,9 @@ async def test_key_fn_adapter(feed_factory, sample_list_model_fn, model, ctx):
 _sample_fn_is_called = threading.Event()
 
 
-def sample_remote_list_model(piece):
-    log.info("Sample remote list fn: %s", piece)
-    result = sample_list_model(piece)
+def sample_remote_list_model(model):
+    log.info("Sample remote list fn: %s", model)
+    result = sample_list_model(model)
     _sample_fn_is_called.set()
     return result
 
@@ -152,7 +152,7 @@ def sample_remote_list_model(piece):
 def sample_remote_list_model_fn():
     return htypes.system_fn.ctx_fn(
         function=pyobj_creg.actor_to_ref(sample_remote_list_model),
-        ctx_params=('piece',),
+        ctx_params=('model',),
         service_params=(),
         )
 
@@ -183,7 +183,7 @@ def test_fn_adapter_with_remote_model(
             remote_peer=mosaic.put(process.peer.piece),
             )
         ctx = Context(
-            piece=model,
+            model=model,
             identity=identity,
             )
         adapter_piece = htypes.list_adapter.index_fn_list_adapter(
@@ -226,7 +226,7 @@ def test_fn_adapter_with_remote_context(
 
         model = htypes.list_adapter_tests.sample_list()
         ctx = Context(
-            piece=model,
+            model=model,
             identity=identity,
             remote_peer=process.peer,
             )

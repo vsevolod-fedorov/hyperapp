@@ -53,7 +53,6 @@ class FnListAdapter(FnListAdapterBase):
     def _populate_item_list(self):
         additional_kw = {
             'model': self._real_model,
-            'piece': self._real_model,
             }
         self._item_list = list(self._call_fn(**additional_kw))
 

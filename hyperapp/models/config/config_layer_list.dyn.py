@@ -14,7 +14,7 @@ def config_layer_list(piece, system):
 
 
 @mark.command
-def open_service_list(piece, current_key):
+def open_service_list(model, current_key):
     return htypes.config_service_list.model(
         layer=current_key,
         )

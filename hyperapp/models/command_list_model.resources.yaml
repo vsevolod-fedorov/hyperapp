@@ -137,7 +137,7 @@ definitions:
     value:
       function: commands_model
       ctx_params:
-      - piece
+      - model
       service_params:
       - get_command_group
       - shortcut_reg

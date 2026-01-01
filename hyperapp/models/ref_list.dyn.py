@@ -115,12 +115,12 @@ def ref_list(file_bundle_factory, data_dir):
 
 
 @mark.model(key='id')
-def ref_list_model(piece, format, ref_list):
-    return list(ref_list.enum_items(format, piece.parent_id))
+def ref_list_model(model, format, ref_list):
+    return list(ref_list.enum_items(format, model.parent_id))
 
 
 @mark.command
-def open(piece, current_key, request, ref_list):
+def open(model, current_key, request, ref_list):
     try:
         folder = ref_list.get_folder(current_key)
     except KeyError:
@@ -134,16 +134,16 @@ def _open_folder(ref_list, request, item_id, folder):
     while folder.parent_id:
         folder = ref_list.get_folder(folder.parent_id)
         path = [folder.name, *path]
-    piece = htypes.ref_list.model(
+    model = htypes.ref_list.model(
         parent_id=item_id,
         folder_path=tuple(path),
         )
     if request:
-        piece = htypes.model.remote_model(
-            model=mosaic.put(piece),
+        model = htypes.model.remote_model(
+            model=mosaic.put(model),
             remote_peer=mosaic.put(request.receiver_identity.peer.piece),
             )
-    return piece
+    return model
 
 
 def _open_ref(ref_list, item_id):
@@ -152,38 +152,38 @@ def _open_ref(ref_list, item_id):
 
 
 @mark.command
-def open_parent(piece, request, ref_list):
-    if not piece.parent_id:
+def open_parent(model, request, ref_list):
+    if not model.parent_id:
         return
-    folder = ref_list.get_folder(piece.parent_id)
-    piece = htypes.ref_list.model(
+    folder = ref_list.get_folder(model.parent_id)
+    model = htypes.ref_list.model(
         parent_id=folder.parent_id,
-        folder_path=piece.folder_path[:-1],
+        folder_path=model.folder_path[:-1],
         )
     if request:
-        piece = htypes.model.remote_model(
-            model=mosaic.put(piece),
+        model = htypes.model.remote_model(
+            model=mosaic.put(model),
             remote_peer=mosaic.put(request.receiver_identity.peer.piece),
             )
-    return (piece, folder.id)
+    return (model, folder.id)
 
 
 @mark.command.add(args=['name'])
-def add_folder(piece, name, ref_list):
+def add_folder(model, name, ref_list):
     if not name:
         return
-    folder_id = ref_list.append_folder(piece.parent_id, name)
+    folder_id = ref_list.append_folder(model.parent_id, name)
     return folder_id
 
 
 @mark.command.add(args=['ref'])
-def add_ref(piece, ref, ref_list):
-    ref_id = ref_list.append_ref(piece.parent_id, ref)
+def add_ref(model, ref, ref_list):
+    ref_id = ref_list.append_ref(model.parent_id, ref)
     return ref_id
 
 
 @mark.command.remove
-def remove(piece, current_id, ref_list):
+def remove(model, current_id, ref_list):
     ref_list.remove(current_id)
     return True
 

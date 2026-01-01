@@ -180,7 +180,7 @@ definitions:
     value:
       function: open_service_list
       ctx_params:
-      - piece
+      - model
       - current_key
       service_params: []
   open_service_list.t:

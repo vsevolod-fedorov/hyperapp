@@ -24,27 +24,27 @@ def _service_item(layer_name, system, assoc_key, format, service_name):
 
 
 @mark.model(key='service_name')
-def config_service_list(piece, format, assoc_key, system):
+def config_service_list(model, format, assoc_key, system):
     items = [
-        _service_item(piece.layer, system, assoc_key, format, service_name)
+        _service_item(model.layer, system, assoc_key, format, service_name)
         for service_name in sorted(system.service_names)
         ]
-    if piece.layer:
+    if model.layer:
         # For layer config return only services with items.
         items = [r for r in items if r.item_count]
     return items
 
 
 @mark.command
-def toggle_assoc(piece, current_key, feed_factory, format, assoc_key, system):
+def toggle_assoc(model, current_key, feed_factory, format, assoc_key, system):
     service_name = current_key
-    feed = feed_factory(piece)
+    feed = feed_factory(model)
     ass = htypes.assoc_key.key_base_association()
     if service_name in assoc_key:
         del assoc_key[service_name]
     else:
         assoc_key[service_name] = ass
-    item = _service_item(piece.layer, system, assoc_key, format, service_name)
+    item = _service_item(model.layer, system, assoc_key, format, service_name)
     feed.send(KeyListDiff.Replace(service_name, item))
 
 

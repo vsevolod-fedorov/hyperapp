@@ -47,7 +47,6 @@ class TreeAsListWrapperView(WrapperView):
                 )
         list_ctx = ctx.clone_with(
             model=list_model,
-            piece=list_model,
             )
         list_view = view_reg.animate(list_view_piece, list_ctx)
         return (list_model, list_view)
@@ -153,15 +152,14 @@ class KeyTreeAsListWrapperView(TreeAsListWrapperView):
                 )
 
 
-def list_model_fn(piece, system_fn_creg, **kw):
-    tree_model = web.summon(piece.tree_model)
-    tree_model_fn = system_fn_creg.invite(piece.tree_model_fn)
-    current_path = tuple(web.summon(idx) for idx in piece.current_path)
-    parent_item = web.summon_opt(piece.parent_item)
+def list_model_fn(model, system_fn_creg, **kw):
+    tree_model = web.summon(model.tree_model)
+    tree_model_fn = system_fn_creg.invite(model.tree_model_fn)
+    current_path = tuple(web.summon(idx) for idx in model.current_path)
+    parent_item = web.summon_opt(model.parent_item)
     tree_ctx = Context(
         kw,
         model=tree_model,
-        piece=tree_model,
         current_path=current_path,
         parent=parent_item,
         )
@@ -185,7 +183,7 @@ def parent(model, view, state, ctx, hook, view_reg):
 
 
 def _list_model_fn(tree_model_fn):
-    ctx_params = set(tree_model_fn.ctx_params) - {'current_path', 'parent'} | {'piece'}
+    ctx_params = set(tree_model_fn.ctx_params) - {'current_path', 'parent'} | {'model'}
     return htypes.system_fn.ctx_fn(
         function=pyobj_creg.actor_to_ref(list_model_fn),
         ctx_params=tuple(ctx_params),

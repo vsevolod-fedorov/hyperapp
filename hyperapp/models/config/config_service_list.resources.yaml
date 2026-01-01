@@ -92,7 +92,7 @@ definitions:
     value:
       function: config_service_list
       ctx_params:
-      - piece
+      - model
       service_params:
       - format
       - assoc_key
@@ -182,7 +182,7 @@ definitions:
     value:
       function: toggle_assoc
       ctx_params:
-      - piece
+      - model
       - current_key
       service_params:
       - feed_factory

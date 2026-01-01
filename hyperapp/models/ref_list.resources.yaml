@@ -85,7 +85,7 @@ definitions:
     value:
       function: open
       ctx_params:
-      - piece
+      - model
       - current_key
       - request
       service_params:
@@ -114,7 +114,7 @@ definitions:
     value:
       function: open_parent
       ctx_params:
-      - piece
+      - model
       - request
       service_params:
       - ref_list
@@ -263,7 +263,7 @@ definitions:
     value:
       function: ref_list_model
       ctx_params:
-      - piece
+      - model
       service_params:
       - format
       - ref_list
@@ -315,7 +315,7 @@ definitions:
     value:
       function: remove
       ctx_params:
-      - piece
+      - model
       - current_id
       service_params:
       - ref_list

@@ -54,10 +54,10 @@ def _view_item(cmd, get_command_group, shortcut_reg):
 
 
 @mark.model
-def commands_model(piece, get_command_group, shortcut_reg):
+def commands_model(model, get_command_group, shortcut_reg):
     return [
         _view_item(cmd, get_command_group, shortcut_reg)
-        for cmd in piece.commands
+        for cmd in model.commands
     ]
 
 

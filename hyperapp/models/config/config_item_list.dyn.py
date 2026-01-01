@@ -27,12 +27,12 @@ def _enum_items(config):
 
 
 @mark.model(key='key')
-def config_item_list(piece, system, format):
+def config_item_list(model, system, format):
 
     key_to_item_layer = defaultdict(list)
     for layer_name, layer in system.name_to_layer.items():
         try:
-            config = layer.config[piece.service_name]
+            config = layer.config[model.service_name]
         except KeyError:
             continue
         for key, value in _enum_items(config):
@@ -45,7 +45,7 @@ def config_item_list(piece, system, format):
                 result.append(layer_name)
         return result
 
-    config_template = system.get_config_template(piece.service_name)
+    config_template = system.get_config_template(model.service_name)
 
     item_list = []
     for key, value in sorted(_enum_items(config_template), key=lambda rec: str(rec[0])):

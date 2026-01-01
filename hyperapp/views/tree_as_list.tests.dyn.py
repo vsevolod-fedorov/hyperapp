@@ -15,9 +15,9 @@ from .tested.code import tree_as_list
 log = logging.getLogger(__name__)
 
 
-def _tree_model(piece, current_path, parent):
-    log.info("Sample tree model: %s, %s, %s", piece, current_path, parent)
-    assert isinstance(piece, htypes.tree_as_list_tests.sample_tree_model), repr(piece)
+def _tree_model(model, current_path, parent):
+    log.info("Sample tree model: %s, %s, %s", model, current_path, parent)
+    assert isinstance(model, htypes.tree_as_list_tests.sample_tree_model), repr(model)
     for idx in current_path:
         assert type(idx) is int
     if parent is not None:
@@ -36,7 +36,7 @@ def _tree_model(piece, current_path, parent):
 def tree_model_fn(rpc_system_call_factory):
     return ContextFn(
         rpc_system_call_factory=rpc_system_call_factory,
-        ctx_params=('piece', 'current_path', 'parent'),
+        ctx_params=('model', 'current_path', 'parent'),
         service_params=(),
         raw_fn=_tree_model,
         )
@@ -67,7 +67,6 @@ def tree_model():
 def ctx(tree_model):
     return Context(
         model=tree_model,
-        piece=tree_model,
         )
 
 
