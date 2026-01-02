@@ -110,7 +110,7 @@ async def ctl(controller_running, default_layout, ctx):
         yield ctl
 
 
-async def _test_layout_tree(qapp, ctl):
+async def test_layout_tree(qapp, ctl):
     piece = htypes.layout.model()
     items = layout.layout_tree(piece, None, ctl)
     assert items

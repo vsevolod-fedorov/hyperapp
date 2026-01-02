@@ -17,10 +17,14 @@ import:
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
+- legacy_type.feed:index_tree_feed_type
 - legacy_type.feed:list_feed_type
 - legacy_type.layout:command_item
 - legacy_type.layout:command_list
+- legacy_type.layout:item
 - legacy_type.layout:model
+- legacy_type.model:index_tree_ui_t
+- legacy_type.model:model
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - ui.directory:directory.module
@@ -182,6 +186,42 @@ definitions:
     value:
       model_t: legacy_type.layout:model
       name: open_view_item_commands
+  layout-model.feed-template:
+    type: legacy_type.feed:feed_template
+    value:
+      feed_type: layout-model.feed-type
+  layout-model.feed-template-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.layout:model
+      value: layout-model.feed-template
+  layout-model.feed-type:
+    type: legacy_type.feed:index_tree_feed_type
+    value:
+      item_t: legacy_type.layout:item
+  layout-model.index-tree-ui-t:
+    type: legacy_type.model:index_tree_ui_t
+    value:
+      item_t: legacy_type.layout:item
+  layout-model.model:
+    type: legacy_type.model:model
+    value:
+      ui_t: layout-model.index-tree-ui-t
+      system_fn: layout-model.system-fn
+  layout-model.model-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.layout:model
+      value: layout-model.model
+  layout-model.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: layout_tree
+      ctx_params:
+      - piece
+      - parent
+      - controller
+      service_params: []
   layout.module:
     type: legacy_type.builtin:python_module
     value:
@@ -197,6 +237,11 @@ definitions:
         htypes.layout.model: legacy_type.layout:model
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  layout_tree:
+    type: legacy_type.builtin:attribute
+    value:
+      object: layout.module
+      attr_name: layout_tree
   open_layout_tree:
     type: legacy_type.builtin:attribute
     value:

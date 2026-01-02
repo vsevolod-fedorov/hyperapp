@@ -57,6 +57,7 @@ import:
 - ui.layout:layout-command_list.feed-template-cfg-item
 - ui.layout:layout-model-open_view_item_commands.command-cfg-item
 - ui.layout:layout-model-open_view_item_commands.command-group-item
+- ui.layout:layout-model.model-cfg-item
 - ui.layout:open_layout_tree.command-cfg-item
 - ui.layout:open_layout_tree.command-group-item
 - ui.local_server:local_server_peer.service
@@ -372,6 +373,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - ui.layout:layout-model.model-cfg-item
       - ui.view.view_factory_list:view_factory_list-model.model-cfg-item
   resource_name_creg:
     type: legacy_type.system:item_list_config
