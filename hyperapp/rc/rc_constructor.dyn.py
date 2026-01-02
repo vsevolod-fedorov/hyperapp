@@ -21,7 +21,7 @@ class Constructor:
         raise NotImplementedError(self)
 
     def make_resource(self, types, module_name, python_module):
-        pass
+        raise NotImplementedError(self)
 
 
 class ModuleCtr(Constructor):
