@@ -120,13 +120,16 @@ def remove_shortcut(model, current_idx, current_item, hook, feed_factory, get_co
 @mark.command
 async def run_command(model, current_item, ctx, command_factory):
     bcmd = web.summon(current_item.bound_command)
+    key = web.summon(bcmd.key)
+    if isinstance(key, htypes.command.ui_command_key):
+    # View commands not supported - their view, widget, hook and state are not yet preserved in bound command.
+        return
     kw = {}
     if bcmd.model is not None:
         kw['model'] = web.summon(bcmd.model)
     if bcmd.model_state is not None:
         kw['model_state'] = web.summon(bcmd.model_state)
-    if kw:
-        ctx = ctx.clone_with(**kw)
+    ctx = ctx.pop().push(**kw)  # Replace this-command-specific items.
     command = command_factory(
         key=web.summon(bcmd.key),
         name=bcmd.name,

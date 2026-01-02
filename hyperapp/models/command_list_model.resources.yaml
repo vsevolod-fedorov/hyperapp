@@ -16,6 +16,7 @@ import:
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
+- legacy_type.command:ui_command_key
 - legacy_type.command_list_model:bound_command
 - legacy_type.command_list_model:item
 - legacy_type.command_list_model:model
@@ -175,6 +176,7 @@ definitions:
         code.key_input_dialog: ui.qt.key_input_dialog:key_input_dialog.module
         code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
+        htypes.command.ui_command_key: legacy_type.command:ui_command_key
         htypes.command_list_model.bound_command: legacy_type.command_list_model:bound_command
         htypes.command_list_model.item: legacy_type.command_list_model:item
         htypes.command_list_model.model: legacy_type.command_list_model:model
