@@ -274,6 +274,10 @@ class TestTarget(Target):
     def req_set(self):
         return set(self._req_to_target)
 
+    @property
+    def import_tgt(self):
+        return self._import_tgt
+
     def set_completed(self):
         self._current_job_target.set_completed()
 

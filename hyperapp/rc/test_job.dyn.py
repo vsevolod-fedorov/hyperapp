@@ -94,14 +94,17 @@ class SucceededTestResult(_SucceededTestResultBase):
 
     def update_targets(self, test_target, tested_module_names, target_set):
         self._update_tested_imports(target_set.factory)
-        self._update_ctr_targets(tested_module_names, target_set)
+        self._update_ctr_targets(test_target, tested_module_names, target_set)
         test_target.set_completed()
 
-    def _update_ctr_targets(self, tested_module_names, target_set):
+    def _update_ctr_targets(self, test_target, tested_module_names, target_set):
         for ctr in self._constructors:
             if ctr.module_name in tested_module_names:  # Expecting only constructors with module_name property.
                 ctr.update_targets(target_set)
-            # Otherwise it is a module with tests or fixtures - regular imports should not be marked.
+            elif ctr.module_name == test_target.import_tgt.module_name:
+                ctr.update_fixtures_targets(test_target.import_tgt, target_set)
+            # Otherwise it is a module with fixtures.
+
 
 class IncompleteTestResult(_SucceededTestResultBase):
 

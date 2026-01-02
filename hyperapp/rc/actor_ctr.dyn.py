@@ -57,10 +57,10 @@ class ActorProbeCtr(ModuleCtr):
             )
 
     def make_resource(self, types, module_name, python_module):
-        item = self.make_component(types, python_module)
+        cfg_item = self.make_component(types, python_module)
         return ConfigItemResource(
             service_name=self._service_name,
-            cfg_item_ref=mosaic.put(item),
+            cfg_item_ref=mosaic.put(cfg_item),
             )
 
     @property
@@ -132,6 +132,9 @@ class ActorTemplateCtr(ActorTemplateCtrBase):
     def module_name(self):
         return self._module_name
 
+    def update_fixtures_targets(self, import_tgt, target_set):
+        import_tgt.add_test_ctr(self)
+
     def update_targets(self, target_set):
         resource_tgt = target_set.factory.python_module_resource_by_module_name(self._module_name)
         # Ready target may already have provider set, but when marker is non-typed it have not.
@@ -171,3 +174,10 @@ class ActorTemplateCtr(ActorTemplateCtrBase):
             name_to_res[f'{attr_name}.actor-template'] = template
             name_to_res[f'{self._resource_name}.actor-cfg-item'] = cfg_item
         return cfg_item
+
+    def make_resource(self, types, module_name, python_module):
+        cfg_item = self.make_component(types, python_module)
+        return ConfigItemResource(
+            service_name=self._service_name,
+            cfg_item_ref=mosaic.put(cfg_item),
+            )
