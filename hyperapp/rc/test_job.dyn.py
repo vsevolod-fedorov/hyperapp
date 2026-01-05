@@ -103,6 +103,7 @@ class SucceededTestResult(_SucceededTestResultBase):
                 ctr.update_targets(target_set)
             # Otherwise it is a module with tests or fixtures - regular imports should not be marked.
 
+
 class IncompleteTestResult(_SucceededTestResultBase):
 
     @classmethod
