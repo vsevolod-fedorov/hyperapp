@@ -44,7 +44,7 @@ async def open_layout_tree():
 
 
 @mark.command
-async def open_view_item_commands(piece, current_item):
+async def open_view_item_commands(model, current_item):
     log.info("Open view item commands for: %s", current_item)
     if current_item:
         return htypes.layout.command_list(item_id=current_item.id)

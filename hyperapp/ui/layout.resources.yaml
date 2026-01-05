@@ -301,7 +301,7 @@ definitions:
     value:
       function: open_view_item_commands
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params: []
   open_view_item_commands.t:

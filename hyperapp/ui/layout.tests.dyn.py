@@ -127,10 +127,10 @@ async def _test_enum_layout_tree_commands(qapp, ctl):
 
 
 async def test_open_view_item_commands():
-    piece = htypes.layout.model()
+    model = htypes.layout.model()
     item = Mock()
     item.id = 123
-    result = await layout.open_view_item_commands(piece, current_item=item)
+    result = await layout.open_view_item_commands(model, current_item=item)
     assert result
 
 
