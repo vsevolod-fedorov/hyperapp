@@ -30,7 +30,6 @@ class DataConfigCtr(ModuleCtr):
         self._value = value
 
     def update_resource_targets(self, resource_tgt, target_set):
-        resource_tgt.import_tgt.add_test_ctr(self)
         req = CfgItemReq.from_actor(self._service_name, self._key)
         _, resolved_tgt, _ = target_set.factory.config_items(
             self._service_name, self._name, req,
