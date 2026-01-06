@@ -22,12 +22,3 @@ layout_command_impl = record:
   item_id: int
   command_d: ref
   ui_command_impl: ref
-
-
-open_layout_tree_d = record
-set_shortcut_d = record
-set_escape_shortcut_d = record
-add_view_command_d = record
-open_view_item_commands_d = record
-view_item_commands_d = record
-enum_layout_tree_commands_d = record
