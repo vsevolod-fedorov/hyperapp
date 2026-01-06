@@ -181,7 +181,6 @@ class ModelCommandProbe(CommandProbe):
 class ModelCommandEnumeratorProbe(CommandProbe):
 
     def _add_constructor(self, params):
-        return
         if self._t:
             t = self._t
         else:

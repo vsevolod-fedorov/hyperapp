@@ -81,14 +81,15 @@ class CommandTemplateCtr(ModuleCtr):
             provider=resource_tgt,
             ctr=self,
             )
-        self._create_group_ctr(resource_tgt, target_set)
+        if self._need_group:
+            self._create_group_ctr(resource_tgt, target_set)
         # resource target may already have resolved target, but in case of
         # non-typed marker it have not.
         resource_tgt.add_cfg_item_target(reg_resolved_tgt)
         actor_ctr = CtxActorTemplateCtr(
             module_name=self._module_name,
             attr_qual_name=self._attr_qual_name,
-            service_name='command_creg',
+            service_name=self._actor_creg,
             t=self._command_t,
             ctx_params=self._ctx_params,
             service_params=self._service_params,
@@ -232,7 +233,7 @@ class UntypedCommandTemplateCtr(CommandTemplateCtr):
             value=mosaic.put(command),
             )
         if name_to_res is not None:
-            name_to_res[f'{self._command_name}.command'] = command
+            name_to_res[f'{self._command_name}.{self._command_suffix}'] = command
             name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
         return cfg_item
 
@@ -286,7 +287,7 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
             )
         if name_to_res is not None:
             # name_to_res[f'{self._command_t.name}.t'] = pyobj_creg.actor_to_piece(self._command_t)
-            name_to_res[f'{self._command_name}.command'] = command
+            name_to_res[f'{self._command_name}.{self._command_suffix}'] = command
             # name_to_res[f'{self._resource_name}.command-template'] = template
             name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
         return cfg_item
@@ -308,11 +309,14 @@ class UiCommandTemplateCtr(TypedCommandTemplateCtr):
 
     # _command_t = htypes.command.ui_command
     # _enum_command_t = htypes.command.ui_args_picker_command_enumerator
+    _need_group = True
     _command_fn_t = htypes.system_fn.ctx_fn
     _template_ctr_t = htypes.command_resource.ui_command_template_ctr
-    _is_global = False
-    _direct_command_resource_suffix = 'ui-command'
-    _command_enum_resource_suffix = 'ui-command-enumerator'
+    _actor_creg = 'command_creg'
+    _command_suffix = 'command'
+    # _is_global = False
+    # _direct_command_resource_suffix = 'ui-command'
+    # _command_enum_resource_suffix = 'ui-command-enumerator'
 
     @property
     def _command_key(self):
@@ -332,9 +336,9 @@ class UiModelCommandTemplateCtr(TypedCommandTemplateCtr):
     # _enum_command_t = htypes.command.ui_args_picker_command_enumerator
     _command_fn_t = htypes.command.model_command_fn
     _template_ctr_t = htypes.command_resource.ui_model_command_template_ctr
-    _is_global = False
-    _direct_command_resource_suffix = 'ui-model-command'
-    _command_enum_resource_suffix = 'ui-model-command-enumerator'
+    # _is_global = False
+    # _direct_command_resource_suffix = 'ui-model-command'
+    # _command_enum_resource_suffix = 'ui-model-command-enumerator'
 
 
 class UniversalUiCommandTemplateCtr(UntypedCommandTemplateCtr):
@@ -343,17 +347,17 @@ class UniversalUiCommandTemplateCtr(UntypedCommandTemplateCtr):
     # _enum_command_t = htypes.command.ui_args_picker_command_enumerator
     _command_fn_t = htypes.system_fn.ctx_fn
     _template_ctr_t = htypes.command_resource.universal_ui_command_template_ctr
-    _is_global = False
-    _direct_command_resource_suffix = 'universal-ui-command'
-    _command_enum_resource_suffix = 'universal-ui-command-enumerator'
+    # _is_global = False
+    # _direct_command_resource_suffix = 'universal-ui-command'
+    # _command_enum_resource_suffix = 'universal-ui-command-enumerator'
 
 
 class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
 
     _template_ctr_t = htypes.command_resource.ui_command_enumerator_template_ctr
     _command_fn_t = htypes.command.ui_command_enum_fn
-    _is_global = False
-    _direct_command_resource_suffix = 'ui-command-enumerator'
+    # _is_global = False
+    # _direct_command_resource_suffix = 'ui-command-enumerator'
 
     def _make_command(self, types, name, fn, name_to_res):
         if name_to_res is not None:
@@ -366,9 +370,12 @@ class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
 class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
 
     # _enum_command_t = htypes.command.model_args_picker_command_enumerator
-    _is_global = False
-    _direct_command_resource_suffix = 'model-command'
-    _command_enum_resource_suffix = 'model-command-enumerator'
+    _need_group = True
+    _actor_creg = 'command_creg'
+    _command_suffix = 'command'
+    # _is_global = False
+    # _direct_command_resource_suffix = 'model-command'
+    # _command_enum_resource_suffix = 'model-command-enumerator'
 
     @classmethod
     def from_piece(cls, piece):
@@ -431,24 +438,30 @@ class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
 
 class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
 
+    _need_group = False
     _template_ctr_t = htypes.command_resource.model_command_enumerator_template_ctr
-    _command_fn_t = htypes.command.model_command_enum_fn
-    _is_global = False
-    _direct_command_resource_suffix = 'model-command-enumerator'
+    _actor_creg = 'command_enum_creg'
+    _command_suffix = 'command_enum'
+    # _command_fn_t = htypes.command.model_command_enum_fn
+    # _is_global = False
+    # _direct_command_resource_suffix = 'model-command-enumerator'
 
-    def _make_command(self, types, name, fn, name_to_res):
-        if name_to_res is not None:
-            name_to_res[f'{self._fn_name}.fn'] = fn
-        return htypes.command.model_command_enumerator(
-            system_fn=mosaic.put(fn),
-            )
+    # def _make_command(self, types, name, fn, name_to_res):
+    #     if name_to_res is not None:
+    #         name_to_res[f'{self._fn_name}.fn'] = fn
+    #     return htypes.command.model_command_enumerator(
+    #         system_fn=mosaic.put(fn),
+    #         )
 
 
 class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr):
 
+    _need_group = True
     _command_fn_t = htypes.command.model_command_fn
-    _is_global = True
-    _direct_command_resource_suffix = 'global-model-command'
+    _actor_creg = 'command_creg'
+    _command_suffix = 'command'
+    # _is_global = True
+    # _direct_command_resource_suffix = 'global-model-command'
 
     @classmethod
     def from_piece(cls, piece):
