@@ -20,7 +20,6 @@ import:
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
-- legacy_type.system:list_struct_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
 - legacy_type.system:str_key_ctl
@@ -61,6 +60,8 @@ definitions:
       service_params:
       - command_factory
       - model_command_reg
+      - model_command_enumerator_reg
+      - command_enum_creg
       want_config: false
       free_params:
       - model_t
@@ -108,7 +109,7 @@ definitions:
     type: legacy_type.system:service_template
     value:
       name: model_command_enumerator_reg
-      ctl: system-dict_config.one_way.actor.list.ctl
+      ctl: command_config_ctl-type_str_command_config.ctl
       function: model_command_enumerator_reg
       service_params: []
       want_config: true
@@ -135,12 +136,6 @@ definitions:
   system-data.value-ctl:
     type: legacy_type.system:data_value_ctl
     value: {}
-  system-dict_config.one_way.actor.list.ctl:
-    type: legacy_type.system:dict_config_ctl
-    value:
-      key_ctl: base.system.config_layer:one_way.key_ctl
-      value_ctl: system-actor.value-ctl
-      struct_ctl: system-list.struct-ctl
   system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
@@ -153,9 +148,6 @@ definitions:
       key_ctl: system-str.key-ctl
       value_ctl: system-data.value-ctl
       struct_ctl: system-single.struct-ctl
-  system-list.struct-ctl:
-    type: legacy_type.system:list_struct_ctl
-    value: {}
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
     value: {}

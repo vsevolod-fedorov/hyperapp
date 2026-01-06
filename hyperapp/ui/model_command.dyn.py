@@ -54,9 +54,10 @@ def model_command_reg(config, model_t):
     return config.get(model_t, {})
 
 
-@mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
+# TODO: Make it back to flat list instead of name -> piece dict.
+@mark.service(ctl=TypeStrCommandConfigCtl())
 def model_command_enumerator_reg(config, model_t):
-    return config.get(model_t, [])
+    return config.get(model_t, {})
 
 
 # @mark.service(ctl=FlatListConfigCtl())
@@ -65,11 +66,21 @@ def model_command_enumerator_reg(config, model_t):
 
 
 @mark.service
-def get_model_commands(command_factory, model_command_reg, model_t, ctx):
+def get_model_commands(
+        command_factory,
+        model_command_reg,
+        model_command_enumerator_reg,
+        command_enum_creg,
+        model_t,
+        ctx,
+        ):
     name_to_command = model_command_reg(model_t)
     model_t_ref = pyobj_creg.actor_to_ref(model_t)
-    # for enumerator in model_command_enumerator_reg(model_t):
-    #     command_list += enumerator.enum_commands(ctx)
+    # TODO: Refactor, replace with prepare_ctx from Command.
+    if 'model_state' in ctx:
+        enum_ctx = ctx.clone_with(ctx.attributes(ctx.model_state))
+    for name, enum in model_command_enumerator_reg(model_t).items():
+        name_to_command.update(command_enum_creg.animate(enum, enum_ctx))
     return [
         command_factory(
             key=htypes.command.model_command_key(model_t_ref, name),
