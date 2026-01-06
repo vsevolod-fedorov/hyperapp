@@ -12,6 +12,7 @@ from .services import (
 from .code.mark import mark
 from .code.system_fn import ContextFn
 from .code.list_diff import IndexListDiff, KeyListDiff
+from .code.command import prepare_command_ctx
 from .code.command_enumerator import UnboundCommandEnumerator
 from .code.config_ctl import DataValueCtl, DictConfigCtl
 from .code.config_key_ctl import StrKeyCtl
@@ -85,9 +86,7 @@ def get_model_commands(
             )
         for name, command in name_to_command.items()
         ]
-    # TODO: Refactor, replace with prepare_ctx from Command.
-    if 'model_state' in ctx:
-        enum_ctx = ctx.clone_with(ctx.attributes(ctx.model_state))
+    enum_ctx = prepare_command_ctx(ctx)
     for name, enum in model_command_enumerator_reg(model_t).items():
         command_list += command_enum_creg.animate(enum, enum_ctx)
     return command_list
