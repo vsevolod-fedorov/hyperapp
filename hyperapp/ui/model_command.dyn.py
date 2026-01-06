@@ -76,12 +76,7 @@ def get_model_commands(
         ):
     name_to_command = model_command_reg(model_t)
     model_t_ref = pyobj_creg.actor_to_ref(model_t)
-    # TODO: Refactor, replace with prepare_ctx from Command.
-    if 'model_state' in ctx:
-        enum_ctx = ctx.clone_with(ctx.attributes(ctx.model_state))
-    for name, enum in model_command_enumerator_reg(model_t).items():
-        name_to_command.update(command_enum_creg.animate(enum, enum_ctx))
-    return [
+    command_list = [
         command_factory(
             key=htypes.command.model_command_key(model_t_ref, name),
             name=name,
@@ -90,3 +85,9 @@ def get_model_commands(
             )
         for name, command in name_to_command.items()
         ]
+    # TODO: Refactor, replace with prepare_ctx from Command.
+    if 'model_state' in ctx:
+        enum_ctx = ctx.clone_with(ctx.attributes(ctx.model_state))
+    for name, enum in model_command_enumerator_reg(model_t).items():
+        command_list += command_enum_creg.animate(enum, enum_ctx)
+    return command_list
