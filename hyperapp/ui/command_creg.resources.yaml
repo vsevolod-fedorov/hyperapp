@@ -33,6 +33,20 @@ definitions:
       service_params: []
       want_config: true
       free_params: []
+  command_enum_creg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_creg.module
+      attr_name: command_enum_creg
+  command_enum_creg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: command_enum_creg
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: command_enum_creg
+      service_params: []
+      want_config: true
+      free_params: []
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
