@@ -64,7 +64,7 @@ class CommandTemplateCtr(ModuleCtr):
             )
         group_ctr.update_resource_targets(resource_tgt, target_set)
 
-    def update_targets(self, target_set):
+    def update_resource_targets(self, resource_tgt, target_set):
         if self._have_args:
             service_name = self._enum_service_name
             if not service_name:
@@ -74,7 +74,6 @@ class CommandTemplateCtr(ModuleCtr):
                     f" {self._module_name}:{attr_path}")
         else:
             service_name = self._service_name
-        resource_tgt = target_set.factory.python_module_resource_by_module_name(self._module_name)
         # ready target may already have provider set, but in case of
         # non-typed marker it have not.
         _, reg_resolved_tgt, _ = target_set.factory.config_items(
