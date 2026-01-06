@@ -24,7 +24,6 @@ import:
 - ui.command_group:get_command_group.service
 - ui.controller:canned_ctl_item_factory.service
 - ui.controller:controller_running.service
-- ui.controller:layout-model.feed-template-cfg-item
 - ui.crud.canned_args_command_fn:formatter_creg-command-canned_arg_command_d.actor-cfg-item
 - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
 - ui.crud.crud:resource_name_creg-crud-layout_k.actor-cfg-item
@@ -53,6 +52,7 @@ import:
 - ui.layout:layout-model-enum_layout_tree_commands.command-cfg-item
 - ui.layout:layout-model-open_view_item_commands.command-cfg-item
 - ui.layout:layout-model-open_view_item_commands.command-group-item
+- ui.layout:layout-model.feed-template-cfg-item
 - ui.layout:layout-model.model-cfg-item
 - ui.layout:open_layout_tree.command-cfg-item
 - ui.layout:open_layout_tree.command-group-item
@@ -330,7 +330,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - ui.controller:layout-model.feed-template-cfg-item
+      - ui.layout:layout-model.feed-template-cfg-item
       - ui.view.view_factory_list:view_factory_list-model.feed-template-cfg-item
   feed_type_creg:
     type: legacy_type.system:item_list_config
