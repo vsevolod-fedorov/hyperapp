@@ -15,10 +15,13 @@ command_item = record:
   shortcut: string
   groups: string
   wrapped_groups: string
-  command_d: ref
 
 
 layout_command_impl = record:
   item_id: int
   command_d: ref
   ui_command_impl: ref
+
+
+layout_ui_command_key = record:
+  base_key: ref

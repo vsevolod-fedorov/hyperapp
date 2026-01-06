@@ -24,17 +24,24 @@ def layout_tree(piece, parent, controller):
 
 
 @mark.command_enum
-def enum_layout_tree_commands(piece, current_item, controller):
+def enum_layout_tree_commands(piece, current_item, controller, command_factory):
     if current_item:
         item_id = current_item.id
-        commands = {
-            cmd.name: cmd.command
-            for cmd
-            in controller.item_commands(item_id)
-            }
+        commands = [
+            command_factory(
+                key=htypes.layout.layout_ui_command_key(
+                    base_key=mosaic.put(cmd.key),
+                    ),
+                name=cmd.name,
+                command=cmd.command,
+                ctx=cmd.ctx,
+                )
+            for cmd in
+            controller.item_commands(item_id)
+            ]
     else:
-        commands = {}
-    log.info("Layout tree commands for %s: %s", current_item, commands)
+        commands = []
+        log.info("Layout tree commands for %s: %s", current_item, commands)
     return commands
 
 
@@ -58,7 +65,6 @@ def _command_to_item(controller, shortcut_reg, ctx, ui_command, item_id):
         shortcut=shortcut,
         groups=', '.join(d_to_name(g) for g in ui_command.groups),
         wrapped_groups=', '.join(d_to_name(g) for g in layout_command.groups),
-        command_d=mosaic.put(layout_command.d),
         )
 
 
@@ -78,7 +84,6 @@ def _view_item(item, shortcut):
         shortcut=shortcut,
         groups=item.groups,
         wrapped_groups=item.wrapped_groups,
-        command_d=item.command_d,
         )
 
 
