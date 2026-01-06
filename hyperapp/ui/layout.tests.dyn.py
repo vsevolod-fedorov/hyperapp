@@ -118,7 +118,7 @@ async def test_layout_tree(qapp, ctl):
     layout.layout_tree(piece, parent, ctl)
 
 
-async def _test_enum_layout_tree_commands(qapp, ctl):
+async def test_enum_layout_tree_commands(qapp, ctl):
     piece = htypes.layout.model()
     windows = layout.layout_tree(piece, None, ctl)
     window_items = layout.layout_tree(piece, windows[0], ctl)
