@@ -366,6 +366,11 @@ class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
 
 class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
 
+    # _enum_command_t = htypes.command.model_args_picker_command_enumerator
+    _is_global = False
+    _direct_command_resource_suffix = 'model-command'
+    _command_enum_resource_suffix = 'model-command-enumerator'
+
     @classmethod
     def from_piece(cls, piece):
         return cls(
@@ -409,10 +414,6 @@ class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
     #         preserve_remote=self._preserve_remote,
     #         )
 
-    # _enum_command_t = htypes.command.model_args_picker_command_enumerator
-    _is_global = False
-    _direct_command_resource_suffix = 'model-command'
-    _command_enum_resource_suffix = 'model-command-enumerator'
 
     @property
     def _command_key(self):
