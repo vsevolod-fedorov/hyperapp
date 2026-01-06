@@ -27,13 +27,13 @@ def layout_tree(piece, parent, controller):
 def enum_layout_tree_commands(piece, current_item, controller):
     if current_item:
         item_id = current_item.id
-        commands = [
-            UnboundLayoutCommand(cmd)
+        commands = {
+            cmd.name: cmd.command
             for cmd
             in controller.item_commands(item_id)
-            ]
+            }
     else:
-        commands = []
+        commands = {}
     log.info("Layout tree commands for %s: %s", current_item, commands)
     return commands
 
