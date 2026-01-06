@@ -6,7 +6,6 @@ import:
 - builtins:web.service
 - common.list_diff:list_diff.module
 - legacy_type.builtin:python_module
-- models.command_list_model:command_list_model.module
 - ui.directory:directory.module
 - ui.model_command:model_command.module
 definitions:
@@ -16,7 +15,6 @@ definitions:
       module_name: identity_command
       file_name: identity_command.dyn.py
       import_list:
-        code.command_list_model: models.command_list_model:command_list_model.module
         code.directory: ui.directory:directory.module
         code.list_diff: common.list_diff:list_diff.module
         code.mark: base.mark:mark.module
