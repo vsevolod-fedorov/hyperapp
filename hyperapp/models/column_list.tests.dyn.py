@@ -18,7 +18,7 @@ def column_visible_reg():
 
 @mark.fixture
 def model():
-    return htypes.column_list.view(
+    return htypes.column_list.model(
         model_t=pyobj_creg.actor_to_ref(htypes.column_list_tests.sample_model),
         item_t=pyobj_creg.actor_to_ref(htypes.column_list_tests.sample_item),
         )
@@ -49,4 +49,4 @@ def test_open():
         )
     view = Mock(adapter=adapter)
     model = column_list.open_column_list(view)
-    assert isinstance(model, htypes.column_list.view)
+    assert isinstance(model, htypes.column_list.model)

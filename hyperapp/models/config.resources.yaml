@@ -28,10 +28,10 @@ import:
 - models.bundle_info:formatter_creg-bundle_info-ass_list_model.actor-cfg-item
 - models.bundle_info:formatter_creg-bundle_info-capsule_list_model.actor-cfg-item
 - models.bundle_info:formatter_creg-bundle_info-model.actor-cfg-item
-- models.column_list:column_list-view-toggle_visibility.command-cfg-item
-- models.column_list:column_list-view-toggle_visibility.command-group-item
-- models.column_list:column_list-view.feed-template-cfg-item
-- models.column_list:column_list-view.model-cfg-item
+- models.column_list:column_list-model-toggle_visibility.command-cfg-item
+- models.column_list:column_list-model-toggle_visibility.command-group-item
+- models.column_list:column_list-model.feed-template-cfg-item
+- models.column_list:column_list-model.model-cfg-item
 - models.column_list:command_creg-column_list-open_column_list.ctx-actor-cfg-item
 - models.column_list:command_creg-column_list-toggle_visibility.ctx-actor-cfg-item
 - models.column_list:list-view-open_column_list.command-cfg-item
@@ -315,7 +315,7 @@ definitions:
       - models.bundle_info:bundle_info-model-open_associations.command-group-item
       - models.bundle_info:bundle_info-model-open_capsules.command-group-item
       - models.bundle_info:bundle_info-model-open_root.command-group-item
-      - models.column_list:column_list-view-toggle_visibility.command-group-item
+      - models.column_list:column_list-model-toggle_visibility.command-group-item
       - models.column_list:list-view-open_column_list.command-group-item
       - models.command_list_model:command_list_model-model-remove_shortcut.command-group-item
       - models.command_list_model:command_list_model-model-run_command.command-group-item
@@ -385,7 +385,7 @@ definitions:
       items:
       - models.bundle_info:bundle_info-ass_list_model.feed-template-cfg-item
       - models.bundle_info:bundle_info-capsule_list_model.feed-template-cfg-item
-      - models.column_list:column_list-view.feed-template-cfg-item
+      - models.column_list:column_list-model.feed-template-cfg-item
       - models.command_list_model:command_list_model-model.feed-template-cfg-item
       - models.config.config_item_list:config_item_list-layer_model.feed-template-cfg-item
       - models.config.config_item_list:config_item_list-model.feed-template-cfg-item
@@ -471,7 +471,7 @@ definitions:
       - models.bundle_info:bundle_info-model-open_associations.command-cfg-item
       - models.bundle_info:bundle_info-model-open_capsules.command-cfg-item
       - models.bundle_info:bundle_info-model-open_root.command-cfg-item
-      - models.column_list:column_list-view-toggle_visibility.command-cfg-item
+      - models.column_list:column_list-model-toggle_visibility.command-cfg-item
       - models.command_list_model:command_list_model-model-remove_shortcut.command-cfg-item
       - models.command_list_model:command_list_model-model-run_command.command-cfg-item
       - models.command_list_model:command_list_model-model-set_escape_shortcut.command-cfg-item
@@ -512,7 +512,7 @@ definitions:
       - models.bundle_info:bundle_info-ass_list_model.model-cfg-item
       - models.bundle_info:bundle_info-capsule_list_model.model-cfg-item
       - models.bundle_info:bundle_info-model.model-cfg-item
-      - models.column_list:column_list-view.model-cfg-item
+      - models.column_list:column_list-model.model-cfg-item
       - models.command_list_model:command_list_model-model.model-cfg-item
       - models.config.config_item_list:config_item_list-layer_model.model-cfg-item
       - models.config.config_item_list:config_item_list-model.model-cfg-item

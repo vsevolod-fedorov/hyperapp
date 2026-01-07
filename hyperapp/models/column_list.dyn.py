@@ -52,7 +52,7 @@ def open_column_list(view):
     model_t = deduce_t(view.adapter.real_model)
     if isinstance(model_t, TList):
         return
-    return htypes.column_list.view(
+    return htypes.column_list.model(
         model_t=pyobj_creg.actor_to_ref(model_t),
         item_t=pyobj_creg.actor_to_ref(view.adapter.item_t),
         )

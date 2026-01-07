@@ -14,7 +14,7 @@ import:
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.column:column_k
 - legacy_type.column_list:item
-- legacy_type.column_list:view
+- legacy_type.column_list:model
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
@@ -30,53 +30,53 @@ definitions:
     value:
       object: column_list.module
       attr_name: column_list
-  column_list-view-toggle_visibility.command-cfg-item:
+  column_list-model-toggle_visibility.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
-      t: legacy_type.column_list:view
+      t: legacy_type.column_list:model
       name: toggle_visibility
       command: toggle_visibility.command
-  column_list-view-toggle_visibility.command-group:
+  column_list-model-toggle_visibility.command-group:
     type: legacy_type.builtin:string
     value: context
-  column_list-view-toggle_visibility.command-group-item:
+  column_list-model-toggle_visibility.command-group-item:
     type: legacy_type.cfg_item:data_cfg_item
     value:
-      key: column_list-view-toggle_visibility.command-key
-      value: column_list-view-toggle_visibility.command-group
-  column_list-view-toggle_visibility.command-key:
+      key: column_list-model-toggle_visibility.command-key
+      value: column_list-model-toggle_visibility.command-group
+  column_list-model-toggle_visibility.command-key:
     type: legacy_type.command:model_command_key
     value:
-      model_t: legacy_type.column_list:view
+      model_t: legacy_type.column_list:model
       name: toggle_visibility
-  column_list-view.feed-template:
+  column_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
-      feed_type: column_list-view.feed-type
-  column_list-view.feed-template-cfg-item:
+      feed_type: column_list-model.feed-type
+  column_list-model.feed-template-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
-      t: legacy_type.column_list:view
-      value: column_list-view.feed-template
-  column_list-view.feed-type:
+      t: legacy_type.column_list:model
+      value: column_list-model.feed-template
+  column_list-model.feed-type:
     type: legacy_type.feed:list_feed_type
     value:
       item_t: legacy_type.column_list:item
-  column_list-view.index-list-ui-t:
+  column_list-model.index-list-ui-t:
     type: legacy_type.model:index_list_ui_t
     value:
       item_t: legacy_type.column_list:item
-  column_list-view.model:
+  column_list-model.model:
     type: legacy_type.model:model
     value:
-      ui_t: column_list-view.index-list-ui-t
-      system_fn: column_list-view.system-fn
-  column_list-view.model-cfg-item:
+      ui_t: column_list-model.index-list-ui-t
+      system_fn: column_list-model.system-fn
+  column_list-model.model-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
-      t: legacy_type.column_list:view
-      value: column_list-view.model
-  column_list-view.system-fn:
+      t: legacy_type.column_list:model
+      value: column_list-model.model
+  column_list-model.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
       function: column_list
@@ -94,7 +94,7 @@ definitions:
         code.mark: base.mark:mark.module
         htypes.column.column_k: legacy_type.column:column_k
         htypes.column_list.item: legacy_type.column_list:item
-        htypes.column_list.view: legacy_type.column_list:view
+        htypes.column_list.model: legacy_type.column_list:model
         htypes.list.view: legacy_type.list:view
         services.deduce_t: builtins:deduce_t.service
         services.pyobj_creg: builtins:pyobj_creg.service
