@@ -101,7 +101,7 @@ def open_layers(view, current_item, model):
         )
 
 
-@mark.ui_model_command(htypes.tree.view)
+@mark.ui_command(htypes.tree.view)
 def open_opener_commands(view, current_path):
     adapter = view.adapter
     if not isinstance(adapter, ListAsTreeAdapter):
