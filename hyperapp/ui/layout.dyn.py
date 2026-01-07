@@ -41,7 +41,7 @@ def enum_layout_tree_commands(piece, current_item, controller, command_factory):
             ]
     else:
         commands = []
-        log.info("Layout tree commands for %s: %s", current_item, commands)
+    log.info("Layout tree commands for %s: %s", current_item, commands)
     return commands
 
 
