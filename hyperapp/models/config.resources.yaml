@@ -32,7 +32,10 @@ import:
 - models.column_list:column_list-view-toggle_visibility.command-group-item
 - models.column_list:column_list-view.feed-template-cfg-item
 - models.column_list:column_list-view.model-cfg-item
+- models.column_list:command_creg-column_list-open_column_list.ctx-actor-cfg-item
 - models.column_list:command_creg-column_list-toggle_visibility.ctx-actor-cfg-item
+- models.column_list:list-view-open_column_list.command-cfg-item
+- models.column_list:list-view-open_column_list.command-group-item
 - models.command_list_model:command_creg-command_list_model-open_commands.ctx-actor-cfg-item
 - models.command_list_model:command_creg-command_list_model-remove_shortcut.ctx-actor-cfg-item
 - models.command_list_model:command_creg-command_list_model-run_command.ctx-actor-cfg-item
@@ -257,6 +260,7 @@ definitions:
       - models.bundle_info:command_creg-bundle_info-open_capsule.ctx-actor-cfg-item
       - models.bundle_info:command_creg-bundle_info-open_capsules.ctx-actor-cfg-item
       - models.bundle_info:command_creg-bundle_info-open_root.ctx-actor-cfg-item
+      - models.column_list:command_creg-column_list-open_column_list.ctx-actor-cfg-item
       - models.column_list:command_creg-column_list-toggle_visibility.ctx-actor-cfg-item
       - models.command_list_model:command_creg-command_list_model-open_commands.ctx-actor-cfg-item
       - models.command_list_model:command_creg-command_list_model-remove_shortcut.ctx-actor-cfg-item
@@ -312,6 +316,7 @@ definitions:
       - models.bundle_info:bundle_info-model-open_capsules.command-group-item
       - models.bundle_info:bundle_info-model-open_root.command-group-item
       - models.column_list:column_list-view-toggle_visibility.command-group-item
+      - models.column_list:list-view-open_column_list.command-group-item
       - models.command_list_model:command_list_model-model-remove_shortcut.command-group-item
       - models.command_list_model:command_list_model-model-run_command.command-group-item
       - models.command_list_model:command_list_model-model-set_escape_shortcut.command-group-item
@@ -373,6 +378,7 @@ definitions:
         system: system
         ui_adapter_creg: ui_adapter_creg
         view_factory_reg: view_factory_reg
+        view_ui_command_reg: view_ui_command_reg
   feed_factory:
     type: legacy_type.system:item_list_config
     value:
@@ -551,3 +557,8 @@ definitions:
       items:
       - models.data_browser_adapter:data_browser_data_view.view-factory-cfg-item
       - models.git.git_log_adapter:git_log_layout.view-factory-cfg-item
+  view_ui_command_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - models.column_list:list-view-open_column_list.command-cfg-item

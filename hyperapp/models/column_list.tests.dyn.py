@@ -17,26 +17,26 @@ def column_visible_reg():
 
 
 @mark.fixture
-def piece():
+def model():
     return htypes.column_list.view(
         model_t=pyobj_creg.actor_to_ref(htypes.column_list_tests.sample_model),
         item_t=pyobj_creg.actor_to_ref(htypes.column_list_tests.sample_item),
         )
 
 
-def test_column_list(piece):
-    items = column_list.column_list(piece)
+def test_column_list(model):
+    items = column_list.column_list(model)
     assert len(items) == 3
 
 
-async def test_toggle_visibility(feed_factory, column_visible_reg, piece):
-    feed = feed_factory(piece)
+async def test_toggle_visibility(feed_factory, column_visible_reg, model):
+    feed = feed_factory(model)
     current_idx = 0
     current_item = htypes.column_list.item(
         name='id',
         show=False,  # Should not be used.
         )
-    column_list.toggle_visibility(piece, current_idx, current_item)
+    column_list.toggle_visibility(model, current_idx, current_item)
     column_visible_reg.__setitem__.assert_called_once()
     assert column_visible_reg.__setitem__.call_args.args[1] == False
     await feed.wait_for_diffs(count=1)
@@ -48,5 +48,5 @@ def test_open():
         item_t=htypes.column_list_tests.sample_item,
         )
     view = Mock(adapter=adapter)
-    piece = column_list.open_column_list(view)
-    assert isinstance(piece, htypes.column_list.view)
+    model = column_list.open_column_list(view)
+    assert isinstance(model, htypes.column_list.view)

@@ -35,9 +35,9 @@ def column_list(piece, column_visible_reg):
 
 
 @mark.command
-def toggle_visibility(piece, current_idx, current_item, feed_factory, column_visible_reg):
-    feed = feed_factory(piece)
-    model_t = pyobj_creg.invite(piece.model_t)
+def toggle_visibility(model, current_idx, current_item, feed_factory, column_visible_reg):
+    feed = feed_factory(model)
+    model_t = pyobj_creg.invite(model.model_t)
     key = _column_key(model_t, current_item.name)
     prev_value = column_visible_reg.get(key, True)
     column_visible_reg[key] = not prev_value
@@ -45,7 +45,7 @@ def toggle_visibility(piece, current_idx, current_item, feed_factory, column_vis
     feed.send(IndexListDiff.Replace(current_idx, item))
 
 
-@mark.ui_model_command(htypes.list.view)
+@mark.ui_command(htypes.list.view)
 def open_column_list(view):
     if view.adapter.real_model is None:
         return  # Static list.
