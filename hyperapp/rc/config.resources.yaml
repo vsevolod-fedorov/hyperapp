@@ -25,7 +25,6 @@ import:
 - rc.command_ctr:command_resource-model_command_enumerator_template_ctr.actor-cfg-item
 - rc.command_ctr:command_resource-ui_command_enumerator_template_ctr.actor-cfg-item
 - rc.command_ctr:command_resource-ui_command_template_ctr.actor-cfg-item
-- rc.command_ctr:command_resource-ui_model_command_template_ctr.actor-cfg-item
 - rc.command_ctr:command_resource-universal_ui_command_template_ctr.actor-cfg-item
 - rc.command_marker:command.marker-cfg-item
 - rc.command_marker:command_enum.marker-cfg-item
@@ -33,7 +32,6 @@ import:
 - rc.command_marker:ui_command.marker-cfg-item
 - rc.command_marker:universal_ui_command.marker-cfg-item
 - rc.command_marker:ui_command_enum.marker-cfg-item
-- rc.command_marker:ui_model_command.marker-cfg-item
 - rc.config_fixture_marker:config_fixture.marker-cfg-item
 - rc.config_fixture_marker:config_template_fixture.marker-cfg-item
 - rc.config_item_resource:config_item_resource-config_item_resource.actor-cfg-item
@@ -175,7 +173,6 @@ definitions:
       - rc.command_marker:ui_command.marker-cfg-item
       - rc.command_marker:universal_ui_command.marker-cfg-item
       - rc.command_marker:ui_command_enum.marker-cfg-item
-      - rc.command_marker:ui_model_command.marker-cfg-item
       - rc.config_fixture_marker:config_fixture.marker-cfg-item
       - rc.config_fixture_marker:config_template_fixture.marker-cfg-item
       - rc.crud_marker:crud.marker-cfg-item
@@ -207,7 +204,6 @@ definitions:
       - rc.command_ctr:command_resource-model_command_enumerator_template_ctr.actor-cfg-item
       - rc.command_ctr:command_resource-ui_command_enumerator_template_ctr.actor-cfg-item
       - rc.command_ctr:command_resource-ui_command_template_ctr.actor-cfg-item
-      - rc.command_ctr:command_resource-ui_model_command_template_ctr.actor-cfg-item
       - rc.command_ctr:command_resource-universal_ui_command_template_ctr.actor-cfg-item
       - rc.crud_ctr:crud_ctr-commit_ctr.actor-cfg-item
       - rc.crud_ctr:crud_ctr-init_ctr.actor-cfg-item

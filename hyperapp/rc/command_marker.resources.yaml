@@ -47,26 +47,6 @@ definitions:
       key: ui_command
       value: ui_command.marker-template
 
-  UiModelCommandMarker:
-    type: legacy_type.builtin:attribute
-    value:
-      object: command_marker.module
-      attr_name: UiModelCommandMarker
-
-  ui_model_command.marker-template:
-    type: legacy_type.marker:marker_template
-    value:
-      function: UiModelCommandMarker
-      service_params:
-      - system
-      - ctr_collector
-
-  ui_model_command.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
-    value:
-      key: ui_model_command
-      value: ui_model_command.marker-template
-
   UniversalUiCommandMarker:
     type: legacy_type.builtin:attribute
     value:

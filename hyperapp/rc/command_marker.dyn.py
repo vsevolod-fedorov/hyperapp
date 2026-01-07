@@ -6,7 +6,6 @@ from .code.command_ctr import (
     UiCommandTemplateCtr,
     UniversalUiCommandTemplateCtr,
     UiCommandEnumeratorTemplateCtr,
-    UiModelCommandTemplateCtr,
     ModelCommandTemplateCtr,
     ModelCommandEnumeratorTemplateCtr,
     GlobalModelCommandTemplateCtr,
@@ -103,23 +102,6 @@ class UiCommandProbe(CommandProbe):
             t=t,
             service_name=service_name,
             enum_service_name=enum_service_name,
-            )
-        self._ctr_collector.add_constructor(ctr)
-
-
-class UiModelCommandProbe(CommandProbe):
-
-    def _add_constructor(self, params):
-        return
-        if self._t:
-            t = self._t
-        else:
-            t = self._deduce_view_t(params, 'ui_command')
-        ctr = UiModelCommandTemplateCtr(
-            **self._common_ctr_kw(params),
-            service_name='view_ui_model_command_reg',
-            enum_service_name=None,
-            t=t,
             )
         self._ctr_collector.add_constructor(ctr)
 
@@ -248,10 +230,6 @@ class UiCommandDecorator(TypedCommandDecorator):
     _probe_class = UiCommandProbe
 
 
-class UiModelCommandDecorator(TypedCommandDecorator):
-    _probe_class = UiModelCommandProbe
-
-
 class UniversalUiCommandDecorator(UntypedCommandDecorator):
     _probe_class = UniversalUiCommandProbe
     _command_desc = "Universal"
@@ -312,14 +290,6 @@ class UiCommandMarker(CommandMarker):
             check_not_classmethod(fn_or_t)
             check_is_function(fn_or_t)
             return UiCommandProbe(self._system, self._ctr_collector, self._module_name, args, fn=fn_or_t)
-
-
-class UiModelCommandMarker(CommandMarker):
-
-    def __call__(self, t):
-        if not isinstance(t, Type):
-            raise RuntimeError(f"Use type specialized marker, like '@mark.ui_model_command(my_type)'")
-        return UiModelCommandDecorator(self._system, self._ctr_collector, self._module_name, args=None, t=t)
 
 
 class UniversalUiCommandMarker(CommandMarker):
