@@ -21,6 +21,7 @@ import:
 - ui.command_creg:command_creg.service
 - ui.command_creg:command_enum_creg.service
 - ui.command_group:command_group_reg.service
+- ui.command_group:command_group_type_reg.service
 - ui.command_group:get_command_group.service
 - ui.controller:canned_ctl_item_factory.service
 - ui.controller:controller_running.service
@@ -396,6 +397,7 @@ definitions:
       - ui.command_creg:command_creg.service
       - ui.command_creg:command_enum_creg.service
       - ui.command_group:command_group_reg.service
+      - ui.command_group:command_group_type_reg.service
       - ui.command_group:get_command_group.service
       - ui.controller:canned_ctl_item_factory.service
       - ui.controller:controller_running.service

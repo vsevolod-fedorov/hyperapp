@@ -2,7 +2,15 @@ from . import htypes
 from .services import (
     pyobj_creg,
     )
+from .code.mark import mark
 from .tested.code import command_group
+
+
+@mark.config_fixture('command_group_type_reg')
+def command_group_type_reg_config():
+    return {
+        htypes.command.model_command_key: 'test_group',
+        }
 
 
 def test_get_command_group(get_command_group):
@@ -12,17 +20,4 @@ def test_get_command_group(get_command_group):
             name='sample_context_command',
             ),
         )
-    assert context_group == 'context'
-    global_group = get_command_group(
-        htypes.command.global_model_command_key(
-            name='sample_global_command',
-            ),
-        )
-    assert global_group == 'global'
-    view_group = get_command_group(
-        htypes.command.ui_command_key(
-            view_t=pyobj_creg.actor_to_ref(htypes.command_group_tests.sample_view),
-            name='sample_view_command',
-            ),
-        )
-    assert view_group == 'view'
+    assert context_group == 'test_group'

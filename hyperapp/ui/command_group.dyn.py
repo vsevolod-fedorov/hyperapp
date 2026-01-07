@@ -1,6 +1,10 @@
-from . import htypes
+from .services import (
+    deduce_t,
+    )
 from .code.mark import mark
-from .code.config_ctl import data_service_config_ctl
+from .code.config_key_ctl import TypeKeyCtl
+from .code.config_value_ctl import DataValueCtl
+from .code.config_ctl import DictConfigCtl, data_service_config_ctl
 
 
 @mark.service(ctl=data_service_config_ctl())
@@ -8,16 +12,20 @@ def command_group_reg(config):
     return config
 
 
+@mark.service(ctl=DictConfigCtl(key_ctl=TypeKeyCtl(), value_ctl=DataValueCtl()))
+def command_group_type_reg(config):
+    return config
+
+
 @mark.service
-def get_command_group(command_group_reg, command_key):
+def get_command_group(command_group_reg, command_group_type_reg, command_key):
     try:
         return command_group_reg[command_key]
     except KeyError:
         pass
-    if isinstance(command_key, htypes.command.model_command_key):
-        return 'context'
-    if isinstance(command_key, htypes.command.global_model_command_key):
-        return 'global'
-    if isinstance(command_key, htypes.command.ui_command_key):
-        return 'view'
+    command_key_t = deduce_t(command_key)
+    try:
+        return command_group_type_reg[command_key_t]
+    except KeyError:
+        pass
     return None

@@ -3,18 +3,19 @@
 import:
 - base.mark:mark.module
 - base.system.config_ctl:config_ctl.module
+- base.system.config_key_ctl:config_key_ctl.module
 - base.system.config_layer:one_way.key_ctl
+- base.system.config_value_ctl:config_value_ctl.module
+- builtins:deduce_t.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.command:global_model_command_key
-- legacy_type.command:model_command_key
-- legacy_type.command:ui_command_key
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:data_key_ctl
 - legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
+- legacy_type.system:type_key_ctl
 definitions:
   command_group.module:
     type: legacy_type.builtin:python_module
@@ -23,10 +24,10 @@ definitions:
       file_name: command_group.dyn.py
       import_list:
         code.config_ctl: base.system.config_ctl:config_ctl.module
+        code.config_key_ctl: base.system.config_key_ctl:config_key_ctl.module
+        code.config_value_ctl: base.system.config_value_ctl:config_value_ctl.module
         code.mark: base.mark:mark.module
-        htypes.command.global_model_command_key: legacy_type.command:global_model_command_key
-        htypes.command.model_command_key: legacy_type.command:model_command_key
-        htypes.command.ui_command_key: legacy_type.command:ui_command_key
+        services.deduce_t: builtins:deduce_t.service
   command_group_reg:
     type: legacy_type.builtin:attribute
     value:
@@ -38,6 +39,20 @@ definitions:
       name: command_group_reg
       ctl: system-dict_config.data.data.single.ctl
       function: command_group_reg
+      service_params: []
+      want_config: true
+      free_params: []
+  command_group_type_reg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command_group.module
+      attr_name: command_group_type_reg
+  command_group_type_reg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: command_group_type_reg
+      ctl: system-dict_config.type.data.single.ctl
+      function: command_group_type_reg
       service_params: []
       want_config: true
       free_params: []
@@ -54,6 +69,7 @@ definitions:
       function: get_command_group
       service_params:
       - command_group_reg
+      - command_group_type_reg
       want_config: false
       free_params:
       - command_key
@@ -78,6 +94,15 @@ definitions:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
       struct_ctl: system-single.struct-ctl
+  system-dict_config.type.data.single.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: system-type.key-ctl
+      value_ctl: system-data.value-ctl
+      struct_ctl: system-single.struct-ctl
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
+    value: {}
+  system-type.key-ctl:
+    type: legacy_type.system:type_key_ctl
     value: {}
