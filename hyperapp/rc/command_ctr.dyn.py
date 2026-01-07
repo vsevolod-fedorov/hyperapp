@@ -51,19 +51,6 @@ class CommandTemplateCtr(ModuleCtr):
             for arg in arg_list
             }
 
-    def _create_group_ctr(self, resource_tgt, target_set):
-        group_ctr = DataConfigCtr(
-            module_name=self._module_name,
-            service_name='command_group_reg',
-            name=self._command_key_name,
-            key_resource_suffix='command-key',
-            value_resource_suffix='command-group',
-            item_resource_suffix='command-group-item',
-            key=self._command_key,
-            value=self._command_group,
-            )
-        group_ctr.update_resource_targets(resource_tgt, target_set)
-
     def update_resource_targets(self, resource_tgt, target_set):
         if self._have_args:
             service_name = self._enum_service_name
@@ -81,8 +68,7 @@ class CommandTemplateCtr(ModuleCtr):
             provider=resource_tgt,
             ctr=self,
             )
-        if self._need_group:
-            self._create_group_ctr(resource_tgt, target_set)
+        self._create_group_ctr(resource_tgt, target_set)
         # resource target may already have resolved target, but in case of
         # non-typed marker it have not.
         resource_tgt.add_cfg_item_target(reg_resolved_tgt)
@@ -196,6 +182,28 @@ class CommandTemplateCtr(ModuleCtr):
     #         return self._direct_command_resource_suffix
 
 
+class CommandMixin:
+
+    def _create_group_ctr(self, resource_tgt, target_set):
+        group_ctr = DataConfigCtr(
+            module_name=self._module_name,
+            service_name='command_group_reg',
+            name=self._command_key_name,
+            key_resource_suffix='command-key',
+            value_resource_suffix='command-group',
+            item_resource_suffix='command-group-item',
+            key=self._command_key,
+            value=self._command_group,
+            )
+        group_ctr.update_resource_targets(resource_tgt, target_set)
+
+
+class EnumMixin:
+
+    def _create_group_ctr(self, resource_tgt, target_set):
+        pass
+
+
 class UntypedCommandTemplateCtr(CommandTemplateCtr):
 
     @classmethod
@@ -305,11 +313,10 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
         return f'{self._type_name}-{self._command_name}'
 
 
-class UiCommandTemplateCtr(TypedCommandTemplateCtr):
+class UiCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
 
     # _command_t = htypes.command.ui_command
     # _enum_command_t = htypes.command.ui_args_picker_command_enumerator
-    _need_group = True
     _command_fn_t = htypes.system_fn.ctx_fn
     _template_ctr_t = htypes.command_resource.ui_command_template_ctr
     _actor_creg = 'command_creg'
@@ -356,10 +363,9 @@ class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
             )
 
 
-class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
+class ModelCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
 
     # _enum_command_t = htypes.command.model_args_picker_command_enumerator
-    _need_group = True
     _actor_creg = 'command_creg'
     _command_suffix = 'command'
     # _is_global = False
@@ -425,9 +431,8 @@ class ModelCommandTemplateCtr(TypedCommandTemplateCtr):
             return 'model'
 
 
-class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
+class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr, EnumMixin):
 
-    _need_group = False
     _template_ctr_t = htypes.command_resource.model_command_enumerator_template_ctr
     _actor_creg = 'command_enum_creg'
     _command_suffix = 'command_enum'
@@ -443,9 +448,8 @@ class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
     #         )
 
 
-class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr):
+class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr, CommandMixin):
 
-    _need_group = True
     _command_fn_t = htypes.command.model_command_fn
     _actor_creg = 'command_creg'
     _command_suffix = 'command'
