@@ -155,7 +155,7 @@ class TabsView(View):
         widget.setTabText(idx, text)
 
 
-@mark.ui_model_command(htypes.tabs.view)
+@mark.ui_command(htypes.tabs.view)
 def open_tab_list(view):
     log.info("Open tab list: %s", view)
     return [

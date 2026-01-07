@@ -85,6 +85,11 @@ definitions:
     value:
       t: insert_element.t
       value: insert_element.ctx-actor-template
+  command_creg-tabs-open_tab_list.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: open_tab_list.t
+      value: open_tab_list.ctx-actor-template
   command_creg-tabs-remove_element.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -125,6 +130,32 @@ definitions:
     value:
       module_name: tabs
       name: insert_element
+      base: null
+      fields: {}
+  open_tab_list:
+    type: legacy_type.builtin:attribute
+    value:
+      object: tabs.module
+      attr_name: open_tab_list
+  open_tab_list.command:
+    type: open_tab_list.t
+    value: {}
+  open_tab_list.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_tab_list.system-fn
+  open_tab_list.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_tab_list
+      ctx_params:
+      - view
+      service_params: []
+  open_tab_list.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: tabs
+      name: open_tab_list
       base: null
       fields: {}
   remove_element:
@@ -193,6 +224,25 @@ definitions:
     value:
       view_t: legacy_type.tabs:view
       name: insert_element
+  tabs-view-open_tab_list.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.tabs:view
+      name: open_tab_list
+      command: open_tab_list.command
+  tabs-view-open_tab_list.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  tabs-view-open_tab_list.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: tabs-view-open_tab_list.command-key
+      value: tabs-view-open_tab_list.command-group
+  tabs-view-open_tab_list.command-key:
+    type: legacy_type.command:ui_command_key
+    value:
+      view_t: legacy_type.tabs:view
+      name: open_tab_list
   tabs-view-remove_element.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

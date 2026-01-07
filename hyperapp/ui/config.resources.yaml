@@ -124,10 +124,13 @@ import:
 - ui.qt.static_list_adapter:ui_adapter_creg-list_adapter-static_list_adapter.actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-add_element.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-insert_element.ctx-actor-cfg-item
+- ui.qt.tabs:command_creg-tabs-open_tab_list.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-remove_element.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-unwrap.ctx-actor-cfg-item
 - ui.qt.tabs:tabs-view-add_element.command-group-item
 - ui.qt.tabs:tabs-view-insert_element.command-group-item
+- ui.qt.tabs:tabs-view-open_tab_list.command-cfg-item
+- ui.qt.tabs:tabs-view-open_tab_list.command-group-item
 - ui.qt.tabs:tabs-view-remove_element.command-cfg-item
 - ui.qt.tabs:tabs-view-remove_element.command-group-item
 - ui.qt.tabs:tabs-view-unwrap.command-cfg-item
@@ -240,6 +243,7 @@ definitions:
       - ui.qt.label:command_creg-label-set_label_text.ctx-actor-cfg-item
       - ui.qt.tabs:command_creg-tabs-add_element.ctx-actor-cfg-item
       - ui.qt.tabs:command_creg-tabs-insert_element.ctx-actor-cfg-item
+      - ui.qt.tabs:command_creg-tabs-open_tab_list.ctx-actor-cfg-item
       - ui.qt.tabs:command_creg-tabs-remove_element.ctx-actor-cfg-item
       - ui.qt.tabs:command_creg-tabs-unwrap.ctx-actor-cfg-item
       - ui.qt.window_commands:command_creg-window_commands-duplicate_window.ctx-actor-cfg-item
@@ -273,6 +277,7 @@ definitions:
       - ui.qt.label:label-view-set_label_text.command-group-item
       - ui.qt.tabs:tabs-view-add_element.command-group-item
       - ui.qt.tabs:tabs-view-insert_element.command-group-item
+      - ui.qt.tabs:tabs-view-open_tab_list.command-group-item
       - ui.qt.tabs:tabs-view-remove_element.command-group-item
       - ui.qt.tabs:tabs-view-unwrap.command-group-item
       - ui.qt.window_commands:window-view-duplicate_window.command-group-item
@@ -514,6 +519,7 @@ definitions:
       - ui.qt.auto_tabs:auto_tabs-view-duplicate_tab.command-cfg-item
       - ui.qt.box_layout:box_layout-view-add_stretch.command-cfg-item
       - ui.qt.box_layout:box_layout-view-unwrap.command-cfg-item
+      - ui.qt.tabs:tabs-view-open_tab_list.command-cfg-item
       - ui.qt.tabs:tabs-view-unwrap.command-cfg-item
       - ui.qt.window_commands:window-view-duplicate_window.command-cfg-item
       - ui.qt.window_commands:window-view-quit.command-cfg-item
