@@ -139,7 +139,7 @@ definitions:
     value:
       function: new_page
       ctx_params:
-      - piece
+      - model
       service_params:
       - wiki_pages
   new_page.t:
@@ -166,7 +166,7 @@ definitions:
     value:
       function: open
       ctx_params:
-      - piece
+      - model
       - current_key
       service_params:
       - wiki_pages
@@ -194,7 +194,7 @@ definitions:
     value:
       function: open_parent
       ctx_params:
-      - piece
+      - model
       service_params:
       - wiki_pages
   open_parent.t:
@@ -221,7 +221,7 @@ definitions:
     value:
       function: open_ref_list
       ctx_params:
-      - piece
+      - model
       service_params: []
   open_ref_list.t:
     type: legacy_type.builtin:record_mt
@@ -304,7 +304,7 @@ definitions:
     value:
       function: remove
       ctx_params:
-      - piece
+      - model
       - current_id
       service_params:
       - wiki_pages
@@ -332,7 +332,7 @@ definitions:
     value:
       function: save_page
       ctx_params:
-      - piece
+      - model
       - value
       service_params:
       - wiki_pages

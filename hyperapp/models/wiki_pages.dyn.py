@@ -158,7 +158,7 @@ def ref_list_model(piece, wiki_pages):
 
 
 @mark.command(preserve_remote=True)
-def open(piece, current_key, wiki_pages):
+def open(model, current_key, wiki_pages):
     try:
         folder = wiki_pages.get_folder(item_id=current_key)
     except KeyError:
@@ -185,48 +185,48 @@ def _open_page(wiki_pages, page_id):
 
 
 @mark.command(preserve_remote=True)
-def open_parent(piece, wiki_pages):
-    if not piece.parent_id:
+def open_parent(model, wiki_pages):
+    if not model.parent_id:
         return
-    folder = wiki_pages.get_folder(piece.parent_id)
-    piece = htypes.wiki_pages.list_model(
+    folder = wiki_pages.get_folder(model.parent_id)
+    parent_model = htypes.wiki_pages.list_model(
         parent_id=folder.parent_id,
-        folder_path=piece.folder_path[:-1],
+        folder_path=model.folder_path[:-1],
         )
-    return (piece, folder.id)
+    return (parent_model, folder.id)
 
 
 @mark.command.add(args=['name'])
-def add_folder(piece, name, wiki_pages):
+def add_folder(model, name, wiki_pages):
     if not name:
         return
-    folder_id = wiki_pages.append_folder(piece.parent_id, name)
+    folder_id = wiki_pages.append_folder(model.parent_id, name)
     return folder_id
 
 
 @mark.command(preserve_remote=True)
-def new_page(piece, wiki_pages):
+def new_page(model, wiki_pages):
     return htypes.wiki_pages.page_model(
-        parent_id=piece.parent_id,
+        parent_id=model.parent_id,
         page_id=None,
         title="New wiki page",
         )
 
 
 @mark.command(preserve_remote=True)
-def save_page(piece, value, wiki_pages):
-    page_id = wiki_pages.save_page(piece.parent_id, piece.page_id, value.title, value.wiki)
-    path = wiki_pages.get_folder_path(piece.parent_id)
+def save_page(model, value, wiki_pages):
+    page_id = wiki_pages.save_page(model.parent_id, model.page_id, value.title, value.wiki)
+    path = wiki_pages.get_folder_path(model.parent_id)
     model = htypes.wiki_pages.list_model(
-        parent_id=piece.parent_id,
+        parent_id=model.parent_id,
         folder_path=path,
         )
     return (model, page_id)
 
 
 @mark.command(args=['ref'])
-def add_ref(piece, value, ref, wiki_pages, feed_factory):
-    feed = feed_factory(piece)
+def add_ref(model, value, ref, wiki_pages, feed_factory):
+    feed = feed_factory(model)
     used_ids = {ref.id for ref in value.wiki.refs}
     for idx in itertools.count(1):
         ref_id = str(idx)
@@ -247,15 +247,15 @@ def add_ref(piece, value, ref, wiki_pages, feed_factory):
 
 
 @mark.command(preserve_remote=True)
-def open_ref_list(piece):
+def open_ref_list(model):
     return htypes.wiki_pages.ref_list_model(
-        parent_id=piece.parent_id,
-        page_id=piece.page_id,
+        parent_id=model.parent_id,
+        page_id=model.page_id,
         )
 
 
 @mark.command.remove
-def remove(piece, current_id, wiki_pages):
+def remove(model, current_id, wiki_pages):
     wiki_pages.remove(current_id)
     return True
 

@@ -12,8 +12,8 @@ from .tested.code import wiki_pages
 
 
 def test_open():
-    piece = wiki_pages.open_wiki_pages()
-    assert isinstance(piece, htypes.wiki_pages.list_model)
+    model = wiki_pages.open_wiki_pages()
+    assert isinstance(model, htypes.wiki_pages.list_model)
 
 
 @mark.fixture
@@ -23,7 +23,7 @@ def data_dir():
 
 @mark.fixture
 def file_bundle_factory():
-    ref_1_piece = htypes.wiki_pages_tests.sample_model()
+    ref_1_model = htypes.wiki_pages_tests.sample_model()
     storage = htypes.wiki_pages.storage(
         folders=(
             htypes.wiki_pages.folder_rec(
@@ -45,7 +45,7 @@ def file_bundle_factory():
                 wiki=htypes.wiki.wiki(
                     text="Page 1 text",
                     refs=(
-                        htypes.wiki.wiki_ref('1', mosaic.put(ref_1_piece)),
+                        htypes.wiki.wiki_ref('1', mosaic.put(ref_1_model)),
                         ),
                     ),
                 ),
@@ -116,14 +116,14 @@ def test_new_ref_list_model():
 
 def test_open_folder_locally(root_model, folder_2_model):
     current_key = folder_2_model.parent_id
-    piece = wiki_pages.open(root_model, current_key)
-    assert piece == folder_2_model
+    model = wiki_pages.open(root_model, current_key)
+    assert model == folder_2_model
 
 
 def test_open_page_locally(root_model):
     page_id = 'page_1'
-    piece = wiki_pages.open(root_model, current_key=page_id)
-    assert piece == htypes.wiki_pages.page_model(
+    model = wiki_pages.open(root_model, current_key=page_id)
+    assert model == htypes.wiki_pages.page_model(
         parent_id=None,
         page_id=page_id,
         title="Page 1",
@@ -131,8 +131,8 @@ def test_open_page_locally(root_model):
 
 
 def test_open_parent_locally(root_model, folder_2_model):
-    piece, key = wiki_pages.open_parent(folder_2_model)
-    assert piece == root_model
+    model, key = wiki_pages.open_parent(folder_2_model)
+    assert model == root_model
     assert key == folder_2_model.parent_id
 
 
@@ -143,9 +143,9 @@ def test_add_root_folder(root_model, file_bundle_factory):
 
 
 def test_new_page(folder_2_model):
-    piece = wiki_pages.new_page(folder_2_model)
-    assert piece.parent_id == folder_2_model.parent_id
-    assert piece.page_id is None
+    model = wiki_pages.new_page(folder_2_model)
+    assert model.parent_id == folder_2_model.parent_id
+    assert model.page_id is None
 
 
 @mark.fixture
@@ -158,13 +158,13 @@ def page_model(folder_2_model):
 
 
 def test_save_new_page(page_model):
-    ref_1_piece = htypes.wiki_pages_tests.sample_model()
+    ref_1_model = htypes.wiki_pages_tests.sample_model()
     page = htypes.wiki_pages.page(
         title="New page",
         wiki=htypes.wiki.wiki(
             text="New page text",
             refs=(
-                htypes.wiki.wiki_ref('1', mosaic.put(ref_1_piece)),
+                htypes.wiki.wiki_ref('1', mosaic.put(ref_1_model)),
                 ),
             ),
         )
@@ -182,8 +182,8 @@ async def test_add_ref(feed_factory, page_model):
             refs=(),
             ),
         )
-    ref_1_piece = htypes.wiki_pages_tests.sample_model()
-    wiki_pages.add_ref(page_model, page, mosaic.put(ref_1_piece))
+    ref_1_model = htypes.wiki_pages_tests.sample_model()
+    wiki_pages.add_ref(page_model, page, mosaic.put(ref_1_model))
     await feed.wait_for_diffs(count=1)
 
 
@@ -204,38 +204,38 @@ def test_page_list_model_formatter(folder_2_model):
 
 
 def test_existing_page_model_formatter():
-    piece = htypes.wiki_pages.page_model(
+    model = htypes.wiki_pages.page_model(
         parent_id=None,
         page_id='page_1',
         title="Sample page",
         )
-    text = wiki_pages.format_page_model(piece)
+    text = wiki_pages.format_page_model(model)
     assert text == "Wiki page: Sample page"
 
 
 def test_new_page_model_formatter():
-    piece = htypes.wiki_pages.page_model(
+    model = htypes.wiki_pages.page_model(
         parent_id=None,
         page_id=None,
         title="Sample page",
         )
-    text = wiki_pages.format_page_model(piece)
+    text = wiki_pages.format_page_model(model)
     assert text == "Wiki page: Sample page"
 
 
 def test_existing_ref_list_model_formatter():
-    piece = htypes.wiki_pages.ref_list_model(
+    model = htypes.wiki_pages.ref_list_model(
         parent_id=None,
         page_id='page_1',
         )
-    text = wiki_pages.format_ref_list_model(piece)
+    text = wiki_pages.format_ref_list_model(model)
     assert text == "Wiki page refs: Page 1"
 
 
 def test_new_ref_list_model_formatter():
-    piece = htypes.wiki_pages.ref_list_model(
+    model = htypes.wiki_pages.ref_list_model(
         parent_id=None,
         page_id=None,
         )
-    text = wiki_pages.format_ref_list_model(piece)
+    text = wiki_pages.format_ref_list_model(model)
     assert text == "Wiki page refs: New page"
