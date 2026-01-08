@@ -6,20 +6,18 @@ import:
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:arg_t
-- legacy_type.command:args_picker_command_fn
+- legacy_type.command:args_picker_command
+- legacy_type.command:args_picker_command_enum
 - legacy_type.command:command_template
 - legacy_type.command:global_model_command
 - legacy_type.command:global_model_command_key
 - legacy_type.command:properties
-- legacy_type.command:model_args_picker_command_enumerator
 - legacy_type.command:model_command
 - legacy_type.command:model_command_enum_fn
 - legacy_type.command:model_command_enumerator
 - legacy_type.command:model_command_fn
 - legacy_type.command:model_command_key
-- legacy_type.command:open_args_picker_command_d
 - legacy_type.command:type_str_command
-- legacy_type.command:ui_args_picker_command_enumerator
 - legacy_type.command:ui_command
 - legacy_type.command:ui_command_enumerator
 - legacy_type.command:ui_command_enum_fn
@@ -50,10 +48,10 @@ definitions:
         htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
         htypes.cfg_item.typed_cfg_item: legacy_type.cfg_item:typed_cfg_item
         htypes.command.arg_t: legacy_type.command:arg_t
-        htypes.command.args_picker_command_fn: legacy_type.command:args_picker_command_fn
+        htypes.command.args_picker_command: legacy_type.command:args_picker_command
+        htypes.command.args_picker_command_enum: legacy_type.command:args_picker_command_enum
         htypes.command.command_template: legacy_type.command:command_template
         htypes.command.properties: legacy_type.command:properties
-        htypes.command.model_args_picker_command_enumerator: legacy_type.command:model_args_picker_command_enumerator
         htypes.command.model_command: legacy_type.command:model_command
         htypes.command.global_model_command: legacy_type.command:global_model_command
         htypes.command.global_model_command_key: legacy_type.command:global_model_command_key
@@ -61,9 +59,7 @@ definitions:
         htypes.command.model_command_enum_fn: legacy_type.command:model_command_enum_fn
         htypes.command.model_command_enumerator: legacy_type.command:model_command_enumerator
         htypes.command.model_command_key: legacy_type.command:model_command_key
-        htypes.command.open_args_picker_command_d: legacy_type.command:open_args_picker_command_d
         htypes.command.type_str_command: legacy_type.command:type_str_command
-        htypes.command.ui_args_picker_command_enumerator: legacy_type.command:ui_args_picker_command_enumerator
         htypes.command.ui_command: legacy_type.command:ui_command
         htypes.command.ui_command_enum_fn: legacy_type.command:ui_command_enum_fn
         htypes.command.ui_command_enumerator: legacy_type.command:ui_command_enumerator

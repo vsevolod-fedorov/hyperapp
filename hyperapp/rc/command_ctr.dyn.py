@@ -86,100 +86,18 @@ class CommandTemplateCtr(ModuleCtr):
     def get_component(self, name_to_res):
         return name_to_res[f'{self._resource_name}.command-cfg-item']
 
-    # @property
-    # def _fn_name(self):
-    #     return '_'.join(self._attr_qual_name)
-
-    # def _command_d(self, types, name):
-    #     code_name = self._module_name.split('.')[-1]
-    #     d_t = d_type(types, code_name, name)
-    #     return d_t()
-
-    # def _make_args_picker_command_enum(self, types, name, commit_fn, name_to_res):
-    #     commit_d = self._command_d(types, name)
-    #     open_d = htypes.command.open_args_picker_command_d(
-    #         commit_command_d=mosaic.put(commit_d),
-    #         )
-    #     required_args = tuple(
-    #         htypes.command.arg_t(
-    #             name=name,
-    #             t=pyobj_creg.actor_to_ref(t),
-    #             )
-    #         for name, t in self._args.items()
-    #         )
-    #     command_enum = self._enum_command_t(
-    #         name=name,
-    #         is_global=self._is_global,
-    #         required_args=required_args,
-    #         args_picker_command_d=mosaic.put(open_d),
-    #         commit_command_d=mosaic.put(commit_d),
-    #         commit_fn=mosaic.put(commit_fn),
-    #         )
-    #     if name_to_res is not None:
-    #         name_to_res[f'{self._fn_name}.commit-d'] = commit_d
-    #         name_to_res[f'{self._fn_name}.open-d'] = open_d
-    #         name_to_res[f'{self._fn_name}.commit-fn'] = commit_fn
-    #     return command_enum
-
-    # def _make_command(self, types, name, fn, name_to_res):
-    #     d = self._command_d(types, name)
-    #     properties = htypes.command.properties(
-    #         is_global=self._is_global,
-    #         uses_state=any(_is_state_param(name) for name in self._ctx_params),
-    #         remotable=not set(self._ctx_params) & LOCAL_PARAMS,
-    #         )
-    #     if name_to_res is not None:
-    #         name_to_res[f'{self._fn_name}.d'] = d
-    #         name_to_res[f'{self._fn_name}.fn'] = fn
-    #     return self._make_command_record(d, properties, fn)
-
-    # def _make_command_record(self, d, properties, fn):
-    #     return self._command_t(
-    #         d=mosaic.put(d),
-    #         properties=properties,
-    #         system_fn=mosaic.put(fn),
-    #         )
+    @property
+    def _command_full_name(self):
+        return '_'.join(self._attr_qual_name)
 
     @property
-    def _command_name(self):
-        return '_'.join(self._attr_qual_name)
+    def _command_last_name(self):
+        return self._attr_qual_name[-1]
 
     @cached_property
     def _command_t(self):
         code_name = self._module_name.split('.')[-1]
-        return TRecord(code_name, self._command_name)
-
-    # def _make_command_component(self, types, python_module, name_to_res=None):
-    #     object = python_module
-    #     prefix = []
-    #     for name in self._attr_qual_name:
-    #         object = htypes.builtin.attribute(
-    #             object=mosaic.put(object),
-    #             attr_name=name,
-    #             )
-    #         if name_to_res is not None:
-    #             name_to_res['.'.join([*prefix, name])] = object
-    #         prefix.append(name)
-    #     fn = self._command_fn_t(
-    #         function=mosaic.put(object),
-    #         ctx_params=tuple(self._ctx_params),
-    #         service_params=tuple(self._service_params),
-    #         )
-    #     name = self._attr_qual_name[-1]
-    #     if self._have_args:
-    #         command = self._make_args_picker_command_enum(types, name, fn, name_to_res)
-    #     else:
-    #         command = self._make_command(types, name, fn, name_to_res)
-    #     if name_to_res is not None:
-    #         name_to_res[f'{self._fn_name}.{self._command_resource_suffix}'] = command
-    #     return command
-
-    # @property
-    # def _command_resource_suffix(self):
-    #     if self._have_args:
-    #         return self._command_enum_resource_suffix
-    #     else:
-    #         return self._direct_command_resource_suffix
+        return TRecord(code_name, self._command_full_name)
 
 
 class CommandMixin:
@@ -197,11 +115,46 @@ class CommandMixin:
             )
         group_ctr.update_resource_targets(resource_tgt, target_set)
 
+    def _make_args_picker_command_enum(self, commit_command):
+        required_args = tuple(
+            htypes.command.arg_t(
+                name=name,
+                t=pyobj_creg.actor_to_ref(t),
+                )
+            for name, t in self._args.items()
+            )
+        return htypes.command.args_picker_command_enum(
+            name=self._command_last_name,
+            required_args=required_args,
+            commit_command=mosaic.put(commit_command),
+            )
+
+    def _make_command(self, name_to_res):
+        if self._have_args:
+            commit_command = self._command_t()
+            command_enum = self._make_args_picker_command_enum(commit_command)
+            if name_to_res is not None:
+                name_to_res[f'{self._command_full_name}.commit-command'] = commit_command
+                name_to_res[f'{self._command_full_name}.command-enum'] = command_enum
+            return command_enum
+        else:
+            command = self._command_t()
+            if name_to_res is not None:
+                name_to_res[f'{self._command_full_name}.command'] = command
+            return command
+
 
 class EnumMixin:
 
     def _create_group_ctr(self, resource_tgt, target_set):
         pass
+
+    def _make_command(self, name_to_res):
+        assert not self._have_args  # No args are possible for enumerators.
+        command_enum = self._command_t()
+        if name_to_res is not None:
+            name_to_res[f'{self._command_full_name}.command-enum'] = command_enum
+        return command_enum
 
 
 class UntypedCommandTemplateCtr(CommandTemplateCtr):
@@ -230,24 +183,19 @@ class UntypedCommandTemplateCtr(CommandTemplateCtr):
             args=self._args_tuple,
             )
 
-    # def get_component(self, name_to_res):
-    #     return name_to_res[f'{self._resource_name}.{self._command_resource_suffix}']
-
     def make_component(self, types, python_module, name_to_res=None):
-        # return self._make_command_component(types, python_module, name_to_res)
-        command = self._command_t()
+        command = self._make_command(name_to_res)
         cfg_item = htypes.cfg_item.str_cfg_item(
-            key=self._command_t.name,
+            key=self._command_last_name,
             value=mosaic.put(command),
             )
         if name_to_res is not None:
-            name_to_res[f'{self._command_name}.{self._command_suffix}'] = command
             name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
         return cfg_item
 
     @property
     def _resource_name(self):
-        return self._command_name
+        return self._command_full_name
 
 
 class TypedCommandTemplateCtr(CommandTemplateCtr):
@@ -283,20 +231,13 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
             )
 
     def make_component(self, types, python_module, name_to_res=None):
-        command = self._command_t()
-        # command = self._make_command_component(types, python_module, name_to_res)
-        # template = htypes.command.command_template(
-        #     command=mosaic.put(command),
-        #     )
+        command = self._make_command(name_to_res)
         cfg_item = htypes.command.type_str_command(
             t=pyobj_creg.actor_to_ref(self._t),
-            name=self._command_t.name,
+            name=self._command_last_name,
             command=mosaic.put(command),
             )
         if name_to_res is not None:
-            # name_to_res[f'{self._command_t.name}.t'] = pyobj_creg.actor_to_piece(self._command_t)
-            name_to_res[f'{self._command_name}.{self._command_suffix}'] = command
-            # name_to_res[f'{self._resource_name}.command-template'] = template
             name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
         return cfg_item
 
@@ -306,30 +247,24 @@ class TypedCommandTemplateCtr(CommandTemplateCtr):
 
     @property
     def _command_key_name(self):
-        return f'{self._type_name}-{self._command_name}'
+        return f'{self._type_name}-{self._command_full_name}'
 
     @property
     def _resource_name(self):
-        return f'{self._type_name}-{self._command_name}'
+        return f'{self._type_name}-{self._command_full_name}'
 
 
 class UiCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
 
-    # _command_t = htypes.command.ui_command
-    # _enum_command_t = htypes.command.ui_args_picker_command_enumerator
     _command_fn_t = htypes.system_fn.ctx_fn
     _template_ctr_t = htypes.command_resource.ui_command_template_ctr
     _actor_creg = 'command_creg'
-    _command_suffix = 'command'
-    # _is_global = False
-    # _direct_command_resource_suffix = 'ui-command'
-    # _command_enum_resource_suffix = 'ui-command-enumerator'
 
     @property
     def _command_key(self):
         return htypes.command.ui_command_key(
             view_t=pyobj_creg.actor_to_ref(self._t),
-            name=self._command_name,
+            name=self._command_full_name,
             )
 
     @property
@@ -340,7 +275,6 @@ class UiCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
 class UniversalUiCommandTemplateCtr(UntypedCommandTemplateCtr):
 
     # _command_t = htypes.command.ui_command
-    # _enum_command_t = htypes.command.ui_args_picker_command_enumerator
     _command_fn_t = htypes.system_fn.ctx_fn
     _template_ctr_t = htypes.command_resource.universal_ui_command_template_ctr
     # _is_global = False
@@ -352,8 +286,6 @@ class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
 
     _template_ctr_t = htypes.command_resource.ui_command_enumerator_template_ctr
     _command_fn_t = htypes.command.ui_command_enum_fn
-    # _is_global = False
-    # _direct_command_resource_suffix = 'ui-command-enumerator'
 
     def _make_command(self, types, name, fn, name_to_res):
         if name_to_res is not None:
@@ -365,12 +297,7 @@ class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
 
 class ModelCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
 
-    # _enum_command_t = htypes.command.model_args_picker_command_enumerator
     _actor_creg = 'command_creg'
-    _command_suffix = 'command'
-    # _is_global = False
-    # _direct_command_resource_suffix = 'model-command'
-    # _command_enum_resource_suffix = 'model-command-enumerator'
 
     @classmethod
     def from_piece(cls, piece):
@@ -407,20 +334,12 @@ class ModelCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
             command_fn_t=pyobj_creg.actor_to_ref(self._command_fn_t),
             )
 
-    # def _make_command_record(self, d, properties, fn):
-    #     return htypes.command.model_command(
-    #         d=mosaic.put(d),
-    #         properties=properties,
-    #         system_fn=mosaic.put(fn),
-    #         preserve_remote=self._preserve_remote,
-    #         )
-
 
     @property
     def _command_key(self):
         return htypes.command.model_command_key(
             model_t=pyobj_creg.actor_to_ref(self._t),
-            name=self._command_name,
+            name=self._command_full_name,
             )
 
     @property
@@ -435,26 +354,12 @@ class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr, EnumMixin):
 
     _template_ctr_t = htypes.command_resource.model_command_enumerator_template_ctr
     _actor_creg = 'command_enum_creg'
-    _command_suffix = 'command_enum'
-    # _command_fn_t = htypes.command.model_command_enum_fn
-    # _is_global = False
-    # _direct_command_resource_suffix = 'model-command-enumerator'
-
-    # def _make_command(self, types, name, fn, name_to_res):
-    #     if name_to_res is not None:
-    #         name_to_res[f'{self._fn_name}.fn'] = fn
-    #     return htypes.command.model_command_enumerator(
-    #         system_fn=mosaic.put(fn),
-    #         )
 
 
 class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr, CommandMixin):
 
     _command_fn_t = htypes.command.model_command_fn
     _actor_creg = 'command_creg'
-    _command_suffix = 'command'
-    # _is_global = True
-    # _direct_command_resource_suffix = 'global-model-command'
 
     @classmethod
     def from_piece(cls, piece):
@@ -486,21 +391,13 @@ class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr, CommandMixin):
             preserve_remote=self._preserve_remote,
             )
 
-    # def _make_command_record(self, d, properties, fn):
-    #     return htypes.command.global_model_command(
-    #         d=mosaic.put(d),
-    #         properties=properties,
-    #         system_fn=mosaic.put(fn),
-    #         preserve_remote=self._preserve_remote,
-    #         )
-
     @property
     def _command_key_name(self):
-        return self._command_name
+        return self._command_full_name
 
     @property
     def _command_key(self):
-        return htypes.command.global_model_command_key(self._command_name)
+        return htypes.command.global_model_command_key(self._command_full_name)
 
     @property
     def _command_group(self):
