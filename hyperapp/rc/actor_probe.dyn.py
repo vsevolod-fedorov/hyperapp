@@ -80,6 +80,9 @@ class CtxActorProbe(ActorProbeBase):
         super().__init__(system_probe, ctr_collector, module_name, fn, t)
         self._service_name = service_name
 
+    def __call__(self, *args, **kw):
+        return self._call(*args, **kw)
+
     def call(self, *args, **kw):
         return self._call(*args, **kw)
 

@@ -60,7 +60,7 @@ def command():
 
 def test_sample_command():
     ctx = Context()
-    result = sample_command.call(ctx)
+    result = sample_command(ctx)
     assert result == 'sample-command-result'
 
 
