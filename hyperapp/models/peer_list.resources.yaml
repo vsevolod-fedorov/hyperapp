@@ -17,6 +17,7 @@ import:
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:args_picker_command_enum
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -36,6 +37,49 @@ import:
 - legacy_type.system_fn:ctx_fn
 - ui.ui_model_command:ui_model_command.module
 definitions:
+  add:
+    type: legacy_type.builtin:attribute
+    value:
+      object: peer_list.module
+      attr_name: add
+  add.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: add
+      required_args:
+        host: legacy_type.builtin:string
+      commit_command: add.commit-command
+  add.commit-command:
+    type: add.t
+    value: {}
+  add.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add.system-fn
+  add.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add
+      ctx_params:
+      - piece
+      - host
+      service_params:
+      - peer_list_reg
+      - file_bundle_factory
+      - peer_creg
+      - peer_label_reg
+  add.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: peer_list
+      name: add
+      base: null
+      fields: {}
+  command_creg-peer_list-add.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add.t
+      value: add.ctx-actor-template
   command_creg-peer_list-open_peer_list.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -103,6 +147,25 @@ definitions:
       name: open_peer_list
       base: null
       fields: {}
+  peer_list-model-add.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.peer_list:model
+      name: add
+      command: add.command-enum
+  peer_list-model-add.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  peer_list-model-add.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: peer_list-model-add.command-key
+      value: peer_list-model-add.command-group
+  peer_list-model-add.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.peer_list:model
+      name: add
   peer_list-model-remove.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

@@ -9,11 +9,13 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:ref
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:args_picker_command_enum
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -41,6 +43,88 @@ import:
 - legacy_type.wiki_pages:ref_list_model
 - legacy_type.wiki_pages:storage
 definitions:
+  add_folder:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: add_folder
+  add_folder.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: add_folder
+      required_args:
+        name: legacy_type.builtin:string
+      commit_command: add_folder.commit-command
+  add_folder.commit-command:
+    type: add_folder.t
+    value: {}
+  add_folder.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_folder.system-fn
+  add_folder.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add_folder
+      ctx_params:
+      - model
+      - name
+      service_params:
+      - wiki_pages
+  add_folder.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: add_folder
+      base: null
+      fields: {}
+  add_ref:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wiki_pages.module
+      attr_name: add_ref
+  add_ref.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: add_ref
+      required_args:
+        ref: legacy_type.builtin:ref
+      commit_command: add_ref.commit-command
+  add_ref.commit-command:
+    type: add_ref.t
+    value: {}
+  add_ref.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_ref.system-fn
+  add_ref.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add_ref
+      ctx_params:
+      - model
+      - value
+      - ref
+      service_params:
+      - wiki_pages
+      - feed_factory
+  add_ref.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wiki_pages
+      name: add_ref
+      base: null
+      fields: {}
+  command_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_folder.t
+      value: add_folder.ctx-actor-template
+  command_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_ref.t
+      value: add_ref.ctx-actor-template
   command_creg-wiki_pages-new_page.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -360,6 +444,25 @@ definitions:
     value:
       object: wiki_pages.module
       attr_name: wiki_pages
+  wiki_pages-list_model-add_folder.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:list_model
+      name: add_folder
+      command: add_folder.command-enum
+  wiki_pages-list_model-add_folder.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-list_model-add_folder.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-list_model-add_folder.command-key
+      value: wiki_pages-list_model-add_folder.command-group
+  wiki_pages-list_model-add_folder.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:list_model
+      name: add_folder
   wiki_pages-list_model-new_page.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -474,6 +577,25 @@ definitions:
       service_params:
       - format
       - wiki_pages
+  wiki_pages-page_model-add_ref.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.wiki_pages:page_model
+      name: add_ref
+      command: add_ref.command-enum
+  wiki_pages-page_model-add_ref.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  wiki_pages-page_model-add_ref.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wiki_pages-page_model-add_ref.command-key
+      value: wiki_pages-page_model-add_ref.command-group
+  wiki_pages-page_model-add_ref.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.wiki_pages:page_model
+      name: add_ref
   wiki_pages-page_model-open_ref_list.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

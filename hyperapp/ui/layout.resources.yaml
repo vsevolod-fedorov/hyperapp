@@ -81,7 +81,7 @@ definitions:
     value:
       object: layout.module
       attr_name: enum_layout_tree_commands
-  enum_layout_tree_commands.command_enum:
+  enum_layout_tree_commands.command-enum:
     type: enum_layout_tree_commands.t
     value: {}
   enum_layout_tree_commands.ctx-actor-template:
@@ -144,7 +144,7 @@ definitions:
     value:
       t: legacy_type.layout:model
       name: enum_layout_tree_commands
-      command: enum_layout_tree_commands.command_enum
+      command: enum_layout_tree_commands.command-enum
   layout-model-open_view_item_commands.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:

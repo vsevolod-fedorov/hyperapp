@@ -11,6 +11,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:args_picker_command_enum
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
 - legacy_type.system_fn:ctx_fn
@@ -18,6 +19,7 @@ import:
 - legacy_type.tabs:state
 - legacy_type.tabs:tab
 - legacy_type.tabs:view
+- legacy_type.view_factory:factory
 - legacy_type.view_factory:template
 - ui.view.view:view.module
 definitions:
@@ -49,7 +51,14 @@ definitions:
     value:
       object: tabs.module
       attr_name: add_element
-  add_element.command:
+  add_element.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: add_element
+      required_args:
+        view_factory: legacy_type.view_factory:factory
+      commit_command: add_element.commit-command
+  add_element.commit-command:
     type: add_element.t
     value: {}
   add_element.ctx-actor-template:
@@ -105,7 +114,14 @@ definitions:
     value:
       object: tabs.module
       attr_name: insert_element
-  insert_element.command:
+  insert_element.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: insert_element
+      required_args:
+        view_factory: legacy_type.view_factory:factory
+      commit_command: insert_element.commit-command
+  insert_element.commit-command:
     type: insert_element.t
     value: {}
   insert_element.ctx-actor-template:
@@ -191,7 +207,7 @@ definitions:
     value:
       t: legacy_type.tabs:view
       name: add_element
-      command: add_element.command
+      command: add_element.command-enum
   tabs-view-add_element.command-group:
     type: legacy_type.builtin:string
     value: view
@@ -210,7 +226,7 @@ definitions:
     value:
       t: legacy_type.tabs:view
       name: insert_element
-      command: insert_element.command
+      command: insert_element.command-enum
   tabs-view-insert_element.command-group:
     type: legacy_type.builtin:string
     value: view

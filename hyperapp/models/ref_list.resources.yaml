@@ -8,11 +8,13 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
+- legacy_type.builtin:ref
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:args_picker_command_enum
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -33,6 +35,86 @@ import:
 - legacy_type.system:single_struct_ctl
 - legacy_type.system_fn:ctx_fn
 definitions:
+  add_folder:
+    type: legacy_type.builtin:attribute
+    value:
+      object: ref_list.module
+      attr_name: add_folder
+  add_folder.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: add_folder
+      required_args:
+        name: legacy_type.builtin:string
+      commit_command: add_folder.commit-command
+  add_folder.commit-command:
+    type: add_folder.t
+    value: {}
+  add_folder.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_folder.system-fn
+  add_folder.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add_folder
+      ctx_params:
+      - model
+      - name
+      service_params:
+      - ref_list
+  add_folder.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: ref_list
+      name: add_folder
+      base: null
+      fields: {}
+  add_ref:
+    type: legacy_type.builtin:attribute
+    value:
+      object: ref_list.module
+      attr_name: add_ref
+  add_ref.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: add_ref
+      required_args:
+        ref: legacy_type.builtin:ref
+      commit_command: add_ref.commit-command
+  add_ref.commit-command:
+    type: add_ref.t
+    value: {}
+  add_ref.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: add_ref.system-fn
+  add_ref.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: add_ref
+      ctx_params:
+      - model
+      - ref
+      service_params:
+      - ref_list
+  add_ref.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: ref_list
+      name: add_ref
+      base: null
+      fields: {}
+  command_creg-ref_list-add_folder.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_folder.t
+      value: add_folder.ctx-actor-template
+  command_creg-ref_list-add_ref.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_ref.t
+      value: add_ref.ctx-actor-template
   command_creg-ref_list-open.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -172,6 +254,44 @@ definitions:
     value:
       object: ref_list.module
       attr_name: ref_list
+  ref_list-model-add_folder.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.ref_list:model
+      name: add_folder
+      command: add_folder.command-enum
+  ref_list-model-add_folder.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  ref_list-model-add_folder.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: ref_list-model-add_folder.command-key
+      value: ref_list-model-add_folder.command-group
+  ref_list-model-add_folder.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.ref_list:model
+      name: add_folder
+  ref_list-model-add_ref.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.ref_list:model
+      name: add_ref
+      command: add_ref.command-enum
+  ref_list-model-add_ref.command-group:
+    type: legacy_type.builtin:string
+    value: model
+  ref_list-model-add_ref.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: ref_list-model-add_ref.command-key
+      value: ref_list-model-add_ref.command-group
+  ref_list-model-add_ref.command-key:
+    type: legacy_type.command:model_command_key
+    value:
+      model_t: legacy_type.ref_list:model
+      name: add_ref
   ref_list-model-open.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
