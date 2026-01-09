@@ -11,16 +11,6 @@ from .code.arg_mark import value_mark_name
 from .tested.code import args_picker_command_enum
 
 
-@mark.fixture
-def ctx():
-    return Context()
-
-
-@mark.fixture.obj
-def canned_ctx():
-    return Context({value_mark_name(htypes.builtin.string): "Sample value"})
-
-
 @mark.fixture.obj
 def piece():
     command = htypes.args_picker_command_enum_tests.sample_command()
@@ -34,6 +24,18 @@ def piece():
             ),
         commit_command=mosaic.put(command),
         )
+
+
+@mark.fixture
+def ctx(piece):
+    return Context(
+        piece=piece,
+        )
+
+
+@mark.fixture.obj
+def canned_ctx(ctx):
+    return ctx.clone_with({value_mark_name(htypes.builtin.string): "Sample value"})
 
 
 def _test_model_args_picker(ctx, piece):
@@ -58,8 +60,8 @@ def _test_ui_args_picker(ctx, piece):
     assert isinstance(web.summon(command.piece.system_fn), htypes.command.args_picker_command_fn)
 
 
-def test_canned(canned_ctx, piece):
-    command_list = args_picker_command_enum.args_picker_command_enum(piece, canned_ctx)
+def test_canned(canned_ctx):
+    command_list = args_picker_command_enum.args_picker_command_enum(canned_ctx)
     assert type(command_list) is list
     [command] = command_list
     assert isinstance(command.command, htypes.command.canned_args_command)
