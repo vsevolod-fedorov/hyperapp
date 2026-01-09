@@ -1,6 +1,8 @@
 import inspect
 from collections import namedtuple
 
+from hyperapp.boot.htypes.deduce_value_type import is_record
+
 from .code.context import Context
 from .code.probe import real_fn
 
@@ -132,26 +134,54 @@ def split_ctx_actor_params(fn, args, kw):
     if args and is_cls_arg(fn, args[0]):
         # fn is a classmethod and args[0] is a 'cls' argument.
         called_class_name = args[0].__name__
-        ofs = 1
+        param_names = param_names[1:]
+        args = args[1:]
     else:
         called_class_name = None
-        ofs = 0
-    if len(args) != ofs + 1 or not isinstance(args[ofs], Context) or kw:
-        raise RuntimeError(f"Context actor expects single positional parameter, Context: {fn}: {args}")
-    ctx = args[ofs]
+    if kw:
+        raise RuntimeError(f"Context actor does not accept keyword parameters: {fn}: {kw}")
+    if 'piece' in param_names:
+        if param_names[0] != 'piece':
+            raise RuntimeError(f"Context actor expects 'piece' parameter to be the first one: {fn}: {param_names}")
+        param_names = param_names[1:]
+        if not args or not is_record(args[0]):
+            raise RuntimeError(f"First parameter is expected to be a record, 'piece': {fn}: {args}")
+        piece_params = ['piece']
+        values = {'piece': args[0]}
+        if len(args) != 2:
+            raise RuntimeError(f"Context actor excpect two args: 'piece' and 'ctx': {fn}: {args}")
+        ctx = args[1]
+        param_name = "second"
+    else:
+        piece_params = []
+        values = {}
+        if len(args) != 1:
+            raise RuntimeError(f"Context actor excpects single arg: 'ctx': {fn}: {args}")
+        ctx = args[0]
+        param_name = "first"
+    if not isinstance(ctx, Context):
+        raise RuntimeError(f"Context actor expects {param_name}, 'ctx' parameter of type Context: {fn}: {ctx}")
     ctx_names = [
-        name for name in param_names[ofs:]
+        name for name in param_names
         if name in ctx
         ]
-    service_names = [
-        name for name in param_names[ofs:]
-        if name not in ctx_names
-        ]
-    values = {
+    values.update({
         name: ctx[name]
         for name in ctx_names
-        }
-    return ActorParams(called_class_name, ctx_names, service_names, values)
+        })
+    if 'ctx' in param_names:
+        if param_names[0] != 'ctx':
+            raise RuntimeError(
+                f"Context actor expects 'ctx' parameter to be first or after 'piece' parameter: "
+                f"{fn}: {param_names}"
+                )
+        ctx_names.append('ctx')
+        values = {**values, 'ctx': ctx}
+    service_names = [
+        name for name in param_names
+        if name not in ctx_names
+        ]
+    return ActorParams(called_class_name, piece_params + ctx_names, service_names, values)
 
 
 def process_awaitable_result(fn, result, *args, **kw):

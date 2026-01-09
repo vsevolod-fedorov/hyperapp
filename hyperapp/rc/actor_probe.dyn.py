@@ -22,10 +22,8 @@ class ActorProbeBase(ProbeBase):
 
     def _call(self, *args, **kw):
         params = self._split_params(args, kw)
-        if 'piece' in params.ctx_names:
-            if params.ctx_names[0] != 'piece':
-                raise RuntimeError(f"'piece' should be first parameter: {self.real_fn!r}: {params.ctx_names!r}")
-            piece = params.values[params.ctx_names[0]]
+        if 'piece' in params.values:
+            piece = params.values['piece']
             piece_t = deduce_t(piece)
             if self._t is not None and piece_t is not self._t:
                 raise RuntimeError(
@@ -33,7 +31,7 @@ class ActorProbeBase(ProbeBase):
                     " actual: {piece_t}, declared: {self._t}"
                     )
         elif self._t is None:
-            raise RuntimeError(f"Add 'piece' parameter or declare it's type in decorator: {self.real_fn!r}: {params.ctx_names!r}")
+            raise RuntimeError(f"Add 'piece' parameter or declare it's type in decorator: {self.real_fn!r}: {params.free_names!r}")
         else:
             piece_t = self._t
         self._add_constructor(params, piece_t)
