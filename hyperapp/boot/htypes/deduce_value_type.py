@@ -40,6 +40,11 @@ def _is_named_tuple(value):
     return all(hasattr(value, field) for field in ['_fields', '_field_defaults', '_replace', '_make'])
 
 
+def is_record(value):
+    t = getattr(value, '_t', None)
+    return isinstance(t, TRecord)
+
+
 def _deduce_type(value):
     t = _primitive_types.get(type(value))
     if t:
