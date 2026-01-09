@@ -11,31 +11,49 @@ from .tested.code import command as command_module
 
 
 @mark.ctx_actor.command_creg(htypes.command_tests.sample_command)
-def sample_command(piece):
+def _sample_command(piece):
     assert isinstance(piece, htypes.command_tests.sample_command)
     return 'sample-command-result'
 
 
-async def test_command_runner(command_runner):
-    navigator_view = AsyncMock()
-    ctx = Context(
-        navigator=Mock(view=navigator_view),
-        ).push()
-    command = htypes.command_tests.sample_command()
-    await command_runner.run_command(ctx, command)
-    navigator_view.open.assert_called_once()
-    assert navigator_view.open.call_args.args[1] == 'sample-command-result'
+@mark.fixture
+def sample_command():
+    return htypes.command_tests.sample_command()
 
 
-def test_command_factory_and_prepare_result(command_factory):
+@mark.fixture
+def navigator():
+    return AsyncMock()
+
+
+@mark.fixture
+def ctx(navigator):
+    return Context(
+        navigator=Mock(view=navigator),
+        )
+
+
+async def test_runner_run_model_command(command_runner, sample_command, navigator, ctx):
+    result = await command_runner.run_model_command(ctx.push(), sample_command)
+    assert result == 'sample-command-result'
+
+
+async def test_runner_run_command(command_runner, sample_command, navigator, ctx):
+    await command_runner.run_command(ctx.push(), sample_command)
+    navigator.open.assert_called_once()
+    assert navigator.open.call_args.args[1] == 'sample-command-result'
+
+
+async def test_command_factory(command_factory, sample_command, navigator, ctx):
     command = command_factory(
         key=htypes.command.model_command_key(
             model_t=pyobj_creg.actor_to_ref(htypes.command_tests.sample_model),
             name='sample_command',
             ),
         name='sample_command',
-        command=None,
-        ctx=None,
+        command=sample_command,
+        ctx=ctx.push(),
         )
-    result = command._prepare_result(result="Sample text")
-    assert isinstance(result, htypes.command.command_result)
+    await command.run()
+    navigator.open.assert_called_once()
+    assert navigator.open.call_args.args[1] == 'sample-command-result'

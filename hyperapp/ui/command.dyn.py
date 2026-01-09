@@ -20,12 +20,14 @@ class CommandRunner:
         self._visualizer = visualizer
         self._command_creg = command_creg
 
+    async def run_model_command(self, ctx, command):
+        command_ctx = prepare_command_ctx(ctx)
+        return await self._run_model_command(command_ctx, command)
+
     async def run_command(self, ctx, command):
         command_ctx = prepare_command_ctx(ctx)
         try:
-            result = self._command_creg.animate(command, command_ctx)
-            if inspect.iscoroutine(result):
-                result = await result
+            result = await self._run_model_command(command_ctx, command)
         except Exception as x:
             await self._handle_error(x)
             return
@@ -37,6 +39,12 @@ class CommandRunner:
         if result.diff:
             self._process_diff(result.diff)
         await self._open(ctx, model, key)
+
+    async def _run_model_command(self, command_ctx, command):
+        result = self._command_creg.animate(command, command_ctx)
+        if inspect.iscoroutine(result):
+            result = await result
+        return result
 
     @staticmethod
     def _prepare_result(result):
@@ -154,7 +162,7 @@ def command_runner(view_reg, visualizer, command_creg):
 
 
 @mark.service
-def command_factory(comand_runner, key, name, command, ctx):
+def command_factory(command_runner, key, name, command, ctx):
     return Command(command_runner, ctx, key, name, command)
 
 
