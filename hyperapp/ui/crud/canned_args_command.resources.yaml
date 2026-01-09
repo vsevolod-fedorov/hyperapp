@@ -1,0 +1,21 @@
+# Automatically generated file. Do not edit.
+
+import:
+- base.mark:mark.module
+- base.rpc.rpc_call:rpc_call.module
+- builtins:mosaic.service
+- builtins:web.service
+- legacy_type.builtin:python_module
+- ui.crud.command_args:command_args.module
+definitions:
+  canned_args_command.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: canned_args_command
+      file_name: canned_args_command.dyn.py
+      import_list:
+        code.command_args: ui.crud.command_args:command_args.module
+        code.mark: base.mark:mark.module
+        code.rpc_call: base.rpc.rpc_call:rpc_call.module
+        services.mosaic: builtins:mosaic.service
+        services.web: builtins:web.service

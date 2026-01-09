@@ -25,7 +25,7 @@ import:
 - ui.command_group:get_command_group.service
 - ui.controller:canned_ctl_item_factory.service
 - ui.controller:controller_running.service
-- ui.crud.canned_args_command_fn:formatter_creg-command-canned_arg_command_d.actor-cfg-item
+- ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
 - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
 - ui.crud.crud:resource_name_creg-crud-layout_k.actor-cfg-item
 - ui.crud.crud_field_view_factory:formatter_creg-crud_field_view_factory-factory_k.actor-cfg-item
@@ -255,6 +255,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
       - ui.layout:command_enum_creg-layout-enum_layout_tree_commands.ctx-actor-cfg-item
   command_group_reg:
     type: legacy_type.system:item_list_config
@@ -350,7 +351,6 @@ definitions:
     value:
       items:
       - ui.column_format:formatter_creg-column-column_k.actor-cfg-item
-      - ui.crud.canned_args_command_fn:formatter_creg-command-canned_arg_command_d.actor-cfg-item
       - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
       - ui.crud.crud_field_view_factory:formatter_creg-crud_field_view_factory-factory_k.actor-cfg-item
       - ui.layout:formatter_creg-layout-model.actor-cfg-item

@@ -5,7 +5,7 @@ from .services import (
     web,
     )
 from .code.context import Context
-from .tested.code import canned_args_command_fn
+from .tested.code import canned_args_command
 
 
 async def _sample_fn(arg):
@@ -24,7 +24,7 @@ async def _test_command(partial_ref):
             ),
         commit_fn=mosaic.put(commit_fn),
         )
-    fn = canned_args_command_fn.CannedArgsCommandFn.from_piece(piece)
+    fn = canned_args_command.CannedArgsCommandFn.from_piece(piece)
     assert fn.piece == piece
     ctx = Context()
     assert not fn.missing_params(ctx)
@@ -33,8 +33,8 @@ async def _test_command(partial_ref):
     assert result_model == 'result: sample-value'
 
 
-def test_format_d():
-    commit_command_d = htypes.canned_args_command_fn_tests.sample_command_d()
+def _test_format_d():
+    commit_command_d = htypes.canned_args_command_tests.sample_command_d()
     d = htypes.command.canned_arg_command_d(
         commit_command_d=mosaic.put(commit_command_d),
         args=(
@@ -44,5 +44,5 @@ def test_format_d():
                 ),
             ),
         )
-    title = canned_args_command_fn.format_canned_arg_command_d(d)
+    title = canned_args_command.format_canned_arg_command_d(d)
     assert type(title) is str

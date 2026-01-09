@@ -64,16 +64,12 @@ arg = record:
   name: string
   value: ref
 
-open_args_picker_command_d = record:
-  commit_command_d: ref
+canned_args_command_key = record:
+  name: string
 
-canned_arg_command_d = record:
-  commit_command_d: ref
+canned_args_command = record:
   args: arg list
-
-canned_args_command_fn = record:
-  args: arg list
-  commit_fn: ref
+  commit_command: ref
 
 args_picker_command_enum = record:
   name: string
