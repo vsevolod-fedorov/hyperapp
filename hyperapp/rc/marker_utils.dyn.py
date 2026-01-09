@@ -141,7 +141,7 @@ def split_ctx_actor_params(fn, args, kw):
     ctx = args[ofs]
     ctx_names = [
         name for name in param_names[ofs:]
-        if name in ctx
+        if name in ctx or name == 'ctx'
         ]
     service_names = [
         name for name in param_names[ofs:]
@@ -150,7 +150,10 @@ def split_ctx_actor_params(fn, args, kw):
     values = {
         name: ctx[name]
         for name in ctx_names
+        if name != 'ctx'
         }
+    if 'ctx' in param_names:
+        values['ctx'] = ctx
     return ActorParams(called_class_name, ctx_names, service_names, values)
 
 
