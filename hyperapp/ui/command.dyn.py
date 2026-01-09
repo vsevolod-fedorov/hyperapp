@@ -13,44 +13,17 @@ from .code.remote_model import real_model_t
 log = logging.getLogger(__name__)
 
 
-class Command:
+class CommandRunner:
 
-    def __init__(self, view_reg, visualizer, command_creg, key, name, command, ctx):
+    def __init__(self, view_reg, visualizer, command_creg):
         self._view_reg = view_reg
         self._visualizer = visualizer
         self._command_creg = command_creg
-        self._key = key
-        self._name = name
-        self._command = command
-        self._ctx = ctx
 
-    def __repr__(self):
-        return f"<Command {self._name!r}, key={self.key}>"
-
-    @property
-    def key(self):
-        return self._key
-
-    @property
-    def name(self):
-        return self._name
-
-    @property
-    def command(self):
-        return self._command
-
-    @property
-    def ctx(self):
-        return self._ctx
-
-    def start(self):
-        log.info("Start command: %r", self._name)
-        asyncio.create_task(self.run())
-
-    async def run(self):
-        ctx = prepare_command_ctx(self._ctx)
+    async def run_command(self, ctx, command):
+        command_ctx = prepare_command_ctx(ctx)
         try:
-            result = self._command_creg.animate(self._command, ctx)
+            result = self._command_creg.animate(command, command_ctx)
             if inspect.iscoroutine(result):
                 result = await result
         except Exception as x:
@@ -63,7 +36,7 @@ class Command:
         key = web.summon_opt(result.key)
         if result.diff:
             self._process_diff(result.diff)
-        await self._open(model, key)
+        await self._open(ctx, model, key)
 
     @staticmethod
     def _prepare_result(result):
@@ -90,35 +63,70 @@ class Command:
     def _process_diff(self, model_diff_ref):
         assert 0, exception  # TODO
 
-    async def _open(self, model, key):
+    async def _open(self, ctx, model, key):
         if model is None and key is None:
             return
         if model is None:
             log.info("Command %r: Set current key: %r", self._name, key)
-            navigator = self._ctx.navigator.view
-            navigator.set_current_key(self._navigator_widget, key)
+            navigator = ctx.navigator.view
+            navigator.set_current_key(self._navigator_widget(ctx), key)
             return
 
         try:
-            view_piece = await self._visualizer(self._ctx, real_model_t(model))
+            view_piece = await self._visualizer(ctx, real_model_t(model))
         except Exception as x:
             await self._handle_error(x)
             return
-        model_ctx = self._ctx.pop().clone_with(model=model)
-        await self._open_view(model, model_ctx, view_piece, key)
+        model_ctx = ctx.pop().clone_with(model=model)
+        await self._open_view(ctx, model, model_ctx, view_piece, key)
 
-    async def _open_view(self, model, model_ctx, view_piece, key=None):
+    async def _open_view(self, ctx, model, model_ctx, view_piece, key=None):
         view = self._view_reg.animate(view_piece, model_ctx)
-        log.info("Command %r: visualizing with view: %s", self._name, view)
-        navigator = self._ctx.navigator.view
-        await navigator.open(self._ctx, model, view, self._navigator_widget, key=key)
+        log.info("Visualizing %s with view: %s", model, view)
+        navigator = ctx.navigator.view
+        await navigator.open(ctx, model, view, self._navigator_widget(ctx), key=key)
 
-    @property
-    def _navigator_widget(self):
-        w = self._ctx.navigator.widget_wr()
+    def _navigator_widget(self, ctx):
+        w = ctx.navigator.widget_wr()
         if w is None:
             raise RuntimeError("Navigator widget is gone")
         return w
+
+
+class Command:
+
+    def __init__(self, command_runner, ctx, key, name, command):
+        self._runner = command_runner
+        self._ctx = ctx
+        self._key = key
+        self._name = name
+        self._command = command
+
+    def __repr__(self):
+        return f"<Command {self._name!r}, key={self.key}>"
+
+    @property
+    def key(self):
+        return self._key
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def command(self):
+        return self._command
+
+    @property
+    def ctx(self):
+        return self._ctx
+
+    def start(self):
+        log.info("Start command: %r", self._name)
+        asyncio.create_task(self.run())
+
+    async def run(self):
+        await self._runner.run_command(self._ctx, self._command)
 
 
 def prepare_command_ctx(ctx):
@@ -141,8 +149,13 @@ def prepare_command_ctx(ctx):
 
 
 @mark.service
-def command_factory(view_reg, visualizer, command_creg, key, name, command, ctx):
-    return Command(view_reg, visualizer, command_creg, key, name, command, ctx)
+def command_runner(view_reg, visualizer, command_creg):
+    return CommandRunner(view_reg, visualizer, command_creg)
+
+
+@mark.service
+def command_factory(comand_runner, key, name, command, ctx):
+    return Command(command_runner, ctx, key, name, command)
 
 
 def _amend_fragment(text):
