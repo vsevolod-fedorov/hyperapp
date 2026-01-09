@@ -4,33 +4,37 @@ from .services import (
     pyobj_creg,
     web,
     )
+from .code.mark import mark
 from .code.context import Context
 from .tested.code import canned_args_command
 
 
-async def _sample_fn(arg):
-    return f'result: {arg}'
+@mark.ctx_actor.command_creg(htypes.canned_args_command_tests.sample_command)
+async def sample_command(arg):
+    return f'sample-command:{arg}'
 
 
-async def _test_command(partial_ref):
-    commit_fn = htypes.command.model_command_fn(
-        function=pyobj_creg.actor_to_ref(_sample_fn),
-        ctx_params=('arg',),
-        service_params=(),
+async def test_sample_command():
+    ctx = Context(
+        arg='sample-value',
         )
-    piece = htypes.command.canned_args_command_fn(
+    result = await sample_command(ctx)
+    assert result == 'sample-command:sample-value', repr(result)
+
+
+async def test_canned_command():
+    commit_command = htypes.canned_args_command_tests.sample_command()
+    piece = htypes.command.canned_args_command(
         args=(
             htypes.command.arg('arg', mosaic.put('sample-value')),
             ),
-        commit_fn=mosaic.put(commit_fn),
+        commit_command=mosaic.put(commit_command),
         )
-    fn = canned_args_command.CannedArgsCommandFn.from_piece(piece)
-    assert fn.piece == piece
-    ctx = Context()
-    assert not fn.missing_params(ctx)
-    result = await fn.call(ctx)
-    result_model = web.summon(result.model)
-    assert result_model == 'result: sample-value'
+    ctx = Context(
+        piece=piece,
+        )
+    result = await canned_args_command.canned_args_command(ctx)
+    assert result == 'sample-command:sample-value'
 
 
 def _test_format_d():
