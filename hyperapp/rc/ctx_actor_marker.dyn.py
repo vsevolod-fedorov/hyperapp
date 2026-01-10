@@ -1,3 +1,5 @@
+import inspect
+
 from hyperapp.boot.htypes import Type
 
 from .code.actor_probe import CtxActorProbe
@@ -19,6 +21,7 @@ class ServiceCtxActorDecorator:
         self._t = t
 
     def __call__(self, fn):
+        assert not inspect.iscoroutinefunction(fn), fn  # TODO: Probe for coroutine functions.
         qual_name = fn.__qualname__.split('.')
         check_not_classmethod(fn)
         check_is_function(fn)
