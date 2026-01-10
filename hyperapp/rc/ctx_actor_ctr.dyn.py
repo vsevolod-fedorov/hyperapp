@@ -17,13 +17,15 @@ class CtxActorProbeCtr(ModuleCtr):
             attr_qual_name=piece.attr_qual_name,
             service_name=piece.service_name,
             t=pyobj_creg.invite(piece.t),
+            has_params=piece.has_params,
             )
 
-    def __init__(self, module_name, attr_qual_name, service_name, t):
+    def __init__(self, module_name, attr_qual_name, service_name, t, has_params):
         super().__init__(module_name)
         self._attr_qual_name = attr_qual_name
         self._service_name = service_name
         self._t = t
+        self._has_params = has_params
 
     @property
     def piece(self):
@@ -32,10 +34,14 @@ class CtxActorProbeCtr(ModuleCtr):
             attr_qual_name=tuple(self._attr_qual_name),
             service_name=self._service_name,
             t=pyobj_creg.actor_to_ref(self._t),
+            has_params=self._has_params,
             )
 
     def update_fixtures_targets(self, import_tgt, target_set):
-        import_tgt.add_test_ctr(self)
+        if not self._has_params:
+            import_tgt.add_test_ctr(self)
+        # else:
+        #     assert 0, (self._module_name, import_tgt)
 
     def update_resource_targets(self, resource_tgt, target_set):
         resource_tgt.import_tgt.add_test_ctr(self)
@@ -137,6 +143,12 @@ class CtxActorTemplateCtr(ModuleCtr, CtxFnCtr):
             service_params=tuple(self._service_params),
             )
 
+    def update_fixtures_targets(self, import_tgt, target_set):
+        if import_tgt.module_name != self._module_name:
+            return   # Only for constructors created from tests themselves.
+        import_tgt.add_test_ctr(self)
+        # assert 0, (self._service_name, self._attr_qual_name, self._t, import_tgt)
+
     def update_resource_targets(self, resource_tgt, target_set):
         req = CfgItemReq.from_actor(self._service_name, self._t)
         _, resolved_tgt, _ = target_set.factory.config_items(
@@ -161,6 +173,13 @@ class CtxActorTemplateCtr(ModuleCtr, CtxFnCtr):
                 name_to_res[f'{t_piece.name}.t'] = t_piece
             name_to_res[self._resource_name] = cfg_item
         return cfg_item
+
+    def make_resource(self, types, module_name, python_module):
+        item = self.make_component(types, python_module)
+        return ConfigItemResource(
+            service_name=self._service_name,
+            cfg_item_ref=mosaic.put(item),
+            )
 
     @property
     def _type_name(self):

@@ -8,17 +8,17 @@ from .code.mark import mark
 from .code.context import Context
 from .tested.code import canned_args_command
 
-
+#
 @mark.ctx_actor.command_creg(htypes.canned_args_command_tests.sample_command)
-async def sample_command(arg):
+def sample_command(arg):
     return f'sample-command:{arg}'
 
 
-async def test_sample_command():
+def test_sample_command():
     ctx = Context(
         arg='sample-value',
         )
-    result = await sample_command(ctx)
+    result = sample_command(ctx)
     assert result == 'sample-command:sample-value', repr(result)
 
 

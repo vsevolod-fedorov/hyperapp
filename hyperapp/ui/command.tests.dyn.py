@@ -11,8 +11,7 @@ from .tested.code import command as command_module
 
 
 @mark.ctx_actor.command_creg(htypes.command_tests.sample_command)
-def _sample_command(piece):
-    assert isinstance(piece, htypes.command_tests.sample_command)
+def _sample_command():
     return 'sample-command-result'
 
 

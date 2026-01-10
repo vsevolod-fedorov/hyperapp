@@ -255,6 +255,10 @@ class TestTarget(Target):
         return f'test/{self._src.name}/{self._function.name}'
 
     @property
+    def import_tgt(self):
+        return self._import_tgt
+
+    @property
     def completed(self):
         return self._completed
 

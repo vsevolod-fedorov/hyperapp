@@ -25,11 +25,13 @@ class ServiceCtxActorDecorator:
         qual_name = fn.__qualname__.split('.')
         check_not_classmethod(fn)
         check_is_function(fn)
+        fn_params = inspect.signature(fn).parameters
         ctr = CtxActorProbeCtr(
             module_name=self._module_name,
             attr_qual_name=qual_name,
             service_name=self._service_name,
             t=self._t,
+            has_params=bool(fn_params),
             )
         self._ctr_collector.add_constructor(ctr)
         return CtxActorProbe(self._system, self._ctr_collector, self._module_name, self._service_name, fn, self._t)
