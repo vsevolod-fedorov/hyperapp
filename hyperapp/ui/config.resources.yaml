@@ -17,6 +17,7 @@ import:
 - ui.column_resource_name:resource_name_creg-column-column_k.actor-cfg-item
 - ui.column_visible_reg:column_visible_reg.service
 - ui.command:command_factory.service
+- ui.command:command_runner.service
 - ui.command_config_ctl:config_ctl_creg-command_config_ctl-type_str_command_config_ctl.actor-cfg-item
 - ui.command_creg:command_creg.service
 - ui.command_creg:command_enum_creg.service
@@ -399,6 +400,7 @@ definitions:
       - ui.accessor:accessor_creg.service
       - ui.column_visible_reg:column_visible_reg.service
       - ui.command:command_factory.service
+      - ui.command:command_runner.service
       - ui.command_creg:command_creg.service
       - ui.command_creg:command_enum_creg.service
       - ui.command_group:command_group_reg.service

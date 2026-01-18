@@ -37,15 +37,30 @@ definitions:
       ctl: system-dict_config.one_way.actor.single.ctl
       function: command_factory
       service_params:
-      - view_reg
-      - visualizer
-      - command_creg
+      - command_runner
       want_config: false
       free_params:
       - key
       - name
       - command
       - ctx
+  command_runner:
+    type: legacy_type.builtin:attribute
+    value:
+      object: command.module
+      attr_name: command_runner
+  command_runner.service:
+    type: legacy_type.system:service_template
+    value:
+      name: command_runner
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: command_runner
+      service_params:
+      - view_reg
+      - visualizer
+      - command_creg
+      want_config: false
+      free_params: []
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}

@@ -8,7 +8,7 @@ from .code.mark import mark
 from .code.context import Context
 from .tested.code import canned_args_command
 
-#
+
 @mark.ctx_actor.command_creg(htypes.canned_args_command_tests.sample_command)
 def sample_command(arg):
     return f'sample-command:{arg}'
