@@ -31,7 +31,6 @@ class ServiceCtxActorDecorator:
             attr_qual_name=qual_name,
             service_name=self._service_name,
             t=self._t,
-            has_params=bool(fn_params),
             )
         self._ctr_collector.add_constructor(ctr)
         return CtxActorProbe(self._system, self._ctr_collector, self._module_name, self._service_name, fn, self._t)

@@ -14,7 +14,6 @@ ctx_actor_probe_ctr = record:
   attr_qual_name: string list
   service_name: string
   t: ref
-  has_params: bool
 
 actor_template_ctr = record:
   module_name: string
