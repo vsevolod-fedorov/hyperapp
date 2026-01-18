@@ -1,4 +1,3 @@
-from . import htypes
 from .services import (
     mosaic,
     web,
@@ -8,7 +7,7 @@ from .code.rpc_call import DEFAULT_TIMEOUT
 from .code.command_args import args_tuple_to_dict, args_dict_to_tuple
 
 
-@mark.ctx_actor.command
+@mark.ctx_actor.command_creg
 def canned_args_command(piece, ctx, command_runner):
     command = web.summon(piece.commit_command)
     args = args_tuple_to_dict(piece.args)

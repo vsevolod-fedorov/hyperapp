@@ -42,7 +42,7 @@ definitions:
       - ctx
       service_params:
       - command_runner
-  command-command-canned_args_command.ctx-actor-cfg-item:
+  command_creg-command-canned_args_command.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.command:canned_args_command
