@@ -171,7 +171,8 @@ class CrudCommitDecorator(CrudDecorator):
         check_not_classmethod(fn)
         check_is_function(fn)
         return CrudCommitProbe(
-            self._system, self._ctr_collector, self._module_name, self._action_name, fn, self._init_action_name)
+            self._system, self._ctr_collector, self._module_name, self._action_name, fn,
+            init_action_name=self._init_action_name or 'get')
 
 
 class CrudMarker:

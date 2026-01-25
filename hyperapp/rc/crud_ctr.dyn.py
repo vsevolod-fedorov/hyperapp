@@ -1,10 +1,13 @@
+from functools import cached_property
+from hyperapp.boot.htypes import TRecord
+
 from . import htypes
 from .services import (
     mosaic,
     pyobj_creg,
     )
 from .code.rc_constructor import ModuleCtr
-from .code.d_type import d_type
+from .code.ctx_actor_ctr import CtxActorTemplateCtr
 
 
 class CrudTemplateCtr(ModuleCtr):
@@ -25,31 +28,32 @@ class CrudTemplateCtr(ModuleCtr):
         resolved_tgt = target_set.factory.config_item_resolved(self._service_name, self._resource_name)
         ready_tgt.set_provider(resource_tgt)
         resolved_tgt.resolve(self)
+        actor_ctr = CtxActorTemplateCtr(
+            module_name=self._module_name,
+            attr_qual_name=self._attr_qual_name,
+            service_name=self._actor_creg,
+            t=self._action_t,
+            ctx_params=self._ctx_params,
+            service_params=self._service_params,
+            create_t=True,
+            )
+        actor_ctr.update_resource_targets(resource_tgt, target_set)
 
     @property
     def key_fields(self):
         return set(self._key_fields)
 
-    def make_function(self, types, python_module, name_to_res):
-        object = python_module
-        prefix = []
-        for name in self._attr_qual_name:
-            object = htypes.builtin.attribute(
-                object=mosaic.put(object),
-                attr_name=name,
-                )
-            name_to_res['.'.join([*prefix, name])] = object
-            prefix.append(name)
-        system_fn = self._system_fn_t(
-            function=mosaic.put(object),
-            ctx_params=tuple(self._ctx_params),
-            service_params=tuple(self._service_params),
-            )
-        name_to_res[f'{self._resource_name}.system-fn'] = system_fn
-        return system_fn
+    @property
+    def _action_full_name(self):
+        return f'{self._type}_{self._action_name}'
 
-    def _make_resource_name(self, action):
-        return f'{self._type_name}.crud.{action}'
+    @cached_property
+    def _action_t(self):
+        code_name = self._module_name.split('.')[-1]
+        return TRecord(code_name, self._action_full_name)
+
+    def _make_resource_name(self, type, action_name):
+        return f'{self._type_name}.crud.{type}.{action_name}'
 
     @property
     def _type_name(self):
@@ -57,12 +61,13 @@ class CrudTemplateCtr(ModuleCtr):
 
     @property
     def _resource_name(self):
-        return self._make_resource_name(self._action)
+        return self._make_resource_name(self._type, self._action_name)
 
 
 class CrudInitTemplateCtr(CrudTemplateCtr):
 
-    _system_fn_t = htypes.system_fn.ctx_fn
+    _type = 'init'
+    _actor_creg = 'crud_init_action_creg'
 
     @classmethod
     def from_piece(cls, piece):
@@ -94,39 +99,15 @@ class CrudInitTemplateCtr(CrudTemplateCtr):
             value_t=pyobj_creg.actor_to_ref(self._value_t),
             )
 
-    def update_resource_targets(self, resource_tgt, target_set):
-        super().update_resource_targets(resource_tgt, target_set)
-        self._add_open_command_targets(resource_tgt, target_set)
-
-    def _add_open_command_targets(self, resource_tgt, target_set):
-        if self._commit_action_name:
-            commit_action = self._commit_action_name
-            open_command_name = f'open_{self._commit_action_name}'
-            commit_command_name = self._commit_action_name
-        elif self._action == 'get':
-            open_command_name = 'edit'
-            commit_action = 'update'
-            commit_command_name = 'save'
-        else:
-            assert 0, f"TODO: {self._action} action support"
-        open_command_ctr = CrudOpenCommandCtr(
-            module_name=self._module_name,
-            model_t=self._model_t,
-            name=open_command_name,
-            value_t=self._value_t,
-            commit_command_name=commit_command_name,
-            commit_action_name=commit_action_name,
-            )
-        init_resolved_tgt = target_set.factory.config_item_resolved(
-            self._service_name, self._make_resource_name(self._action_name))
-        commit_resolved_tgt = target_set.factory.config_item_resolved(
-            self._service_name, self._make_resource_name(commit_action_name))
-        open_command_ctr.update_open_command_targets(resource_tgt, target_set, init_resolved_tgt, commit_resolved_tgt)
+    @property
+    def value_t(self):
+        return self._value_t
 
 
 class CrudCommitTemplateCtr(CrudTemplateCtr):
 
-    _system_fn_t = htypes.command.model_command_fn
+    _type = 'commit'
+    _actor_creg = 'crud_commit_action_creg'
 
     @classmethod
     def from_piece(cls, piece):
@@ -158,16 +139,33 @@ class CrudCommitTemplateCtr(CrudTemplateCtr):
             init_action_name=self._init_action_name,
             )
 
+    def update_resource_targets(self, resource_tgt, target_set):
+        super().update_resource_targets(resource_tgt, target_set)
+        self._add_open_command_targets(resource_tgt, target_set)
+
+    def _add_open_command_targets(self, resource_tgt, target_set):
+        if self._action_name == 'update':
+            open_command_name = 'edit'
+        else:
+            open_command_name = self._action_name
+        open_command_ctr = CrudOpenCommandCtr(
+            module_name=self._module_name,
+            model_t=self._model_t,
+            name=open_command_name,
+            )
+        init_resolved_tgt = target_set.factory.config_item_resolved(
+            self._service_name, self._make_resource_name('update', self._init_action_name))
+        commit_resolved_tgt = target_set.factory.config_item_resolved(
+            self._service_name, self._resource_name)
+        open_command_ctr.update_open_command_targets(resource_tgt, target_set, init_resolved_tgt, commit_resolved_tgt)
+
 
 class CrudOpenCommandCtr(ModuleCtr):
 
-    def __init__(self, module_name, model_t, name, value_t, commit_command_name, commit_action_name):
+    def __init__(self, module_name, model_t, name):
         super().__init__(module_name)
         self._model_t = model_t
         self._name = name
-        self._value_t = value_t
-        self._commit_command_name = commit_command_name
-        self._commit_action_name = commit_action_name
         self._init_resolved_tgt = None
         self._commit_resolved_tgt = None
 
@@ -197,10 +195,11 @@ class CrudOpenCommandCtr(ModuleCtr):
             types, python_module, name_to_res)
         commit_action_fn = self._commit_resolved_tgt.constructor.make_function(
             types, python_module, name_to_res)
+        value_t = self._init_resolved_tgt.constructor.value_t
         commit_command_d = self._command_d(types, self._commit_command_name)
         system_fn = htypes.crud.open_command_fn(
             name=self._name,
-            value_t=pyobj_creg.actor_to_ref(self._value_t),
+            value_t=pyobj_creg.actor_to_ref(value_t),
             key_fields=tuple(key_fields),
             init_action_fn=mosaic.put(init_action_fn),
             commit_command_d=mosaic.put(commit_command_d),
