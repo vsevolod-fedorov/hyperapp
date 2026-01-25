@@ -68,7 +68,6 @@ async def _test_args_picker_fn(navigator_rec):
         )
     ctx = Context(
         controller=Mock(),
-        lcs=Mock(),
         navigator=navigator_rec,
         hook=Mock(canned_item_piece=canned_item_piece),
         model=None,

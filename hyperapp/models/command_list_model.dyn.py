@@ -22,7 +22,7 @@ def _get_command_tooltip(lcs, d):
 
 
 @mark.crud.get
-def command_get(piece, ui_command_d, lcs):
+def command_get(piece, ui_command_d):
     return htypes.command_list_model.form(
         text="",
         tooltip="",
@@ -30,7 +30,7 @@ def command_get(piece, ui_command_d, lcs):
 
 
 @mark.crud.update
-def command_update(piece, ui_command_d, value, lcs):
+def command_update(piece, ui_command_d, value):
     d = web.summon(ui_command_d)
     prev_text = _get_command_text(lcs, d)
     prev_tooltip = _get_command_tooltip(lcs, d)

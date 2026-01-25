@@ -52,7 +52,6 @@ def test_client(client_main):
         }
     sys_argv = [
         '--clean',
-        '--lcs-layers-path=/tmp/client-test-lcs-layers.yaml',
         '--layout-path=/tmp/client-test-layout.jaon',
         '--test-mode',
         ]

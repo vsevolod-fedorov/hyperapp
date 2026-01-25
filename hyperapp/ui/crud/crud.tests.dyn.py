@@ -98,13 +98,6 @@ def _sample_selector_pick_fn(rpc_system_call_factory):
 
 
 @mark.fixture
-def lcs():
-    lcs = Mock()
-    lcs.get.return_value = None  # Used by visualizer.
-    return lcs
-
-
-@mark.fixture
 def navigator_widget():
     return Mock()
 
@@ -115,10 +108,9 @@ def navigator_rec(navigator_widget):
 
 
 @mark.fixture
-def ctx(generate_rsa_identity, lcs, navigator_rec):
+def ctx(generate_rsa_identity, navigator_rec):
     return Context(
         identity=generate_rsa_identity(fast=True),
-        lcs=lcs,
         navigator=navigator_rec,
         )
 

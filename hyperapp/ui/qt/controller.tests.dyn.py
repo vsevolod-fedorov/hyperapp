@@ -86,9 +86,7 @@ def test_canned_ctl_item_factory():
 
 async def test_controller_and_duplicate_window(
         qapp, feed_factory, canned_ctl_item_factory, controller_running, default_layout):
-    lcs = Mock()
-    lcs.get.return_value = None  # command list - mock is not iterable.
-    ctx = Context(lcs=lcs)
+    ctx = Context()
     feed = feed_factory(htypes.layout.model())
 
     async with controller_running(PhonyLayoutBundle(), default_layout, ctx, show=False, load_state=False) as ctl:

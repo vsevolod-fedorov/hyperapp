@@ -12,7 +12,7 @@ from .code.data_config_ctr import DataConfigCtr
 
 
 STATE_PARAMS = {'state', 'model_state', 'current_item', 'current_idx', 'current_key', 'current_path'}
-LOCAL_PARAMS = {'controller', 'ctx', 'lcs', 'rpc_endpoint', 'identity', 'remote_peer'}
+LOCAL_PARAMS = {'controller', 'ctx', 'rpc_endpoint', 'identity', 'remote_peer'}
 
 
 def _is_state_param(name):

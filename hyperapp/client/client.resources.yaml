@@ -7,7 +7,6 @@ import:
 - base.system.config_layer:one_way.key_ctl
 - builtins:hyperapp_dir.service
 - builtins:mosaic.service
-- lcs.lcs:lcs.module
 - legacy_type.auto_tabs:view
 - legacy_type.box_layout:element
 - legacy_type.box_layout:state
@@ -44,7 +43,6 @@ definitions:
       import_list:
         code.context: base.context:context.module
         code.controller: ui.controller:controller.module
-        code.lcs: lcs.lcs:lcs.module
         code.mark: base.mark:mark.module
         code.reconstructors: base.reconstructors:reconstructors.module
         htypes.auto_tabs.view: legacy_type.auto_tabs:view
@@ -83,7 +81,6 @@ definitions:
       service_params:
       - client_identity
       - file_bundle_factory
-      - lcs_resource_storage_factory
       - visualizer
       - controller_running
       want_config: false

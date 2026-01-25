@@ -18,9 +18,7 @@ def make_state():
 
 
 async def test_widget(command_factory, qapp):
-    ctx = Context(
-        lcs=Mock(),
-        )
+    ctx = Context()
     piece = make_piece()
     state = make_state()
     command = command_factory(

@@ -1,8 +1,0 @@
-model = record
-
-item = record:
-  name: string
-  d: ref
-
-layer = record:
-  layer_d: ref

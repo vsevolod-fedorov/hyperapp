@@ -19,18 +19,11 @@ def shortcut_reg():
     return reg
 
 
-@mark.fixture
-def lcs():
-    lcs = Mock()
-    lcs.get.return_value = None
-    return lcs
-
-
 def mock_run_input_key_dialog():
     return 'Space'
 
 
-def _test_model_command_get(lcs, model_piece, command_d):
+def _test_model_command_get(model_piece, command_d):
     form = command_list_model.command_get(model_piece, command_d, lcs)
 
 

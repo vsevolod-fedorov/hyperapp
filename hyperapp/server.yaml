@@ -9,8 +9,6 @@ projects:
     imports: [base, common, rc]
   models:
     imports: [base, common, ui]
-  lcs:
-    imports: [base, common, ui, models]
   sample:
     imports: [base, common, ui]
   server:

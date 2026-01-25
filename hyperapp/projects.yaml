@@ -11,8 +11,6 @@ projects:
     imports: [base, common, rc]
   models:
     imports: [base, common, ui]
-  lcs:
-    imports: [base, common, ui, models]
   views:
     # TODO: May be remove models, it is used by command_layout_context module.
     imports: [base, common, ui, models]
@@ -21,4 +19,4 @@ projects:
   server:
     imports: [base, common, ui, models]
   client:
-    imports: [base, common, ui, models, sample, lcs, views]
+    imports: [base, common, ui, models, sample, views]

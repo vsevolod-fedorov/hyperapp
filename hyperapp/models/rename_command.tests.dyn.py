@@ -53,14 +53,7 @@ def _test_rename_to(piece, d_ref):
     assert form.name == 'sample_command'
 
 
-@mark.fixture
-def lcs():
-    lcs = Mock()
-    lcs.get.return_value = None  # Missing (empty) command list.
-    return lcs
-
-
-def _test_rename(lcs, piece, d_ref):
+def _test_rename(piece, d_ref):
     ctx = Context()
     form = htypes.rename_command.form(
         name='new_name',

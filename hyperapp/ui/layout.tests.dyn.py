@@ -93,15 +93,8 @@ def view_ui_command_reg_config(rpc_system_call_factory):
 
 
 @mark.fixture
-def lcs():
-    lcs = Mock()
-    lcs.get.return_value = None  # command list - mock is not iterable.
-    return lcs
-
-
-@mark.fixture
-def ctx(lcs):
-    return Context(lcs=lcs)
+def ctx():
+    return Context()
 
 
 @mark.fixture.obj

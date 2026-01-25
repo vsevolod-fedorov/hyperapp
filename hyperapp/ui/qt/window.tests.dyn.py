@@ -38,9 +38,7 @@ def state():
 
 
 def test_construct_widget(qapp, piece, state):
-    ctx = Context(
-        lcs=Mock(),
-        )
+    ctx = Context()
     view = window.WindowView.from_piece(piece, ctx)
     assert view.piece
     widget = view.construct_widget(state, ctx)

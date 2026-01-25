@@ -13,14 +13,12 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.lcs import LCSheet
 from .code.controller import Controller
 from .code.reconstructors import register_reconstructors
 
 log = logging.getLogger(__name__)
 
 
-default_lcs_layers_path = hyperapp_dir / 'client/lcs-layers.yaml'
 default_layout_path = Path.home() / '.local/share/hyperapp/client/layout.json'
 
 
@@ -99,7 +97,6 @@ async def make_default_layout(visualizer, ctx):
 def _parse_args(sys_argv):
     parser = argparse.ArgumentParser(description='Hyperapp client')
     parser.add_argument('--clean', '-c', action='store_true', help="Do not load stored layout state")
-    parser.add_argument('--lcs-layers-path', type=Path, default=default_lcs_layers_path, help="Path to lcs layers list")
     parser.add_argument('--layout-path', type=Path, default=default_layout_path, help="Path to layout")
     parser.add_argument('--test-mode', action='store_true', help="Do not enter main loop, exit right after initing. Do not show windows. Used for testing")
     return parser.parse_args(sys_argv)
@@ -116,7 +113,6 @@ def client_identity(endpoint_registry, rpc_endpoint, generate_rsa_identity):
 async def client_async_main(
         client_identity,
         file_bundle_factory,
-        lcs_resource_storage_factory,
         visualizer,
         controller_running,
         args,
@@ -125,10 +121,8 @@ async def client_async_main(
         stop_event,
         ):
     project_imports = {client_project}
-    lcs = LCSheet.from_layer_list_path(args.lcs_layers_path, lcs_resource_storage_factory, project_imports)
 
     ctx = Context(
-        lcs=lcs,
         identity=client_identity,
         )
     default_layout = await make_default_layout(visualizer, ctx)
