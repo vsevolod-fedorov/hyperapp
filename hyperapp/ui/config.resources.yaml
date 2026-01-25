@@ -30,6 +30,8 @@ import:
 - ui.crud.canned_args_command:command_creg-command-canned_args_command.ctx-actor-cfg-item
 - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
 - ui.crud.crud:resource_name_creg-crud-layout_k.actor-cfg-item
+- ui.crud.crud_action_creg:crud_commit_action_creg.service
+- ui.crud.crud_action_creg:crud_init_action_creg.service
 - ui.crud.crud_field_view_factory:formatter_creg-crud_field_view_factory-factory_k.actor-cfg-item
 - ui.crud.editor_default_reg:editor_default_reg.service
 - ui.crud.editor_defaults:builtin-string.editor_default.cfg-item
@@ -410,6 +412,8 @@ definitions:
       - ui.command_group:get_command_group.service
       - ui.controller:canned_ctl_item_factory.service
       - ui.controller:controller_running.service
+      - ui.crud.crud_action_creg:crud_commit_action_creg.service
+      - ui.crud.crud_action_creg:crud_init_action_creg.service
       - ui.crud.editor_default_reg:editor_default_reg.service
       - ui.error_view:error_view.service
       - ui.feed:client_feed_factory.service
