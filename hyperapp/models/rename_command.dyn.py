@@ -11,14 +11,14 @@ from .code.model_command import model_command_ctx
 log = logging.getLogger(__name__)
 
 
-@mark.crud.rename_to(commit_action='rename')
+@mark.crud.get
 def model_command_rename_to(piece, ui_command_d):
     return htypes.rename_command.form(
         name=d_res_ref_to_name(ui_command_d),
         )
 
 
-@mark.crud.rename
+@mark.crud.update.rename
 def model_command_rename(piece, ui_command_d, value, ctx, ui_model_command_items):
     model, model_t = web.summon_with_t(piece.model)
     model_state = web.summon(piece.model_state)

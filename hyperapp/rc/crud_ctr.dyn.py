@@ -11,11 +11,11 @@ class CrudTemplateCtr(ModuleCtr):
 
     _service_name = 'crud_action'
 
-    def __init__(self, module_name, attr_qual_name, model_t, action, key_fields, ctx_params, service_params):
+    def __init__(self, module_name, attr_qual_name, model_t, action_name, key_fields, ctx_params, service_params):
         super().__init__(module_name)
         self._attr_qual_name = attr_qual_name
         self._model_t = model_t
-        self._action = action
+        self._action_name = action_name
         self._key_fields = key_fields
         self._ctx_params = ctx_params
         self._service_params = service_params
@@ -70,17 +70,15 @@ class CrudInitTemplateCtr(CrudTemplateCtr):
             module_name=piece.module_name,
             attr_qual_name=piece.attr_qual_name,
             model_t=pyobj_creg.invite(piece.model_t),
-            action=piece.action,
+            action_name=piece.action_name,
             key_fields=piece.key_fields,
             ctx_params=piece.ctx_params,
             service_params=piece.service_params,
-            commit_action=piece.commit_action,
             value_t=pyobj_creg.invite(piece.value_t),
             )
 
-    def __init__(self, module_name, attr_qual_name, model_t, action, key_fields, ctx_params, service_params, commit_action, value_t):
-        super().__init__(module_name, attr_qual_name, model_t, action, key_fields, ctx_params, service_params)
-        self._commit_action = commit_action
+    def __init__(self, module_name, attr_qual_name, model_t, action_name, key_fields, ctx_params, service_params, value_t):
+        super().__init__(module_name, attr_qual_name, model_t, action_name, key_fields, ctx_params, service_params)
         self._value_t = value_t
 
     @property
@@ -89,11 +87,10 @@ class CrudInitTemplateCtr(CrudTemplateCtr):
             module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             model_t=pyobj_creg.actor_to_ref(self._model_t),
-            action=self._action,
+            action_name=self._action_name,
             key_fields=tuple(self._key_fields),
             ctx_params=tuple(self._ctx_params),
             service_params=tuple(self._service_params),
-            commit_action=self._commit_action,
             value_t=pyobj_creg.actor_to_ref(self._value_t),
             )
 
@@ -102,10 +99,10 @@ class CrudInitTemplateCtr(CrudTemplateCtr):
         self._add_open_command_targets(resource_tgt, target_set)
 
     def _add_open_command_targets(self, resource_tgt, target_set):
-        if self._commit_action:
-            commit_action = self._commit_action
-            open_command_name = f'open_{self._commit_action}'
-            commit_command_name = self._commit_action
+        if self._commit_action_name:
+            commit_action = self._commit_action_name
+            open_command_name = f'open_{self._commit_action_name}'
+            commit_command_name = self._commit_action_name
         elif self._action == 'get':
             open_command_name = 'edit'
             commit_action = 'update'
@@ -118,12 +115,12 @@ class CrudInitTemplateCtr(CrudTemplateCtr):
             name=open_command_name,
             value_t=self._value_t,
             commit_command_name=commit_command_name,
-            commit_action=commit_action,
+            commit_action_name=commit_action_name,
             )
         init_resolved_tgt = target_set.factory.config_item_resolved(
-            self._service_name, self._make_resource_name(self._action))
+            self._service_name, self._make_resource_name(self._action_name))
         commit_resolved_tgt = target_set.factory.config_item_resolved(
-            self._service_name, self._make_resource_name(commit_action))
+            self._service_name, self._make_resource_name(commit_action_name))
         open_command_ctr.update_open_command_targets(resource_tgt, target_set, init_resolved_tgt, commit_resolved_tgt)
 
 
@@ -137,11 +134,16 @@ class CrudCommitTemplateCtr(CrudTemplateCtr):
             module_name=piece.module_name,
             attr_qual_name=piece.attr_qual_name,
             model_t=pyobj_creg.invite(piece.model_t),
-            action=piece.action,
+            action_name=piece.action_name,
             key_fields=piece.key_fields,
             ctx_params=piece.ctx_params,
             service_params=piece.service_params,
+            init_action_name=piece.init_action_name,
             )
+
+    def __init__(self, module_name, attr_qual_name, model_t, action_name, key_fields, ctx_params, service_params, init_action_name):
+        super().__init__(module_name, attr_qual_name, model_t, action_name, key_fields, ctx_params, service_params)
+        self._init_action_name = init_action_name
 
     @property
     def piece(self):
@@ -149,22 +151,23 @@ class CrudCommitTemplateCtr(CrudTemplateCtr):
             module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             model_t=pyobj_creg.actor_to_ref(self._model_t),
-            action=self._action,
+            action_name=self._action_name,
             key_fields=tuple(self._key_fields),
             ctx_params=tuple(self._ctx_params),
             service_params=tuple(self._service_params),
+            init_action_name=self._init_action_name,
             )
 
 
 class CrudOpenCommandCtr(ModuleCtr):
 
-    def __init__(self, module_name, model_t, name, value_t, commit_command_name, commit_action):
+    def __init__(self, module_name, model_t, name, value_t, commit_command_name, commit_action_name):
         super().__init__(module_name)
         self._model_t = model_t
         self._name = name
         self._value_t = value_t
         self._commit_command_name = commit_command_name
-        self._commit_action = commit_action
+        self._commit_action_name = commit_action_name
         self._init_resolved_tgt = None
         self._commit_resolved_tgt = None
 

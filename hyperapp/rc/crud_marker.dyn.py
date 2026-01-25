@@ -19,13 +19,12 @@ log = logging.getLogger(__name__)
 
 class CrudProbe:
 
-    def __init__(self, system_probe, ctr_collector, module_name, action, fn, commit_action):
+    def __init__(self, system_probe, ctr_collector, module_name, action_name, fn):
         self._system = system_probe
         self._ctr_collector = ctr_collector
         self._module_name = module_name
-        self._action = action
+        self._action_name = action_name
         self._fn = fn
-        self._commit_action = commit_action
         system_probe.add_global(self)
 
     def migrate_to(self, system_probe):
@@ -95,62 +94,88 @@ class CrudProbe:
             module_name=self._module_name,
             attr_qual_name=params.real_qual_name(self._fn),
             model_t=model_t,
-            action=self._action,
+            action_name=self._action_name,
             key_fields=tuple(key_fields),
             ctx_params=params.ctx_names,
             service_params=params.service_names,
             )
 
     def _add_constructor(self, params, result):
-        return
-        if self._action == 'get' or self._commit_action:
-            ctr = self._init_constructor(params, result)
-        else:
-            # Note: All actions which is not 'get' and does not have commit_action defined treated as commit actions.
-            ctr = self._commit_constructor(params)
+        ctr = self._make_constructor(params, result)
         self._ctr_collector.add_constructor(ctr)
 
-    def _init_constructor(self, params, result):
+
+class CrudInitProbe(CrudProbe):
+
+    def _make_constructor(self, params, result):
         result_t = deduce_t(result)
         if not isinstance(result_t, TRecord):
             raise RuntimeError(f"Result of {self._action} action should be a record, but is: {result_t}")
         return CrudInitTemplateCtr(
             **self._template_ctr_kw(params),
-            commit_action=self._commit_action,
             value_t=result_t,
             )
 
-    def _commit_constructor(self, params):
+
+class CrudCommitProbe(CrudProbe):
+
+    def __init__(self, system_probe, ctr_collector, module_name, action_name, fn, init_action_name):
+        super().__init__(system_probe, ctr_collector, module_name, action_name, fn)
+        self._init_action_name = init_action_name
+
+    def _make_constructor(self, params, result):
         return CrudCommitTemplateCtr(
             **self._template_ctr_kw(params),
+            init_action_name=self._init_action_name,
             )
 
 
 class CrudDecorator:
 
-    def __init__(self, system_probe, ctr_collector, module_name, action, commit_action=None):
+    def __init__(self, system_probe, ctr_collector, module_name, action_name):
         self._system = system_probe
         self._ctr_collector = ctr_collector
         self._module_name = module_name
-        self._action = action
-        self._commit_action = commit_action
+        self._action_name = action_name
 
-    def __call__(self, fn=None, *, commit_action=None):
-        if fn is None:
-            if self._commit_action:
-                raise RuntimeError(f"Single argument, function is expected for CRUD decorator")
-            return CrudDecorator(self._system, self._ctr_collector, self._module_name, self._action, commit_action)
+
+class CrudInitDecorator(CrudDecorator):
+
+    def __init__(self, system_probe, ctr_collector, module_name, action_name='get'):
+        super().__init__(system_probe, ctr_collector, module_name, action_name)
+
+    def __getattr__(self, action_name):
+        return CrudInitDecorator(self._system, self._ctr_collector, self._module_name, action_name)
+
+    def __call__(self, fn):
         check_not_classmethod(fn)
         check_is_function(fn)
-        return CrudProbe(self._system, self._ctr_collector, self._module_name, self._action, fn, self._commit_action)
+        return CrudInitProbe(self._system, self._ctr_collector, self._module_name, self._action_name, fn)
+
+
+class CrudCommitDecorator(CrudDecorator):
+
+    def __init__(self, system_probe, ctr_collector, module_name, action_name='update', init_action_name=None):
+        super().__init__(system_probe, ctr_collector, module_name, action_name)
+        self._init_action_name = init_action_name
+
+    def __getattr__(self, action_name):
+        return CrudCommitDecorator(self._system, self._ctr_collector, self._module_name, action_name)
+
+    def __call__(self, fn=None, *, init_action=None):
+        if fn is None:
+            if self._init_action_name:
+                raise RuntimeError(f"Single argument, function is expected for CRUD decorator")
+            return CrudCommitDecorator(
+                self._system, self._ctr_collector, self._module_name, self._action_name, init_action_name=init_action)
+        check_not_classmethod(fn)
+        check_is_function(fn)
+        return CrudCommitProbe(
+            self._system, self._ctr_collector, self._module_name, self._action_name, fn, self._init_action_name)
 
 
 class CrudMarker:
 
     def __init__(self, module_name, system, ctr_collector):
-        self._module_name = module_name
-        self._system = system
-        self._ctr_collector = ctr_collector
-
-    def __getattr__(self, action):
-        return CrudDecorator(self._system, self._ctr_collector, self._module_name, action)
+        self.get = CrudInitDecorator(system, ctr_collector, module_name)
+        self.update = CrudCommitDecorator(system, ctr_collector, module_name)

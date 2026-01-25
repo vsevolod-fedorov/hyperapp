@@ -13,13 +13,12 @@ view = record:
   commit_fn: ref
   commit_value_field: string
 
-open_command_fn = record:
+open_command = record:
   name: string
   value_t: ref
   key_fields: string list
-  init_action_fn: ref
-  commit_command_d: ref
-  commit_action_fn: ref
+  init_action: ref
+  commit_action: ref
 
 record_adapter = record
 

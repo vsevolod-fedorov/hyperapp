@@ -130,7 +130,7 @@ def _move_item(system, source_layer_name, target_layer_name, service_name, key):
     source_layer.remove(service_name, key_piece)
 
 
-@mark.crud.get_layer(commit_action='move')
+@mark.crud.get
 def config_item_get_layer(piece, layers):
     if not layers:
         return None
@@ -139,7 +139,7 @@ def config_item_get_layer(piece, layers):
         )
 
 
-@mark.crud.move
+@mark.crud.update.move
 def config_item_move_to_another_layer(piece, key, layers, value, system):
     source_layer_name = layers[0]
     target_layer_name = value.name
@@ -150,14 +150,14 @@ def config_item_move_to_another_layer(piece, key, layers, value, system):
 
 
 
-@mark.crud.get_layer(commit_action='move')
+@mark.crud.get
 def config_layer_item_get_layer(piece):
     return htypes.config_layer_list.layer(
         name=piece.layer,
         )
 
 
-@mark.crud.move
+@mark.crud.update.move(init_action='get')
 def config_layer_item_move_to_another_layer(piece, key, value, system):
     source_layer_name = piece.layer
     target_layer_name = value.name

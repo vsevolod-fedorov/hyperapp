@@ -8,7 +8,7 @@ import:
 - legacy_type.command:model_command
 - legacy_type.command:model_command_fn
 - legacy_type.command:properties
-- legacy_type.crud:open_command_fn
+- legacy_type.crud:open_command
 - legacy_type.crud_ctr:commit_ctr
 - legacy_type.crud_ctr:init_ctr
 - legacy_type.system:actor_template
@@ -30,7 +30,7 @@ definitions:
         htypes.command.model_command: legacy_type.command:model_command
         htypes.command.model_command_fn: legacy_type.command:model_command_fn
         htypes.command.properties: legacy_type.command:properties
-        htypes.crud.open_command_fn: legacy_type.crud:open_command_fn
+        htypes.crud.open_command: legacy_type.crud:open_command
         htypes.crud_ctr.init_ctr: legacy_type.crud_ctr:init_ctr
         htypes.crud_ctr.commit_ctr: legacy_type.crud_ctr:commit_ctr
         htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn

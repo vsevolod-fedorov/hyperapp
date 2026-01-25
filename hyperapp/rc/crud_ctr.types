@@ -2,13 +2,13 @@ ctr = record:
   module_name: string
   attr_qual_name: string list
   model_t: ref
-  action: string
+  action_name: string
   key_fields: string list
   ctx_params: string list
   service_params: string list
 
 init_ctr = record(ctr):
-  commit_action: string opt
   value_t: ref
 
-commit_ctr = record(ctr)
+commit_ctr = record(ctr):
+  init_action_name: string opt
