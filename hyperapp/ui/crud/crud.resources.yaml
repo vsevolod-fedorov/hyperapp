@@ -3,20 +3,90 @@
 import:
 - base.context:context.module
 - base.mark:mark.module
+- base.system.config_layer:one_way.key_ctl
 - builtins:deduce_t.service
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.crud:arg
+- legacy_type.crud:form_model
 - legacy_type.crud:layout_k
+- legacy_type.crud:open_command
+- legacy_type.crud:record_adapter
+- legacy_type.crud:view
 - legacy_type.system:actor_template
+- legacy_type.system:actor_value_ctl
+- legacy_type.system:dict_config_ctl
+- legacy_type.system:service_template
+- legacy_type.system:single_struct_ctl
+- legacy_type.system_fn:ctx_fn
 - ui.construct_default_form:construct_default_form.module
 - ui.qt.context_view:context_view.module
 - ui.record_adapter:record_adapter.module
 - ui.remote_model:remote_model.module
 definitions:
+  CrudContextView:
+    type: legacy_type.builtin:attribute
+    value:
+      object: crud.module
+      attr_name: CrudContextView
+  CrudContextView.from_piece:
+    type: legacy_type.builtin:attribute
+    value:
+      object: CrudContextView
+      attr_name: from_piece
+  CrudContextView.from_piece.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: CrudContextView.from_piece.system-fn
+  CrudContextView.from_piece.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: CrudContextView.from_piece
+      ctx_params:
+      - piece
+      - ctx
+      service_params:
+      - view_reg
+      - model_layout_reg
+      - crud
+  CrudRecordAdapter:
+    type: legacy_type.builtin:attribute
+    value:
+      object: crud.module
+      attr_name: CrudRecordAdapter
+  CrudRecordAdapter.from_piece:
+    type: legacy_type.builtin:attribute
+    value:
+      object: CrudRecordAdapter
+      attr_name: from_piece
+  CrudRecordAdapter.from_piece.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: CrudRecordAdapter.from_piece
+      service_params:
+      - client_feed_factory
+      - crud_init_action_creg
+      - crud
+  command_creg-crud-open_command.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.crud:open_command
+      value: open_command.ctx-actor-template
+  crud:
+    type: legacy_type.builtin:attribute
+    value:
+      object: crud.module
+      attr_name: crud
+  crud-view.view-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.crud:view
+      value: CrudContextView.from_piece.ctx-actor-template
   crud.module:
     type: legacy_type.builtin:python_module
     value:
@@ -29,10 +99,29 @@ definitions:
         code.mark: base.mark:mark.module
         code.record_adapter: ui.record_adapter:record_adapter.module
         code.remote_model: ui.remote_model:remote_model.module
+        htypes.crud.arg: legacy_type.crud:arg
+        htypes.crud.form_model: legacy_type.crud:form_model
+        htypes.crud.record_adapter: legacy_type.crud:record_adapter
+        htypes.crud.view: legacy_type.crud:view
         services.deduce_t: builtins:deduce_t.service
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
+  crud.service:
+    type: legacy_type.system:service_template
+    value:
+      name: crud
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: crud
+      service_params:
+      - canned_ctl_item_factory
+      - visualizer
+      - view_reg
+      - selector_reg
+      - model_layout_reg
+      - crud_init_action_creg
+      want_config: false
+      free_params: []
   format_layout_k:
     type: legacy_type.builtin:attribute
     value:
@@ -59,8 +148,46 @@ definitions:
     value:
       function: layout_k_resource_name
       service_params: []
+  open_command:
+    type: legacy_type.builtin:attribute
+    value:
+      object: crud.module
+      attr_name: open_command
+  open_command.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: open_command.system-fn
+  open_command.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: open_command
+      ctx_params:
+      - piece
+      - model
+      - current_item
+      - navigator
+      - ctx
+      service_params:
+      - crud
   resource_name_creg-crud-layout_k.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.crud:layout_k
       value: layout_k_resource_name.actor-template
+  system-actor.value-ctl:
+    type: legacy_type.system:actor_value_ctl
+    value: {}
+  system-dict_config.one_way.actor.single.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: base.system.config_layer:one_way.key_ctl
+      value_ctl: system-actor.value-ctl
+      struct_ctl: system-single.struct-ctl
+  system-single.struct-ctl:
+    type: legacy_type.system:single_struct_ctl
+    value: {}
+  ui_adapter_creg-crud-record_adapter.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.crud:record_adapter
+      value: CrudRecordAdapter.from_piece.actor-template

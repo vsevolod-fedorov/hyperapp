@@ -28,8 +28,12 @@ import:
 - ui.controller:controller_running.service
 - ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
 - ui.crud.canned_args_command:command_creg-command-canned_args_command.ctx-actor-cfg-item
+- ui.crud.crud:command_creg-crud-open_command.ctx-actor-cfg-item
+- ui.crud.crud:crud-view.view-cfg-item
+- ui.crud.crud:crud.service
 - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
 - ui.crud.crud:resource_name_creg-crud-layout_k.actor-cfg-item
+- ui.crud.crud:ui_adapter_creg-crud-record_adapter.actor-cfg-item
 - ui.crud.crud_action_creg:crud_commit_action_creg.service
 - ui.crud.crud_action_creg:crud_init_action_creg.service
 - ui.crud.crud_field_view_factory:formatter_creg-crud_field_view_factory-factory_k.actor-cfg-item
@@ -233,6 +237,7 @@ definitions:
       - ui.arg_mark:command_creg-arg_mark-add_mark.ctx-actor-cfg-item
       - ui.arg_mark:command_creg-arg_mark-remove_mark.ctx-actor-cfg-item
       - ui.crud.canned_args_command:command_creg-command-canned_args_command.ctx-actor-cfg-item
+      - ui.crud.crud:command_creg-crud-open_command.ctx-actor-cfg-item
       - ui.layout:command_creg-layout-add_view_command.ctx-actor-cfg-item
       - ui.layout:command_creg-layout-open_layout_tree.ctx-actor-cfg-item
       - ui.layout:command_creg-layout-open_view_item_commands.ctx-actor-cfg-item
@@ -412,6 +417,7 @@ definitions:
       - ui.command_group:get_command_group.service
       - ui.controller:canned_ctl_item_factory.service
       - ui.controller:controller_running.service
+      - ui.crud.crud:crud.service
       - ui.crud.crud_action_creg:crud_commit_action_creg.service
       - ui.crud.crud_action_creg:crud_init_action_creg.service
       - ui.crud.editor_default_reg:editor_default_reg.service
@@ -454,6 +460,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
+      - ui.crud.crud:ui_adapter_creg-crud-record_adapter.actor-cfg-item
       - ui.qt.fn_list_adapter:ui_adapter_creg-list_adapter-index_fn_list_adapter.actor-cfg-item
       - ui.qt.fn_list_adapter:ui_adapter_creg-list_adapter-key_fn_list_adapter.actor-cfg-item
       - ui.qt.fn_tree_adapter:ui_adapter_creg-tree_adapter-fn_index_tree_adapter.actor-cfg-item
@@ -497,6 +504,7 @@ definitions:
     value:
       items:
       - ui.arg_mark:arg_mark-view.view-cfg-item
+      - ui.crud.crud:crud-view.view-cfg-item
       - ui.model_field_wrapper_view:model_field_wrapper_view-view.view-cfg-item
       - ui.navigator:navigator-view.view-cfg-item
       - ui.qt.auto_tabs:auto_tabs-view.view-cfg-item

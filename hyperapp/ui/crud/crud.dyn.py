@@ -124,24 +124,27 @@ class CrudRecordAdapter(FnRecordAdapterBase):
 
     @classmethod
     @mark.actor.ui_adapter_creg
-    def from_piece(cls, piece, model, ctx, system_fn_creg, client_feed_factory, crud):
+    def from_piece(cls, piece, model, ctx, client_feed_factory, crud_init_action_creg, crud):
         record_t = pyobj_creg.invite(model.record_t)
         value = cls._get_shared_value(model, record_t)
         real_model = web.summon(model.model)
-        init_fn = system_fn_creg.invite(model.init_fn)
+        init_action_ref = model.init_action
         args = _args_tuple_to_dict(model.args)
-        return cls(client_feed_factory, model, record_t, ctx, value, crud, real_model, init_fn, args)
+        return cls(client_feed_factory, crud_init_action_creg,
+                   model, record_t, ctx, value, crud, real_model, init_action_ref, args)
 
-    def __init__(self, client_feed_factory, model, record_t, ctx, value, crud, real_model, init_fn, args):
+    def __init__(self, client_feed_factory, crud_init_action_creg,
+                 model, record_t, ctx, value, crud, real_model, init_action_ref, args):
         super().__init__(client_feed_factory, model, record_t, ctx, value)
+        self._crud_init_action_creg = crud_init_action_creg
         self._crud = crud
         self._real_model = real_model
         self._args = args
-        self._init_fn = init_fn
+        self._init_action_ref = init_action_ref
 
     def _get_value(self):
         fn_ctx = self._crud.fn_ctx(self._ctx, self._real_model, self._args)
-        return self._init_fn.call(fn_ctx)
+        return self._crud_init_action_creg.invite(self._init_action_ref, fn_ctx)
 
 
 class Crud:
