@@ -19,13 +19,14 @@ from .fixtures import qapp_fixtures
 from .fixtures import error_view_fixtures
 from .fixtures import feed_fixtures
 from .fixtures import visualizer_fixtures
-from .tested.code import crud
+from .tested.code import crud as crud_module
 
 log = logging.getLogger(__name__)
 
 
-def _sample_crud_get(piece, id):
-    assert isinstance(piece, htypes.crud_tests.sample_model), piece
+@mark.ctx_actor.crud_init_action_creg(htypes.crud_tests.sample_crud_get_action)
+def sample_crud_get(model, id):
+    assert isinstance(model, htypes.crud_tests.sample_model), model
     if id == 11:
         return htypes.crud_tests.sample_record(id, f'item#{id}')
     if id == 22:
@@ -34,8 +35,9 @@ def _sample_crud_get(piece, id):
     return "Default string value"
 
 
-def _sample_crud_update(piece, id, value):
-    assert isinstance(piece, htypes.crud_tests.sample_model), piece
+@mark.ctx_actor.crud_commit_action_creg(htypes.crud_tests.sample_crud_update_action)
+def _sample_crud_update(model, id, value):
+    assert isinstance(model, htypes.crud_tests.sample_model), model
     if id == 11:
         assert isinstance(value, htypes.crud_tests.sample_record), value
         return (None, 11)
@@ -45,25 +47,7 @@ def _sample_crud_update(piece, id, value):
         assert type(value) is str, value
     else:
         assert 0, id
-    log.info("Update %s: #%d -> %s", piece, id, value)
-
-
-@mark.fixture
-def _sample_crud_get_fn():
-    return htypes.system_fn.ctx_fn(
-        function=pyobj_creg.actor_to_ref(_sample_crud_get),
-        ctx_params=('piece', 'id'),
-        service_params=(),
-        )
-
-
-@mark.fixture
-def _sample_crud_update_fn():
-    return htypes.command.model_command_fn(
-        function=pyobj_creg.actor_to_ref(_sample_crud_update),
-        ctx_params=('piece', 'id', 'value'),
-        service_params=(),
-        )
+    log.info("Update %s: #%d -> %s", model, id, value)
 
 
 def _sample_selector_get(value):
@@ -166,7 +150,7 @@ def model_layout_reg(format, commit_command_layout_k):
 
 async def _test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_piece_ctr):
     piece = view_piece_ctr(11, pick_fn=None)
-    view = crud.CrudContextView.from_piece(piece, ctx)
+    view = crud_module.CrudContextView.from_piece(piece, ctx)
     state = None
     widget = view.construct_widget(state, ctx)
     assert view.piece == piece
@@ -193,7 +177,7 @@ def _test_record_adapter(_sample_crud_get_fn, ctx, model, commit_command_d):
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
         )
     piece = htypes.crud.record_adapter()
-    adapter = crud.CrudRecordAdapter.from_piece(piece, form_model, ctx)
+    adapter = crud_module.CrudRecordAdapter.from_piece(piece, form_model, ctx)
 
     assert adapter.record_t == value_t
     assert adapter.get_field('id') == 11
@@ -201,35 +185,30 @@ def _test_record_adapter(_sample_crud_get_fn, ctx, model, commit_command_d):
 
 
 @mark.fixture
-async def run_open_command_fn_test(ctx, navigator_rec, _sample_crud_get_fn, _sample_crud_update_fn, commit_command_d, value_t, item_id):
-    piece = htypes.crud.open_command_fn(
+async def run_open_command_fn_test(command_creg, ctx, navigator_rec, value_t, item_id):
+    open_command = htypes.crud.open_command(
         name='edit',
         value_t=pyobj_creg.actor_to_ref(value_t),
         key_fields=('id',),
-        init_action_fn=mosaic.put(_sample_crud_get_fn),
-        commit_command_d=mosaic.put(commit_command_d),
-        commit_action_fn=mosaic.put(_sample_crud_update_fn),
+        init_action=mosaic.put(htypes.crud_tests.sample_crud_get_action()),
+        commit_action=mosaic.put(htypes.crud_tests.sample_crud_update_action()),
         )
-    fn = crud.CrudOpenFn.from_piece(piece)
-    assert fn.piece == piece
-
-    assert fn.missing_params(Context()) == {'navigator', 'model', 'current_item'}
     ctx = ctx.clone_with(
+        piece=open_command,
         navigator=navigator_rec,
         model=htypes.crud_tests.sample_model(),
         current_item=htypes.crud_tests.sample_item(id=item_id),
         )
-    assert not fn.missing_params(ctx)
-    await fn.call(ctx)
+    await crud_module.open_command(ctx)
     navigator_rec.view.open.assert_awaited_once()
 
 
-async def _test_open_command_fn_to_form(run_open_command_fn_test):
+async def test_open_command_to_form(run_open_command_fn_test):
     value_t = htypes.crud_tests.sample_record
     await run_open_command_fn_test(value_t, item_id=11)
 
 
-async def _test_open_command_fn_to_str(run_open_command_fn_test):
+async def test_open_command_to_str(run_open_command_fn_test):
     value_t = htypes.builtin.string
     await run_open_command_fn_test(value_t, item_id=33)
 
@@ -269,7 +248,7 @@ def rpc_system_call_factory(receiver_peer, sender_identity, fn):
 async def _test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model):
     view_piece = view_piece_ctr(11, pick_fn=None)
     view = view_reg.animate(view_piece, ctx)
-    commands = crud.crud_commit_command_enum(view)
+    commands = crud_module.crud_commit_command_enum(view)
     assert commands
     [unbound_cmd] = commands
     assert unbound_cmd.properties
@@ -289,7 +268,7 @@ async def _test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, mode
 async def _test_commit_command_enum_for_selector(view_reg, ctx, _sample_selector_pick_fn, view_piece_ctr):
     view_piece = view_piece_ctr(22, pick_fn=_sample_selector_pick_fn.piece)
     view = view_reg.animate(view_piece, ctx)
-    commands = crud.crud_commit_command_enum(view)
+    commands = crud_module.crud_commit_command_enum(view)
     assert commands
     [unbound_cmd] = commands
     assert unbound_cmd.properties
@@ -308,10 +287,10 @@ async def _test_commit_command_enum_for_selector(view_reg, ctx, _sample_selector
 def test_layout_k_resource_name(commit_command_layout_k):
     gen = Mock()
     gen.assigned_name.return_value = 'some_command'
-    name = crud.layout_k_resource_name(commit_command_layout_k, gen)
+    name = crud_module.layout_k_resource_name(commit_command_layout_k, gen)
     assert type(name) is str
 
 
 def test_format_layout_k(commit_command_layout_k):
-    title = crud.format_layout_k(commit_command_layout_k)
+    title = crud_module.format_layout_k(commit_command_layout_k)
     assert type(title) is str

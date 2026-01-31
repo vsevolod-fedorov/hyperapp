@@ -42,8 +42,7 @@ def test_list(view_factory_reg, ctx):
     form_model = htypes.crud.form_model(
         model=mosaic.put(model),
         record_t=pyobj_creg.actor_to_ref(htypes.crud_field_view_factory_tests.sample_value),
-        commit_command_d=mosaic.put(htypes.crud_field_view_factory_tests.sample_d()),
-        init_fn=mosaic.put(None),
+        init_action=mosaic.put(None),
         args=(),
         )
     k_list = crud_field_view_factory.record_field_list(form_model, ctx, view_factory_reg)

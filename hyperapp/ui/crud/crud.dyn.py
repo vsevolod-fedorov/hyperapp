@@ -102,77 +102,25 @@ class CrudContextView(ContextView):
             self._crud, self._remote_peer, self._commit_command_d, self._model, self._args, pick_fn, commit_fn, self._commit_value_field)
 
 
-class CrudOpenFn:
-
-    _required_kw = {'navigator', 'model', 'current_item'}
-
-    @classmethod
-    @mark.actor.system_fn_creg
-    def from_piece(cls, piece, system_fn_creg, crud):
-        return cls(
-            crud=crud,
-            name=piece.name,
-            value_t=pyobj_creg.invite(piece.value_t),
-            key_fields=piece.key_fields,
-            init_action_fn=system_fn_creg.invite(piece.init_action_fn),
-            commit_command_d=web.summon(piece.commit_command_d),
-            commit_action_fn_ref=piece.commit_action_fn,
-            )
-
-    def __init__(self, crud, name, value_t, key_fields, init_action_fn, commit_command_d, commit_action_fn_ref):
-        self._crud = crud
-        self._name = name
-        self._value_t = value_t
-        self._key_fields = key_fields
-        self._init_action_fn = init_action_fn
-        self._commit_command_d = commit_command_d
-        self._commit_action_fn_ref = commit_action_fn_ref
-
-    def __repr__(self):
-        return f"<CrudOpenFn {self._name} keys={self._key_fields}>"
-
-    @property
-    def piece(self):
-        return htypes.crud.open_command_fn(
-            name=self._name,
-            value_t=pyobj_creg.actor_to_ref(self._value_t),
-            key_fields=tuple(self._key_fields),
-            init_action_fn=mosaic.put(self._init_action_fn.piece),
-            commit_command_d=mosaic.put(self._commit_command_d),
-            commit_action_fn=self._commit_action_fn_ref,
-            )
-
-    def missing_params(self, ctx, **kw):
-        ctx_kw = {**ctx.as_dict(), **kw}
-        return self._required_kw - ctx_kw.keys()
-
-    async def call(self, ctx, **kw):
-        ctx_kw = {**ctx.as_dict(), **kw}
-        return await self._open(
-            navigator_rec=ctx_kw['navigator'],
-            model=ctx_kw['model'],
-            current_item=ctx_kw['current_item'],
-            ctx=ctx,
-            )
-
-    async def _open(self, navigator_rec, model, current_item, ctx):
-        args = {
-            name: getattr(current_item, name)
-            for name in self._key_fields
-            }
-        await self._crud.open_view(
-            navigator_rec=navigator_rec,
-            ctx=ctx,
-            value_t=self._value_t,
-            label=self._name,
-            init_action_fn=self._init_action_fn,
-            commit_command_d=self._commit_command_d,
-            commit_action_fn_ref=self._commit_action_fn_ref,
-            commit_value_field='value',
-            model=model,
-            init_args=args,
-            commit_args=args,
-            )
+@mark.ctx_actor.command_creg
+async def open_command(piece, model, current_item, navigator, ctx, crud):
+    value_t = pyobj_creg.invite(piece.value_t)
+    args = {
+        name: getattr(current_item, name)
+        for name in piece.key_fields
+        }
+    await crud.open_view(
+        navigator_rec=navigator,
+        ctx=ctx,
+        value_t=value_t,
+        label=piece.name,
+        init_action_ref=piece.init_action,
+        commit_action_ref=piece.commit_action,
+        commit_value_field='value',
+        model=model,
+        init_args=args,
+        commit_args=args,
+        )
 
 
 class CrudRecordAdapter(FnRecordAdapterBase):
@@ -201,13 +149,14 @@ class CrudRecordAdapter(FnRecordAdapterBase):
 
 class Crud:
 
-    def __init__(self, canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg):
+    def __init__(
+            self, canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg, crud_init_action_creg):
         self._canned_ctl_item_factory = canned_ctl_item_factory
-        self._system_fn_creg = system_fn_creg
         self._visualizer = visualizer
         self._view_reg = view_reg
         self._selector_reg = selector_reg
         self._model_layout_reg = model_layout_reg
+        self._crud_init_action_creg = crud_init_action_creg
 
     def fn_ctx(self, ctx, model, args, kw=None):
         if args is None:
@@ -238,12 +187,11 @@ class Crud:
             ctx,
             value_t,
             label,
-            init_action_fn,
-            commit_command_d,
-            commit_action_fn_ref,
+            init_action_ref,
+            commit_action_ref,
             commit_value_field,
             model,
-            remote_peer=None,
+            # remote_peer=None,
             init_args=None,
             commit_args=None,
             ):
@@ -266,23 +214,22 @@ class Crud:
             base_view_piece = await self._visualizer(ctx, selector_model_t)
             new_model = selector_model
         else:
-            assert init_action_fn  # Init action fn may be omitted only for selectors.
-            layout_k = self.layout_k(commit_command_d)
-            try:
-                base_view_piece = self._model_layout_reg[layout_k]
-            except KeyError:
-                if isinstance(value_t, TPrimitive):
-                    base_view_piece = await self._primitive_view(ctx, value_t)
-                else:
-                    base_view_piece = await self._form_view(ctx, value_t)
+            assert init_action_ref  # Init action fn may be omitted only for selectors.
+            # layout_k = self.layout_k(commit_command_d)
+            # try:
+            #     base_view_piece = self._model_layout_reg[layout_k]
+            # except KeyError:
             if isinstance(value_t, TPrimitive):
-                new_model = self._run_init(ctx, init_action_fn, model, init_args)
+                base_view_piece = await self._primitive_view(ctx, value_t)
+            else:
+                base_view_piece = await self._form_view(ctx, value_t)
+            if isinstance(value_t, TPrimitive):
+                new_model = self._run_init(ctx, init_action_ref, model, init_args)
             else:
                 new_model = htypes.crud.form_model(
                     model=mosaic.put(model),
                     record_t=pyobj_creg.actor_to_ref(value_t),
-                    commit_command_d=mosaic.put(commit_command_d),
-                    init_fn=mosaic.put(init_action_fn.piece),
+                    init_action=init_action_ref,
                     args=_args_dict_to_tuple(commit_args),
                     )
             key = None
@@ -290,11 +237,10 @@ class Crud:
             base_view=mosaic.put(base_view_piece),
             label=label,
             model=mosaic.put(model),
-            remote_peer=mosaic.put(remote_peer.piece) if remote_peer else None,
-            commit_command_d=mosaic.put(commit_command_d),
+            # remote_peer=mosaic.put(remote_peer.piece) if remote_peer else None,
             args=_args_dict_to_tuple(commit_args),
             pick_fn=mosaic.put(pick_fn.piece) if pick_fn else None,
-            commit_fn=commit_action_fn_ref,
+            commit_action=commit_action_ref,
             commit_value_field=commit_value_field,
             )
         new_ctx = ctx.clone_with(
@@ -334,14 +280,14 @@ class Crud:
     async def _primitive_view(self, ctx, value_t):
         return await self._visualizer(ctx, value_t)
 
-    def _run_init(self, ctx, init_action_fn, model, args):
+    def _run_init(self, ctx, init_action_ref, model, args):
         fn_ctx = self.fn_ctx(ctx, model, args)
-        return init_action_fn.call(fn_ctx)
+        return self._crud_init_action_creg.invite(init_action_ref, fn_ctx)
 
 
-# @mark.service
-# def crud(canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg):
-#     return Crud(canned_ctl_item_factory, system_fn_creg, visualizer, view_reg, selector_reg, model_layout_reg)
+@mark.service
+def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg, crud_init_action_creg):
+    return Crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg, crud_init_action_creg)
 
 
 # class UnboundCrudCommitCommand(UnboundCommandBase):
