@@ -67,6 +67,7 @@ import:
 - models.config.config_item_list:config_item_list-layer_model-open_config_value.command-group-item
 - models.config.config_item_list:config_item_list-layer_model.feed-template-cfg-item
 - models.config.config_item_list:config_item_list-layer_model.model-cfg-item
+- models.config.config_item_list:config_item_list-layer_model.move.command-cfg-item
 - models.config.config_item_list:config_item_list-model-open_config_key.command-cfg-item
 - models.config.config_item_list:config_item_list-model-open_config_key.command-group-item
 - models.config.config_item_list:config_item_list-model-open_config_value.command-cfg-item
@@ -75,8 +76,11 @@ import:
 - models.config.config_item_list:config_item_list-model-remove.command-group-item
 - models.config.config_item_list:config_item_list-model.feed-template-cfg-item
 - models.config.config_item_list:config_item_list-model.model-cfg-item
+- models.config.config_item_list:config_item_list-model.move.command-cfg-item
 - models.config.config_item_list:config_service_list-model-open_config_item_list.command-cfg-item
 - models.config.config_item_list:config_service_list-model-open_config_item_list.command-group-item
+- models.config.config_item_list:crud_commit_action_creg-config_item_list-commit_move.ctx-actor-cfg-item
+- models.config.config_item_list:crud_init_action_creg-config_item_list-init_get.ctx-actor-cfg-item
 - models.config.config_item_list:formatter_creg-config_item_list-layer_model.actor-cfg-item
 - models.config.config_item_list:formatter_creg-config_item_list-model.actor-cfg-item
 - models.config.config_layer_list:command_creg-config_layer_list-open_config_layer_list.ctx-actor-cfg-item
@@ -399,6 +403,8 @@ definitions:
       services:
         command_creg: command_creg
         command_group_reg: command_group_reg
+        crud_commit_action_creg: crud_commit_action_creg
+        crud_init_action_creg: crud_init_action_creg
         feed_factory: feed_factory
         formatter_creg: formatter_creg
         global_model_command_reg: global_model_command_reg
@@ -410,6 +416,16 @@ definitions:
         ui_adapter_creg: ui_adapter_creg
         view_factory_reg: view_factory_reg
         view_ui_command_reg: view_ui_command_reg
+  crud_commit_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - models.config.config_item_list:crud_commit_action_creg-config_item_list-commit_move.ctx-actor-cfg-item
+  crud_init_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - models.config.config_item_list:crud_init_action_creg-config_item_list-init_get.ctx-actor-cfg-item
   feed_factory:
     type: legacy_type.system:item_list_config
     value:
@@ -520,9 +536,11 @@ definitions:
       - models.config.config_item_list:config_item_list-layer_model-layer_remove.command-cfg-item
       - models.config.config_item_list:config_item_list-layer_model-open_config_key.command-cfg-item
       - models.config.config_item_list:config_item_list-layer_model-open_config_value.command-cfg-item
+      - models.config.config_item_list:config_item_list-layer_model.move.command-cfg-item
       - models.config.config_item_list:config_item_list-model-open_config_key.command-cfg-item
       - models.config.config_item_list:config_item_list-model-open_config_value.command-cfg-item
       - models.config.config_item_list:config_item_list-model-remove.command-cfg-item
+      - models.config.config_item_list:config_item_list-model.move.command-cfg-item
       - models.config.config_item_list:config_service_list-model-open_config_item_list.command-cfg-item
       - models.config.config_layer_list:config_layer_list-model-open_service_list.command-cfg-item
       - models.config.config_service_list:config_service_list-model-toggle_assoc.command-cfg-item

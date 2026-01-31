@@ -2,10 +2,63 @@
 
 import:
 - base.mark:mark.module
+- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
+- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
+- legacy_type.crud:open_command
+- legacy_type.sample_list:sample_list
 - legacy_type.sample_list_crud:form_item
+- legacy_type.system_fn:ctx_fn
 - sample.sample_list:sample_list.module
 definitions:
+  commit_update.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_list_crud
+      name: commit_update
+      base: null
+      fields: {}
+  crud_commit_action_creg-sample_list_crud-commit_update.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: commit_update.t
+      value: sample_list_update.ctx-actor-template
+  crud_init_action_creg-sample_list_crud-init_get.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: init_get.t
+      value: sample_list_get.ctx-actor-template
+  init_get.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_list_crud
+      name: init_get
+      base: null
+      fields: {}
+  sample_list-sample_list.crud.commit.update.action:
+    type: commit_update.t
+    value: {}
+  sample_list-sample_list.crud.init.get.action:
+    type: init_get.t
+    value: {}
+  sample_list-sample_list.edit.command:
+    type: legacy_type.crud:open_command
+    value:
+      name: edit
+      value_t: legacy_type.sample_list_crud:form_item
+      key_fields:
+      - id
+      init_action: sample_list-sample_list.crud.init.get.action
+      commit_action: sample_list-sample_list.crud.commit.update.action
+  sample_list-sample_list.edit.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.sample_list:sample_list
+      name: edit
+      command: sample_list-sample_list.edit.command
   sample_list_crud.module:
     type: legacy_type.builtin:python_module
     value:
@@ -15,3 +68,38 @@ definitions:
         code.mark: base.mark:mark.module
         code.sample_list: sample.sample_list:sample_list.module
         htypes.sample_list_crud.form_item: legacy_type.sample_list_crud:form_item
+  sample_list_get:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_list_crud.module
+      attr_name: sample_list_get
+  sample_list_get.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: sample_list_get.system-fn
+  sample_list_get.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: sample_list_get
+      ctx_params:
+      - piece
+      - id
+      service_params: []
+  sample_list_update:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_list_crud.module
+      attr_name: sample_list_update
+  sample_list_update.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: sample_list_update.system-fn
+  sample_list_update.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: sample_list_update
+      ctx_params:
+      - piece
+      - id
+      - value
+      service_params: []

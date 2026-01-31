@@ -22,6 +22,7 @@ import:
 - legacy_type.config_item_list:model
 - legacy_type.config_layer_list:layer
 - legacy_type.config_service_list:model
+- legacy_type.crud:open_command
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
 - legacy_type.model:key_list_ui_t
@@ -55,6 +56,13 @@ definitions:
     value:
       t: remove.t
       value: remove.ctx-actor-template
+  commit_move.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_item_list
+      name: commit_move
+      base: null
+      fields: {}
   config_item_layer_list:
     type: legacy_type.builtin:attribute
     value:
@@ -122,6 +130,12 @@ definitions:
     value:
       model_t: legacy_type.config_item_list:layer_model
       name: open_config_value
+  config_item_list-layer_model.crud.commit.move.action:
+    type: commit_move.t
+    value: {}
+  config_item_list-layer_model.crud.init.get.action:
+    type: init_get.t
+    value: {}
   config_item_list-layer_model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -151,6 +165,21 @@ definitions:
     value:
       t: legacy_type.config_item_list:layer_model
       value: config_item_list-layer_model.model
+  config_item_list-layer_model.move.command:
+    type: legacy_type.crud:open_command
+    value:
+      name: move
+      value_t: legacy_type.config_layer_list:layer
+      key_fields:
+      - key
+      init_action: config_item_list-layer_model.crud.init.get.action
+      commit_action: config_item_list-layer_model.crud.commit.move.action
+  config_item_list-layer_model.move.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:layer_model
+      name: move
+      command: config_item_list-layer_model.move.command
   config_item_list-layer_model.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -217,6 +246,12 @@ definitions:
     value:
       model_t: legacy_type.config_item_list:model
       name: remove
+  config_item_list-model.crud.commit.move.action:
+    type: commit_move.t
+    value: {}
+  config_item_list-model.crud.init.get.action:
+    type: init_get.t
+    value: {}
   config_item_list-model.feed-template:
     type: legacy_type.feed:feed_template
     value:
@@ -246,6 +281,22 @@ definitions:
     value:
       t: legacy_type.config_item_list:model
       value: config_item_list-model.model
+  config_item_list-model.move.command:
+    type: legacy_type.crud:open_command
+    value:
+      name: move
+      value_t: legacy_type.config_layer_list:layer
+      key_fields:
+      - key
+      - layers
+      init_action: config_item_list-model.crud.init.get.action
+      commit_action: config_item_list-model.crud.commit.move.action
+  config_item_list-model.move.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.config_item_list:model
+      name: move
+      command: config_item_list-model.move.command
   config_item_list-model.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
@@ -272,6 +323,42 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
+  config_item_move_to_another_layer:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_item_list.module
+      attr_name: config_item_move_to_another_layer
+  config_item_move_to_another_layer.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: config_item_move_to_another_layer.system-fn
+  config_item_move_to_another_layer.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: config_item_move_to_another_layer
+      ctx_params:
+      - piece
+      - key
+      - layers
+      - value
+      service_params:
+      - system
+  config_layer_item_get_layer:
+    type: legacy_type.builtin:attribute
+    value:
+      object: config_item_list.module
+      attr_name: config_layer_item_get_layer
+  config_layer_item_get_layer.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: config_layer_item_get_layer.system-fn
+  config_layer_item_get_layer.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: config_layer_item_get_layer
+      ctx_params:
+      - piece
+      service_params: []
   config_service_list-model-open_config_item_list.command-cfg-item:
     type: legacy_type.command:type_str_command
     value:
@@ -291,6 +378,16 @@ definitions:
     value:
       model_t: legacy_type.config_service_list:model
       name: open_config_item_list
+  crud_commit_action_creg-config_item_list-commit_move.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: commit_move.t
+      value: config_item_move_to_another_layer.ctx-actor-template
+  crud_init_action_creg-config_item_list-init_get.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: init_get.t
+      value: config_layer_item_get_layer.ctx-actor-template
   format_layer_model:
     type: legacy_type.builtin:attribute
     value:
@@ -321,6 +418,13 @@ definitions:
     value:
       t: legacy_type.config_item_list:model
       value: format_model.actor-template
+  init_get.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: config_item_list
+      name: init_get
+      base: null
+      fields: {}
   layer_remove:
     type: legacy_type.builtin:attribute
     value:

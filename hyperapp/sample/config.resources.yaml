@@ -40,6 +40,9 @@ import:
 - sample.sample_list:sample_list-sample_list.feed-template-cfg-item
 - sample.sample_list:sample_list-sample_list.model-cfg-item
 - sample.sample_list_arg:sample_list_selector-item.editor_default.cfg-item
+- sample.sample_list_crud:crud_commit_action_creg-sample_list_crud-commit_update.ctx-actor-cfg-item
+- sample.sample_list_crud:crud_init_action_creg-sample_list_crud-init_get.ctx-actor-cfg-item
+- sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
 - sample.sample_record:command_creg-sample_record-apply.ctx-actor-cfg-item
 - sample.sample_record:command_creg-sample_record-open_sample_fn_record.ctx-actor-cfg-item
 - sample.sample_record:open_sample_fn_record.command-cfg-item
@@ -109,6 +112,8 @@ definitions:
       services:
         command_creg: command_creg
         command_group_reg: command_group_reg
+        crud_commit_action_creg: crud_commit_action_creg
+        crud_init_action_creg: crud_init_action_creg
         editor_default_reg: editor_default_reg
         feed_factory: feed_factory
         formatter_creg: formatter_creg
@@ -116,6 +121,16 @@ definitions:
         model_command_reg: model_command_reg
         model_reg: model_reg
         system: system
+  crud_commit_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_list_crud:crud_commit_action_creg-sample_list_crud-commit_update.ctx-actor-cfg-item
+  crud_init_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_list_crud:crud_init_action_creg-sample_list_crud-init_get.ctx-actor-cfg-item
   editor_default_reg:
     type: legacy_type.system:item_list_config
     value:
@@ -156,6 +171,7 @@ definitions:
       items:
       - sample.sample_commands:sample_list-sample_list-details.command-cfg-item
       - sample.sample_commands:sample_tree-model-sample_tree_info.command-cfg-item
+      - sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
       - sample.sample_record:sample_record-sample_record-apply.command-cfg-item
       - sample.sample_tree:sample_tree-model-append_tree_item.command-cfg-item
       - sample.sample_tree:sample_tree-model-insert_tree_item.command-cfg-item
