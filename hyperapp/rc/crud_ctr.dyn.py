@@ -52,6 +52,14 @@ class CrudTemplateCtr(ModuleCtr):
         code_name = self._module_name.split('.')[-1]
         return TRecord(code_name, self._action_full_name)
 
+    @property
+    def action(self):
+        return self._action_t()
+
+    @property
+    def resource_name(self):
+        return self._resource_name
+
     def _make_resource_name(self, type, action_name):
         return f'{self._type_name}.crud.{type}.{action_name}'
 
@@ -154,7 +162,7 @@ class CrudCommitTemplateCtr(CrudTemplateCtr):
             name=open_command_name,
             )
         init_resolved_tgt = target_set.factory.config_item_resolved(
-            self._service_name, self._make_resource_name('update', self._init_action_name))
+            self._service_name, self._make_resource_name('init', self._init_action_name))
         commit_resolved_tgt = target_set.factory.config_item_resolved(
             self._service_name, self._resource_name)
         open_command_ctr.update_open_command_targets(resource_tgt, target_set, init_resolved_tgt, commit_resolved_tgt)
@@ -181,54 +189,31 @@ class CrudOpenCommandCtr(ModuleCtr):
     def get_component(self, name_to_res):
         return name_to_res[f'{self._resource_name}.command-cfg-item']
 
-    def _command_d(self, types, name):
-        code_name = self._module_name.split('.')[-1]
-        d_t = d_type(types, code_name, name)
-        return d_t()
-
     def make_component(self, types, python_module, name_to_res):
         key_fields = sorted(
             self._init_resolved_tgt.constructor.key_fields
             | self._commit_resolved_tgt.constructor.key_fields
             )
-        init_action_fn = self._init_resolved_tgt.constructor.make_function(
-            types, python_module, name_to_res)
-        commit_action_fn = self._commit_resolved_tgt.constructor.make_function(
-            types, python_module, name_to_res)
+        init_action = self._init_resolved_tgt.constructor.action
+        init_action_res_name = self._init_resolved_tgt.constructor.resource_name
+        commit_action = self._commit_resolved_tgt.constructor.action
+        commit_action_res_name = self._commit_resolved_tgt.constructor.resource_name
         value_t = self._init_resolved_tgt.constructor.value_t
-        commit_command_d = self._command_d(types, self._commit_command_name)
-        system_fn = htypes.crud.open_command_fn(
+        open_command = htypes.crud.open_command(
             name=self._name,
             value_t=pyobj_creg.actor_to_ref(value_t),
             key_fields=tuple(key_fields),
-            init_action_fn=mosaic.put(init_action_fn),
-            commit_command_d=mosaic.put(commit_command_d),
-            commit_action_fn=mosaic.put(commit_action_fn),
+            init_action=mosaic.put(init_action),
+            commit_action=mosaic.put(commit_action),
             )
-        open_command_d = self._command_d(types, self._name)
-        properties = htypes.command.properties(
-            is_global=False,
-            uses_state=True,
-            remotable=False,
-            )
-        command = htypes.command.model_command(
-            d=mosaic.put(open_command_d),
-            properties=properties,
-            system_fn=mosaic.put(system_fn),
-            preserve_remote=False,
-            )
-        template = htypes.command.command_template(
-            command=mosaic.put(command),
-            )
-        cfg_item = htypes.cfg_item.typed_cfg_item(
+        cfg_item = htypes.command.type_str_command(
             t=pyobj_creg.actor_to_ref(self._model_t),
-            value=mosaic.put(template),
+            name=self._name,
+            command=mosaic.put(open_command),
             )
-        name_to_res[f'{self._resource_name}.open-command.d'] = open_command_d
-        name_to_res[f'{self._resource_name}.commit-command.d'] = commit_command_d
-        name_to_res[f'{self._resource_name}.command-fn'] = system_fn
-        name_to_res[f'{self._resource_name}.command'] = command
-        name_to_res[f'{self._resource_name}.command-template'] = template
+        name_to_res[f'{init_action_res_name}.action'] = init_action
+        name_to_res[f'{commit_action_res_name}.action'] = commit_action
+        name_to_res[f'{self._resource_name}.command'] = open_command
         name_to_res[f'{self._resource_name}.command-cfg-item'] = cfg_item
 
     @property
