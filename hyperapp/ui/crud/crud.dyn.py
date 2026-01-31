@@ -44,28 +44,25 @@ class CrudContextView(ContextView):
 
     @classmethod
     @mark.view
-    def from_piece(cls, piece, ctx, system_fn_creg, peer_creg, view_reg, model_layout_reg, crud):
+    def from_piece(cls, piece, ctx, view_reg, model_layout_reg, crud):
         base_view = view_reg.invite(piece.base_view, ctx)
         model = web.summon_opt(piece.model)
-        remote_peer = peer_creg.invite_opt(piece.remote_peer)
-        commit_command_d = web.summon(piece.commit_command_d)
+        # remote_peer = peer_creg.invite_opt(piece.remote_peer)
         return cls(
-            system_fn_creg, model_layout_reg, crud, base_view, piece.label, model, remote_peer,
-            commit_command_d, _args_tuple_to_dict(piece.args), piece.pick_fn, piece.commit_fn, piece.commit_value_field)
+            model_layout_reg, crud, base_view, piece.label, model,
+            _args_tuple_to_dict(piece.args), piece.pick_fn, piece.commit_action, piece.commit_value_field)
 
     def __init__(
-            self, system_fn_creg, model_layout_reg, crud, base_view, label, model, remote_peer,
-            commit_command_d, args, pick_fn_ref, commit_fn_ref, commit_value_field):
+            self, model_layout_reg, crud, base_view, label, model,
+            args, pick_fn_ref, commit_action_ref, commit_value_field):
         super().__init__(base_view, label)
-        self._system_fn_creg = system_fn_creg
         self._model_layout_reg = model_layout_reg
         self._crud = crud
         self._model = model
-        self._remote_peer = remote_peer
-        self._commit_command_d = commit_command_d
+        # self._remote_peer = remote_peer
         self._args = args
         self._pick_fn_ref = pick_fn_ref
-        self._commit_fn_ref = commit_fn_ref
+        self._commit_action_ref = commit_action_ref
         self._commit_value_field = commit_value_field
         self._current_layout = self._base_view.piece
 
@@ -75,11 +72,11 @@ class CrudContextView(ContextView):
             base_view=mosaic.put(self._base_view.piece),
             label=self._label,
             model=mosaic.put_opt(self._model),
-            remote_peer=mosaic.put(self._remote_peer.piece) if self._remote_peer else None,
-            commit_command_d=mosaic.put(self._commit_command_d),
+            # remote_peer=mosaic.put(self._remote_peer.piece) if self._remote_peer else None,
+            # commit_command_d=mosaic.put(self._commit_command_d),
             args=_args_dict_to_tuple(self._args),
             pick_fn=self._pick_fn_ref,
-            commit_fn=self._commit_fn_ref,
+            commit_action=self._commit_action_ref,
             commit_value_field=self._commit_value_field,
             )
 

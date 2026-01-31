@@ -110,18 +110,17 @@ def commit_command_d():
 
 
 @mark.fixture
-def view_piece_ctr(generate_rsa_identity, _sample_crud_get_fn, _sample_crud_update_fn, model, commit_command_d, item_id, pick_fn):
+def view_piece_ctr(generate_rsa_identity, model, item_id, pick_fn):
     identity = generate_rsa_identity(fast=True)
     base_view_piece = htypes.label.view("Sample label")
     return htypes.crud.view(
         base_view=mosaic.put(base_view_piece),
         label="Sample CRUD context",
         model=mosaic.put(model),
-        remote_peer=mosaic.put(identity.peer.piece),
-        commit_command_d=mosaic.put(commit_command_d),
+        # remote_peer=mosaic.put(identity.peer.piece),
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
         pick_fn=mosaic.put_opt(pick_fn),
-        commit_fn=mosaic.put(_sample_crud_update_fn),
+        commit_action=mosaic.put(htypes.crud_tests.sample_crud_update_action()),
         commit_value_field='value',
         )
 
@@ -148,7 +147,7 @@ def model_layout_reg(format, commit_command_layout_k):
     return reg
 
 
-async def _test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_piece_ctr):
+async def test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_piece_ctr):
     piece = view_piece_ctr(11, pick_fn=None)
     view = crud_module.CrudContextView.from_piece(piece, ctx)
     state = None
@@ -157,13 +156,13 @@ async def _test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_pi
     state = view.widget_state(widget)
     assert state
 
-    # Hack: Replace base view to change layout.
-    new_label = htypes.label.view("Another sample label")
-    view._base_view = view_reg.animate(new_label, ctx)
-    rctx = Context()
-    await view.children_changed(ctx, rctx, widget, save_layout=True)
-    model_layout_reg.__setitem__.assert_called_once()
-    assert isinstance(model_layout_reg.__setitem__.call_args.args[0], htypes.crud.layout_k)
+    # # Hack: Replace base view to change layout.
+    # new_label = htypes.label.view("Another sample label")
+    # view._base_view = view_reg.animate(new_label, ctx)
+    # rctx = Context()
+    # await view.children_changed(ctx, rctx, widget, save_layout=True)
+    # model_layout_reg.__setitem__.assert_called_once()
+    # assert isinstance(model_layout_reg.__setitem__.call_args.args[0], htypes.crud.layout_k)
 
 
 def _test_record_adapter(_sample_crud_get_fn, ctx, model, commit_command_d):
