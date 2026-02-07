@@ -102,6 +102,8 @@ class CommandTemplateCtr(ModuleCtr):
 
 class CommandMixin:
 
+    _actor_creg = 'command_creg'
+
     def _create_group_ctr(self, resource_tgt, target_set):
         group_ctr = DataConfigCtr(
             module_name=self._module_name,
@@ -145,6 +147,8 @@ class CommandMixin:
 
 
 class EnumMixin:
+
+    _actor_creg = 'command_enum_creg'
 
     def _create_group_ctr(self, resource_tgt, target_set):
         pass
@@ -258,7 +262,6 @@ class UiCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
 
     _command_fn_t = htypes.system_fn.ctx_fn
     _template_ctr_t = htypes.command_resource.ui_command_template_ctr
-    _actor_creg = 'command_creg'
 
     @property
     def _command_key(self):
@@ -282,22 +285,12 @@ class UniversalUiCommandTemplateCtr(UntypedCommandTemplateCtr):
     # _command_enum_resource_suffix = 'universal-ui-command-enumerator'
 
 
-class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr):
+class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr, EnumMixin):
 
     _template_ctr_t = htypes.command_resource.ui_command_enumerator_template_ctr
-    _command_fn_t = htypes.command.ui_command_enum_fn
-
-    def _make_command(self, types, name, fn, name_to_res):
-        if name_to_res is not None:
-            name_to_res[f'{self._fn_name}.fn'] = fn
-        return htypes.command.ui_command_enumerator(
-            system_fn=mosaic.put(fn),
-            )
 
 
 class ModelCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
-
-    _actor_creg = 'command_creg'
 
     @classmethod
     def from_piece(cls, piece):
@@ -353,13 +346,11 @@ class ModelCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
 class ModelCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr, EnumMixin):
 
     _template_ctr_t = htypes.command_resource.model_command_enumerator_template_ctr
-    _actor_creg = 'command_enum_creg'
 
 
 class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr, CommandMixin):
 
     _command_fn_t = htypes.command.model_command_fn
-    _actor_creg = 'command_creg'
 
     @classmethod
     def from_piece(cls, piece):
