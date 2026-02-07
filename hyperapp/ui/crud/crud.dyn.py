@@ -93,7 +93,7 @@ class CrudContextView(ContextView):
         self._current_layout = self._base_view.piece
 
     @property
-    def unbound_commit_command(self):
+    def commit_command(self):
         command_key = htypes.crud.commit_command_key(
             model=mosaic.put_opt(self._model),
             name=self._name,
@@ -298,6 +298,10 @@ def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layo
     return Crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg, crud_init_action_creg)
 
 
+@mark.ctx_actor.command_creg
+def commit_command(piece, model):
+    return None
+    assert 0, (piece, model)
 # class UnboundCrudCommitCommand(UnboundCommandBase):
 
 #     def __init__(self, crud, remote_peer, d, model, args, pick_fn, commit_fn, commit_value_field):
@@ -400,7 +404,7 @@ def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layo
 
 @mark.ui_command_enum
 def crud_commit_command_enum(view, ctx, command_factory):
-    key, name, command = view.unbound_commit_command
+    key, name, command = view.commit_command
     return [command_factory(
         key=key,
         name=name,

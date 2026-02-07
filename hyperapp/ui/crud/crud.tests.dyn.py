@@ -247,6 +247,21 @@ def rpc_system_call_factory(receiver_peer, sender_identity, fn):
     return call
 
 
+def test_commit_command(ctx, model):
+    item_id = 11
+    commit_command = htypes.crud.commit_command(
+        args=(htypes.crud.arg('id', mosaic.put(item_id)),),
+        pick_fn=None,
+        commit_action=mosaic.put(htypes.crud_tests.sample_crud_update_action()),
+        commit_value_field='value',
+        )
+    command_ctx = ctx.clone_with(
+        piece=commit_command,
+        model=model,
+        )
+    crud_module.commit_command(command_ctx)
+
+
 async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model):
     value = htypes.crud_tests.sample_record(12345, "Some text")
     input = Mock()
@@ -261,7 +276,7 @@ async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model
     commands = crud_module.crud_commit_command_enum(view, command_ctx)
     assert commands
     [cmd] = commands
-    # await cmd.run()
+    await cmd.run()
 
 
 async def _test_commit_command_enum_for_selector(view_reg, ctx, _sample_selector_pick_fn, view_piece_ctr):
