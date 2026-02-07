@@ -137,7 +137,7 @@ def split_ctx_actor_params(fn, args, kw):
     else:
         called_class_name = None
     if len(args) != 1 or not isinstance(args[0], Context) or kw:
-        raise RuntimeError(f"Context actor expects single positional parameter, Context: {fn}: {args}")
+        raise RuntimeError(f"Context actor expects single positional parameter, Context: {fn}: {args}/{kw}")
     ctx = args[0]
     ctx_names = [
         name for name in param_names
