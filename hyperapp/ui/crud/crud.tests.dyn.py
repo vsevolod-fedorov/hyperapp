@@ -115,7 +115,7 @@ def view_piece_ctr(generate_rsa_identity, model, item_id, pick_fn):
     base_view_piece = htypes.label.view("Sample label")
     return htypes.crud.view(
         base_view=mosaic.put(base_view_piece),
-        label="Sample CRUD context",
+        name="Sample CRUD context",
         model=mosaic.put(model),
         # remote_peer=mosaic.put(identity.peer.piece),
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
@@ -165,19 +165,23 @@ async def test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_pie
     # assert isinstance(model_layout_reg.__setitem__.call_args.args[0], htypes.crud.layout_k)
 
 
-def test_record_adapter(ctx, model):
+@mark.fixture
+def form_model(model):
     value_t = htypes.crud_tests.sample_record
     item_id = 11
-    form_model = htypes.crud.form_model(
+    return htypes.crud.form_model(
         model=mosaic.put(model),
         record_t=pyobj_creg.actor_to_ref(value_t),
         init_action=mosaic.put(htypes.crud_tests.sample_crud_get_action()),
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
         )
+
+
+def test_record_adapter(ctx, form_model):
     piece = htypes.crud.record_adapter()
     adapter = crud_module.CrudRecordAdapter.from_piece(piece, form_model, ctx)
 
-    assert adapter.record_t == value_t
+    assert adapter.record_t == htypes.crud_tests.sample_record
     assert adapter.get_field('id') == 11
     assert adapter.get_field('text') == "item#11"
 
@@ -243,13 +247,7 @@ def rpc_system_call_factory(receiver_peer, sender_identity, fn):
     return call
 
 
-async def _test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model):
-    view_piece = view_piece_ctr(11, pick_fn=None)
-    view = view_reg.animate(view_piece, ctx)
-    commands = crud_module.crud_commit_command_enum(view)
-    assert commands
-    [unbound_cmd] = commands
-    assert unbound_cmd.properties
+async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model):
     value = htypes.crud_tests.sample_record(12345, "Some text")
     input = Mock()
     input.get_value.return_value = value
@@ -258,9 +256,12 @@ async def _test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, mode
         piece=model,
         input=input,
         )
-    bound_cmd = unbound_cmd.bind(command_ctx)
-    assert bound_cmd.enabled
-    await bound_cmd.run()
+    view_piece = view_piece_ctr(11, pick_fn=None)
+    view = view_reg.animate(view_piece, ctx)
+    commands = crud_module.crud_commit_command_enum(view, command_ctx)
+    assert commands
+    [cmd] = commands
+    # await cmd.run()
 
 
 async def _test_commit_command_enum_for_selector(view_reg, ctx, _sample_selector_pick_fn, view_piece_ctr):

@@ -29,6 +29,7 @@ import:
 - ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
 - ui.crud.canned_args_command:command_creg-command-canned_args_command.ctx-actor-cfg-item
 - ui.crud.crud:command_creg-crud-open_command.ctx-actor-cfg-item
+- ui.crud.crud:command_enum_creg-crud-crud_commit_command_enum.ctx-actor-cfg-item
 - ui.crud.crud:crud-view.view-cfg-item
 - ui.crud.crud:crud.service
 - ui.crud.crud:formatter_creg-crud-layout_k.actor-cfg-item
@@ -266,6 +267,7 @@ definitions:
     value:
       items:
       - ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
+      - ui.crud.crud:command_enum_creg-crud-crud_commit_command_enum.ctx-actor-cfg-item
       - ui.layout:command_enum_creg-layout-enum_layout_tree_commands.ctx-actor-cfg-item
   command_group_reg:
     type: legacy_type.system:item_list_config

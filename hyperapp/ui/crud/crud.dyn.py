@@ -49,15 +49,16 @@ class CrudContextView(ContextView):
         model = web.summon_opt(piece.model)
         # remote_peer = peer_creg.invite_opt(piece.remote_peer)
         return cls(
-            model_layout_reg, crud, base_view, piece.label, model,
+            model_layout_reg, crud, base_view, piece.name, model,
             _args_tuple_to_dict(piece.args), piece.pick_fn, piece.commit_action, piece.commit_value_field)
 
     def __init__(
-            self, model_layout_reg, crud, base_view, label, model,
+            self, model_layout_reg, crud, base_view, name, model,
             args, pick_fn_ref, commit_action_ref, commit_value_field):
-        super().__init__(base_view, label)
+        super().__init__(base_view, label=name)
         self._model_layout_reg = model_layout_reg
         self._crud = crud
+        self._name = name
         self._model = model
         # self._remote_peer = remote_peer
         self._args = args
@@ -70,7 +71,7 @@ class CrudContextView(ContextView):
     def piece(self):
         return htypes.crud.view(
             base_view=mosaic.put(self._base_view.piece),
-            label=self._label,
+            name=self._name,
             model=mosaic.put_opt(self._model),
             # remote_peer=mosaic.put(self._remote_peer.piece) if self._remote_peer else None,
             # commit_command_d=mosaic.put(self._commit_command_d),
@@ -93,10 +94,17 @@ class CrudContextView(ContextView):
 
     @property
     def unbound_commit_command(self):
-        pick_fn = self._system_fn_creg.invite_opt(self._pick_fn_ref)
-        commit_fn = self._system_fn_creg.invite(self._commit_fn_ref)
-        return UnboundCrudCommitCommand(
-            self._crud, self._remote_peer, self._commit_command_d, self._model, self._args, pick_fn, commit_fn, self._commit_value_field)
+        command_key = htypes.crud.commit_command_key(
+            model=mosaic.put_opt(self._model),
+            name=self._name,
+            )
+        command = htypes.crud.commit_command(
+            args=_args_dict_to_tuple(self._args),
+            pick_fn=self._pick_fn_ref,
+            commit_action=self._commit_action_ref,
+            commit_value_field=self._commit_value_field,
+            )
+        return (command_key, self._name, command)
 
 
 @mark.ctx_actor.command_creg
@@ -110,7 +118,7 @@ async def open_command(piece, model, current_item, navigator, ctx, crud):
         navigator_rec=navigator,
         ctx=ctx,
         value_t=value_t,
-        label=piece.name,
+        name=piece.name,
         init_action_ref=piece.init_action,
         commit_action_ref=piece.commit_action,
         commit_value_field='value',
@@ -186,7 +194,7 @@ class Crud:
             navigator_rec,
             ctx,
             value_t,
-            label,
+            name,
             init_action_ref,
             commit_action_ref,
             commit_value_field,
@@ -235,7 +243,7 @@ class Crud:
             key = None
         new_view_piece = htypes.crud.view(
             base_view=mosaic.put(base_view_piece),
-            label=label,
+            name=name,
             model=mosaic.put(model),
             # remote_peer=mosaic.put(remote_peer.piece) if remote_peer else None,
             args=_args_dict_to_tuple(commit_args),
@@ -391,11 +399,14 @@ def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layo
 
 
 @mark.ui_command_enum
-def crud_commit_command_enum(view, system_fn_creg, diff_creg, feed_factory, error_view, view_reg, visualizer):
-    model_command = view.unbound_commit_command
-    ui_command = wrap_model_command_to_ui_command(
-        diff_creg, feed_factory, error_view, view_reg, visualizer, model_command)
-    return [ui_command]
+def crud_commit_command_enum(view, ctx, command_factory):
+    key, name, command = view.unbound_commit_command
+    return [command_factory(
+        key=key,
+        name=name,
+        command=command,
+        ctx=ctx,
+        )]
 
 
 @mark.actor.resource_name_creg

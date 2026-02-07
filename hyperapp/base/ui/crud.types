@@ -4,7 +4,7 @@ arg = record:
 
 view = record:
   base_view: ref
-  label: string
+  name: string
   model: ref opt  # Real model - base model for crud get and post commands.
 #  remote_peer: ref opt
   args: arg list
@@ -18,6 +18,16 @@ open_command = record:
   key_fields: string list
   init_action: ref
   commit_action: ref
+
+commit_command = record:
+  args: arg list
+  pick_fn: ref opt
+  commit_action: ref
+  commit_value_field: string
+
+commit_command_key = record:
+  model: ref
+  name: string
 
 record_adapter = record
 

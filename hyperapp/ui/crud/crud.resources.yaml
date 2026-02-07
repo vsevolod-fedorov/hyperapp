@@ -10,9 +10,13 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:type_str_command
 - legacy_type.crud:arg
+- legacy_type.crud:commit_command
+- legacy_type.crud:commit_command_key
 - legacy_type.crud:form_model
 - legacy_type.crud:layout_k
 - legacy_type.crud:open_command
@@ -77,11 +81,22 @@ definitions:
     value:
       t: legacy_type.crud:open_command
       value: open_command.ctx-actor-template
+  command_enum_creg-crud-crud_commit_command_enum.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: crud_commit_command_enum.t
+      value: crud_commit_command_enum.ctx-actor-template
   crud:
     type: legacy_type.builtin:attribute
     value:
       object: crud.module
       attr_name: crud
+  crud-view-crud_commit_command_enum.command-cfg-item:
+    type: legacy_type.command:type_str_command
+    value:
+      t: legacy_type.crud:view
+      name: crud_commit_command_enum
+      command: crud_commit_command_enum.command-enum
   crud-view.view-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -100,6 +115,8 @@ definitions:
         code.record_adapter: ui.record_adapter:record_adapter.module
         code.remote_model: ui.remote_model:remote_model.module
         htypes.crud.arg: legacy_type.crud:arg
+        htypes.crud.commit_command: legacy_type.crud:commit_command
+        htypes.crud.commit_command_key: legacy_type.crud:commit_command_key
         htypes.crud.form_model: legacy_type.crud:form_model
         htypes.crud.record_adapter: legacy_type.crud:record_adapter
         htypes.crud.view: legacy_type.crud:view
@@ -122,6 +139,34 @@ definitions:
       - crud_init_action_creg
       want_config: false
       free_params: []
+  crud_commit_command_enum:
+    type: legacy_type.builtin:attribute
+    value:
+      object: crud.module
+      attr_name: crud_commit_command_enum
+  crud_commit_command_enum.command-enum:
+    type: crud_commit_command_enum.t
+    value: {}
+  crud_commit_command_enum.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: crud_commit_command_enum.system-fn
+  crud_commit_command_enum.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: crud_commit_command_enum
+      ctx_params:
+      - view
+      - ctx
+      service_params:
+      - command_factory
+  crud_commit_command_enum.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: crud
+      name: crud_commit_command_enum
+      base: null
+      fields: {}
   format_layout_k:
     type: legacy_type.builtin:attribute
     value:
