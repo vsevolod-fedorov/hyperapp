@@ -49,7 +49,8 @@ def ctx():
 
 
 def test_box_layout(qapp, piece, state, ctx):
-    view = box_layout.BoxLayoutView.from_piece(piece, ctx)
+    ctx = ctx.clone_with(piece=piece)
+    view = box_layout.BoxLayoutView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece
     state = view.widget_state(widget)

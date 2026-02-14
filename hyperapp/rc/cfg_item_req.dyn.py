@@ -83,7 +83,7 @@ class CfgItemReq(Requirement):
         if resource_tgt.module_name in self._tested_modules:
             import_tgt = resource_tgt.import_tgt
             _module_name, _recorder_piece, python_module = import_tgt.recorded_python_module(tag='test')
-            template_piece = target.constructor.make_component(import_tgt.types, python_module)
+            template_piece = target.constructor.make_test_component(import_tgt.types, python_module)
         else: 
             assert resource_tgt.completed
             template_piece = resource_tgt.get_resource_component(target.constructor)

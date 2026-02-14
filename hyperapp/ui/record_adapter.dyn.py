@@ -155,4 +155,4 @@ class FnRecordAdapter(FnRecordAdapterBase):
             call_kw = self._ctx_fn.call_kw(self._ctx, **kw)
             return rpc_call(**call_kw)
         else:
-            return self._ctx_fn.call(self._ctx, **kw)
+            return self._ctx_fn(self._ctx, **kw)

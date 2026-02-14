@@ -153,7 +153,7 @@ def split_ctx_actor_params(fn, args, kw):
         if name != 'ctx'
         }
     if 'ctx' in param_names:
-        values['ctx' ] = ctx
+        values['ctx'] = ctx
     return ActorParams(called_class_name, ctx_names, service_names, values)
 
 

@@ -14,6 +14,9 @@ class Constructor:
     def update_resource_targets(self, resource_tgt, target_set):
         pass
 
+    def make_test_component(self, types, python_module, name_to_res=None):
+        raise NotImplementedError(self)
+
     def make_component(self, types, python_module, name_to_res=None):
         raise NotImplementedError(self)
 

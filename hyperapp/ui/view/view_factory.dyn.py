@@ -58,7 +58,7 @@ class ViewFactory(ViewFactoryBase):
                 )
         else:
             fn_ctx = ctx
-        result = self._system_fn.call(fn_ctx, accessor=accessor)
+        result = self._system_fn(fn_ctx, accessor=accessor)
         return await self._await_if_coro(result)
 
     async def call_ui_t(self, ctx, ui_t, system_fn=None, accessor=None):
@@ -133,7 +133,7 @@ class ViewMultiFactory(ViewFactoryBase):
                 ui_t=ui_t,
                 system_fn=system_fn,
                 )
-        k_list = self._list_fn.call(model_ctx)
+        k_list = self._list_fn(model_ctx)
         item_list = []
         for k in k_list:
             multi_k = htypes.view_factory.multi_item_k(

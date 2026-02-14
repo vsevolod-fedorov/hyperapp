@@ -191,7 +191,7 @@ def rpc_servant_wrapper(_real_servant_ref, **kw):
 def rpc_system_servant_wrapper(_real_fn_piece, system_fn_creg, **kw):
     real_fn = system_fn_creg.animate(_real_fn_piece)
     ctx = Context(**kw)
-    return _catch_errors(real_fn.call, ctx)
+    return _catch_errors(real_fn, ctx)
 
 
 def rpc_service_wrapper(system, _real_service_name, **kw):

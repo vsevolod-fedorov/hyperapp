@@ -5,7 +5,6 @@ import:
 - legacy_type.marker:marker_template
 - rc.actor_probe:actor_probe.module
 - rc.marker_utils:marker_utils.module
-- rc.view_ctr:view_ctr.module
 
 definitions:
 
@@ -17,7 +16,6 @@ definitions:
       import_list:
         code.actor_probe: rc.actor_probe:actor_probe.module
         code.marker_utils: rc.marker_utils:marker_utils.module
-        code.view_ctr: rc.view_ctr:view_ctr.module
 
   view_marker:
     type: legacy_type.builtin:attribute

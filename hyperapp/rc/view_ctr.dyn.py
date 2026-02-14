@@ -3,11 +3,11 @@ from .services import (
     mosaic,
     pyobj_creg,
     )
-from .code.ctx_actor_ctr import CtxActorTemplateCtr
+from .code.ctx_actor_ctr import CtxActorProbeMixin, CtxActorTemplateCtr
 from .code.cfg_item_req import CfgItemReq
 
 
-class ViewTemplateCtr(CtxActorTemplateCtr):
+class ViewTemplateCtr(CtxActorProbeMixin, CtxActorTemplateCtr):
 
     @classmethod
     def from_piece(cls, piece):

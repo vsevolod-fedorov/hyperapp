@@ -33,7 +33,7 @@ class ContextFn:
             service_params=tuple(self._service_params),
             )
 
-    def call(self, ctx, **kw):
+    def __call__(self, ctx, **kw):
         ctx_kw = self.call_kw(ctx, **kw)
         return self._bound_fn(**ctx_kw)
 

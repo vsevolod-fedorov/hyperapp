@@ -8,7 +8,25 @@ from .code.config_item_resource import ConfigItemResource
 from .code.cfg_item_req import CfgItemReq
 
 
-class CtxActorProbeCtr(ModuleCtr):
+class CtxActorProbeMixin:
+
+    def make_test_component(self, types, python_module, name_to_res=None):
+        object = python_module
+        for name in self._attr_qual_name:
+            object = htypes.builtin.attribute(
+                object=mosaic.put(object),
+                attr_name=name,
+                )
+        template = htypes.actor_resource.ctx_actor_probe_template(
+            function=mosaic.put(object),
+            )
+        return htypes.cfg_item.typed_cfg_item(
+            t=pyobj_creg.actor_to_ref(self._t),
+            value=mosaic.put(template),
+            )
+
+
+class CtxActorProbeCtr(CtxActorProbeMixin, ModuleCtr):
 
     @classmethod
     def from_piece(cls, piece):
@@ -44,23 +62,8 @@ class CtxActorProbeCtr(ModuleCtr):
         resolved_tgt = target_set.factory.config_item_resolved(self._service_name, self._type_name)
         resource_tgt.add_cfg_item_target(resolved_tgt)
 
-    def make_component(self, types, python_module, name_to_res=None):
-        object = python_module
-        for name in self._attr_qual_name:
-            object = htypes.builtin.attribute(
-                object=mosaic.put(object),
-                attr_name=name,
-                )
-        template = htypes.actor_resource.ctx_actor_probe_template(
-            function=mosaic.put(object),
-            )
-        return htypes.cfg_item.typed_cfg_item(
-            t=pyobj_creg.actor_to_ref(self._t),
-            value=mosaic.put(template),
-            )
-
     def make_resource(self, types, module_name, python_module):
-        item = self.make_component(types, python_module)
+        item = self.make_test_component(types, python_module)
         return ConfigItemResource(
             service_name=self._service_name,
             cfg_item_ref=mosaic.put(item),

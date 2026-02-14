@@ -12,6 +12,7 @@ import:
 - rc.ctx_actor_ctr:ctx_actor_ctr.module
 - rc.marker_utils:marker_utils.module
 - rc.probe:probe.module
+- rc.view_ctr:view_ctr.module
 
 definitions:
 
@@ -26,6 +27,7 @@ definitions:
         services.web: builtins:web.service
         code.actor_ctr: rc.actor_ctr:actor_ctr.module
         code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
+        code.view_ctr: rc.view_ctr:view_ctr.module
         code.probe: rc.probe:probe.module
         code.marker_utils: rc.marker_utils:marker_utils.module
 

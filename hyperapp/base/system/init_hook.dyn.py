@@ -9,7 +9,7 @@ class InitHooks:
   def run_hooks(self):
       ctx = Context()
       for hook in self._config:
-          hook.call(ctx)
+          hook(ctx)
 
 
 def init_hook(config):

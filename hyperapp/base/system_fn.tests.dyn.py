@@ -43,5 +43,5 @@ def test_call(system_fn_creg, view, piece):
         view=view,
         )
     fn = system_fn_creg.animate(piece)
-    result = fn.call(ctx)
+    result = fn(ctx)
     assert result == 'sample-fn: a-view, a-service', repr(result)
