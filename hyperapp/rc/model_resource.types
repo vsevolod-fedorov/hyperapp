@@ -5,3 +5,6 @@ model_ctr = record:
   ui_t: ref
   ctx_params: string list
   service_params: string list
+
+model_probe_template = record:
+  function: ref

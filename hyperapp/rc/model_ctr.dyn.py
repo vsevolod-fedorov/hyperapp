@@ -50,7 +50,7 @@ class ModelCtr(ModuleCtr):
     def get_component(self, name_to_res):
         return name_to_res[f'{self._resource_name}.model-cfg-item']
 
-    def make_component(self, types, python_module, name_to_res=None):
+    def _make_attr(self, python_module, name_to_res):
         object = python_module
         prefix = []
         for name in self._attr_qual_name:
@@ -61,6 +61,10 @@ class ModelCtr(ModuleCtr):
             if name_to_res is not None:
                 name_to_res['.'.join([*prefix, name])] = object
             prefix.append(name)
+        return object
+
+    def make_component(self, types, python_module, name_to_res=None):
+        object = self._make_attr(python_module, name_to_res)
         system_fn = htypes.system_fn.ctx_fn(
             function=mosaic.put(object),
             ctx_params=tuple(self._ctx_params),
@@ -80,6 +84,16 @@ class ModelCtr(ModuleCtr):
             name_to_res[f'{self._resource_name}.model'] = model
             name_to_res[f'{self._resource_name}.model-cfg-item'] = cfg_item
         return cfg_item
+
+    def make_test_component(self, types, python_module, name_to_res=None):
+        object = self._make_attr(python_module, name_to_res)
+        template = htypes.model_resource.model_probe_template(
+            function=mosaic.put(object),
+            )
+        return htypes.cfg_item.typed_cfg_item(
+            t=pyobj_creg.actor_to_ref(self._model_t),
+            value=mosaic.put(template),
+            )
 
     @property
     def _resource_name(self):

@@ -7,6 +7,7 @@ import:
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.model:model
 - legacy_type.model_resource:model_ctr
+- legacy_type.model_resource:model_probe_template
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - rc.cfg_item_req:cfg_item_req.module
@@ -24,6 +25,7 @@ definitions:
         htypes.cfg_item.typed_cfg_item: legacy_type.cfg_item:typed_cfg_item
         htypes.model.model: legacy_type.model:model
         htypes.model_resource.model_ctr: legacy_type.model_resource:model_ctr
+        htypes.model_resource.model_probe_template: legacy_type.model_resource:model_probe_template
         htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
