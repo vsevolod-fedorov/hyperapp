@@ -81,6 +81,9 @@ class ModelCtr(ModuleCtr):
             name_to_res[f'{self._resource_name}.model-cfg-item'] = cfg_item
         return cfg_item
 
+    # Do we need a probe here?
+    make_test_component = make_component
+
     @property
     def _resource_name(self):
         return f'{self._model_t.module_name}-{self._model_t.name}'
