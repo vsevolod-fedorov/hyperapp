@@ -132,10 +132,14 @@ def split_ctx_actor_params(fn, args, kw):
     if args and is_cls_arg(fn, args[0]):
         # fn is a classmethod and args[0] is a 'cls' argument.
         called_class_name = args[0].__name__
+        values = {
+            param_names[0]: args[0],
+            }
         args = args[1:]
         param_names = param_names[1:]
     else:
         called_class_name = None
+        values = {}
     if len(args) != 1 or not isinstance(args[0], Context) or kw:
         raise RuntimeError(f"Context actor expects single positional parameter, Context: {fn}: {args}/{kw}")
     ctx = args[0]
@@ -147,11 +151,11 @@ def split_ctx_actor_params(fn, args, kw):
         name for name in param_names
         if name not in ctx_names
         ]
-    values = {
+    values.update({
         name: ctx[name]
         for name in ctx_names
         if name != 'ctx'
-        }
+        })
     if 'ctx' in param_names:
         values['ctx'] = ctx
     return ActorParams(called_class_name, ctx_names, service_names, values)
