@@ -164,7 +164,7 @@ def list_model_fn(model, system_fn_creg, **kw):
         parent=parent_item,
         )
     log.info("Tree-as-list model: current_path=%s, parent=%s", current_path, parent_item)
-    return tree_model_fn.call(tree_ctx)
+    return tree_model_fn(tree_ctx)
 
 
 @mark.ui_command

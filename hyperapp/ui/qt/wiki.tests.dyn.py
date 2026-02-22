@@ -13,11 +13,6 @@ from .tested.code import wiki
 
 
 @mark.fixture
-def ctx():
-    return Context()
-
-
-@mark.fixture
 def wiki_to_string_convertor():
     return htypes.wiki.wiki_to_string_convertor()
 
@@ -71,7 +66,7 @@ def model(sample_ref_target):
         )
 
 
-def test_convertor(ctx, wiki_to_string_convertor, model):
+def test_convertor(wiki_to_string_convertor, model):
     cvt = wiki.WikiToTextConvertor.from_piece(wiki_to_string_convertor)
     assert cvt.value_to_view(model) == model.text
     new_value = cvt.view_to_value(model, "New text")
@@ -85,9 +80,12 @@ def test_convertor_resource_name(wiki_to_string_convertor):
     assert type(name) is str
 
 
-def test_text_view(qapp, ctx, text_piece, state):
-    model = "Sample wiki text"
-    view = wiki.WikiTextView.from_piece(text_piece, model, ctx)
+def test_text_view(qapp, text_piece, state):
+    ctx = Context(
+        model= "Sample wiki text",
+        piece=text_piece,
+        )
+    view = wiki.WikiTextView.from_piece(ctx)
     assert view.piece == text_piece
     widget = view.construct_widget(state, ctx)
     widget_state = view.widget_state(widget)
@@ -95,10 +93,14 @@ def test_text_view(qapp, ctx, text_piece, state):
     assert widget_state == state
 
 
-async def test_wiki_view(qapp, ctx, wiki_piece, state, model):
+async def test_wiki_view(qapp, wiki_piece, state, model):
     ctl_hook = Mock()
     ctl_hook.navigator.view = AsyncMock()
-    view = wiki.WikiView.from_piece(wiki_piece, model, ctx)
+    ctx = Context(
+        piece=wiki_piece,
+        model=model,
+        )
+    view = wiki.WikiView.from_piece(ctx)
     view.set_controller_hook(ctl_hook)
     assert view.piece == wiki_piece
     widget = view.construct_widget(state, ctx)

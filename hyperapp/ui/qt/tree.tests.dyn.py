@@ -79,10 +79,12 @@ def piece(adapter_piece):
 
 
 def test_tree(qapp, piece):
-    ctx = Context()
-    model = htypes.tree_tests.sample_tree()
+    ctx = Context(
+        piece=piece,
+        model=htypes.tree_tests.sample_tree(),
+        )
     state = None
-    view = tree.TreeView.from_piece(piece, model, ctx)
+    view = tree.TreeView.from_piece(ctx)
     view.set_controller_hook(Mock())
     widget = view.construct_widget(state, ctx)
     assert view.piece

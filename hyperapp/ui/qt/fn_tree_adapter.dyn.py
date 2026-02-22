@@ -71,7 +71,7 @@ class FnTreeAdapter(TreeAdapter):
             'piece': self._real_model,
             **self._parent_model_kw(parent_id),
             }
-        item_list = self._fn.call(self._ctx, **kw)
+        item_list = self._fn(self._ctx, **kw)
         log.info("Fn tree adapter: retrieved local items for %s/%s: %s", self._real_model, parent_id, item_list)
         self._store_item_list(parent_id, item_list)
 

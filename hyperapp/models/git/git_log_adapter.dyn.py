@@ -75,7 +75,7 @@ class GitLogAdapter(FnListAdapterBase, IndexListAdapterMixin):
             call_kw = self._fn.call_kw(self._ctx, **kw)
             return rpc_call(**call_kw)
         else:
-            return self._fn.call(self._ctx, **kw)
+            return self._fn(self._ctx, **kw)
 
     def _ensure_item_loaded(self, idx):
         if idx < len(self._items):

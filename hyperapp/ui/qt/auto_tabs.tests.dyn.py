@@ -30,8 +30,10 @@ def state():
 
 
 def test_construct_widget(qapp, piece, state):
-    ctx = Context()
-    view = auto_tabs.AutoTabsView.from_piece(piece, ctx)
+    ctx = Context(
+        piece=piece,
+        )
+    view = auto_tabs.AutoTabsView.from_piece(ctx)
     view.set_controller_hook(Mock())
     widget = view.construct_widget(state, ctx)
     assert view.piece
@@ -40,8 +42,10 @@ def test_construct_widget(qapp, piece, state):
 
 
 def test_duplicate(qapp, piece, state):
-    ctx = Context()
-    view = auto_tabs.AutoTabsView.from_piece(piece, ctx)
+    ctx = Context(
+        piece=piece,
+        )
+    view = auto_tabs.AutoTabsView.from_piece(ctx)
     view.set_controller_hook(Mock())
     widget = view.construct_widget(state, ctx)
     auto_tabs.duplicate_tab(ctx, view, widget, state)
@@ -66,8 +70,10 @@ def test_close(qapp):
             mosaic.put(label_state),
             ),
         )
-    ctx = Context()
-    view = auto_tabs.AutoTabsView.from_piece(piece, ctx)
+    ctx = Context(
+        piece=piece,
+        )
+    view = auto_tabs.AutoTabsView.from_piece(ctx)
     view.set_controller_hook(Mock())
     widget = view.construct_widget(state, ctx)
     auto_tabs.close_tab(view, widget, state)

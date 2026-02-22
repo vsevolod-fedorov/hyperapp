@@ -149,7 +149,10 @@ def model_layout_reg(format, commit_command_layout_k):
 
 async def test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_piece_ctr):
     piece = view_piece_ctr(11, pick_fn=None)
-    view = crud_module.CrudContextView.from_piece(piece, ctx)
+    ctx = ctx.clone_with(
+        piece=piece,
+        )
+    view = crud_module.CrudContextView.from_piece(ctx)
     state = None
     widget = view.construct_widget(state, ctx)
     assert view.piece == piece

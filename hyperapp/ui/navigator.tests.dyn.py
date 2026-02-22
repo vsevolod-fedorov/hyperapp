@@ -67,7 +67,10 @@ def ctx(model):
 
 @mark.fixture
 def view(piece, ctx):
-    view = navigator.NavigatorView.from_piece(piece, ctx)
+    ctx = ctx.clone_with(
+        piece=piece,
+        )
+    view = navigator.NavigatorView.from_piece(ctx)
     view.set_controller_hook(Mock())
     return view
 

@@ -31,13 +31,13 @@ def index_tree_wrapper(servant_fn_piece, model, parent, grand_parent, is_lateral
     if is_lateral:
         item_list = None
         log.info("Index tree servant wrapper: Loading siblings for %s, children for %s", lateral_parent, grand_parent)
-        lateral_parent_list = servant_fn.call(ctx, parent=grand_parent)
+        lateral_parent_list = servant_fn(ctx, parent=grand_parent)
     else:
-        item_list = tuple(servant_fn.call(ctx, parent=parent))
+        item_list = tuple(servant_fn(ctx, parent=parent))
         log.info("Index tree servant wrapper: Loading children for %s", lateral_parent)
         lateral_parent_list = item_list
     for item in lateral_parent_list:
-        items = servant_fn.call(ctx, parent=item)
+        items = servant_fn(ctx, parent=item)
         lateral_item_list_list.append(tuple(items))
     return result_t(item_list, tuple(lateral_item_list_list))
 
@@ -56,14 +56,14 @@ def key_tree_wrapper(servant_fn_piece, model, current_path, key_field, is_latera
         item_list = None
         parent_path = current_path[:-1]
         log.info("Key tree servant wrapper: Loading siblings for %s, children for %s", current_path, parent_path)
-        lateral_parent_list = servant_fn.call(ctx, current_path=parent_path)
+        lateral_parent_list = servant_fn(ctx, current_path=parent_path)
     else:
-        item_list = tuple(servant_fn.call(ctx, current_path=current_path))
+        item_list = tuple(servant_fn(ctx, current_path=current_path))
         log.info("Key tree servant wrapper: Loading children for %s", current_path)
         parent_path = current_path
         lateral_parent_list = item_list
     for item in lateral_parent_list:
         key = getattr(item, key_field)
-        items = servant_fn.call(ctx, current_path=(*parent_path, key))
+        items = servant_fn(ctx, current_path=(*parent_path, key))
         lateral_item_list_list.append(tuple(items))
     return result_t(item_list, tuple(lateral_item_list_list))

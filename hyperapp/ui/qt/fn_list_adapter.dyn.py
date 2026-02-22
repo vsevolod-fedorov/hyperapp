@@ -81,7 +81,7 @@ class FnListAdapter(FnListAdapterBase):
             call_kw = wrapper_fn.call_kw(self._ctx, **wrapper_kw)
             return rpc_call(**call_kw)
         else:
-            return wrapper_fn.call(self._ctx, **wrapper_kw)
+            return wrapper_fn(self._ctx, **wrapper_kw)
 
     def _wrapper_fn(self):
         return ContextFn(

@@ -16,7 +16,6 @@ def local_server_peer():
 
 
 def test_local_server_context_view(qapp):
-    ctx = Context()
     base_piece = htypes.label.view("Sample label")
     piece = htypes.local_server_context.view(
         base=mosaic.put(base_piece),
@@ -25,7 +24,10 @@ def test_local_server_context_view(qapp):
     state = htypes.context_view.state(
         base=mosaic.put(base_state),
         )
-    view = local_server_context.LocalServerContextView.from_piece(piece, ctx)
+    ctx = Context(
+        piece=piece,
+        )
+    view = local_server_context.LocalServerContextView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece == piece
     state = view.widget_state(widget)

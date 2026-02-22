@@ -44,7 +44,10 @@ def ctx():
 
 
 def test_view(qapp, piece, state, ctx):
-    view = splitter.SplitterView.from_piece(piece, ctx)
+    ctx = ctx.clone_with(
+        piece=piece,
+        )
+    view = splitter.SplitterView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece
     state = view.widget_state(widget)

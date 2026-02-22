@@ -35,7 +35,10 @@ def state():
 
 
 def test_tabs(qapp, ctx, piece, state):
-    view = tabs.TabsView.from_piece(piece, ctx)
+    ctx = ctx.clone_with(
+        piece=piece,
+        )
+    view = tabs.TabsView.from_piece(ctx)
     view.set_controller_hook(Mock())
     widget = view.construct_widget(state, ctx)
     assert view.piece
@@ -44,7 +47,10 @@ def test_tabs(qapp, ctx, piece, state):
 
 
 def test_tab_list(qapp, ctx, piece, state):
-    view = tabs.TabsView.from_piece(piece, ctx)
+    ctx = ctx.clone_with(
+        piece=piece,
+        )
+    view = tabs.TabsView.from_piece(ctx)
     view.set_controller_hook(Mock())
     widget = view.construct_widget(state, ctx)
     assert view.piece

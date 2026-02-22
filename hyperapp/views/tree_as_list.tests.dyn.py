@@ -89,13 +89,19 @@ def test_key_ui_type_layout(key_view_piece):
 
 
 @mark.fixture
-def index_wrapper_view(tree_model, index_view_piece, ctx):
-    return tree_as_list.IndexTreeAsListWrapperView.from_piece(index_view_piece, tree_model, ctx)
+def index_wrapper_view(index_view_piece, ctx):
+    ctx = ctx.clone_with(
+        piece=index_view_piece,
+        )
+    return tree_as_list.IndexTreeAsListWrapperView.from_piece(ctx)
 
 
 @mark.fixture
-def key_wrapper_view(tree_model, key_view_piece, ctx):
-    return tree_as_list.KeyTreeAsListWrapperView.from_piece(key_view_piece, tree_model, ctx)
+def key_wrapper_view(key_view_piece, ctx):
+    ctx = ctx.clone_with(
+        piece=key_view_piece,
+        )
+    return tree_as_list.KeyTreeAsListWrapperView.from_piece(ctx)
 
 
 def test_index_view(index_view_piece, index_wrapper_view):
