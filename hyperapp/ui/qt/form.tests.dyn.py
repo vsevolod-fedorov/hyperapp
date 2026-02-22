@@ -99,7 +99,11 @@ def state():
 
 def test_form(qapp, model, ctx, piece):
     state = None
-    view = form.FormView.from_piece(piece, model, ctx)
+    ctx = ctx.clone_with(
+        model=model,
+        piece=piece,
+        )
+    view = form.FormView.from_piece(ctx)
     view.set_controller_hook(Mock())
     widget = view.construct_widget(state, ctx)
     assert view.piece == piece

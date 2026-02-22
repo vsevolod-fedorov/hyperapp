@@ -10,11 +10,13 @@ from .tested.code import label
 
 
 def test_label(qapp):
-    ctx = Context()
     piece = htypes.label.view("Sample label")
     state = htypes.label.state()
+    ctx = Context(
+        piece=piece,
+    )
 
-    view = label.LabelView.from_piece(piece, ctx)
+    view = label.LabelView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece
     state = view.widget_state(widget)

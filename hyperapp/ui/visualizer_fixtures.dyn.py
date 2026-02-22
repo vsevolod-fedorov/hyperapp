@@ -48,7 +48,7 @@ def view_factory_reg_config(sample_string_view, sample_int_view):
 @mark.fixture
 def view_fn_mock(piece):
     view_fn = Mock()
-    view_fn.call.return_value.piece = piece
+    view_fn.return_value.piece = piece
     return {piece._t: view_fn}
 
 

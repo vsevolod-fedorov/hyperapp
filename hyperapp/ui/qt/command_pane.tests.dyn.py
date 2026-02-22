@@ -10,7 +10,6 @@ from .tested.code import command_pane
 
 
 async def test_widget(qapp):
-    ctx = Context()
     piece = htypes.command_pane.view()
     state = htypes.command_pane.state()
     command_key = htypes.command.model_command_key(
@@ -21,7 +20,10 @@ async def test_widget(qapp):
         key=command_key,
         name='sample_context_command',
         )
-    view = command_pane.CommandPaneView.from_piece(piece, ctx)
+    ctx = Context(
+        piece=piece,
+        )
+    view = command_pane.CommandPaneView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece
     state = view.widget_state(widget)

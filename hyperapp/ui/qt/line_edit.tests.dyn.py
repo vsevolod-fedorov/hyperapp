@@ -12,12 +12,6 @@ from .fixtures import qapp_fixtures
 from .tested.code import line_edit
 
 
-
-@mark.fixture
-def ctx():
-    return Context()
-
-
 @mark.fixture
 def adapter():
     accessor = htypes.accessor.model_accessor()
@@ -47,18 +41,24 @@ def state():
     return htypes.line_edit.state('')
 
 
-def test_edit_view(qapp, ctx, edit_piece, state):
-    model = "Sample text"
-    view = line_edit.EditLineView.from_piece(edit_piece, model, ctx)
+def test_edit_view(qapp, edit_piece, state):
+    ctx = Context(
+        piece=edit_piece,
+        model="Sample text",
+        )
+    view = line_edit.EditLineView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece == edit_piece
     widget_state = view.widget_state(widget)
     assert widget_state == state
 
 
-def test_readonly_view(qapp, ctx, view_piece, state):
-    model = "Sample text"
-    view = line_edit.ViewLineView.from_piece(view_piece, model, ctx)
+def test_readonly_view(qapp, view_piece, state):
+    ctx = Context(
+        piece=view_piece,
+        model="Sample text",
+        )
+    view = line_edit.ViewLineView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece == view_piece
     widget_state = view.widget_state(widget)

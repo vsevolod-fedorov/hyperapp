@@ -21,18 +21,20 @@ def value():
 
 
 def test_view(qapp, model, value):
-    ctx = Context()
     base_piece = htypes.label.view("Sample label")
     piece = htypes.arg_mark.view(
         base=mosaic.put(base_piece),
         model=mosaic.put(model),
         value=mosaic.put(value),
         )
+    ctx = Context(
+        piece=piece,
+        )
     base_state = htypes.label.state()
     state = htypes.context_view.state(
         base=mosaic.put(base_state),
         )
-    view = arg_mark.MarkView.from_piece(piece, ctx)
+    view = arg_mark.MarkView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece == piece
     state = view.widget_state(widget)

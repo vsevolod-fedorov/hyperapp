@@ -24,5 +24,5 @@ def list_wrapper(servant_fn_piece, model, key_field, key_field_t, system_fn_creg
         ctx = kw['ctx'].clone_with(**kw)
     else:
         ctx = Context(**kw)
-    item_list = servant_fn.call(ctx)
+    item_list = servant_fn(ctx)
     return item_list

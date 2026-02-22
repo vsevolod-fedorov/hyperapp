@@ -18,9 +18,11 @@ def make_state():
 
 
 async def test_widget(command_factory, qapp):
-    ctx = Context()
     piece = make_piece()
     state = make_state()
+    ctx = Context(
+        piece=piece,
+        )
     command = command_factory(
         key=htypes.command.ui_command_key(
             view_t=pyobj_creg.actor_to_ref(htypes.menu_bar_tests.sample_view),
@@ -31,7 +33,7 @@ async def test_widget(command_factory, qapp):
         ctx=ctx,
         )
 
-    view = menu_bar.MenuBarView.from_piece(piece, ctx)
+    view = menu_bar.MenuBarView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece
     state = view.widget_state(widget)

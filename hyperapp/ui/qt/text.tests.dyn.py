@@ -38,9 +38,11 @@ def state():
 
 
 def test_view_text(qapp, view_piece, state):
-    ctx = Context()
-    model = "Sample text"
-    view = text.ViewTextView.from_piece(view_piece, model, ctx)
+    ctx = Context(
+        piece=view_piece,
+        model="Sample text",
+        )
+    view = text.ViewTextView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece == view_piece
     widget_state = view.widget_state(widget)
@@ -48,9 +50,11 @@ def test_view_text(qapp, view_piece, state):
 
 
 def test_edit_text(qapp, edit_piece, state):
-    ctx = Context()
-    model = "Sample text"
-    view = text.EditTextView.from_piece(edit_piece, model, ctx)
+    ctx = Context(
+        piece=edit_piece,
+        model="Sample text",
+        )
+    view = text.EditTextView.from_piece(ctx)
     widget = view.construct_widget(state, ctx)
     assert view.piece == edit_piece
     widget_state = view.widget_state(widget)
