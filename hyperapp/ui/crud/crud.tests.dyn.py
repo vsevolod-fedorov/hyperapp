@@ -269,13 +269,12 @@ def test_commit_command(ctx, form_model):
     crud_module.commit_command(command_ctx)
 
 
-async def _test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, model):
+async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, form_model):
     value = htypes.crud_tests.sample_record(12345, "Some text")
     input = Mock()
     input.get_value.return_value = value
     command_ctx = ctx.push(
-        model=model,
-        piece=model,
+        model=form_model,
         input=input,
         )
     view_piece = view_piece_ctr(11, pick_fn=None)
