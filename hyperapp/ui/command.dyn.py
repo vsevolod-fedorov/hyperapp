@@ -38,7 +38,7 @@ class CommandRunner:
         key = web.summon_opt(result.key)
         if result.diff:
             self._process_diff(result.diff)
-        await self._open(ctx, model, key)
+        await self._open(command, ctx, model, key)
 
     async def _run_model_command(self, command_ctx, command):
         result = self._command_creg.animate(command, command_ctx)
@@ -71,11 +71,11 @@ class CommandRunner:
     def _process_diff(self, model_diff_ref):
         assert 0, exception  # TODO
 
-    async def _open(self, ctx, model, key):
+    async def _open(self, command, ctx, model, key):
         if model is None and key is None:
             return
         if model is None:
-            log.info("Command %r: Set current key: %r", self._name, key)
+            log.info("%s: Set current key: %r", command, key)
             navigator = ctx.navigator.view
             navigator.set_current_key(self._navigator_widget(ctx), key)
             return
@@ -112,6 +112,9 @@ class Command:
 
     def __repr__(self):
         return f"<Command {self._name!r}, key={self.key}>"
+
+    def __str__(self):
+        return f"command {self._name!r}"
 
     @property
     def key(self):
