@@ -129,6 +129,6 @@ def _test_ui_command_enumerator_from_piece():
     assert isinstance(command, UnboundCommandEnumerator)
 
 
-def _test_ui_command_enumerator_reg(ui_command_enumerator_reg):
+def test_ui_command_enumerator_reg(ui_command_enumerator_reg):
     view_t = htypes.ui_command_tests.sample_view
     commands = ui_command_enumerator_reg(view_t)

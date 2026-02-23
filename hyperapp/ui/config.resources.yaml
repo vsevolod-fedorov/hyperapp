@@ -92,6 +92,7 @@ import:
 - ui.qt.auto_tabs:auto_tabs-view.view-cfg-item
 - ui.qt.auto_tabs:command_creg-auto_tabs-close_tab.ctx-actor-cfg-item
 - ui.qt.auto_tabs:command_creg-auto_tabs-duplicate_tab.ctx-actor-cfg-item
+- ui.qt.box_layout:box_layout-view-add_element.command-cfg-item
 - ui.qt.box_layout:box_layout-view-add_element.command-group-item
 - ui.qt.box_layout:box_layout-view-add_stretch.command-cfg-item
 - ui.qt.box_layout:box_layout-view-add_stretch.command-group-item
@@ -116,6 +117,7 @@ import:
 - ui.qt.form:form_view_factory.view-factory-cfg-item
 - ui.qt.form:readonly_form_view_factory.view-factory-cfg-item
 - ui.qt.label:command_creg-label-set_label_text.ctx-actor-cfg-item
+- ui.qt.label:label-view-set_label_text.command-cfg-item
 - ui.qt.label:label-view-set_label_text.command-group-item
 - ui.qt.label:label-view.view-cfg-item
 - ui.qt.label:label_view.view-factory-cfg-item
@@ -136,6 +138,7 @@ import:
 - ui.qt.tabs:command_creg-tabs-open_tab_list.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-remove_element.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-unwrap.ctx-actor-cfg-item
+- ui.qt.tabs:tabs-view-add_element.command-cfg-item
 - ui.qt.tabs:tabs-view-add_element.command-group-item
 - ui.qt.tabs:tabs-view-insert_element.command-group-item
 - ui.qt.tabs:tabs-view-open_tab_list.command-cfg-item
@@ -195,6 +198,7 @@ import:
 - ui.ui_adapter_creg:ui_adapter_creg.service
 - ui.ui_command:get_view_commands.service
 - ui.ui_command:get_view_element_commands.service
+- ui.ui_command:ui_command_enumerator_reg.service
 - ui.ui_command:view_element_ui_command_reg.service
 - ui.ui_command:view_ui_command_reg.service
 - ui.value_adapter:ui_adapter_creg-value_adapter-value_adapter.actor-cfg-item
@@ -321,6 +325,7 @@ definitions:
         resource_name_creg: resource_name_creg
         system: system
         ui_adapter_creg: ui_adapter_creg
+        ui_command_enumerator_reg: ui_command_enumerator_reg
         view_element_ui_command_reg: view_element_ui_command_reg
         view_factory_reg: view_factory_reg
         view_reg: view_reg
@@ -449,6 +454,7 @@ definitions:
       - ui.ui_adapter_creg:ui_adapter_creg.service
       - ui.ui_command:get_view_commands.service
       - ui.ui_command:get_view_element_commands.service
+      - ui.ui_command:ui_command_enumerator_reg.service
       - ui.ui_command:view_element_ui_command_reg.service
       - ui.ui_command:view_ui_command_reg.service
       - ui.view.default_view_factory:default_model_factory.service
@@ -472,6 +478,13 @@ definitions:
       - ui.record_adapter:ui_adapter_creg-record_adapter-fn_record_adapter.actor-cfg-item
       - ui.record_adapter:ui_adapter_creg-record_adapter-static_record_adapter.actor-cfg-item
       - ui.value_adapter:ui_adapter_creg-value_adapter-value_adapter.actor-cfg-item
+  ui_command_enumerator_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.qt.box_layout:box_layout-view-add_element.command-cfg-item
+      - ui.qt.label:label-view-set_label_text.command-cfg-item
+      - ui.qt.tabs:tabs-view-add_element.command-cfg-item
   view_element_ui_command_reg:
     type: legacy_type.system:item_list_config
     value:

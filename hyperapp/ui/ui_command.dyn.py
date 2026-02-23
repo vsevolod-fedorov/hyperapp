@@ -14,6 +14,7 @@ from .code.mark import mark
 from .code.config_ctl import DictConfigCtl, FlatListConfigCtl
 from .code.config_struct_ctl import ListStructCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
+from .code.command import prepare_command_ctx
 
 log = logging.getLogger(__name__)
 
@@ -64,9 +65,9 @@ def view_element_ui_command_reg(config, view_t):
 #     return config
 
 
-# @mark.service(ctl=DictConfigCtl(struct_ctl=ListStructCtl()))
-# def ui_command_enumerator_reg(config, view_t):
-#     return _item_list_with_bases(config, view_t)
+@mark.service(ctl=TypeStrCommandConfigCtl())
+def ui_command_enumerator_reg(config, view_t):
+    return _item_dict_with_bases(config, view_t)
 
 
 # @mark.service(ctl=FlatListConfigCtl())
@@ -82,10 +83,11 @@ def get_view_commands(
         # view_reg,
         # visualizer,
         command_factory,
+        command_enum_creg,
         view_ui_command_reg,
         # view_ui_model_command_reg,
         # universal_ui_command_reg,
-        # ui_command_enumerator_reg,
+        ui_command_enumerator_reg,
         # universal_ui_command_enumerator_reg,
         ctx,
         view,
@@ -93,7 +95,7 @@ def get_view_commands(
     view_t = deduce_t(view.piece)
     view_t_ref = pyobj_creg.actor_to_ref(view_t)
     name_to_command = view_ui_command_reg(view_t)
-    return [
+    command_list = [
         command_factory(
             key=htypes.command.ui_command_key(view_t_ref, name),
             name=name,
@@ -102,6 +104,10 @@ def get_view_commands(
             )
         for name, command in name_to_command.items()
         ]
+    enum_ctx = prepare_command_ctx(ctx)
+    for name, enum in ui_command_enumerator_reg(view_t).items():
+        command_list += command_enum_creg.animate(enum, enum_ctx)
+    return command_list
 
     # ui_model_command_list = [
     #     wrap_model_command_to_ui_command(diff_creg, feed_factory, error_view, view_reg, visualizer, cmd)
@@ -130,8 +136,6 @@ def get_view_element_commands(
     view_t = deduce_t(view.piece)
     view_t_ref = pyobj_creg.actor_to_ref(view_t)
     name_to_command = view_element_ui_command_reg(view_t)
-    # for enumerator in view_element_ui_command_enumerator_reg(view_t):
-    #     command_list += enumerator.enum_commands(ctx)
     return [
         command_factory(
             key=htypes.command.ui_command_key(view_t_ref, name),

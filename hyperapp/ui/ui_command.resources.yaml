@@ -17,6 +17,7 @@ import:
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
+- ui.command:command.module
 - ui.command_config_ctl:command_config_ctl.module
 definitions:
   command_config_ctl-type_str_command_config.ctl:
@@ -35,7 +36,9 @@ definitions:
       function: get_view_commands
       service_params:
       - command_factory
+      - command_enum_creg
       - view_ui_command_reg
+      - ui_command_enumerator_reg
       want_config: false
       free_params:
       - ctx
@@ -76,6 +79,7 @@ definitions:
       module_name: ui_command
       file_name: ui_command.dyn.py
       import_list:
+        code.command: ui.command:command.module
         code.command_config_ctl: ui.command_config_ctl:command_config_ctl.module
         code.config_ctl: base.system.config_ctl:config_ctl.module
         code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
@@ -85,6 +89,21 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
+  ui_command_enumerator_reg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: ui_command.module
+      attr_name: ui_command_enumerator_reg
+  ui_command_enumerator_reg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: ui_command_enumerator_reg
+      ctl: command_config_ctl-type_str_command_config.ctl
+      function: ui_command_enumerator_reg
+      service_params: []
+      want_config: true
+      free_params:
+      - view_t
   view_element_ui_command_reg:
     type: legacy_type.builtin:attribute
     value:
