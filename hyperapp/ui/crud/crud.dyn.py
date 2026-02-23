@@ -14,9 +14,8 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
+from .code.command import prepare_command_ctx
 from .code.remote_model import real_model_t
-# from .code.command import BoundCommandBase, UnboundCommandBase
-# from .code.ui_model_command import split_command_result, wrap_model_command_to_ui_command
 from .code.context_view import ContextView
 from .code.record_adapter import FnRecordAdapterBase
 from .code.construct_default_form import construct_default_form
@@ -171,7 +170,6 @@ class Crud:
             args = {}
         if model is not None:
             model_layout_kw = {
-                'piece': model,
                 'model': model,
                 }
         else:
@@ -299,9 +297,17 @@ def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layo
 
 
 @mark.ctx_actor.command_creg
-def commit_command(piece, model):
-    return None
-    assert 0, (piece, model)
+def commit_command(piece, model, ctx, crud_commit_action_creg, crud):
+    args = _args_tuple_to_dict(model.args)
+    real_model = web.summon(model.model)
+    fn_ctx = crud.fn_ctx(ctx, real_model, args)
+    command_ctx = prepare_command_ctx(fn_ctx)
+    action_ctx = command_ctx.clone_with({
+        piece.commit_value_field: command_ctx.value,
+        })
+    return crud_commit_action_creg.invite(piece.commit_action, action_ctx)
+
+
 # class UnboundCrudCommitCommand(UnboundCommandBase):
 
 #     def __init__(self, crud, remote_peer, d, model, args, pick_fn, commit_fn, commit_value_field):

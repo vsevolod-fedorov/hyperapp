@@ -250,7 +250,7 @@ def rpc_system_call_factory(receiver_peer, sender_identity, fn):
     return call
 
 
-def test_commit_command(ctx, model):
+def test_commit_command(ctx, form_model):
     item_id = 11
     commit_command = htypes.crud.commit_command(
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
@@ -258,9 +258,13 @@ def test_commit_command(ctx, model):
         commit_action=mosaic.put(htypes.crud_tests.sample_crud_update_action()),
         commit_value_field='value',
         )
+    value = htypes.crud_tests.sample_record(12345, "Some text")
+    input = Mock()
+    input.get_value.return_value = value
     command_ctx = ctx.clone_with(
         piece=commit_command,
-        model=model,
+        model=form_model,
+        input=input,
         )
     crud_module.commit_command(command_ctx)
 
