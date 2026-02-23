@@ -72,7 +72,7 @@ class ViewFactory(ViewFactoryBase):
             fn_ctx = fn_ctx.clone_with(
                 system_fn=system_fn,
                 )
-        result = self._system_fn.call(fn_ctx, accessor=accessor)
+        result = self._system_fn(fn_ctx, accessor=accessor)
         return await self._await_if_coro(result)
 
     @staticmethod
