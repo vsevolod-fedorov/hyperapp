@@ -109,7 +109,7 @@ class CtxFnCtr:
         return template
 
 
-class CtxActorTemplateCtr(ModuleCtr, CtxFnCtr):
+class CtxActorTemplateCtr(CtxActorProbeMixin, ModuleCtr, CtxFnCtr):
 
     @classmethod
     def from_piece(cls, piece):
