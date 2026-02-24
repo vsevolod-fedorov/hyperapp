@@ -92,9 +92,13 @@ class CrudContextView(ContextView):
 
     @property
     def commit_command(self):
+        if self._name == 'edit':
+            name = 'save'
+        else:
+            name = self._name
         command_key = htypes.crud.commit_command_key(
             model=mosaic.put_opt(self._model),
-            name=self._name,
+            name=name,
             )
         command = htypes.crud.commit_command(
             args=_args_dict_to_tuple(self._args),
@@ -102,7 +106,7 @@ class CrudContextView(ContextView):
             commit_action=self._commit_action_ref,
             commit_value_field=self._commit_value_field,
             )
-        return (command_key, self._name, command)
+        return (command_key, name, command)
 
 
 @mark.ctx_actor.command_creg
