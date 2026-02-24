@@ -42,7 +42,7 @@ def format_model_arg(piece):
     return f"Model: {model_t.full_name}"
 
 
-@mark.selector.get
+@mark.selector.open
 def model_list_get(value):
     return htypes.model_list.model()
 

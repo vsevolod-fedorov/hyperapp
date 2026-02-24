@@ -8,7 +8,7 @@ from .code.marker_utils import (
     check_not_classmethod,
     split_actor_params,
     )
-from .code.selector_ctr import SelectorGetTemplateCtr, SelectorPickTemplateCtr
+from .code.selector_ctr import SelectorOpenTemplateCtr, SelectorPickTemplateCtr
 
 
 # Copy of the same function from ui.ui_model_command module
@@ -44,7 +44,7 @@ class SelectorProbe:
         return result
 
 
-class SelectorGetProbe(SelectorProbe):
+class SelectorOpenProbe(SelectorProbe):
 
     def _add_constructor(self, params, result):
         return
@@ -55,7 +55,7 @@ class SelectorGetProbe(SelectorProbe):
         model, _key = _split_command_result(result)
         model_t = deduce_t(model)
         assert isinstance(model_t, TRecord), model_t
-        ctr = SelectorGetTemplateCtr(
+        ctr = SelectorOpenTemplateCtr(
             module_name=self._module_name,
             attr_qual_name=params.real_qual_name(self._fn),
             service_params=params.service_names,
@@ -102,8 +102,8 @@ class SelectorMarker:
         self._ctr_collector = ctr_collector
 
     @property
-    def get(self):
-        return SelectorDecorator(self._system, self._ctr_collector, self._module_name, SelectorGetProbe)
+    def open(self):
+        return SelectorDecorator(self._system, self._ctr_collector, self._module_name, SelectorOpenProbe)
 
     @property
     def pick(self):

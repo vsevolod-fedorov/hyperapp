@@ -32,7 +32,7 @@ def pick_view_factory_context(ctx):
         )
 
 
-@mark.selector.get
+@mark.selector.open
 def view_factory_list_get(value):
     return htypes.view_factory_list.model(
         model=value.model,

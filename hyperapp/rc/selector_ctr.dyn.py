@@ -55,7 +55,7 @@ class SelectorTemplateCtrBase(ModuleCtr):
         return _action_resource_name(self._type_name, self._action)
 
 
-class SelectorGetTemplateCtr(SelectorTemplateCtrBase):
+class SelectorOpenTemplateCtr(SelectorTemplateCtrBase):
 
     _action = 'get'
     _ctx_params = ['value']

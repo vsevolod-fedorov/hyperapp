@@ -25,7 +25,7 @@ def open_config_layer_list():
     return htypes.config_layer_list.model()
 
 
-@mark.selector.get
+@mark.selector.open
 def layer_get(value):
     piece = htypes.config_layer_list.model()
     return (piece, value.name)

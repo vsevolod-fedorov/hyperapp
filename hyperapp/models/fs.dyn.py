@@ -42,7 +42,7 @@ def format_model(piece):
     return "FS"
 
 
-@mark.selector.get
+@mark.selector.open
 def fs_get(value):
     if value is not None:
         return (htypes.fs.model(), value.parts)

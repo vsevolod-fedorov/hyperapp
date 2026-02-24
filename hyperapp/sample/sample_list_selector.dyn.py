@@ -2,7 +2,7 @@ from . import htypes
 from .code.mark import mark
 
 
-@mark.selector.get
+@mark.selector.open
 def sample_list_get(value):
     return htypes.sample_list.sample_list()
 
