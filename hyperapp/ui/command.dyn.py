@@ -153,10 +153,7 @@ def prepare_command_ctx(ctx):
             kw['state'] = ctx.view.widget_state(widget)
     if 'input' in ctx and 'value' not in ctx:
         kw['value'] = ctx.input.get_value()
-    if kw:
-        return ctx.clone_with(**kw)
-    else:
-        return ctx
+    return ctx.push(**kw)
 
 
 @mark.service

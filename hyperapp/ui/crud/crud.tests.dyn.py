@@ -258,13 +258,10 @@ def test_commit_command(ctx, form_model):
         commit_action=mosaic.put(htypes.crud_tests.sample_crud_update_action()),
         commit_value_field='value',
         )
-    value = htypes.crud_tests.sample_record(12345, "Some text")
-    input = Mock()
-    input.get_value.return_value = value
     command_ctx = ctx.clone_with(
         piece=commit_command,
         model=form_model,
-        input=input,
+        value=htypes.crud_tests.sample_record(12345, "Some text"),
         )
     crud_module.commit_command(command_ctx)
 
@@ -279,7 +276,7 @@ async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, form_
         )
     view_piece = view_piece_ctr(11, pick_fn=None)
     view = view_reg.animate(view_piece, ctx)
-    commands = crud_module.crud_commit_command_enum(view, command_ctx)
+    commands = crud_module.crud_commit_command_enum(view, command_ctx.push())
     assert commands
     [cmd] = commands
     await cmd.run()

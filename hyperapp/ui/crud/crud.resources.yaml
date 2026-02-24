@@ -28,7 +28,6 @@ import:
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
 - legacy_type.system_fn:ctx_fn
-- ui.command:command.module
 - ui.construct_default_form:construct_default_form.module
 - ui.qt.context_view:context_view.module
 - ui.record_adapter:record_adapter.module
@@ -134,7 +133,6 @@ definitions:
       module_name: crud
       file_name: crud.dyn.py
       import_list:
-        code.command: ui.command:command.module
         code.construct_default_form: ui.construct_default_form:construct_default_form.module
         code.context: base.context:context.module
         code.context_view: ui.qt.context_view:context_view.module
