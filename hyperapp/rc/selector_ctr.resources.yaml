@@ -6,11 +6,12 @@ import:
 - legacy_type.cfg_item:typed_cfg_item
 - legacy_type.command:model_command_fn
 - legacy_type.selector:template
-- legacy_type.selector_ctr:get_ctr
+- legacy_type.selector_ctr:open_ctr
 - legacy_type.selector_ctr:pick_ctr
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - rc.cfg_item_req:cfg_item_req.module
+- rc.ctx_actor_ctr:ctx_actor_ctr.module
 - rc.rc_constructor:rc_constructor.module
 
 definitions:
@@ -25,37 +26,38 @@ definitions:
         htypes.cfg_item.typed_cfg_item: legacy_type.cfg_item:typed_cfg_item
         htypes.command.model_command_fn: legacy_type.command:model_command_fn
         htypes.selector.template: legacy_type.selector:template
-        htypes.selector_ctr.get_ctr: legacy_type.selector_ctr:get_ctr
+        htypes.selector_ctr.open_ctr: legacy_type.selector_ctr:open_ctr
         htypes.selector_ctr.pick_ctr: legacy_type.selector_ctr:pick_ctr
         htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
         services.mosaic: builtins:mosaic.service
         services.pyobj_creg: builtins:pyobj_creg.service
         code.cfg_item_req: rc.cfg_item_req:cfg_item_req.module
         code.rc_constructor: rc.rc_constructor:rc_constructor.module
+        code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
 
-  SelectorGetTemplateCtr:
+  SelectorOpenTemplateCtr:
     type: legacy_type.builtin:attribute
     value:
       object: selector_ctr.module
-      attr_name: SelectorGetTemplateCtr
+      attr_name: SelectorOpenTemplateCtr
 
-  SelectorGetTemplateCtr.from_piece:
+  SelectorOpenTemplateCtr.from_piece:
     type: legacy_type.builtin:attribute
     value:
-      object: SelectorGetTemplateCtr
+      object: SelectorOpenTemplateCtr
       attr_name: from_piece
 
-  SelectorGetTemplateCtr.from_piece.actor-template:
+  SelectorOpenTemplateCtr.from_piece.actor-template:
     type: legacy_type.system:actor_template
     value:
-      function: SelectorGetTemplateCtr.from_piece
+      function: SelectorOpenTemplateCtr.from_piece
       service_params: []
 
-  selector_ctr-get_ctr.actor-cfg-item:
+  selector_ctr-open_ctr.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
-      t: legacy_type.selector_ctr:get_ctr
-      value: SelectorGetTemplateCtr.from_piece.actor-template
+      t: legacy_type.selector_ctr:open_ctr
+      value: SelectorOpenTemplateCtr.from_piece.actor-template
 
   SelectorPickTemplateCtr:
     type: legacy_type.builtin:attribute

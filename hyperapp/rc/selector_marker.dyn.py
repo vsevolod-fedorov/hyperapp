@@ -47,7 +47,6 @@ class SelectorProbe:
 class SelectorOpenProbe(SelectorProbe):
 
     def _add_constructor(self, params, result):
-        return
         if list(params.ctx_names) != ['value']:
             raise RuntimeError(f"{self._fn}: Expected single non-service parameter, 'value': {params.ctx_names}")
         value = params.values['value']
@@ -68,7 +67,6 @@ class SelectorOpenProbe(SelectorProbe):
 class SelectorPickProbe(SelectorProbe):
 
     def _add_constructor(self, params, result):
-        return
         value_t = deduce_t(result)
         ctr = SelectorPickTemplateCtr(
             module_name=self._module_name,

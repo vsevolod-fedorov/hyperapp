@@ -1,4 +1,4 @@
 template = record:
   model_t: ref
-  get_fn: ref
-  pick_fn: ref
+  open_action: ref
+  pick_action: ref

@@ -1,3 +1,6 @@
+from functools import cached_property
+from hyperapp.boot.htypes import TRecord
+
 from . import htypes
 from .services import (
     mosaic,
@@ -5,6 +8,7 @@ from .services import (
     )
 from .code.rc_constructor import Constructor, ModuleCtr
 from .code.cfg_item_req import CfgItemReq
+from .code.ctx_actor_ctr import CtxActorTemplateCtr
 
 
 _ACTION_SERVICE_NAME = 'selector_action'
@@ -27,24 +31,33 @@ class SelectorTemplateCtrBase(ModuleCtr):
         resolved_tgt = target_set.factory.config_item_resolved(_ACTION_SERVICE_NAME, self._resource_name)
         ready_tgt.set_provider(resource_tgt)
         resolved_tgt.resolve(self)
-
-    def make_function(self, types, fn_type, python_module, name_to_res):
-        object = python_module
-        prefix = []
-        for name in self._attr_qual_name:
-            object = htypes.builtin.attribute(
-                object=mosaic.put(object),
-                attr_name=name,
-                )
-            name_to_res['.'.join([*prefix, name])] = object
-            prefix.append(name)
-        system_fn = fn_type(
-            function=mosaic.put(object),
-            ctx_params=tuple(self._ctx_params),
-            service_params=tuple(self._service_params),
+        actor_ctr = CtxActorTemplateCtr(
+            module_name=self._module_name,
+            attr_qual_name=self._attr_qual_name,
+            service_name=self._actor_creg,
+            t=self._action_t,
+            ctx_params=self._ctx_params,
+            service_params=self._service_params,
+            create_t=True,
             )
-        name_to_res[f'{self._resource_name}.system-fn'] = system_fn
-        return system_fn
+        actor_ctr.update_resource_targets(resource_tgt, target_set)
+
+    @property
+    def _action_full_name(self):
+        return f'{self._value_t.module_name}_{self._value_t.name}_selector_{self._action_name}'
+
+    @cached_property
+    def _action_t(self):
+        code_name = self._module_name.split('.')[-1]
+        return TRecord(code_name, self._action_full_name)
+
+    @property
+    def action(self):
+        return self._action_t()
+
+    @property
+    def resource_name(self):
+        return self._resource_name
 
     @property
     def _type_name(self):
@@ -52,12 +65,13 @@ class SelectorTemplateCtrBase(ModuleCtr):
 
     @property
     def _resource_name(self):
-        return _action_resource_name(self._type_name, self._action)
+        return _action_resource_name(self._type_name, self._action_name)
 
 
 class SelectorOpenTemplateCtr(SelectorTemplateCtrBase):
 
-    _action = 'get'
+    _action_name = 'open'
+    _actor_creg = 'selector_open_action_creg'
     _ctx_params = ['value']
 
     @classmethod
@@ -76,7 +90,7 @@ class SelectorOpenTemplateCtr(SelectorTemplateCtrBase):
 
     @property
     def piece(self):
-        return htypes.selector_ctr.get_ctr(
+        return htypes.selector_ctr.open_ctr(
             module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             service_params=tuple(self._service_params),
@@ -95,7 +109,8 @@ class SelectorOpenTemplateCtr(SelectorTemplateCtrBase):
 
 class SelectorPickTemplateCtr(SelectorTemplateCtrBase):
 
-    _action = 'pick'
+    _action_name = 'pick'
+    _actor_creg = 'selector_pick_action_creg'
 
     @classmethod
     def from_piece(cls, piece):
@@ -127,19 +142,19 @@ class SelectorCtr(Constructor):
     def __init__(self, value_t, model_t):
         self._value_t = value_t
         self._model_t = model_t
-        self._get_resolved_tgt = None
+        self._open_resolved_tgt = None
         self._pick_resolved_tgt = None
 
     def update_selector_targets(self, resource_tgt, target_set):
-        self._get_resolved_tgt = target_set.factory.config_item_resolved(
-            _ACTION_SERVICE_NAME, _action_resource_name(self._type_name, 'get'))
+        self._open_resolved_tgt = target_set.factory.config_item_resolved(
+            _ACTION_SERVICE_NAME, _action_resource_name(self._type_name, 'open'))
         self._pick_resolved_tgt = target_set.factory.config_item_resolved(
             _ACTION_SERVICE_NAME, _action_resource_name(self._type_name, 'pick'))
         service_name = 'selector_reg'
         req = CfgItemReq.from_actor(service_name, self._value_t)
         _, resolved_tgt, _ = target_set.factory.config_items(
             service_name, self._type_name, req, provider=resource_tgt, ctr=self)
-        resolved_tgt.add_dep(self._get_resolved_tgt)
+        resolved_tgt.add_dep(self._open_resolved_tgt)
         resolved_tgt.add_dep(self._pick_resolved_tgt)
         resource_tgt.add_cfg_item_target(resolved_tgt)
 
@@ -147,19 +162,21 @@ class SelectorCtr(Constructor):
         return name_to_res[f'{self._type_name}.selector-cfg-item']
 
     def make_component(self, types, python_module, name_to_res):
-        get_fn = self._get_resolved_tgt.constructor.make_function(
-            types, htypes.command.model_command_fn, python_module, name_to_res)
-        pick_fn = self._pick_resolved_tgt.constructor.make_function(
-            types, htypes.system_fn.ctx_fn, python_module, name_to_res)
+        open_action = self._open_resolved_tgt.constructor.action
+        open_action_res_name = self._open_resolved_tgt.constructor.resource_name
+        pick_action = self._pick_resolved_tgt.constructor.action
+        pick_action_res_name = self._pick_resolved_tgt.constructor.resource_name
         template = htypes.selector.template(
             model_t=pyobj_creg.actor_to_ref(self._model_t),
-            get_fn=mosaic.put(get_fn),
-            pick_fn=mosaic.put(pick_fn),
+            open_action=mosaic.put(open_action),
+            pick_action=mosaic.put(pick_action),
             )
         cfg_item = htypes.cfg_item.typed_cfg_item(
             t=pyobj_creg.actor_to_ref(self._value_t),
             value=mosaic.put(template),
             )
+        name_to_res[f'{open_action_res_name}.action'] = open_action
+        name_to_res[f'{pick_action_res_name}.action'] = pick_action
         name_to_res[f'{self._type_name}.selector-template'] = template
         name_to_res[f'{self._type_name}.selector-cfg-item'] = cfg_item
 
