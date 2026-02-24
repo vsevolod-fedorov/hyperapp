@@ -13,6 +13,7 @@ import:
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
+- ui.context_code_registry:context_code_registry.module
 definitions:
   cfg_value_creg-selector-template.actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
@@ -35,8 +36,37 @@ definitions:
       module_name: selector
       file_name: selector.dyn.py
       import_list:
+        code.context_code_registry: ui.context_code_registry:context_code_registry.module
         code.mark: base.mark:mark.module
         services.pyobj_creg: builtins:pyobj_creg.service
+  selector_open_action_creg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: selector.module
+      attr_name: selector_open_action_creg
+  selector_open_action_creg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: selector_open_action_creg
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: selector_open_action_creg
+      service_params: []
+      want_config: true
+      free_params: []
+  selector_pick_action_creg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: selector.module
+      attr_name: selector_pick_action_creg
+  selector_pick_action_creg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: selector_pick_action_creg
+      ctl: system-dict_config.one_way.actor.single.ctl
+      function: selector_pick_action_creg
+      service_params: []
+      want_config: true
+      free_params: []
   selector_reg:
     type: legacy_type.builtin:attribute
     value:

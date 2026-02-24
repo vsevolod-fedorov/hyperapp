@@ -2,6 +2,7 @@ from .services import (
     pyobj_creg,
     )
 from .code.mark import mark
+from .code.context_code_registry import ContextCodeRegistry
 
 
 class Selector:
@@ -40,3 +41,13 @@ class SelectorRegistry:
 @mark.service
 def selector_reg(config):
     return SelectorRegistry(config)
+
+
+@mark.service
+def selector_open_action_creg(config):
+    return ContextCodeRegistry('selector_open_action_creg', config)
+
+
+@mark.service
+def selector_pick_action_creg(config):
+    return ContextCodeRegistry('selector_pick_action_creg', config)
