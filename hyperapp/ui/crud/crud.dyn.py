@@ -45,14 +45,15 @@ class CrudContextView(ContextView):
     def from_piece(cls, piece, ctx, view_reg, model_layout_reg, crud):
         base_view = view_reg.invite(piece.base_view, ctx)
         model = web.summon_opt(piece.model)
+        pick_action = web.summon_opt(piece.pick_action)
         # remote_peer = peer_creg.invite_opt(piece.remote_peer)
         return cls(
             model_layout_reg, crud, base_view, piece.name, model,
-            _args_tuple_to_dict(piece.args), piece.pick_fn, piece.commit_action, piece.commit_value_field)
+            _args_tuple_to_dict(piece.args), pick_action, piece.commit_action, piece.commit_value_field)
 
     def __init__(
             self, model_layout_reg, crud, base_view, name, model,
-            args, pick_fn_ref, commit_action_ref, commit_value_field):
+            args, pick_action, commit_action_ref, commit_value_field):
         super().__init__(base_view, label=name)
         self._model_layout_reg = model_layout_reg
         self._crud = crud
@@ -60,7 +61,7 @@ class CrudContextView(ContextView):
         self._model = model
         # self._remote_peer = remote_peer
         self._args = args
-        self._pick_fn_ref = pick_fn_ref
+        self._pick_action = pick_action
         self._commit_action_ref = commit_action_ref
         self._commit_value_field = commit_value_field
         self._current_layout = self._base_view.piece
@@ -74,7 +75,7 @@ class CrudContextView(ContextView):
             # remote_peer=mosaic.put(self._remote_peer.piece) if self._remote_peer else None,
             # commit_command_d=mosaic.put(self._commit_command_d),
             args=_args_dict_to_tuple(self._args),
-            pick_fn=self._pick_fn_ref,
+            pick_action=mosaic.put_opt(self._pick_action),
             commit_action=self._commit_action_ref,
             commit_value_field=self._commit_value_field,
             )
@@ -102,7 +103,7 @@ class CrudContextView(ContextView):
             )
         command = htypes.crud.commit_command(
             args=_args_dict_to_tuple(self._args),
-            pick_fn=self._pick_fn_ref,
+            pick_action=mosaic.put(self._pick_action),
             commit_action=self._commit_action_ref,
             commit_value_field=self._commit_value_field,
             )
@@ -207,17 +208,18 @@ class Crud:
         try:
             selector = self._selector_reg[value_t]
         except KeyError:
-            get_fn = None
-            pick_fn = None
+            open_action = None
+            pick_action = None
         else:
-            get_fn = selector.get_fn
-            pick_fn = selector.pick_fn
-        if get_fn:
-            if init_action_fn is None:
+            open_action = selector.open_action
+            pick_action = selector.pick_action
+        if pick_action:
+            if init_action_ref is None:
                 value = None
             else:
-                value = self._run_init(ctx, init_action_fn, model, init_args)
-            selector_result = await get_fn.call(ctx, value=value)
+                value = self._run_init(ctx, init_action_ref, model, init_args)
+                action_ctx = ctx.clone_with(value=value)
+            selector_result = self._selector_open_action_creg.animate(open_action, action_ctx)
             selector_model, key = split_command_result(selector_result)
             selector_model_t = real_model_t(selector_model)
             base_view_piece = await self._visualizer(ctx, selector_model_t)
@@ -248,7 +250,7 @@ class Crud:
             model=mosaic.put(model),
             # remote_peer=mosaic.put(remote_peer.piece) if remote_peer else None,
             args=_args_dict_to_tuple(commit_args),
-            pick_fn=mosaic.put(pick_fn.piece) if pick_fn else None,
+            pick_action=mosaic.put_opt(pick_action),
             commit_action=commit_action_ref,
             commit_value_field=commit_value_field,
             )
