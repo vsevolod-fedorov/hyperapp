@@ -43,6 +43,9 @@ import:
 - sample.sample_list_crud:crud_commit_action_creg-sample_list_crud-commit_update.ctx-actor-cfg-item
 - sample.sample_list_crud:crud_init_action_creg-sample_list_crud-init_get.ctx-actor-cfg-item
 - sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
+- sample.sample_list_selector:sample_list_selector-item.selector-cfg-item
+- sample.sample_list_selector:selector_open_action_creg-sample_list_selector-sample_list_selector_item_selector_open.ctx-actor-cfg-item
+- sample.sample_list_selector:selector_pick_action_creg-sample_list_selector-sample_list_selector_item_selector_pick.ctx-actor-cfg-item
 - sample.sample_record:command_creg-sample_record-apply.ctx-actor-cfg-item
 - sample.sample_record:command_creg-sample_record-open_sample_fn_record.ctx-actor-cfg-item
 - sample.sample_record:open_sample_fn_record.command-cfg-item
@@ -120,6 +123,9 @@ definitions:
         global_model_command_reg: global_model_command_reg
         model_command_reg: model_command_reg
         model_reg: model_reg
+        selector_open_action_creg: selector_open_action_creg
+        selector_pick_action_creg: selector_pick_action_creg
+        selector_reg: selector_reg
         system: system
   crud_commit_action_creg:
     type: legacy_type.system:item_list_config
@@ -184,6 +190,21 @@ definitions:
       - sample.sample_list:sample_list-sample_list.model-cfg-item
       - sample.sample_record:sample_record-sample_record.model-cfg-item
       - sample.sample_tree:sample_tree-model.model-cfg-item
+  selector_open_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_list_selector:selector_open_action_creg-sample_list_selector-sample_list_selector_item_selector_open.ctx-actor-cfg-item
+  selector_pick_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_list_selector:selector_pick_action_creg-sample_list_selector-sample_list_selector_item_selector_pick.ctx-actor-cfg-item
+  selector_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - sample.sample_list_selector:sample_list_selector-item.selector-cfg-item
   system:
     type: legacy_type.system:item_list_config
     value:

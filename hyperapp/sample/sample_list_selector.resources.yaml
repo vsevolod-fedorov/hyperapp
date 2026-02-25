@@ -2,10 +2,66 @@
 
 import:
 - base.mark:mark.module
+- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.cfg_item:fn_value_template
+- legacy_type.cfg_item:typed_cfg_item
 - legacy_type.sample_list:sample_list
 - legacy_type.sample_list_selector:item
+- legacy_type.selector:template
+- legacy_type.system_fn:ctx_fn
 definitions:
+  sample_list_get:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_list_selector.module
+      attr_name: sample_list_get
+  sample_list_get.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: sample_list_get.system-fn
+  sample_list_get.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: sample_list_get
+      ctx_params:
+      - value
+      service_params: []
+  sample_list_pick:
+    type: legacy_type.builtin:attribute
+    value:
+      object: sample_list_selector.module
+      attr_name: sample_list_pick
+  sample_list_pick.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: sample_list_pick.system-fn
+  sample_list_pick.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: sample_list_pick
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []
+  sample_list_selector-item.selector-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.sample_list_selector:item
+      value: sample_list_selector-item.selector-template
+  sample_list_selector-item.selector-template:
+    type: legacy_type.selector:template
+    value:
+      model_t: legacy_type.sample_list:sample_list
+      open_action: sample_list_selector-item.selector.open.action
+      pick_action: sample_list_selector-item.selector.pick.action
+  sample_list_selector-item.selector.open.action:
+    type: sample_list_selector_item_selector_open.t
+    value: {}
+  sample_list_selector-item.selector.pick.action:
+    type: sample_list_selector_item_selector_pick.t
+    value: {}
   sample_list_selector.module:
     type: legacy_type.builtin:python_module
     value:
@@ -15,3 +71,27 @@ definitions:
         code.mark: base.mark:mark.module
         htypes.sample_list.sample_list: legacy_type.sample_list:sample_list
         htypes.sample_list_selector.item: legacy_type.sample_list_selector:item
+  sample_list_selector_item_selector_open.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_list_selector
+      name: sample_list_selector_item_selector_open
+      base: null
+      fields: {}
+  sample_list_selector_item_selector_pick.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_list_selector
+      name: sample_list_selector_item_selector_pick
+      base: null
+      fields: {}
+  selector_open_action_creg-sample_list_selector-sample_list_selector_item_selector_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: sample_list_selector_item_selector_open.t
+      value: sample_list_get.ctx-actor-template
+  selector_pick_action_creg-sample_list_selector-sample_list_selector_item_selector_pick.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: sample_list_selector_item_selector_pick.t
+      value: sample_list_pick.ctx-actor-template

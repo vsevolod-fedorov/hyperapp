@@ -18,6 +18,7 @@ import:
 - legacy_type.feed:list_feed_type
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:model
+- legacy_type.selector:template
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.view_factory:factory
@@ -101,11 +102,52 @@ definitions:
       ctx_params:
       - ctx
       service_params: []
+  selector_open_action_creg-view_factory_list-view_factory_factory_selector_open.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: view_factory_factory_selector_open.t
+      value: view_factory_list_get.ctx-actor-template
+  selector_pick_action_creg-view_factory_list-view_factory_factory_selector_pick.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: view_factory_factory_selector_pick.t
+      value: view_factory_list_pick.ctx-actor-template
   view_factory-factory.editor_default.cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.view_factory:factory
       value: pick_view_factory_context.system-fn
+  view_factory-factory.selector-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.view_factory:factory
+      value: view_factory-factory.selector-template
+  view_factory-factory.selector-template:
+    type: legacy_type.selector:template
+    value:
+      model_t: legacy_type.view_factory_list:model
+      open_action: view_factory-factory.selector.open.action
+      pick_action: view_factory-factory.selector.pick.action
+  view_factory-factory.selector.open.action:
+    type: view_factory_factory_selector_open.t
+    value: {}
+  view_factory-factory.selector.pick.action:
+    type: view_factory_factory_selector_pick.t
+    value: {}
+  view_factory_factory_selector_open.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: view_factory_list
+      name: view_factory_factory_selector_open
+      base: null
+      fields: {}
+  view_factory_factory_selector_pick.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: view_factory_list
+      name: view_factory_factory_selector_pick
+      base: null
+      fields: {}
   view_factory_list:
     type: legacy_type.builtin:attribute
     value:
@@ -161,3 +203,36 @@ definitions:
         services.deduce_t: builtins:deduce_t.service
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
+  view_factory_list_get:
+    type: legacy_type.builtin:attribute
+    value:
+      object: view_factory_list.module
+      attr_name: view_factory_list_get
+  view_factory_list_get.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: view_factory_list_get.system-fn
+  view_factory_list_get.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: view_factory_list_get
+      ctx_params:
+      - value
+      service_params: []
+  view_factory_list_pick:
+    type: legacy_type.builtin:attribute
+    value:
+      object: view_factory_list.module
+      attr_name: view_factory_list_pick
+  view_factory_list_pick.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: view_factory_list_pick.system-fn
+  view_factory_list_pick.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: view_factory_list_pick
+      ctx_params:
+      - piece
+      - current_item
+      service_params: []

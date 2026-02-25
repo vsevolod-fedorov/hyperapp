@@ -85,6 +85,7 @@ import:
 - models.config.config_item_list:formatter_creg-config_item_list-model.actor-cfg-item
 - models.config.config_layer_list:command_creg-config_layer_list-open_config_layer_list.ctx-actor-cfg-item
 - models.config.config_layer_list:command_creg-config_layer_list-open_service_list.ctx-actor-cfg-item
+- models.config.config_layer_list:config_layer_list-layer.selector-cfg-item
 - models.config.config_layer_list:config_layer_list-model-open_service_list.command-cfg-item
 - models.config.config_layer_list:config_layer_list-model-open_service_list.command-group-item
 - models.config.config_layer_list:config_layer_list-model.feed-template-cfg-item
@@ -92,6 +93,8 @@ import:
 - models.config.config_layer_list:formatter_creg-config_layer_list-model.actor-cfg-item
 - models.config.config_layer_list:open_config_layer_list.command-cfg-item
 - models.config.config_layer_list:open_config_layer_list.command-group-item
+- models.config.config_layer_list:selector_open_action_creg-config_layer_list-config_layer_list_layer_selector_open.ctx-actor-cfg-item
+- models.config.config_layer_list:selector_pick_action_creg-config_layer_list-config_layer_list_layer_selector_pick.ctx-actor-cfg-item
 - models.config.config_service_list:command_creg-config_service_list-open_config_service_list.ctx-actor-cfg-item
 - models.config.config_service_list:command_creg-config_service_list-toggle_assoc.ctx-actor-cfg-item
 - models.config.config_service_list:config_service_list-model-toggle_assoc.command-cfg-item
@@ -136,8 +139,11 @@ import:
 - models.fs:formatter_creg-fs-model.actor-cfg-item
 - models.fs:fs-model.feed-template-cfg-item
 - models.fs:fs-model.model-cfg-item
+- models.fs:fs-path.selector-cfg-item
 - models.fs:open_fs.command-cfg-item
 - models.fs:open_fs.command-group-item
+- models.fs:selector_open_action_creg-fs-fs_path_selector_open.ctx-actor-cfg-item
+- models.fs:selector_pick_action_creg-fs-fs_path_selector_pick.ctx-actor-cfg-item
 - models.git.git_log:formatter_creg-git-log_model.actor-cfg-item
 - models.git.git_log:git-log_model.model-cfg-item
 - models.git.git_log_adapter:git_log_layout.view-factory-cfg-item
@@ -170,8 +176,11 @@ import:
 - models.model_list:formatter_creg-model_list-model_arg.actor-cfg-item
 - models.model_list:model_list-model.feed-template-cfg-item
 - models.model_list:model_list-model.model-cfg-item
+- models.model_list:model_list-model_arg.selector-cfg-item
 - models.model_list:open_model_list.command-cfg-item
 - models.model_list:open_model_list.command-group-item
+- models.model_list:selector_open_action_creg-model_list-model_list_model_arg_selector_open.ctx-actor-cfg-item
+- models.model_list:selector_pick_action_creg-model_list-model_list_model_arg_selector_pick.ctx-actor-cfg-item
 - models.peer_list:command_creg-peer_list-add.ctx-actor-cfg-item
 - models.peer_list:command_creg-peer_list-open_peer_list.ctx-actor-cfg-item
 - models.peer_list:command_creg-peer_list-remove.ctx-actor-cfg-item
@@ -412,6 +421,9 @@ definitions:
         model_command_enumerator_reg: model_command_enumerator_reg
         model_command_reg: model_command_reg
         model_reg: model_reg
+        selector_open_action_creg: selector_open_action_creg
+        selector_pick_action_creg: selector_pick_action_creg
+        selector_reg: selector_reg
         system: system
         ui_adapter_creg: ui_adapter_creg
         view_factory_reg: view_factory_reg
@@ -594,6 +606,27 @@ definitions:
       - models.wiki_pages:wiki_pages-list_model.model-cfg-item
       - models.wiki_pages:wiki_pages-page_model.model-cfg-item
       - models.wiki_pages:wiki_pages-ref_list_model.model-cfg-item
+  selector_open_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - models.config.config_layer_list:selector_open_action_creg-config_layer_list-config_layer_list_layer_selector_open.ctx-actor-cfg-item
+      - models.fs:selector_open_action_creg-fs-fs_path_selector_open.ctx-actor-cfg-item
+      - models.model_list:selector_open_action_creg-model_list-model_list_model_arg_selector_open.ctx-actor-cfg-item
+  selector_pick_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - models.config.config_layer_list:selector_pick_action_creg-config_layer_list-config_layer_list_layer_selector_pick.ctx-actor-cfg-item
+      - models.fs:selector_pick_action_creg-fs-fs_path_selector_pick.ctx-actor-cfg-item
+      - models.model_list:selector_pick_action_creg-model_list-model_list_model_arg_selector_pick.ctx-actor-cfg-item
+  selector_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - models.config.config_layer_list:config_layer_list-layer.selector-cfg-item
+      - models.fs:fs-path.selector-cfg-item
+      - models.model_list:model_list-model_arg.selector-cfg-item
   system:
     type: legacy_type.system:item_list_config
     value:
