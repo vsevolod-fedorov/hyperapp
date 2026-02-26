@@ -12,19 +12,19 @@ import:
 - legacy_type.selector:template
 - legacy_type.system_fn:ctx_fn
 definitions:
-  sample_list_get:
+  sample_list_open:
     type: legacy_type.builtin:attribute
     value:
       object: sample_list_selector.module
-      attr_name: sample_list_get
-  sample_list_get.ctx-actor-template:
+      attr_name: sample_list_open
+  sample_list_open.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
-      system_fn: sample_list_get.system-fn
-  sample_list_get.system-fn:
+      system_fn: sample_list_open.system-fn
+  sample_list_open.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
-      function: sample_list_get
+      function: sample_list_open
       ctx_params:
       - value
       service_params: []
@@ -42,7 +42,7 @@ definitions:
     value:
       function: sample_list_pick
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params: []
   sample_list_selector-item.selector-cfg-item:
@@ -89,7 +89,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: sample_list_selector_item_selector_open.t
-      value: sample_list_get.ctx-actor-template
+      value: sample_list_open.ctx-actor-template
   selector_pick_action_creg-sample_list_selector-sample_list_selector_item_selector_pick.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

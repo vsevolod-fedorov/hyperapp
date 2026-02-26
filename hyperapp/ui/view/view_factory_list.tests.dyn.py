@@ -83,14 +83,14 @@ def view_factory_reg_config(factory, model_factory, ui_t_factory):
 
 
 @mark.fixture
-def piece():
+def model():
     return htypes.view_factory_list.model(
         model=None,
         )
 
 
-def test_view_factory_list(ctx, factory, piece):
-    items = view_factory_list.view_factory_list(piece, ctx)
+def test_view_factory_list(ctx, factory, model):
+    items = view_factory_list.view_factory_list(model, ctx)
     assert items == [factory.item]
 
 
@@ -130,17 +130,20 @@ def test_editor_default(ctx):
     context = view_factory_list.pick_view_factory_context(ctx)
 
 
-def test_selector_get():
+def test_selector_open():
     k = htypes.view_factory_list_tests.sample_1_k(),
     value = htypes.view_factory.factory(
         model=None,
         k=mosaic.put(k),
         )
-    piece = view_factory_list.view_factory_list_get(value)
+    ctx = Context(
+        value=value,
+        )
+    piece = view_factory_list.view_factory_list_open(ctx)
     assert piece
 
 
-def test_selector_pick():
+def test_selector_pick(model):
     k = htypes.view_factory_list_tests.sample_1_k(),
     current_item = htypes.view_factory.item(
         k=mosaic.put(k),
@@ -151,10 +154,14 @@ def test_selector_pick():
         view_ctx_params=(),
         model_t_list=None,
         )
-    factory = view_factory_list.view_factory_list_pick(piece, current_item)
+    ctx = Context(
+        model=model,
+        current_item=current_item,
+        )
+    factory = view_factory_list.view_factory_list_pick(ctx)
     assert isinstance(factory, htypes.view_factory.factory)
 
 
-def test_model_formatter(piece):
-    title = view_factory_list.format_model(piece)
+def test_model_formatter(model):
+    title = view_factory_list.format_model(model)
     assert type(title) is str

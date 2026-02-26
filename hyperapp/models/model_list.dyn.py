@@ -43,12 +43,12 @@ def format_model_arg(piece):
 
 
 @mark.selector.open
-def model_list_get(value):
+def model_list_open(value):
     return htypes.model_list.model()
 
 
 @mark.selector.pick
-def model_list_pick(piece, current_item):
+def model_list_pick(model, current_item):
     return htypes.model_list.model_arg(
         model_t=current_item.model_t,
         )

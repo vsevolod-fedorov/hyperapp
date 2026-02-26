@@ -123,22 +123,6 @@ definitions:
         htypes.model_list.model_arg: legacy_type.model_list:model_arg
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
-  model_list_get:
-    type: legacy_type.builtin:attribute
-    value:
-      object: model_list.module
-      attr_name: model_list_get
-  model_list_get.ctx-actor-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: model_list_get.system-fn
-  model_list_get.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: model_list_get
-      ctx_params:
-      - value
-      service_params: []
   model_list_model:
     type: legacy_type.builtin:attribute
     value:
@@ -158,6 +142,22 @@ definitions:
       name: model_list_model_arg_selector_pick
       base: null
       fields: {}
+  model_list_open:
+    type: legacy_type.builtin:attribute
+    value:
+      object: model_list.module
+      attr_name: model_list_open
+  model_list_open.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: model_list_open.system-fn
+  model_list_open.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: model_list_open
+      ctx_params:
+      - value
+      service_params: []
   model_list_pick:
     type: legacy_type.builtin:attribute
     value:
@@ -172,7 +172,7 @@ definitions:
     value:
       function: model_list_pick
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params: []
   open_model_list:
@@ -221,7 +221,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: model_list_model_arg_selector_open.t
-      value: model_list_get.ctx-actor-template
+      value: model_list_open.ctx-actor-template
   selector_pick_action_creg-model_list-model_list_model_arg_selector_pick.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

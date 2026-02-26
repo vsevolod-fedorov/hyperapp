@@ -153,19 +153,19 @@ definitions:
     value:
       t: legacy_type.config_layer_list:model
       value: format_model.actor-template
-  layer_get:
+  layer_open:
     type: legacy_type.builtin:attribute
     value:
       object: config_layer_list.module
-      attr_name: layer_get
-  layer_get.ctx-actor-template:
+      attr_name: layer_open
+  layer_open.ctx-actor-template:
     type: legacy_type.cfg_item:fn_value_template
     value:
-      system_fn: layer_get.system-fn
-  layer_get.system-fn:
+      system_fn: layer_open.system-fn
+  layer_open.system-fn:
     type: legacy_type.system_fn:ctx_fn
     value:
-      function: layer_get
+      function: layer_open
       ctx_params:
       - value
       service_params: []
@@ -183,7 +183,7 @@ definitions:
     value:
       function: layer_pick
       ctx_params:
-      - piece
+      - model
       - current_item
       service_params: []
   open_config_layer_list:
@@ -259,7 +259,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: config_layer_list_layer_selector_open.t
-      value: layer_get.ctx-actor-template
+      value: layer_open.ctx-actor-template
   selector_pick_action_creg-config_layer_list-config_layer_list_layer_selector_pick.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:

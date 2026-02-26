@@ -33,14 +33,14 @@ def pick_view_factory_context(ctx):
 
 
 @mark.selector.open
-def view_factory_list_get(value):
+def view_factory_list_open(value):
     return htypes.view_factory_list.model(
         model=value.model,
         )
 
 
 @mark.selector.pick
-def view_factory_list_pick(piece, current_item):
+def view_factory_list_pick(model, current_item):
     return htypes.view_factory.factory(
         model=None,
         k=current_item.k,

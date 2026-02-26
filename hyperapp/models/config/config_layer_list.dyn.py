@@ -26,13 +26,13 @@ def open_config_layer_list():
 
 
 @mark.selector.open
-def layer_get(value):
+def layer_open(value):
     piece = htypes.config_layer_list.model()
     return (piece, value.name)
 
 
 @mark.selector.pick
-def layer_pick(piece, current_item):
+def layer_pick(model, current_item):
     return htypes.config_layer_list.layer(
         name=current_item.name,
         )

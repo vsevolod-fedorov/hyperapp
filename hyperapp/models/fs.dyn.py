@@ -43,7 +43,7 @@ def format_model(piece):
 
 
 @mark.selector.open
-def fs_get(value):
+def fs_open(value):
     if value is not None:
         return (htypes.fs.model(), value.parts)
     else:
@@ -51,7 +51,7 @@ def fs_get(value):
 
 
 @mark.selector.pick
-def fs_pick(piece, current_path):
+def fs_pick(model, current_path):
     return htypes.fs.path(
         parts=current_path,
         )

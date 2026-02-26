@@ -1,5 +1,6 @@
 from . import htypes
 from .code.mark import mark
+from .code.context import Context
 from .tested.code import config_layer_list
 
 
@@ -25,23 +26,27 @@ def test_open():
     assert isinstance(model, htypes.config_layer_list.model)
 
 
-def test_selector_get():
-    # value is actually unused.
-    value = htypes.config_layer_list.layer(
-        name='sample-layer',
+def test_selector_open():
+    ctx = Context(
+        # value is actually unused.
+        value=htypes.config_layer_list.layer(
+            name='sample-layer',
+            ),
         )
-    piece, key = config_layer_list.layer_get(value)
+    piece, key = config_layer_list.layer_open(ctx)
     assert isinstance(piece, htypes.config_layer_list.model)
     assert type(key) is str
 
 
 def test_selector_pick():
-    model = htypes.config_layer_list.model()  # Unused.
-    current_item = htypes.config_layer_list.item(
-        name='sample-layer',
-        service_count=0,  # Unused.
+    ctx = Context(
+        model=htypes.config_layer_list.model(),  # Unused.
+        current_item=htypes.config_layer_list.item(
+            name='sample-layer',
+            service_count=0,  # Unused.
+            ),
         )
-    value = config_layer_list.layer_pick(model, current_item)
+    value = config_layer_list.layer_pick(ctx)
     assert value == htypes.config_layer_list.layer('sample-layer')
 
 

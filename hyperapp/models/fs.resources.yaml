@@ -106,27 +106,27 @@ definitions:
         htypes.fs.item: legacy_type.fs:item
         htypes.fs.model: legacy_type.fs:model
         htypes.fs.path: legacy_type.fs:path
-  fs_get:
-    type: legacy_type.builtin:attribute
-    value:
-      object: fs.module
-      attr_name: fs_get
-  fs_get.ctx-actor-template:
-    type: legacy_type.cfg_item:fn_value_template
-    value:
-      system_fn: fs_get.system-fn
-  fs_get.system-fn:
-    type: legacy_type.system_fn:ctx_fn
-    value:
-      function: fs_get
-      ctx_params:
-      - value
-      service_params: []
   fs_model:
     type: legacy_type.builtin:attribute
     value:
       object: fs.module
       attr_name: fs_model
+  fs_open:
+    type: legacy_type.builtin:attribute
+    value:
+      object: fs.module
+      attr_name: fs_open
+  fs_open.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: fs_open.system-fn
+  fs_open.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: fs_open
+      ctx_params:
+      - value
+      service_params: []
   fs_path_selector_open.t:
     type: legacy_type.builtin:record_mt
     value:
@@ -155,7 +155,7 @@ definitions:
     value:
       function: fs_pick
       ctx_params:
-      - piece
+      - model
       - current_path
       service_params: []
   open_fs:
@@ -204,7 +204,7 @@ definitions:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: fs_path_selector_open.t
-      value: fs_get.ctx-actor-template
+      value: fs_open.ctx-actor-template
   selector_pick_action_creg-fs-fs_path_selector_pick.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
