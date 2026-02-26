@@ -22,7 +22,7 @@ def _resolve_requirements(target_factory, requirements):
     return req_to_target
 
 
-def _import_targets_to_module_names(import_targets):
+def _targets_to_module_names(import_targets):
     return [
         tgt.module_name
         for tgt
@@ -93,7 +93,7 @@ class TestCachedTarget(Target):
 
     def _use_job_result(self):
         self._job_result.update_targets(
-            self._test_target, _import_targets_to_module_names(self._tested_imports), self._target_set)
+            self._test_target, _targets_to_module_names(self._tested_imports), self._target_set)
         self._cached_count.incr()
         rc_log.debug("%s: %s", self.name, self._job_result.desc)
 
@@ -217,7 +217,7 @@ class TestJobTarget(Target):
 
     def handle_job_result(self, target_set, result):
         self._completed = True
-        result.update_targets(self._test_target, _import_targets_to_module_names(self._tested_imports), target_set)
+        result.update_targets(self._test_target, _targets_to_module_names(self._tested_imports), target_set)
 
     @property
     def src(self):
