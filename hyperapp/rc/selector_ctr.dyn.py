@@ -48,7 +48,11 @@ class SelectorTemplateCtrBase(ModuleCtr):
 
     @cached_property
     def _action_t(self):
-        code_name = self._module_name.split('.')[-1]
+        l = self._module_name.split('.')
+        if l[-1] == 'tests':
+            code_name = '_'.join(l[-2:])
+        else:
+            code_name = l[-1]
         return TRecord(code_name, self._action_full_name)
 
     @property
