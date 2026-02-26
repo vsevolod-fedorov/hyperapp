@@ -12,7 +12,6 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-# from .code.model_command import ModelCommandFn
 from .code.selector import Selector
 from .fixtures import qapp_fixtures
 from .fixtures import error_view_fixtures
@@ -63,14 +62,19 @@ def sample_selector_pick(model, current_item):
 
 
 def test_sample_selector_open():
-    model = sample_selector_open(htypes.crud_tests.sample_selector())
+    ctx = Context(
+        value=htypes.crud_tests.sample_selector(),
+        )
+    model = sample_selector_open(ctx)
     assert isinstance(model, htypes.crud_tests.sample_selector_model)
 
 
 def test_sample_selector_pick():
-    model = htypes.crud_tests.sample_selector_model()
-    item = htypes.crud_tests.sample_selector_item()
-    value = sample_selector_pick(model, item)
+    ctx = Context(
+        model=htypes.crud_tests.sample_selector_model(),
+        current_item=htypes.crud_tests.sample_selector_item(),
+        )
+    value = sample_selector_pick(ctx)
     assert isinstance(value, htypes.crud_tests.sample_selector), value
 
 
@@ -211,13 +215,27 @@ async def test_open_command_to_str(run_open_command_test):
     await run_open_command_test(value_t, item_id=33)
 
 
+@mark.fixture.obj
+def selector_open_action():
+    mt = htypes.builtin.record_mt('crud_tests', 'crud_tests_sample_selector_selector_open', None, ())
+    t = pyobj_creg.animate(mt)
+    return t()
+
+
+@mark.fixture.obj
+def selector_pick_action():
+    mt = htypes.builtin.record_mt('crud_tests', 'crud_tests_sample_selector_selector_pick', None, ())
+    t = pyobj_creg.animate(mt)
+    return t()
+
+
 @mark.config_fixture('selector_reg')
-def selector_reg_config():
+def selector_reg_config(selector_open_action, selector_pick_action):
     value_t = htypes.crud_tests.sample_selector
     selector = Selector(
         model_t=htypes.crud_tests.sample_selector_model,
-        open_action=htypes.crud_tests.sample_selector_open_action(),
-        pick_action=htypes.crud_tests.sample_selector_pick_action(),
+        open_action=selector_open_action,
+        pick_action=selector_pick_action,
         )
     return {value_t: selector}
 
@@ -230,7 +248,7 @@ def view_reg_config(view_fn_mock, visualizer_view_reg_config):
         }
 
 
-async def _test_open_command_to_selector(run_open_command_test):
+async def test_open_command_to_selector(run_open_command_test):
     value_t = htypes.crud_tests.sample_selector
     await run_open_command_test(value_t, item_id=22)
 
@@ -275,8 +293,8 @@ async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, form_
     await cmd.run()
 
 
-async def _test_commit_command_enum_for_selector(view_reg, ctx, _sample_selector_pick_fn, view_piece_ctr):
-    view_piece = view_piece_ctr(22, pick_action=htypes.crud_tests.sample_selector_pick_action())
+async def _test_commit_command_enum_for_selector(view_reg, ctx, selector_pick_action, view_piece_ctr):
+    view_piece = view_piece_ctr(22, pick_action=selector_pick_action)
     view = view_reg.animate(view_piece, ctx)
     commands = crud_module.crud_commit_command_enum(view)
     assert commands

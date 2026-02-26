@@ -32,6 +32,7 @@ import:
 - ui.qt.context_view:context_view.module
 - ui.record_adapter:record_adapter.module
 - ui.remote_model:remote_model.module
+- ui.ui_model_command:ui_model_command.module
 definitions:
   CrudContextView:
     type: legacy_type.builtin:attribute
@@ -139,6 +140,7 @@ definitions:
         code.mark: base.mark:mark.module
         code.record_adapter: ui.record_adapter:record_adapter.module
         code.remote_model: ui.remote_model:remote_model.module
+        code.ui_model_command: ui.ui_model_command:ui_model_command.module
         htypes.crud.arg: legacy_type.crud:arg
         htypes.crud.commit_command: legacy_type.crud:commit_command
         htypes.crud.commit_command_key: legacy_type.crud:commit_command_key
@@ -161,6 +163,7 @@ definitions:
       - view_reg
       - selector_reg
       - model_layout_reg
+      - selector_open_action_creg
       - crud_init_action_creg
       want_config: false
       free_params: []

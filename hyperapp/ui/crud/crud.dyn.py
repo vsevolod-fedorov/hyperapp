@@ -14,6 +14,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
+from .code.ui_model_command import split_command_result
 from .code.remote_model import real_model_t
 from .code.context_view import ContextView
 from .code.record_adapter import FnRecordAdapterBase
@@ -161,12 +162,14 @@ class CrudRecordAdapter(FnRecordAdapterBase):
 class Crud:
 
     def __init__(
-            self, canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg, crud_init_action_creg):
+            self, canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg,
+            selector_open_action_creg, crud_init_action_creg):
         self._canned_ctl_item_factory = canned_ctl_item_factory
         self._visualizer = visualizer
         self._view_reg = view_reg
         self._selector_reg = selector_reg
         self._model_layout_reg = model_layout_reg
+        self._selector_open_action_creg = selector_open_action_creg
         self._crud_init_action_creg = crud_init_action_creg
 
     def fn_ctx(self, ctx, model, args, kw=None):
@@ -297,8 +300,10 @@ class Crud:
 
 
 @mark.service
-def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg, crud_init_action_creg):
-    return Crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg, crud_init_action_creg)
+def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg,
+         selector_open_action_creg, crud_init_action_creg):
+    return Crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layout_reg,
+                selector_open_action_creg, crud_init_action_creg)
 
 
 @mark.ctx_actor.command_creg
