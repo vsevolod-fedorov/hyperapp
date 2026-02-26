@@ -94,7 +94,7 @@ class SelectorOpenTemplateCtr(SelectorTemplateCtrBase):
 
     @property
     def piece(self):
-        return htypes.selector_ctr.open_ctr(
+        return htypes.selector_resources.open_ctr(
             module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             service_params=tuple(self._service_params),
@@ -132,7 +132,7 @@ class SelectorPickTemplateCtr(SelectorTemplateCtrBase):
 
     @property
     def piece(self):
-        return htypes.selector_ctr.pick_ctr(
+        return htypes.selector_resources.pick_ctr(
             module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             ctx_params=tuple(self._ctx_params),
