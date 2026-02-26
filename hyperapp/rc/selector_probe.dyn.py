@@ -2,9 +2,10 @@ from hyperapp.boot.htypes import TRecord
 
 from .services import (
     deduce_t,
+    pyobj_creg,
     )
 from .code.marker_utils import (
-    split_actor_params,
+    split_ctx_actor_params,
     )
 from .code.selector_ctr import SelectorOpenTemplateCtr, SelectorPickTemplateCtr
 
@@ -32,12 +33,12 @@ class SelectorProbe:
         self._ctr_collector = system_probe.resolve_service('ctr_collector')
 
     def __call__(self, *args, **kw):
-        params = split_actor_params(self._fn, args, kw)
+        params = split_ctx_actor_params(self._fn, args, kw)
         service_kw = {
             name: self._system.resolve_service(name)
             for name in params.service_names
             }
-        result = self._fn(*args, **kw, **service_kw)
+        result = self._fn(**params.values, **service_kw)
         self._add_constructor(params, result)
         return result
 
@@ -74,3 +75,12 @@ class SelectorPickProbe(SelectorProbe):
             value_t=value_t,
             )
         self._ctr_collector.add_constructor(ctr)
+
+
+def resolve_selector_probe_cfg_value(piece, key, system, service_name):
+    fn = pyobj_creg.invite(piece.function)
+    assert (
+        isinstance(fn, SelectorProbe)
+        or hasattr(fn, '__self__') and isinstance(fn.__func__, SelectorProbe)
+        ) , repr(fn)
+    return fn

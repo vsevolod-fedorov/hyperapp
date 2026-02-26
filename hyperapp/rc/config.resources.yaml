@@ -85,6 +85,7 @@ import:
 - rc.selector_ctr:selector_ctr-open_ctr.actor-cfg-item
 - rc.selector_ctr:selector_ctr-pick_ctr.actor-cfg-item
 - rc.selector_marker:selector.marker-cfg-item
+- rc.selector_probe:cfg_value_creg-selector_resource-selector_probe_template.actor-cfg-item
 - rc.service_ctr:service_resource-finalizer_gen_service_template_ctr.actor-cfg-item
 - rc.service_ctr:service_resource-service_template_ctr.actor-cfg-item
 - rc.service_ctr:system-finalizer_gen_service_template.actor-cfg-item
@@ -150,6 +151,7 @@ definitions:
       - rc.fixture_probe:cfg_value_creg-fixture_resource-fixture_probe_template.actor-cfg-item
       - rc.import_record_cfg_item:cfg_value_creg-import_resource-import_template.actor-cfg-item
       - rc.marker_registry:cfg_value_creg-marker-marker_template.actor-cfg-item
+      - rc.selector_probe:cfg_value_creg-selector_resource-selector_probe_template.actor-cfg-item
       - rc.service_probe_resource:cfg_value_creg-service_resource-service_probe_template.actor-cfg-item
 
   ctr_from_template_creg:

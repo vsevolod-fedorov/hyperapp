@@ -11,3 +11,13 @@ pick_ctr = record:
   ctx_params: string list
   service_params: string list
   value_t: ref
+
+
+selector_probe_ctr = record:
+  module_name: string
+  attr_qual_name: string list
+  service_name: string
+  action_t: ref
+
+selector_probe_template = record:
+  function: ref

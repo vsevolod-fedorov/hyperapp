@@ -8,6 +8,7 @@ from .services import (
     )
 from .code.rc_constructor import Constructor, ModuleCtr
 from .code.cfg_item_req import CfgItemReq
+from .code.config_item_resource import ConfigItemResource
 from .code.ctx_actor_ctr import CtxActorTemplateCtr
 
 
@@ -16,6 +17,69 @@ _ACTION_SERVICE_NAME = 'selector_action'
 
 def _action_resource_name(type_name, action):
     return f'{type_name}.selector.{action}'
+
+
+class SelectorProbeCtr(ModuleCtr):
+
+    @classmethod
+    def from_piece(cls, piece):
+        return cls(
+            module_name=piece.module_name,
+            attr_qual_name=piece.attr_qual_name,
+            service_name=piece.service_name,
+            action_t=pyobj_creg.invite(piece.action_t),
+            )
+
+    def __init__(self, module_name, attr_qual_name, service_name, action_t):
+        super().__init__(module_name)
+        self._attr_qual_name = attr_qual_name
+        self._service_name = service_name
+        self._action_t = action_t
+
+    @property
+    def piece(self):
+        return htypes.selector_resource.selector_probe_ctr(
+            module_name=self._module_name,
+            attr_qual_name=tuple(self._attr_qual_name),
+            service_name=self._service_name,
+            action_t=pyobj_creg.actor_to_ref(self._action_t),
+            )
+
+    def _add_targets(self, import_tgt, target_set):
+        import_tgt.add_test_ctr(self)
+        # ready_tgt = target_set.factory.config_item_ready(self._service_name, self._type_name)
+        # ready_tgt.set_provider(resource_tgt)
+        # resolved_tgt = target_set.factory.config_item_resolved(self._service_name, self._type_name)
+        # return resolved_tgt
+
+    def update_fixtures_targets(self, import_tgt, target_set):
+        self._add_targets(import_tgt, target_set)
+
+    def make_test_component(self, types, python_module, name_to_res=None):
+        object = python_module
+        for name in self._attr_qual_name:
+            object = htypes.builtin.attribute(
+                object=mosaic.put(object),
+                attr_name=name,
+                )
+        template = htypes.selector_resource.selector_probe_template(
+            function=mosaic.put(object),
+            )
+        return htypes.cfg_item.typed_cfg_item(
+            t=pyobj_creg.actor_to_ref(self._action_t),
+            value=mosaic.put(template),
+            )
+
+    def make_resource(self, types, module_name, python_module):
+        item = self.make_test_component(types, python_module)
+        return ConfigItemResource(
+            service_name=self._service_name,
+            cfg_item_ref=mosaic.put(item),
+            )
+
+    @property
+    def _type_name(self):
+        return f'{self._action_t.module_name}-{self._action_t.name}'
 
 
 class SelectorTemplateCtrBase(ModuleCtr):
@@ -41,6 +105,15 @@ class SelectorTemplateCtrBase(ModuleCtr):
             create_t=True,
             )
         actor_ctr.update_resource_targets(resource_tgt, target_set)
+
+    def update_fixtures_targets(self, import_tgt, target_set):
+        ctr = SelectorProbeCtr(
+            module_name=self._module_name,
+            attr_qual_name=self._attr_qual_name,
+            service_name=self._actor_creg,
+            action_t=self._action_t,
+            )
+        ctr.update_fixtures_targets(import_tgt, target_set)
 
     @property
     def _action_full_name(self):
@@ -94,7 +167,7 @@ class SelectorOpenTemplateCtr(SelectorTemplateCtrBase):
 
     @property
     def piece(self):
-        return htypes.selector_resources.open_ctr(
+        return htypes.selector_resource.open_ctr(
             module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             service_params=tuple(self._service_params),
@@ -132,7 +205,7 @@ class SelectorPickTemplateCtr(SelectorTemplateCtrBase):
 
     @property
     def piece(self):
-        return htypes.selector_resources.pick_ctr(
+        return htypes.selector_resource.pick_ctr(
             module_name=self._module_name,
             attr_qual_name=tuple(self._attr_qual_name),
             ctx_params=tuple(self._ctx_params),
