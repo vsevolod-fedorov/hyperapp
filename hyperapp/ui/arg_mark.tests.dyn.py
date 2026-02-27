@@ -3,9 +3,11 @@ from unittest.mock import Mock
 from . import htypes
 from .services import (
     mosaic,
+    web,
     )
 from .code.mark import mark
 from .code.context import Context
+from .code.selector import Selector
 from .fixtures import qapp_fixtures
 from .tested.code import arg_mark
 
@@ -43,21 +45,62 @@ def test_view(qapp, model, value):
     assert children_ctx
 
 
-def test_add_mark(view_reg, model):
-    ctx = Context()
-    label_view = htypes.label.view("Sample label")
-    state = htypes.label.state()
+@mark.fixture
+def base_view(model):
+    return Mock(
+        piece=htypes.arg_mark_tests.sample_view(),
+        model=model,
+        )
+
+
+@mark.config_fixture('view_reg')
+def view_reg_fixture(base_view):
+    return {
+        htypes.arg_mark_tests.sample_view: base_view,
+        }
+
+
+@mark.config_fixture('selector_reg')
+def selector_reg_config():
+    value_t = htypes.arg_mark_tests.sample_value
+    selector = Selector(
+        model_t=htypes.arg_mark_tests.sample_model,
+        open_action=None,
+        pick_action=htypes.arg_mark_tests.sample_selector_pick_action(),
+        )
+    return {value_t: selector}
+
+
+def pick_action(ctx):
+    return htypes.arg_mark_tests.sample_value()
+
+
+@mark.config_fixture('selector_pick_action_creg')
+def selector_pick_action_creg_config():
+    return {
+        htypes.arg_mark_tests.sample_selector_pick_action: pick_action,
+        }
+
+
+def test_add_mark(view_reg, model, base_view):
+    ctx = Context(
+        model_state=htypes.arg_mark_tests.sample_model_state(),
+        )
     navigator_piece = htypes.navigator.view(
-        current_view=mosaic.put(label_view),
+        current_view=mosaic.put(base_view.piece),
         current_model=mosaic.put(model),
         layout_k=None,
         prev=None,
         next=None,
         )
     navigator = view_reg.animate(navigator_piece, ctx)
+    state = htypes.arg_mark_tests.sample_state()
     hook = Mock()
     result = arg_mark.add_mark(navigator, state, hook, ctx)
     hook.replace_view.assert_called_once()
+    new_view = hook.replace_view.call_args.args[0]
+    assert isinstance(new_view, arg_mark.MarkView)
+    assert web.summon_opt(new_view.piece.value) == htypes.arg_mark_tests.sample_value()
 
 
 def test_remove_mark(view_reg, model, value):

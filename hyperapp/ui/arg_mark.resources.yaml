@@ -68,6 +68,7 @@ definitions:
       service_params:
       - view_reg
       - selector_reg
+      - selector_pick_action_creg
   add_mark.t:
     type: legacy_type.builtin:record_mt
     value:

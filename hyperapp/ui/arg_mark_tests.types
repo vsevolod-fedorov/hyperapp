@@ -1,2 +1,9 @@
+sample_view = record
+sample_state = record
+
+sample_selector_pick_action = record
+
 sample_model = record
+sample_model_state = record
+
 sample_value = record
