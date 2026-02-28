@@ -40,8 +40,8 @@ import:
 - sample.sample_list:sample_list-sample_list.feed-template-cfg-item
 - sample.sample_list:sample_list-sample_list.model-cfg-item
 - sample.sample_list_arg:sample_list_selector-item.editor_default.cfg-item
-- sample.sample_list_crud:crud_commit_action_creg-sample_list_crud-commit_update.ctx-actor-cfg-item
-- sample.sample_list_crud:crud_init_action_creg-sample_list_crud-init_get.ctx-actor-cfg-item
+- sample.sample_list_crud:crud_commit_action_creg-sample_list_crud-sample_list_sample_list_commit_update.ctx-actor-cfg-item
+- sample.sample_list_crud:crud_init_action_creg-sample_list_crud-sample_list_sample_list_init_get.ctx-actor-cfg-item
 - sample.sample_list_crud:sample_list-sample_list.edit.command-cfg-item
 - sample.sample_list_selector:sample_list_selector-item.selector-cfg-item
 - sample.sample_list_selector:selector_open_action_creg-sample_list_selector-sample_list_selector_item_selector_open.ctx-actor-cfg-item
@@ -131,12 +131,12 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - sample.sample_list_crud:crud_commit_action_creg-sample_list_crud-commit_update.ctx-actor-cfg-item
+      - sample.sample_list_crud:crud_commit_action_creg-sample_list_crud-sample_list_sample_list_commit_update.ctx-actor-cfg-item
   crud_init_action_creg:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - sample.sample_list_crud:crud_init_action_creg-sample_list_crud-init_get.ctx-actor-cfg-item
+      - sample.sample_list_crud:crud_init_action_creg-sample_list_crud-sample_list_sample_list_init_get.ctx-actor-cfg-item
   editor_default_reg:
     type: legacy_type.system:item_list_config
     value:

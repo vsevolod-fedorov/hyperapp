@@ -45,7 +45,7 @@ class CrudTemplateCtr(ModuleCtr):
 
     @property
     def _action_full_name(self):
-        return f'{self._type}_{self._action_name}'
+        return f'{self._model_t.module_name}_{self._model_t.name}_{self._type}_{self._action_name}'
 
     @cached_property
     def _action_t(self):

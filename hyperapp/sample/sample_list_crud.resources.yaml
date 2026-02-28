@@ -14,35 +14,21 @@ import:
 - legacy_type.system_fn:ctx_fn
 - sample.sample_list:sample_list.module
 definitions:
-  commit_update.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: sample_list_crud
-      name: commit_update
-      base: null
-      fields: {}
-  crud_commit_action_creg-sample_list_crud-commit_update.ctx-actor-cfg-item:
+  crud_commit_action_creg-sample_list_crud-sample_list_sample_list_commit_update.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
-      t: commit_update.t
+      t: sample_list_sample_list_commit_update.t
       value: sample_list_update.ctx-actor-template
-  crud_init_action_creg-sample_list_crud-init_get.ctx-actor-cfg-item:
+  crud_init_action_creg-sample_list_crud-sample_list_sample_list_init_get.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
-      t: init_get.t
+      t: sample_list_sample_list_init_get.t
       value: sample_list_get.ctx-actor-template
-  init_get.t:
-    type: legacy_type.builtin:record_mt
-    value:
-      module_name: sample_list_crud
-      name: init_get
-      base: null
-      fields: {}
   sample_list-sample_list.crud.commit.update.action:
-    type: commit_update.t
+    type: sample_list_sample_list_commit_update.t
     value: {}
   sample_list-sample_list.crud.init.get.action:
-    type: init_get.t
+    type: sample_list_sample_list_init_get.t
     value: {}
   sample_list-sample_list.edit.command:
     type: legacy_type.crud:open_command
@@ -85,6 +71,20 @@ definitions:
       - piece
       - id
       service_params: []
+  sample_list_sample_list_commit_update.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_list_crud
+      name: sample_list_sample_list_commit_update
+      base: null
+      fields: {}
+  sample_list_sample_list_init_get.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: sample_list_crud
+      name: sample_list_sample_list_init_get
+      base: null
+      fields: {}
   sample_list_update:
     type: legacy_type.builtin:attribute
     value:
