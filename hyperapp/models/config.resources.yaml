@@ -79,8 +79,10 @@ import:
 - models.config.config_item_list:config_item_list-model.move.command-cfg-item
 - models.config.config_item_list:config_service_list-model-open_config_item_list.command-cfg-item
 - models.config.config_item_list:config_service_list-model-open_config_item_list.command-group-item
-- models.config.config_item_list:crud_commit_action_creg-config_item_list-commit_move.ctx-actor-cfg-item
-- models.config.config_item_list:crud_init_action_creg-config_item_list-init_get.ctx-actor-cfg-item
+- models.config.config_item_list:crud_commit_action_creg-config_item_list-config_item_list_layer_model_commit_move.ctx-actor-cfg-item
+- models.config.config_item_list:crud_commit_action_creg-config_item_list-config_item_list_model_commit_move.ctx-actor-cfg-item
+- models.config.config_item_list:crud_init_action_creg-config_item_list-config_item_list_layer_model_init_get.ctx-actor-cfg-item
+- models.config.config_item_list:crud_init_action_creg-config_item_list-config_item_list_model_init_get.ctx-actor-cfg-item
 - models.config.config_item_list:formatter_creg-config_item_list-layer_model.actor-cfg-item
 - models.config.config_item_list:formatter_creg-config_item_list-model.actor-cfg-item
 - models.config.config_layer_list:command_creg-config_layer_list-open_config_layer_list.ctx-actor-cfg-item
@@ -432,12 +434,14 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - models.config.config_item_list:crud_commit_action_creg-config_item_list-commit_move.ctx-actor-cfg-item
+      - models.config.config_item_list:crud_commit_action_creg-config_item_list-config_item_list_layer_model_commit_move.ctx-actor-cfg-item
+      - models.config.config_item_list:crud_commit_action_creg-config_item_list-config_item_list_model_commit_move.ctx-actor-cfg-item
   crud_init_action_creg:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - models.config.config_item_list:crud_init_action_creg-config_item_list-init_get.ctx-actor-cfg-item
+      - models.config.config_item_list:crud_init_action_creg-config_item_list-config_item_list_layer_model_init_get.ctx-actor-cfg-item
+      - models.config.config_item_list:crud_init_action_creg-config_item_list-config_item_list_model_init_get.ctx-actor-cfg-item
   feed_factory:
     type: legacy_type.system:item_list_config
     value:

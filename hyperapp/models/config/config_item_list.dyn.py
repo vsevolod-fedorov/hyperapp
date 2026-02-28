@@ -131,7 +131,7 @@ def _move_item(system, source_layer_name, target_layer_name, service_name, key):
 
 
 @mark.crud.get
-def config_item_get_layer(piece, layers):
+def config_item_get_layer(model, layers):
     if not layers:
         return None
     return htypes.config_layer_list.layer(
@@ -140,35 +140,35 @@ def config_item_get_layer(piece, layers):
 
 
 @mark.crud.update.move
-def config_item_move_to_another_layer(piece, key, layers, value, system):
+def config_item_move_to_another_layer(model, key, layers, value, system):
     source_layer_name = layers[0]
     target_layer_name = value.name
     if target_layer_name == source_layer_name:
         return
-    _move_item(system, source_layer_name, target_layer_name, piece.service_name, key)
-    return (piece, key)
+    _move_item(system, source_layer_name, target_layer_name, model.service_name, key)
+    return (model, key)
 
 
 
 @mark.crud.get
-def config_layer_item_get_layer(piece):
+def config_layer_item_get_layer(model):
     return htypes.config_layer_list.layer(
-        name=piece.layer,
+        name=model.layer,
         )
 
 
 @mark.crud.update.move(init_action='get')
-def config_layer_item_move_to_another_layer(piece, key, value, system):
-    source_layer_name = piece.layer
+def config_layer_item_move_to_another_layer(model, key, value, system):
+    source_layer_name = model.layer
     target_layer_name = value.name
     if target_layer_name == source_layer_name:
         return
-    _move_item(system, source_layer_name, target_layer_name, piece.service_name, key)
-    target_piece = htypes.config_item_list.layer_model(
+    _move_item(system, source_layer_name, target_layer_name, model.service_name, key)
+    target_model = htypes.config_item_list.layer_model(
         layer=target_layer_name,
-        service_name=piece.service_name,
+        service_name=model.service_name,
         )
-    return (target_piece, key)
+    return (target_model, key)
 
 
 def _remove_item(system, layer_name, service_name, key):
