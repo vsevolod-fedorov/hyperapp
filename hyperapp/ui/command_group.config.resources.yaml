@@ -1,6 +1,7 @@
 import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:canned_args_command_key
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:ui_command_key
@@ -23,6 +24,7 @@ definitions:
       - model_command_key.cfg-item
       - global_model_command_key.cfg-item
       - ui_command_key.cfg-item
+      - canned_arg_command_key.cfg-item
       - layout_ui_command_key.cfg-item
 
   model_command_key.cfg-item:
@@ -42,6 +44,12 @@ definitions:
     value:
       t: legacy_type.command:ui_command_key
       value: view.string
+
+  canned_arg_command_key.cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.command:canned_args_command_key
+      value: context.string
 
   layout_ui_command_key.cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
