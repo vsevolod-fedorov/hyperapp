@@ -62,7 +62,7 @@ def _canned_args_command(command_factory, ctx, name, args, commit_command_ref):
         key=htypes.command.canned_args_command_key(name),
         name=name,
         command=command,
-        ctx=ctx,
+        ctx=ctx.pop(),
         )
 
 
