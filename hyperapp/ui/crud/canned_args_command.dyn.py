@@ -8,11 +8,11 @@ from .code.command_args import args_tuple_to_dict, args_dict_to_tuple
 
 
 @mark.ctx_actor.command_creg
-def canned_args_command(piece, ctx, command_runner):
+async def canned_args_command(piece, ctx, command_runner):
     command = web.summon(piece.commit_command)
     args = args_tuple_to_dict(piece.args)
     command_ctx = ctx.clone_with(**args)
-    return command_runner.run_model_command(command_ctx, command)
+    return await command_runner.run_model_command(command_ctx, command)
 
 
 def _pretify_arg_value(format, value):
