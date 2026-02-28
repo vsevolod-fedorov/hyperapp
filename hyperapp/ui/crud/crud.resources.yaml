@@ -110,6 +110,7 @@ definitions:
       - model
       - ctx
       service_params:
+      - selector_pick_action_creg
       - crud_commit_action_creg
       - crud
   crud:

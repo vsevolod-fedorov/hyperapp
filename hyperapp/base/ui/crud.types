@@ -5,10 +5,10 @@ arg = record:
 view = record:
   base_view: ref
   name: string
-  model: ref opt  # Real model - base model for crud get and post commands.
+  model: ref opt  # Original model - base model for crud get and post commands.
 #  remote_peer: ref opt
   args: arg list
-  pick_action: ref opt
+  selector_pick_action: ref opt
   commit_action: ref
   commit_value_field: string
 
@@ -20,8 +20,9 @@ open_command = record:
   commit_action: ref
 
 commit_command = record:
+  model: ref opt  # Original model - base model for crud get and post commands.
   args: arg list
-  pick_action: ref opt
+  selector_pick_action: ref opt
   commit_action: ref
   commit_value_field: string
 

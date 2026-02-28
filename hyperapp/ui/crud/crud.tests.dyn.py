@@ -34,7 +34,7 @@ def sample_crud_get(model, id):
 
 
 @mark.ctx_actor.crud_commit_action_creg(htypes.crud_tests.sample_crud_update_action)
-def _sample_crud_update(model, id, value):
+def sample_crud_update(model, id, value):
     assert isinstance(model, htypes.crud_tests.sample_model), model
     if id == 11:
         assert isinstance(value, htypes.crud_tests.sample_record), value
@@ -107,7 +107,7 @@ def commit_command_d():
 
 
 @mark.fixture
-def view_piece_ctr(generate_rsa_identity, model, item_id, pick_action=None):
+def view_piece_ctr(generate_rsa_identity, model, item_id, selector_pick_action=None):
     identity = generate_rsa_identity(fast=True)
     base_view_piece = htypes.label.view("Sample label")
     return htypes.crud.view(
@@ -116,7 +116,7 @@ def view_piece_ctr(generate_rsa_identity, model, item_id, pick_action=None):
         model=mosaic.put(model),
         # remote_peer=mosaic.put(identity.peer.piece),
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
-        pick_action=mosaic.put_opt(pick_action),
+        selector_pick_action=mosaic.put_opt(selector_pick_action),
         commit_action=mosaic.put(htypes.crud_tests.sample_crud_update_action()),
         commit_value_field='value',
         )
@@ -145,7 +145,7 @@ def model_layout_reg(format, commit_command_layout_k):
 
 
 async def test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_piece_ctr):
-    piece = view_piece_ctr(11, pick_action=None)
+    piece = view_piece_ctr(11, selector_pick_action=None)
     ctx = ctx.clone_with(
         piece=piece,
         )
@@ -261,11 +261,12 @@ def rpc_system_call_factory(receiver_peer, sender_identity, fn):
     return call
 
 
-def test_commit_command(ctx, form_model):
+def test_commit_command_for_form(ctx, model, form_model):
     item_id = 11
     commit_command = htypes.crud.commit_command(
+        model=mosaic.put_opt(model),
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
-        pick_action=None,
+        selector_pick_action=None,
         commit_action=mosaic.put(htypes.crud_tests.sample_crud_update_action()),
         commit_value_field='value',
         )
@@ -285,7 +286,7 @@ async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, form_
         model=form_model,
         input=input,
         )
-    view_piece = view_piece_ctr(11, pick_action=None)
+    view_piece = view_piece_ctr(11, selector_pick_action=None)
     view = view_reg.animate(view_piece, ctx)
     commands = crud_module.crud_commit_command_enum(view, command_ctx.push())
     assert commands
@@ -293,23 +294,19 @@ async def test_commit_command_enum_for_form(view_reg, ctx, view_piece_ctr, form_
     await cmd.run()
 
 
-async def _test_commit_command_enum_for_selector(view_reg, ctx, selector_pick_action, view_piece_ctr):
-    view_piece = view_piece_ctr(22, pick_action=selector_pick_action)
-    view = view_reg.animate(view_piece, ctx)
-    commands = crud_module.crud_commit_command_enum(view)
-    assert commands
-    [unbound_cmd] = commands
-    assert unbound_cmd.properties
-    model = htypes.crud_tests.sample_selector_model()
+async def test_commit_command_enum_for_selector(view_reg, model, ctx, selector_pick_action, view_piece_ctr):
+    selector_model = htypes.crud_tests.sample_selector_model()
     current_item = htypes.crud_tests.sample_selector_item()
     command_ctx = ctx.clone_with(
-        model=model,
-        piece=model,
+        model=selector_model,
         current_item=current_item,
         )
-    bound_cmd = unbound_cmd.bind(command_ctx)
-    assert bound_cmd.enabled
-    await bound_cmd.run()
+    view_piece = view_piece_ctr(22, selector_pick_action=selector_pick_action)
+    view = view_reg.animate(view_piece, ctx)
+    commands = crud_module.crud_commit_command_enum(view, command_ctx.push())
+    assert commands
+    [cmd] = commands
+    await cmd.run()
 
 
 def test_layout_k_resource_name(commit_command_layout_k):

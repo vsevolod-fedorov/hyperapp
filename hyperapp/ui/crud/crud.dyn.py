@@ -46,15 +46,15 @@ class CrudContextView(ContextView):
     def from_piece(cls, piece, ctx, view_reg, model_layout_reg, crud):
         base_view = view_reg.invite(piece.base_view, ctx)
         model = web.summon_opt(piece.model)
-        pick_action = web.summon_opt(piece.pick_action)
+        selector_pick_action = web.summon_opt(piece.selector_pick_action)
         # remote_peer = peer_creg.invite_opt(piece.remote_peer)
         return cls(
             model_layout_reg, crud, base_view, piece.name, model,
-            _args_tuple_to_dict(piece.args), pick_action, piece.commit_action, piece.commit_value_field)
+            _args_tuple_to_dict(piece.args), selector_pick_action, piece.commit_action, piece.commit_value_field)
 
     def __init__(
             self, model_layout_reg, crud, base_view, name, model,
-            args, pick_action, commit_action_ref, commit_value_field):
+            args, selector_pick_action, commit_action_ref, commit_value_field):
         super().__init__(base_view, label=name)
         self._model_layout_reg = model_layout_reg
         self._crud = crud
@@ -62,7 +62,7 @@ class CrudContextView(ContextView):
         self._model = model
         # self._remote_peer = remote_peer
         self._args = args
-        self._pick_action = pick_action
+        self._selector_pick_action = selector_pick_action
         self._commit_action_ref = commit_action_ref
         self._commit_value_field = commit_value_field
         self._current_layout = self._base_view.piece
@@ -76,7 +76,7 @@ class CrudContextView(ContextView):
             # remote_peer=mosaic.put(self._remote_peer.piece) if self._remote_peer else None,
             # commit_command_d=mosaic.put(self._commit_command_d),
             args=_args_dict_to_tuple(self._args),
-            pick_action=mosaic.put_opt(self._pick_action),
+            selector_pick_action=mosaic.put_opt(self._selector_pick_action),
             commit_action=self._commit_action_ref,
             commit_value_field=self._commit_value_field,
             )
@@ -103,8 +103,9 @@ class CrudContextView(ContextView):
             name=name,
             )
         command = htypes.crud.commit_command(
+            model=mosaic.put_opt(self._model),
             args=_args_dict_to_tuple(self._args),
-            pick_action=mosaic.put(self._pick_action),
+            selector_pick_action=mosaic.put_opt(self._selector_pick_action),
             commit_action=self._commit_action_ref,
             commit_value_field=self._commit_value_field,
             )
@@ -139,23 +140,23 @@ class CrudRecordAdapter(FnRecordAdapterBase):
     def from_piece(cls, piece, model, ctx, client_feed_factory, crud_init_action_creg, crud):
         record_t = pyobj_creg.invite(model.record_t)
         value = cls._get_shared_value(model, record_t)
-        real_model = web.summon(model.model)
+        src_model = web.summon(model.model)
         init_action_ref = model.init_action
         args = _args_tuple_to_dict(model.args)
         return cls(client_feed_factory, crud_init_action_creg,
-                   model, record_t, ctx, value, crud, real_model, init_action_ref, args)
+                   model, record_t, ctx, value, crud, src_model, init_action_ref, args)
 
     def __init__(self, client_feed_factory, crud_init_action_creg,
-                 model, record_t, ctx, value, crud, real_model, init_action_ref, args):
+                 model, record_t, ctx, value, crud, src_model, init_action_ref, args):
         super().__init__(client_feed_factory, model, record_t, ctx, value)
         self._crud_init_action_creg = crud_init_action_creg
         self._crud = crud
-        self._real_model = real_model
+        self._src_model = src_model
         self._args = args
         self._init_action_ref = init_action_ref
 
     def _get_value(self):
-        fn_ctx = self._crud.fn_ctx(self._ctx, self._real_model, self._args)
+        fn_ctx = self._crud.fn_ctx(self._ctx, self._src_model, self._args)
         return self._crud_init_action_creg.invite(self._init_action_ref, fn_ctx)
 
 
@@ -211,18 +212,18 @@ class Crud:
         try:
             selector = self._selector_reg[value_t]
         except KeyError:
-            open_action = None
-            pick_action = None
+            selector_open_action = None
+            selector_pick_action = None
         else:
-            open_action = selector.open_action
-            pick_action = selector.pick_action
-        if pick_action:
+            selector_open_action = selector.open_action
+            selector_pick_action = selector.pick_action
+        if selector_pick_action:
             if init_action_ref is None:
                 value = None
             else:
                 value = self._run_init(ctx, init_action_ref, model, init_args)
                 action_ctx = ctx.clone_with(value=value)
-            selector_result = self._selector_open_action_creg.animate(open_action, action_ctx)
+            selector_result = self._selector_open_action_creg.animate(selector_open_action, action_ctx)
             selector_model, key = split_command_result(selector_result)
             selector_model_t = real_model_t(selector_model)
             base_view_piece = await self._visualizer(ctx, selector_model_t)
@@ -253,7 +254,7 @@ class Crud:
             model=mosaic.put(model),
             # remote_peer=mosaic.put(remote_peer.piece) if remote_peer else None,
             args=_args_dict_to_tuple(commit_args),
-            pick_action=mosaic.put_opt(pick_action),
+            selector_pick_action=mosaic.put_opt(selector_pick_action),
             commit_action=commit_action_ref,
             commit_value_field=commit_value_field,
             )
@@ -307,114 +308,19 @@ def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layo
 
 
 @mark.ctx_actor.command_creg
-def commit_command(piece, model, ctx, crud_commit_action_creg, crud):
-    args = _args_tuple_to_dict(model.args)
-    real_model = web.summon(model.model)
-    fn_ctx = crud.fn_ctx(ctx, real_model, args)
+def commit_command(piece, model, ctx, selector_pick_action_creg, crud_commit_action_creg, crud):
+    args = _args_tuple_to_dict(piece.args)
+    src_model = web.summon(piece.model)
+    fn_ctx = crud.fn_ctx(ctx, model, args)
+    if piece.selector_pick_action:
+        value = selector_pick_action_creg.invite(piece.selector_pick_action, fn_ctx)
+    else:
+        value = fn_ctx.value
     action_ctx = fn_ctx.clone_with({
-        piece.commit_value_field: fn_ctx.value,
+        'model': src_model,
+        piece.commit_value_field: value,
         })
     return crud_commit_action_creg.invite(piece.commit_action, action_ctx)
-
-
-# class UnboundCrudCommitCommand(UnboundCommandBase):
-
-#     def __init__(self, crud, remote_peer, d, model, args, pick_fn, commit_fn, commit_value_field):
-#         super().__init__(d)
-#         self._crud = crud
-#         self._remote_peer = remote_peer
-#         self._model = model
-#         self._args = args
-#         self._pick_fn = pick_fn
-#         self._commit_fn = commit_fn
-#         self._commit_value_field = commit_value_field
-
-#     @property
-#     def properties(self):
-#         return htypes.command.properties(
-#             is_global=False,
-#             uses_state=False,
-#             remotable=False,
-#             )
-
-#     def bind(self, ctx):
-#         return BoundCrudCommitCommand(
-#             self._crud, self._remote_peer, self._d, self.properties, self._model,
-#             self._args, self._pick_fn, self._commit_fn, self._commit_value_field, ctx)
-
-
-# class BoundCrudCommitCommand(BoundCommandBase):
-
-#     def __init__(self, crud, remote_peer, d, properties, model, args, pick_fn, commit_fn, commit_value_field, ctx):
-#         super().__init__(d, ctx)
-#         self._crud = crud
-#         self._remote_peer = remote_peer
-#         self._properties = properties
-#         self._model = model
-#         self._args = args
-#         self._pick_fn = pick_fn
-#         self._commit_fn = commit_fn
-#         self._commit_value_field = commit_value_field
-
-#     @property
-#     def enabled(self):
-#         return not self._missing_params
-
-#     @property
-#     def disabled_reason(self):
-#         params = ", ".join(self._missing_params)
-#         return f"Params not ready: {params}"
-
-#     @property
-#     def properties(self):
-#         return self._properties
-
-#     @cached_property
-#     def _missing_params(self):
-#         required_kw = {'model'}
-#         if not self._pick_fn:
-#             required_kw |= {'input'}
-#         return required_kw - self._ctx.as_dict().keys()
-
-#     async def run(self):
-#         if self._pick_fn:
-#             value = self._pick_fn.call(self._ctx)
-#         else:
-#             value = self._pick_ctx_value(self._ctx)
-#         log.info("Run CRUD commit command %r: args=%s; %s=%r", self.name, self._args, self._commit_value_field, value)
-#         fn_ctx = self._crud.fn_ctx(
-#             self._ctx, self._model, self._args,
-#             kw={self._commit_value_field: value},
-#             )
-#         result = self._commit_fn.call(fn_ctx, remote_peer=self._remote_peer)
-#         if inspect.iscoroutine(result):
-#             result = await result
-#         if result is None:
-#             return None
-#         assert isinstance(result, htypes.command.command_result), result
-#         if result.key and not result.model:
-#             # Navigate back to original model view.
-#             if self._remote_peer:
-#                 model = htypes.model.remote_model(
-#                     model=mosaic.put(self._model),
-#                     remote_peer=mosaic.put(self._remote_peer.piece),
-#                     )
-#             else:
-#                 model = self._model
-#             return htypes.command.command_result(
-#                 model=mosaic.put(model),
-#                 key=result.key,
-#                 diff=result.diff,
-#                 )
-#         return result
-
-#     @staticmethod
-#     def _pick_ctx_value(ctx):
-#         try:
-#             return ctx.value
-#         except KeyError:
-#             input = ctx.input
-#             return input.get_value()
 
 
 @mark.ui_command_enum
