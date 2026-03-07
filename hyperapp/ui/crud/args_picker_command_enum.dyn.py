@@ -11,7 +11,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.arg_mark import model_mark_prefix, value_mark_name
-from .code.command_args import args_dict_to_tuple, args_t_tuple_to_dict
+from .code.command_args import args_dict_to_tuple, args_t_dict_to_tuple, args_t_tuple_to_dict
 
 log = logging.getLogger(__name__)
 
@@ -66,6 +66,21 @@ def _canned_args_command(command_factory, ctx, name, args, commit_command_ref):
         )
 
 
+def _args_picker_command(command_factory, ctx, name, args, required_args, commit_command_ref):
+    command = htypes.command.args_picker_command(
+        name=name,
+        args=args_dict_to_tuple(args),
+        required_args=args_t_dict_to_tuple(required_args),
+        commit_command=commit_command_ref,
+        )
+    return command_factory(
+        key=htypes.command.args_picker_command_key(name),
+        name=name,
+        command=command,
+        ctx=ctx.pop(),
+        )
+
+
 @mark.ctx_actor.command_enum_creg
 def args_picker_command_enum(piece, ctx, command_factory):
     required_arg_types = args_t_tuple_to_dict(piece.required_args)
@@ -76,8 +91,7 @@ def args_picker_command_enum(piece, ctx, command_factory):
         result = []
     else:
         if required_args:
-            return []  # TODO: Implement args picker command
-            command = self._args_picker_command(args, required_args)
+            command = _args_picker_command(command_factory, ctx, piece.name, args, required_args, piece.commit_command)
         else:
             command = _canned_args_command(command_factory, ctx, piece.name, args, piece.commit_command)
         result = [command]

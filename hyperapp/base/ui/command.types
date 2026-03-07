@@ -76,6 +76,9 @@ args_picker_command_enum = record:
   required_args: arg_t list
   commit_command: ref
 
+args_picker_command_key = record:
+  name: string
+
 args_picker_command = record:
   name: string
   args: arg list

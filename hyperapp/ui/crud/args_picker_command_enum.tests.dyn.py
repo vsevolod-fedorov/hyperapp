@@ -34,26 +34,14 @@ def ctx(piece):
     return Context()
 
 
-def _test_model_args_picker(ctx, piece):
-    piece = args_picker_enum(htypes.command.model_args_picker_command_enumerator)
-    enum = args_picker_command_enum.UnboundArgsPickerModelCommandEnumerator.from_piece(piece)
-    assert isinstance(enum, args_picker_command_enum.UnboundArgsPickerModelCommandEnumerator)
-    command_list = enum.enum_commands(ctx)
+def test_arg_picker_command(enum_piece):
+    ctx = Context(
+        piece=enum_piece,
+        )
+    command_list = args_picker_command_enum.args_picker_command_enum(ctx)
     assert type(command_list) is list
     [command] = command_list
-    assert isinstance(command, UnboundModelCommand)
-    assert isinstance(web.summon(command.piece.system_fn), htypes.command.args_picker_command_fn)
-
-
-def _test_ui_args_picker(ctx, piece):
-    piece = args_picker_enum(htypes.command.ui_args_picker_command_enumerator)
-    enum = args_picker_command_enum.UnboundArgsPickerUiCommandEnumerator.from_piece(piece)
-    assert isinstance(enum, args_picker_command_enum.UnboundArgsPickerUiCommandEnumerator)
-    command_list = enum.enum_commands(ctx)
-    assert type(command_list) is list
-    [command] = command_list
-    assert isinstance(command, UnboundUiCommand)
-    assert isinstance(web.summon(command.piece.system_fn), htypes.command.args_picker_command_fn)
+    assert isinstance(command.command, htypes.command.args_picker_command)
 
 
 def test_value_from_context(enum_piece):

@@ -10,7 +10,9 @@ import:
 - legacy_type.builtin:ref
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:args_picker_command
 - legacy_type.command:args_picker_command_enum
+- legacy_type.command:args_picker_command_key
 - legacy_type.command:canned_args_command
 - legacy_type.command:canned_args_command_key
 - legacy_type.system_fn:ctx_fn
@@ -36,6 +38,8 @@ definitions:
         code.command_args: ui.crud.command_args:command_args.module
         code.mark: base.mark:mark.module
         htypes.builtin.ref: legacy_type.builtin:ref
+        htypes.command.args_picker_command: legacy_type.command:args_picker_command
+        htypes.command.args_picker_command_key: legacy_type.command:args_picker_command_key
         htypes.command.canned_args_command: legacy_type.command:canned_args_command
         htypes.command.canned_args_command_key: legacy_type.command:canned_args_command_key
         services.deduce_t: builtins:deduce_t.service
