@@ -10,19 +10,23 @@ from .code.arg_mark import value_mark_name
 from .tested.code import args_picker_command_enum
 
 
-@mark.fixture.obj
-def piece():
+@mark.fixture
+def make_enum(t):
     command = htypes.args_picker_command_enum_tests.sample_command()
     return htypes.command.args_picker_command_enum(
         name='sample_command',
         required_args=(
             htypes.command.arg_t(
                 name='arg_name',
-                t=pyobj_creg.actor_to_ref(htypes.builtin.string),
+                t=pyobj_creg.actor_to_ref(t),
                 ),
             ),
         commit_command=mosaic.put(command),
         )
+
+@mark.fixture.obj
+def piece(make_enum):
+    return make_enum(htypes.builtin.string)
 
 
 @mark.fixture
@@ -30,11 +34,6 @@ def ctx(piece):
     return Context(
         piece=piece,
         )
-
-
-@mark.fixture.obj
-def canned_ctx(ctx):
-    return ctx.clone_with({value_mark_name(htypes.builtin.string): "Sample value"})
 
 
 def _test_model_args_picker(ctx, piece):
@@ -59,8 +58,9 @@ def _test_ui_args_picker(ctx, piece):
     assert isinstance(web.summon(command.piece.system_fn), htypes.command.args_picker_command_fn)
 
 
-def test_canned(canned_ctx):
-    command_list = args_picker_command_enum.args_picker_command_enum(canned_ctx)
+def test_value_from_context(ctx):
+    marked_ctx = ctx.clone_with({value_mark_name(htypes.builtin.string): "Sample value"})
+    command_list = args_picker_command_enum.args_picker_command_enum(marked_ctx)
     assert type(command_list) is list
     [command] = command_list
     assert isinstance(command.command, htypes.command.canned_args_command)
