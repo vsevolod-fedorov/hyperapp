@@ -6,7 +6,7 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-from .code.arg_mark import value_mark_name
+from .code.arg_mark import model_mark_name, value_mark_name
 from .tested.code import args_picker_command_enum
 
 
@@ -25,15 +25,13 @@ def make_enum(t):
         )
 
 @mark.fixture.obj
-def piece(make_enum):
+def enum_piece(make_enum):
     return make_enum(htypes.builtin.string)
 
 
 @mark.fixture
 def ctx(piece):
-    return Context(
-        piece=piece,
-        )
+    return Context()
 
 
 def _test_model_args_picker(ctx, piece):
@@ -58,9 +56,24 @@ def _test_ui_args_picker(ctx, piece):
     assert isinstance(web.summon(command.piece.system_fn), htypes.command.args_picker_command_fn)
 
 
-def test_value_from_context(ctx):
-    marked_ctx = ctx.clone_with({value_mark_name(htypes.builtin.string): "Sample value"})
-    command_list = args_picker_command_enum.args_picker_command_enum(marked_ctx)
+def test_value_from_context(enum_piece):
+    ctx = Context(
+        piece=enum_piece,
+        **{value_mark_name(htypes.builtin.string): "Sample value"},
+        )
+    command_list = args_picker_command_enum.args_picker_command_enum(ctx)
+    assert type(command_list) is list
+    [command] = command_list
+    assert isinstance(command.command, htypes.command.canned_args_command)
+
+
+def test_ref_from_context(make_enum):
+    enum_piece = make_enum(htypes.builtin.ref)
+    ctx = Context(
+        piece=enum_piece,
+        **{model_mark_name(htypes.builtin.string): "Sample value"},
+        )
+    command_list = args_picker_command_enum.args_picker_command_enum(ctx)
     assert type(command_list) is list
     [command] = command_list
     assert isinstance(command.command, htypes.command.canned_args_command)
