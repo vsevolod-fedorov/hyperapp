@@ -26,6 +26,7 @@ import:
 - ui.command_group:get_command_group.service
 - ui.controller:canned_ctl_item_factory.service
 - ui.controller:controller_running.service
+- ui.crud.args_picker_command:command_creg-command-args_picker_command.ctx-actor-cfg-item
 - ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
 - ui.crud.canned_args_command:command_creg-command-canned_args_command.ctx-actor-cfg-item
 - ui.crud.crud:command_creg-crud-commit_command.ctx-actor-cfg-item
@@ -42,6 +43,7 @@ import:
 - ui.crud.crud_field_view_factory:formatter_creg-crud_field_view_factory-factory_k.actor-cfg-item
 - ui.crud.editor_default_reg:editor_default_reg.service
 - ui.crud.editor_defaults:builtin-string.editor_default.cfg-item
+- ui.crud.editor_defaults:crud_init_action_creg-editor_defaults-builtin_string_editor_default.ctx-actor-cfg-item
 - ui.error_view:error_view.service
 - ui.feed:client_feed_factory.service
 - ui.feed:feed_factory.service
@@ -212,6 +214,7 @@ import:
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-multi_template.actor-cfg-item
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-template.actor-cfg-item
 - ui.view.view_factory_list:command_creg-view_factory_list-open_view_factory_list.ctx-actor-cfg-item
+- ui.view.view_factory_list:crud_init_action_creg-view_factory_list-view_factory_factory_editor_default.ctx-actor-cfg-item
 - ui.view.view_factory_list:formatter_creg-view_factory_list-model.actor-cfg-item
 - ui.view.view_factory_list:open_view_factory_list.command-cfg-item
 - ui.view.view_factory_list:open_view_factory_list.command-group-item
@@ -248,6 +251,7 @@ definitions:
       items:
       - ui.arg_mark:command_creg-arg_mark-add_mark.ctx-actor-cfg-item
       - ui.arg_mark:command_creg-arg_mark-remove_mark.ctx-actor-cfg-item
+      - ui.crud.args_picker_command:command_creg-command-args_picker_command.ctx-actor-cfg-item
       - ui.crud.canned_args_command:command_creg-command-canned_args_command.ctx-actor-cfg-item
       - ui.crud.crud:command_creg-crud-commit_command.ctx-actor-cfg-item
       - ui.crud.crud:command_creg-crud-open_command.ctx-actor-cfg-item
@@ -322,6 +326,7 @@ definitions:
         command_group_reg: command_group_reg
         config_ctl_creg: config_ctl_creg
         convertor_creg: convertor_creg
+        crud_init_action_creg: crud_init_action_creg
         editor_default_reg: editor_default_reg
         feed_factory: feed_factory
         feed_type_creg: feed_type_creg
@@ -355,6 +360,12 @@ definitions:
       - ui.type_convertor:convertor_creg-type_convertor-noop_convertor.actor-cfg-item
       - ui.type_convertor:convertor_creg-type_convertor-one_way_to_string_convertor.actor-cfg-item
       - ui.type_convertor:convertor_creg-type_convertor-opt_convertor.actor-cfg-item
+  crud_init_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.crud.editor_defaults:crud_init_action_creg-editor_defaults-builtin_string_editor_default.ctx-actor-cfg-item
+      - ui.view.view_factory_list:crud_init_action_creg-view_factory_list-view_factory_factory_editor_default.ctx-actor-cfg-item
   editor_default_reg:
     type: legacy_type.system:item_list_config
     value:

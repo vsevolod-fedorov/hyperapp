@@ -1,14 +1,19 @@
+from functools import cached_property
+from hyperapp.boot.htypes import TRecord
+
 from . import htypes
 from .services import (
     mosaic,
     pyobj_creg,
     )
 from .code.rc_constructor import ModuleCtr
+from .code.ctx_actor_ctr import CtxActorTemplateCtr
 
 
 class EditorDefaultTemplateCtr(ModuleCtr):
 
     _service_name = 'editor_default_reg'
+    _actor_creg = 'crud_init_action_creg'
 
     @classmethod
     def from_piece(cls, piece):
@@ -44,36 +49,38 @@ class EditorDefaultTemplateCtr(ModuleCtr):
             ctr=self,
             )
         resource_tgt.add_cfg_item_target(resolved_tgt)
+        actor_ctr = CtxActorTemplateCtr(
+            module_name=self._module_name,
+            attr_qual_name=self._attr_qual_name,
+            service_name=self._actor_creg,
+            t=self._action_t,
+            ctx_params=self._ctx_params,
+            service_params=self._service_params,
+            create_t=True,
+            )
+        actor_ctr.update_resource_targets(resource_tgt, target_set)
+
+    @property
+    def _action_full_name(self):
+        return f'{self._value_t.module_name}_{self._value_t.name}_editor_default'
+
+    @cached_property
+    def _action_t(self):
+        code_name = self._module_name.split('.')[-1]
+        return TRecord(code_name, self._action_full_name)
 
     def get_component(self, name_to_res):
         return name_to_res[f'{self._resource_name}.cfg-item']
 
     def make_component(self, types, python_module, name_to_res):
-        object = python_module
-        prefix = []
-        for name in self._attr_qual_name:
-            object = htypes.builtin.attribute(
-                object=mosaic.put(object),
-                attr_name=name,
-                )
-            name_to_res['.'.join([*prefix, name])] = object
-            prefix.append(name)
-        fn = htypes.system_fn.ctx_fn(
-            function=mosaic.put(object),
-            ctx_params=tuple(self._ctx_params),
-            service_params=tuple(self._service_params),
-            )
+        action = self._action_t()
         cfg_item = htypes.cfg_item.typed_cfg_item(
             t=pyobj_creg.actor_to_ref(self._value_t),
-            value=mosaic.put(fn),
+            value=mosaic.put(action),
             )
-        name_to_res[f'{self._fn_name}.system-fn'] = fn
+        name_to_res[f'{self._type_name}.action'] = action
         name_to_res[f'{self._resource_name}.cfg-item'] = cfg_item
         return cfg_item
-
-    @property
-    def _fn_name(self):
-        return '_'.join(self._attr_qual_name)
 
     @property
     def _type_name(self):
