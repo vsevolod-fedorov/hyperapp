@@ -1,0 +1,51 @@
+# Automatically generated file. Do not edit.
+
+import:
+- base.mark:mark.module
+- builtins:mosaic.service
+- builtins:pyobj_creg.service
+- builtins:web.service
+- legacy_type.builtin:attribute
+- legacy_type.builtin:python_module
+- legacy_type.cfg_item:fn_value_template
+- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:args_picker_command
+- legacy_type.system_fn:ctx_fn
+- ui.crud.command_args:command_args.module
+definitions:
+  args_picker_command:
+    type: legacy_type.builtin:attribute
+    value:
+      object: args_picker_command.module
+      attr_name: args_picker_command
+  args_picker_command.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: args_picker_command.system-fn
+  args_picker_command.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: args_picker_command
+      file_name: args_picker_command.dyn.py
+      import_list:
+        code.command_args: ui.crud.command_args:command_args.module
+        code.mark: base.mark:mark.module
+        services.mosaic: builtins:mosaic.service
+        services.pyobj_creg: builtins:pyobj_creg.service
+        services.web: builtins:web.service
+  args_picker_command.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: args_picker_command
+      ctx_params:
+      - piece
+      - ctx
+      - navigator
+      service_params:
+      - crud
+      - editor_default_reg
+  command_creg-command-args_picker_command.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.command:args_picker_command
+      value: args_picker_command.ctx-actor-template

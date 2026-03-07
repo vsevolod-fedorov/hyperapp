@@ -1,0 +1,5 @@
+sample_value = record:
+  id: int
+
+sample_command = record
+sample_init_action = record
