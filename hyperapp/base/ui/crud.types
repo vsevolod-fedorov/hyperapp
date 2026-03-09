@@ -5,6 +5,7 @@ arg = record:
 view = record:
   base_view: ref
   name: string
+  label: string
   model: ref opt  # Original model - base model for crud get and post commands.
 #  remote_peer: ref opt
   args: arg list

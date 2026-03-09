@@ -49,16 +49,17 @@ class CrudContextView(ContextView):
         selector_pick_action = web.summon_opt(piece.selector_pick_action)
         # remote_peer = peer_creg.invite_opt(piece.remote_peer)
         return cls(
-            model_layout_reg, crud, base_view, piece.name, model,
+            model_layout_reg, crud, base_view, piece.name, piece.label, model,
             _args_tuple_to_dict(piece.args), selector_pick_action, piece.commit_action, piece.commit_value_field)
 
     def __init__(
-            self, model_layout_reg, crud, base_view, name, model,
+            self, model_layout_reg, crud, base_view, name, label, model,
             args, selector_pick_action, commit_action_ref, commit_value_field):
-        super().__init__(base_view, label=name)
+        super().__init__(base_view, label)
         self._model_layout_reg = model_layout_reg
         self._crud = crud
         self._name = name
+        self._label = label
         self._model = model
         # self._remote_peer = remote_peer
         self._args = args
@@ -72,6 +73,7 @@ class CrudContextView(ContextView):
         return htypes.crud.view(
             base_view=mosaic.put(self._base_view.piece),
             name=self._name,
+            label=self._label,
             model=mosaic.put_opt(self._model),
             # remote_peer=mosaic.put(self._remote_peer.piece) if self._remote_peer else None,
             # commit_command_d=mosaic.put(self._commit_command_d),
@@ -113,7 +115,7 @@ class CrudContextView(ContextView):
 
 
 @mark.ctx_actor.command_creg
-async def open_command(piece, model, current_item, navigator, ctx, crud):
+async def open_command(piece, model, current_item, navigator, ctx, crud, format):
     value_t = pyobj_creg.invite(piece.value_t)
     args = {
         name: getattr(current_item, name)
@@ -124,6 +126,7 @@ async def open_command(piece, model, current_item, navigator, ctx, crud):
         ctx=ctx,
         value_t=value_t,
         name=piece.name,
+        label=f"{piece.name}: {format(value_t)}",
         init_action_ref=piece.init_action,
         commit_action_ref=piece.commit_action,
         commit_value_field='value',
@@ -203,6 +206,7 @@ class Crud:
             ctx,
             value_t,
             name,
+            label,
             init_action_ref,
             commit_action_ref,
             commit_value_field,
@@ -253,6 +257,7 @@ class Crud:
         new_view_piece = htypes.crud.view(
             base_view=mosaic.put(base_view_piece),
             name=name,
+            label=label,
             model=mosaic.put(model),
             # remote_peer=mosaic.put(remote_peer.piece) if remote_peer else None,
             args=_args_dict_to_tuple(commit_args),

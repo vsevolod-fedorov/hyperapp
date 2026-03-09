@@ -107,7 +107,8 @@ def view_piece_ctr(generate_rsa_identity, model, item_id, selector_pick_action=N
     base_view_piece = htypes.label.view("Sample label")
     return htypes.crud.view(
         base_view=mosaic.put(base_view_piece),
-        name="Sample CRUD context",
+        name='edit',
+        label="Sample CRUD context",
         model=mosaic.put(model),
         # remote_peer=mosaic.put(identity.peer.piece),
         args=(htypes.crud.arg('id', mosaic.put(item_id)),),
