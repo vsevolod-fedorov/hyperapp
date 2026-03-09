@@ -84,16 +84,6 @@ definitions:
       name: add_element
       base: null
       fields: {}
-  command_creg-tabs-add_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_element.t
-      value: add_element.ctx-actor-template
-  command_creg-tabs-insert_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: insert_element.t
-      value: insert_element.ctx-actor-template
   command_creg-tabs-open_tab_list.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -109,6 +99,16 @@ definitions:
     value:
       t: unwrap.t
       value: unwrap.ctx-actor-template
+  crud_commit_action_creg-tabs-add_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_element.t
+      value: add_element.ctx-actor-template
+  crud_commit_action_creg-tabs-insert_element.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: insert_element.t
+      value: insert_element.ctx-actor-template
   insert_element:
     type: legacy_type.builtin:attribute
     value:

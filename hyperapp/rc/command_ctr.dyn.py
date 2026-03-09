@@ -54,6 +54,7 @@ class CommandTemplateCtr(ModuleCtr):
     def update_resource_targets(self, resource_tgt, target_set):
         if self._have_args:
             service_name = self._enum_service_name
+            actor_creg = 'crud_commit_action_creg'
             if not service_name:
                 attr_path = ".".join(self._attr_qual_name)
                 raise RuntimeError(
@@ -61,6 +62,7 @@ class CommandTemplateCtr(ModuleCtr):
                     f" {self._module_name}:{attr_path}")
         else:
             service_name = self._service_name
+            actor_creg = self._actor_creg
         # ready target may already have provider set, but in case of
         # non-typed marker it have not.
         _, reg_resolved_tgt, _ = target_set.factory.config_items(
@@ -75,7 +77,7 @@ class CommandTemplateCtr(ModuleCtr):
         actor_ctr = CtxActorTemplateCtr(
             module_name=self._module_name,
             attr_qual_name=self._attr_qual_name,
-            service_name=self._actor_creg,
+            service_name=actor_creg,
             t=self._command_t,
             ctx_params=self._ctx_params,
             service_params=self._service_params,

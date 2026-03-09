@@ -106,11 +106,11 @@ import:
 - ui.qt.box_layout:box_layout-view-unwrap.command-cfg-item
 - ui.qt.box_layout:box_layout-view-unwrap.command-group-item
 - ui.qt.box_layout:box_layout-view.view-cfg-item
-- ui.qt.box_layout:command_creg-box_layout-add_element.ctx-actor-cfg-item
 - ui.qt.box_layout:command_creg-box_layout-add_stretch.ctx-actor-cfg-item
-- ui.qt.box_layout:command_creg-box_layout-insert_element.ctx-actor-cfg-item
 - ui.qt.box_layout:command_creg-box_layout-remove_element.ctx-actor-cfg-item
 - ui.qt.box_layout:command_creg-box_layout-unwrap.ctx-actor-cfg-item
+- ui.qt.box_layout:crud_commit_action_creg-box_layout-add_element.ctx-actor-cfg-item
+- ui.qt.box_layout:crud_commit_action_creg-box_layout-insert_element.ctx-actor-cfg-item
 - ui.qt.box_layout:wrap_box_layout.view-factory-cfg-item
 - ui.qt.command_pane:command_pane-view.view-cfg-item
 - ui.qt.fn_list_adapter:ui_adapter_creg-list_adapter-index_fn_list_adapter.actor-cfg-item
@@ -120,7 +120,7 @@ import:
 - ui.qt.form:form-view.view-cfg-item
 - ui.qt.form:form_view_factory.view-factory-cfg-item
 - ui.qt.form:readonly_form_view_factory.view-factory-cfg-item
-- ui.qt.label:command_creg-label-set_label_text.ctx-actor-cfg-item
+- ui.qt.label:crud_commit_action_creg-label-set_label_text.ctx-actor-cfg-item
 - ui.qt.label:label-view-set_label_text.command-cfg-item
 - ui.qt.label:label-view-set_label_text.command-group-item
 - ui.qt.label:label-view.view-cfg-item
@@ -137,11 +137,11 @@ import:
 - ui.qt.list:static_list_ui_type_layout.view-factory-cfg-item
 - ui.qt.menu_bar:menu_bar-view.view-cfg-item
 - ui.qt.static_list_adapter:ui_adapter_creg-list_adapter-static_list_adapter.actor-cfg-item
-- ui.qt.tabs:command_creg-tabs-add_element.ctx-actor-cfg-item
-- ui.qt.tabs:command_creg-tabs-insert_element.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-open_tab_list.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-remove_element.ctx-actor-cfg-item
 - ui.qt.tabs:command_creg-tabs-unwrap.ctx-actor-cfg-item
+- ui.qt.tabs:crud_commit_action_creg-tabs-add_element.ctx-actor-cfg-item
+- ui.qt.tabs:crud_commit_action_creg-tabs-insert_element.ctx-actor-cfg-item
 - ui.qt.tabs:tabs-view-add_element.command-cfg-item
 - ui.qt.tabs:tabs-view-add_element.command-group-item
 - ui.qt.tabs:tabs-view-insert_element.command-group-item
@@ -262,14 +262,9 @@ definitions:
       - ui.navigator:command_creg-navigator-go_forward.ctx-actor-cfg-item
       - ui.qt.auto_tabs:command_creg-auto_tabs-close_tab.ctx-actor-cfg-item
       - ui.qt.auto_tabs:command_creg-auto_tabs-duplicate_tab.ctx-actor-cfg-item
-      - ui.qt.box_layout:command_creg-box_layout-add_element.ctx-actor-cfg-item
       - ui.qt.box_layout:command_creg-box_layout-add_stretch.ctx-actor-cfg-item
-      - ui.qt.box_layout:command_creg-box_layout-insert_element.ctx-actor-cfg-item
       - ui.qt.box_layout:command_creg-box_layout-remove_element.ctx-actor-cfg-item
       - ui.qt.box_layout:command_creg-box_layout-unwrap.ctx-actor-cfg-item
-      - ui.qt.label:command_creg-label-set_label_text.ctx-actor-cfg-item
-      - ui.qt.tabs:command_creg-tabs-add_element.ctx-actor-cfg-item
-      - ui.qt.tabs:command_creg-tabs-insert_element.ctx-actor-cfg-item
       - ui.qt.tabs:command_creg-tabs-open_tab_list.ctx-actor-cfg-item
       - ui.qt.tabs:command_creg-tabs-remove_element.ctx-actor-cfg-item
       - ui.qt.tabs:command_creg-tabs-unwrap.ctx-actor-cfg-item
@@ -326,6 +321,7 @@ definitions:
         command_group_reg: command_group_reg
         config_ctl_creg: config_ctl_creg
         convertor_creg: convertor_creg
+        crud_commit_action_creg: crud_commit_action_creg
         crud_init_action_creg: crud_init_action_creg
         editor_default_reg: editor_default_reg
         feed_factory: feed_factory
@@ -360,6 +356,15 @@ definitions:
       - ui.type_convertor:convertor_creg-type_convertor-noop_convertor.actor-cfg-item
       - ui.type_convertor:convertor_creg-type_convertor-one_way_to_string_convertor.actor-cfg-item
       - ui.type_convertor:convertor_creg-type_convertor-opt_convertor.actor-cfg-item
+  crud_commit_action_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.qt.box_layout:crud_commit_action_creg-box_layout-add_element.ctx-actor-cfg-item
+      - ui.qt.box_layout:crud_commit_action_creg-box_layout-insert_element.ctx-actor-cfg-item
+      - ui.qt.label:crud_commit_action_creg-label-set_label_text.ctx-actor-cfg-item
+      - ui.qt.tabs:crud_commit_action_creg-tabs-add_element.ctx-actor-cfg-item
+      - ui.qt.tabs:crud_commit_action_creg-tabs-insert_element.ctx-actor-cfg-item
   crud_init_action_creg:
     type: legacy_type.system:item_list_config
     value:

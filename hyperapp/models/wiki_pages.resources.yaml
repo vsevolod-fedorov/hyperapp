@@ -115,16 +115,6 @@ definitions:
       name: add_ref
       base: null
       fields: {}
-  command_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_folder.t
-      value: add_folder.ctx-actor-template
-  command_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_ref.t
-      value: add_ref.ctx-actor-template
   command_creg-wiki_pages-new_page.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -160,6 +150,16 @@ definitions:
     value:
       t: save_page.t
       value: save_page.ctx-actor-template
+  crud_commit_action_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_folder.t
+      value: add_folder.ctx-actor-template
+  crud_commit_action_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_ref.t
+      value: add_ref.ctx-actor-template
   format_page_list_model:
     type: legacy_type.builtin:attribute
     value:

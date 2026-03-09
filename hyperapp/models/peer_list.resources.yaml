@@ -75,11 +75,6 @@ definitions:
       name: add
       base: null
       fields: {}
-  command_creg-peer_list-add.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add.t
-      value: add.ctx-actor-template
   command_creg-peer_list-open_peer_list.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -90,6 +85,11 @@ definitions:
     value:
       t: remove.t
       value: remove.ctx-actor-template
+  crud_commit_action_creg-peer_list-add.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add.t
+      value: add.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:

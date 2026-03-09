@@ -105,16 +105,6 @@ definitions:
       name: add_ref
       base: null
       fields: {}
-  command_creg-ref_list-add_folder.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_folder.t
-      value: add_folder.ctx-actor-template
-  command_creg-ref_list-add_ref.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
-    value:
-      t: add_ref.t
-      value: add_ref.ctx-actor-template
   command_creg-ref_list-open.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
@@ -135,6 +125,16 @@ definitions:
     value:
       t: remove.t
       value: remove.ctx-actor-template
+  crud_commit_action_creg-ref_list-add_folder.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_folder.t
+      value: add_folder.ctx-actor-template
+  crud_commit_action_creg-ref_list-add_ref.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: add_ref.t
+      value: add_ref.ctx-actor-template
   format_model:
     type: legacy_type.builtin:attribute
     value:

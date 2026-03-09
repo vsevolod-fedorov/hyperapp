@@ -40,7 +40,7 @@ definitions:
       - piece
       - ctx
       service_params: []
-  command_creg-label-set_label_text.ctx-actor-cfg-item:
+  crud_commit_action_creg-label-set_label_text.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: set_label_text.t
