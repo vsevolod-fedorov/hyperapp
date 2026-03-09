@@ -102,11 +102,6 @@ def model():
 
 
 @mark.fixture
-def commit_command_d():
-    return htypes.crud_tests.save_d()
-
-
-@mark.fixture
 def view_piece_ctr(generate_rsa_identity, model, item_id, selector_pick_action=None):
     identity = generate_rsa_identity(fast=True)
     base_view_piece = htypes.label.view("Sample label")
@@ -123,9 +118,10 @@ def view_piece_ctr(generate_rsa_identity, model, item_id, selector_pick_action=N
 
 
 @mark.fixture
-def commit_command_layout_k(commit_command_d):
+def commit_command_layout_k():
     return htypes.crud.layout_k(
-        commit_command_d=mosaic.put(commit_command_d),
+        model_t=pyobj_creg.actor_to_ref(htypes.crud_tests.sample_model),
+        name='edit',
         )
 
 
@@ -156,13 +152,13 @@ async def test_crud_context_view(view_reg, model_layout_reg, qapp, ctx, view_pie
     state = view.widget_state(widget)
     assert state
 
-    # # Hack: Replace base view to change layout.
-    # new_label = htypes.label.view("Another sample label")
-    # view._base_view = view_reg.animate(new_label, ctx)
-    # rctx = Context()
-    # await view.children_changed(ctx, rctx, widget, save_layout=True)
-    # model_layout_reg.__setitem__.assert_called_once()
-    # assert isinstance(model_layout_reg.__setitem__.call_args.args[0], htypes.crud.layout_k)
+    # Hack: Replace base view to change layout.
+    new_label = htypes.label.view("Another sample label")
+    view._base_view = view_reg.animate(new_label, ctx)
+    rctx = Context()
+    await view.children_changed(ctx, rctx, widget, save_layout=True)
+    model_layout_reg.__setitem__.assert_called_once()
+    assert isinstance(model_layout_reg.__setitem__.call_args.args[0], htypes.crud.layout_k)
 
 
 @mark.fixture

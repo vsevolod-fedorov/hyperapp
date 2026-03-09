@@ -87,7 +87,7 @@ class CrudContextView(ContextView):
             self._set_layout(layout)
 
     def _set_layout(self, layout):
-        layout_k = self._crud.layout_k(self._commit_command_d)
+        layout_k = self._crud.layout_k(self._model, self._name)
         log.info("CRUD context view: set new layout: %s -> %s", layout_k, layout)
         self._model_layout_reg[layout_k] = layout
         self._current_layout = self._base_view.piece
@@ -190,9 +190,11 @@ class Crud:
             }
         return ctx.clone_with(**all_kw)
 
-    def layout_k(self, commit_command_d):
+    def layout_k(self, model, name):
+        model_t = deduce_t(model)
         return htypes.crud.layout_k(
-            commit_command_d=mosaic.put(commit_command_d),
+            model_t=pyobj_creg.actor_to_ref(model_t),
+            name=name,
             )
 
     async def open_view(
@@ -230,14 +232,14 @@ class Crud:
             new_model = selector_model
         else:
             assert init_action_ref  # Init action fn may be omitted only for selectors.
-            # layout_k = self.layout_k(commit_command_d)
-            # try:
-            #     base_view_piece = self._model_layout_reg[layout_k]
-            # except KeyError:
-            if isinstance(value_t, TPrimitive):
-                base_view_piece = await self._primitive_view(ctx, value_t)
-            else:
-                base_view_piece = await self._form_view(ctx, value_t)
+            layout_k = self.layout_k(model, name)
+            try:
+                base_view_piece = self._model_layout_reg[layout_k]
+            except KeyError:
+                if isinstance(value_t, TPrimitive):
+                    base_view_piece = await self._primitive_view(ctx, value_t)
+                else:
+                    base_view_piece = await self._form_view(ctx, value_t)
             if isinstance(value_t, TPrimitive):
                 new_model = self._run_init(ctx, init_action_ref, model, init_args)
             else:
@@ -336,14 +338,13 @@ def crud_commit_command_enum(view, ctx, command_factory):
 
 @mark.actor.resource_name_creg
 def layout_k_resource_name(piece, gen):
-    command = web.summon(piece.commit_command_d)
-    command_name = gen.assigned_name(command)
-    command_stem = command_name.removesuffix('.commit-d').replace(':', '-')
-    return f'crud-layout_k-{command_stem}'
+    model_mt = web.summon(piece.model_t)
+    model_mt_name = gen.assigned_name(model_mt).replace(':', '-')
+    return f'crud-layout_k-{model_mt_name}-{piece.name}'
 
 
 @mark.actor.formatter_creg
 def format_layout_k(piece, format):
-    command = web.summon(piece.commit_command_d)
-    command_title = format(command)
-    return f'crud.layout_k({command_title})'
+    model_t = pyobj_creg.invite(piece.model_t)
+    model_t_title = format(model_t)
+    return f'crud.layout_k({model_t_title}/{piece.name})'

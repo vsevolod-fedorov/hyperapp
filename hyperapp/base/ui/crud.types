@@ -40,4 +40,5 @@ form_model = record:
   args: arg list
 
 layout_k = record:
-  commit_command_d: ref
+  model_t: ref
+  name: string

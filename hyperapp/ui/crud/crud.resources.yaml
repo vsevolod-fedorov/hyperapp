@@ -146,6 +146,7 @@ definitions:
         htypes.crud.commit_command: legacy_type.crud:commit_command
         htypes.crud.commit_command_key: legacy_type.crud:commit_command_key
         htypes.crud.form_model: legacy_type.crud:form_model
+        htypes.crud.layout_k: legacy_type.crud:layout_k
         htypes.crud.record_adapter: legacy_type.crud:record_adapter
         htypes.crud.view: legacy_type.crud:view
         services.deduce_t: builtins:deduce_t.service
