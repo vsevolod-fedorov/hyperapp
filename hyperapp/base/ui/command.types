@@ -19,6 +19,9 @@ ui_command_key = record:
   view_t: ref
   name: string
 
+universal_ui_command_key = record:
+  name: string
+
 model_command_key = record:
   model_t: ref
   name: string

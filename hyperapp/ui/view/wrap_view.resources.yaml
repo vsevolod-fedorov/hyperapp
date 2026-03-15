@@ -3,8 +3,60 @@
 import:
 - base.mark:mark.module
 - builtins:web.service
+- legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.builtin:record_mt
+- legacy_type.builtin:string
+- legacy_type.cfg_item:data_cfg_item
+- legacy_type.cfg_item:fn_value_template
+- legacy_type.cfg_item:str_cfg_item
+- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.command:args_picker_command_enum
+- legacy_type.command:universal_ui_command_key
+- legacy_type.system_fn:ctx_fn
+- legacy_type.view_factory:factory
 definitions:
+  crud_commit_action_creg-wrap_view-wrap_view.ctx-actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: wrap_view.t
+      value: wrap_view.ctx-actor-template
+  wrap_view:
+    type: legacy_type.builtin:attribute
+    value:
+      object: wrap_view.module
+      attr_name: wrap_view
+  wrap_view.command-cfg-item:
+    type: legacy_type.cfg_item:str_cfg_item
+    value:
+      key: wrap_view
+      value: wrap_view.command-enum
+  wrap_view.command-enum:
+    type: legacy_type.command:args_picker_command_enum
+    value:
+      name: wrap_view
+      required_args:
+        view_factory: legacy_type.view_factory:factory
+      commit_command: wrap_view.commit-command
+  wrap_view.command-group:
+    type: legacy_type.builtin:string
+    value: view
+  wrap_view.command-group-item:
+    type: legacy_type.cfg_item:data_cfg_item
+    value:
+      key: wrap_view.command-key
+      value: wrap_view.command-group
+  wrap_view.command-key:
+    type: legacy_type.command:universal_ui_command_key
+    value:
+      name: wrap_view
+  wrap_view.commit-command:
+    type: wrap_view.t
+    value: {}
+  wrap_view.ctx-actor-template:
+    type: legacy_type.cfg_item:fn_value_template
+    value:
+      system_fn: wrap_view.system-fn
   wrap_view.module:
     type: legacy_type.builtin:python_module
     value:
@@ -13,3 +65,22 @@ definitions:
       import_list:
         code.mark: base.mark:mark.module
         services.web: builtins:web.service
+  wrap_view.system-fn:
+    type: legacy_type.system_fn:ctx_fn
+    value:
+      function: wrap_view
+      ctx_params:
+      - view_factory
+      - view
+      - hook
+      - ctx
+      service_params:
+      - view_reg
+      - view_factory_reg
+  wrap_view.t:
+    type: legacy_type.builtin:record_mt
+    value:
+      module_name: wrap_view
+      name: wrap_view
+      base: null
+      fields: {}

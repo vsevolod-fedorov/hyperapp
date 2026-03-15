@@ -109,7 +109,6 @@ class UiCommandProbe(CommandProbe):
 class UniversalUiCommandProbe(CommandProbe):
 
     def _add_constructor(self, params):
-        return
         ctr = UniversalUiCommandTemplateCtr(
             **self._common_ctr_kw(params),
             service_name='universal_ui_command_reg',

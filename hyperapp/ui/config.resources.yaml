@@ -210,6 +210,8 @@ import:
 - ui.value_adapter:ui_adapter_creg-value_adapter-value_adapter.actor-cfg-item
 - ui.view.default_view_factory:default_model_factory.service
 - ui.view.default_view_factory:default_ui_factory.service
+- ui.view.replace_view:crud_commit_action_creg-replace_view-replace_view.ctx-actor-cfg-item
+- ui.view.replace_view:replace_view.command-group-item
 - ui.view.view_factory:view_factory_reg.service
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-multi_template.actor-cfg-item
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-template.actor-cfg-item
@@ -225,6 +227,8 @@ import:
 - ui.view.view_factory_list:view_factory_list-model.feed-template-cfg-item
 - ui.view.view_factory_list:view_factory_list-model.model-cfg-item
 - ui.view.view_registry:view_reg.service
+- ui.view.wrap_view:crud_commit_action_creg-wrap_view-wrap_view.ctx-actor-cfg-item
+- ui.view.wrap_view:wrap_view.command-group-item
 - ui.visualizer:formatter_creg-ui-model_layout_k.actor-cfg-item
 - ui.visualizer:resource_name_creg-ui-model_layout_k.actor-cfg-item
 - ui.visualizer:visualizer.service
@@ -309,7 +313,9 @@ definitions:
       - ui.tab_groups:tabs-view-move_tab_to_new_group.command-group-item
       - ui.text_toggle_editable:text-edit_view-toggle_editable.command-group-item
       - ui.text_toggle_editable:text-readonly_view-toggle_editable.command-group-item
+      - ui.view.replace_view:replace_view.command-group-item
       - ui.view.view_factory_list:open_view_factory_list.command-group-item
+      - ui.view.wrap_view:wrap_view.command-group-item
   config:
     type: legacy_type.system:system_config
     value:
@@ -365,6 +371,8 @@ definitions:
       - ui.qt.label:crud_commit_action_creg-label-set_label_text.ctx-actor-cfg-item
       - ui.qt.tabs:crud_commit_action_creg-tabs-add_element.ctx-actor-cfg-item
       - ui.qt.tabs:crud_commit_action_creg-tabs-insert_element.ctx-actor-cfg-item
+      - ui.view.replace_view:crud_commit_action_creg-replace_view-replace_view.ctx-actor-cfg-item
+      - ui.view.wrap_view:crud_commit_action_creg-wrap_view-wrap_view.ctx-actor-cfg-item
   crud_init_action_creg:
     type: legacy_type.system:item_list_config
     value:

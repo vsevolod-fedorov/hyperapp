@@ -200,6 +200,10 @@ class UntypedCommandTemplateCtr(CommandTemplateCtr):
         return cfg_item
 
     @property
+    def _command_key_name(self):
+        return self._command_full_name
+
+    @property
     def _resource_name(self):
         return self._command_full_name
 
@@ -277,14 +281,17 @@ class UiCommandTemplateCtr(TypedCommandTemplateCtr, CommandMixin):
         return 'view'
 
 
-class UniversalUiCommandTemplateCtr(UntypedCommandTemplateCtr):
+class UniversalUiCommandTemplateCtr(UntypedCommandTemplateCtr, CommandMixin):
 
-    # _command_t = htypes.command.ui_command
-    _command_fn_t = htypes.system_fn.ctx_fn
     _template_ctr_t = htypes.command_resource.universal_ui_command_template_ctr
-    # _is_global = False
-    # _direct_command_resource_suffix = 'universal-ui-command'
-    # _command_enum_resource_suffix = 'universal-ui-command-enumerator'
+
+    @property
+    def _command_key(self):
+        return htypes.command.universal_ui_command_key(self._command_full_name)
+
+    @property
+    def _command_group(self):
+        return 'view'
 
 
 class UiCommandEnumeratorTemplateCtr(TypedCommandTemplateCtr, EnumMixin):
@@ -383,10 +390,6 @@ class GlobalModelCommandTemplateCtr(UntypedCommandTemplateCtr, CommandMixin):
             args=self._args_tuple,
             preserve_remote=self._preserve_remote,
             )
-
-    @property
-    def _command_key_name(self):
-        return self._command_full_name
 
     @property
     def _command_key(self):

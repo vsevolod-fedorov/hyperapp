@@ -28,7 +28,7 @@ commit_command = record:
   commit_value_field: string
 
 commit_command_key = record:
-  model: ref
+  model: ref opt
   name: string
 
 record_adapter = record
