@@ -9,7 +9,6 @@ from .services import (
 from .code.mark import mark
 from .code.view import Item
 from .code.remote_model import real_model_t
-from .code.model_command import model_command_ctx
 from .code.wrapper_view import WrapperView
 
 log = logging.getLogger(__name__)
@@ -100,29 +99,27 @@ def format_factory_k(piece, format, command_creg):
     return f"details: {command_d_str}"
 
 
-# @mark.service
-# def details_commands(global_model_command_reg, get_model_commands, model_t, command_ctx):
-#     command_list = [
-#         *global_model_command_reg.values(),
-#         *get_model_commands(model_t, command_ctx),
-#         ]
-#     d_to_command = {
-#         cmd.d: cmd for cmd in command_list
-#         if not cmd.properties.is_global or cmd.properties.uses_state
-#         }
-#     return d_to_command
+@mark.service
+def details_commands(get_global_model_commands, get_model_commands, get_command_group, model_t, ctx):
+    command_list = [
+        *get_global_model_commands(ctx),
+        *get_model_commands(model_t, ctx),
+        ]
+    return [
+        command for command in command_list
+        if get_command_group(command.key) != 'global'
+        ]
 
 
 def details_command_list(model, model_state, ctx, details_commands):
     model_t = deduce_t(model)
-    command_ctx = model_command_ctx(ctx, model, model_state)
-    d_to_command = details_commands(model_t, command_ctx)
-    factory_k_list = []
-    for command in d_to_command.values():
-        factory_k = htypes.details.factory_k(
-            command=mosaic.put(command.piece),
+    command_list = details_commands(model_t, ctx)
+    factory_k_list = [
+        htypes.details.factory_k(
+            command=mosaic.put(command.command),
             )
-        factory_k_list.append(factory_k)
+        for command in command_list
+        ]
     return factory_k_list
 
 

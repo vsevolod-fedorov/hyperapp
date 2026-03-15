@@ -3,6 +3,7 @@
 import:
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
+- views.details:details_commands.service
 - views.local_server_context:command_creg-local_server_context-open_local_server_context.ctx-actor-cfg-item
 - views.local_server_context:local_server_context-view.view-cfg-item
 - views.local_server_context:open_local_server_context.command-cfg-item
@@ -59,6 +60,7 @@ definitions:
         command_group_reg: command_group_reg
         formatter_creg: formatter_creg
         global_model_command_reg: global_model_command_reg
+        system: system
         view_factory_reg: view_factory_reg
         view_reg: view_reg
         view_ui_command_reg: view_ui_command_reg
@@ -72,6 +74,11 @@ definitions:
     value:
       items:
       - views.local_server_context:open_local_server_context.command-cfg-item
+  system:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - views.details:details_commands.service
   view_factory_reg:
     type: legacy_type.system:item_list_config
     value:

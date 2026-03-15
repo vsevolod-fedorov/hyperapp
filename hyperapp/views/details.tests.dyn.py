@@ -5,33 +5,13 @@ from .services import (
     )
 from .code.mark import mark
 from .code.context import Context
-# from .code.model_command import ModelCommandFn, UnboundModelCommand
 from .code.list_adapter import index_list_model_state_t
 from .tested.code import details
 
 
+@mark.ctx_actor.command_creg(htypes.details_tests.sample_command)
 def details_command():
     return 'details-model'
-
-
-@mark.fixture
-def command_d():
-    return htypes.details_tests.sample_command_d()
-
-
-@mark.fixture
-def unbound_command(rpc_system_call_factory, command_d):
-    fn = ModelCommandFn(
-        rpc_system_call_factory=rpc_system_call_factory,
-        ctx_params=(),
-        service_params=(),
-        raw_fn=details_command,
-        )
-    return UnboundModelCommand(
-        d=command_d,
-        ctx_fn=fn,
-        properties=htypes.command.properties(False, False, False),
-        )
 
 
 def _test_format_factory_k(unbound_command):
@@ -43,9 +23,11 @@ def _test_format_factory_k(unbound_command):
 
 
 @mark.config_fixture('model_command_reg')
-def model_command_reg_config(unbound_command):
+def model_command_reg_config():
     return {
-        htypes.details_tests.sample_model: [unbound_command],
+        htypes.details_tests.sample_model: {
+            'sample_command': htypes.details_tests.sample_command(),
+            },
         }
 
 
@@ -101,13 +83,14 @@ def _test_view(ctx, unbound_command, details_view):
     assert view.children_context(ctx).model == details_command()
 
 
-def _test_details_commands_service(details_commands, ctx, command_d, model_t):
-    d_to_command = details_commands(model_t, ctx)
-    assert type(d_to_command) is dict
-    assert list(d_to_command) == [command_d]
+def test_details_commands_service(details_commands, ctx, model_t):
+    command_list = details_commands(model_t, ctx)
+    [command] = command_list
+    assert command.name == 'sample_command'
+    assert command.command == htypes.details_tests.sample_command()
 
 
-def _test_command_list(details_commands, ctx, model, model_state):
+def test_command_list(details_commands, ctx, model, model_state):
     k_list = details.details_command_list(model, model_state, ctx, details_commands)
     assert type(k_list) is list
     assert len(k_list) == 1
