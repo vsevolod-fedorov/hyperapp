@@ -21,6 +21,7 @@ import:
 - ui.command_config_ctl:config_ctl_creg-command_config_ctl-type_str_command_config_ctl.actor-cfg-item
 - ui.command_creg:command_creg.service
 - ui.command_creg:command_enum_creg.service
+- ui.command_group:command_group_creg.service
 - ui.command_group:command_group_reg.service
 - ui.command_group:command_group_type_reg.service
 - ui.command_group:get_command_group.service
@@ -474,6 +475,7 @@ definitions:
       - ui.command:command_runner.service
       - ui.command_creg:command_creg.service
       - ui.command_creg:command_enum_creg.service
+      - ui.command_group:command_group_creg.service
       - ui.command_group:command_group_reg.service
       - ui.command_group:command_group_type_reg.service
       - ui.command_group:get_command_group.service

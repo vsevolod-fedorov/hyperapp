@@ -1,4 +1,5 @@
 from .services import (
+    code_registry_ctr,
     deduce_t,
     )
 from .code.mark import mark
@@ -12,15 +13,24 @@ def command_group_reg(config):
     return config
 
 
+@mark.service
+def command_group_creg(config):
+    return code_registry_ctr('command_group_creg', config)
+
+
 @mark.service(ctl=DictConfigCtl(key_ctl=TypeKeyCtl(), value_ctl=DataValueCtl()))
 def command_group_type_reg(config):
     return config
 
 
 @mark.service
-def get_command_group(command_group_reg, command_group_type_reg, command_key):
+def get_command_group(command_group_reg, command_group_creg, command_group_type_reg, command_key):
     try:
         return command_group_reg[command_key]
+    except KeyError:
+        pass
+    try:
+        return command_group_creg.animate(command_key)
     except KeyError:
         pass
     command_key_t = deduce_t(command_key)
