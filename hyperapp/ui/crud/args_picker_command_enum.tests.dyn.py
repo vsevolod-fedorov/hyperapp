@@ -29,24 +29,30 @@ def enum_piece(make_enum):
     return make_enum(htypes.builtin.string)
 
 
-@mark.fixture
-def ctx(piece):
-    return Context()
-
-
-def test_arg_picker_command(enum_piece):
-    ctx = Context(
-        piece=enum_piece,
+def key_factory(name):
+    return htypes.command.model_command_key(
+        model_t=pyobj_creg.actor_to_ref(htypes.args_picker_command_enum_tests.sample_model),
+        name=name,
         )
-    command_list = args_picker_command_enum.args_picker_command_enum(ctx)
+
+
+@mark.fixture.obj
+def enum_ctx(enum_piece):
+    return Context(
+        piece=enum_piece,
+        key_factory=key_factory,
+        )
+
+
+def test_arg_picker_command(enum_ctx):
+    command_list = args_picker_command_enum.args_picker_command_enum(enum_ctx)
     assert type(command_list) is list
     [command] = command_list
     assert isinstance(command.command, htypes.command.args_picker_command)
 
 
-def test_value_from_context(enum_piece):
-    ctx = Context(
-        piece=enum_piece,
+def test_value_from_context(enum_ctx):
+    ctx = enum_ctx.clone_with(
         **{value_mark_name(htypes.builtin.string): "Sample value"},
         )
     command_list = args_picker_command_enum.args_picker_command_enum(ctx)
@@ -59,6 +65,7 @@ def test_ref_from_context(make_enum):
     enum_piece = make_enum(htypes.builtin.ref)
     ctx = Context(
         piece=enum_piece,
+        key_factory=key_factory,
         **{model_mark_name(htypes.builtin.string): "Sample value"},
         )
     command_list = args_picker_command_enum.args_picker_command_enum(ctx)

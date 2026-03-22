@@ -77,16 +77,22 @@ def get_model_commands(
         ):
     name_to_command = model_command_reg(model_t)
     model_t_ref = pyobj_creg.actor_to_ref(model_t)
+
+    def key_factory(name):
+        return htypes.command.model_command_key(model_t_ref, name)
+
     command_list = [
         command_factory(
-            key=htypes.command.model_command_key(model_t_ref, name),
+            key=key_factory(name),
             name=name,
             command=command,
             ctx=ctx,
             )
         for name, command in name_to_command.items()
         ]
-    enum_ctx = prepare_command_ctx(ctx)
+    enum_ctx = prepare_command_ctx(ctx).clone_with(
+        key_factory=key_factory,
+        )
     for name, enum in model_command_enumerator_reg(model_t).items():
         command_list += command_enum_creg.animate(enum, enum_ctx)
     return command_list

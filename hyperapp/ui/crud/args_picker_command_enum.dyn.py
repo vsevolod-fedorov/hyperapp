@@ -66,15 +66,20 @@ def _canned_args_command(command_factory, ctx, name, args, commit_command_ref):
         )
 
 
-def _args_picker_command(command_factory, ctx, name, args, required_args, commit_command_ref):
+def _args_picker_command(command_factory, key_factory, ctx, name, args, required_args, commit_command_ref):
     command = htypes.command.args_picker_command(
         name=name,
         args=args_dict_to_tuple(args),
         required_args=args_t_dict_to_tuple(required_args),
         commit_command=commit_command_ref,
         )
+    commit_command_key = key_factory(name)
+    key = htypes.command.args_picker_command_key(
+        name=name,
+        commit_command_key=mosaic.put(commit_command_key),
+        )
     return command_factory(
-        key=htypes.command.args_picker_command_key(name),
+        key=key,
         name=name,
         command=command,
         ctx=ctx.pop(),
@@ -82,7 +87,7 @@ def _args_picker_command(command_factory, ctx, name, args, required_args, commit
 
 
 @mark.ctx_actor.command_enum_creg
-def args_picker_command_enum(piece, ctx, command_factory):
+def args_picker_command_enum(piece, key_factory, ctx, command_factory):
     required_arg_types = args_t_tuple_to_dict(piece.required_args)
     log.debug("Args picker command enum: %s", required_arg_types)
     args, required_args = _pick_args_from_context(required_arg_types, ctx)
@@ -91,9 +96,11 @@ def args_picker_command_enum(piece, ctx, command_factory):
         result = []
     else:
         if required_args:
-            command = _args_picker_command(command_factory, ctx, piece.name, args, required_args, piece.commit_command)
+            command = _args_picker_command(
+                command_factory, key_factory, ctx, piece.name, args, required_args, piece.commit_command)
         else:
-            command = _canned_args_command(command_factory, ctx, piece.name, args, piece.commit_command)
+            command = _canned_args_command(
+                command_factory, ctx, piece.name, args, piece.commit_command)
         result = [command]
     log.debug("Args picker command enum result: %r", result)
     return result

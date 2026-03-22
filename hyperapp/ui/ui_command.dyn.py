@@ -95,20 +95,26 @@ def get_view_commands(
         ):
     view_t = deduce_t(view.piece)
     view_t_ref = pyobj_creg.actor_to_ref(view_t)
+
+    def key_factory(name):
+        return htypes.command.ui_command_key(view_t_ref, name)
+
     name_to_command = {
         **view_ui_command_reg(view_t),
         **dict(universal_ui_command_reg.items()),  # TODO: Add support for service probe as mapping.
         }
     command_list = [
         command_factory(
-            key=htypes.command.ui_command_key(view_t_ref, name),
+            key=key_factory(name),
             name=name,
             command=command,
             ctx=ctx,
             )
         for name, command in name_to_command.items()
         ]
-    enum_ctx = prepare_command_ctx(ctx)
+    enum_ctx = prepare_command_ctx(ctx).clone_with(
+        key_factory=key_factory,
+        )
     enum_dict = {
         **dict(ui_command_enumerator_reg(view_t).items()),
         **dict(universal_ui_command_enumerator_reg.items()),

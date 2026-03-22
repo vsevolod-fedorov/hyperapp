@@ -51,6 +51,7 @@ definitions:
       function: args_picker_command_enum
       ctx_params:
       - piece
+      - key_factory
       - ctx
       service_params:
       - command_factory

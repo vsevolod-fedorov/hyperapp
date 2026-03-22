@@ -81,6 +81,7 @@ args_picker_command_enum = record:
 
 args_picker_command_key = record:
   name: string
+  commit_command_key: ref
 
 args_picker_command = record:
   name: string
