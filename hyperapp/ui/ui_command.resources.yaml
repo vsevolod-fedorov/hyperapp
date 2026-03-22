@@ -3,8 +3,9 @@
 import:
 - base.mark:mark.module
 - base.system.config_ctl:config_ctl.module
+- base.system.config_key_ctl:config_key_ctl.module
 - base.system.config_layer:one_way.key_ctl
-- base.system.config_struct_ctl:config_struct_ctl.module
+- base.system.config_value_ctl:config_value_ctl.module
 - builtins:deduce_t.service
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
@@ -14,9 +15,11 @@ import:
 - legacy_type.command:ui_command_key
 - legacy_type.command_config_ctl:type_str_command_config_ctl
 - legacy_type.system:actor_value_ctl
+- legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
+- legacy_type.system:str_key_ctl
 - ui.command:command.module
 - ui.command_config_ctl:command_config_ctl.module
 definitions:
@@ -38,7 +41,9 @@ definitions:
       - command_factory
       - command_enum_creg
       - view_ui_command_reg
+      - universal_ui_command_reg
       - ui_command_enumerator_reg
+      - universal_ui_command_enumerator_reg
       want_config: false
       free_params:
       - ctx
@@ -64,14 +69,26 @@ definitions:
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl
     value: {}
+  system-data.value-ctl:
+    type: legacy_type.system:data_value_ctl
+    value: {}
   system-dict_config.one_way.actor.single.ctl:
     type: legacy_type.system:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
       struct_ctl: system-single.struct-ctl
+  system-dict_config.str.data.single.ctl:
+    type: legacy_type.system:dict_config_ctl
+    value:
+      key_ctl: system-str.key-ctl
+      value_ctl: system-data.value-ctl
+      struct_ctl: system-single.struct-ctl
   system-single.struct-ctl:
     type: legacy_type.system:single_struct_ctl
+    value: {}
+  system-str.key-ctl:
+    type: legacy_type.system:str_key_ctl
     value: {}
   ui_command.module:
     type: legacy_type.builtin:python_module
@@ -82,7 +99,8 @@ definitions:
         code.command: ui.command:command.module
         code.command_config_ctl: ui.command_config_ctl:command_config_ctl.module
         code.config_ctl: base.system.config_ctl:config_ctl.module
-        code.config_struct_ctl: base.system.config_struct_ctl:config_struct_ctl.module
+        code.config_key_ctl: base.system.config_key_ctl:config_key_ctl.module
+        code.config_value_ctl: base.system.config_value_ctl:config_value_ctl.module
         code.mark: base.mark:mark.module
         htypes.command.ui_command_key: legacy_type.command:ui_command_key
         services.deduce_t: builtins:deduce_t.service
@@ -104,6 +122,34 @@ definitions:
       want_config: true
       free_params:
       - view_t
+  universal_ui_command_enumerator_reg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: ui_command.module
+      attr_name: universal_ui_command_enumerator_reg
+  universal_ui_command_enumerator_reg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: universal_ui_command_enumerator_reg
+      ctl: system-dict_config.str.data.single.ctl
+      function: universal_ui_command_enumerator_reg
+      service_params: []
+      want_config: true
+      free_params: []
+  universal_ui_command_reg:
+    type: legacy_type.builtin:attribute
+    value:
+      object: ui_command.module
+      attr_name: universal_ui_command_reg
+  universal_ui_command_reg.service:
+    type: legacy_type.system:service_template
+    value:
+      name: universal_ui_command_reg
+      ctl: system-dict_config.str.data.single.ctl
+      function: universal_ui_command_reg
+      service_params: []
+      want_config: true
+      free_params: []
   view_element_ui_command_reg:
     type: legacy_type.builtin:attribute
     value:

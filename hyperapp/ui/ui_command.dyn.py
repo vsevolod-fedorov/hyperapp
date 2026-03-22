@@ -11,8 +11,9 @@ from .services import (
     web,
     )
 from .code.mark import mark
-from .code.config_ctl import DictConfigCtl, FlatListConfigCtl
-from .code.config_struct_ctl import ListStructCtl
+from .code.config_ctl import DictConfigCtl
+from .code.config_key_ctl import StrKeyCtl
+from .code.config_value_ctl import DataValueCtl
 from .code.command_config_ctl import TypeStrCommandConfigCtl
 from .code.command import prepare_command_ctx
 
@@ -60,9 +61,9 @@ def view_element_ui_command_reg(config, view_t):
 #     return _item_list_with_bases(config, view_t)
 
 
-# @mark.service(ctl=FlatListConfigCtl())
-# def universal_ui_command_reg(config):
-#     return config
+@mark.service(ctl=DictConfigCtl(key_ctl=StrKeyCtl(), value_ctl=DataValueCtl()))
+def universal_ui_command_reg(config):
+    return config
 
 
 @mark.service(ctl=TypeStrCommandConfigCtl())
@@ -70,9 +71,9 @@ def ui_command_enumerator_reg(config, view_t):
     return _item_dict_with_bases(config, view_t)
 
 
-# @mark.service(ctl=FlatListConfigCtl())
-# def universal_ui_command_enumerator_reg(config):
-#     return config
+@mark.service(ctl=DictConfigCtl(key_ctl=StrKeyCtl(), value_ctl=DataValueCtl()))
+def universal_ui_command_enumerator_reg(config):
+    return config
 
 
 @mark.service
@@ -86,15 +87,18 @@ def get_view_commands(
         command_enum_creg,
         view_ui_command_reg,
         # view_ui_model_command_reg,
-        # universal_ui_command_reg,
+        universal_ui_command_reg,
         ui_command_enumerator_reg,
-        # universal_ui_command_enumerator_reg,
+        universal_ui_command_enumerator_reg,
         ctx,
         view,
         ):
     view_t = deduce_t(view.piece)
     view_t_ref = pyobj_creg.actor_to_ref(view_t)
-    name_to_command = view_ui_command_reg(view_t)
+    name_to_command = {
+        **view_ui_command_reg(view_t),
+        **dict(universal_ui_command_reg.items()),  # TODO: Add support for service probe as mapping.
+        }
     command_list = [
         command_factory(
             key=htypes.command.ui_command_key(view_t_ref, name),
@@ -105,24 +109,13 @@ def get_view_commands(
         for name, command in name_to_command.items()
         ]
     enum_ctx = prepare_command_ctx(ctx)
-    for name, enum in ui_command_enumerator_reg(view_t).items():
+    enum_dict = {
+        **dict(ui_command_enumerator_reg(view_t).items()),
+        **dict(universal_ui_command_enumerator_reg.items()),
+        }
+    for name, enum in enum_dict.items():
         command_list += command_enum_creg.animate(enum, enum_ctx)
     return command_list
-
-    # ui_model_command_list = [
-    #     wrap_model_command_to_ui_command(diff_creg, feed_factory, error_view, view_reg, visualizer, cmd)
-    #     for cmd in view_ui_model_command_reg(view_t)
-    #     ]
-    # command_list = [
-    #     *view_ui_command_reg(view_t),
-    #     *ui_model_command_list,
-    #     *universal_ui_command_reg,
-    #     ]
-    # for enumerator in ui_command_enumerator_reg(view_t):
-    #     command_list += enumerator.enum_commands(ctx)
-    # for enumerator in universal_ui_command_enumerator_reg:
-    #     command_list += enumerator.enum_commands(ctx)
-    # return command_list
 
 
 @mark.service

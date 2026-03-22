@@ -205,12 +205,15 @@ import:
 - ui.ui_command:get_view_commands.service
 - ui.ui_command:get_view_element_commands.service
 - ui.ui_command:ui_command_enumerator_reg.service
+- ui.ui_command:universal_ui_command_enumerator_reg.service
+- ui.ui_command:universal_ui_command_reg.service
 - ui.ui_command:view_element_ui_command_reg.service
 - ui.ui_command:view_ui_command_reg.service
 - ui.value_adapter:ui_adapter_creg-value_adapter-value_adapter.actor-cfg-item
 - ui.view.default_view_factory:default_model_factory.service
 - ui.view.default_view_factory:default_ui_factory.service
 - ui.view.replace_view:crud_commit_action_creg-replace_view-replace_view.ctx-actor-cfg-item
+- ui.view.replace_view:replace_view.command-cfg-item
 - ui.view.replace_view:replace_view.command-group-item
 - ui.view.view_factory:view_factory_reg.service
 - ui.view.view_factory_cfg_item:cfg_value_creg-view_factory-multi_template.actor-cfg-item
@@ -228,6 +231,7 @@ import:
 - ui.view.view_factory_list:view_factory_list-model.model-cfg-item
 - ui.view.view_registry:view_reg.service
 - ui.view.wrap_view:crud_commit_action_creg-wrap_view-wrap_view.ctx-actor-cfg-item
+- ui.view.wrap_view:wrap_view.command-cfg-item
 - ui.view.wrap_view:wrap_view.command-group-item
 - ui.visualizer:formatter_creg-ui-model_layout_k.actor-cfg-item
 - ui.visualizer:resource_name_creg-ui-model_layout_k.actor-cfg-item
@@ -344,6 +348,7 @@ definitions:
         system: system
         ui_adapter_creg: ui_adapter_creg
         ui_command_enumerator_reg: ui_command_enumerator_reg
+        universal_ui_command_enumerator_reg: universal_ui_command_enumerator_reg
         view_element_ui_command_reg: view_element_ui_command_reg
         view_factory_reg: view_factory_reg
         view_reg: view_reg
@@ -507,6 +512,8 @@ definitions:
       - ui.ui_command:get_view_commands.service
       - ui.ui_command:get_view_element_commands.service
       - ui.ui_command:ui_command_enumerator_reg.service
+      - ui.ui_command:universal_ui_command_enumerator_reg.service
+      - ui.ui_command:universal_ui_command_reg.service
       - ui.ui_command:view_element_ui_command_reg.service
       - ui.ui_command:view_ui_command_reg.service
       - ui.view.default_view_factory:default_model_factory.service
@@ -538,6 +545,12 @@ definitions:
       - ui.qt.box_layout:box_layout-view-add_element.command-cfg-item
       - ui.qt.label:label-view-set_label_text.command-cfg-item
       - ui.qt.tabs:tabs-view-add_element.command-cfg-item
+  universal_ui_command_enumerator_reg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.view.replace_view:replace_view.command-cfg-item
+      - ui.view.wrap_view:wrap_view.command-cfg-item
   view_element_ui_command_reg:
     type: legacy_type.system:item_list_config
     value:
