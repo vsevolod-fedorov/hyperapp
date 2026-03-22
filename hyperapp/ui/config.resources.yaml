@@ -29,6 +29,7 @@ import:
 - ui.controller:controller_running.service
 - ui.crud.args_picker_command:command_creg-command-args_picker_command.ctx-actor-cfg-item
 - ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
+- ui.crud.args_picker_command_enum:command_group_creg-command-args_picker_command_key.actor-cfg-item
 - ui.crud.canned_args_command:command_creg-command-canned_args_command.ctx-actor-cfg-item
 - ui.crud.crud:command_creg-crud-commit_command.ctx-actor-cfg-item
 - ui.crud.crud:command_creg-crud-open_command.ctx-actor-cfg-item
@@ -289,6 +290,11 @@ definitions:
       - ui.crud.args_picker_command_enum:command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item
       - ui.crud.crud:command_enum_creg-crud-crud_commit_command_enum.ctx-actor-cfg-item
       - ui.layout:command_enum_creg-layout-enum_layout_tree_commands.ctx-actor-cfg-item
+  command_group_creg:
+    type: legacy_type.system:item_list_config
+    value:
+      items:
+      - ui.crud.args_picker_command_enum:command_group_creg-command-args_picker_command_key.actor-cfg-item
   command_group_reg:
     type: legacy_type.system:item_list_config
     value:
@@ -329,6 +335,7 @@ definitions:
         cfg_value_creg: cfg_value_creg
         command_creg: command_creg
         command_enum_creg: command_enum_creg
+        command_group_creg: command_group_creg
         command_group_reg: command_group_reg
         config_ctl_creg: config_ctl_creg
         convertor_creg: convertor_creg

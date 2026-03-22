@@ -106,8 +106,7 @@ def args_picker_command_enum(piece, key_factory, ctx, command_factory):
     return result
 
 
-@mark.actor.formatter_creg
-def format_open_args_picker_command_d(piece, format):
-    commit_command_d = web.summon(piece.commit_command_d)
-    commit_command_text = format(commit_command_d)
-    return f"{commit_command_text}..."
+@mark.actor.command_group_creg
+def args_picker_command_group(piece, get_command_group):
+    commit_command_key = web.summon(piece.commit_command_key)
+    return get_command_group(commit_command_key)

@@ -74,10 +74,18 @@ def test_ref_from_context(make_enum):
     assert isinstance(command.command, htypes.command.canned_args_command)
 
 
-def _test_format_open_args_picker_command_d():
-    commit_command_d = htypes.args_picker_command_enum_tests.sample_command_d()
-    d = htypes.command.open_args_picker_command_d(
-        commit_command_d=mosaic.put(commit_command_d),
+@mark.config_fixture('command_group_type_reg')
+def command_group_type_reg_config():
+    return {
+        htypes.command.model_command_key: 'test_group',
+        }
+
+
+def test_args_picker_command_group():
+    commit_command_key = key_factory('sample_command')
+    piece = htypes.command.args_picker_command_key(
+        name='sample_command',
+        commit_command_key=mosaic.put(commit_command_key),
         )
-    title = args_picker_command_enum.format_open_args_picker_command_d(d)
-    assert type(title) is str
+    group = args_picker_command_enum.args_picker_command_group(piece)
+    assert group == 'test_group'

@@ -15,6 +15,7 @@ import:
 - legacy_type.command:args_picker_command_key
 - legacy_type.command:canned_args_command
 - legacy_type.command:canned_args_command_key
+- legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - ui.arg_mark:arg_mark.module
 - ui.crud.command_args:command_args.module
@@ -55,8 +56,24 @@ definitions:
       - ctx
       service_params:
       - command_factory
+  args_picker_command_group:
+    type: legacy_type.builtin:attribute
+    value:
+      object: args_picker_command_enum.module
+      attr_name: args_picker_command_group
+  args_picker_command_group.actor-template:
+    type: legacy_type.system:actor_template
+    value:
+      function: args_picker_command_group
+      service_params:
+      - get_command_group
   command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item:
     type: legacy_type.cfg_item:typed_cfg_item
     value:
       t: legacy_type.command:args_picker_command_enum
       value: args_picker_command_enum.ctx-actor-template
+  command_group_creg-command-args_picker_command_key.actor-cfg-item:
+    type: legacy_type.cfg_item:typed_cfg_item
+    value:
+      t: legacy_type.command:args_picker_command_key
+      value: args_picker_command_group.actor-template
