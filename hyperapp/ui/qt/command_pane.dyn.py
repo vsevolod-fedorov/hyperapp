@@ -66,16 +66,16 @@ class CommandPaneView(View):
 
     async def _update_commands(self, commands, widget):
         layout = widget.layout()
-        command_group = {
+        groups = {
             cmd: self._get_command_group(cmd.key)
-            for cmd in commands
+            for cmd in {*commands, *widget.command_to_button}
             }
         new_commands = [
             cmd for cmd in commands
-            if command_group[cmd] == 'context'
+            if groups[cmd] in {'model', 'context'}
             ]
         removed_commands = set(widget.command_to_button) - set(new_commands)
-        # widget.spacing_idx -= sum(1 for cmd in removed_commands if 'context' in cmd.groups)
+        widget.spacing_idx -= sum(1 for cmd in removed_commands if groups[cmd] == 'model')
         new_commands = [
             cmd for cmd in new_commands
             if cmd not in set(widget.command_to_button)
@@ -86,12 +86,12 @@ class CommandPaneView(View):
         used_shortcuts = set()
         for cmd in new_commands:
             button = self._make_button(cmd, used_shortcuts)
-            if False:  # pane_1_d in cmd.groups:
+            if groups[cmd] == 'model':
                 layout.insertWidget(widget.spacing_idx, button)
             else:
                 layout.addWidget(button)
             widget.command_to_button[cmd] = button
-        # widget.spacing_idx += sum(1 for cmd in new_commands if pane_1_d in cmd.groups)
+        widget.spacing_idx += sum(1 for cmd in new_commands if groups[cmd] == 'model')
 
     def _make_button(self, cmd, used_shortcuts):
         # text = command_text(self._format, cmd)
