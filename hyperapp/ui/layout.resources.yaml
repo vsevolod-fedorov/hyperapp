@@ -96,6 +96,7 @@ definitions:
       - piece
       - current_item
       - controller
+      - ctx
       service_params:
       - command_factory
   enum_layout_tree_commands.t:

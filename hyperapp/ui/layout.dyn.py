@@ -24,7 +24,7 @@ def layout_tree(piece, parent, controller):
 
 
 @mark.command_enum
-def enum_layout_tree_commands(piece, current_item, controller, command_factory):
+def enum_layout_tree_commands(piece, current_item, controller, ctx, command_factory):
     if current_item:
         item_id = current_item.id
         commands = [
@@ -34,7 +34,10 @@ def enum_layout_tree_commands(piece, current_item, controller, command_factory):
                     ),
                 name=cmd.name,
                 command=cmd.command,
-                ctx=cmd.ctx,
+                ctx=cmd.ctx.clone_with(
+                    navigator=ctx.navigator, # We need navigator from current window, not from view command ctx.
+                    ),
+                # ctx=ctx.pop(),  # Skip prepared command part.
                 )
             for cmd in
             controller.item_commands(item_id)

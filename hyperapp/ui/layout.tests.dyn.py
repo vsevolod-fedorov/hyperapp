@@ -123,7 +123,7 @@ def test_enum_layout_tree_commands():
     ctl.item_commands.return_value = [command]
     model = htypes.layout.model()
     current_item = Mock(id=12345)
-    commands = layout.enum_layout_tree_commands(model, current_item, ctl)
+    commands = layout.enum_layout_tree_commands(model, current_item, ctl, ctx)
     # assert commands  # TODO
 
 
