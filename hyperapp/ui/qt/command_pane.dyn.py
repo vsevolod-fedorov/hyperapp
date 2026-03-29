@@ -17,7 +17,6 @@ class CommandPane(QtWidgets.QWidget):
     def __init__(self):
         super().__init__()
         self.command_to_button = {}
-        self.spacing_idx = None
 
 
 class CommandPaneView(View):
@@ -42,8 +41,6 @@ class CommandPaneView(View):
         layout = QtWidgets.QVBoxLayout(w, spacing=1)
         layout.setAlignment(QtCore.Qt.AlignTop)
         layout.setContentsMargins(2, 2, 2, 2)
-        layout.addSpacing(10)
-        w.spacing_idx = 0
         return w
 
     def widget_state(self, widget):
@@ -75,23 +72,29 @@ class CommandPaneView(View):
             if groups[cmd] in {'model', 'context'}
             ]
         removed_commands = set(widget.command_to_button) - set(new_commands)
-        widget.spacing_idx -= sum(1 for cmd in removed_commands if groups[cmd] == 'model')
         new_commands = [
             cmd for cmd in new_commands
             if cmd not in set(widget.command_to_button)
             ]
+        for idx in range(layout.count()):
+            item = layout.itemAt(idx)
+            if item and item.spacerItem():
+                layout.removeItem(item)
         for cmd in removed_commands:
             button = widget.command_to_button.pop(cmd)
             button.deleteLater()
         used_shortcuts = set()
+        spacer_added = False
+        has_model_commands = False
         for cmd in new_commands:
             button = self._make_button(cmd, used_shortcuts)
             if groups[cmd] == 'model':
-                layout.insertWidget(widget.spacing_idx, button)
-            else:
-                layout.addWidget(button)
+                has_model_commands = True
+            elif not spacer_added and has_model_commands:
+                layout.addSpacing(10)
+                spacer_added = True
+            layout.addWidget(button)
             widget.command_to_button[cmd] = button
-        widget.spacing_idx += sum(1 for cmd in new_commands if groups[cmd] == 'model')
 
     def _make_button(self, cmd, used_shortcuts):
         # text = command_text(self._format, cmd)
