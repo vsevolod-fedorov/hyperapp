@@ -51,6 +51,8 @@ class Web(object):
         return self.summon_with_t(ref, expected_type)
 
     def summon(self, ref, expected_type=None):
+        if ref is None:
+            raise RuntimeError("web.summon for None ref")
         value, t = self.summon_with_t(ref, expected_type)
         return value
 
