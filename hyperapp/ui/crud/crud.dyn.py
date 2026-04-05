@@ -317,16 +317,18 @@ def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layo
 @mark.ctx_actor.command_creg
 def commit_command(piece, model, ctx, selector_pick_action_creg, crud_commit_action_creg, crud):
     args = _args_tuple_to_dict(piece.args)
-    src_model = web.summon(piece.model)
+    src_model = web.summon_opt(piece.model)
     fn_ctx = crud.fn_ctx(ctx, model, args)
     if piece.selector_pick_action:
         value = selector_pick_action_creg.invite(piece.selector_pick_action, fn_ctx)
     else:
         value = fn_ctx.value
-    action_ctx = fn_ctx.clone_with({
-        'model': src_model,
+    action_kw = {
         piece.commit_value_field: value,
-        })
+        }
+    if src_model is not None:
+        action_kw['model'] = src_model
+    action_ctx = fn_ctx.clone_with(**action_kw)
     return crud_commit_action_creg.invite(piece.commit_action, action_ctx)
 
 
