@@ -176,7 +176,7 @@ class Crud:
         self._selector_open_action_creg = selector_open_action_creg
         self._crud_init_action_creg = crud_init_action_creg
 
-    def fn_ctx(self, ctx, model, args, kw=None):
+    def fn_ctx(self, ctx, model, args, **kw):
         if args is None:
             args = {}
         if model is not None:
@@ -187,9 +187,8 @@ class Crud:
             model_layout_kw = {}
         all_kw = {
             **model_layout_kw,
-            **args,
             **self._canned_kw(ctx, args),
-            **(kw or {}),
+            **kw,
             }
         return ctx.clone_with(**all_kw)
 
@@ -276,7 +275,7 @@ class Crud:
 
     # Override context with original elements, canned by args picker.
     def _canned_kw(self, ctx, args):
-        kw = {}
+        kw = {**args}
         try:
             item_piece = args['canned_item_piece']
         except KeyError:
@@ -315,21 +314,18 @@ def crud(canned_ctl_item_factory, visualizer, view_reg, selector_reg, model_layo
 
 
 @mark.ctx_actor.command_creg
-def commit_command(piece, model, ctx, selector_pick_action_creg, crud_commit_action_creg, crud):
+def commit_command(piece, ctx, selector_pick_action_creg, crud_commit_action_creg, crud):
     args = _args_tuple_to_dict(piece.args)
     src_model = web.summon_opt(piece.model)
-    fn_ctx = crud.fn_ctx(ctx, model, args)
     if piece.selector_pick_action:
-        value = selector_pick_action_creg.invite(piece.selector_pick_action, fn_ctx)
+        value = selector_pick_action_creg.invite(piece.selector_pick_action, ctx)
     else:
-        value = fn_ctx.value
+        value = ctx.value
     action_kw = {
         piece.commit_value_field: value,
         }
-    if src_model is not None:
-        action_kw['model'] = src_model
-    action_ctx = fn_ctx.clone_with(**action_kw)
-    return crud_commit_action_creg.invite(piece.commit_action, action_ctx)
+    commit_ctx = crud.fn_ctx(ctx, src_model, args, **action_kw)
+    return crud_commit_action_creg.invite(piece.commit_action, commit_ctx)
 
 
 @mark.ui_command_enum

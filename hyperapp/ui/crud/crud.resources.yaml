@@ -107,7 +107,6 @@ definitions:
       function: commit_command
       ctx_params:
       - piece
-      - model
       - ctx
       service_params:
       - selector_pick_action_creg
