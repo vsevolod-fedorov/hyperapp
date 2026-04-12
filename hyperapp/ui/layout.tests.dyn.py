@@ -112,7 +112,9 @@ async def test_layout_tree(qapp, ctl):
 
 
 def test_enum_layout_tree_commands():
-    ctx = Context()
+    ctx = Context(
+        navigator=Mock(),
+        )
     command = Mock(
         key=htypes.layout_tests.sample_command_key(),
         name='sample_command',
