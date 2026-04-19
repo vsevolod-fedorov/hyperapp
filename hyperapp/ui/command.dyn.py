@@ -23,7 +23,7 @@ class CommandRunner:
     async def run_command(self, ctx, command):
         command_ctx = prepare_command_ctx(ctx)
         try:
-            result = await self.run_model_command(command_ctx, command)
+            result = await self.animate_command(command_ctx, command)
         except Exception as x:
             await self._handle_error(x)
             return
@@ -36,7 +36,7 @@ class CommandRunner:
             self._process_diff(result.diff)
         await self._open(command, ctx, model, key)
 
-    async def run_model_command(self, command_ctx, command):
+    async def animate_command(self, command_ctx, command):
         result = self._command_creg.animate(command, command_ctx)
         if inspect.iscoroutine(result):
             result = await result

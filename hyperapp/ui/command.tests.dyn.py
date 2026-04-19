@@ -32,8 +32,8 @@ def ctx(navigator):
         )
 
 
-async def test_runner_run_model_command(command_runner, sample_command, navigator, ctx):
-    result = await command_runner.run_model_command(ctx.push(), sample_command)
+async def test_runner_animate_command(command_runner, sample_command, navigator, ctx):
+    result = await command_runner.animate_command(ctx.push(), sample_command)
     assert result == 'sample-command-result'
 
 
