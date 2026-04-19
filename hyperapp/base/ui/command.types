@@ -59,6 +59,9 @@ command_result = record:
   diff: ref opt
 
 
+command_arg = record:
+  command: ref
+
 arg_t = record:
   name: string
   t: ref
