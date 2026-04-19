@@ -28,7 +28,7 @@ class CommandRunner:
             await self._handle_error(x)
             return
         if result is None:
-            return
+            return None
         result = self._prepare_result(result)
         model = web.summon_opt(result.model)
         key = web.summon_opt(result.key)
@@ -75,7 +75,6 @@ class CommandRunner:
             navigator = ctx.navigator.view
             navigator.set_current_key(self._navigator_widget(ctx), key)
             return
-
         try:
             view_piece = await self._visualizer(ctx, real_model_t(model))
         except Exception as x:
