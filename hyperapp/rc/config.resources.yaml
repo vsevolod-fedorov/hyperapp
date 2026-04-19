@@ -72,7 +72,7 @@ import:
 - rc.model_marker:model.marker-cfg-item
 - rc.rc_constructor_creg:rc_constructor_creg.service
 - rc.rc_job:rc_job_submit_factory.service
-- rc.rc_job:rc_job-job_target.actor-cfg-item
+- rc.rc_job:rpc_target_creg-job_target.actor-cfg-item
 - rc.rc_job_creg:rc_job_creg.service
 - rc.rc_job_result_creg:rc_job_result_creg.service
 - rc.rc:compile_resources.service
@@ -192,7 +192,7 @@ definitions:
     type: legacy_type.system:item_list_config
     value:
       items:
-      - rc.rc_job:rc_job-job_target.actor-cfg-item
+      - rc.rc_job:rpc_target_creg-job_target.actor-cfg-item
 
   rc_constructor_creg:
     type: legacy_type.system:item_list_config
