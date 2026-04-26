@@ -144,11 +144,11 @@ async def open_model(piece, current_item, command, ctx, peer_creg, global_model_
 
 
 @mark.command(args=['command'])
-async def run_command(piece, current_item, command, ctx,
+async def run_remotely(model, current_item, command, ctx,
                       peer_creg, global_model_command_reg, remote_command_from_model_command):
-    command_d = web.summon(command.d)
+    actual_command = web.summon(command.command)
     peer = peer_creg.invite(current_item.peer)
-    log.info("Peer list: Run global command %s @ %s (%s)", command_d, current_item.name, repr(peer))
+    log.info("Peer list: Run global command %s @ %s (%s)", actual_command, current_item.name, repr(peer))
     command = global_model_command_reg[command_d]
     remote_command = remote_command_from_model_command(peer, command)
     bound_command = remote_command.bind(ctx)
