@@ -56,7 +56,7 @@ definitions:
       - peer_creg
       - rpc_submit_factory
       - rpc_call_factory
-      - service_call_factory
+      - rpc_service_call_factory
       - subprocess_running
       - subprocess_transport
       - subprocess_rpc_main

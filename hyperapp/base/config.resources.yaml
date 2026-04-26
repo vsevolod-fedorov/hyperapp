@@ -18,6 +18,7 @@ import:
 - base.ref_picker:ref_picker_cache.service
 - base.rpc.rpc_call:rpc_call_factory.service
 - base.rpc.rpc_call:rpc_servant_wrapper.service
+- base.rpc.rpc_call:rpc_service_call_factory.service
 - base.rpc.rpc_call:rpc_service_wrapper.service
 - base.rpc.rpc_call:rpc_submit_factory.service
 - base.rpc.rpc_call:rpc_submit_target_factory.service
@@ -25,7 +26,6 @@ import:
 - base.rpc.rpc_call:rpc_system_fn_submit_factory.service
 - base.rpc.rpc_call:rpc_system_servant_wrapper.service
 - base.rpc.rpc_call:rpc_wait_for_future.service
-- base.rpc.rpc_call:service_call_factory.service
 - base.rpc.rpc_call:service_submit_factory.service
 - base.rpc.rpc_endpoint:cancel_rpc_request_futures.service
 - base.rpc.rpc_endpoint:rpc_endpoint.service
@@ -190,6 +190,7 @@ definitions:
       - base.ref_picker:ref_picker_cache.service
       - base.rpc.rpc_call:rpc_call_factory.service
       - base.rpc.rpc_call:rpc_servant_wrapper.service
+      - base.rpc.rpc_call:rpc_service_call_factory.service
       - base.rpc.rpc_call:rpc_service_wrapper.service
       - base.rpc.rpc_call:rpc_submit_factory.service
       - base.rpc.rpc_call:rpc_submit_target_factory.service
@@ -197,7 +198,6 @@ definitions:
       - base.rpc.rpc_call:rpc_system_fn_submit_factory.service
       - base.rpc.rpc_call:rpc_system_servant_wrapper.service
       - base.rpc.rpc_call:rpc_wait_for_future.service
-      - base.rpc.rpc_call:service_call_factory.service
       - base.rpc.rpc_call:service_submit_factory.service
       - base.rpc.rpc_endpoint:cancel_rpc_request_futures.service
       - base.rpc.rpc_endpoint:rpc_endpoint.service

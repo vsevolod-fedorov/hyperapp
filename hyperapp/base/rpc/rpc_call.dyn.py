@@ -185,7 +185,7 @@ def rpc_system_call_factory(rpc_system_fn_submit_factory, rpc_wait_for_future, r
     return call
 
 
-def service_call_factory(service_submit_factory, rpc_wait_for_future, receiver_peer, sender_identity, service_name, timeout_sec=DEFAULT_TIMEOUT):
+def rpc_service_call_factory(service_submit_factory, rpc_wait_for_future, receiver_peer, sender_identity, service_name, timeout_sec=DEFAULT_TIMEOUT):
     submit_factory = service_submit_factory(receiver_peer, sender_identity, service_name)
     def call(**kw):
         future = submit_factory(**kw)

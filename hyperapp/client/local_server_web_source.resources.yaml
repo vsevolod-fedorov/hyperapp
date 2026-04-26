@@ -24,7 +24,7 @@ definitions:
       function: init_local_server_web_source
       ctx_params: []
       service_params:
-      - service_call_factory
+      - rpc_service_call_factory
       - peer_list_reg
       - client_identity
   local_server_web_source.module:

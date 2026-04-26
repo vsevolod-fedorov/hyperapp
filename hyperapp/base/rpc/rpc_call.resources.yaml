@@ -222,18 +222,18 @@ definitions:
       - rpc_wait_for_future
       want_config: false
 
-  service_call_factory:
+  rpc_service_call_factory:
     type: legacy_type.builtin:attribute
     value:
       object: rpc_call.module
-      attr_name: service_call_factory
+      attr_name: rpc_service_call_factory
 
-  service_call_factory.service:
+  rpc_service_call_factory.service:
     type: legacy_type.system:service_template
     value:
-      name: service_call_factory
+      name: rpc_service_call_factory
       ctl: base.system.system:actor_dict.config_ctl
-      function: service_call_factory
+      function: rpc_service_call_factory
       free_params:
       - receiver_peer
       - sender_identity
