@@ -262,7 +262,7 @@ class ImportTarget(Target):
     def set_current_job_target(self, target):
         self._current_job_target = target
 
-    # Do not add constructor created by tests (within processint test job results).
+    # Do not add constructor created by tests (within processing test job results).
     # This leads to cache misses due to TestModuleResourcesReq resources differed for test jobs and cached deps.
     def add_test_ctr(self, ctr):
         self._test_constructors.add(ctr)
