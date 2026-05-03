@@ -7,7 +7,7 @@ import:
 - common.list_diff:list_diff.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.git:log_model
 - legacy_type.git:log_model_data
 - legacy_type.model:model
@@ -26,7 +26,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-git-log_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:log_model
       value: format_model.actor-template
@@ -36,7 +36,7 @@ definitions:
       ui_t: git-log_model.record-ui-t
       system_fn: git-log_model.system-fn
   git-log_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:log_model
       value: git-log_model.model

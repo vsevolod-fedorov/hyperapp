@@ -12,7 +12,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -28,12 +28,12 @@ import:
 - ui.remote_model:remote_model.module
 definitions:
   command_creg-view_factory_list-open_view_factory_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_view_factory_list.t
       value: open_view_factory_list.ctx-actor-template
   crud_init_action_creg-view_factory_list-view_factory_factory_editor_default.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: view_factory_factory_editor_default.t
       value: pick_view_factory_context.ctx-actor-template
@@ -49,7 +49,7 @@ definitions:
       service_params:
       - format
   formatter_creg-view_factory_list-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.view_factory_list:model
       value: format_model.actor-template
@@ -112,12 +112,12 @@ definitions:
       - ctx
       service_params: []
   selector_open_action_creg-view_factory_list-view_factory_factory_selector_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: view_factory_factory_selector_open.t
       value: view_factory_list_open.ctx-actor-template
   selector_pick_action_creg-view_factory_list-view_factory_factory_selector_pick.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: view_factory_factory_selector_pick.t
       value: view_factory_list_pick.ctx-actor-template
@@ -125,12 +125,12 @@ definitions:
     type: view_factory_factory_editor_default.t
     value: {}
   view_factory-factory.editor_default.cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.view_factory:factory
       value: view_factory-factory.action
   view_factory-factory.selector-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.view_factory:factory
       value: view_factory-factory.selector-template
@@ -177,7 +177,7 @@ definitions:
     value:
       feed_type: view_factory_list-model.feed-type
   view_factory_list-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.view_factory_list:model
       value: view_factory_list-model.feed-template
@@ -195,7 +195,7 @@ definitions:
       ui_t: view_factory_list-model.index-list-ui-t
       system_fn: view_factory_list-model.system-fn
   view_factory_list-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.view_factory_list:model
       value: view_factory_list-model.model

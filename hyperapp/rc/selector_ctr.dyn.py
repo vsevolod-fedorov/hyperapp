@@ -65,7 +65,7 @@ class SelectorProbeCtr(ModuleCtr):
         template = htypes.selector_resource.selector_probe_template(
             function=mosaic.put(object),
             )
-        return htypes.cfg_item.typed_cfg_item(
+        return htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._action_t),
             value=mosaic.put(template),
             )
@@ -248,7 +248,7 @@ class SelectorCtr(Constructor):
             open_action=mosaic.put(open_action),
             pick_action=mosaic.put(pick_action),
             )
-        cfg_item = htypes.cfg_item.typed_cfg_item(
+        cfg_item = htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._value_t),
             value=mosaic.put(template),
             )

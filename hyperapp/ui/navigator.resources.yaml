@@ -12,7 +12,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
 - legacy_type.navigator:history_rec
@@ -48,12 +48,12 @@ definitions:
       - model_layout_reg
       - error_view
   command_creg-navigator-go_back.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: go_back.t
       value: go_back.ctx-actor-template
   command_creg-navigator-go_forward.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: go_forward.t
       value: go_forward.ctx-actor-template
@@ -154,7 +154,7 @@ definitions:
       view_t: legacy_type.navigator:view
       name: go_forward
   navigator-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.navigator:view
       value: NavigatorView.from_piece.ctx-actor-template

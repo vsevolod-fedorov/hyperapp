@@ -12,7 +12,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -30,27 +30,27 @@ import:
 - ui.qt.key_input_dialog:key_input_dialog.module
 definitions:
   command_creg-command_list_model-open_commands.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_commands.t
       value: open_commands.ctx-actor-template
   command_creg-command_list_model-remove_shortcut.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove_shortcut.t
       value: remove_shortcut.ctx-actor-template
   command_creg-command_list_model-run_command.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: run_command.t
       value: run_command.ctx-actor-template
   command_creg-command_list_model-set_escape_shortcut.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: set_escape_shortcut.t
       value: set_escape_shortcut.ctx-actor-template
   command_creg-command_list_model-set_shortcut.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: set_shortcut.t
       value: set_shortcut.ctx-actor-template
@@ -135,7 +135,7 @@ definitions:
     value:
       feed_type: command_list_model-model.feed-type
   command_list_model-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_list_model:model
       value: command_list_model-model.feed-template
@@ -153,7 +153,7 @@ definitions:
       ui_t: command_list_model-model.index-list-ui-t
       system_fn: command_list_model-model.system-fn
   command_list_model-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_list_model:model
       value: command_list_model-model.model
@@ -198,7 +198,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-command_list_model-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_list_model:model
       value: format_model.actor-template

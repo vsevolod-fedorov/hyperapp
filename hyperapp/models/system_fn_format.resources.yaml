@@ -5,7 +5,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 definitions:
@@ -21,7 +21,7 @@ definitions:
       service_params:
       - format
   formatter_creg-system_fn-ctx_fn.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.system_fn:ctx_fn
       value: format_ctx_fn.actor-template

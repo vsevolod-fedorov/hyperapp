@@ -10,7 +10,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.context_view:state
 - legacy_type.local_server_context:view
@@ -42,12 +42,12 @@ definitions:
       - view_reg
       - local_server_peer
   command_creg-local_server_context-open_local_server_context.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_local_server_context.t
       value: open_local_server_context.ctx-actor-template
   local_server_context-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.local_server_context:view
       value: LocalServerContextView.from_piece.ctx-actor-template

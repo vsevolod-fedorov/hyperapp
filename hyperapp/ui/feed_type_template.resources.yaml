@@ -4,12 +4,12 @@ import:
 - base.mark:mark.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.feed:feed_template
 - legacy_type.system:actor_template
 definitions:
   cfg_value_creg-feed-feed_template.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.feed:feed_template
       value: resolve_feed_type_cfg_value.actor-template

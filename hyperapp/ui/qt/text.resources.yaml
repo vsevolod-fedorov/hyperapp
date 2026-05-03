@@ -9,7 +9,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.system_fn:ctx_fn
 - legacy_type.text:edit_view
 - legacy_type.text:readonly_view
@@ -68,12 +68,12 @@ definitions:
       service_params:
       - ui_adapter_creg
   text-edit_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.text:edit_view
       value: EditTextView.from_piece.ctx-actor-template
   text-readonly_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.text:readonly_view
       value: ViewTextView.from_piece.ctx-actor-template

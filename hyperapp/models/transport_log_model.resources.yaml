@@ -13,7 +13,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -27,22 +27,22 @@ import:
 - legacy_type.transport_log_model:model
 definitions:
   command_creg-transport_log_model-message.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: message.t
       value: message.ctx-actor-template
   command_creg-transport_log_model-message_bundle.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: message_bundle.t
       value: message_bundle.ctx-actor-template
   command_creg-transport_log_model-open_transport_log.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_transport_log.t
       value: open_transport_log.ctx-actor-template
   command_creg-transport_log_model-transport_bundle.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: transport_bundle.t
       value: transport_bundle.ctx-actor-template
@@ -254,7 +254,7 @@ definitions:
     value:
       feed_type: transport_log_model-model.feed-type
   transport_log_model-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.transport_log_model:model
       value: transport_log_model-model.feed-template
@@ -274,7 +274,7 @@ definitions:
       ui_t: transport_log_model-model.key-list-ui-t
       system_fn: transport_log_model-model.system-fn
   transport_log_model-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.transport_log_model:model
       value: transport_log_model-model.model

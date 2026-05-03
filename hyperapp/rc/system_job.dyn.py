@@ -13,11 +13,11 @@ from .services import (
     pyobj_creg,
     web,
     )
-from .code.config_ctl import (
-    item_pieces_to_data,
-    merge_system_config_pieces,
-    service_pieces_to_config,
-    )
+# from .code.config_ctl import (
+#     item_pieces_to_data,
+#     merge_system_config_pieces,
+#     service_pieces_to_config,
+#     )
 from .code.import_recorder import IncompleteImportedObjectError, ImportRecorder
 from .code.system import UnknownServiceError
 from .code.config_layer import MemoryConfigLayer

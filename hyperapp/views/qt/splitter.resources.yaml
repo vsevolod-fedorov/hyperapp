@@ -10,7 +10,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
 - legacy_type.navigator:view
@@ -44,12 +44,12 @@ definitions:
       service_params:
       - view_reg
   command_creg-splitter-split_horizontally.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: split_horizontally.t
       value: split_horizontally.ctx-actor-template
   command_creg-splitter-unwrap.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: unwrap.t
       value: unwrap.ctx-actor-template
@@ -122,7 +122,7 @@ definitions:
       view_t: legacy_type.splitter:view
       name: unwrap
   splitter-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.splitter:view
       value: SplitterView.from_piece.ctx-actor-template

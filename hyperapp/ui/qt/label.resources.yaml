@@ -8,7 +8,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
@@ -41,7 +41,7 @@ definitions:
       - ctx
       service_params: []
   crud_commit_action_creg-label-set_label_text.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: set_label_text.t
       value: set_label_text.ctx-actor-template
@@ -65,7 +65,7 @@ definitions:
       view_t: legacy_type.label:view
       name: set_label_text
   label-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.label:view
       value: LabelView.from_piece.ctx-actor-template

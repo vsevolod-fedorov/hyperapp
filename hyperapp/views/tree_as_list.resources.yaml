@@ -12,7 +12,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
 - legacy_type.list:view
@@ -81,12 +81,12 @@ definitions:
       - view_reg
       - system_fn_creg
   command_creg-tree_as_list-open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open.t
       value: open.ctx-actor-template
   command_creg-tree_as_list-parent.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: parent.t
       value: parent.ctx-actor-template
@@ -102,7 +102,7 @@ definitions:
       service_params:
       - format
   formatter_creg-tree_as_list-list_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.tree_as_list:list_model
       value: format_list_model.actor-template
@@ -289,7 +289,7 @@ definitions:
       view_t: legacy_type.tree_as_list:index_view
       name: parent
   tree_as_list-index_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.tree_as_list:index_view
       value: IndexTreeAsListWrapperView.from_piece.ctx-actor-template
@@ -332,7 +332,7 @@ definitions:
       view_t: legacy_type.tree_as_list:key_view
       name: parent
   tree_as_list-key_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.tree_as_list:key_view
       value: KeyTreeAsListWrapperView.from_piece.ctx-actor-template

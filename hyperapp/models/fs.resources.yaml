@@ -9,7 +9,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.feed:feed_template
 - legacy_type.feed:index_tree_feed_type
@@ -23,7 +23,7 @@ import:
 - legacy_type.system_fn:ctx_fn
 definitions:
   command_creg-fs-open_fs.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_fs.t
       value: open_fs.ctx-actor-template
@@ -38,7 +38,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-fs-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.fs:model
       value: format_model.actor-template
@@ -47,7 +47,7 @@ definitions:
     value:
       feed_type: fs-model.feed-type
   fs-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.fs:model
       value: fs-model.feed-template
@@ -67,7 +67,7 @@ definitions:
       ui_t: fs-model.key-tree-ui-t
       system_fn: fs-model.system-fn
   fs-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.fs:model
       value: fs-model.model
@@ -80,7 +80,7 @@ definitions:
       - current_path
       service_params: []
   fs-path.selector-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.fs:path
       value: fs-path.selector-template
@@ -201,12 +201,12 @@ definitions:
       base: null
       fields: {}
   selector_open_action_creg-fs-fs_path_selector_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: fs_path_selector_open.t
       value: fs_open.ctx-actor-template
   selector_pick_action_creg-fs-fs_path_selector_pick.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: fs_path_selector_pick.t
       value: fs_pick.ctx-actor-template

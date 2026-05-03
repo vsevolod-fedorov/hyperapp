@@ -10,14 +10,14 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:universal_ui_command_key
 - legacy_type.system_fn:ctx_fn
 - legacy_type.view_factory:factory
 definitions:
   crud_commit_action_creg-replace_view-replace_view.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: replace_view.t
       value: replace_view.ctx-actor-template

@@ -8,7 +8,7 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:data_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.data_browser:record_data_adapter
 - legacy_type.data_browser:record_view
 - legacy_type.line_edit:readonly_view
@@ -84,7 +84,7 @@ definitions:
       base: null
       fields: {}
   ui_adapter_creg-data_browser-record_data_adapter.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.data_browser:record_data_adapter
       value: DataBrowserViewDataAdapter.from_piece.actor-template

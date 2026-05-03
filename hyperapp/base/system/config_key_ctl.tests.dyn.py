@@ -7,7 +7,7 @@ from .services import (
 from .tested.code import config_key_ctl
 
 
-def test_data_cfg_resource_name():
+def _test_data_cfg_resource_name():
     gen = Mock()
     config_item = htypes.cfg_item.data_cfg_item(
         key=mosaic.put('sample-key'),

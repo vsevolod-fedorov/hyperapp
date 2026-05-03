@@ -12,7 +12,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
 - legacy_type.context_view:state
@@ -96,7 +96,7 @@ definitions:
       view_t: legacy_type.arg_mark:view
       name: remove_mark
   arg_mark-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.arg_mark:view
       value: MarkView.from_piece.ctx-actor-template
@@ -114,12 +114,12 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
   command_creg-arg_mark-add_mark.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add_mark.t
       value: add_mark.ctx-actor-template
   command_creg-arg_mark-remove_mark.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove_mark.t
       value: remove_mark.ctx-actor-template

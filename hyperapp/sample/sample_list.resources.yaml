@@ -11,7 +11,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -41,12 +41,12 @@ definitions:
       service_params: []
       want_config: false
   command_creg-sample_list-open_feed_sample_fn_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_feed_sample_fn_list.t
       value: open_feed_sample_fn_list.ctx-actor-template
   command_creg-sample_list-open_sample_fn_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_sample_fn_list.t
       value: open_sample_fn_list.ctx-actor-template
@@ -76,12 +76,12 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-sample_list-feed_sample_list.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list:feed_sample_list
       value: format_feed_model.actor-template
   formatter_creg-sample_list-sample_list.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list:sample_list
       value: format_model.actor-template
@@ -179,7 +179,7 @@ definitions:
     value:
       feed_type: sample_list-feed_sample_list.feed-type
   sample_list-feed_sample_list.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list:feed_sample_list
       value: sample_list-feed_sample_list.feed-template
@@ -197,7 +197,7 @@ definitions:
       ui_t: sample_list-feed_sample_list.index-list-ui-t
       system_fn: sample_list-feed_sample_list.system-fn
   sample_list-feed_sample_list.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list:feed_sample_list
       value: sample_list-feed_sample_list.model
@@ -215,7 +215,7 @@ definitions:
     value:
       feed_type: sample_list-sample_list.feed-type
   sample_list-sample_list.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list:sample_list
       value: sample_list-sample_list.feed-template
@@ -233,7 +233,7 @@ definitions:
       ui_t: sample_list-sample_list.index-list-ui-t
       system_fn: sample_list-sample_list.system-fn
   sample_list-sample_list.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list:sample_list
       value: sample_list-sample_list.model

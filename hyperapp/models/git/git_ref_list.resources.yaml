@@ -9,7 +9,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.feed:feed_template
@@ -23,7 +23,7 @@ import:
 - legacy_type.system_fn:ctx_fn
 definitions:
   command_creg-git_ref_list-ref_log.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: ref_log.t
       value: ref_log.ctx-actor-template
@@ -38,7 +38,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-git-ref_list_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:ref_list_model
       value: format_model.actor-template
@@ -66,7 +66,7 @@ definitions:
     value:
       feed_type: git-ref_list_model.feed-type
   git-ref_list_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:ref_list_model
       value: git-ref_list_model.feed-template
@@ -84,7 +84,7 @@ definitions:
       ui_t: git-ref_list_model.index-list-ui-t
       system_fn: git-ref_list_model.system-fn
   git-ref_list_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:ref_list_model
       value: git-ref_list_model.model

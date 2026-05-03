@@ -11,7 +11,7 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.form:view
 - legacy_type.model:record_ui_t
 - legacy_type.record_adapter:fn_record_adapter
@@ -47,7 +47,7 @@ definitions:
       - ui_adapter_creg
       - view_reg
   form-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.form:view
       value: FormView.from_piece.ctx-actor-template

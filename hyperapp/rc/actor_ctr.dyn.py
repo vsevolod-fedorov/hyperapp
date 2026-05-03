@@ -20,7 +20,7 @@ class ActorProbeCtrMixin:
         template = htypes.actor_resource.actor_probe_template(
             function=mosaic.put(object),
             )
-        return htypes.cfg_item.typed_cfg_item(
+        return htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._t),
             value=mosaic.put(template),
             )
@@ -163,7 +163,7 @@ class ActorTemplateCtr(ActorProbeCtrMixin, ActorTemplateCtrBase):
             function=mosaic.put(object),
             service_params=tuple(self._service_params),
             )
-        cfg_item = htypes.cfg_item.typed_cfg_item(
+        cfg_item = htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._t),
             value=mosaic.put(template),
             )

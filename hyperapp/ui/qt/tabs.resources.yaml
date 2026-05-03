@@ -10,7 +10,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
@@ -85,27 +85,27 @@ definitions:
       base: null
       fields: {}
   command_creg-tabs-open_tab_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_tab_list.t
       value: open_tab_list.ctx-actor-template
   command_creg-tabs-remove_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove_element.t
       value: remove_element.ctx-actor-template
   command_creg-tabs-unwrap.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: unwrap.t
       value: unwrap.ctx-actor-template
   crud_commit_action_creg-tabs-add_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add_element.t
       value: add_element.ctx-actor-template
   crud_commit_action_creg-tabs-insert_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: insert_element.t
       value: insert_element.ctx-actor-template
@@ -298,7 +298,7 @@ definitions:
       view_t: legacy_type.tabs:view
       name: unwrap
   tabs-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.tabs:view
       value: TabsView.from_piece.ctx-actor-template

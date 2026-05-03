@@ -3,7 +3,7 @@ import:
 - legacy_type.builtin:int
 - legacy_type.builtin:ref
 - legacy_type.builtin:string
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 - legacy_type.ui:default_model_factory
@@ -47,67 +47,67 @@ definitions:
       base: legacy_type.builtin:string
 
   config_item-string-text_view.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:string
       value: text_view.model-factory
 
   config_item-string-text_edit.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:string
       value: text_edit.model-factory
 
   config_item-string-line_view.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:string
       value: line_view.model-factory
 
   config_item-string-line_edit.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:string
       value: line_edit.model-factory
 
   config_item-int-line_edit.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:int
       value: line_edit.model-factory
 
   config_item-int-line_view.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:int
       value: line_view.model-factory
 
   config_item-ref-line_view.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:ref
       value: line_view_for_editables.model-factory
 
   config_item-string_opt-line_edit.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: string_opt
       value: line_edit.model-factory
 
   config_item-string_opt-line_view.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: string_opt
       value: line_view.model-factory
 
   config_item-wiki-wiki.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki:wiki
       value: wiki-wiki.model-factory
 
   config_item-wiki-text_edit.factory-config-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki:wiki
       value: wiki-text_edit.model-factory

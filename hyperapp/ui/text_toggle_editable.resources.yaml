@@ -8,7 +8,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
 - legacy_type.system_fn:ctx_fn
@@ -16,7 +16,7 @@ import:
 - legacy_type.text:readonly_view
 definitions:
   command_creg-text_toggle_editable-toggle_editable.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: toggle_editable.t
       value: toggle_editable.ctx-actor-template

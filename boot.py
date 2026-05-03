@@ -36,7 +36,7 @@ def main():
         system['load_config_layers'](boot_config)
         if boot_config.default_layer:
             system.set_default_layer(boot_config.default_layer)
-        system['init_hook'].run_hooks()
+        # system['init_hook'].run_hooks()
         system.run(root_service, name_to_project, sys.argv[3:])
 
     finally:

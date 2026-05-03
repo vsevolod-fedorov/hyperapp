@@ -5,7 +5,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.rpc:error_response
 - legacy_type.rpc:function_target
 - legacy_type.rpc:request
@@ -69,27 +69,27 @@ definitions:
       service_params:
       - format
   formatter_creg-rpc-error_response.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:error_response
       value: format_rpc_error_response.actor-template
   formatter_creg-rpc-function_target.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:function_target
       value: format_rpc_function_target.actor-template
   formatter_creg-rpc-request.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:request
       value: format_rpc_request.actor-template
   formatter_creg-rpc-response.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:response
       value: format_rpc_response.actor-template
   formatter_creg-rpc-system_fn_target.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:system_fn_target
       value: format_rpc_system_fn_target.actor-template

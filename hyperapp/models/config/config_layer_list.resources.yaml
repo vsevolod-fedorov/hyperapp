@@ -9,7 +9,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -26,12 +26,12 @@ import:
 - legacy_type.system_fn:ctx_fn
 definitions:
   command_creg-config_layer_list-open_config_layer_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_config_layer_list.t
       value: open_config_layer_list.ctx-actor-template
   command_creg-config_layer_list-open_service_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_service_list.t
       value: open_service_list.ctx-actor-template
@@ -41,7 +41,7 @@ definitions:
       object: config_layer_list.module
       attr_name: config_layer_list
   config_layer_list-layer.selector-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_layer_list:layer
       value: config_layer_list-layer.selector-template
@@ -81,7 +81,7 @@ definitions:
     value:
       feed_type: config_layer_list-model.feed-type
   config_layer_list-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_layer_list:model
       value: config_layer_list-model.feed-template
@@ -101,7 +101,7 @@ definitions:
       ui_t: config_layer_list-model.key-list-ui-t
       system_fn: config_layer_list-model.system-fn
   config_layer_list-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_layer_list:model
       value: config_layer_list-model.model
@@ -149,7 +149,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-config_layer_list-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_layer_list:model
       value: format_model.actor-template
@@ -256,12 +256,12 @@ definitions:
       base: null
       fields: {}
   selector_open_action_creg-config_layer_list-config_layer_list_layer_selector_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: config_layer_list_layer_selector_open.t
       value: layer_open.ctx-actor-template
   selector_pick_action_creg-config_layer_list-config_layer_list_layer_selector_pick.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: config_layer_list_layer_selector_pick.t
       value: layer_pick.ctx-actor-template

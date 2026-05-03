@@ -6,12 +6,12 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.sample_list_selector:item
 - legacy_type.system_fn:ctx_fn
 definitions:
   crud_init_action_creg-sample_list_arg-sample_list_selector_item_editor_default.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: sample_list_selector_item_editor_default.t
       value: sample_list_default.ctx-actor-template
@@ -42,7 +42,7 @@ definitions:
     type: sample_list_selector_item_editor_default.t
     value: {}
   sample_list_selector-item.editor_default.cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list_selector:item
       value: sample_list_selector-item.action

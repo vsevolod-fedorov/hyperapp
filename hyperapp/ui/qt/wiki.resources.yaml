@@ -9,7 +9,7 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.system:actor_template
 - legacy_type.system_fn:ctx_fn
 - legacy_type.text:edit_view
@@ -91,12 +91,12 @@ definitions:
       - view_reg
       - visualizer
   convertor_creg-wiki-wiki_to_string_convertor.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki:wiki_to_string_convertor
       value: WikiToTextConvertor.from_piece.actor-template
   resource_name_creg-wiki-wiki_to_string_convertor.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki:wiki_to_string_convertor
       value: wiki_convertor_resource_name.actor-template
@@ -106,12 +106,12 @@ definitions:
       object: wiki.module
       attr_name: wiki
   wiki-text_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki:text_view
       value: WikiTextView.from_piece.ctx-actor-template
   wiki-wiki_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki:wiki_view
       value: WikiView.from_piece.ctx-actor-template

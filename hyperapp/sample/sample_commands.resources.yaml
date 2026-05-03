@@ -10,7 +10,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -23,37 +23,37 @@ import:
 - legacy_type.wiki:wiki_ref
 definitions:
   command_creg-sample_commands-details.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: details.t
       value: details.ctx-actor-template
   command_creg-sample_commands-open_sample_static_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_sample_static_list.t
       value: open_sample_static_list.ctx-actor-template
   command_creg-sample_commands-open_sample_static_text.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_sample_static_text.t
       value: open_sample_static_text.ctx-actor-template
   command_creg-sample_commands-open_sample_wiki_text.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_sample_wiki_text.t
       value: open_sample_wiki_text.ctx-actor-template
   command_creg-sample_commands-sample_tree_info.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: sample_tree_info.t
       value: sample_tree_info.ctx-actor-template
   command_creg-sample_commands-show_state.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: show_state.t
       value: show_state.ctx-actor-template
   command_creg-sample_commands-system_info.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: system_info.t
       value: system_info.ctx-actor-template

@@ -16,7 +16,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
@@ -76,17 +76,17 @@ definitions:
       base: null
       fields: {}
   command_creg-peer_list-open_peer_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_peer_list.t
       value: open_peer_list.ctx-actor-template
   command_creg-peer_list-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove.t
       value: remove.ctx-actor-template
   crud_commit_action_creg-peer_list-add.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add.t
       value: add.ctx-actor-template
@@ -101,7 +101,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-peer_list-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.peer_list:model
       value: format_model.actor-template
@@ -190,7 +190,7 @@ definitions:
     value:
       feed_type: peer_list-model.feed-type
   peer_list-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.peer_list:model
       value: peer_list-model.feed-template
@@ -210,7 +210,7 @@ definitions:
       ui_t: peer_list-model.key-list-ui-t
       system_fn: peer_list-model.system-fn
   peer_list-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.peer_list:model
       value: peer_list-model.model

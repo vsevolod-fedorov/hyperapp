@@ -9,7 +9,7 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:ref
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:args_picker_command_key
@@ -68,12 +68,12 @@ definitions:
       service_params:
       - get_command_group
   command_enum_creg-command-args_picker_command_enum.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command:args_picker_command_enum
       value: args_picker_command_enum.ctx-actor-template
   command_group_creg-command-args_picker_command_key.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command:args_picker_command_key
       value: args_picker_command_group.actor-template

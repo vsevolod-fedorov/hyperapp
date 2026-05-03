@@ -5,7 +5,7 @@ from .services import (
     mosaic,
     resource_module_factory,
     )
-from .code.config_ctl import item_pieces_to_data, service_pieces_to_config
+# from .code.config_ctl import item_pieces_to_data, service_pieces_to_config
 from .code.config_item_resource import ConfigItemResource
 from .code.rc_target import Target
 

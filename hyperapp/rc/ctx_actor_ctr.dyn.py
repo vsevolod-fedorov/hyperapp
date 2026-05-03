@@ -20,7 +20,7 @@ class CtxActorProbeMixin:
         template = htypes.actor_resource.ctx_actor_probe_template(
             function=mosaic.put(object),
             )
-        return htypes.cfg_item.typed_cfg_item(
+        return htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._t),
             value=mosaic.put(template),
             )
@@ -154,7 +154,7 @@ class CtxActorTemplateCtr(CtxActorProbeMixin, ModuleCtr, CtxFnCtr):
 
     def make_component(self, types, python_module, name_to_res=None):
         template = self.make_value_template(python_module, name_to_res)
-        cfg_item = htypes.cfg_item.typed_cfg_item(
+        cfg_item = htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._t),
             value=mosaic.put(template),
             )

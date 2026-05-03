@@ -13,7 +13,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.config_item_list:item
@@ -32,27 +32,27 @@ import:
 - models.data_browser:data_browser.module
 definitions:
   command_creg-config_item_list-layer_remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: layer_remove.t
       value: layer_remove.ctx-actor-template
   command_creg-config_item_list-open_config_item_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_config_item_list.t
       value: open_config_item_list.ctx-actor-template
   command_creg-config_item_list-open_config_key.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_config_key.t
       value: open_config_key.ctx-actor-template
   command_creg-config_item_list-open_config_value.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_config_value.t
       value: open_config_value.ctx-actor-template
   command_creg-config_item_list-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove.t
       value: remove.ctx-actor-template
@@ -151,7 +151,7 @@ definitions:
     value:
       feed_type: config_item_list-layer_model.feed-type
   config_item_list-layer_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_list:layer_model
       value: config_item_list-layer_model.feed-template
@@ -171,7 +171,7 @@ definitions:
       ui_t: config_item_list-layer_model.key-list-ui-t
       system_fn: config_item_list-layer_model.system-fn
   config_item_list-layer_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_list:layer_model
       value: config_item_list-layer_model.model
@@ -267,7 +267,7 @@ definitions:
     value:
       feed_type: config_item_list-model.feed-type
   config_item_list-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_list:model
       value: config_item_list-model.feed-template
@@ -287,7 +287,7 @@ definitions:
       ui_t: config_item_list-model.key-list-ui-t
       system_fn: config_item_list-model.system-fn
   config_item_list-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_list:model
       value: config_item_list-model.model
@@ -436,22 +436,22 @@ definitions:
       model_t: legacy_type.config_service_list:model
       name: open_config_item_list
   crud_commit_action_creg-config_item_list-config_item_list_layer_model_commit_move.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: config_item_list_layer_model_commit_move.t
       value: config_layer_item_move_to_another_layer.ctx-actor-template
   crud_commit_action_creg-config_item_list-config_item_list_model_commit_move.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: config_item_list_model_commit_move.t
       value: config_item_move_to_another_layer.ctx-actor-template
   crud_init_action_creg-config_item_list-config_item_list_layer_model_init_get.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: config_item_list_layer_model_init_get.t
       value: config_layer_item_get_layer.ctx-actor-template
   crud_init_action_creg-config_item_list-config_item_list_model_init_get.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: config_item_list_model_init_get.t
       value: config_item_get_layer.ctx-actor-template
@@ -476,12 +476,12 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-config_item_list-layer_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_list:layer_model
       value: format_layer_model.actor-template
   formatter_creg-config_item_list-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_list:model
       value: format_model.actor-template

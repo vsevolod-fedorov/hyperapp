@@ -15,7 +15,7 @@ import:
 - legacy_type.bundle_info:model
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
 - legacy_type.data_browser:record_view
@@ -61,7 +61,7 @@ definitions:
     value:
       feed_type: bundle_info-ass_list_model.feed-type
   bundle_info-ass_list_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:ass_list_model
       value: bundle_info-ass_list_model.feed-template
@@ -79,7 +79,7 @@ definitions:
       ui_t: bundle_info-ass_list_model.index-list-ui-t
       system_fn: bundle_info-ass_list_model.system-fn
   bundle_info-ass_list_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:ass_list_model
       value: bundle_info-ass_list_model.model
@@ -115,7 +115,7 @@ definitions:
     value:
       feed_type: bundle_info-capsule_list_model.feed-type
   bundle_info-capsule_list_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:capsule_list_model
       value: bundle_info-capsule_list_model.feed-template
@@ -133,7 +133,7 @@ definitions:
       ui_t: bundle_info-capsule_list_model.index-list-ui-t
       system_fn: bundle_info-capsule_list_model.system-fn
   bundle_info-capsule_list_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:capsule_list_model
       value: bundle_info-capsule_list_model.model
@@ -208,7 +208,7 @@ definitions:
       ui_t: bundle_info-model.record-ui-t
       system_fn: bundle_info-model.system-fn
   bundle_info-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:model
       value: bundle_info-model.model
@@ -244,27 +244,27 @@ definitions:
       object: bundle_info.module
       attr_name: capsule_list
   command_creg-bundle_info-open_association.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_association.t
       value: open_association.ctx-actor-template
   command_creg-bundle_info-open_associations.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_associations.t
       value: open_associations.ctx-actor-template
   command_creg-bundle_info-open_capsule.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_capsule.t
       value: open_capsule.ctx-actor-template
   command_creg-bundle_info-open_capsules.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_capsules.t
       value: open_capsules.ctx-actor-template
   command_creg-bundle_info-open_root.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_root.t
       value: open_root.ctx-actor-template
@@ -299,17 +299,17 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-bundle_info-ass_list_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:ass_list_model
       value: format_ass_list_model.actor-template
   formatter_creg-bundle_info-capsule_list_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:capsule_list_model
       value: format_capsule_list_model.actor-template
   formatter_creg-bundle_info-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.bundle_info:model
       value: format_model.actor-template

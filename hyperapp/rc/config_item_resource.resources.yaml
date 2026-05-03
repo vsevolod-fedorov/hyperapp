@@ -2,7 +2,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.config_item_resource:config_item_resource
 - legacy_type.config_item_resource:config_item_resource_override
 - legacy_type.system:actor_template
@@ -40,7 +40,7 @@ definitions:
       service_params: []
 
   config_item_resource-config_item_resource.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_resource:config_item_resource
       value: ConfigItemResource.from_piece.actor-template
@@ -64,7 +64,7 @@ definitions:
       service_params: []
 
   config_item_resource-config_item_resource_override.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_item_resource:config_item_resource_override
       value: ConfigItemResourceOverride.from_piece.actor-template

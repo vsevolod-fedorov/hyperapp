@@ -4,6 +4,8 @@ import:
 - builtins:mosaic.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
+- legacy_type.cfg_item:str_cfg_item
+- legacy_type.service:service_fn
 - legacy_type.system:service_config
 - legacy_type.system:service_template
 - legacy_type.system:system_config
@@ -48,9 +50,9 @@ definitions:
       attr_name: load_config_layers
 
   load_config_layers.service:
-    type: legacy_type.system:service_template
+    type: legacy_type.service:service_fn
     value:
-      name: load_config_layers
+      default_name: load_config_layers
       ctl: base.system.system:actor_dict.config_ctl
       function: load_config_layers
       service_params:
@@ -59,3 +61,9 @@ definitions:
       want_config: false
       free_params:
       - boot_config
+
+  load_config_layers.service-cfg-item:
+    type: legacy_type.cfg_item:str_cfg_item
+    value:
+      key: load_config_layers
+      value: load_config_layers.service

@@ -6,7 +6,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.model:remote_model
 - legacy_type.system:actor_template
 - legacy_type.tree_adapter:fn_index_tree_adapter
@@ -63,12 +63,12 @@ definitions:
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
   ui_adapter_creg-tree_adapter-fn_index_tree_adapter.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.tree_adapter:fn_index_tree_adapter
       value: FnIndexTreeAdapter.from_piece.actor-template
   ui_adapter_creg-tree_adapter-fn_key_tree_adapter.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.tree_adapter:fn_key_tree_adapter
       value: FnKeyTreeAdapter.from_piece.actor-template

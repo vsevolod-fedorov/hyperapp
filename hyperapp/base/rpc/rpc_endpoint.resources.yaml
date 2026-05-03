@@ -5,7 +5,7 @@ import:
 - builtins:pyobj_creg.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.rpc:error_response
 - legacy_type.rpc:function_target
 - legacy_type.rpc:request
@@ -116,7 +116,7 @@ definitions:
       - rpc_request_futures
 
   rpc_message_creg-rpc-response.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:response
       value: on_rpc_response.actor-template
@@ -135,7 +135,7 @@ definitions:
       - rpc_request_futures
 
   rpc_message_creg-rpc-error_response.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:error_response
       value: on_rpc_error_response.actor-template
@@ -173,7 +173,7 @@ definitions:
       - rpc_target_creg
 
   rpc_message_creg-rpc-request.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:request
       value: on_rpc_request.actor-template
@@ -191,7 +191,7 @@ definitions:
       service_params: []
 
   rpc_target_creg-rpc-function_target.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:function_target
       value: run_function_target.actor-template
@@ -210,7 +210,7 @@ definitions:
       - system_fn_creg
 
   rpc_target_creg-rpc-system_fn_target.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:system_fn_target
       value: run_system_fn_target.actor-template
@@ -229,7 +229,7 @@ definitions:
       - system
 
   rpc_target_creg-rpc-service_target.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.rpc:service_target
       value: run_service_target.actor-template

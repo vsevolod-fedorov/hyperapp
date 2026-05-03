@@ -9,7 +9,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -21,7 +21,7 @@ import:
 - legacy_type.system_fn:ctx_fn
 definitions:
   command_creg-show_current_context-show_current_context.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: show_current_context.t
       value: show_current_context.ctx-actor-template
@@ -41,7 +41,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-show_current_context-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.show_current_context:model
       value: format_model.actor-template
@@ -55,7 +55,7 @@ definitions:
     value:
       feed_type: show_current_context-model.feed-type
   show_current_context-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.show_current_context:model
       value: show_current_context-model.feed-template
@@ -73,7 +73,7 @@ definitions:
       ui_t: show_current_context-model.index-list-ui-t
       system_fn: show_current_context-model.system-fn
   show_current_context-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.show_current_context:model
       value: show_current_context-model.model

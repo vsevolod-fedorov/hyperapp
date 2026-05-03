@@ -11,7 +11,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.feed:feed_template
 - legacy_type.feed:list_feed_type
@@ -25,7 +25,7 @@ import:
 - legacy_type.system_fn:ctx_fn
 definitions:
   command_creg-model_list-open_model_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_model_list.t
       value: open_model_list.ctx-actor-template
@@ -50,12 +50,12 @@ definitions:
       function: format_model_arg
       service_params: []
   formatter_creg-model_list-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.model_list:model
       value: format_model.actor-template
   formatter_creg-model_list-model_arg.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.model_list:model_arg
       value: format_model_arg.actor-template
@@ -64,7 +64,7 @@ definitions:
     value:
       feed_type: model_list-model.feed-type
   model_list-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.model_list:model
       value: model_list-model.feed-template
@@ -82,7 +82,7 @@ definitions:
       ui_t: model_list-model.index-list-ui-t
       system_fn: model_list-model.system-fn
   model_list-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.model_list:model
       value: model_list-model.model
@@ -95,7 +95,7 @@ definitions:
       service_params:
       - model_reg
   model_list-model_arg.selector-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.model_list:model_arg
       value: model_list-model_arg.selector-template
@@ -218,12 +218,12 @@ definitions:
       base: null
       fields: {}
   selector_open_action_creg-model_list-model_list_model_arg_selector_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: model_list_model_arg_selector_open.t
       value: model_list_open.ctx-actor-template
   selector_pick_action_creg-model_list-model_list_model_arg_selector_pick.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: model_list_model_arg_selector_pick.t
       value: model_list_pick.ctx-actor-template

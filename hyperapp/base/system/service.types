@@ -1,0 +1,12 @@
+service = record:
+  default_name: string
+  ctl: ref
+  function: ref
+  service_params: string list
+  want_config: bool
+
+service_obj = record(service)
+fin_gen_service_obj = record(service)  # Finalizer-generator
+
+service_fn = record(service):
+  free_params: string list

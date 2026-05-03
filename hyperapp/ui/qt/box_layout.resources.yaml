@@ -13,7 +13,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:type_str_command
 - legacy_type.command:ui_command_key
@@ -207,7 +207,7 @@ definitions:
       view_t: legacy_type.box_layout:view
       name: unwrap
   box_layout-view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.box_layout:view
       value: BoxLayoutView.from_piece.ctx-actor-template
@@ -225,27 +225,27 @@ definitions:
         services.mosaic: builtins:mosaic.service
         services.web: builtins:web.service
   command_creg-box_layout-add_stretch.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add_stretch.t
       value: add_stretch.ctx-actor-template
   command_creg-box_layout-remove_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove_element.t
       value: remove_element.ctx-actor-template
   command_creg-box_layout-unwrap.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: unwrap.t
       value: unwrap.ctx-actor-template
   crud_commit_action_creg-box_layout-add_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add_element.t
       value: add_element.ctx-actor-template
   crud_commit_action_creg-box_layout-insert_element.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: insert_element.t
       value: insert_element.ctx-actor-template

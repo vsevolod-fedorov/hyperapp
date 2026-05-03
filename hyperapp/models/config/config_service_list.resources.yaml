@@ -11,7 +11,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -25,12 +25,12 @@ import:
 - legacy_type.system_fn:ctx_fn
 definitions:
   command_creg-config_service_list-open_config_service_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_config_service_list.t
       value: open_config_service_list.ctx-actor-template
   command_creg-config_service_list-toggle_assoc.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: toggle_assoc.t
       value: toggle_assoc.ctx-actor-template
@@ -63,7 +63,7 @@ definitions:
     value:
       feed_type: config_service_list-model.feed-type
   config_service_list-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_service_list:model
       value: config_service_list-model.feed-template
@@ -83,7 +83,7 @@ definitions:
       ui_t: config_service_list-model.key-list-ui-t
       system_fn: config_service_list-model.system-fn
   config_service_list-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_service_list:model
       value: config_service_list-model.model
@@ -119,7 +119,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-config_service_list-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.config_service_list:model
       value: format_model.actor-template

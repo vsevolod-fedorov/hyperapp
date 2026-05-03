@@ -6,7 +6,7 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.sample_list:sample_list
 - legacy_type.sample_list_selector:item
 - legacy_type.selector:template
@@ -46,7 +46,7 @@ definitions:
       - current_item
       service_params: []
   sample_list_selector-item.selector-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_list_selector:item
       value: sample_list_selector-item.selector-template
@@ -86,12 +86,12 @@ definitions:
       base: null
       fields: {}
   selector_open_action_creg-sample_list_selector-sample_list_selector_item_selector_open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: sample_list_selector_item_selector_open.t
       value: sample_list_open.ctx-actor-template
   selector_pick_action_creg-sample_list_selector-sample_list_selector_item_selector_pick.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: sample_list_selector_item_selector_pick.t
       value: sample_list_pick.ctx-actor-template

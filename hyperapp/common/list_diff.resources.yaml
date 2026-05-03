@@ -6,7 +6,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.list_diff:append
 - legacy_type.list_diff:remove_idx
 - legacy_type.list_diff:remove_key
@@ -58,17 +58,17 @@ definitions:
       function: ListDiffRemoveKey.from_piece
       service_params: []
   diff_creg-list_diff-append.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.list_diff:append
       value: ListDiffAppend.from_piece.actor-template
   diff_creg-list_diff-remove_idx.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.list_diff:remove_idx
       value: ListDiffRemoveIdx.from_piece.actor-template
   diff_creg-list_diff-remove_key.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.list_diff:remove_key
       value: ListDiffRemoveKey.from_piece.actor-template

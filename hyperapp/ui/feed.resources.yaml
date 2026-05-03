@@ -12,7 +12,7 @@ import:
 - builtins:web.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.feed:index_tree_feed_type
 - legacy_type.feed:list_feed_type
 - legacy_type.feed:value_feed_type
@@ -93,17 +93,17 @@ definitions:
       want_config: false
       free_params: []
   feed_type_creg-feed-index_tree_feed_type.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.feed:index_tree_feed_type
       value: index_tree_feed_from_piece.actor-template
   feed_type_creg-feed-list_feed_type.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.feed:list_feed_type
       value: list_feed_from_piece.actor-template
   feed_type_creg-feed-value_feed_type.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.feed:value_feed_type
       value: value_feed_from_piece.actor-template

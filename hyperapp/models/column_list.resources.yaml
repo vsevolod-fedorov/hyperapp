@@ -11,7 +11,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.column:column_k
 - legacy_type.column_list:item
 - legacy_type.column_list:model
@@ -54,7 +54,7 @@ definitions:
     value:
       feed_type: column_list-model.feed-type
   column_list-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.column_list:model
       value: column_list-model.feed-template
@@ -72,7 +72,7 @@ definitions:
       ui_t: column_list-model.index-list-ui-t
       system_fn: column_list-model.system-fn
   column_list-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.column_list:model
       value: column_list-model.model
@@ -99,12 +99,12 @@ definitions:
         services.deduce_t: builtins:deduce_t.service
         services.pyobj_creg: builtins:pyobj_creg.service
   command_creg-column_list-open_column_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_column_list.t
       value: open_column_list.ctx-actor-template
   command_creg-column_list-toggle_visibility.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: toggle_visibility.t
       value: toggle_visibility.ctx-actor-template

@@ -4,7 +4,7 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:arg_t
 - legacy_type.command:args_picker_command
 - legacy_type.command:args_picker_command_enum
@@ -47,7 +47,7 @@ definitions:
       import_list:
         htypes.builtin.attribute: legacy_type.builtin:attribute
         htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
-        htypes.cfg_item.typed_cfg_item: legacy_type.cfg_item:typed_cfg_item
+        htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
         htypes.command.arg_t: legacy_type.command:arg_t
         htypes.command.args_picker_command: legacy_type.command:args_picker_command
         htypes.command.args_picker_command_enum: legacy_type.command:args_picker_command_enum
@@ -100,7 +100,7 @@ definitions:
       service_params: []
 
   command_resource-ui_command_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_resource:ui_command_template_ctr
       value: UiCommandTemplateCtr.from_piece.actor-template
@@ -124,7 +124,7 @@ definitions:
       service_params: []
 
   command_resource-ui_model_command_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_resource:ui_model_command_template_ctr
       value: UiModelCommandTemplateCtr.from_piece.actor-template
@@ -148,7 +148,7 @@ definitions:
       service_params: []
 
   command_resource-universal_ui_command_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_resource:universal_ui_command_template_ctr
       value: UniversalUiCommandTemplateCtr.from_piece.actor-template
@@ -172,7 +172,7 @@ definitions:
       service_params: []
 
   command_resource-ui_command_enumerator_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_resource:ui_command_enumerator_template_ctr
       value: UiCommandEnumeratorTemplateCtr.from_piece.actor-template
@@ -196,7 +196,7 @@ definitions:
       service_params: []
 
   command_resource-model_command_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_resource:model_command_template_ctr
       value: ModelCommandTemplateCtr.from_piece.actor-template
@@ -220,7 +220,7 @@ definitions:
       service_params: []
 
   command_resource-model_command_enumerator_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_resource:model_command_enumerator_template_ctr
       value: ModelCommandEnumeratorTemplateCtr.from_piece.actor-template
@@ -244,7 +244,7 @@ definitions:
       service_params: []
 
   command_resource-global_model_command_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command_resource:global_model_command_template_ctr
       value: GlobalModelCommandTemplateCtr.from_piece.actor-template

@@ -7,7 +7,7 @@ import:
 - common.value_diff:value_diff.module
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.model:remote_model
 - legacy_type.record_adapter:fn_record_adapter
 - legacy_type.record_adapter:static_record_adapter
@@ -59,12 +59,12 @@ definitions:
         services.pyobj_creg: builtins:pyobj_creg.service
         services.web: builtins:web.service
   ui_adapter_creg-record_adapter-fn_record_adapter.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.record_adapter:fn_record_adapter
       value: FnRecordAdapter.from_piece.actor-template
   ui_adapter_creg-record_adapter-static_record_adapter.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.record_adapter:static_record_adapter
       value: StaticRecordAdapter.from_piece.actor-template

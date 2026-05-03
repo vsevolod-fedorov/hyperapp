@@ -7,14 +7,14 @@ import:
 - legacy_type.builtin:record_mt
 - legacy_type.builtin:string
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.system_fn:ctx_fn
 definitions:
   builtin-string.action:
     type: builtin_string_editor_default.t
     value: {}
   builtin-string.editor_default.cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.builtin:string
       value: builtin-string.action
@@ -26,7 +26,7 @@ definitions:
       base: null
       fields: {}
   crud_init_action_creg-editor_defaults-builtin_string_editor_default.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: builtin_string_editor_default.t
       value: string_default.ctx-actor-template

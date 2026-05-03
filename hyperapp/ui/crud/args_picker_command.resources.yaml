@@ -8,7 +8,7 @@ import:
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command
 - legacy_type.system_fn:ctx_fn
 - ui.crud.command_args:command_args.module
@@ -45,7 +45,7 @@ definitions:
       - crud
       - editor_default_reg
   command_creg-command-args_picker_command.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.command:args_picker_command
       value: args_picker_command.ctx-actor-template

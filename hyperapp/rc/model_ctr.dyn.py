@@ -70,7 +70,7 @@ class ModelCtr(ModuleCtr):
             ui_t=mosaic.put(self._ui_t),
             system_fn=mosaic.put(system_fn),
             )
-        cfg_item = htypes.cfg_item.typed_cfg_item(
+        cfg_item = htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._model_t),
             value=mosaic.put(model),
             )

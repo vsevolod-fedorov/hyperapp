@@ -4,7 +4,7 @@ import:
 - common.list_diff:list_diff.module
 - common.tree_diff:tree_diff.module
 - legacy_type.builtin:python_module
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.feed:feed_template
 - legacy_type.feed:index_tree_feed_type
 - legacy_type.feed:list_feed_type
@@ -18,7 +18,7 @@ definitions:
     value:
       feed_type: sample_feed-sample_list_feed.feed-type
   sample_feed-sample_list_feed.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_feed:sample_list_feed
       value: sample_feed-sample_list_feed.feed-template
@@ -31,7 +31,7 @@ definitions:
     value:
       feed_type: sample_feed-sample_tree_feed.feed-type
   sample_feed-sample_tree_feed.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.sample_feed:sample_tree_feed
       value: sample_feed-sample_tree_feed.feed-template

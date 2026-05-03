@@ -74,7 +74,7 @@ class EditorDefaultTemplateCtr(ModuleCtr):
 
     def make_component(self, types, python_module, name_to_res):
         action = self._action_t()
-        cfg_item = htypes.cfg_item.typed_cfg_item(
+        cfg_item = htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._value_t),
             value=mosaic.put(action),
             )

@@ -7,9 +7,6 @@ from .services import (
     mosaic,
     web,
     )
-from .code.config_key_ctl import DataKeyCtl, OneWayKeyCtl
-from .code.config_value_ctl import ActorValueCtl, DataValueCtl
-from .code.config_struct_ctl import SingleStructCtl
 
 
 class ConfigCtl(metaclass=ABCMeta):
@@ -25,19 +22,11 @@ class ConfigCtl(metaclass=ABCMeta):
         pass
 
     @abstractmethod
-    def empty_config_template(self):
+    def empty_config(self):
         pass
 
     @abstractmethod
     def merge_config(self, dest, src):
-        pass
-
-    @abstractmethod
-    def merge_template(self, dest, src):
-        pass
-
-    @abstractmethod
-    def resolve(self, system, service_name, config_template):
         pass
 
 
@@ -45,43 +34,42 @@ class MultiItemConfigCtl(ConfigCtl, metaclass=ABCMeta):
 
     is_multi_item = True
 
-    def __init__(self, cfg_item_creg=None, key_ctl=None):
-        self._key_ctl = key_ctl or OneWayKeyCtl(cfg_item_creg)
+    def __init__(self, item_ctl=None):
+        self._item_ctl = item_ctl
 
     def from_data(self, piece):
-        config_template = self.empty_config_template()
+        config = self.empty_config()
         for item_ref in piece.items:
             item = web.summon(item_ref)
-            key, template = self.data_to_item(item)
-            self._update_config(config_template, key, template)
-        return config_template
+            key, value = self.split_item(item)
+            self._update_config(config, key, value)
+        return config
 
-    def to_data(self, config_template):
-        item_pieces = self._config_to_item_pieces(config_template)
+    def to_data(self, config):
+        item_pieces = self._config_to_item_pieces(config)
         return self._item_pieces_to_data(item_pieces)
 
-    def _config_to_item_pieces(self, config_template):
+    def _config_to_item_pieces(self, config):
         return [
-            self.item_to_data(key, template)
-            for key, template in self.config_to_items(config_template)
+            self.item_to_data(key, value)
+            for key, value in self.config_to_items(config)
             ]
 
     @abstractmethod
     def _update_config(self, config_template, key, template):
         pass
 
-    def data_to_item(self, piece):
-        key, template = self._key_ctl.data_to_item(piece)
-        return (key, template)
+    def split_item(self, piece):
+        return self._item_ctl.split(piece)
 
-    def item_to_data(self, key, template):
-        return self._key_ctl.item_to_data(key, template)
+    def item_to_data(self, key, value):
+        return self._item_ctl.compose(key, value)
 
     def _item_pieces_to_data(self, item_list):
         return item_pieces_to_data(item_list)
 
 
-class LazyDictConfig:
+class DictConfig:
 
     def __init__(self, ctl, system, service_name, target_layer, config_template):
         self._ctl = ctl
@@ -176,10 +164,8 @@ class DictConfigCtl(MultiItemConfigCtl):
         struct_ctl = config_struct_ctl_creg.invite(piece.struct_ctl)
         return cls(key_ctl, value_ctl, struct_ctl, cfg_item_creg, cfg_value_creg)
 
-    def __init__(self, key_ctl=None, value_ctl=None, struct_ctl=None, cfg_item_creg=None, cfg_value_creg=None):
-        super().__init__(cfg_item_creg, key_ctl)
-        self._value_ctl = value_ctl or ActorValueCtl(cfg_value_creg)
-        self._struct_ctl = struct_ctl or SingleStructCtl()
+    def __init__(self, item_ctl):
+        super().__init__(item_ctl)
 
     @property
     def piece(self):
@@ -189,19 +175,15 @@ class DictConfigCtl(MultiItemConfigCtl):
             struct_ctl=mosaic.put(self._struct_ctl.piece),
             )
 
-    def config_to_items(self, config_template):
-        return self._struct_ctl.config_to_items(config_template)
+    def config_to_items(self, config):
+        return config.items()
 
     def merge_config(self, dest, src):
-        self._struct_ctl.merge(dest, src)
+        dest.update(src)
         return dest
 
-    def merge_template(self, dest, src):
-        self._struct_ctl.merge(dest, src)
-        return dest
-
-    def _lazy_config(self, system, service_name, config_template):
-        return LazyDictConfig(self, system, service_name, system.default_layer, config_template)
+    def _config(self, system, service_name, config_template):
+        return DictConfig(self, system, service_name, system.default_layer, config_template)
 
     def resolve(self, system, service_name, config_template):
         return self._lazy_config(system, service_name, config_template)
@@ -209,11 +191,11 @@ class DictConfigCtl(MultiItemConfigCtl):
     def resolve_value(self, system, service_name, key, value_template):
         return self._struct_ctl.resolve_value(self._value_ctl, system, service_name, key, value_template)
 
-    def empty_config_template(self):
+    def empty_config(self):
         return {}
 
-    def _update_config(self, config_template, key, value_template):
-        self._struct_ctl.update_config(config_template, key, value_template)
+    def _update_config(self, config, key, value):
+        config[key] = value
 
 
 class FlatListConfigCtl(MultiItemConfigCtl):

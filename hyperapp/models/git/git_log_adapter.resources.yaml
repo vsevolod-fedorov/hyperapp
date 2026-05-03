@@ -8,7 +8,7 @@ import:
 - legacy_type.builtin:python_module
 - legacy_type.builtin:record_mt
 - legacy_type.cfg_item:data_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.git:log_adapter
 - legacy_type.git:log_item
 - legacy_type.git:log_model
@@ -96,7 +96,7 @@ definitions:
       base: null
       fields: {}
   ui_adapter_creg-git-log_adapter.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:log_adapter
       value: GitLogAdapter.from_piece.actor-template

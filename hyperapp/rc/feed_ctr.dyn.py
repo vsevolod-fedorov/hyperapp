@@ -24,7 +24,7 @@ class FeedCtr(ModuleCtr):
         template = htypes.feed.feed_template(
             feed_type=mosaic.put(feed_type),
             )
-        cfg_item = htypes.cfg_item.typed_cfg_item(
+        cfg_item = htypes.cfg_item.type_cfg_item(
             t=pyobj_creg.actor_to_ref(self._model_t),
             value=mosaic.put(template),
             )

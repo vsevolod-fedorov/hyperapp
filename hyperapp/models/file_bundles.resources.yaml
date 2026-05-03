@@ -10,7 +10,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -23,12 +23,12 @@ import:
 - legacy_type.system_fn:ctx_fn
 definitions:
   command_creg-file_bundles-open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open.t
       value: open.ctx-actor-template
   command_creg-file_bundles-open_file_bundle_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_file_bundle_list.t
       value: open_file_bundle_list.ctx-actor-template
@@ -61,7 +61,7 @@ definitions:
     value:
       feed_type: file_bundles-view.feed-type
   file_bundles-view.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.file_bundles:view
       value: file_bundles-view.feed-template
@@ -79,7 +79,7 @@ definitions:
       ui_t: file_bundles-view.index-list-ui-t
       system_fn: file_bundles-view.system-fn
   file_bundles-view.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.file_bundles:view
       value: file_bundles-view.model

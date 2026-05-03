@@ -14,7 +14,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
@@ -116,47 +116,47 @@ definitions:
       base: null
       fields: {}
   command_creg-wiki_pages-new_page.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: new_page.t
       value: new_page.ctx-actor-template
   command_creg-wiki_pages-open.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open.t
       value: open.ctx-actor-template
   command_creg-wiki_pages-open_parent.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_parent.t
       value: open_parent.ctx-actor-template
   command_creg-wiki_pages-open_ref_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_ref_list.t
       value: open_ref_list.ctx-actor-template
   command_creg-wiki_pages-open_wiki_pages.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_wiki_pages.t
       value: open_wiki_pages.ctx-actor-template
   command_creg-wiki_pages-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove.t
       value: remove.ctx-actor-template
   command_creg-wiki_pages-save_page.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: save_page.t
       value: save_page.ctx-actor-template
   crud_commit_action_creg-wiki_pages-add_folder.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add_folder.t
       value: add_folder.ctx-actor-template
   crud_commit_action_creg-wiki_pages-add_ref.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add_ref.t
       value: add_ref.ctx-actor-template
@@ -192,17 +192,17 @@ definitions:
       service_params:
       - wiki_pages
   formatter_creg-wiki_pages-list_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:list_model
       value: format_page_list_model.actor-template
   formatter_creg-wiki_pages-page_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:page_model
       value: format_page_model.actor-template
   formatter_creg-wiki_pages-ref_list_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:ref_list_model
       value: format_ref_list_model.actor-template
@@ -544,7 +544,7 @@ definitions:
     value:
       feed_type: wiki_pages-list_model.feed-type
   wiki_pages-list_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:list_model
       value: wiki_pages-list_model.feed-template
@@ -564,7 +564,7 @@ definitions:
       ui_t: wiki_pages-list_model.key-list-ui-t
       system_fn: wiki_pages-list_model.system-fn
   wiki_pages-list_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:list_model
       value: wiki_pages-list_model.model
@@ -639,7 +639,7 @@ definitions:
     value:
       feed_type: wiki_pages-page_model.feed-type
   wiki_pages-page_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:page_model
       value: wiki_pages-page_model.feed-template
@@ -653,7 +653,7 @@ definitions:
       ui_t: wiki_pages-page_model.record-ui-t
       system_fn: wiki_pages-page_model.system-fn
   wiki_pages-page_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:page_model
       value: wiki_pages-page_model.model
@@ -674,7 +674,7 @@ definitions:
     value:
       feed_type: wiki_pages-ref_list_model.feed-type
   wiki_pages-ref_list_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:ref_list_model
       value: wiki_pages-ref_list_model.feed-template
@@ -692,7 +692,7 @@ definitions:
       ui_t: wiki_pages-ref_list_model.index-list-ui-t
       system_fn: wiki_pages-ref_list_model.system-fn
   wiki_pages-ref_list_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.wiki_pages:ref_list_model
       value: wiki_pages-ref_list_model.model

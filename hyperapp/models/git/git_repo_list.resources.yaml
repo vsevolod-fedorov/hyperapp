@@ -12,7 +12,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:args_picker_command_enum
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
@@ -72,22 +72,22 @@ definitions:
       base: null
       fields: {}
   command_creg-git_repo_list-open_repo_list.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_repo_list.t
       value: open_repo_list.ctx-actor-template
   command_creg-git_repo_list-refs.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: refs.t
       value: refs.ctx-actor-template
   command_creg-git_repo_list-remove.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: remove.t
       value: remove.ctx-actor-template
   crud_commit_action_creg-git_repo_list-add.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add.t
       value: add.ctx-actor-template
@@ -102,7 +102,7 @@ definitions:
       function: format_model
       service_params: []
   formatter_creg-git-repo_list_model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:repo_list_model
       value: format_model.actor-template
@@ -168,7 +168,7 @@ definitions:
     value:
       feed_type: git-repo_list_model.feed-type
   git-repo_list_model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:repo_list_model
       value: git-repo_list_model.feed-template
@@ -188,7 +188,7 @@ definitions:
       ui_t: git-repo_list_model.key-list-ui-t
       system_fn: git-repo_list_model.system-fn
   git-repo_list_model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.git:repo_list_model
       value: git-repo_list_model.model

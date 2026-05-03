@@ -13,7 +13,7 @@ import:
 - legacy_type.builtin:string
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.line_edit:edit_view
 - legacy_type.line_edit:readonly_view
 - legacy_type.line_edit:state
@@ -82,12 +82,12 @@ definitions:
       object: line_edit.module
       attr_name: line_edit
   line_edit-edit_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.line_edit:edit_view
       value: EditLineView.from_piece.ctx-actor-template
   line_edit-readonly_view.view-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.line_edit:readonly_view
       value: ViewLineView.from_piece.ctx-actor-template
@@ -212,12 +212,12 @@ definitions:
       function: line_view_resource_name
       service_params: []
   resource_name_creg-line_edit-edit_view.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.line_edit:edit_view
       value: line_edit_resource_name.actor-template
   resource_name_creg-line_edit-readonly_view.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.line_edit:readonly_view
       value: line_view_resource_name.actor-template

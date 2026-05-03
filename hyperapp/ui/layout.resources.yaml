@@ -12,7 +12,7 @@ import:
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:fn_value_template
 - legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:typed_cfg_item
+- legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:global_model_command_key
 - legacy_type.command:model_command_key
 - legacy_type.command:type_str_command
@@ -57,22 +57,22 @@ definitions:
       base: null
       fields: {}
   command_creg-layout-add_view_command.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: add_view_command.t
       value: add_view_command.ctx-actor-template
   command_creg-layout-open_layout_tree.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_layout_tree.t
       value: open_layout_tree.ctx-actor-template
   command_creg-layout-open_view_item_commands.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: open_view_item_commands.t
       value: open_view_item_commands.ctx-actor-template
   command_enum_creg-layout-enum_layout_tree_commands.ctx-actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: enum_layout_tree_commands.t
       value: enum_layout_tree_commands.ctx-actor-template
@@ -117,7 +117,7 @@ definitions:
       function: format_layout_model
       service_params: []
   formatter_creg-layout-model.actor-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.layout:model
       value: format_layout_model.actor-template
@@ -170,7 +170,7 @@ definitions:
     value:
       feed_type: layout-model.feed-type
   layout-model.feed-template-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.layout:model
       value: layout-model.feed-template
@@ -188,7 +188,7 @@ definitions:
       ui_t: layout-model.index-tree-ui-t
       system_fn: layout-model.system-fn
   layout-model.model-cfg-item:
-    type: legacy_type.cfg_item:typed_cfg_item
+    type: legacy_type.cfg_item:type_cfg_item
     value:
       t: legacy_type.layout:model
       value: layout-model.model
