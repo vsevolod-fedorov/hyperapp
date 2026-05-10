@@ -5,13 +5,13 @@ import pytest
 
 from hyperapp.boot.htypes import tString, TOptional, TList, TRecord
 from hyperapp.boot.htypes.partial import partial_param_t, partial_t
-from hyperapp.boot import cdr_coders  # self-registering
 
 log = logging.getLogger(__name__)
 
 
 pytest_plugins = [
     'hyperapp.boot.test.services',
+    'hyperapp.boot.resource.test.services',
     ]
 
 TEST_RESOURCES_DIR = Path(__file__).parent / 'test_resources'
@@ -22,7 +22,7 @@ def test_resources_dir():
     return TEST_RESOURCES_DIR
 
 
-def test_definition_type_partial(resource_type_producer, htypes):
+def test_definition_type_partial(resource_type_producer):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     log.info("definition_t: %r", resource_type.definition_t)
@@ -48,13 +48,13 @@ def test_definition_type_based(resource_type_factory, htypes):
         }, base=expected_base_t)
 
 
-def test_mapper(resource_type_factory, htypes):
+def test_mapper(resource_type_factory):
     resource_t = partial_t
     resource_type = resource_type_factory(resource_t)
     log.info("mapper: %r", resource_type._mapper)
 
 
-def test_from_dict_partial(resource_type_producer, htypes):
+def test_from_dict_partial(resource_type_producer):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     log.info("definition_t: %r", resource_type.definition_t)
@@ -93,7 +93,7 @@ def test_from_dict_based(resource_type_factory, htypes):
         )
 
 
-def test_to_dict_partial(resource_type_producer, htypes):
+def test_to_dict_partial(resource_type_producer):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     param_t = resource_type.definition_t.fields['params'].element_t
@@ -130,7 +130,7 @@ def test_to_dict_based(resource_type_factory, htypes):
         }
 
 
-def test_resolve_definition_partial(mosaic, resource_type_producer, htypes):
+def test_resolve_definition_partial(mosaic, resource_type_producer):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     param_t = resource_type.definition_t.fields['params'].element_t
@@ -185,7 +185,7 @@ def test_resolve_definition_based(mosaic, resource_type_factory, htypes):
     )
 
 
-def test_reverse_resolve_definition_partial(mosaic, resource_type_producer, htypes):
+def test_reverse_resolve_definition_partial(mosaic, resource_type_producer):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     names = {
