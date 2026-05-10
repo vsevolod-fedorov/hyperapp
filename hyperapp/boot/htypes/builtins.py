@@ -25,7 +25,6 @@ log = logging.getLogger(__name__)
 
 
 _builtin_type_list = [
-    # core
     tNone,
     tString,
     tBinary,
@@ -54,6 +53,8 @@ _builtin_type_list = [
     ]
 
 
-def register_builtin_types(builtin_types, pyobj_creg):
-    for t in _builtin_type_list:
-        builtin_types.register(pyobj_creg, t)
+def make_builtin_name_to_type():
+    return {
+        t.name: t
+        for t in _builtin_type_list
+        }

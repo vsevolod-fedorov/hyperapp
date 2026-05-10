@@ -15,6 +15,7 @@ from .htypes import (
 from .record import TRecord
 from .exception import TException
 from .hyper_ref import ref_t
+from .phony_ref import phony_ref
 
 
 builtin_mt = TRecord(BUILTIN_MODULE_NAME, 'builtin_mt', {
@@ -96,6 +97,25 @@ def exception_from_piece(piece, pyobj_creg):
     field_dict = _field_dict_from_piece_list(piece.fields, pyobj_creg)
     return TException(piece.module_name, piece.name, field_dict, base=base_t)
 
+
+def add_builtin_types_to_pyobj_creg(pyobj_creg, name_to_type):
+    for name, t in name_to_type.items():
+        piece = builtin_mt(name)
+        pyobj_creg.add_to_cache(piece, t)
+
+
+# piece: builtin_mt
+def resolve_builtin_mt(name_to_type, piece):
+    return name_to_type[piece.name]
+
+
+# Register builtin_mt with phony piece - can not be registered as usual because of dependency loop.
+def register_builtin_mt(mosaic, pyobj_creg):
+    builtin_ref = phony_ref(builtin_mt.name)
+    builtin_mt_piece = builtin_mt(builtin_mt.name)
+    mosaic.add_to_cache(builtin_mt_piece, builtin_mt, builtin_ref)
+    pyobj_creg.add_to_cache(builtin_mt_piece, builtin_mt)
+    pyobj_creg.register_actor(builtin_mt, resolve_builtin_mt)
 
 
 def register_builtin_meta_types(builtin_types, pyobj_creg):

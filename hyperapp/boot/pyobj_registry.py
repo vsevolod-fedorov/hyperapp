@@ -13,12 +13,12 @@ class PyObjRegistry(CachedCodeRegistry):
         super().__init__(None, self, None, 'pyobj_creg', config)
         self._reconstructors = reconstructors
 
-    def init(self, builtin_types, mosaic, web):
+    def init(self, mosaic, web):
         self._mosaic = mosaic
         self._web = web
-        builtin_types.register_builtin_mt(mosaic, self)
-        register_builtin_meta_types(builtin_types, self)
-        register_meta_types(self)
+        # builtin_types.register_builtin_mt(mosaic, self)
+        # register_builtin_meta_types(builtin_types, self)
+        # register_meta_types(self)
 
     def actor_to_piece(self, actor, reconstruct=True):
         try:
