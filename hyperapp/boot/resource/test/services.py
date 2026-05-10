@@ -38,7 +38,7 @@ def init(mosaic, web, pyobj_creg, builtin_name_to_type):
 
 
 @pytest.fixture
-def resource_type_factory(mosaic, web, pyobj_creg):
+def resource_type_factory(mosaic, web, pyobj_creg, init):
     return partial(ResourceType, mosaic, web, pyobj_creg)
 
 
@@ -48,7 +48,7 @@ def type_to_resource_type():
 
 
 @pytest.fixture
-def resource_type_producer(resource_type_factory, type_to_resource_type, init):
+def resource_type_producer(resource_type_factory, type_to_resource_type):
     return partial(resource_type_producer_fn, resource_type_factory, type_to_resource_type)
 
 
