@@ -1,3 +1,5 @@
+import pytest
+
 from hyperapp.boot.htypes import (
     tString,
     tInt,
@@ -7,12 +9,20 @@ from hyperapp.boot.htypes import (
     TRecord,
     ref_t,
     )
+from hyperapp.boot.htypes.meta_type import add_builtin_types_to_pyobj_creg, register_builtin_mt
 from hyperapp.boot import cdr_coders
 
 
 pytest_plugins = [
     'hyperapp.boot.test.services',
     ]
+
+
+@pytest.fixture
+def init(mosaic, web, pyobj_creg, builtin_name_to_type):
+    pyobj_creg.init(mosaic, web)
+    add_builtin_types_to_pyobj_creg(pyobj_creg, builtin_name_to_type)
+    register_builtin_mt(mosaic, pyobj_creg)
 
 
 def test_instantiate():
@@ -123,7 +133,7 @@ def test_is_instance_base_list():
     assert isinstance(value, t)
 
 
-def test_comparison_with_ref_field(mosaic):
+def test_comparison_with_ref_field(mosaic, init):
     module_name = 'test_comparison_with_ref'
     simple_t = TRecord(module_name, 'simple', {})
     complex_t = TRecord(module_name, 'complex', {
@@ -134,7 +144,7 @@ def test_comparison_with_ref_field(mosaic):
     simple < complex  # Should not raise TypeError
 
 
-def test_comparison_with_ref_field_reverse(mosaic):
+def test_comparison_with_ref_field_reverse(mosaic, init):
     module_name = 'test_comparison_with_ref'
     simple_t = TRecord(module_name, 'simple', {})
     complex_t = TRecord(module_name, 'complex', {
