@@ -98,7 +98,7 @@ def exception_from_piece(piece, pyobj_creg):
     return TException(piece.module_name, piece.name, field_dict, base=base_t)
 
 
-def add_builtin_types_to_pyobj_creg(pyobj_creg, name_to_type):
+def add_types_to_pyobj_creg_cache(pyobj_creg, name_to_type):
     for name, t in name_to_type.items():
         piece = builtin_mt(name)
         pyobj_creg.add_to_cache(piece, t)
