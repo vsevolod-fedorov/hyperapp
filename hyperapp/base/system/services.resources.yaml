@@ -1,0 +1,11 @@
+import:
+- legacy_type.builtin:python_module
+
+definitions:
+
+  services.module:
+    type: legacy_type.builtin:python_module
+    value:
+      module_name: services
+      file_name: services.dyn.py
+      import_list: {}
