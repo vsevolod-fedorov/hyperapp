@@ -22,12 +22,40 @@ from hyperapp.boot.htypes import (
     record_mt,
     exception_mt,
     )
+from hyperapp.boot.htypes.builtins import make_builtin_name_to_type
+from hyperapp.boot.htypes.meta_type import (
+    make_meta_type_name_to_type,
+    add_types_to_pyobj_creg_cache,
+    register_builtin_mt,
+    register_meta_types_actors,
+    )
 from hyperapp.boot import cdr_coders  # register codec
 
 log = logging.getLogger(__name__)
 
 
-def test_optional(mosaic, pyobj_creg):
+pytest_plugins = [
+    'hyperapp.boot.test.services',
+    ]
+
+
+@pytest.fixture
+def builtin_name_to_type():
+    return {
+        **make_builtin_name_to_type(),
+        **make_meta_type_name_to_type(),
+        }
+
+
+@pytest.fixture
+def init(mosaic, web, pyobj_creg, builtin_name_to_type):
+    pyobj_creg.init(mosaic, web)
+    add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
+    register_builtin_mt(mosaic, pyobj_creg)
+    register_meta_types_actors(pyobj_creg)
+
+
+def test_optional(mosaic, pyobj_creg, init):
     base_ref = mosaic.put(builtin_mt('string'))
     piece = optional_mt(base_ref)
     t = pyobj_creg.animate(piece)
@@ -35,14 +63,14 @@ def test_optional(mosaic, pyobj_creg):
     assert t.base_t is tString
 
 
-def test_list(mosaic, pyobj_creg):
+def test_list(mosaic, pyobj_creg, init):
     element_ref = mosaic.put(builtin_mt('int'))
     piece = list_mt(element_ref)
     t = pyobj_creg.animate(piece)
     assert t == TList(tInt)
 
 
-def test_list_opt(mosaic, pyobj_creg):
+def test_list_opt(mosaic, pyobj_creg, init):
     base_ref = mosaic.put(builtin_mt('datetime'))
     element_ref = mosaic.put(optional_mt(base_ref))
     piece = list_mt(element_ref)
@@ -50,7 +78,7 @@ def test_list_opt(mosaic, pyobj_creg):
     assert t == TList(TOptional(tDateTime))
 
 
-def test_record(mosaic, pyobj_creg):
+def test_record(mosaic, pyobj_creg, init):
     module_name = 'test_record'
     name = 'some_test_record'
     string_list_mt = list_mt(mosaic.put(builtin_mt('string')))
@@ -68,7 +96,7 @@ def test_record(mosaic, pyobj_creg):
         })
 
 
-def test_based_record(mosaic, pyobj_creg):
+def test_based_record(mosaic, pyobj_creg, init):
     module_name = 'test_based_record'
     base_piece = record_mt(module_name, 'some_base_record', None, (
         field_mt('int_field', mosaic.put(builtin_mt('int'))),
@@ -85,7 +113,7 @@ def test_based_record(mosaic, pyobj_creg):
         })
 
 
-def test_empty_record(mosaic, pyobj_creg):
+def test_empty_record(mosaic, pyobj_creg, init):
     module_name = 'test_empty_record'
     name_1 = 'record_1'
     piece_1 = record_mt(module_name, name_1, None, ())
@@ -100,7 +128,7 @@ def test_empty_record(mosaic, pyobj_creg):
     assert t_1 != t_2
 
 
-def test_exception(mosaic, pyobj_creg):
+def test_exception(mosaic, pyobj_creg, init):
     module_name = 'test_exception'
     string_list_mt = list_mt(mosaic.put(builtin_mt('string')))
     bool_opt_mt = optional_mt(mosaic.put(builtin_mt('bool')))
@@ -119,7 +147,7 @@ def test_exception(mosaic, pyobj_creg):
         })
 
 
-def test_based_exception(mosaic, pyobj_creg):
+def test_based_exception(mosaic, pyobj_creg, init):
     module_name = 'test_based_exception'
     base_piece = exception_mt(module_name, 'some_base_exception', None, (
         field_mt('int_field', mosaic.put(builtin_mt('int'))),
@@ -136,7 +164,7 @@ def test_based_exception(mosaic, pyobj_creg):
         })
 
 
-def test_empty_exception(mosaic, pyobj_creg):
+def test_empty_exception(mosaic, pyobj_creg, init):
     module_name = 'test_empty_exception'
 
     name_1 = 'exception_1'

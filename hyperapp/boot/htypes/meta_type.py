@@ -98,6 +98,23 @@ def exception_from_piece(piece, pyobj_creg):
     return TException(piece.module_name, piece.name, field_dict, base=base_t)
 
 
+_meta_type_list = [
+    name_mt,
+    optional_mt,
+    list_mt,
+    field_mt,
+    record_mt,
+    exception_mt,
+    ]
+
+
+def make_meta_type_name_to_type():
+    return {
+        t.name: t
+        for t in _meta_type_list
+        }
+
+
 def add_types_to_pyobj_creg_cache(pyobj_creg, name_to_type):
     for name, t in name_to_type.items():
         piece = builtin_mt(name)
@@ -118,16 +135,16 @@ def register_builtin_mt(mosaic, pyobj_creg):
     pyobj_creg.register_actor(builtin_mt, resolve_builtin_mt)
 
 
-def register_builtin_meta_types(builtin_types, pyobj_creg):
-    builtin_types.register(pyobj_creg, name_mt)
-    builtin_types.register(pyobj_creg, optional_mt)
-    builtin_types.register(pyobj_creg, list_mt)
-    builtin_types.register(pyobj_creg, field_mt)
-    builtin_types.register(pyobj_creg, record_mt)
-    builtin_types.register(pyobj_creg, exception_mt)
+# def register_builtin_meta_types(builtin_types, pyobj_creg):
+#     builtin_types.register(pyobj_creg, name_mt)
+#     builtin_types.register(pyobj_creg, optional_mt)
+#     builtin_types.register(pyobj_creg, list_mt)
+#     builtin_types.register(pyobj_creg, field_mt)
+#     builtin_types.register(pyobj_creg, record_mt)
+#     builtin_types.register(pyobj_creg, exception_mt)
 
 
-def register_meta_types(pyobj_creg):
+def register_meta_types_actors(pyobj_creg):
     # name_mt does not produce a type, it is removed by type module loader.
     pyobj_creg.register_actor(optional_mt, optional_from_piece, pyobj_creg=pyobj_creg)
     pyobj_creg.register_actor(list_mt, list_from_piece, pyobj_creg=pyobj_creg)

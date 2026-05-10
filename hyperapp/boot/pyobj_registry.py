@@ -1,7 +1,6 @@
 import logging
 from functools import partial
 
-from .htypes import register_builtin_meta_types, register_meta_types
 from .cached_code_registry import CachedCodeRegistry
 
 log = logging.getLogger(__name__)
