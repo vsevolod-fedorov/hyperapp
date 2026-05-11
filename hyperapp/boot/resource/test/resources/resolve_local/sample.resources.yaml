@@ -1,0 +1,9 @@
+definitions:
+  an_attribute:
+    type: builtins::attribute.t
+    value:
+      object: an_int
+      attr_name: sample-attribute
+  an_int:
+    type: builtins::int.t
+    value: 123

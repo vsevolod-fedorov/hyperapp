@@ -1,5 +1,6 @@
 import logging
 from collections import namedtuple
+from functools import partial
 from pathlib import Path
 
 import yaml
@@ -51,6 +52,11 @@ def _split_path(path):
 
 class _Context:
 
+    @classmethod
+    def from_full_name(cls, full_name):
+        proj_name, path, _ = full_name
+        return cls(proj_name, path)
+
     def __init__(self, proj_name, path):
         self._proj_name = proj_name
         self._path = path
@@ -79,7 +85,7 @@ class _Context:
 
 #     def resolve(self, full_name):
 #         parts = full_name.split(':')
-#         assert len(parts) == 3
+#         assert len(parts) == 3, parts
 #         return (parts[0], _split_path(parts[1]), parts[2])
 
 
@@ -87,8 +93,9 @@ class _ResourceLoader:
 
     _Definition = namedtuple('_Definition', 'type value')
 
-    def __init__(self, pyobj_creg, builtin_name_to_type, resource_type_producer, projects):
+    def __init__(self, pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects):
         self._pyobj_creg = pyobj_creg
+        self._mosaic = mosaic
         self._resource_type_producer = resource_type_producer
         self._projects = projects  # project_name -> path_to_bytes
         self._proj_path_to_def = {}  # (project_name, path) -> definition
@@ -143,17 +150,23 @@ class _ResourceLoader:
         full_name = ctx.resolve(name)
         return self._resolve(full_name)
 
+
+    def _resolve_name_to_ref(self, ctx, name):
+        piece = self._resolve_name(ctx, name)
+        return self._mosaic.put(piece)
+
     def _resolve(self, full_name):
         try:
             return self._full_name_to_piece[full_name]
         except KeyError:
             pass
         definition = self._full_name_to_definition[full_name]
-        piece = definition.type.resolve(definition.value, None, None)
+        resolver = partial(self._resolve_name_to_ref, _Context.from_full_name(full_name))
+        piece = definition.type.resolve(definition.value, resolver, None)
         self._full_name_to_piece[full_name] = piece
         return piece
 
 
-def load_resources(pyobj_creg, builtin_name_to_type, resource_type_producer, projects):
-    loader = _ResourceLoader(pyobj_creg, builtin_name_to_type, resource_type_producer, projects)
+def load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects):
+    loader = _ResourceLoader(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects)
     return loader.load()
