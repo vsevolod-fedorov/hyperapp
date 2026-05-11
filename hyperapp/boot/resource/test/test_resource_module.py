@@ -48,7 +48,17 @@ def test_resolve_local(web, resources_root, loader):
     name_to_bytes = load_file_tree(resources_root / 'resolve_local')
     resources = loader({'a-project': name_to_bytes})
     attr = resources['a-project', ('sample',), 'an_attribute']
-    log.info("Attribute object: %r", web.summon(attr.object))
+    object = web.summon(attr.object)
+    assert object == 123
+
+
+def test_resolve_in_project(web, resources_root, loader):
+    name_to_bytes = load_file_tree(resources_root / 'resolve_in_project')
+    resources = loader({'a-project': name_to_bytes})
+    attr = resources['a-project', ('module_2',), 'an_attribute']
+    object = web.summon(attr.object)
+    assert object == 123
+    assert resources['a-project', ('module_1',), 'an_int'] == 123
 
 
 # @pytest.fixture

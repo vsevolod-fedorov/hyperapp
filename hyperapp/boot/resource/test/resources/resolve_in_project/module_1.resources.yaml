@@ -1,0 +1,4 @@
+definitions:
+  an_int:
+    type: builtins::int.t
+    value: 123

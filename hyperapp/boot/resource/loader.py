@@ -70,13 +70,17 @@ class _Context:
     def resolve(self, full_name):
         parts = full_name.split(':')
         if len(parts) > 3:
-            raise RuntimeError(f"{self}: Malformed name: {full_name!r}")
+            raise RuntimeError(f"{self}: Malformed name: More than two colons: {full_name!r}")
         if len(parts) == 1:
             # No colons, module-local name.
             return (self._proj_name, self._path, parts[0])
         if len(parts) == 2:
             # 1 colon, project-local name
-            assert 0, (self, parts)  # TODO
+            name_path = _split_path(parts[0])
+            if len(name_path) > len(self._path):
+                raise RuntimeError(f"{self}: Malformed name: Path is too deep: {full_name!r}")
+            path = (*self._path[:len(self._path) - len(name_path)], *name_path)
+            return (self._proj_name, path, parts[1])
         if len(parts) == 3:
             # 2 colons, full name.
             return (parts[0], _split_path(parts[1]), parts[2])
