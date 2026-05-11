@@ -31,42 +31,41 @@ def resources_root():
 
 @pytest.fixture
 def loader(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, resources_root):
-    def load(projects):
-        resources = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects)
+    def load(project_to_path):
+        project_to_files = {
+            name: load_file_tree(resources_root / path)
+            for name, path in project_to_path.items()
+            }
+        resources = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, project_to_files)
         for name, piece in resources.items():
             log.info("Loaded piece: %s -> %r", name, piece)
         return resources
     return load
 
 
-def test_primitive_types(resources_root, loader):
-    name_to_bytes = load_file_tree(resources_root / 'primitive')
-    resources = loader({'primitive': name_to_bytes})
+def test_primitive_types(loader):
+    resources = loader({'primitive': 'primitive'})
 
 
-def test_resolve_local(web, resources_root, loader):
-    name_to_bytes = load_file_tree(resources_root / 'resolve_local')
-    resources = loader({'a-project': name_to_bytes})
+def test_resolve_local(web, loader):
+    resources = loader({'a-project': 'resolve_local'})
     attr = resources['a-project', ('sample',), 'an_attribute']
     object = web.summon(attr.object)
     assert object == 123
 
 
-def test_resolve_in_project(web, resources_root, loader):
-    name_to_bytes = load_file_tree(resources_root / 'resolve_in_project')
-    resources = loader({'a-project': name_to_bytes})
+def test_resolve_in_project(web, loader):
+    resources = loader({'a-project': 'resolve_in_project'})
     attr = resources['a-project', ('module_2',), 'an_attribute']
     object = web.summon(attr.object)
     assert object == 123
     assert resources['a-project', ('module_1',), 'an_int'] == 123
 
 
-def test_resolve_between_projects(web, resources_root, loader):
-    files_1 = load_file_tree(resources_root / 'resolve_between_projects/project_1')
-    files_2 = load_file_tree(resources_root / 'resolve_between_projects/project_2')
+def test_resolve_between_projects(web, loader):
     projects = {
-        'project-1': files_1,
-        'project-2': files_2,
+        'project-1': 'resolve_between_projects/project_1',
+        'project-2': 'resolve_between_projects/project_2',
         }
     resources = loader(projects)
     attr = resources['project-2', ('module_2',), 'an_attribute']
