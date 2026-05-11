@@ -61,6 +61,20 @@ def test_resolve_in_project(web, resources_root, loader):
     assert resources['a-project', ('module_1',), 'an_int'] == 123
 
 
+def test_resolve_between_projects(web, resources_root, loader):
+    files_1 = load_file_tree(resources_root / 'resolve_between_projects/project_1')
+    files_2 = load_file_tree(resources_root / 'resolve_between_projects/project_2')
+    projects = {
+        'project-1': files_1,
+        'project-2': files_2,
+        }
+    resources = loader(projects)
+    attr = resources['project-2', ('module_2',), 'an_attribute']
+    object = web.summon(attr.object)
+    assert object == 123
+    assert resources['project-1', ('subdir', 'module_1'), 'an_int'] == 123
+
+
 # @pytest.fixture
 # def compare():
 #     def inner(resource_module, expected_fname):
