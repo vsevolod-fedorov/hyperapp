@@ -1,0 +1,7 @@
+definitions:
+  a_string:
+    type: builtins::string.t
+    value: "sample value"
+  an_int:
+    type: builtins::int.t
+    value: 123
