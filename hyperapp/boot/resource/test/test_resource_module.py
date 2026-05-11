@@ -29,18 +29,24 @@ def resources_root():
     return RESOURCES_ROOT
 
 
-def test_primitive_types(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, resources_root):
+@pytest.fixture
+def loader(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, resources_root):
+    def load(projects):
+        resources = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects)
+        for name, piece in resources.items():
+            log.info("Loaded piece: %s -> %r", name, piece)
+        return resources
+    return load
+
+
+def test_primitive_types(resources_root, loader):
     name_to_bytes = load_file_tree(resources_root / 'primitive')
-    resources = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, {'primitive': name_to_bytes})
-    for name, piece in resources.items():
-        log.info("Loaded piece: %s -> %r", name, piece)
+    resources = loader({'primitive': name_to_bytes})
 
 
-def test_resolve_local(pyobj_creg, mosaic, web, builtin_name_to_type, resource_type_producer, resources_root):
+def test_resolve_local(web, resources_root, loader):
     name_to_bytes = load_file_tree(resources_root / 'resolve_local')
-    resources = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, {'a-project': name_to_bytes})
-    for name, piece in resources.items():
-        log.info("Loaded piece: %s -> %r", name, piece)
+    resources = loader({'a-project': name_to_bytes})
     attr = resources['a-project', ('sample',), 'an_attribute']
     log.info("Attribute object: %r", web.summon(attr.object))
 
