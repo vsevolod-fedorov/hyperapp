@@ -9,6 +9,7 @@ import pytest
 # from hyperapp.boot.htypes.attribute import attribute_t
 # from hyperapp.boot.htypes.partial import partial_param_t, partial_t
 # from hyperapp.boot.htypes.builtin_service import builtin_service_t
+from hyperapp.boot.htypes.python_module import python_module_t
 from hyperapp.boot.resource.loader import load_file_tree, load_resources
 from hyperapp.boot import cdr_coders  # self-registering
 
@@ -74,6 +75,13 @@ def test_resolve_between_projects(web, loader):
     object = web.summon(attr.object)
     assert object == 123
     assert resources['project-1', ('subdir', 'module_1'), 'an_int'] == 123
+
+
+def test_python_module(web, loader):
+    resources = loader({'a-project': 'python_module'})
+    piece = resources['a-project', ('sample',), 'a_module.module']
+    assert isinstance(piece, python_module_t)
+    assert "Hello from" in piece.source
 
 
 # @pytest.fixture

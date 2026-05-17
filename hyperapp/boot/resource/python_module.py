@@ -44,7 +44,7 @@ class PythonModuleResourceType:
         encoder = NamedPairsDictEncoder()
         return encoder.encode(definition)
 
-    def resolve(self, definition, resolver, resource_path):
+    def resolve(self, definition, resolver, ctx):
         import_list = tuple(
             import_rec_t(
                 full_name=rec.full_name,
@@ -52,11 +52,11 @@ class PythonModuleResourceType:
                 )
             for rec in definition.import_list
             )
-        source_path = resource_path / definition.file_name
+        path, text = ctx.get_text(definition.file_name)
         return python_module_t(
             module_name=definition.module_name,
-            source=source_path.read_text(),
-            file_path=str(source_path),
+            source=text,
+            file_path='/'.join(path),  # TODO: Add project to path.
             import_list=import_list,
             )
 

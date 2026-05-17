@@ -1,0 +1,7 @@
+definitions:
+  a_module.module:
+    type: builtins::python_module.t
+    value:
+      module_name: a_module
+      file_name: a_module.dyn.py
+      import_list: []

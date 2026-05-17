@@ -56,11 +56,12 @@ def _split_path(path):
 class _Context:
 
     @classmethod
-    def from_full_name(cls, full_name):
+    def from_full_name(cls, projects, full_name):
         proj_name, path, _ = full_name
-        return cls(proj_name, path)
+        return cls(projects, proj_name, path)
 
-    def __init__(self, proj_name, path):
+    def __init__(self, projects, proj_name, path):
+        self._projects = projects
         self._proj_name = proj_name
         self._path = path
 
@@ -72,8 +73,11 @@ class _Context:
 
     def resolve(self, full_name):
         parts = full_name.split(':')
+        return self._resolve(parts, description=full_name)
+
+    def _resolve(self, parts, description):
         if len(parts) > 3:
-            raise RuntimeError(f"{self}: Malformed name: More than two colons: {full_name!r}")
+            raise RuntimeError(f"{self}: Malformed name: More than two colons: {description!r}")
         if len(parts) == 1:
             # No colons, module-local name.
             return (self._proj_name, self._path, parts[0])
@@ -81,12 +85,19 @@ class _Context:
             # 1 colon, project-local name
             name_path = _split_path(parts[0])
             if len(name_path) > len(self._path):
-                raise RuntimeError(f"{self}: Malformed name: Path is too deep: {full_name!r}")
+                raise RuntimeError(f"{self}: Malformed name: Path is too deep: {description!r}")
             path = (*self._path[:len(self._path) - len(name_path)], *name_path)
             return (self._proj_name, path, parts[1])
         if len(parts) == 3:
             # 2 colons, full name.
             return (parts[0], _split_path(parts[1]), parts[2])
+
+    def get_text(self, full_name):
+        parts = full_name.split(':')
+        project_name, path, _ = self._resolve((*parts, ''), description=full_name)
+        bytes = self._projects[project_name][path]
+        return (path, bytes.decode())  # TODO: Add project id.
+
 
 # class _RootContext:
 
@@ -125,7 +136,7 @@ class _ResourceLoader:
 
     def _load_module(self, proj_name, path, bytes):
         data = self._load_yaml(path, bytes)
-        ctx = _Context(proj_name, path)
+        ctx = _Context(self._projects, proj_name, path)
         for name, contents in data.get('definitions', {}).items():
             definition = self._load_definition(ctx, name, contents)
             self._full_name_to_definition[(proj_name, path, name)] = definition
@@ -168,8 +179,9 @@ class _ResourceLoader:
         except KeyError:
             pass
         definition = self._full_name_to_definition[full_name]
-        resolver = partial(self._resolve_name_to_ref, _Context.from_full_name(full_name))
-        piece = definition.type.resolve(definition.value, resolver, None)
+        ctx = _Context.from_full_name(self._projects, full_name)
+        resolver = partial(self._resolve_name_to_ref, ctx)
+        piece = definition.type.resolve(definition.value, resolver, ctx)
         self._full_name_to_piece[full_name] = piece
         project_name, path, name = full_name
         self._piece_to_source[piece] = (project_name, path, ResourceModuleSource(name))
