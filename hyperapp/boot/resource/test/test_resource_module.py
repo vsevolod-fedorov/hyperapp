@@ -11,6 +11,7 @@ import pytest
 # from hyperapp.boot.htypes.builtin_service import builtin_service_t
 from hyperapp.boot.htypes.python_module import python_module_t
 from hyperapp.boot.resource.loader import load_file_tree, load_resources
+from hyperapp.boot.resource.source import ResourceModuleSource, TextSource
 from hyperapp.boot import cdr_coders  # self-registering
 
 log = logging.getLogger(__name__)
@@ -42,23 +43,24 @@ def loader(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, res
             log.info("Loaded piece: %s -> %r", name, piece)
         for piece, project_name_path_source in source_dict.items():
             log.info("Loaded source: %r -> %r", piece, project_name_path_source)
-        return resources
+        return resources, source_dict
     return load
 
 
 def test_primitive_types(loader):
-    resources = loader({'primitive': 'primitive'})
+    _, sources = loader({'primitive': 'primitive'})
+    assert sources[123] == ('primitive', ('sample',), ResourceModuleSource('an_int'))
 
 
 def test_resolve_local(web, loader):
-    resources = loader({'a-project': 'resolve_local'})
+    resources, sources = loader({'a-project': 'resolve_local'})
     attr = resources['a-project', ('sample',), 'an_attribute']
     object = web.summon(attr.object)
     assert object == 123
 
 
 def test_resolve_in_project(web, loader):
-    resources = loader({'a-project': 'resolve_in_project'})
+    resources, sources = loader({'a-project': 'resolve_in_project'})
     attr = resources['a-project', ('module_2',), 'an_attribute']
     object = web.summon(attr.object)
     assert object == 123
@@ -70,7 +72,7 @@ def test_resolve_between_projects(web, loader):
         'project-1': 'resolve_between_projects/project_1',
         'project-2': 'resolve_between_projects/project_2',
         }
-    resources = loader(projects)
+    resources, sources = loader(projects)
     attr = resources['project-2', ('module_2',), 'an_attribute']
     object = web.summon(attr.object)
     assert object == 123
@@ -78,10 +80,11 @@ def test_resolve_between_projects(web, loader):
 
 
 def test_python_module(web, loader):
-    resources = loader({'a-project': 'python_module'})
+    resources, sources = loader({'a-project': 'python_module'})
     piece = resources['a-project', ('sample',), 'a_module.module']
     assert isinstance(piece, python_module_t)
     assert "Hello from" in piece.source
+    assert sources[piece.source][2] == TextSource(piece.source)
 
 
 # @pytest.fixture

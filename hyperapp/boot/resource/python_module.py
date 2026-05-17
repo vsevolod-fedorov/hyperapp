@@ -52,13 +52,14 @@ class PythonModuleResourceType:
                 )
             for rec in definition.import_list
             )
-        path, text = ctx.get_text(definition.file_name)
-        return python_module_t(
+        text, path, sources = ctx.get_text(definition.file_name)
+        piece = python_module_t(
             module_name=definition.module_name,
             source=text,
             file_path='/'.join(path),  # TODO: Add project to path.
             import_list=import_list,
             )
+        return (piece, sources)
 
     def reverse_resolve(self, resource, resolver, resource_dir):
         import_list = tuple(

@@ -5,7 +5,7 @@ from pathlib import Path
 
 import yaml
 
-from .source import ResourceModuleSource
+from .source import ResourceModuleSource, TextSource
 
 
 log = logging.getLogger(__name__)
@@ -96,7 +96,11 @@ class _Context:
         parts = full_name.split(':')
         project_name, path, _ = self._resolve((*parts, ''), description=full_name)
         bytes = self._projects[project_name][path]
-        return (path, bytes.decode())  # TODO: Add project id.
+        text = bytes.decode()
+        sources = {
+            text: (project_name, path, TextSource(text))
+            }
+        return (text, path, sources)  # TODO: Add project id.
 
 
 class _ResourceLoader:
@@ -173,10 +177,12 @@ class _ResourceLoader:
         definition = self._full_name_to_definition[full_name]
         ctx = _Context.from_full_name(self._projects, full_name)
         resolver = partial(self._resolve_name_to_ref, ctx)
-        piece = definition.type.resolve(definition.value, resolver, ctx)
+        piece, sources = definition.type.resolve(definition.value, resolver, ctx)
         self._full_name_to_piece[full_name] = piece
         project_name, path, name = full_name
         self._piece_to_source[piece] = (project_name, path, ResourceModuleSource(name))
+        for src_piece, path_and_src in sources.items():
+            self._piece_to_source[src_piece] = path_and_src
         return piece
 
 

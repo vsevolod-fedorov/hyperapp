@@ -171,7 +171,8 @@ class ResourceType:
         return type_mapper.map(self._resource_type_mt)
 
     def resolve(self, value, resolver, ctx):
-        return self._mapper.map(resolver, value)
+        piece = self._mapper.map(resolver, value)
+        return (piece, {})  # piece, sources.
 
     def reverse_resolve(self, value, resolver, resource_dir):
         return self._reverse_mapper.map(resolver, value)

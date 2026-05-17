@@ -23,10 +23,11 @@ class AttributeResourceType:
         return encoder.encode(definition)
 
     def resolve(self, definition, resolver, resource_dir):
-        return attribute_t(
+        piece = attribute_t(
             object=resolver(definition.object),
             attr_name=definition.attr_name,
             )
+        return (piece, {})
 
     def reverse_resolve(self, resource, resolver, resource_dir):
         return attribute_def_t(
