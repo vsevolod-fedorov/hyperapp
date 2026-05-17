@@ -35,8 +35,6 @@ from .resource.builtin_service import (
     )
 from .htypes.attribute import attribute_t
 from .resource.attribute import AttributeResourceType, attribute_pyobj
-from .htypes.call import call_t
-from .resource.call import CallResourceType, call_pyobj
 from .htypes.partial import partial_t
 from .resource.partial import PartialResourceType, partial_pyobj
 from .htypes.raw import raw_t
@@ -126,8 +124,6 @@ class Services(object):
         self.pyobj_creg.register_actor(builtin_service_t, builtin_service_pyobj, services=self)
         self.resource_type_reg[attribute_t] = AttributeResourceType()
         self.pyobj_creg.register_actor(attribute_t, attribute_pyobj, pyobj_creg=self.pyobj_creg)
-        self.resource_type_reg[call_t] = CallResourceType()
-        self.pyobj_creg.register_actor(call_t, call_pyobj, pyobj_creg=self.pyobj_creg)
         self.resource_type_reg[partial_t] = PartialResourceType()
         self.pyobj_creg.register_actor(partial_t, partial_pyobj, pyobj_creg=self.pyobj_creg)
         self.resource_type_reg[raw_t] = RawResourceType()

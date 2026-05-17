@@ -11,7 +11,6 @@ from hyperapp.boot.python_importer import PythonImporter
 # from hyperapp.boot.htypes import BuiltinTypeRegistry, register_builtin_types
 # from hyperapp.boot.htypes.python_module import python_module_t
 # from hyperapp.boot.htypes.attribute import attribute_t
-# from hyperapp.boot.htypes.call import call_t
 # from hyperapp.boot.htypes.partial import partial_t
 # from hyperapp.boot.services import pyobj_config
 # from hyperapp.boot.type_module_loader import TypeModuleLoader
@@ -51,7 +50,6 @@ def web(pyobj_creg, mosaic):
     #     )
     # # pyobj_creg.register_actor(builtin_service_t, builtin_service_pyobj, self)
     # pyobj_creg.register_actor(attribute_t, attribute_pyobj, pyobj_creg=pyobj_creg)
-    # pyobj_creg.register_actor(call_t, call_pyobj, pyobj_creg=pyobj_creg)
     # pyobj_creg.register_actor(partial_t, partial_pyobj, pyobj_creg=pyobj_creg)
     # return (mosaic, web)
 
