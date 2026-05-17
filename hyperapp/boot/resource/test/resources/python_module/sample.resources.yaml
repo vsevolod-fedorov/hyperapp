@@ -4,4 +4,4 @@ definitions:
     value:
       module_name: a_module
       file_name: a_module.dyn.py
-      import_list: []
+      import_list: {}

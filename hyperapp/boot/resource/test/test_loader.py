@@ -87,3 +87,11 @@ def test_python_module_fn(pyobj_creg, loader):
     fn = pyobj_creg.animate(piece)
     result = fn()
     assert result == 123
+
+
+def test_python_module_import(pyobj_creg, loader):
+    resources, sources = loader({'a-project': 'python_module_import'})
+    piece = resources['a-project', ('sample',), 'main']
+    main = pyobj_creg.animate(piece)
+    result = main()
+    assert result == 123

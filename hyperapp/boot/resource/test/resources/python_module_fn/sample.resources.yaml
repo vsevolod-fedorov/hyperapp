@@ -4,7 +4,7 @@ definitions:
     value:
       module_name: sample
       file_name: sample.dyn.py
-      import_list: []
+      import_list: {}
   fn:
     type: builtins::attribute.t
     value:

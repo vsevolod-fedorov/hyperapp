@@ -1,0 +1,22 @@
+definitions:
+  sample_1.module:
+    type: builtins::python_module.t
+    value:
+      module_name: sample_1
+      file_name: sample_1.dyn.py
+      import_list:
+        htypes.int: builtins::int.t
+
+  sample_2.module:
+    type: builtins::python_module.t
+    value:
+      module_name: sample_2
+      file_name: sample_2.dyn.py
+      import_list:
+        code.sample_1: sample_1.module
+
+  main:
+    type: builtins::attribute.t
+    value:
+      object: sample_2.module
+      attr_name: main
