@@ -99,14 +99,6 @@ class _Context:
         return (path, bytes.decode())  # TODO: Add project id.
 
 
-# class _RootContext:
-
-#     def resolve(self, full_name):
-#         parts = full_name.split(':')
-#         assert len(parts) == 3, parts
-#         return (parts[0], _split_path(parts[1]), parts[2])
-
-
 class _ResourceLoader:
 
     _Definition = namedtuple('_Definition', 'type value')
