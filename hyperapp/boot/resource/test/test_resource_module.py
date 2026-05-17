@@ -36,9 +36,11 @@ def loader(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, res
             name: load_file_tree(resources_root / path)
             for name, path in project_to_path.items()
             }
-        resources = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, project_to_files)
+        resources, source_dict = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, project_to_files)
         for name, piece in resources.items():
             log.info("Loaded piece: %s -> %r", name, piece)
+        for piece, project_name_path_source in source_dict.items():
+            log.info("Loaded source: %r -> %r", piece, project_name_path_source)
         return resources
     return load
 

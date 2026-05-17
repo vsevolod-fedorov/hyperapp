@@ -5,6 +5,9 @@ from pathlib import Path
 
 import yaml
 
+from .source import ResourceModuleSource
+
+
 log = logging.getLogger(__name__)
 
 RESOURCE_EXT = '.resources.yaml'
@@ -105,6 +108,7 @@ class _ResourceLoader:
         self._proj_path_to_def = {}  # (project_name, path) -> definition
         self._full_name_to_definition = {}
         self._full_name_to_piece = _name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type)
+        self._piece_to_source = {}  # piece -> (project name, path, source)
 
     def load(self):
         for proj_name, path_to_bytes in self._projects.items():
@@ -117,7 +121,7 @@ class _ResourceLoader:
             full_name: self._resolve(full_name)
             for full_name in self._full_name_to_definition
             }
-        return full_name_to_piece
+        return (full_name_to_piece, self._piece_to_source)
 
     def _load_module(self, proj_name, path, bytes):
         data = self._load_yaml(path, bytes)
@@ -154,7 +158,6 @@ class _ResourceLoader:
         full_name = ctx.resolve(name)
         return self._resolve(full_name)
 
-
     def _resolve_name_to_ref(self, ctx, name):
         piece = self._resolve_name(ctx, name)
         return self._mosaic.put(piece)
@@ -168,6 +171,8 @@ class _ResourceLoader:
         resolver = partial(self._resolve_name_to_ref, _Context.from_full_name(full_name))
         piece = definition.type.resolve(definition.value, resolver, None)
         self._full_name_to_piece[full_name] = piece
+        project_name, path, name = full_name
+        self._piece_to_source[piece] = (project_name, path, ResourceModuleSource(name))
         return piece
 
 
