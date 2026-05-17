@@ -87,6 +87,14 @@ def test_python_module(web, loader):
     assert sources[piece.source][2] == TextSource(piece.source)
 
 
+def test_python_module_fn(pyobj_creg, loader):
+    resources, sources = loader({'a-project': 'python_module_fn'})
+    piece = resources['a-project', ('sample',), 'fn']
+    fn = pyobj_creg.animate(piece)
+    result = fn()
+    assert result == 123
+
+
 # @pytest.fixture
 # def compare():
 #     def inner(resource_module, expected_fname):

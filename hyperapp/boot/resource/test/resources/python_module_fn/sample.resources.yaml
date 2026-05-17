@@ -1,0 +1,12 @@
+definitions:
+  sample.module:
+    type: builtins::python_module.t
+    value:
+      module_name: sample
+      file_name: sample.dyn.py
+      import_list: []
+  fn:
+    type: builtins::attribute.t
+    value:
+      object: sample.module
+      attr_name: fn

@@ -11,6 +11,7 @@ from hyperapp.boot.htypes.meta_type import (
     )
 from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
+from hyperapp.boot.resource.pyobj_registry import register_resources_at_pyobj_creg
 # from hyperapp.boot.resource.builtin_service import make_builtin_service_resource_module
 # from hyperapp.boot.resource.legacy_type import load_legacy_type_resources
 from hyperapp.boot.resource.resource_type_producer import resource_type_producer as resource_type_producer_fn
@@ -30,11 +31,12 @@ def builtin_name_to_type():
 
 
 @pytest.fixture
-def init(mosaic, web, pyobj_creg, builtin_name_to_type):
+def init(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type):
     pyobj_creg.init(mosaic, web)
     add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
     register_builtin_mt(mosaic, pyobj_creg)
     register_meta_types_actors(pyobj_creg)
+    register_resources_at_pyobj_creg(pyobj_creg, mosaic, web, python_importer)
 
 
 @pytest.fixture
