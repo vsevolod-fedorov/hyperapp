@@ -33,9 +33,9 @@ class OptionalMtResourceType:
         encoder = NamedPairsDictEncoder()
         return encoder.encode(definition)
 
-    def resolve(self, definition, resolver, resource_path):
+    def resolve(self, definition, ctx):
         return optional_mt(
-            base=resolver(definition.base),
+            base=ctx.resolve_to_ref(definition.base),
             )
 
     def reverse_resolve(self, resource, resolver, resource_dir):

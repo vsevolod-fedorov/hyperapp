@@ -1,5 +1,6 @@
 import logging
 from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
 
@@ -49,14 +50,17 @@ def test_resolve(mosaic, pyobj_creg, resource_type_producer):
     names = {
         'legacy_type.builtin:int': pyobj_creg.actor_to_ref(tInt),
         }
-    def resolve_name(name):
+
+    def resolve_to_ref(name):
         return names[name]
+
+    ctx = Mock(resolve_to_ref=resolve_to_ref)
 
     definition = resource_type.definition_t(
         element='legacy_type.builtin:int',
         )
 
-    resource = resource_type.resolve(definition, resolve_name, TEST_RESOURCES_DIR)
+    resource = resource_type.resolve(definition, ctx)
     log.info('Resolved resource: %r', resource)
 
     assert resource == list_mt(

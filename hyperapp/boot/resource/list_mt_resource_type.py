@@ -33,9 +33,9 @@ class ListMtResourceType:
         encoder = NamedPairsDictEncoder()
         return encoder.encode(definition)
 
-    def resolve(self, definition, resolver, resource_path):
+    def resolve(self, definition, ctx):
         return list_mt(
-            element=resolver(definition.element),
+            element=ctx.resolve_to_ref(definition.element),
             )
 
     def reverse_resolve(self, resource, resolver, resource_dir):

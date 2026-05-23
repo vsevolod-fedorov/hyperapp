@@ -170,8 +170,8 @@ class ResourceType:
         type_mapper = TypeToValueMapper(self._mosaic, self._web, self._pyobj_creg, self._type_meta_to_def_meta)
         return type_mapper.map(self._resource_type_mt)
 
-    def resolve(self, value, resolver, ctx):
-        piece = self._mapper.map(resolver, value)
+    def resolve(self, value, ctx):
+        piece = self._mapper.map(ctx.resolve_to_ref, value)
         return (piece, {})  # piece, sources.
 
     def reverse_resolve(self, value, resolver, resource_dir):

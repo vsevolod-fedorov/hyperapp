@@ -22,9 +22,9 @@ class RawResourceType:
         encoder = NamedPairsDictEncoder()
         return encoder.encode(definition)
 
-    def resolve(self, definition, resolver, resource_dir):
+    def resolve(self, definition, ctx):
         return raw_t(
-            resource=resolver(definition.resource),
+            resource=ctx.resolve_to_ref(definition.resource),
             )
 
     def reverse_resolve(self, resource, resolver, resource_dir):

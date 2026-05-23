@@ -44,11 +44,11 @@ class PythonModuleResourceType:
         encoder = NamedPairsDictEncoder()
         return encoder.encode(definition)
 
-    def resolve(self, definition, resolver, ctx):
+    def resolve(self, definition, ctx):
         import_list = tuple(
             import_rec_t(
                 full_name=rec.full_name,
-                resource=resolver(rec.resource),
+                resource=ctx.resolve_to_ref(rec.resource),
                 )
             for rec in definition.import_list
             )

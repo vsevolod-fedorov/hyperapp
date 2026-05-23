@@ -1,6 +1,5 @@
 import logging
 from collections import namedtuple
-from functools import partial
 from pathlib import Path
 
 import yaml
@@ -56,12 +55,12 @@ def _split_path(path):
 class _Context:
 
     @classmethod
-    def from_full_name(cls, projects, full_name):
-        proj_name, path, _ = full_name
-        return cls(projects, proj_name, path)
+    def from_name_tuple(cls, loader, name_tuple):
+        proj_name, path, _ = name_tuple
+        return cls(loader, proj_name, path)
 
-    def __init__(self, projects, proj_name, path):
-        self._projects = projects
+    def __init__(self, loader, proj_name, path):
+        self._loader = loader
         self._proj_name = proj_name
         self._path = path
 
@@ -71,9 +70,13 @@ class _Context:
     def __str__(self):
         return f"{self._proj_name}: {'/'.join(self._path)}"
 
-    def resolve(self, full_name):
-        parts = full_name.split(':')
-        return self._resolve(parts, description=full_name)
+    def resolve_to_ref(self, name):
+        return self._loader._mosaic.put(self.resolve(name))
+
+    def resolve(self, name):
+        parts = name.split(':')
+        name_tuple = self._resolve(parts, description=name)
+        return self._loader._resolve(name_tuple)
 
     def _resolve(self, parts, description):
         if len(parts) > 3:
@@ -95,7 +98,7 @@ class _Context:
     def get_text(self, full_name):
         parts = full_name.split(':')
         project_name, path, _ = self._resolve((*parts, ''), description=full_name)
-        bytes = self._projects[project_name][path]
+        bytes = self._loader._projects[project_name][path]
         text = bytes.decode()
         sources = {
             text: (project_name, path, TextSource(text))
@@ -113,8 +116,8 @@ class _ResourceLoader:
         self._resource_type_producer = resource_type_producer
         self._projects = projects  # project_name -> path_to_bytes
         self._proj_path_to_def = {}  # (project_name, path) -> definition
-        self._full_name_to_definition = {}
-        self._full_name_to_piece = _name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type)
+        self._name_tuple_to_definition = {}
+        self._name_tuple_to_piece = _name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type)
         self._piece_to_source = {}  # piece -> (project name, path, source)
 
     def load(self):
@@ -124,18 +127,18 @@ class _ResourceLoader:
                     continue
                 resource_path = _file_path_to_resource_path(path)
                 self._load_module(proj_name, resource_path, bytes)
-        full_name_to_piece = {
-            full_name: self._resolve(full_name)
-            for full_name in self._full_name_to_definition
+        name_tuple_to_piece = {
+            name_tuple: self._resolve(name_tuple)
+            for name_tuple in self._name_tuple_to_definition
             }
-        return (full_name_to_piece, self._piece_to_source)
+        return (name_tuple_to_piece, self._piece_to_source)
 
     def _load_module(self, proj_name, path, bytes):
         data = self._load_yaml(path, bytes)
-        ctx = _Context(self._projects, proj_name, path)
+        ctx = _Context(self, proj_name, path)
         for name, contents in data.get('definitions', {}).items():
             definition = self._load_definition(ctx, name, contents)
-            self._full_name_to_definition[(proj_name, path, name)] = definition
+            self._name_tuple_to_definition[(proj_name, path, name)] = definition
 
     def _load_yaml(self, path, bytes):
         loader = yaml.SafeLoader(bytes)
@@ -152,7 +155,7 @@ class _ResourceLoader:
             value_dict = data['value']
         except KeyError as x:
             raise RuntimeError(f"{proj_name}: {'/'.join(path)}: definition {name!r} has no {x.args[0]!r} attribute")
-        resource_t_piece = self._resolve_name(ctx, type_name)
+        resource_t_piece = ctx.resolve(type_name)
         resource_t = self._pyobj_creg.animate(resource_t_piece)
         definition_t = self._resource_type_producer(resource_t)
         try:
@@ -161,25 +164,16 @@ class _ResourceLoader:
             raise RuntimeError(f"{ctx}: Error resolving definition {name}: {x}")
         return self._Definition(definition_t, definition)
 
-    def _resolve_name(self, ctx, name):
-        full_name = ctx.resolve(name)
-        return self._resolve(full_name)
-
-    def _resolve_name_to_ref(self, ctx, name):
-        piece = self._resolve_name(ctx, name)
-        return self._mosaic.put(piece)
-
-    def _resolve(self, full_name):
+    def _resolve(self, name_tuple):
         try:
-            return self._full_name_to_piece[full_name]
+            return self._name_tuple_to_piece[name_tuple]
         except KeyError:
             pass
-        definition = self._full_name_to_definition[full_name]
-        ctx = _Context.from_full_name(self._projects, full_name)
-        resolver = partial(self._resolve_name_to_ref, ctx)
-        piece, sources = definition.type.resolve(definition.value, resolver, ctx)
-        self._full_name_to_piece[full_name] = piece
-        project_name, path, name = full_name
+        definition = self._name_tuple_to_definition[name_tuple]
+        ctx = _Context.from_name_tuple(self, name_tuple)
+        piece, sources = definition.type.resolve(definition.value, ctx)
+        self._name_tuple_to_piece[name_tuple] = piece
+        project_name, path, name = name_tuple
         self._piece_to_source[piece] = (project_name, path, ResourceModuleSource(name))
         for src_piece, path_and_src in sources.items():
             self._piece_to_source[src_piece] = path_and_src

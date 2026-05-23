@@ -29,11 +29,11 @@ class PartialResourceType:
         encoder = NamedPairsDictEncoder()
         return encoder.encode(definition)
 
-    def resolve(self, definition, resolver, resource_dir):
+    def resolve(self, definition, ctx):
         params = tuple(
             partial_param_t(
                 name=rec.name,
-                value=resolver(rec.value)
+                value=ctx.resolve_to_ref(rec.value)
                 )
             for rec in definition.params
             )

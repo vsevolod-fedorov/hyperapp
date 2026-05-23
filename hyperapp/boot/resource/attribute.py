@@ -22,9 +22,9 @@ class AttributeResourceType:
         encoder = NamedPairsDictEncoder()
         return encoder.encode(definition)
 
-    def resolve(self, definition, resolver, resource_dir):
+    def resolve(self, definition, ctx):
         piece = attribute_t(
-            object=resolver(definition.object),
+            object=ctx.resolve_to_ref(definition.object),
             attr_name=definition.attr_name,
             )
         return (piece, {})
