@@ -75,7 +75,7 @@ def test_resolve_between_projects(web, loader):
     assert sources[attr] == ('project-2', ('module_2',), ResourceModuleSource('an_attribute'))
 
 
-def test_python_module(web, loader):
+def test_python_module(loader):
     resources, sources = loader({'a-project': 'python_module'})
     piece = resources['a-project', ('sample',), 'a_module.module']
     assert isinstance(piece, python_module_t)
@@ -108,3 +108,17 @@ def test_type_module(pyobj_creg, resources_root, loader):
     t = pyobj_creg.animate(piece)
     assert isinstance(t, TRecord)
     assert sources[piece] == ('a-project', ('sample',), TextSource(source_text))
+
+
+def test_type_module_resolve_local(pyobj_creg, resources_root, loader):
+    dir = 'type_module_resolve_local'
+    source_text = resources_root.joinpath(dir, 'sample.types').read_text()
+    resources, sources = loader({'a-project': dir})
+    outer_mt = resources['a-project', ('sample',), 'outer_record']
+    outer_t = pyobj_creg.animate(outer_mt)
+    inner_t = outer_t.fields['inner']
+    inner_mt = pyobj_creg.actor_to_piece(inner_t)
+    assert isinstance(outer_t, TRecord)
+    assert isinstance(inner_t, TRecord)
+    assert sources[outer_mt] == ('a-project', ('sample',), TextSource(source_text))
+    assert sources[inner_mt] == ('a-project', ('sample',), TextSource(source_text))

@@ -1,0 +1,4 @@
+inner_record = record
+
+outer_record = record:
+  inner: inner_record
