@@ -19,10 +19,10 @@ class CircularDepError(RuntimeError):
 
 class _NameToRefMapper(Mapper):
 
-    def __init__(self, pyobj_creg, mosaic, ctx):
+    def __init__(self, pyobj_creg, mosaic, builtin_name_to_mt, ctx):
         self._pyobj_creg = pyobj_creg
         self._mosaic = mosaic
-        self._builtin_types = None
+        self._builtin_name_to_mt = builtin_name_to_mt
         self._ctx = ctx
 
     def map_record(self, t, value, context):
@@ -33,11 +33,10 @@ class _NameToRefMapper(Mapper):
         return value
 
     def _resolve_name(self, rec):
-        piece = self._ctx.resolve(rec.name)
-        if not piece:
-            assert 0, rec  # TODO
-            t = self._builtin_types.resolve(rec.name)
-            piece = self._pyobj_creg.actor_to_piece(t)
+        try:
+            piece = self._builtin_name_to_mt[rec.name]
+        except KeyError:
+            piece = self._ctx.resolve(rec.name)
         log.debug("Name %r is resolved to %r", rec.name, piece)
         return piece
 
@@ -112,8 +111,6 @@ class TypeModuleLoader(object):
         return local_type_module
 
 
-
-
 class _Definition:
 
     def __init__(self, mapper, source_tuple, name, mt):
@@ -136,7 +133,11 @@ def load_type_module_definitions(
     text = bytes.decode()
     source_tuple = (ctx.project_name, ctx.path, TextSource(text))
     module_source = parse_type_module_source(mosaic, builtin_name_to_type, text, source_path)
-    mapper = _NameToRefMapper(pyobj_creg, mosaic, ctx)
+    builtin_name_to_mt = {
+        name: pyobj_creg.actor_to_piece(t)
+        for name, t in builtin_name_to_type.items()
+        }
+    mapper = _NameToRefMapper(pyobj_creg, mosaic, builtin_name_to_mt, ctx)
     for typedef in module_source.typedefs:
         log.debug('%s: Typedef %r: %s', ctx, typedef.name, typedef.type)
         mt = typedef.type

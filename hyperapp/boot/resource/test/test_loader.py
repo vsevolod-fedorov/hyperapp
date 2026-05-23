@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from hyperapp.boot.htypes import TRecord
+from hyperapp.boot.htypes import tInt, tString, TRecord
 from hyperapp.boot.htypes.python_module import python_module_t
 from hyperapp.boot.resource.loader import load_file_tree, load_resources
 from hyperapp.boot.resource.source import ResourceModuleSource, TextSource
@@ -122,3 +122,15 @@ def test_type_module_resolve_local(pyobj_creg, resources_root, loader):
     assert isinstance(inner_t, TRecord)
     assert sources[outer_mt] == ('a-project', ('sample',), TextSource(source_text))
     assert sources[inner_mt] == ('a-project', ('sample',), TextSource(source_text))
+
+
+def test_type_module_resolve_builtin_type(pyobj_creg, resources_root, loader):
+    dir = 'type_module_resolve_builtin_type'
+    source_text = resources_root.joinpath(dir, 'sample.types').read_text()
+    resources, sources = loader({'a-project': dir})
+    piece = resources['a-project', ('sample',), 'sample_record']
+    t = pyobj_creg.animate(piece)
+    assert isinstance(t, TRecord)
+    assert t.fields['an_int'] is tInt
+    assert t.fields['a_string'] is tString
+    assert sources[piece] == ('a-project', ('sample',), TextSource(source_text))
