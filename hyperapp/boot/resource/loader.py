@@ -40,7 +40,7 @@ def _file_path_to_resource_path(path):
 
 def _name_to_builtin_type_piece(pyobj_creg, name_to_type):
     return {
-        ('builtins', (), f'{name}.t'): pyobj_creg.actor_to_piece(t)
+        ('builtin', ('type',), name): pyobj_creg.actor_to_piece(t)
         for name, t in name_to_type.items()
         }
 

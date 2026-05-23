@@ -1,6 +1,6 @@
 definitions:
   an_attribute:
-    type: builtins::attribute.t
+    type: builtin:type:attribute
     value:
       object: project-1:subdir/module_1:an_int
       attr_name: sample-attribute

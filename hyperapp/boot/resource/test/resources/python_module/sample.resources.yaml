@@ -1,6 +1,6 @@
 definitions:
   a_module.module:
-    type: builtins::python_module.t
+    type: builtin:type:python_module
     value:
       module_name: a_module
       file_name: a_module.dyn.py
