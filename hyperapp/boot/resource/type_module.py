@@ -1,13 +1,14 @@
 import logging
 
-from .htypes import (
+from ..htypes import (
     ref_t,
     name_mt,
     )
-from .ref import ref_repr
-from .visual_rep import pprint
-from .type_module_parser import RecordMtGenerator, parse_type_module_source, load_type_module_source
-from .mapper import Mapper
+from ..ref import ref_repr
+from ..visual_rep import pprint
+from ..mapper import Mapper
+from .source import TextSource
+from .type_module_parser import RecordMtGenerator, parse_type_module_source
 
 log = logging.getLogger(__name__)
 
@@ -60,7 +61,7 @@ class TypeModuleLoader(object):
         for path, text in path_to_text.items():
             fname = path.split('/')[-1]
             module_name, ext = fname.split('.')
-            source = parse_type_module_source(self._builtin_types, self._mosaic, path, module_name, text)
+            source = parse_type_module_source(self._builtin_types, self._mosaic, path, text)
             name_to_source[module_name] = source
         for module_name, source in sorted(name_to_source.items()):
             module = self._resolve_module(name_to_source, registry, module_name, [])
@@ -108,3 +109,33 @@ class TypeModuleLoader(object):
             local_name_dict[typedef.name] = piece
             log.debug('Type module loader %r: %r is mapped to %r', name, typedef.name, piece)
         return local_type_module
+
+
+
+
+class _Definition:
+
+    def __init__(self, source_tuple, name, mt):
+        self._source_tuple = source_tuple
+        self._name = name
+        self._mt = mt
+
+    def resolve(self, ctx):
+        sources = {
+            self._mt: self._source_tuple,
+            }
+        return (self._mt, sources)
+
+
+def load_type_module_definitions(
+        pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, ctx, bytes, source_path):
+    module_name = ctx.path[-1]
+    text = bytes.decode()
+    source_tuple = (ctx.project_name, ctx.path, TextSource(text))
+    module_source = parse_type_module_source(mosaic, builtin_name_to_type, text, source_path)
+    for typedef in module_source.typedefs:
+        log.debug('%s: Typedef %r: %s', ctx, typedef.name, typedef.type)
+        mt = typedef.type
+        if isinstance(mt, RecordMtGenerator):
+            mt = mt.generate(module_name, typedef.name)
+        yield (typedef.name, _Definition(source_tuple, typedef.name, mt))

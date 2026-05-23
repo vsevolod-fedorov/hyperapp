@@ -6,7 +6,7 @@ from io import BytesIO
 import ply.lex as lex
 import ply.yacc as yacc
 
-from .htypes import (
+from ..htypes import (
     name_mt,
     field_mt,
     optional_mt,
@@ -22,7 +22,7 @@ class ParseError(Exception):
 
 TypeDef = namedtuple('TypeDef', 'name type')
 TypeImport = namedtuple('TypeImport', 'module_name source_name target_name')
-TypeModule = namedtuple('TypeModule', 'module_name import_list typedefs')
+TypeModule = namedtuple('TypeModule', 'import_list typedefs')
 
 
 # class SimpleMtGenerator:
@@ -43,7 +43,7 @@ class RecordMtGenerator:
 
     def generate(self, module_name, name):
         return self._t(module_name, name, self._base, self._fields)
-    
+
 
 keywords = [
     'import',
@@ -109,7 +109,6 @@ class Grammar:
     def p_module_contents_1(self, p):
         'module_contents : import_list STMT_SEP typedef_list'
         p[0] = TypeModule(
-            module_name=p.parser.module_name,
             import_list=p[1],
             typedefs=p[3],
             )
@@ -117,7 +116,6 @@ class Grammar:
     def p_module_contents_2(self, p):
         'module_contents : typedef_list_opt'
         p[0] = TypeModule(
-            module_name=p.parser.module_name,
             import_list=[],
             typedefs=p[1],
             )
@@ -352,27 +350,21 @@ class Lexer:
         return tok
 
 
-def parse_type_module_source(builtin_types, mosaic, fname, module_name, contents, debug=False):
+def parse_type_module_source(mosaic, builtin_name_to_type, text, source_path, debug=False):
     grammar = Grammar(keywords)
     parser = yacc.yacc(debug=debug, module=grammar)
     parser.mosaic = mosaic
-    parser.module_name = module_name
-    parser.fname = fname
-    parser.lines = contents.splitlines()
-    parser.known_name_set = set(builtin_types.keys())
+    parser.fname = source_path
+    parser.lines = text.splitlines()
+    parser.known_name_set = set(builtin_name_to_type)
     parser.error_line = None
     parser.error = None
     #parser.provided_class_list = []
     lexer = Lexer(keywords)
     try:
-        module = parser.parse(contents, lexer=lexer)
+        module = parser.parse(text, lexer=lexer)
     except ParseError as x:
-        raise RuntimeError('Failed to parse {}: {}'.format(fname, x))
+        raise RuntimeError(f"Failed to parse {source_path}: {x}")
     if not module:
-        raise RuntimeError('Failed to parse {}:\n{}\n{}'.format(fname, parser.error_line, parser.error))
+        raise RuntimeError(f"Failed to parse {source_path}:\n{parser.error_line}\n{parser.error}")
     return module
-
- 
-def load_type_module_source(builtin_types, mosaic, fpath, module_name, debug=False):
-    contents = fpath.read_text()
-    return parse_type_module_source(builtin_types, mosaic, fpath, module_name, contents, debug)

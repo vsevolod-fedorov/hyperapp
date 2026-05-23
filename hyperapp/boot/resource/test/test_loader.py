@@ -3,6 +3,7 @@ from pathlib import Path
 
 import pytest
 
+from hyperapp.boot.htypes import TRecord
 from hyperapp.boot.htypes.python_module import python_module_t
 from hyperapp.boot.resource.loader import load_file_tree, load_resources
 from hyperapp.boot.resource.source import ResourceModuleSource, TextSource
@@ -71,6 +72,7 @@ def test_resolve_between_projects(web, loader):
     object = web.summon(attr.object)
     assert object == 123
     assert resources['project-1', ('subdir', 'module_1'), 'an_int'] == 123
+    assert sources[attr] == ('project-2', ('module_2',), ResourceModuleSource('an_attribute'))
 
 
 def test_python_module(web, loader):
@@ -78,7 +80,8 @@ def test_python_module(web, loader):
     piece = resources['a-project', ('sample',), 'a_module.module']
     assert isinstance(piece, python_module_t)
     assert "Hello from" in piece.source
-    assert sources[piece.source][2] == TextSource(piece.source)
+    assert sources[piece.source] == ('a-project', ('a_module.dyn.py',), TextSource(piece.source))
+    assert sources[piece] == ('a-project', ('sample',), ResourceModuleSource('a_module.module'))
 
 
 def test_python_module_fn(pyobj_creg, loader):
@@ -95,3 +98,13 @@ def test_python_module_import(pyobj_creg, loader):
     main = pyobj_creg.animate(piece)
     result = main()
     assert result == 123
+
+
+def test_type_module(pyobj_creg, resources_root, loader):
+    dir = 'type_module'
+    source_text = resources_root.joinpath(dir, 'sample.types').read_text()
+    resources, sources = loader({'a-project': dir})
+    piece = resources['a-project', ('sample',), 'sample_record']
+    t = pyobj_creg.animate(piece)
+    assert isinstance(t, TRecord)
+    assert sources[piece] == ('a-project', ('sample',), TextSource(source_text))
