@@ -1,10 +1,8 @@
 import logging
-from collections import namedtuple
 from pathlib import Path
 
-import yaml
-
 from .source import ResourceModuleSource, TextSource
+from .resource_module import load_resource_module_definitions
 
 
 log = logging.getLogger(__name__)
@@ -27,14 +25,14 @@ def load_file_tree(dir):
     return path_to_bytes
 
 
-def _is_resource_path(path):
-    return path[-1].endswith(RESOURCE_EXT)
+def _is_resource_file_path(file_path):
+    return file_path[-1].endswith(RESOURCE_EXT)
 
 
-def _file_path_to_resource_path(path):
-    fname = path[-1]
+def _file_path_to_path(file_path):
+    fname = file_path[-1]
     name = fname[:-len(RESOURCE_EXT)]
-    return (*path[:-1], name)
+    return (*file_path[:-1], name)
 
 
 def _name_to_builtin_type_piece(pyobj_creg, name_to_type):
@@ -69,6 +67,14 @@ class _Context:
 
     def __str__(self):
         return f"{self._proj_name}: {'/'.join(self._path)}"
+
+    @property
+    def proj_name(self):
+        return self._proj_name
+
+    @property
+    def path(self):
+        return self._path
 
     def resolve_to_ref(self, name):
         return self._loader._mosaic.put(self.resolve(name))
@@ -108,8 +114,6 @@ class _Context:
 
 class _ResourceLoader:
 
-    _Definition = namedtuple('_Definition', 'type value')
-
     def __init__(self, pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects):
         self._pyobj_creg = pyobj_creg
         self._mosaic = mosaic
@@ -122,47 +126,22 @@ class _ResourceLoader:
 
     def load(self):
         for proj_name, path_to_bytes in self._projects.items():
-            for path, bytes in path_to_bytes.items():
-                if not _is_resource_path(path):
+            for file_path, bytes in path_to_bytes.items():
+                if not _is_resource_file_path(file_path):
                     continue
-                resource_path = _file_path_to_resource_path(path)
-                self._load_module(proj_name, resource_path, bytes)
+                path = _file_path_to_path(file_path)
+                self._load_module(proj_name, path, bytes, file_path)
         name_tuple_to_piece = {
             name_tuple: self._resolve(name_tuple)
             for name_tuple in self._name_tuple_to_definition
             }
         return (name_tuple_to_piece, self._piece_to_source)
 
-    def _load_module(self, proj_name, path, bytes):
-        data = self._load_yaml(path, bytes)
+    def _load_module(self, proj_name, path, bytes, file_path):
         ctx = _Context(self, proj_name, path)
-        for name, contents in data.get('definitions', {}).items():
-            definition = self._load_definition(ctx, name, contents)
+        for name, definition in load_resource_module_definitions(
+                self._pyobj_creg, self._resource_type_producer, ctx, bytes, file_path):
             self._name_tuple_to_definition[(proj_name, path, name)] = definition
-
-    def _load_yaml(self, path, bytes):
-        loader = yaml.SafeLoader(bytes)
-        loader.name = path
-        try:
-            return loader.get_single_data()
-        finally:
-            loader.dispose()
-
-    def _load_definition(self, ctx, name, data):
-        log.debug("%s: Load %r: %s", ctx, name, data)
-        try:
-            type_name = data['type']
-            value_dict = data['value']
-        except KeyError as x:
-            raise RuntimeError(f"{proj_name}: {'/'.join(path)}: definition {name!r} has no {x.args[0]!r} attribute")
-        resource_t_piece = ctx.resolve(type_name)
-        resource_t = self._pyobj_creg.animate(resource_t_piece)
-        definition_t = self._resource_type_producer(resource_t)
-        try:
-            definition = definition_t.from_dict(value_dict)
-        except Exception as x:
-            raise RuntimeError(f"{ctx}: Error resolving definition {name}: {x}")
-        return self._Definition(definition_t, definition)
 
     def _resolve(self, name_tuple):
         try:
