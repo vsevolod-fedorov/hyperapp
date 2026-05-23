@@ -120,7 +120,7 @@ class _ResourceLoader:
         self._proj_path_to_def = {}  # (project_name, path) -> definition
         self._name_tuple_to_definition = {}
         self._name_tuple_to_piece = _name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type)
-        self._piece_to_source = {}  # piece -> (project name, path, source)
+        self._piece_to_source = {}  # piece -> (project_name, path, source)
 
     def load(self):
         for project_name, path_to_bytes in self._projects.items():
