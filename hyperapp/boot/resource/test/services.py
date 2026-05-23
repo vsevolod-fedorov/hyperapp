@@ -15,7 +15,6 @@ from hyperapp.boot.resource.pyobj_registry import register_resources_at_pyobj_cr
 # from hyperapp.boot.resource.builtin_service import make_builtin_service_resource_module
 # from hyperapp.boot.resource.legacy_type import load_legacy_type_resources
 from hyperapp.boot.resource.resource_type_producer import resource_type_producer as resource_type_producer_fn
-# from hyperapp.boot.resource.resource_module import ResourceModule
 # from hyperapp.boot.resource.legacy_type import convert_builtin_types_to_dict
 # from hyperapp.boot.project import BuiltinsProject, Project, load_texts
 # from hyperapp.boot.test.hyper_types_namespace import HyperTypesNamespace

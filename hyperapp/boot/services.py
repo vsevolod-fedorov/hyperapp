@@ -20,7 +20,7 @@ from .resource.list_mt_resource_type import ListMtResourceType
 from .resource.optional_mt_resource_type import OptionalMtResourceType
 from .resource.python_module import PythonModuleResourceType, python_module_pyobj
 from .htypes.python_module import python_module_t
-from .resource.resource_module import ResourceModule
+# from .resource.resource_module import ResourceModule
 from .project import BuiltinsProject, Project, load_projects
 from .resource.legacy_type import (
     add_builtin_types_to_pyobj_cache,
