@@ -7,7 +7,7 @@ from .htypes import BuiltinTypeRegistry, register_builtin_types
 from .htypes.deduce_value_type import deduce_value_type_with_list
 from .mosaic import Mosaic
 from .web import Web
-from .type_module_loader import TypeModuleLoader
+# from .type_module_loader import TypeModuleLoader
 from .code_registry import CodeRegistry
 from .cached_code_registry import CachedCodeRegistry
 from .pyobj_registry import PyObjRegistry
