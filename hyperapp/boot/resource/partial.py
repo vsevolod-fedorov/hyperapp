@@ -38,7 +38,7 @@ class PartialResourceType:
             for rec in definition.params
             )
         return partial_t(
-            function=resolver(definition.function),
+            function=ctx.resolve_to_ref(definition.function),
             params=params,
             )
 
