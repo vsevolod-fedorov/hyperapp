@@ -24,6 +24,13 @@ def test_resources_dir():
     return TEST_RESOURCES_DIR
 
 
+def mock_ctx(names):
+    def resolve_to_ref(name):
+        return names[name]
+
+    return Mock(resolve_to_ref=resolve_to_ref)
+
+
 def test_definition_type_partial(resource_type_producer):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
@@ -159,11 +166,7 @@ def test_resolve_definition_partial(mosaic, resource_type_producer):
         'value_1': mosaic.put(111),
         'value_2': mosaic.put(222),
         }
-
-    def resolve_to_ref(name):
-        return names[name]
-
-    ctx = Mock(resolve_to_ref=resolve_to_ref)
+    ctx = mock_ctx(names)
     resource, sources = resource_type.resolve(definition, ctx)
     log.info('Resolved resource: %r', resource)
     assert resource == resource_t(
@@ -186,11 +189,7 @@ def test_resolve_definition_based(mosaic, resource_type_factory, a_record_t):
         'string-1': mosaic.put('some string 1'),
         'string-2': mosaic.put('some string 2'),
         }
-
-    def resolve_to_ref(name):
-        return names[name]
-
-    ctx = Mock(resolve_to_ref=resolve_to_ref)
+    ctx = mock_ctx(names)
     resource, sources = resource_type.resolve(definition, ctx)
     log.info('Resolved resource: %r', resource)
     assert resource == a_record_t(
@@ -280,11 +279,7 @@ def test_resolve_definition_empty_inherited_record(pyobj_creg, mosaic, resource_
         'some-value': mosaic.put('some value'),
         'some-item': mosaic.put('some item'),
         }
-
-    def resolve_to_ref(name):
-        return names[name]
-
-    ctx = Mock(resolve_to_ref=resolve_to_ref)
+    ctx = mock_ctx(names)
     resource, sources = resource_type.resolve(definition, ctx)
     log.info('Resolved resource: %r', resource)
     assert resource == a_record_t(
