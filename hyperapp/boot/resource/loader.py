@@ -74,14 +74,14 @@ class _Context:
         return self._path
 
     def resolve_to_ref(self, name):
-        return self._loader._mosaic.put(self.resolve(name))
+        return self._loader._mosaic.put(self.resolve_name(name))
 
-    def resolve(self, name):
+    def resolve_name(self, name):
         parts = name.split(':')
-        name_tuple = self._resolve(parts, description=name)
+        name_tuple = self.resolve(parts, description=name)
         return self._loader._resolve(name_tuple)
 
-    def _resolve(self, parts, description):
+    def resolve(self, parts, description):
         if len(parts) > 3:
             raise RuntimeError(f"{self}: Malformed name: More than two colons: {description!r}")
         if len(parts) == 1:
@@ -100,7 +100,7 @@ class _Context:
 
     def get_text(self, full_name):
         parts = full_name.split(':')
-        project_name, path, _ = self._resolve((*parts, ''), description=full_name)
+        project_name, path, _ = self.resolve((*parts, ''), description=full_name)
         bytes = self._loader._projects[project_name][path]
         text = bytes.decode()
         sources = {

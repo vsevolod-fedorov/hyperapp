@@ -35,7 +35,7 @@ class _NameToRefMapper(Mapper):
         try:
             piece = self._builtin_name_to_mt[rec.name]
         except KeyError:
-            piece = self._ctx.resolve(rec.name)
+            piece = self._ctx.resolve_name(rec.name)
         log.debug("Name %r is resolved to %r", rec.name, piece)
         return piece
 

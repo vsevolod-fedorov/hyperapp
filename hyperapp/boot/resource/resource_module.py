@@ -40,7 +40,7 @@ def _load_definition(pyobj_creg, resource_type_producer, ctx, name, data):
         value_dict = data['value']
     except KeyError as x:
         raise RuntimeError(f"{ctx}: definition {name!r} has no {x.args[0]!r} attribute")
-    resource_t_piece = ctx.resolve(type_name)
+    resource_t_piece = ctx.resolve_name(type_name)
     resource_t = pyobj_creg.animate(resource_t_piece)
     definition_t = resource_type_producer(resource_t)
     try:
