@@ -34,9 +34,11 @@ class OptionalMtResourceType:
         return encoder.encode(definition)
 
     def resolve(self, definition, ctx):
-        return optional_mt(
+        piece = optional_mt(
             base=ctx.resolve_to_ref(definition.base),
             )
+        sources = {}
+        return (piece, sources)
 
     def reverse_resolve(self, resource, resolver, resource_dir):
         return optional_def_mt(

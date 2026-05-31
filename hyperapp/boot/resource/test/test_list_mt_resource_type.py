@@ -60,7 +60,7 @@ def test_resolve(mosaic, pyobj_creg, resource_type_producer):
         element='legacy_type.builtin:int',
         )
 
-    resource = resource_type.resolve(definition, ctx)
+    resource, sources = resource_type.resolve(definition, ctx)
     log.info('Resolved resource: %r', resource)
 
     assert resource == list_mt(

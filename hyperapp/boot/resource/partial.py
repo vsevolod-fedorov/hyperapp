@@ -37,10 +37,12 @@ class PartialResourceType:
                 )
             for rec in definition.params
             )
-        return partial_t(
+        piece = partial_t(
             function=ctx.resolve_to_ref(definition.function),
             params=params,
             )
+        sources = {}
+        return (piece, sources)
 
     def reverse_resolve(self, resource, resolver, resource_dir):
         params = tuple(

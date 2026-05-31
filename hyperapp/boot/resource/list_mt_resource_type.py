@@ -34,9 +34,11 @@ class ListMtResourceType:
         return encoder.encode(definition)
 
     def resolve(self, definition, ctx):
-        return list_mt(
+        piece =  list_mt(
             element=ctx.resolve_to_ref(definition.element),
             )
+        sources = {}
+        return (piece, sources)
 
     def reverse_resolve(self, resource, resolver, resource_dir):
         return list_def_mt(
