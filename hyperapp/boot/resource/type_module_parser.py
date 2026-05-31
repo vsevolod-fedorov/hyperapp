@@ -25,15 +25,6 @@ TypeImport = namedtuple('TypeImport', 'module_name source_name target_name')
 TypeModule = namedtuple('TypeModule', 'import_list typedefs')
 
 
-# class SimpleMtGenerator:
-
-#     def __init__(self, mt):
-#         self._mt = mt
-
-#     def generate(self, module_name=None, name=None):
-#         return self._mt
-
-
 class RecordMtGenerator:
 
     def __init__(self, t, base, fields):
