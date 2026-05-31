@@ -19,8 +19,7 @@ class CircularDepError(RuntimeError):
 
 class _NameToRefMapper(Mapper):
 
-    def __init__(self, pyobj_creg, mosaic, builtin_name_to_mt, ctx):
-        self._pyobj_creg = pyobj_creg
+    def __init__(self, mosaic, builtin_name_to_mt, ctx):
         self._mosaic = mosaic
         self._builtin_name_to_mt = builtin_name_to_mt
         self._ctx = ctx
@@ -137,7 +136,7 @@ def load_type_module_definitions(
         name: pyobj_creg.actor_to_piece(t)
         for name, t in builtin_name_to_type.items()
         }
-    mapper = _NameToRefMapper(pyobj_creg, mosaic, builtin_name_to_mt, ctx)
+    mapper = _NameToRefMapper(mosaic, builtin_name_to_mt, ctx)
     for typedef in module_source.typedefs:
         log.debug('%s: Typedef %r: %s', ctx, typedef.name, typedef.type)
         mt = typedef.type
