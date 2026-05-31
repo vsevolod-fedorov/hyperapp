@@ -110,6 +110,20 @@ class TypeModuleLoader(object):
         return local_type_module
 
 
+class _ImportDefinition:
+
+    def __init__(self, module_path, name):
+        self._module_path = module_path
+        self._name = name
+
+    def resolve(self, ctx):
+        project_name, path = ctx.find_nearest_module(self._module_path)
+        name_tuple = (project_name, path, self._name)
+        mt = ctx.resolve(name_tuple)
+        sources = {}
+        return (mt, sources)
+
+
 class _Definition:
 
     def __init__(self, mapper, source_tuple, name, mt):
@@ -132,6 +146,9 @@ def load_type_module_definitions(
     text = bytes.decode()
     source_tuple = (ctx.project_name, ctx.path, TextSource(text))
     module_source = parse_type_module_source(mosaic, builtin_name_to_type, text, source_path)
+    for rec in module_source.import_list:
+        import_def = _ImportDefinition((rec.module_name,), rec.source_name)
+        yield (rec.target_name, import_def)
     builtin_name_to_mt = {
         name: pyobj_creg.actor_to_piece(t)
         for name, t in builtin_name_to_type.items()

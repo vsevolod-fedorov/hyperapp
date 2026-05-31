@@ -78,10 +78,17 @@ class _Context:
 
     def resolve_name(self, name):
         parts = name.split(':')
-        name_tuple = self.resolve(parts, description=name)
+        name_tuple = self._resolve_parts(parts, description=name)
+        return self.resolve(name_tuple)
+
+    def resolve(self, name_tuple):
         return self._loader._resolve(name_tuple)
 
-    def resolve(self, parts, description):
+    def find_nearest_module(self, sub_path):
+        assert len(sub_path) == 1  # TODO
+        return (self._project_name, (*self._path[:-1], *sub_path))
+
+    def _resolve_parts(self, parts, description):
         if len(parts) > 3:
             raise RuntimeError(f"{self}: Malformed name: More than two colons: {description!r}")
         if len(parts) == 1:
@@ -100,7 +107,7 @@ class _Context:
 
     def get_text(self, full_name):
         parts = full_name.split(':')
-        project_name, path, _ = self.resolve((*parts, ''), description=full_name)
+        project_name, path, _ = self._resolve_parts((*parts, ''), description=full_name)
         bytes = self._loader._projects[project_name][path]
         text = bytes.decode()
         sources = {
