@@ -71,6 +71,7 @@ class Grammar:
         token.RPAR,
         token.COLON,
         token.COMMA,
+        token.DOT,
         token.AT,
         ]
 
@@ -122,14 +123,22 @@ class Grammar:
 
 
     def p_import_def_list(self, p):
-        'import_def : FROM NAME IMPORT name_list'
+        'import_def : FROM import_full_name IMPORT name_list'
         p[0] = [TypeImport(p[2], source_name=name, target_name=name) for name in p[4]]
         p.parser.known_name_set |= set(p[4])
 
     def p_import_def_as(self, p):
-        'import_def : FROM NAME IMPORT NAME AS NAME'
+        'import_def : FROM import_full_name IMPORT NAME AS NAME'
         p[0] = [TypeImport(p[2], source_name=p[4], target_name=p[6])]
         p.parser.known_name_set.add(p[6])
+
+    def p_import_full_name_1(self, p):
+        'import_full_name : NAME'
+        p[0] = (p[1],)
+
+    def p_import_full_name_2(self, p):
+        'import_full_name : import_full_name DOT NAME'
+        p[0] = (*p[1], p[3])
 
     def p_name_list_1(self, p):
         'name_list : NAME'

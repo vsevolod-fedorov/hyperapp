@@ -32,9 +32,13 @@ def _file_path_to_path(file_path, ext):
     return (*file_path[:-1], name)
 
 
+_builtin_project_name = 'builtin'
+_builtin_path = ('type',)
+
+
 def _name_to_builtin_type_piece(pyobj_creg, name_to_type):
     return {
-        ('builtin', ('type',), name): pyobj_creg.actor_to_piece(t)
+        (_builtin_project_name, _builtin_path, name): pyobj_creg.actor_to_piece(t)
         for name, t in name_to_type.items()
         }
 
@@ -85,8 +89,14 @@ class _Context:
         return self._loader._resolve(name_tuple)
 
     def find_nearest_module(self, sub_path):
-        assert len(sub_path) == 1  # TODO
-        return (self._project_name, (*self._path[:-1], *sub_path))
+        idx = len(self._path)
+        while idx > 0:
+            idx -= 1
+            path = (*self._path[:idx], *sub_path)
+            if self._loader._has_module(self._project_name, path):
+                return (self._project_name, path)
+        sub_name = '.'.join(sub_path)
+        raise RuntimeError(f"{self}: Unknown module: {sub_name}")
 
     def _resolve_parts(self, parts, description):
         if len(parts) > 3:
@@ -127,6 +137,9 @@ class _ResourceLoader:
         self._proj_path_to_def = {}  # (project_name, path) -> definition
         self._name_tuple_to_definition = {}
         self._name_tuple_to_piece = _name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type)
+        self._has_modules = {
+            (_builtin_project_name, _builtin_path),
+            }
         self._piece_to_source = {}  # piece -> (project_name, path, source)
 
     def load(self):
@@ -155,6 +168,10 @@ class _ResourceLoader:
                     self._pyobj_creg, self._mosaic, self._builtin_name_to_type, self._resource_type_producer,
                     ctx, bytes, source_path):
                 self._name_tuple_to_definition[(project_name, path, name)] = definition
+                self._has_modules.add((project_name, path))
+
+    def _has_module(self, project_name, path):
+        return (project_name, path) in self._has_modules
 
     def _resolve(self, name_tuple):
         try:

@@ -78,7 +78,7 @@ def load_type_module_definitions(
     source_tuple = (ctx.project_name, ctx.path, TextSource(text))
     module_source = parse_type_module_source(mosaic, builtin_name_to_type, text, source_path)
     for rec in module_source.import_list:
-        import_def = _ImportDefinition((rec.module_name,), rec.source_name)
+        import_def = _ImportDefinition(rec.module_name, rec.source_name)
         yield (rec.target_name, import_def)
     builtin_name_to_mt = {
         name: pyobj_creg.actor_to_piece(t)
