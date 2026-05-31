@@ -1,0 +1,4 @@
+from sample_1 import inner_record
+
+middle_1_record = record:
+  inner: inner_record

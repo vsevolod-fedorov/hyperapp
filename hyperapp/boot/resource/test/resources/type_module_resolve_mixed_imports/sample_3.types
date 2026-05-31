@@ -1,0 +1,5 @@
+from sample_2 import middle_1_record, middle_2_record
+
+outer_record = record:
+  middle_1: middle_1_record
+  middle_2: middle_2_record
