@@ -72,7 +72,6 @@ class Grammar:
         token.COLON,
         token.COMMA,
         token.DOT,
-        token.AT,
         ]
 
     def __init__(self, keywords):
@@ -80,7 +79,6 @@ class Grammar:
             STMT_SEP,
             BLOCK_BEGIN,
             BLOCK_END,
-            ARROW,
             ] + [keyword.upper() for keyword in keywords]
 
     def _syntax_error(self, p, token_num, msg):
@@ -279,9 +277,7 @@ class Grammar:
 class Lexer:
 
     _ignored_tokens = [NL, COMMENT]
-    _exact_token_types = {
-        '->':  ARROW,
-        }
+    _exact_token_types = {}
 
     def __init__(self, keywords):
         self._keywords = keywords
