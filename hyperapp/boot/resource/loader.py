@@ -80,6 +80,11 @@ class _Context:
     def resolve_to_ref(self, name):
         return self._loader._mosaic.put(self.resolve_name(name))
 
+    def resolve_to_ref_opt(self, name):
+        if name is None:
+            return None
+        return self._loader._mosaic.put(self.resolve_name(name))
+
     def resolve_name(self, name):
         parts = name.split(':')
         name_tuple = self._resolve_parts(parts, description=name)
