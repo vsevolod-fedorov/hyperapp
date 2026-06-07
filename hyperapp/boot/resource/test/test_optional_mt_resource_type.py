@@ -24,6 +24,13 @@ def test_resources_dir():
     return TEST_RESOURCES_DIR
 
 
+def mock_ctx(names):
+    def resolve_to_ref(name):
+        return names[name]
+
+    return Mock(resolve_to_ref=resolve_to_ref)
+
+
 def test_definition_type(resource_type_producer):
     resource_t = optional_mt
     resource_type = resource_type_producer(resource_t)
@@ -50,11 +57,7 @@ def test_resolve(mosaic, pyobj_creg, resource_type_producer):
     names = {
         'legacy_type.builtin:int': pyobj_creg.actor_to_ref(tInt),
         }
-
-    def resolve_to_ref(name):
-        return names[name]
-
-    ctx = Mock(resolve_to_ref=resolve_to_ref)
+    ctx = mock_ctx(names)
 
     definition = resource_type.definition_t(
         base='legacy_type.builtin:int',
