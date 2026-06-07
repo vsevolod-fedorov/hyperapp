@@ -178,17 +178,20 @@ def test_type_module_resolve_mixed_imports(pyobj_creg, resources_root, loader):
     middle_1_mt = pyobj_creg.actor_to_piece(middle_1_t)
     middle_2_t = outer_t.fields['middle_2']
     middle_2_mt = pyobj_creg.actor_to_piece(middle_2_t)
-    inner_t = middle_t.fields['inner']
+    inner_t = middle_1_t.fields['inner']
+    assert inner_t is middle_2_t.fields['inner']
     inner_mt = pyobj_creg.actor_to_piece(inner_t)
     assert isinstance(outer_t, TRecord)
     assert isinstance(middle_1_t, TRecord)
     assert isinstance(middle_2_t, TRecord)
     assert isinstance(inner_t, TRecord)
     assert inner_mt == resources['a-project', ('sample_1',), 'inner_record']
+    assert middle_1_mt == resources['a-project', ('sample_2',), 'middle_1_record']
+    assert middle_2_mt == resources['a-project', ('sample_2',), 'middle_2_record']
     assert sources[inner_mt] == ('a-project', ('sample_1',), TextSource(source_1_text))
     assert sources[middle_1_mt] == ('a-project', ('sample_2',), TextSource(source_2_text))
-    assert sources[outer_mt] == ('a-project', ('sample_3',), TextSource(source_3_text))
     assert sources[middle_2_mt] == ('a-project', ('sample_2',), ResourceModuleSource('middle_2_record'))
+    assert sources[outer_mt] == ('a-project', ('sample_3',), TextSource(source_3_text))
 
 
 def test_type_module_resolve_builtin_type(pyobj_creg, resources_root, loader):

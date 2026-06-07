@@ -2,7 +2,6 @@ definitions:
   middle_2_record:
     type: builtin:type:record_mt
     value:
-      module_name: sample_2
       name: middle_2_record
       base: null
       fields:
