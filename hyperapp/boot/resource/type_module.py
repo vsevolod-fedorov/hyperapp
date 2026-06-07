@@ -48,7 +48,17 @@ class _ImportDefinition:
         self._name = name
 
     def resolve(self, ctx):
-        project_name, path = ctx.find_nearest_module(self._module_path)
+        resource_module_path = self._module_path
+        type_module_path = (*self._module_path[:-1], f'{self._module_path[-1]}.t')
+        for module_path in [resource_module_path, type_module_path]:
+            try:
+                project_name, path = ctx.find_nearest_module(module_path, self._name)
+                break
+            except KeyError:
+                pass
+        else:
+            path_name = '.'.join(self._module_path)
+            raise RuntimeError(f"{ctx}: Unknown module: {path_name}")
         name_tuple = (project_name, path, self._name)
         mt = ctx.resolve(name_tuple)
         sources = {}
@@ -81,7 +91,7 @@ class TypeModuleLoader:
     def file_path_to_path(self, file_path):
         fname = file_path[-1]
         name = fname[:-len(self._ext)]
-        return (*file_path[:-1], name)
+        return (*file_path[:-1], f'{name}.t')
 
     def load_definitions(
             self, pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, ctx, bytes, source_path):

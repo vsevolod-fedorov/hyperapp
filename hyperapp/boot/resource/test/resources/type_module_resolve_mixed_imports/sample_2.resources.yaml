@@ -5,4 +5,4 @@ definitions:
       name: middle_2_record
       base: null
       fields:
-        inner: sample_1:inner_record
+        inner: sample_1.t:inner_record

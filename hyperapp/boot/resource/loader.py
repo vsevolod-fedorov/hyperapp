@@ -87,15 +87,14 @@ class _Context:
     def resolve(self, name_tuple):
         return self._loader._resolve(name_tuple)
 
-    def find_nearest_module(self, sub_path):
+    def find_nearest_module(self, sub_path, name):
         idx = len(self._path)
         while idx > 0:
             idx -= 1
             path = (*self._path[:idx], *sub_path)
-            if self._loader._has_module(self._project_name, path):
+            if self._loader._has_name(self._project_name, path, name):
                 return (self._project_name, path)
-        sub_name = '.'.join(sub_path)
-        raise RuntimeError(f"{self}: Unknown module: {sub_name}")
+        raise KeyError(sub_path)
 
     def _resolve_parts(self, parts, description):
         if len(parts) > 3:
@@ -169,8 +168,11 @@ class _ResourceLoader:
                 self._name_tuple_to_definition[(project_name, path, name)] = definition
                 self._has_modules.add((project_name, path))
 
-    def _has_module(self, project_name, path):
-        return (project_name, path) in self._has_modules
+    # def _has_module(self, project_name, path):
+    #     return (project_name, path) in self._has_modules
+
+    def _has_name(self, project_name, path, name):
+        return (project_name, path, name) in self._name_tuple_to_definition
 
     def _resolve(self, name_tuple):
         try:

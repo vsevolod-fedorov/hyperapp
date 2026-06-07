@@ -104,24 +104,24 @@ def test_type_module(pyobj_creg, resources_root, loader):
     dir = 'type_module'
     source_text = resources_root.joinpath(dir, 'sample.types').read_text()
     resources, sources = loader({'a-project': dir})
-    piece = resources['a-project', ('sample',), 'sample_record']
+    piece = resources['a-project', ('sample.t',), 'sample_record']
     t = pyobj_creg.animate(piece)
     assert isinstance(t, TRecord)
-    assert sources[piece] == ('a-project', ('sample',), TextSource(source_text))
+    assert sources[piece] == ('a-project', ('sample.t',), TextSource(source_text))
 
 
 def test_type_module_resolve_local(pyobj_creg, resources_root, loader):
     dir = 'type_module_resolve_local'
     source_text = resources_root.joinpath(dir, 'sample.types').read_text()
     resources, sources = loader({'a-project': dir})
-    outer_mt = resources['a-project', ('sample',), 'outer_record']
+    outer_mt = resources['a-project', ('sample.t',), 'outer_record']
     outer_t = pyobj_creg.animate(outer_mt)
     inner_t = outer_t.fields['inner']
     inner_mt = pyobj_creg.actor_to_piece(inner_t)
     assert isinstance(outer_t, TRecord)
     assert isinstance(inner_t, TRecord)
-    assert sources[outer_mt] == ('a-project', ('sample',), TextSource(source_text))
-    assert sources[inner_mt] == ('a-project', ('sample',), TextSource(source_text))
+    assert sources[outer_mt] == ('a-project', ('sample.t',), TextSource(source_text))
+    assert sources[inner_mt] == ('a-project', ('sample.t',), TextSource(source_text))
 
 
 def test_type_module_resolve_imports(pyobj_creg, resources_root, loader):
@@ -130,7 +130,7 @@ def test_type_module_resolve_imports(pyobj_creg, resources_root, loader):
     source_2_text = resources_root.joinpath(dir, 'sample_2.types').read_text()
     source_3_text = resources_root.joinpath(dir, 'sample_3.types').read_text()
     resources, sources = loader({'a-project': dir})
-    outer_mt = resources['a-project', ('sample_3',), 'outer_record']
+    outer_mt = resources['a-project', ('sample_3.t',), 'outer_record']
     outer_t = pyobj_creg.animate(outer_mt)
     middle_t = outer_t.fields['middle']
     middle_mt = pyobj_creg.actor_to_piece(middle_t)
@@ -139,10 +139,10 @@ def test_type_module_resolve_imports(pyobj_creg, resources_root, loader):
     assert isinstance(outer_t, TRecord)
     assert isinstance(middle_t, TRecord)
     assert isinstance(inner_t, TRecord)
-    assert inner_mt == resources['a-project', ('sample_1',), 'inner_record']
-    assert sources[inner_mt] == ('a-project', ('sample_1',), TextSource(source_1_text))
-    assert sources[middle_mt] == ('a-project', ('sample_2',), TextSource(source_2_text))
-    assert sources[outer_mt] == ('a-project', ('sample_3',), TextSource(source_3_text))
+    assert inner_mt == resources['a-project', ('sample_1.t',), 'inner_record']
+    assert sources[inner_mt] == ('a-project', ('sample_1.t',), TextSource(source_1_text))
+    assert sources[middle_mt] == ('a-project', ('sample_2.t',), TextSource(source_2_text))
+    assert sources[outer_mt] == ('a-project', ('sample_3.t',), TextSource(source_3_text))
 
 
 def test_type_module_resolve_nested_imports(pyobj_creg, resources_root, loader):
@@ -151,7 +151,7 @@ def test_type_module_resolve_nested_imports(pyobj_creg, resources_root, loader):
     source_2_text = resources_root.joinpath(dir, 'sub_1/sample_2.types').read_text()
     source_3_text = resources_root.joinpath(dir, 'sub_1/sub_1_1/sample_3.types').read_text()
     resources, sources = loader({'a-project': dir})
-    outer_mt = resources['a-project', ('sub_1', 'sub_1_1', 'sample_3'), 'outer_record']
+    outer_mt = resources['a-project', ('sub_1', 'sub_1_1', 'sample_3.t'), 'outer_record']
     outer_t = pyobj_creg.animate(outer_mt)
     middle_t = outer_t.fields['middle']
     middle_mt = pyobj_creg.actor_to_piece(middle_t)
@@ -160,10 +160,10 @@ def test_type_module_resolve_nested_imports(pyobj_creg, resources_root, loader):
     assert isinstance(outer_t, TRecord)
     assert isinstance(middle_t, TRecord)
     assert isinstance(inner_t, TRecord)
-    assert inner_mt == resources['a-project', ('sub_2', 'sample_1'), 'inner_record']
-    assert sources[inner_mt] == ('a-project', ('sub_2', 'sample_1'), TextSource(source_1_text))
-    assert sources[middle_mt] == ('a-project', ('sub_1', 'sample_2'), TextSource(source_2_text))
-    assert sources[outer_mt] == ('a-project', ('sub_1', 'sub_1_1', 'sample_3'), TextSource(source_3_text))
+    assert inner_mt == resources['a-project', ('sub_2', 'sample_1.t'), 'inner_record']
+    assert sources[inner_mt] == ('a-project', ('sub_2', 'sample_1.t'), TextSource(source_1_text))
+    assert sources[middle_mt] == ('a-project', ('sub_1', 'sample_2.t'), TextSource(source_2_text))
+    assert sources[outer_mt] == ('a-project', ('sub_1', 'sub_1_1', 'sample_3.t'), TextSource(source_3_text))
 
 
 def test_type_module_resolve_mixed_imports(pyobj_creg, resources_root, loader):
@@ -172,7 +172,7 @@ def test_type_module_resolve_mixed_imports(pyobj_creg, resources_root, loader):
     source_2_text = resources_root.joinpath(dir, 'sample_2.types').read_text()
     source_3_text = resources_root.joinpath(dir, 'sample_3.types').read_text()
     resources, sources = loader({'a-project': dir})
-    outer_mt = resources['a-project', ('sample_3',), 'outer_record']
+    outer_mt = resources['a-project', ('sample_3.t',), 'outer_record']
     outer_t = pyobj_creg.animate(outer_mt)
     middle_1_t = outer_t.fields['middle_1']
     middle_1_mt = pyobj_creg.actor_to_piece(middle_1_t)
@@ -185,22 +185,22 @@ def test_type_module_resolve_mixed_imports(pyobj_creg, resources_root, loader):
     assert isinstance(middle_1_t, TRecord)
     assert isinstance(middle_2_t, TRecord)
     assert isinstance(inner_t, TRecord)
-    assert inner_mt == resources['a-project', ('sample_1',), 'inner_record']
-    assert middle_1_mt == resources['a-project', ('sample_2',), 'middle_1_record']
+    assert inner_mt == resources['a-project', ('sample_1.t',), 'inner_record']
+    assert middle_1_mt == resources['a-project', ('sample_2.t',), 'middle_1_record']
     assert middle_2_mt == resources['a-project', ('sample_2',), 'middle_2_record']
-    assert sources[inner_mt] == ('a-project', ('sample_1',), TextSource(source_1_text))
-    assert sources[middle_1_mt] == ('a-project', ('sample_2',), TextSource(source_2_text))
+    assert sources[inner_mt] == ('a-project', ('sample_1.t',), TextSource(source_1_text))
+    assert sources[middle_1_mt] == ('a-project', ('sample_2.t',), TextSource(source_2_text))
     assert sources[middle_2_mt] == ('a-project', ('sample_2',), ResourceModuleSource('middle_2_record'))
-    assert sources[outer_mt] == ('a-project', ('sample_3',), TextSource(source_3_text))
+    assert sources[outer_mt] == ('a-project', ('sample_3.t',), TextSource(source_3_text))
 
 
 def test_type_module_resolve_builtin_type(pyobj_creg, resources_root, loader):
     dir = 'type_module_resolve_builtin_type'
     source_text = resources_root.joinpath(dir, 'sample.types').read_text()
     resources, sources = loader({'a-project': dir})
-    piece = resources['a-project', ('sample',), 'sample_record']
+    piece = resources['a-project', ('sample.t',), 'sample_record']
     t = pyobj_creg.animate(piece)
     assert isinstance(t, TRecord)
     assert t.fields['an_int'] is tInt
     assert t.fields['a_string'] is tString
-    assert sources[piece] == ('a-project', ('sample',), TextSource(source_text))
+    assert sources[piece] == ('a-project', ('sample.t',), TextSource(source_text))
