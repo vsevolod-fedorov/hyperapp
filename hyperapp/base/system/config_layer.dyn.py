@@ -3,7 +3,7 @@ from collections import defaultdict
 
 from hyperapp.boot.htypes import TPrimitive, TList, TRecord, tString
 from hyperapp.boot.config_key_error import ConfigKeyError
-from hyperapp.boot.project import RESOURCE_EXT
+# from hyperapp.boot.project import RESOURCE_EXT
 
 from . import htypes
 from .services import (

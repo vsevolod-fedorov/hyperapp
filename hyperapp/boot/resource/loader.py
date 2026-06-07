@@ -9,8 +9,6 @@ from .builtin_service import builtin_service_name_to_piece
 
 log = logging.getLogger(__name__)
 
-RESOURCE_EXT = '.resources.yaml'
-
 
 # Returns dict: parts tuple -> bytes
 def load_file_tree(dir):
