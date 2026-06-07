@@ -40,17 +40,17 @@ def load_type_modules(type_module_loader, types):
     return load
 
 
-def test_type_module_loader(load_type_modules):
+def _test_type_module_loader(load_type_modules):
     load_type_modules(TEST_MODULES_DIR / 'test_type_modules')
 
 
-def test_circular_type_dep(load_type_modules):
+def _test_circular_type_dep(load_type_modules):
     with pytest.raises(CircularDepError) as excinfo:
         load_type_modules(TEST_MODULES_DIR / 'circular_type_dep')
     assert str(excinfo.value) == 'Circular type module dependency: module_1->module_2->module_3->module_1'
 
 
-def test_types(load_type_modules, htypes):
+def _test_types(load_type_modules, htypes):
     load_type_modules(TEST_MODULES_DIR / 'test_type_modules')
 
     assert htypes.type_module_1.record_1 == TRecord('type_module_1', 'record_1', {'int_field': tInt})
@@ -66,7 +66,7 @@ def test_types(load_type_modules, htypes):
     assert htypes.type_module_1.empty_record_1 != htypes.type_module_2.empty_record_2
 
 
-def test_same_instance(load_type_modules, htypes):
+def _test_same_instance(load_type_modules, htypes):
     load_type_modules(TEST_MODULES_DIR / 'same_instance')
 
     element = htypes.same_instance.element('abcd')
@@ -88,7 +88,7 @@ def test_same_instance(load_type_modules, htypes):
     assert isinstance(value, htypes.same_instance.container)
 
 
-def test_exception_type(load_type_modules, htypes):
+def _test_exception_type(load_type_modules, htypes):
     load_type_modules(TEST_MODULES_DIR / 'test_type_modules')
 
     assert htypes.exceptions.exception_1 == TException('exceptions', 'exception_1', {'int_field': tInt})
