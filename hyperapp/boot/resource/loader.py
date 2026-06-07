@@ -4,6 +4,7 @@ from pathlib import Path
 from .source import TextSource
 from .resource_module import ResourceModuleLoader
 from .type_module import TypeModuleLoader
+from .builtin_service import builtin_service_name_to_piece
 
 
 log = logging.getLogger(__name__)
@@ -27,13 +28,21 @@ def load_file_tree(dir):
 
 
 _builtin_project_name = 'builtin'
-_builtin_path = ('type',)
+_builtin_type_path = ('type',)
+_builtin_service_path = ('service',)
 
 
 def _name_to_builtin_type_piece(pyobj_creg, name_to_type):
     return {
-        (_builtin_project_name, _builtin_path, name): pyobj_creg.actor_to_piece(t)
+        (_builtin_project_name, _builtin_type_path, name): pyobj_creg.actor_to_piece(t)
         for name, t in name_to_type.items()
+        }
+
+
+def _name_to_builtin_service_piece(builtin_name_to_service):
+    return {
+        (_builtin_project_name, _builtin_service_path, name): builtin_service_name_to_piece(name)
+        for name in builtin_name_to_service
         }
 
 
@@ -126,7 +135,7 @@ class _Context:
 
 class _ResourceLoader:
 
-    def __init__(self, pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects):
+    def __init__(self, pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects):
         self._pyobj_creg = pyobj_creg
         self._mosaic = mosaic
         self._builtin_name_to_type = builtin_name_to_type
@@ -134,9 +143,13 @@ class _ResourceLoader:
         self._projects = projects  # project_name -> path_to_bytes
         self._proj_path_to_def = {}  # (project_name, path) -> definition
         self._name_tuple_to_definition = {}
-        self._name_tuple_to_piece = _name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type)
+        self._name_tuple_to_piece = {
+            **_name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type),
+            **_name_to_builtin_service_piece(builtin_name_to_service),
+            }
         self._has_modules = {
-            (_builtin_project_name, _builtin_path),
+            (_builtin_project_name, _builtin_type_path),
+            (_builtin_project_name, _builtin_service_path),
             }
         self._piece_to_source = {}  # piece -> (project_name, path, source)
 
@@ -187,6 +200,6 @@ class _ResourceLoader:
         return piece
 
 
-def load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects):
-    loader = _ResourceLoader(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, projects)
+def load_resources(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects):
+    loader = _ResourceLoader(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects)
     return loader.load()

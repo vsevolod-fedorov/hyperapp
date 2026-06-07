@@ -27,13 +27,14 @@ def resources_root():
 
 
 @pytest.fixture
-def loader(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, resources_root):
+def loader(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, resources_root):
     def load(project_to_path):
         project_to_files = {
             name: load_file_tree(resources_root / path)
             for name, path in project_to_path.items()
             }
-        resources, source_dict = load_resources(pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, project_to_files)
+        resources, source_dict = load_resources(
+            pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, project_to_files)
         for name, piece in resources.items():
             log.info("Loaded piece: %s -> %r", name, piece)
         for piece, project_name_path_source in source_dict.items():
@@ -98,6 +99,14 @@ def test_python_module_import(pyobj_creg, loader):
     main = pyobj_creg.animate(piece)
     result = main()
     assert result == 123
+
+
+def test_python_module_builtin_services(pyobj_creg, loader):
+    resources, sources = loader({'a-project': 'python_module_builtin_services'})
+    fn_piece = resources['a-project', ('sample',), 'run_tests']
+    run_tests = pyobj_creg.animate(fn_piece)
+    result = run_tests()
+    assert result == 'ok'
 
 
 def test_type_module(pyobj_creg, resources_root, loader):
