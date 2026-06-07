@@ -34,7 +34,7 @@ class ListMtResourceType:
         return encoder.encode(definition)
 
     def resolve(self, definition, ctx):
-        piece =  list_mt(
+        piece = list_mt(
             element=ctx.resolve_to_ref(definition.element),
             )
         sources = {}
