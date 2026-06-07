@@ -2,8 +2,8 @@ import logging
 from pathlib import Path
 
 from .source import TextSource
-from .resource_module import load_resource_module_definitions
-from .type_module import load_type_module_definitions
+from .resource_module import ResourceModuleLoader
+from .type_module import TypeModuleLoader
 
 
 log = logging.getLogger(__name__)
@@ -24,12 +24,6 @@ def load_file_tree(dir):
             continue  # Skip pytest subdirectories.
         path_to_bytes[tuple(rel_path.parts)] = path.read_bytes()
     return path_to_bytes
-
-
-def _file_path_to_path(file_path, ext):
-    fname = file_path[-1]
-    name = fname[:-len(ext)]
-    return (*file_path[:-1], name)
 
 
 _builtin_project_name = 'builtin'
@@ -157,19 +151,19 @@ class _ResourceLoader:
             }
         return (name_tuple_to_piece, self._piece_to_source)
 
-    _ext_to_loader = {
-        '.resources.yaml': load_resource_module_definitions,
-        '.types': load_type_module_definitions,
+    _loaders = {
+        ResourceModuleLoader(),
+        TypeModuleLoader(),
         }
 
     def _load_module(self, project_name, file_path, bytes):
-        for ext, loader in self._ext_to_loader.items():
-            if not file_path[-1].endswith(ext):
+        for loader in self._loaders:
+            if not loader.applicable(file_path):
                 continue
-            path = _file_path_to_path(file_path, ext)
+            path = loader.file_path_to_path(file_path)
             ctx = _Context(self, project_name, path)
             source_path = '/'.join(file_path)
-            for name, definition in loader(
+            for name, definition in loader.load_definitions(
                     self._pyobj_creg, self._mosaic, self._builtin_name_to_type, self._resource_type_producer,
                     ctx, bytes, source_path):
                 self._name_tuple_to_definition[(project_name, path, name)] = definition

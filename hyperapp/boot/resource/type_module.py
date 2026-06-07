@@ -71,23 +71,35 @@ class _Definition:
         return (mt, sources)
 
 
-def load_type_module_definitions(
-        pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, ctx, bytes, source_path):
-    module_name = ctx.path[-1]
-    text = bytes.decode()
-    source_tuple = (ctx.project_name, ctx.path, TextSource(text))
-    module_source = parse_type_module_source(mosaic, builtin_name_to_type, text, source_path)
-    for rec in module_source.import_list:
-        import_def = _ImportDefinition(rec.module_name, rec.source_name)
-        yield (rec.target_name, import_def)
-    builtin_name_to_mt = {
-        name: pyobj_creg.actor_to_piece(t)
-        for name, t in builtin_name_to_type.items()
-        }
-    mapper = _NameToRefMapper(mosaic, builtin_name_to_mt, ctx)
-    for typedef in module_source.typedefs:
-        log.debug('%s: Typedef %r: %s', ctx, typedef.name, typedef.type)
-        mt = typedef.type
-        if isinstance(mt, RecordMtGenerator):
-            mt = mt.generate(module_name, typedef.name)
-        yield (typedef.name, _Definition(mapper, source_tuple, typedef.name, mt))
+class TypeModuleLoader:
+
+    _ext = '.types'
+
+    def applicable(self, file_path):
+        return file_path[-1].endswith(self._ext)
+
+    def file_path_to_path(self, file_path):
+        fname = file_path[-1]
+        name = fname[:-len(self._ext)]
+        return (*file_path[:-1], name)
+
+    def load_definitions(
+            self, pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, ctx, bytes, source_path):
+        module_name = ctx.path[-1]
+        text = bytes.decode()
+        source_tuple = (ctx.project_name, ctx.path, TextSource(text))
+        module_source = parse_type_module_source(mosaic, builtin_name_to_type, text, source_path)
+        for rec in module_source.import_list:
+            import_def = _ImportDefinition(rec.module_name, rec.source_name)
+            yield (rec.target_name, import_def)
+        builtin_name_to_mt = {
+            name: pyobj_creg.actor_to_piece(t)
+            for name, t in builtin_name_to_type.items()
+            }
+        mapper = _NameToRefMapper(mosaic, builtin_name_to_mt, ctx)
+        for typedef in module_source.typedefs:
+            log.debug('%s: Typedef %r: %s', ctx, typedef.name, typedef.type)
+            mt = typedef.type
+            if isinstance(mt, RecordMtGenerator):
+                mt = mt.generate(module_name, typedef.name)
+            yield (typedef.name, _Definition(mapper, source_tuple, typedef.name, mt))

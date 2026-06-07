@@ -50,8 +50,20 @@ def _load_definition(pyobj_creg, resource_type_producer, ctx, name, data):
     return _Definition(name, definition_t, definition)
 
 
-def load_resource_module_definitions(
-        pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, ctx, bytes, source_path):
-    data = _load_yaml(bytes, source_path)
-    for name, contents in data.get('definitions', {}).items():
-        yield (name, _load_definition(pyobj_creg, resource_type_producer, ctx, name, contents))
+class ResourceModuleLoader:
+
+    _ext = '.resources.yaml'
+
+    def applicable(self, file_path):
+        return file_path[-1].endswith(self._ext)
+
+    def file_path_to_path(self, file_path):
+        fname = file_path[-1]
+        name = fname[:-len(self._ext)]
+        return (*file_path[:-1], name)
+
+    def load_definitions(
+            self, pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, ctx, bytes, source_path):
+        data = _load_yaml(bytes, source_path)
+        for name, contents in data.get('definitions', {}).items():
+            yield (name, _load_definition(pyobj_creg, resource_type_producer, ctx, name, contents))
