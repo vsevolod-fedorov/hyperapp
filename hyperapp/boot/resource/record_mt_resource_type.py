@@ -2,6 +2,7 @@ from ..htypes import (
     BUILTIN_MODULE_NAME,
     tString,
     TList,
+    TOptional,
     TRecord,
     field_mt,
     record_mt,
@@ -17,7 +18,7 @@ field_def_mt = TRecord(BUILTIN_MODULE_NAME, 'field_def_mt', {
 
 record_def_mt = TRecord(BUILTIN_MODULE_NAME, 'record_def_mt', {
     'name': tString,
-    'base': tString,
+    'base': TOptional(tString),
     'fields': TList(field_def_mt),
     })
 

@@ -22,7 +22,28 @@ def test_definition_type(resource_type_producer):
     assert resource_type.definition_t is record_def_mt
 
 
-def test_from_dict(resource_type_producer):
+def test_from_dict_without_base(resource_type_producer):
+    resource_t = record_mt
+    resource_type = resource_type_producer(resource_t)
+    definition_dict = {
+        'name': 'sample_name',
+        'base': None,
+        'fields': {
+            'an_int': 'legacy_type.builtin:int',
+            },
+        }
+    definition = resource_type.from_dict(definition_dict)
+    log.info("definition: %r", definition)
+    assert definition == record_def_mt(
+        name='sample_name',
+        base=None,
+        fields=(
+            field_def_mt('an_int', 'legacy_type.builtin:int'),
+            ),
+        )
+
+
+def test_from_dict_with_base(resource_type_producer):
     resource_t = record_mt
     resource_type = resource_type_producer(resource_t)
     definition_dict = {
