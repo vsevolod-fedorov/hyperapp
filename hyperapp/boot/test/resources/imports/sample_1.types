@@ -1,0 +1,2 @@
+inner_record = record:
+  an_int: int

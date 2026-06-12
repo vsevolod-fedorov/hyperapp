@@ -1,0 +1,18 @@
+definitions:
+  main.module:
+    type: builtin:type:python_module
+    value:
+      module_name: main
+      file_name: main.dyn.py
+      import_list:
+        htypes.builtin.int: builtin:type:int
+        htypes.sample_1.inner_record: sample_1.t:inner_record
+        htypes.sample_2.outer_record: sample_2.t:outer_record
+        services.mosaic: builtin:service:mosaic
+        services.pyobj_creg: builtin:service:pyobj_creg
+        services.web: builtin:service:web
+  main:
+    type: builtin:type:attribute
+    value:
+      object: main.module
+      attr_name: main
