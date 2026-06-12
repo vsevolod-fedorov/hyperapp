@@ -1,0 +1,91 @@
+import sys
+from functools import partial
+from pathlib import Path
+
+import yaml
+
+from .htypes.builtins import make_builtin_name_to_type
+from .htypes.meta_type import (
+    make_meta_type_name_to_type,
+    add_types_to_pyobj_creg_cache,
+    register_builtin_mt,
+    register_meta_types_actors,
+    )
+from .mosaic import Mosaic
+from .web import Web
+from .pyobj_registry import PyObjRegistry
+from .python_importer import PythonImporter
+from .resource.resource_type import ResourceType
+from .resource.resource_type_registry import make_type_to_resource_type
+from .resource.resource_type_producer import resource_type_producer as resource_type_producer_fn
+from .resource.pyobj_registry import register_resources_at_pyobj_creg
+from .resource.builtin_service import make_builtin_name_to_service
+from .resource.loader import load_file_tree, load_resources
+from . import cdr_coders  # Register codec.
+
+
+def init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service):
+    pyobj_creg.init(mosaic, web)
+    add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
+    register_builtin_mt(mosaic, pyobj_creg)
+    register_meta_types_actors(pyobj_creg)
+    register_resources_at_pyobj_creg(pyobj_creg, mosaic, web, python_importer, builtin_name_to_service)
+
+
+def load_projects_resources(
+        pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects_path):
+    projects_dir = projects_path.parent
+    project_to_path = yaml.safe_load(projects_path.read_text())
+    project_to_files = {
+        name: load_file_tree(projects_dir / path)
+        for name, path in project_to_path.items()
+        }
+    resources, source_dict = load_resources(
+        pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, project_to_files)
+    return resources
+
+
+def parse_path(resource_path):
+    project_name, path_str, name = resource_path.split(':')
+    path = tuple(path_str.split('.'))
+    return (project_name, path, name)
+
+
+def boot(projects_path, main_path, args):
+    pyobj_creg = PyObjRegistry(config={}, reconstructors=[])
+    mosaic = Mosaic(pyobj_creg)
+    web = Web(mosaic, pyobj_creg)
+    builtin_name_to_type = {
+        **make_builtin_name_to_type(),
+        **make_meta_type_name_to_type(),
+        }
+    builtin_name_to_service = make_builtin_name_to_service(pyobj_creg, mosaic, web)
+    python_importer = PythonImporter()
+    python_importer.register_meta_hook()
+    try:
+        init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service)
+        resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
+        type_to_resource_type = make_type_to_resource_type()
+        resource_type_producer = partial(resource_type_producer_fn, resource_type_factory, type_to_resource_type)
+
+        resources = load_projects_resources(
+            pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects_path)
+        resource_path = parse_path(main_path)
+        main_piece = resources[resource_path]
+        main = pyobj_creg.animate(main_piece)
+        return main(args)
+
+    finally:
+        python_importer.remove_modules()
+        python_importer.unregister_meta_hook()
+
+
+if __name__ == '__main__':
+    projects_path = Path(sys.argv[1])
+    main_path = sys.argv[2]
+    args = sys.argv[3:]
+    result = boot(projects_path, main_path, args)
+    if type(result) is int:
+        sys.exit(result)  # Result is exit code.
+    if result is None or not result:
+        sys.exit(100)
