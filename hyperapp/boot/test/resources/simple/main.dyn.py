@@ -1,2 +1,3 @@
 def main(args):
-    return args[0] + 100
+    print(f"Hello from simple main; args={args!r}")
+    return int(args[0]) * 100

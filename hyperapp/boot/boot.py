@@ -1,27 +1,29 @@
+#!/usr/bin/env python3
+
 import sys
 from functools import partial
 from pathlib import Path
 
 import yaml
 
-from .htypes.builtins import make_builtin_name_to_type
-from .htypes.meta_type import (
+from hyperapp.boot.htypes.builtins import make_builtin_name_to_type
+from hyperapp.boot.htypes.meta_type import (
     make_meta_type_name_to_type,
     add_types_to_pyobj_creg_cache,
     register_builtin_mt,
     register_meta_types_actors,
     )
-from .mosaic import Mosaic
-from .web import Web
-from .pyobj_registry import PyObjRegistry
-from .python_importer import PythonImporter
-from .resource.resource_type import ResourceType
-from .resource.resource_type_registry import make_type_to_resource_type
-from .resource.resource_type_producer import resource_type_producer as resource_type_producer_fn
-from .resource.pyobj_registry import register_resources_at_pyobj_creg
-from .resource.builtin_service import make_builtin_name_to_service
-from .resource.loader import load_file_tree, load_resources
-from . import cdr_coders  # Register codec.
+from hyperapp.boot.mosaic import Mosaic
+from hyperapp.boot.web import Web
+from hyperapp.boot.pyobj_registry import PyObjRegistry
+from hyperapp.boot.python_importer import PythonImporter
+from hyperapp.boot.resource.resource_type import ResourceType
+from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
+from hyperapp.boot.resource.resource_type_producer import resource_type_producer as resource_type_producer_fn
+from hyperapp.boot.resource.pyobj_registry import register_resources_at_pyobj_creg
+from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
+from hyperapp.boot.resource.loader import load_file_tree, load_resources
+from hyperapp.boot import cdr_coders  # Register codec.
 
 
 def init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service):
