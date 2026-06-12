@@ -2,8 +2,6 @@ import argparse
 import logging
 from pathlib import Path
 
-from hyperapp.boot import dict_coders
-
 from .code.mark import mark
 from .code.reconstructors import register_reconstructors
 

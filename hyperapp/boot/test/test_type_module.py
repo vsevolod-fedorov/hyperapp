@@ -13,7 +13,6 @@ from hyperapp.boot.htypes import (
     TList,
     ref_t,
     )
-from hyperapp.boot import cdr_coders  # register codec
 # from hyperapp.boot.type_module_loader import CircularDepError
 # from hyperapp.boot.project import load_texts
 from hyperapp.boot.test.hyper_types_namespace import HyperTypesNamespace

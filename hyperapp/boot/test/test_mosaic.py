@@ -1,7 +1,7 @@
 import pytest
 
 from hyperapp.boot.htypes.meta_type import add_types_to_pyobj_creg_cache, register_builtin_mt
-from hyperapp.boot import cdr_coders  # register codec
+from hyperapp.boot.register_coders import register_coders
 
 
 pytest_plugins = [
@@ -14,6 +14,7 @@ def init(mosaic, web, pyobj_creg, builtin_name_to_type):
     pyobj_creg.init(mosaic, web)
     add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
     register_builtin_mt(mosaic, pyobj_creg)
+    register_coders()
 
 
 def test_string(mosaic, web, init):

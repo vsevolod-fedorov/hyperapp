@@ -23,7 +23,7 @@ from hyperapp.boot.resource.resource_type_producer import resource_type_producer
 from hyperapp.boot.resource.pyobj_registry import register_resources_at_pyobj_creg
 from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
 from hyperapp.boot.resource.loader import load_file_tree, load_resources
-from hyperapp.boot import cdr_coders  # Register codec.
+from hyperapp.boot.register_coders import register_coders
 
 
 def init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service):
@@ -32,6 +32,7 @@ def init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type
     register_builtin_mt(mosaic, pyobj_creg)
     register_meta_types_actors(pyobj_creg)
     register_resources_at_pyobj_creg(pyobj_creg, mosaic, web, python_importer, builtin_name_to_service)
+    register_coders()
 
 
 def load_projects_resources(

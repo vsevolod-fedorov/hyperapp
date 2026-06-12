@@ -1,8 +1,6 @@
 import logging
 from pathlib import Path
 
-from hyperapp.boot import dict_coders
-
 from .code.mark import mark
 
 log = logging.getLogger(__name__)

@@ -5,7 +5,6 @@ import threading
 from contextlib import contextmanager
 
 from hyperapp.boot.htypes import bundle_t
-from hyperapp.boot import cdr_coders  # self-registering
 from hyperapp.boot.htypes.packet_coders import packet_coders
 from hyperapp.boot.services import HYPERAPP_DIR, Services
 

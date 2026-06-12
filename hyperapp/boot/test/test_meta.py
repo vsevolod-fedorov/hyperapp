@@ -29,7 +29,7 @@ from hyperapp.boot.htypes.meta_type import (
     register_builtin_mt,
     register_meta_types_actors,
     )
-from hyperapp.boot import cdr_coders  # register codec
+from hyperapp.boot.register_coders import register_coders
 
 log = logging.getLogger(__name__)
 
@@ -53,6 +53,7 @@ def init(mosaic, web, pyobj_creg, builtin_name_to_type):
     add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
     register_builtin_mt(mosaic, pyobj_creg)
     register_meta_types_actors(pyobj_creg)
+    register_coders()
 
 
 def test_optional(mosaic, pyobj_creg, init):

@@ -1,7 +1,6 @@
 from pathlib import Path
 
 from hyperapp.boot.ref import make_ref
-from hyperapp.boot import dict_coders  # register codec
 
 from . import htypes
 from .code.mark import mark

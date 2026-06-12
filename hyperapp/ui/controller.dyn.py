@@ -10,8 +10,6 @@ from typing import Any, Self
 
 from PySide6 import QtCore
 
-from hyperapp.boot import dict_coders  # register codec
-
 from . import htypes
 from .services import (
     deduce_t,

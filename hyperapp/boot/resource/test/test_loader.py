@@ -7,7 +7,6 @@ from hyperapp.boot.htypes import tInt, tString, TRecord
 from hyperapp.boot.htypes.python_module import python_module_t
 from hyperapp.boot.resource.loader import load_file_tree, load_resources
 from hyperapp.boot.resource.source import ResourceModuleSource, TextSource
-from hyperapp.boot import cdr_coders  # self-registering
 
 log = logging.getLogger(__name__)
 

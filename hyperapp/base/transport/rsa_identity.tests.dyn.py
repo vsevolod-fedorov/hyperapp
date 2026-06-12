@@ -1,5 +1,4 @@
 from hyperapp.boot.htypes import bundle_t
-from hyperapp.boot import cdr_coders  # self-registering
 
 from .services import (
     mosaic,

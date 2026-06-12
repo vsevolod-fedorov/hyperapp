@@ -18,7 +18,7 @@ from hyperapp.boot.resource.resource_type_producer import resource_type_producer
 # from hyperapp.boot.resource.legacy_type import convert_builtin_types_to_dict
 # from hyperapp.boot.project import BuiltinsProject, Project, load_texts
 # from hyperapp.boot.test.hyper_types_namespace import HyperTypesNamespace
-from hyperapp.boot import cdr_coders  # register codec
+from hyperapp.boot.register_coders import register_coders
 
 
 @pytest.fixture
@@ -41,6 +41,7 @@ def init(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin
     register_builtin_mt(mosaic, pyobj_creg)
     register_meta_types_actors(pyobj_creg)
     register_resources_at_pyobj_creg(pyobj_creg, mosaic, web, python_importer, builtin_name_to_service)
+    register_coders()
 
 
 @pytest.fixture
