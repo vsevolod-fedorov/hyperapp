@@ -95,7 +95,7 @@ class TypeModuleLoader:
 
     def load_definitions(
             self, pyobj_creg, mosaic, builtin_name_to_type, resource_type_producer, ctx, bytes, source_path):
-        module_name = ctx.path[-1]
+        module_name = ctx.path[-1].removesuffix('.t')
         text = bytes.decode()
         source_tuple = (ctx.project_name, ctx.path, TextSource(text))
         module_source = parse_type_module_source(mosaic, builtin_name_to_type, text, source_path)

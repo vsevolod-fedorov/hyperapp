@@ -117,6 +117,7 @@ def test_type_module(pyobj_creg, resources_root, loader):
     t = pyobj_creg.animate(piece)
     assert isinstance(t, TRecord)
     assert sources[piece] == ('a-project', ('sample.t',), TextSource(source_text))
+    record = t()  # Should not fail on assertion.
 
 
 def test_type_module_resolve_local(pyobj_creg, resources_root, loader):
