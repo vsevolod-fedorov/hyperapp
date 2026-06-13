@@ -1,6 +1,7 @@
 import logging
 import yaml
 from pathlib import Path
+from unittest.mock import Mock
 
 import pytest
 
@@ -58,16 +59,30 @@ def test_from_dict(resource_type_producer):
         )
 
 
-def _test_resolve(mosaic, resource_type_producer):
+def mock_ctx(names, text):
+    def resolve_to_ref(name):
+        return names[name]
+    def get_text(file_name):
+        sources = {}
+        path = (file_name,)
+        return (text, path, sources)
+
+    return Mock(
+        resolve_to_ref=resolve_to_ref,
+        get_text=get_text,
+    )
+
+
+def test_resolve(mosaic, resource_type_producer):
     resource_t = python_module_t
     resource_type = resource_type_producer(resource_t)
 
+    source = TEST_RESOURCES_DIR.joinpath('sample_module.dyn.py').read_text()
     names = {
         'resource_1': mosaic.put('resource 1'),
         'resource_2': mosaic.put('resource 2'),
         }
-    def resolve_name(name):
-        return names[name]
+    ctx = mock_ctx(names, source)
 
     definition = resource_type.definition_t(
         module_name='sample module',
@@ -78,13 +93,13 @@ def _test_resolve(mosaic, resource_type_producer):
             ),
         )
 
-    resource = resource_type.resolve(definition, resolve_name, TEST_RESOURCES_DIR)
+    resource, sources = resource_type.resolve(definition, ctx)
     log.info('Resolved resource: %r', resource)
 
     assert resource == resource_t(
         module_name='sample module',
-        source=TEST_RESOURCES_DIR.joinpath('sample_module.dyn.py').read_text(),
-        file_path=str(TEST_RESOURCES_DIR / 'sample_module.dyn.py'),
+        source=source,
+        file_path='sample_module.dyn.py',
         import_list=(
             import_rec_t('some.used_1', names['resource_1']),
             import_rec_t('some.used_2', names['resource_2']),
