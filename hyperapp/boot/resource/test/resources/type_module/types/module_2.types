@@ -1,4 +1,4 @@
-from type_module_1 import record_2
+from module_1 import record_2
 
 
 record_3 = record(record_2):
