@@ -13,7 +13,7 @@ from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
 from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
 from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
-from hyperapp.boot.resource.resource_type_producer import resource_type_producer as resource_type_producer_fn
+from hyperapp.boot.resource.resource_type_producer import produce_resource_type
 from hyperapp.boot.register_coders import register_coders
 
 
@@ -52,4 +52,4 @@ def type_to_resource_type():
 
 @pytest.fixture
 def resource_type_producer(resource_type_factory, type_to_resource_type):
-    return partial(resource_type_producer_fn, resource_type_factory, type_to_resource_type)
+    return partial(produce_resource_type, resource_type_factory, type_to_resource_type)

@@ -19,7 +19,7 @@ from hyperapp.boot.pyobj_registry import PyObjRegistry
 from hyperapp.boot.python_importer import PythonImporter
 from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
-from hyperapp.boot.resource.resource_type_producer import resource_type_producer as resource_type_producer_fn
+from hyperapp.boot.resource.resource_type_producer import produce_resource_type
 from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
 from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
 from hyperapp.boot.resource.loader import load_file_tree, load_resources
@@ -69,7 +69,7 @@ def boot(projects_path, main_path, args):
         init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service)
         resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
         type_to_resource_type = make_type_to_resource_type()
-        resource_type_producer = partial(resource_type_producer_fn, resource_type_factory, type_to_resource_type)
+        resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
 
         resources = load_projects_resources(
             pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects_path)
