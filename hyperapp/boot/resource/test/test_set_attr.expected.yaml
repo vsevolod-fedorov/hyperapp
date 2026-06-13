@@ -1,9 +1,0 @@
-import:
-- legacy_type.builtin:attribute
-- test-project.sample_module_2:sample_module_2.module
-definitions:
-  sample_servant_2:
-    type: legacy_type.builtin:attribute
-    value:
-      object: test-project.sample_module_2:sample_module_2.module
-      attr_name: sample_servant_2
