@@ -7,7 +7,7 @@ from hyperapp.boot.htypes.meta_type import (
     make_meta_type_name_to_type,
     add_types_to_pyobj_creg_cache,
     register_builtin_mt,
-    register_meta_types_actors,
+    register_pyobj_creg_mt_actors,
     )
 from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
@@ -35,7 +35,7 @@ def init(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin
     pyobj_creg.init(mosaic, web)
     add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
     register_builtin_mt(mosaic, pyobj_creg)
-    register_meta_types_actors(pyobj_creg)
+    register_pyobj_creg_mt_actors(pyobj_creg)
     register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, builtin_name_to_service)
     register_coders()
 

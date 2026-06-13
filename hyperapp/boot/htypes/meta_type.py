@@ -135,7 +135,7 @@ def register_builtin_mt(mosaic, pyobj_creg):
     pyobj_creg.register_actor(builtin_mt, resolve_builtin_mt)
 
 
-def register_meta_types_actors(pyobj_creg):
+def register_pyobj_creg_mt_actors(pyobj_creg):
     # name_mt does not produce a type, it is removed by type module loader.
     pyobj_creg.register_actor(optional_mt, optional_from_piece, pyobj_creg=pyobj_creg)
     pyobj_creg.register_actor(list_mt, list_from_piece, pyobj_creg=pyobj_creg)
