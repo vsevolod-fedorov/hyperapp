@@ -135,15 +135,6 @@ def register_builtin_mt(mosaic, pyobj_creg):
     pyobj_creg.register_actor(builtin_mt, resolve_builtin_mt)
 
 
-# def register_builtin_meta_types(builtin_types, pyobj_creg):
-#     builtin_types.register(pyobj_creg, name_mt)
-#     builtin_types.register(pyobj_creg, optional_mt)
-#     builtin_types.register(pyobj_creg, list_mt)
-#     builtin_types.register(pyobj_creg, field_mt)
-#     builtin_types.register(pyobj_creg, record_mt)
-#     builtin_types.register(pyobj_creg, exception_mt)
-
-
 def register_meta_types_actors(pyobj_creg):
     # name_mt does not produce a type, it is removed by type module loader.
     pyobj_creg.register_actor(optional_mt, optional_from_piece, pyobj_creg=pyobj_creg)
