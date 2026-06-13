@@ -17,7 +17,7 @@ pytest_plugins = [
     ]
 
 TEST_DIR = Path(__file__).parent.resolve()
-TEST_RESOURCES_DIR = TEST_DIR / 'python_module_resources'
+TEST_RESOURCES_DIR = TEST_DIR / 'resources' / 'python_module_type'
 
 
 @pytest.fixture
