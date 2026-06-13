@@ -9,7 +9,7 @@ from .htypes import (
 from .htypes.deduce_value_type import deduce_value_type
 
 
-class Mapper(object):
+class Mapper:
 
     def map(self, value, t=None, context=None):
         if t is None:

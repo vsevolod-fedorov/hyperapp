@@ -6,7 +6,7 @@ from hyperapp.boot.init_logging import setup_filter
 log = logging.getLogger(__name__)
 
 
-class AsyncExceptionHandler(object):
+class AsyncExceptionHandler:
 
     def __init__(self):
         self.had_exceptions = False

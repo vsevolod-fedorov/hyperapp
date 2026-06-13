@@ -11,7 +11,7 @@ class RefResolveFailure(Exception):
         super().__init__(f"Failed to resolve ref: {ref}")
 
 
-class Web(object):
+class Web:
 
     def __init__(self, mosaic, pyobj_creg):
         self._mosaic = mosaic

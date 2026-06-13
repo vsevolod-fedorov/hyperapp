@@ -18,7 +18,7 @@ from .htypes import (
     )
 
 
-class CdrEncoder(object):
+class CdrEncoder:
 
     _int_struct = struct.Struct('!q')
     _bool_struct = struct.Struct('!?')

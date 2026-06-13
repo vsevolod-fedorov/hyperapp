@@ -6,14 +6,14 @@ class DecodeError(Exception):
     pass
 
 
-class Coders(object):
+class Coders:
 
     def __init__(self, encoder_ctr, decoder_ctr):
         self.encoder_ctr = encoder_ctr
         self.decoder_ctr = decoder_ctr
 
 
-class PacketCoders(object):
+class PacketCoders:
 
     def __init__(self):
         self.encodings = {}  # encoding -> Coders

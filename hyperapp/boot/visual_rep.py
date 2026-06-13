@@ -53,7 +53,7 @@ def _value_repr(t, value):
         return repr_fn(value)
 
 
-class VisualRepEncoder(object):
+class VisualRepEncoder:
 
     def __init__(self):
         pass
