@@ -1,7 +1,0 @@
-
-sample_servant_d = record
-
-sample_item = record:
-  key: int
-  name: string
-  description: string

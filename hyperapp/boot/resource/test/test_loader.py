@@ -75,11 +75,13 @@ def test_resolve_between_projects(web, loader):
     assert sources[attr] == ('project-2', ('module_2',), ResourceModuleSource('an_attribute'))
 
 
-def test_python_module(loader):
+def test_python_module(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'python_module'})
     piece = resources['a-project', ('sample',), 'a_module.module']
     assert isinstance(piece, python_module_t)
     assert "Hello from" in piece.source
+    module = pyobj_creg.animate(piece)
+    assert module.a_value == 12345
     assert sources[piece.source] == ('a-project', ('a_module.dyn.py',), TextSource(piece.source))
     assert sources[piece] == ('a-project', ('sample',), ResourceModuleSource('a_module.module'))
 
