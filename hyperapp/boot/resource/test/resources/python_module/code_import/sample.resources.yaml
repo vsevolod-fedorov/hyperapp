@@ -1,0 +1,21 @@
+definitions:
+  sample_1.module:
+    type: builtin:type:python_module
+    value:
+      module_name: sample_1
+      file_name: sample_1.dyn.py
+      import_list: {}
+
+  sample_2.module:
+    type: builtin:type:python_module
+    value:
+      module_name: sample_2
+      file_name: sample_2.dyn.py
+      import_list:
+        code.sample_1: sample_1.module
+
+  main:
+    type: builtin:type:attribute
+    value:
+      object: sample_2.module
+      attr_name: main

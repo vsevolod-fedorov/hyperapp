@@ -64,23 +64,17 @@ def boot(projects_path, main_path, args):
         }
     builtin_name_to_service = make_builtin_name_to_service(pyobj_creg, mosaic, web)
     python_importer = PythonImporter()
-    python_importer.register_meta_hook()
-    try:
-        init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service)
-        resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
-        type_to_resource_type = make_type_to_resource_type()
-        resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
+    init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service)
+    resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
+    type_to_resource_type = make_type_to_resource_type()
+    resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
 
-        resources = load_projects_resources(
-            pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects_path)
-        resource_path = parse_path(main_path)
-        main_piece = resources[resource_path]
-        main = pyobj_creg.animate(main_piece)
-        return main(args)
-
-    finally:
-        python_importer.remove_modules()
-        python_importer.unregister_meta_hook()
+    resources = load_projects_resources(
+        pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects_path)
+    resource_path = parse_path(main_path)
+    main_piece = resources[resource_path]
+    main = pyobj_creg.animate(main_piece)
+    return main(args)
 
 
 if __name__ == '__main__':

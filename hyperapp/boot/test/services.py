@@ -39,8 +39,4 @@ def builtin_name_to_type():
 
 @pytest.fixture
 def python_importer():
-    importer = PythonImporter()
-    importer.register_meta_hook()
-    yield importer
-    importer.remove_modules()
-    importer.unregister_meta_hook()
+    return PythonImporter()

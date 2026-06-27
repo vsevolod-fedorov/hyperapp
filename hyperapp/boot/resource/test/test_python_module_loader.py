@@ -39,7 +39,15 @@ def test_fn(pyobj_creg, loader):
     assert result == 123
 
 
-def test_import(pyobj_creg, loader):
+def test_code_import(pyobj_creg, loader):
+    resources, sources = loader({'a-project': 'code_import'})
+    piece = resources['a-project', ('sample',), 'main']
+    main = pyobj_creg.animate(piece)
+    result = main()
+    assert result == 123
+
+
+def test_code_and_htypes_import(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'import'})
     piece = resources['a-project', ('sample',), 'main']
     main = pyobj_creg.animate(piece)
