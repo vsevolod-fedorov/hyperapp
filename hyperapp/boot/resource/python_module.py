@@ -114,10 +114,15 @@ def python_module_pyobj(piece, mosaic, python_importer, pyobj_creg):
     if module_name in sys.modules:
         raise RuntimeError(f"Error: module {module_name} is aleady imported")
     try:
-        imports = {
+        pyobj_imports = {
             rec.full_name: pyobj_creg.invite(rec.resource)
-            for rec in piece.import_list
+            for rec in piece.imports.pyobj
             }
+        raw_imports = {
+            rec.full_name: rec.resource
+            for rec in piece.imports.raw
+            }
+        imports = {**pyobj_imports, **raw_imports}
         return python_importer.import_module(module_name, piece.source, piece.file_path, imports)
     except HException:
         raise

@@ -1,7 +1,7 @@
 from . import htypes
 from . deep.l1.l2 import l3 as deep_l3
-from . overrride.l1.l2 import l3 as override_l3
-from . overrride import l1 as override_l1
+from . override.l1.l2 import l3 as override_l3
+from . override import l1 as override_l1
 
 
 def main():

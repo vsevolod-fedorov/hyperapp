@@ -4,7 +4,9 @@ definitions:
     value:
       module_name: sample
       file_name: sample.dyn.py
-      import_list: {}
+      imports:
+        pyobj: {}
+        raw: {}
   fn:
     type: builtin:type:attribute
     value:

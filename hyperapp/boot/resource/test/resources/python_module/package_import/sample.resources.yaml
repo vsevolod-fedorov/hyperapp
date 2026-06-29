@@ -4,11 +4,13 @@ definitions:
     value:
       module_name: sample_1
       file_name: sample_1.dyn.py
-      import_list:
-        htypes.builtin.int: builtin:type:int
-        deep.l1.l2.l3.l4.l5: int_12345
-        override.l1.l2.l3.l4.l5: int_12345
-        override.l1.l2.l3: int_123
+      imports:
+        pyobj:
+          htypes.builtin.int: builtin:type:int
+        raw:
+          deep.l1.l2.l3.l4.l5: int_12345
+          override.l1.l2.l3.l4.l5: int_12345
+          override.l1.l2.l3: int_123
 
   # Same import_list, different import statements.
   sample_2.module:
@@ -16,11 +18,13 @@ definitions:
     value:
       module_name: sample_2
       file_name: sample_2.dyn.py
-      import_list:
-        htypes.builtin.int: builtin:type:int
-        deep.l1.l2.l3.l4.l5: int_12345
-        override.l1.l2.l3.l4.l5: int_12345
-        override.l1.l2.l3: int_123
+      imports:
+        pyobj:
+          htypes.builtin.int: builtin:type:int
+        raw:
+          deep.l1.l2.l3.l4.l5: int_12345
+          override.l1.l2.l3.l4.l5: int_12345
+          override.l1.l2.l3: int_123
 
   int_123:
     type: builtin:type:int

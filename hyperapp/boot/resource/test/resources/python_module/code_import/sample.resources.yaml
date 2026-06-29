@@ -4,15 +4,19 @@ definitions:
     value:
       module_name: sample_1
       file_name: sample_1.dyn.py
-      import_list: {}
+      imports:
+        pyobj: {}
+        raw: {}
 
   sample_2.module:
     type: builtin:type:python_module
     value:
       module_name: sample_2
       file_name: sample_2.dyn.py
-      import_list:
-        code.sample_1: sample_1.module
+      imports:
+        pyobj:
+          code.sample_1: sample_1.module
+        raw: {}
 
   main:
     type: builtin:type:attribute
