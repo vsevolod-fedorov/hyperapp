@@ -6,7 +6,14 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-from hyperapp.boot.htypes.python_module import import_rec_t, python_module_t, import_rec_def_t, python_module_def_t
+from hyperapp.boot.htypes.python_module import (
+    import_rec_t,
+    python_module_t,
+    imports_t,
+    imports_def_t,
+    import_rec_def_t,
+    python_module_def_t,
+    )
 from hyperapp.boot.htypes import HException
 from hyperapp.boot.dict_decoder import NamedPairsDictDecoder
 from hyperapp.boot.dict_encoder import NamedPairsDictEncoder
@@ -45,34 +52,54 @@ class PythonModuleResourceType:
         return encoder.encode(definition)
 
     def resolve(self, definition, ctx):
-        import_list = tuple(
+        pyobj_imports = tuple(
             import_rec_t(
                 full_name=rec.full_name,
                 resource=ctx.resolve_to_ref(rec.resource),
                 )
-            for rec in definition.import_list
+            for rec in definition.imports.pyobj
+            )
+        raw_imports = tuple(
+            import_rec_t(
+                full_name=rec.full_name,
+                resource=ctx.resolve_to_ref(rec.resource),
+                )
+            for rec in definition.imports.raw
             )
         text, path, sources = ctx.get_text(definition.file_name)
         piece = python_module_t(
             module_name=definition.module_name,
             source=text,
             file_path='/'.join(path),  # TODO: Add project to path.
-            import_list=import_list,
+            imports=imports_t(
+                pyobj=pyobj_imports,
+                raw=raw_imports,
+                ),
             )
         return (piece, sources)
 
     def reverse_resolve(self, resource, resolver, resource_dir):
-        import_list = tuple(
+        pyobj_imports = tuple(
             import_rec_def_t(
                 full_name=rec.full_name,
                 resource=resolver(rec.resource),
                 )
-            for rec in resource.import_list
+            for rec in resource.imports.pyobj
+            )
+        raw_imports = tuple(
+            import_rec_def_t(
+                full_name=rec.full_name,
+                resource=resolver(rec.resource),
+                )
+            for rec in resource.imports.raw
             )
         return python_module_def_t(
             module_name=resource.module_name,
             file_name=str(Path(resource.file_path).name),
-            import_list=import_list,
+            imports=imports_def_t(
+                pyobj=pyobj_imports,
+                raw=raw_imports,
+                ),
             )
 
 

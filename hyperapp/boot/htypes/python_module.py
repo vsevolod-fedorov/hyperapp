@@ -12,11 +12,16 @@ import_rec_t = TRecord(BUILTIN_MODULE_NAME, 'import_rec', {
     'resource': ref_t,
     })
 
+imports_t = TRecord(BUILTIN_MODULE_NAME, 'imports', {
+    'pyobj': TList(import_rec_t),
+    'raw': TList(import_rec_t),
+    })
+
 python_module_t = TRecord(BUILTIN_MODULE_NAME, 'python_module', {
     'module_name': tString,
     'source': tString,
     'file_path': tString,
-    'import_list': TList(import_rec_t),
+    'imports': imports_t,
     })
 
 import_rec_def_t = TRecord(BUILTIN_MODULE_NAME, 'import_rec_def', {
@@ -24,8 +29,13 @@ import_rec_def_t = TRecord(BUILTIN_MODULE_NAME, 'import_rec_def', {
     'resource': tString,
     })
 
+imports_def_t = TRecord(BUILTIN_MODULE_NAME, 'imports', {
+    'pyobj': TList(import_rec_def_t),
+    'raw': TList(import_rec_def_t),
+    })
+
 python_module_def_t = TRecord(BUILTIN_MODULE_NAME, 'python_module_def', {
     'module_name': tString,
     'file_name': tString,
-    'import_list': TList(import_rec_def_t),
+    'imports': imports_def_t,
     })
