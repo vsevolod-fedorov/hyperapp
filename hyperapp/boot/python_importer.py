@@ -3,6 +3,7 @@ import importlib.abc
 import importlib.util
 import logging
 import sys
+from types import SimpleNamespace
 
 from hyperapp.boot.htypes import HException
 
@@ -33,11 +34,26 @@ def is_sub_path(sub_path, full_path):
 class _PackageLoader:
     is_package = True
 
+    def __init__(self, objects):
+        self._objects = objects
+
     def create_module(self, spec):
         return None  # Use default semantics.
 
+    # Make submodules automatically imported for use cases like:
+    # > from . import htypes
+    # > htypes.module.type
     def exec_module(self, module):
-        pass
+        self._dict_to_attrs(module, self._objects)
+
+    def _dict_to_attrs(self, target, objects):
+        for name, obj in objects.items():
+            if isinstance(obj, dict):
+                tgt = SimpleNamespace()
+                self._dict_to_attrs(tgt, obj)
+                setattr(target, name, tgt)
+            else:
+                setattr(target, name, obj)
 
 
 class _DynModuleLoader:
@@ -65,10 +81,10 @@ class _ImportedObjectLoader:
     is_package = False
 
     def __init__(self, obj):
-        self._obj = obj
+        self.obj = obj
 
     def create_module(self, spec):
-        return self._obj
+        return self.obj
 
     def exec_module(self, module):
         pass
@@ -92,14 +108,19 @@ class PythonImporter:
         pass
 
     def import_module(self, module_name, source, file_path, imports):
+        package_objects = self._make_package_objects(imports)
+        package_loaders = {
+            f'{module_name}.{name}': _PackageLoader(objects)
+            for name, objects in package_objects.items()
+            }
         import_loaders = {
             f'{module_name}.{name}': _ImportedObjectLoader(obj)
             for name, obj in imports.items()
             }
         fullname_to_loader = {
-            **self._package_loaders(import_loaders),
+            **package_loaders,
             **import_loaders,  # Should go after package loaders to override packages.
-            ROOT_PACKAGE: _PackageLoader(),  # Should go after package loaders.
+            ROOT_PACKAGE: _PackageLoader({}),  # Should go after package loaders.
             module_name: _DynModuleLoader(source, file_path),  # Guess.
             }
         finder = _Finder(fullname_to_loader)
@@ -122,13 +143,15 @@ class PythonImporter:
         except Exception as x:
             raise PythonModuleImportError(str(x), x, module_name) from x
 
-    def _package_loaders(self, loaders):
-        package_names = set()
-        for fullname in loaders:
-            name_parts = fullname.split('.')
-            for i in range(1, len(name_parts)):
-                package_names.add('.'.join(name_parts[:i]))
-        return {
-            fullname: _PackageLoader()
-            for fullname in package_names
-            }
+    @staticmethod
+    def _make_package_objects(imports):
+        name_to_objects = {}
+        for name, obj in imports.items():
+            name_parts = name.split('.')
+            for i in reversed(range(1, len(name_parts))):
+                pkg_name = '.'.join(name_parts[:i])
+                name = name_parts[i]
+                name_to_objects.setdefault(pkg_name, {})
+                name_to_objects[pkg_name][name] = obj
+                obj = name_to_objects[pkg_name]
+        return name_to_objects

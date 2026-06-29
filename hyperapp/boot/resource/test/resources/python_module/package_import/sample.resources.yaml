@@ -1,0 +1,43 @@
+definitions:
+  sample_1.module:
+    type: builtin:type:python_module
+    value:
+      module_name: sample_1
+      file_name: sample_1.dyn.py
+      import_list:
+        htypes.builtin.int: builtin:type:int
+        deep.l1.l2.l3.l4.l5: int_12345
+        override.l1.l2.l3.l4.l5: int_12345
+        override.l1.l2.l3: int_123
+
+  # Same import_list, different import statements.
+  sample_2.module:
+    type: builtin:type:python_module
+    value:
+      module_name: sample_2
+      file_name: sample_2.dyn.py
+      import_list:
+        htypes.builtin.int: builtin:type:int
+        deep.l1.l2.l3.l4.l5: int_12345
+        override.l1.l2.l3.l4.l5: int_12345
+        override.l1.l2.l3: int_123
+
+  int_123:
+    type: builtin:type:int
+    value: 12345
+
+  int_12345:
+    type: builtin:type:int
+    value: 12345
+
+  main_1:
+    type: builtin:type:attribute
+    value:
+      object: sample_1.module
+      attr_name: main
+
+  main_2:
+    type: builtin:type:attribute
+    value:
+      object: sample_2.module
+      attr_name: main
