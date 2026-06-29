@@ -76,19 +76,6 @@ class PythonModuleResourceType:
             )
 
 
-class _ObjectLoader:
-    is_package = False
-
-    def __init__(self, obj):
-        self._obj = obj
-
-    def create_module(self, spec):
-        return self._obj
-
-    def exec_module(self, module):
-        pass
-
-
 def make_module_name(mosaic, module):
     module_ref = mosaic.put(module)
     hash_hex = codecs.encode(module_ref.hash[:10], 'hex').decode()
@@ -100,11 +87,11 @@ def python_module_pyobj(piece, mosaic, python_importer, pyobj_creg):
     if module_name in sys.modules:
         raise RuntimeError(f"Error: module {module_name} is aleady imported")
     try:
-        loaders = {
-            f'{module_name}.{rec.full_name}': _ObjectLoader(pyobj_creg.invite(rec.resource))
+        imports = {
+            rec.full_name: pyobj_creg.invite(rec.resource)
             for rec in piece.import_list
             }
-        return python_importer.import_module(module_name, piece.source, piece.file_path, loaders)
+        return python_importer.import_module(module_name, piece.source, piece.file_path, imports)
     except HException:
         raise
     except PythonModuleImportError as x:

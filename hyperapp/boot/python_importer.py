@@ -61,6 +61,19 @@ class _DynModuleLoader:
         exec(ast, module.__dict__)
 
 
+class _ImportedObjectLoader:
+    is_package = False
+
+    def __init__(self, obj):
+        self._obj = obj
+
+    def create_module(self, spec):
+        return self._obj
+
+    def exec_module(self, module):
+        pass
+
+
 class _Finder(importlib.abc.MetaPathFinder):
 
     def __init__(self, fullname_to_loader):
@@ -78,12 +91,16 @@ class PythonImporter:
     def __init__(self):
         pass
 
-    def import_module(self, module_name, source, file_path, import_loaders):
+    def import_module(self, module_name, source, file_path, imports):
+        import_loaders = {
+            f'{module_name}.{name}': _ImportedObjectLoader(obj)
+            for name, obj in imports.items()
+            }
         fullname_to_loader = {
             **self._package_loaders(import_loaders),
-            **import_loaders,
-            ROOT_PACKAGE: _PackageLoader(),
-            module_name: _DynModuleLoader(source, file_path),
+            **import_loaders,  # Should go after package loaders to override packages.
+            ROOT_PACKAGE: _PackageLoader(),  # Should go after package loaders.
+            module_name: _DynModuleLoader(source, file_path),  # Guess.
             }
         finder = _Finder(fullname_to_loader)
         sys.meta_path.append(finder)
