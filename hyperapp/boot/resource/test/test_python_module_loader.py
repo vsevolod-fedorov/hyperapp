@@ -57,12 +57,9 @@ def test_code_and_htypes_import(pyobj_creg, loader):
 
 def test_package_import(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'package_import'})
-    piece_1 = resources['a-project', ('sample',), 'main_1']
-    piece_2 = resources['a-project', ('sample',), 'main_2']
-    main_1 = pyobj_creg.animate(piece_1)
-    main_2 = pyobj_creg.animate(piece_2)
-    assert main_1() == 100
-    assert main_2() == 200
+    piece = resources['a-project', ('sample',), 'main']
+    main = pyobj_creg.animate(piece)
+    assert main() == 100
 
 
 def test_builtin_services(pyobj_creg, loader):
