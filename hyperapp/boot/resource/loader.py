@@ -128,7 +128,7 @@ class _Context:
         sources = {
             text: (project_name, path, TextSource(text))
             }
-        return (text, path, sources)  # TODO: Add project id.
+        return (text, project_name, path, sources)
 
 
 class _ResourceLoader:

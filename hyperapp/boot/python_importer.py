@@ -108,30 +108,31 @@ class PythonImporter:
         pass
 
     def import_module(self, module_name, source, file_path, imports):
+        module_full_name = f'{ROOT_PACKAGE}.{module_name}'
         package_objects = self._make_package_objects(imports)
         package_loaders = {
-            f'{module_name}.{name}': _PackageLoader(objects)
+            f'{module_full_name}.{name}': _PackageLoader(objects)
             for name, objects in package_objects.items()
             }
         import_loaders = {
-            f'{module_name}.{name}': _ImportedObjectLoader(obj)
+            f'{module_full_name}.{name}': _ImportedObjectLoader(obj)
             for name, obj in imports.items()
             }
         fullname_to_loader = {
             **package_loaders,
             **import_loaders,  # Should go after package loaders to override packages.
             ROOT_PACKAGE: _PackageLoader({}),  # Should go after package loaders.
-            module_name: _DynModuleLoader(source, file_path),  # Guess.
+            module_full_name: _DynModuleLoader(source, file_path),  # Guess.
             }
         finder = _Finder(fullname_to_loader)
         sys.meta_path.append(finder)
         log.debug('Import python module: %s', module_name)
         try:
             try:
-                return importlib.import_module(module_name)
+                return importlib.import_module(module_full_name)
             except:
                 for full_name in list(sys.modules):
-                    if full_name.startswith(module_name):
+                    if full_name.startswith(module_full_name):
                         # Do not keep submodules if module import failed.
                         # Import recorder should be reloaded with new resources.
                         del sys.modules[full_name]

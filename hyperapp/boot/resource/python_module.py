@@ -6,7 +6,7 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
-from hyperapp.boot.htypes.python_module import (
+from ..htypes.python_module import (
     import_rec_t,
     python_module_t,
     imports_t,
@@ -14,10 +14,11 @@ from hyperapp.boot.htypes.python_module import (
     import_rec_def_t,
     python_module_def_t,
     )
-from hyperapp.boot.htypes import HException
-from hyperapp.boot.dict_decoder import NamedPairsDictDecoder
-from hyperapp.boot.dict_encoder import NamedPairsDictEncoder
-from hyperapp.boot.python_importer import ROOT_PACKAGE, PythonModuleImportError
+from ..htypes import HException
+from ..dict_decoder import NamedPairsDictDecoder
+from ..dict_encoder import NamedPairsDictEncoder
+from ..python_importer import PythonModuleImportError
+from .source import TextSource
 
 log = logging.getLogger(__name__)
 
@@ -66,11 +67,10 @@ class PythonModuleResourceType:
                 )
             for rec in definition.imports.raw
             )
-        text, path, sources = ctx.get_text(definition.file_name)
+        text, project_name, path, sources = ctx.get_text(definition.file_name)
         piece = python_module_t(
             module_name=definition.module_name,
             source=text,
-            file_path='/'.join(path),  # TODO: Add project to path.
             imports=imports_t(
                 pyobj=pyobj_imports,
                 raw=raw_imports,
@@ -95,7 +95,7 @@ class PythonModuleResourceType:
             )
         return python_module_def_t(
             module_name=resource.module_name,
-            file_name=str(Path(resource.file_path).name),
+            file_name='',  # TODO
             imports=imports_def_t(
                 pyobj=pyobj_imports,
                 raw=raw_imports,
@@ -106,11 +106,14 @@ class PythonModuleResourceType:
 def make_module_name(mosaic, module):
     module_ref = mosaic.put(module)
     hash_hex = codecs.encode(module_ref.hash[:10], 'hex').decode()
-    return f'{ROOT_PACKAGE}.{module_ref.hash_algorithm}_{hash_hex}'
+    return f'{module_ref.hash_algorithm}_{hash_hex}'
 
 
-def python_module_pyobj(piece, mosaic, python_importer, pyobj_creg):
+def python_module_pyobj(piece, mosaic, python_importer, source_path, pyobj_creg):
     module_name = make_module_name(mosaic, piece)
+    file_path = source_path.get(piece)
+    if not file_path:
+        file_path = f'hyperapp://{module_name}'
     if module_name in sys.modules:
         raise RuntimeError(f"Error: module {module_name} is aleady imported")
     try:
@@ -123,7 +126,7 @@ def python_module_pyobj(piece, mosaic, python_importer, pyobj_creg):
             for rec in piece.imports.raw
             }
         imports = {**pyobj_imports, **raw_imports}
-        return python_importer.import_module(module_name, piece.source, piece.file_path, imports)
+        return python_importer.import_module(module_name, piece.source, file_path, imports)
     except HException:
         raise
     except PythonModuleImportError as x:

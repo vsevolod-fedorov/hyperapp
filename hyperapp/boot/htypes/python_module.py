@@ -20,7 +20,6 @@ imports_t = TRecord(BUILTIN_MODULE_NAME, 'imports', {
 python_module_t = TRecord(BUILTIN_MODULE_NAME, 'python_module', {
     'module_name': tString,
     'source': tString,
-    'file_path': tString,
     'imports': imports_t,
     })
 

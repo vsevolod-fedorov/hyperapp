@@ -26,17 +26,17 @@ def builtin_name_to_type():
 
 
 @pytest.fixture
-def builtin_name_to_service(pyobj_creg, mosaic, web):
-    return make_builtin_name_to_service(pyobj_creg, mosaic, web)
+def builtin_name_to_service(pyobj_creg, mosaic, web, source_path):
+    return make_builtin_name_to_service(pyobj_creg, mosaic, web, source_path)
 
 
 @pytest.fixture
-def init(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service):
+def init(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_type, builtin_name_to_service):
     pyobj_creg.init(mosaic, web)
     add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
     register_builtin_mt(mosaic, pyobj_creg)
     register_pyobj_creg_mt_actors(pyobj_creg)
-    register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, builtin_name_to_service)
+    register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_service)
     register_coders()
 
 

@@ -26,12 +26,12 @@ from hyperapp.boot.resource.loader import load_file_tree, load_resources
 from hyperapp.boot.register_coders import register_coders
 
 
-def init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service):
+def init_services(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_type, builtin_name_to_service):
     pyobj_creg.init(mosaic, web)
     add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
     register_builtin_mt(mosaic, pyobj_creg)
     register_pyobj_creg_mt_actors(pyobj_creg)
-    register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, builtin_name_to_service)
+    register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_service)
     register_coders()
 
 
@@ -43,7 +43,7 @@ def load_projects_resources(
         name: load_file_tree(projects_dir / path)
         for name, path in project_to_path.items()
         }
-    resources, source_dict = load_resources(
+    resources, sources = load_resources(
         pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, project_to_files)
     return resources
 
@@ -58,11 +58,12 @@ def boot(projects_path, main_path, args):
     pyobj_creg = PyObjRegistry(config={}, reconstructors=[])
     mosaic = Mosaic(pyobj_creg)
     web = Web(mosaic, pyobj_creg)
+    source_path = {}
     builtin_name_to_type = {
         **make_builtin_name_to_type(),
         **make_meta_type_name_to_type(),
         }
-    builtin_name_to_service = make_builtin_name_to_service(pyobj_creg, mosaic, web)
+    builtin_name_to_service = make_builtin_name_to_service(pyobj_creg, mosaic, web, source_path)
     python_importer = PythonImporter()
     init_services(pyobj_creg, mosaic, web, python_importer, builtin_name_to_type, builtin_name_to_service)
     resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)

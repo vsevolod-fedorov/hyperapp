@@ -67,13 +67,15 @@ def test_from_dict(resource_type_producer):
         )
 
 
-def mock_ctx(names, text):
+def mock_ctx(project_name, names, text):
     def resolve_to_ref(name):
         return names[name]
     def get_text(file_name):
-        sources = {}
         path = (file_name,)
-        return (text, path, sources)
+        sources = {
+            text: (project_name, path, None)
+            }
+        return (text, project_name, path, sources)
 
     return Mock(
         resolve_to_ref=resolve_to_ref,
@@ -85,13 +87,14 @@ def test_resolve(mosaic, resource_type_producer):
     resource_t = python_module_t
     resource_type = resource_type_producer(resource_t)
 
+    project_name = 'sample-project'
     source = TEST_RESOURCES_DIR.joinpath('sample_module.dyn.py').read_text()
     names = {
         'resource_1': mosaic.put('resource 1'),
         'resource_2': mosaic.put('resource 2'),
         'resource_3': mosaic.put('resource 3'),
         }
-    ctx = mock_ctx(names, source)
+    ctx = mock_ctx(project_name, names, source)
 
     definition = resource_type.definition_t(
         module_name='sample module',
@@ -113,7 +116,6 @@ def test_resolve(mosaic, resource_type_producer):
     assert resource == resource_t(
         module_name='sample module',
         source=source,
-        file_path='sample_module.dyn.py',
         imports=imports_t(
             pyobj=(
                 import_rec_t('some.used_1', names['resource_1']),
@@ -124,6 +126,7 @@ def test_resolve(mosaic, resource_type_producer):
                 ),
             ),
         )
+    assert sources[resource.source][:2] == (project_name, ('sample_module.dyn.py',))
 
 
 def test_reverse_resolve(mosaic, resource_type_producer):
@@ -143,7 +146,6 @@ def test_reverse_resolve(mosaic, resource_type_producer):
     resource = resource_t(
         module_name='sample module',
         source=TEST_RESOURCES_DIR.joinpath('sample_module.dyn.py').read_text(),
-        file_path=str(TEST_RESOURCES_DIR / 'sample_module.dyn.py'),
         imports=imports_t(
             pyobj=(
                 import_rec_t('some.used_1', names['resource_1']),
@@ -158,7 +160,7 @@ def test_reverse_resolve(mosaic, resource_type_producer):
 
     assert definition == resource_type.definition_t(
         module_name='sample module',
-        file_name='sample_module.dyn.py',
+        file_name='',
         imports=imports_def_t(
             pyobj=(
                 import_rec_def_t('some.used_1', 'resource_1'),

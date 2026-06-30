@@ -38,5 +38,10 @@ def builtin_name_to_type():
 
 
 @pytest.fixture
+def source_path():
+    return {}
+
+
+@pytest.fixture
 def python_importer():
     return PythonImporter()

@@ -10,7 +10,7 @@ from .python_module import python_module_pyobj
 from .builtin_service import builtin_service_pyobj
 
 
-def register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, builtin_name_to_service):
+def register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_service):
     pyobj_creg.register_actor(builtin_service_t, builtin_service_pyobj, builtin_name_to_service=builtin_name_to_service)
     pyobj_creg.register_actor(attribute_t, attribute_pyobj, pyobj_creg=pyobj_creg)
     pyobj_creg.register_actor(partial_t, partial_pyobj, pyobj_creg=pyobj_creg)
@@ -19,5 +19,6 @@ def register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, builtin
         python_module_t, python_module_pyobj,
         mosaic=mosaic,
         python_importer=python_importer,
+        source_path=source_path,
         pyobj_creg=pyobj_creg,
         )
