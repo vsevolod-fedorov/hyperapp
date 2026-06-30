@@ -108,7 +108,7 @@ def make_module_name(mosaic, module):
     hash_hex = codecs.encode(module_ref.hash[:10], 'hex').decode()
     return f'{ROOT_PACKAGE}.{module_ref.hash_algorithm}_{hash_hex}'
 
-                
+
 def python_module_pyobj(piece, mosaic, python_importer, pyobj_creg):
     module_name = make_module_name(mosaic, piece)
     if module_name in sys.modules:
