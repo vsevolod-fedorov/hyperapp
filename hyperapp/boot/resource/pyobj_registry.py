@@ -18,6 +18,7 @@ def register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, source_
     pyobj_creg.register_actor(
         python_module_t, python_module_pyobj,
         mosaic=mosaic,
+        web=web,
         python_importer=python_importer,
         source_path=source_path,
         pyobj_creg=pyobj_creg,

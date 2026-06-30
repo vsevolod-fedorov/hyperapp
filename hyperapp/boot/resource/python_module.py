@@ -109,7 +109,7 @@ def make_module_name(mosaic, module):
     return f'{module_ref.hash_algorithm}_{hash_hex}'
 
 
-def python_module_pyobj(piece, mosaic, python_importer, source_path, pyobj_creg):
+def python_module_pyobj(piece, mosaic, web, python_importer, source_path, pyobj_creg):
     module_name = make_module_name(mosaic, piece)
     file_path = source_path.get(piece)
     if not file_path:
@@ -122,7 +122,7 @@ def python_module_pyobj(piece, mosaic, python_importer, source_path, pyobj_creg)
             for rec in piece.imports.pyobj
             }
         raw_imports = {
-            rec.full_name: rec.resource
+            rec.full_name: web.summon(rec.resource)
             for rec in piece.imports.raw
             }
         imports = {**pyobj_imports, **raw_imports}
