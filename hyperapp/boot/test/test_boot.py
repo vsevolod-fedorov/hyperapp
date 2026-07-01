@@ -1,4 +1,5 @@
 import re
+import traceback
 from pathlib import Path
 
 from hyperapp.boot.resource.python_module import DynModuleResourceImportError
@@ -20,7 +21,7 @@ def test_imports():
 
 def test_import_error():
     try:
-        _ = boot(Path(RESOURCES_ROOT / 'import_error/projects.yaml'), 'sample:main:main', [23])
+        _ = boot(Path(RESOURCES_ROOT / 'import_error/projects.yaml'), 'sample:main:main', [])
     except DynModuleResourceImportError as x:
         assert isinstance(x.original_error, AssertionError)
         assert x.original_error.args == ('sample-error',)
@@ -31,5 +32,25 @@ def test_import_error():
             "  assert False, 'sample-error'",
             ]
         tb_lines = ''.join(x.tb).splitlines()
+        for line, expected in zip(tb_lines, expected_tb):
+            assert re.match('.*' + expected, line)
+
+
+
+def test_run_error():
+    try:
+        _ = boot(Path(RESOURCES_ROOT / 'run_error/projects.yaml'), 'sample:main:main', ['a-param'])
+    except AssertionError as x:
+        assert isinstance(x, AssertionError)
+        assert x.args == ('sample-error:a-param',)
+        expected_tb = [
+            'File ".+/hyperapp/boot/test/resources/run_error/main.dyn.py", line 2, in main',
+            r'  fn\(args\[0\]\)',
+            'File ".+/hyperapp/boot/test/resources/run_error/main.dyn.py", line 6, in fn',
+            "  assert False, f'sample-error:{value}'",
+            ]
+        tb = traceback.format_tb(x.__traceback__)[2:]
+        tb_lines = ''.join(tb).splitlines()
+        print(''.join(tb))
         for line, expected in zip(tb_lines, expected_tb):
             assert re.match('.*' + expected, line)
