@@ -9,5 +9,7 @@ definitions:
     value:
       module_name: context
       file_name: context.dyn.py
-      import_list:
-        services.deduce_t: builtins:deduce_t.service
+      imports:
+        pyobj:
+          services.deduce_t: builtins:deduce_t.service
+        raw: {}

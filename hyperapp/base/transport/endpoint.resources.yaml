@@ -13,8 +13,10 @@ definitions:
     value:
       module_name: endpoint
       file_name: endpoint.dyn.py
-      import_list:
-        services.unbundler: builtins:unbundler.service
+      imports:
+        pyobj:
+          services.unbundler: builtins:unbundler.service
+        raw: {}
 
   endpoint_thread_pool:
     type: legacy_type.builtin:attribute

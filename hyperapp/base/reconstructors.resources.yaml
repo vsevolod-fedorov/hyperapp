@@ -11,7 +11,9 @@ definitions:
     value:
       module_name: reconstructors
       file_name: reconstructors.dyn.py
-      import_list:
-        code.type_reconstructor: base.type_reconstructor:type_reconstructor.module
-        code.fn_reconstructor: base.fn_reconstructor:fn_reconstructor.module
-        services.reconstructors: builtins:reconstructors.service
+      imports:
+        pyobj:
+          code.type_reconstructor: base.type_reconstructor:type_reconstructor.module
+          code.fn_reconstructor: base.fn_reconstructor:fn_reconstructor.module
+          services.reconstructors: builtins:reconstructors.service
+        raw: {}

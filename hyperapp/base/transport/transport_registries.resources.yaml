@@ -12,8 +12,10 @@ definitions:
     value:
       module_name: transport_registries
       file_name: transport_registries.dyn.py
-      import_list:
-        services.code_registry_ctr: builtins:code_registry_ctr.service
+      imports:
+        pyobj:
+          services.code_registry_ctr: builtins:code_registry_ctr.service
+        raw: {}
 
   identity_creg:
     type: legacy_type.builtin:attribute

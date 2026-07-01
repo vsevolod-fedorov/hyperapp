@@ -1,8 +1,8 @@
 import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.command:arg_t
@@ -40,55 +40,57 @@ import:
 definitions:
 
   command_ctr.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: command_ctr
       file_name: command_ctr.dyn.py
-      import_list:
-        htypes.builtin.attribute: legacy_type.builtin:attribute
-        htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
-        htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
-        htypes.command.arg_t: legacy_type.command:arg_t
-        htypes.command.args_picker_command: legacy_type.command:args_picker_command
-        htypes.command.args_picker_command_enum: legacy_type.command:args_picker_command_enum
-        htypes.command.command_template: legacy_type.command:command_template
-        htypes.command.properties: legacy_type.command:properties
-        htypes.command.model_command: legacy_type.command:model_command
-        htypes.command.global_model_command: legacy_type.command:global_model_command
-        htypes.command.global_model_command_key: legacy_type.command:global_model_command_key
-        htypes.command.model_command_fn: legacy_type.command:model_command_fn
-        htypes.command.model_command_enum_fn: legacy_type.command:model_command_enum_fn
-        htypes.command.model_command_enumerator: legacy_type.command:model_command_enumerator
-        htypes.command.model_command_key: legacy_type.command:model_command_key
-        htypes.command.type_str_command: legacy_type.command:type_str_command
-        htypes.command.ui_command: legacy_type.command:ui_command
-        htypes.command.ui_command_enum_fn: legacy_type.command:ui_command_enum_fn
-        htypes.command.ui_command_enumerator: legacy_type.command:ui_command_enumerator
-        htypes.command.ui_command_key: legacy_type.command:ui_command_key
-        htypes.command.universal_ui_command_key: legacy_type.command:universal_ui_command_key
-        htypes.command_resource.arg: legacy_type.command_resource:arg
-        htypes.command_resource.global_model_command_template_ctr: legacy_type.command_resource:global_model_command_template_ctr
-        htypes.command_resource.model_command_enumerator_template_ctr: legacy_type.command_resource:model_command_enumerator_template_ctr
-        htypes.command_resource.model_command_template_ctr: legacy_type.command_resource:model_command_template_ctr
-        htypes.command_resource.ui_command_enumerator_template_ctr: legacy_type.command_resource:ui_command_enumerator_template_ctr
-        htypes.command_resource.ui_command_template_ctr: legacy_type.command_resource:ui_command_template_ctr
-        htypes.command_resource.ui_model_command_template_ctr: legacy_type.command_resource:ui_model_command_template_ctr
-        htypes.command_resource.universal_ui_command_template_ctr: legacy_type.command_resource:universal_ui_command_template_ctr
-        htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        code.rc_constructor: rc.rc_constructor:rc_constructor.module
-        code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
-        code.data_config_ctr: rc.data_config_ctr:data_config_ctr.module
+      imports:
+        pyobj:
+          htypes.builtin.attribute: builtin:type:attribute
+          htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
+          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
+          htypes.command.arg_t: legacy_type.command:arg_t
+          htypes.command.args_picker_command: legacy_type.command:args_picker_command
+          htypes.command.args_picker_command_enum: legacy_type.command:args_picker_command_enum
+          htypes.command.command_template: legacy_type.command:command_template
+          htypes.command.properties: legacy_type.command:properties
+          htypes.command.model_command: legacy_type.command:model_command
+          htypes.command.global_model_command: legacy_type.command:global_model_command
+          htypes.command.global_model_command_key: legacy_type.command:global_model_command_key
+          htypes.command.model_command_fn: legacy_type.command:model_command_fn
+          htypes.command.model_command_enum_fn: legacy_type.command:model_command_enum_fn
+          htypes.command.model_command_enumerator: legacy_type.command:model_command_enumerator
+          htypes.command.model_command_key: legacy_type.command:model_command_key
+          htypes.command.type_str_command: legacy_type.command:type_str_command
+          htypes.command.ui_command: legacy_type.command:ui_command
+          htypes.command.ui_command_enum_fn: legacy_type.command:ui_command_enum_fn
+          htypes.command.ui_command_enumerator: legacy_type.command:ui_command_enumerator
+          htypes.command.ui_command_key: legacy_type.command:ui_command_key
+          htypes.command.universal_ui_command_key: legacy_type.command:universal_ui_command_key
+          htypes.command_resource.arg: legacy_type.command_resource:arg
+          htypes.command_resource.global_model_command_template_ctr: legacy_type.command_resource:global_model_command_template_ctr
+          htypes.command_resource.model_command_enumerator_template_ctr: legacy_type.command_resource:model_command_enumerator_template_ctr
+          htypes.command_resource.model_command_template_ctr: legacy_type.command_resource:model_command_template_ctr
+          htypes.command_resource.ui_command_enumerator_template_ctr: legacy_type.command_resource:ui_command_enumerator_template_ctr
+          htypes.command_resource.ui_command_template_ctr: legacy_type.command_resource:ui_command_template_ctr
+          htypes.command_resource.ui_model_command_template_ctr: legacy_type.command_resource:ui_model_command_template_ctr
+          htypes.command_resource.universal_ui_command_template_ctr: legacy_type.command_resource:universal_ui_command_template_ctr
+          htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          code.rc_constructor: rc.rc_constructor:rc_constructor.module
+          code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
+          code.data_config_ctr: rc.data_config_ctr:data_config_ctr.module
+        raw: {}
 
   UiCommandTemplateCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_ctr.module
       attr_name: UiCommandTemplateCtr
 
   UiCommandTemplateCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: UiCommandTemplateCtr
       attr_name: from_piece
@@ -106,13 +108,13 @@ definitions:
       value: UiCommandTemplateCtr.from_piece.actor-template
 
   UiModelCommandTemplateCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_ctr.module
       attr_name: UiModelCommandTemplateCtr
 
   UiModelCommandTemplateCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: UiModelCommandTemplateCtr
       attr_name: from_piece
@@ -130,13 +132,13 @@ definitions:
       value: UiModelCommandTemplateCtr.from_piece.actor-template
 
   UniversalUiCommandTemplateCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_ctr.module
       attr_name: UniversalUiCommandTemplateCtr
 
   UniversalUiCommandTemplateCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: UniversalUiCommandTemplateCtr
       attr_name: from_piece
@@ -154,13 +156,13 @@ definitions:
       value: UniversalUiCommandTemplateCtr.from_piece.actor-template
 
   UiCommandEnumeratorTemplateCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_ctr.module
       attr_name: UiCommandEnumeratorTemplateCtr
 
   UiCommandEnumeratorTemplateCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: UiCommandEnumeratorTemplateCtr
       attr_name: from_piece
@@ -178,13 +180,13 @@ definitions:
       value: UiCommandEnumeratorTemplateCtr.from_piece.actor-template
 
   ModelCommandTemplateCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_ctr.module
       attr_name: ModelCommandTemplateCtr
 
   ModelCommandTemplateCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ModelCommandTemplateCtr
       attr_name: from_piece
@@ -202,13 +204,13 @@ definitions:
       value: ModelCommandTemplateCtr.from_piece.actor-template
 
   ModelCommandEnumeratorTemplateCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_ctr.module
       attr_name: ModelCommandEnumeratorTemplateCtr
 
   ModelCommandEnumeratorTemplateCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ModelCommandEnumeratorTemplateCtr
       attr_name: from_piece
@@ -226,13 +228,13 @@ definitions:
       value: ModelCommandEnumeratorTemplateCtr.from_piece.actor-template
 
   GlobalModelCommandTemplateCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_ctr.module
       attr_name: GlobalModelCommandTemplateCtr
 
   GlobalModelCommandTemplateCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: GlobalModelCommandTemplateCtr
       attr_name: from_piece

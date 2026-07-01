@@ -2,8 +2,8 @@ import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
 - builtins:web.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.fixture_resource:config_fixture_resource
 - legacy_type.fixture_resource:config_template_fixture_resource
@@ -14,27 +14,29 @@ import:
 definitions:
 
   fixture_resource.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: fixture_resource
       file_name: fixture_resource.dyn.py
-      import_list:
-        htypes.fixture_resource.config_fixture_resource: legacy_type.fixture_resource:config_fixture_resource
-        htypes.fixture_resource.config_template_fixture_resource: legacy_type.fixture_resource:config_template_fixture_resource
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        services.web: builtins:web.service
-        code.rc_resource: rc.rc_resource:rc_resource.module
-        code.system_probe: rc.system_probe:system_probe.module
+      imports:
+        pyobj:
+          htypes.fixture_resource.config_fixture_resource: legacy_type.fixture_resource:config_fixture_resource
+          htypes.fixture_resource.config_template_fixture_resource: legacy_type.fixture_resource:config_template_fixture_resource
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          services.web: builtins:web.service
+          code.rc_resource: rc.rc_resource:rc_resource.module
+          code.system_probe: rc.system_probe:system_probe.module
+        raw: {}
 
   ConfigFixtureResource:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_resource.module
       attr_name: ConfigFixtureResource
 
   ConfigFixtureResource.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ConfigFixtureResource
       attr_name: from_piece
@@ -52,13 +54,13 @@ definitions:
       value: ConfigFixtureResource.from_piece.actor-template
 
   ConfigTemplateFixtureResource:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_resource.module
       attr_name: ConfigTemplateFixtureResource
 
   ConfigTemplateFixtureResource.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ConfigTemplateFixtureResource
       attr_name: from_piece

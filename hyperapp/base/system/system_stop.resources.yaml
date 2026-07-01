@@ -12,13 +12,15 @@ definitions:
     value:
       module_name: system_stop
       file_name: system_stop.dyn.py
-      import_list: {}
+      imports: {}
+      pyobj:
 
-  stop_signal:
-    type: legacy_type.builtin:attribute
-    value:
-      object: system_stop.module
-      attr_name: stop_signal
+    stop_signal:
+      type: legacy_type.builtin:attribute
+      value:
+        object: system_stop.module
+        attr_name: stop_signal
+      raw: {}
 
   stop_signal.service:
     type: legacy_type.system:service_template

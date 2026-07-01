@@ -2,9 +2,9 @@ import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
 - builtins:web.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:import_rec
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:import_rec
+- builtin:type:python_module
 - legacy_type.cfg_item:data_cfg_item
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.ctr_collector:mark_module_template
@@ -24,37 +24,39 @@ import:
 definitions:
 
   test_requirement.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: test_requirement
       file_name: test_requirement.dyn.py
-      import_list:
-        htypes.builtin.import_rec: legacy_type.builtin:import_rec
-        htypes.cfg_item.data_cfg_item: legacy_type.cfg_item:data_cfg_item
-        htypes.ctr_collector.mark_module_template: legacy_type.ctr_collector:mark_module_template
-        htypes.import_resource.import_template: legacy_type.import_resource:import_template
-        htypes.import_resource.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
-        htypes.test_target.constructors_picker_resource: legacy_type.test_target:constructors_picker_resource
-        htypes.test_target.tested_code_req: legacy_type.test_target:tested_code_req
-        htypes.test_target.fixtures_module_req: legacy_type.test_target:fixtures_module_req
-        htypes.test_target.tested_code_resource: legacy_type.test_target:tested_code_resource
-        htypes.test_target.recorder_resource: legacy_type.test_target:recorder_resource
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        services.web: builtins:web.service
-        code.config_item_resource: rc.config_item_resource:config_item_resource.module
-        code.rc_requirement: rc.rc_requirement:rc_requirement.module
-        code.rc_resource: rc.rc_resource:rc_resource.module
-        code.python_module_resource_target: rc.python_module_resource_target:python_module_resource_target.module
+      imports:
+        pyobj:
+          htypes.builtin.import_rec: builtin:type:import_rec
+          htypes.cfg_item.data_cfg_item: legacy_type.cfg_item:data_cfg_item
+          htypes.ctr_collector.mark_module_template: legacy_type.ctr_collector:mark_module_template
+          htypes.import_resource.import_template: legacy_type.import_resource:import_template
+          htypes.import_resource.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
+          htypes.test_target.constructors_picker_resource: legacy_type.test_target:constructors_picker_resource
+          htypes.test_target.tested_code_req: legacy_type.test_target:tested_code_req
+          htypes.test_target.fixtures_module_req: legacy_type.test_target:fixtures_module_req
+          htypes.test_target.tested_code_resource: legacy_type.test_target:tested_code_resource
+          htypes.test_target.recorder_resource: legacy_type.test_target:recorder_resource
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          services.web: builtins:web.service
+          code.config_item_resource: rc.config_item_resource:config_item_resource.module
+          code.rc_requirement: rc.rc_requirement:rc_requirement.module
+          code.rc_resource: rc.rc_resource:rc_resource.module
+          code.python_module_resource_target: rc.python_module_resource_target:python_module_resource_target.module
+        raw: {}
 
   TestedCodeReq:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: test_requirement.module
       attr_name: TestedCodeReq
 
   TestedCodeReq.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: TestedCodeReq
       attr_name: from_piece
@@ -72,13 +74,13 @@ definitions:
       value: TestedCodeReq.from_piece.actor-template
 
   FixturesModuleReq:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: test_requirement.module
       attr_name: FixturesModuleReq
 
   FixturesModuleReq.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: FixturesModuleReq
       attr_name: from_piece
@@ -96,13 +98,13 @@ definitions:
       value: FixturesModuleReq.from_piece.actor-template
 
   TestedCodeResource:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: test_requirement.module
       attr_name: TestedCodeResource
 
   TestedCodeResource.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: TestedCodeResource
       attr_name: from_piece
@@ -120,13 +122,13 @@ definitions:
       value: TestedCodeResource.from_piece.actor-template
 
   RecorderResource:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: test_requirement.module
       attr_name: RecorderResource
 
   RecorderResource.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: RecorderResource
       attr_name: from_piece

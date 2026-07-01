@@ -2,8 +2,8 @@ import:
 
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.import_job:failed_result
 - legacy_type.import_job:function
@@ -21,33 +21,35 @@ import:
 definitions:
 
   import_job.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: import_job
       file_name: import_job.dyn.py
-      import_list:
-        htypes.import_job.failed_result: legacy_type.import_job:failed_result
-        htypes.import_job.function: legacy_type.import_job:function
-        htypes.import_job.job: legacy_type.import_job:job
-        htypes.import_job.incomplete_result: legacy_type.import_job:incomplete_result
-        htypes.import_job.succeeded_result: legacy_type.import_job:succeeded_result
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        code.builtin_resources: rc.builtin_resources:builtin_resources.module
-        code.job_result: rc.job_result:job_result.module
-        code.python_src: rc.python_src:python_src.module
-        code.test_module_resources_req: rc.test_module_resources_req:test_module_resources_req.module
-        code.rc_constants: rc.rc_constants:rc_constants.module
-        code.system_job: rc.system_job:system_job.module
+      imports:
+        pyobj:
+          htypes.import_job.failed_result: legacy_type.import_job:failed_result
+          htypes.import_job.function: legacy_type.import_job:function
+          htypes.import_job.job: legacy_type.import_job:job
+          htypes.import_job.incomplete_result: legacy_type.import_job:incomplete_result
+          htypes.import_job.succeeded_result: legacy_type.import_job:succeeded_result
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          code.builtin_resources: rc.builtin_resources:builtin_resources.module
+          code.job_result: rc.job_result:job_result.module
+          code.python_src: rc.python_src:python_src.module
+          code.test_module_resources_req: rc.test_module_resources_req:test_module_resources_req.module
+          code.rc_constants: rc.rc_constants:rc_constants.module
+          code.system_job: rc.system_job:system_job.module
+        raw: {}
 
   SucceededImportResult:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: import_job.module
       attr_name: SucceededImportResult
 
   SucceededImportResult.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: SucceededImportResult
       attr_name: from_piece
@@ -67,13 +69,13 @@ definitions:
       value: SucceededImportResult.from_piece.actor-template
 
   IncompleteImportResult:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: import_job.module
       attr_name: IncompleteImportResult
 
   IncompleteImportResult.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: IncompleteImportResult
       attr_name: from_piece
@@ -92,13 +94,13 @@ definitions:
       value: IncompleteImportResult.from_piece.actor-template
 
   FailedImportResult:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: import_job.module
       attr_name: FailedImportResult
 
   FailedImportResult.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: FailedImportResult
       attr_name: from_piece
@@ -117,13 +119,13 @@ definitions:
       value: FailedImportResult.from_piece.actor-template
 
   ImportJob:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: import_job.module
       attr_name: ImportJob
 
   ImportJob.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ImportJob
       attr_name: from_piece

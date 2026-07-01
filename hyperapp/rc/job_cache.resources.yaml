@@ -1,8 +1,8 @@
 import:
 - base.system.system:actor_dict.config_ctl
 - builtins:mosaic.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.job_cache:cache
 - legacy_type.job_cache:dep
 - legacy_type.job_cache:entry
@@ -12,19 +12,21 @@ import:
 definitions:
 
   job_cache.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: job_cache
       file_name: job_cache.dyn.py
-      import_list:
-        htypes.job_cache.cache: legacy_type.job_cache:cache
-        htypes.job_cache.dep: legacy_type.job_cache:dep
-        htypes.job_cache.entry: legacy_type.job_cache:entry
-        services.mosaic: builtins:mosaic.service
-        code.python_src: rc.python_src:python_src.module
+      imports:
+        pyobj:
+          htypes.job_cache.cache: legacy_type.job_cache:cache
+          htypes.job_cache.dep: legacy_type.job_cache:dep
+          htypes.job_cache.entry: legacy_type.job_cache:entry
+          services.mosaic: builtins:mosaic.service
+          code.python_src: rc.python_src:python_src.module
+        raw: {}
 
   JobCache:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: job_cache.module
       attr_name: JobCache

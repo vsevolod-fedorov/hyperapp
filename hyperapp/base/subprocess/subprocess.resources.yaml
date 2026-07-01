@@ -1,22 +1,24 @@
 import:
 - builtins:mosaic.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.system:service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
 
   subprocess.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: subprocess
       file_name: subprocess.dyn.py
-      import_list:
-        services.mosaic: builtins:mosaic.service
+      imports:
+        pyobj:
+          services.mosaic: builtins:mosaic.service
+        raw: {}
 
   subprocess_running:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: subprocess.module
       attr_name: subprocess_running

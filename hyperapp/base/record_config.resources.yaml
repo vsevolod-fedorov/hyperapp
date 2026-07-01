@@ -15,11 +15,13 @@ definitions:
     value:
       module_name: record_config
       file_name: record_config.dyn.py
-      import_list:
-        htypes.record_config.config_ctl: legacy_type.record_config:config_ctl
-        services.pyobj_creg: builtins:pyobj_creg.service
-        # code.config_ctl: base.system.config_ctl:config_ctl.module
-        code.mark: base.mark:mark.module
+      imports:
+        pyobj:
+          htypes.record_config.config_ctl: legacy_type.record_config:config_ctl
+          services.pyobj_creg: builtins:pyobj_creg.service
+          # code.config_ctl: base.system.config_ctl:config_ctl.module
+          code.mark: base.mark:mark.module
+        raw: {}
 
   RecordConfigCtl:
     type: legacy_type.builtin:attribute

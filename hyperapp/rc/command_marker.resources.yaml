@@ -1,7 +1,7 @@
 import:
 - builtins:deduce_t.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.command:model_command_add_fn
 - legacy_type.command:model_command_fn
@@ -14,21 +14,23 @@ import:
 definitions:
 
   command_marker.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: command_marker
       file_name: command_marker.dyn.py
-      import_list:
-        htypes.command.model_command_add_fn: legacy_type.command:model_command_add_fn
-        htypes.command.model_command_fn: legacy_type.command:model_command_fn
-        htypes.command.model_command_remove_fn: legacy_type.command:model_command_remove_fn
-        services.deduce_t: builtins:deduce_t.service
-        code.command_ctr: rc.command_ctr:command_ctr.module
-        code.marker_utils: rc.marker_utils:marker_utils.module
-        code.probe: rc.probe:probe.module
+      imports:
+        pyobj:
+          htypes.command.model_command_add_fn: legacy_type.command:model_command_add_fn
+          htypes.command.model_command_fn: legacy_type.command:model_command_fn
+          htypes.command.model_command_remove_fn: legacy_type.command:model_command_remove_fn
+          services.deduce_t: builtins:deduce_t.service
+          code.command_ctr: rc.command_ctr:command_ctr.module
+          code.marker_utils: rc.marker_utils:marker_utils.module
+          code.probe: rc.probe:probe.module
+        raw: {}
 
   UiCommandMarker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_marker.module
       attr_name: UiCommandMarker
@@ -48,7 +50,7 @@ definitions:
       value: ui_command.marker-template
 
   UniversalUiCommandMarker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_marker.module
       attr_name: UniversalUiCommandMarker
@@ -68,7 +70,7 @@ definitions:
       value: universal_ui_command.marker-template
 
   UiCommandEnumeratorMarker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_marker.module
       attr_name: UiCommandEnumeratorMarker
@@ -88,7 +90,7 @@ definitions:
       value: ui_command_enum.marker-template
 
   ModelCommandMarker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_marker.module
       attr_name: ModelCommandMarker
@@ -108,7 +110,7 @@ definitions:
       value: command.marker-template
 
   ModelCommandEnumeratorMarker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_marker.module
       attr_name: ModelCommandEnumeratorMarker
@@ -128,7 +130,7 @@ definitions:
       value: command_enum.marker-template
 
   GlobalModelCommandMarker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: command_marker.module
       attr_name: GlobalModelCommandMarker

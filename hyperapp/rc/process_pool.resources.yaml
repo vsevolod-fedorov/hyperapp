@@ -1,23 +1,25 @@
 import:
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.system:service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
 
   process_pool.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: process_pool
       file_name: process_pool.dyn.py
-      import_list: {}
+      imports: {}
+      pyobj:
 
-  process_pool_running:
-    type: legacy_type.builtin:attribute
-    value:
-      object: process_pool.module
-      attr_name: process_pool_running
+    process_pool_running:
+      type: builtin:type:attribute
+      value:
+        object: process_pool.module
+        attr_name: process_pool_running
+      raw: {}
 
   process_pool_running.service:
     type: legacy_type.system:service_template

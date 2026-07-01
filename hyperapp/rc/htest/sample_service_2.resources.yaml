@@ -3,15 +3,15 @@
 import:
 - base.mark:mark.module
 - base.system.config_layer:one_way.key_ctl
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:service_template
 - legacy_type.system:single_struct_ctl
 definitions:
   sample_fn_service_2:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: sample_service_2.module
       attr_name: sample_fn_service_2
@@ -28,36 +28,38 @@ definitions:
       - param_1
       - param_2
   sample_service_2.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: sample_service_2
       file_name: sample_service_2.dyn.py
-      import_list:
-        code.mark: base.mark:mark.module
-  sample_value_service_2:
-    type: legacy_type.builtin:attribute
-    value:
-      object: sample_service_2.module
-      attr_name: sample_value_service_2
-  sample_value_service_2.service:
-    type: legacy_type.system:service_template
-    value:
-      name: sample_value_service_2
-      ctl: system-dict_config.one_way.actor.single.ctl
-      function: sample_value_service_2
-      service_params:
-      - sample_fn_service_1
-      want_config: false
-      free_params: []
-  system-actor.value-ctl:
-    type: legacy_type.system:actor_value_ctl
-    value: {}
-  system-dict_config.one_way.actor.single.ctl:
-    type: legacy_type.system:dict_config_ctl
-    value:
-      key_ctl: base.system.config_layer:one_way.key_ctl
-      value_ctl: system-actor.value-ctl
-      struct_ctl: system-single.struct-ctl
-  system-single.struct-ctl:
-    type: legacy_type.system:single_struct_ctl
-    value: {}
+      imports:
+        pyobj:
+          code.mark: base.mark:mark.module
+    sample_value_service_2:
+      type: builtin:type:attribute
+      value:
+        object: sample_service_2.module
+        attr_name: sample_value_service_2
+    sample_value_service_2.service:
+      type: legacy_type.system:service_template
+      value:
+        name: sample_value_service_2
+        ctl: system-dict_config.one_way.actor.single.ctl
+        function: sample_value_service_2
+        service_params:
+        - sample_fn_service_1
+        want_config: false
+        free_params: []
+    system-actor.value-ctl:
+      type: legacy_type.system:actor_value_ctl
+      value: {}
+    system-dict_config.one_way.actor.single.ctl:
+      type: legacy_type.system:dict_config_ctl
+      value:
+        key_ctl: base.system.config_layer:one_way.key_ctl
+        value_ctl: system-actor.value-ctl
+        struct_ctl: system-single.struct-ctl
+    system-single.struct-ctl:
+      type: legacy_type.system:single_struct_ctl
+      value: {}
+    raw: {}

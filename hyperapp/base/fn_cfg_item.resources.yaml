@@ -12,13 +12,15 @@ definitions:
     value:
       module_name: fn_cfg_item
       file_name: fn_cfg_item.dyn.py
-      import_list: {}
+      imports: {}
+      pyobj:
 
-  resolve_fn_cfg_item:
-    type: legacy_type.builtin:attribute
-    value:
-      object: fn_cfg_item.module
-      attr_name: resolve_fn_cfg_item
+    resolve_fn_cfg_item:
+      type: legacy_type.builtin:attribute
+      value:
+        object: fn_cfg_item.module
+        attr_name: resolve_fn_cfg_item
+      raw: {}
 
   resolve_fn_cfg_value:
     type: legacy_type.builtin:attribute

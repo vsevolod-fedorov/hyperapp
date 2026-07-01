@@ -13,8 +13,10 @@ definitions:
     value:
       module_name: init_hook
       file_name: init_hook.dyn.py
-      import_list:
-        code.context: base.context:context.module
+      imports:
+        pyobj:
+          code.context: base.context:context.module
+        raw: {}
 
   init_hook:
     type: legacy_type.builtin:attribute

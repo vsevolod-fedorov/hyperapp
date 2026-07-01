@@ -12,8 +12,10 @@ definitions:
     value:
       module_name: route_table
       file_name: route_table.dyn.py
-      import_list:
-        services.web: builtins:web.service
+      imports:
+        pyobj:
+          services.web: builtins:web.service
+        raw: {}
 
   route_table:
     type: legacy_type.builtin:attribute

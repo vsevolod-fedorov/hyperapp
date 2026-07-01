@@ -1,6 +1,6 @@
 import:
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.init_hook_req:init_hook_req
 - legacy_type.system:actor_template
@@ -9,22 +9,24 @@ import:
 definitions:
 
   init_hook_req.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: init_hook_req
       file_name: init_hook_req.dyn.py
-      import_list:
-        htypes.init_hook_req.init_hook_req: legacy_type.init_hook_req:init_hook_req
-        code.rc_requirement: rc.rc_requirement:rc_requirement.module
+      imports:
+        pyobj:
+          htypes.init_hook_req.init_hook_req: legacy_type.init_hook_req:init_hook_req
+          code.rc_requirement: rc.rc_requirement:rc_requirement.module
+        raw: {}
 
   InitHookReq:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: init_hook_req.module
       attr_name: InitHookReq
 
   InitHookReq.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: InitHookReq
       attr_name: from_piece

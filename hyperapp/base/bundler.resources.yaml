@@ -14,10 +14,12 @@ definitions:
     value:
       module_name: bundler
       file_name: bundler.dyn.py
-      import_list:
-        services.association_reg: builtins:association_reg.service
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
+      imports:
+        pyobj:
+          services.association_reg: builtins:association_reg.service
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+        raw: {}
 
   bundler:
     type: legacy_type.builtin:attribute

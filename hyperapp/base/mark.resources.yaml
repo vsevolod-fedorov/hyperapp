@@ -1,24 +1,26 @@
 import:
-- legacy_type.builtin:attribute
-- legacy_type.builtin:call
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:call
+- builtin:type:python_module
 - legacy_type.system:service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
 
   mark.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: mark
       file_name: mark.dyn.py
-      import_list: {}
+      imports:
+        pyobj:
 
-  marker_ctl:
-    type: legacy_type.builtin:attribute
-    value:
-      object: mark.module
-      attr_name: marker_ctl
+    marker_ctl:
+      type: builtin:type:attribute
+      value:
+        object: mark.module
+        attr_name: marker_ctl
+      raw: {}
 
   marker_ctl.service:
     type: legacy_type.system:service_template

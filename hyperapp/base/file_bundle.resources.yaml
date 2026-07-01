@@ -14,10 +14,12 @@ definitions:
     value:
       module_name: file_bundle
       file_name: file_bundle.dyn.py
-      import_list:
-        code.mark: base.mark:mark.module
-        services.mosaic: builtins:mosaic.service
-        services.unbundler: builtins:unbundler.service
+      imports:
+        pyobj:
+          code.mark: base.mark:mark.module
+          services.mosaic: builtins:mosaic.service
+          services.unbundler: builtins:unbundler.service
+        raw: {}
 
   file_bundle_factory:
     type: legacy_type.builtin:attribute

@@ -1,7 +1,7 @@
 import:
 - builtins:web.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.config_item_resource:config_item_resource
 - legacy_type.config_item_resource:config_item_resource_override
@@ -11,24 +11,26 @@ import:
 definitions:
 
   config_item_resource.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: config_item_resource
       file_name: config_item_resource.dyn.py
-      import_list:
-        htypes.config_item_resource.config_item_resource: legacy_type.config_item_resource:config_item_resource
-        htypes.config_item_resource.config_item_resource_override: legacy_type.config_item_resource:config_item_resource_override
-        services.web: builtins:web.service
-        code.rc_resource: rc.rc_resource:rc_resource.module
+      imports:
+        pyobj:
+          htypes.config_item_resource.config_item_resource: legacy_type.config_item_resource:config_item_resource
+          htypes.config_item_resource.config_item_resource_override: legacy_type.config_item_resource:config_item_resource_override
+          services.web: builtins:web.service
+          code.rc_resource: rc.rc_resource:rc_resource.module
+        raw: {}
 
   ConfigItemResource:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: config_item_resource.module
       attr_name: ConfigItemResource
 
   ConfigItemResource.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ConfigItemResource
       attr_name: from_piece
@@ -46,13 +48,13 @@ definitions:
       value: ConfigItemResource.from_piece.actor-template
 
   ConfigItemResourceOverride:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: config_item_resource.module
       attr_name: ConfigItemResourceOverride
 
   ConfigItemResourceOverride.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ConfigItemResourceOverride
       attr_name: from_piece

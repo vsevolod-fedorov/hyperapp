@@ -2,8 +2,8 @@ import:
 - base.system.config_layer:config_layer.module
 - base.system.system:actor_dict.config_ctl
 - builtins:mosaic.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.service:service_fn
 - legacy_type.system:service_config
@@ -13,18 +13,20 @@ import:
 definitions:
 
   file_bundle_config_layer.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: file_bundle_config_layer
       file_name: file_bundle_config_layer.dyn.py
-      import_list:
-        htypes.system.service_config: legacy_type.system:service_config
-        htypes.system.system_config: legacy_type.system:system_config
-        services.mosaic: builtins:mosaic.service
-        code.config_layer: base.system.config_layer:config_layer.module
+      imports:
+        pyobj:
+          htypes.system.service_config: legacy_type.system:service_config
+          htypes.system.system_config: legacy_type.system:system_config
+          services.mosaic: builtins:mosaic.service
+          code.config_layer: base.system.config_layer:config_layer.module
+        raw: {}
 
   FileBundleConfigLayer:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: file_bundle_config_layer.module
       attr_name: FileBundleConfigLayer
@@ -44,7 +46,7 @@ definitions:
       - path
 
   load_config_layers:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: file_bundle_config_layer.module
       attr_name: load_config_layers

@@ -1,7 +1,7 @@
 import:
 - builtins:mosaic.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.fixture_resource:config_fixture_ctr
@@ -20,32 +20,34 @@ import:
 definitions:
 
   fixture_ctr.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: fixture_ctr
       file_name: fixture_ctr.dyn.py
-      import_list:
-        htypes.builtin.attribute: legacy_type.builtin:attribute
-        htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
-        htypes.fixture_resource.config_fixture_ctr: legacy_type.fixture_resource:config_fixture_ctr
-        htypes.fixture_resource.config_template_fixture_ctr: legacy_type.fixture_resource:config_template_fixture_ctr
-        htypes.fixture_resource.fixture_obj_ctr: legacy_type.fixture_resource:fixture_obj_ctr
-        htypes.fixture_resource.fixture_obj_template: legacy_type.fixture_resource:fixture_obj_template
-        htypes.fixture_resource.fixture_probe_ctr: legacy_type.fixture_resource:fixture_probe_ctr
-        htypes.fixture_resource.fixture_probe_template: legacy_type.fixture_resource:fixture_probe_template
-        services.mosaic: builtins:mosaic.service
-        code.config_item_resource: rc.config_item_resource:config_item_resource.module
-        code.rc_constructor: rc.rc_constructor:rc_constructor.module
-        code.fixture_resource: rc.fixture_resource:fixture_resource.module
+      imports:
+        pyobj:
+          htypes.builtin.attribute: builtin:type:attribute
+          htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
+          htypes.fixture_resource.config_fixture_ctr: legacy_type.fixture_resource:config_fixture_ctr
+          htypes.fixture_resource.config_template_fixture_ctr: legacy_type.fixture_resource:config_template_fixture_ctr
+          htypes.fixture_resource.fixture_obj_ctr: legacy_type.fixture_resource:fixture_obj_ctr
+          htypes.fixture_resource.fixture_obj_template: legacy_type.fixture_resource:fixture_obj_template
+          htypes.fixture_resource.fixture_probe_ctr: legacy_type.fixture_resource:fixture_probe_ctr
+          htypes.fixture_resource.fixture_probe_template: legacy_type.fixture_resource:fixture_probe_template
+          services.mosaic: builtins:mosaic.service
+          code.config_item_resource: rc.config_item_resource:config_item_resource.module
+          code.rc_constructor: rc.rc_constructor:rc_constructor.module
+          code.fixture_resource: rc.fixture_resource:fixture_resource.module
+        raw: {}
 
   FixtureObjCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_ctr.module
       attr_name: FixtureObjCtr
 
   FixtureObjCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: FixtureObjCtr
       attr_name: from_piece
@@ -63,13 +65,13 @@ definitions:
       value: FixtureObjCtr.from_piece.actor-template
 
   FixtureProbeCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_ctr.module
       attr_name: FixtureProbeCtr
 
   FixtureProbeCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: FixtureProbeCtr
       attr_name: from_piece
@@ -87,13 +89,13 @@ definitions:
       value: FixtureProbeCtr.from_piece.actor-template
 
   ConfigFixtureCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_ctr.module
       attr_name: ConfigFixtureCtr
 
   ConfigFixtureCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ConfigFixtureCtr
       attr_name: from_piece
@@ -111,13 +113,13 @@ definitions:
       value: ConfigFixtureCtr.from_piece.actor-template
 
   ConfigTemplateFixtureCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_ctr.module
       attr_name: ConfigTemplateFixtureCtr
 
   ConfigTemplateFixtureCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ConfigTemplateFixtureCtr
       attr_name: from_piece

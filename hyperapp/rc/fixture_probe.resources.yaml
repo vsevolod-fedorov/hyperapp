@@ -2,8 +2,8 @@ import:
 - builtins:pyobj_creg.service
 - builtins:web.service
 - legacy_type.actor_resource:actor_probe_template
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.fixture_resource:fixture_obj_template
 - legacy_type.fixture_resource:fixture_probe_template
@@ -13,17 +13,19 @@ import:
 definitions:
 
   fixture_probe.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: fixture_probe
       file_name: fixture_probe.dyn.py
-      import_list:
-        services.pyobj_creg: builtins:pyobj_creg.service
-        services.web: builtins:web.service
-        code.system_probe: rc.system_probe:system_probe.module
+      imports:
+        pyobj:
+          services.pyobj_creg: builtins:pyobj_creg.service
+          services.web: builtins:web.service
+          code.system_probe: rc.system_probe:system_probe.module
+        raw: {}
 
   resolve_fixture_obj_cfg_value:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_probe.module
       attr_name: resolve_fixture_obj_cfg_value
@@ -41,7 +43,7 @@ definitions:
       value: resolve_fixture_obj_cfg_value.actor-template
 
   resolve_fixture_probe_cfg_value:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fixture_probe.module
       attr_name: resolve_fixture_probe_cfg_value

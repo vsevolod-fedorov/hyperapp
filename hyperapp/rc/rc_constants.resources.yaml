@@ -1,11 +1,13 @@
 import:
-- legacy_type.builtin:python_module
+- builtin:type:python_module
 
 definitions:
 
   rc_constants.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: rc_constants
       file_name: rc_constants.dyn.py
-      import_list: {}
+      imports: {}
+      pyobj:
+      raw: {}

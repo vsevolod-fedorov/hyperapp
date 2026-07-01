@@ -1,20 +1,22 @@
 import:
 - builtins:mosaic.service
 - legacy_type.python_src:python_module_src
-- legacy_type.builtin:import_rec
-- legacy_type.builtin:python_module
+- builtin:type:import_rec
+- builtin:type:python_module
 - legacy_type.import_recorder:import_recorder
 
 definitions:
 
   python_src.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: python_src
       file_name: python_src.dyn.py
-      import_list:
-        htypes.python_src.python_module_src: legacy_type.python_src:python_module_src
-        htypes.builtin.import_rec: legacy_type.builtin:import_rec
-        htypes.builtin.python_module: legacy_type.builtin:python_module
-        htypes.import_recorder.import_recorder: legacy_type.import_recorder:import_recorder
-        services.mosaic: builtins:mosaic.service
+      imports:
+        pyobj:
+          htypes.python_src.python_module_src: legacy_type.python_src:python_module_src
+          htypes.builtin.import_rec: builtin:type:import_rec
+          htypes.builtin.python_module: builtin:type:python_module
+          htypes.import_recorder.import_recorder: legacy_type.import_recorder:import_recorder
+          services.mosaic: builtins:mosaic.service
+        raw: {}

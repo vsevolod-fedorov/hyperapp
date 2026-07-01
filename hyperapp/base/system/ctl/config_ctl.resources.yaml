@@ -20,14 +20,16 @@ definitions:
     value:
       module_name: config_ctl
       file_name: config_ctl.dyn.py
-      import_list:
-        htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
-        htypes.system.flat_list_config_ctl: legacy_type.system:flat_list_config_ctl
-        htypes.system.item_list_config: legacy_type.system:item_list_config
-        htypes.system.service_config: legacy_type.system:service_config
-        htypes.system.system_config: legacy_type.system:system_config
-        services.mosaic: builtins:mosaic.service
-        services.web: builtins:web.service
+      imports:
+        pyobj:
+          htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
+          htypes.system.flat_list_config_ctl: legacy_type.system:flat_list_config_ctl
+          htypes.system.item_list_config: legacy_type.system:item_list_config
+          htypes.system.service_config: legacy_type.system:service_config
+          htypes.system.system_config: legacy_type.system:system_config
+          services.mosaic: builtins:mosaic.service
+          services.web: builtins:web.service
+        raw: {}
 
   FlatListConfigCtl:
     type: legacy_type.builtin:attribute

@@ -1,7 +1,7 @@
 import:
 - builtins:mosaic.service
 - builtins:resource_module_factory.service
-- legacy_type.builtin:python_module
+- builtin:type:python_module
 - rc.config_item_resource:config_item_resource.module
 - rc.rc_target:rc_target.module
 # - base.system.config_ctl:config_ctl.module
@@ -9,13 +9,15 @@ import:
 definitions:
 
   config_resource_target.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: config_resource_target
       file_name: config_resource_target.dyn.py
-      import_list:
-        services.mosaic: builtins:mosaic.service
-        services.resource_module_factory: builtins:resource_module_factory.service
-        # code.config_ctl: base.system.config_ctl:config_ctl.module
-        code.config_item_resource: rc.config_item_resource:config_item_resource.module
-        code.rc_target: rc.rc_target:rc_target.module
+      imports:
+        pyobj:
+          services.mosaic: builtins:mosaic.service
+          services.resource_module_factory: builtins:resource_module_factory.service
+          # code.config_ctl: base.system.config_ctl:config_ctl.module
+          code.config_item_resource: rc.config_item_resource:config_item_resource.module
+          code.rc_target: rc.rc_target:rc_target.module
+        raw: {}

@@ -4,8 +4,8 @@ import:
 - builtins:web.service
 - legacy_type.actor_resource:actor_probe_template
 - legacy_type.actor_resource:ctx_actor_probe_template
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.system:actor_template
 - rc.actor_ctr:actor_ctr.module
@@ -17,22 +17,24 @@ import:
 definitions:
 
   actor_probe.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: actor_probe
       file_name: actor_probe.dyn.py
-      import_list:
-        services.deduce_t: builtins:deduce_t.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        services.web: builtins:web.service
-        code.actor_ctr: rc.actor_ctr:actor_ctr.module
-        code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
-        code.view_ctr: rc.view_ctr:view_ctr.module
-        code.probe: rc.probe:probe.module
-        code.marker_utils: rc.marker_utils:marker_utils.module
+      imports:
+        pyobj:
+          services.deduce_t: builtins:deduce_t.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          services.web: builtins:web.service
+          code.actor_ctr: rc.actor_ctr:actor_ctr.module
+          code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
+          code.view_ctr: rc.view_ctr:view_ctr.module
+          code.probe: rc.probe:probe.module
+          code.marker_utils: rc.marker_utils:marker_utils.module
+        raw: {}
 
   resolve_actor_probe_cfg_value:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: actor_probe.module
       attr_name: resolve_actor_probe_cfg_value
@@ -50,7 +52,7 @@ definitions:
       value: resolve_actor_probe_cfg_value.actor-template
 
   resolve_ctx_actor_probe_cfg_value:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: actor_probe.module
       attr_name: resolve_ctx_actor_probe_cfg_value

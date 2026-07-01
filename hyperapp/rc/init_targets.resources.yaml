@@ -3,8 +3,8 @@ import:
 - base.system.system:actor_dict.config_ctl
 - builtins:code_registry_ctr.service
 - builtins:hyperapp_dir.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.system:service_template
 - rc.python_src:python_src.module
 - rc.cfg_item_req:cfg_item_req.module
@@ -19,26 +19,28 @@ import:
 definitions:
 
   init_targets.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: init_targets
       file_name: init_targets.dyn.py
-      import_list:
-        services.code_registry_ctr: builtins:code_registry_ctr.service
-        services.hyperapp_dir: builtins:hyperapp_dir.service
-        code.cfg_item_req: rc.cfg_item_req:cfg_item_req.module
-        code.config_ctl: base.system.config_ctl:config_ctl.module
-        code.config_resource_target: rc.config_resource_target:config_resource_target.module
-        code.import_target: rc.import_target:import_target.module
-        code.init_hook_req: rc.init_hook_req:init_hook_req.module
-        code.marker_req: rc.marker_req:marker_req.module
-        code.python_src: rc.python_src:python_src.module
-        code.python_module_resource_target: rc.python_module_resource_target:python_module_resource_target.module
-        code.service_req: rc.service_req:service_req.module
-        code.target_set: rc.target_set:target_set.module
+      imports:
+        pyobj:
+          services.code_registry_ctr: builtins:code_registry_ctr.service
+          services.hyperapp_dir: builtins:hyperapp_dir.service
+          code.cfg_item_req: rc.cfg_item_req:cfg_item_req.module
+          code.config_ctl: base.system.config_ctl:config_ctl.module
+          code.config_resource_target: rc.config_resource_target:config_resource_target.module
+          code.import_target: rc.import_target:import_target.module
+          code.init_hook_req: rc.init_hook_req:init_hook_req.module
+          code.marker_req: rc.marker_req:marker_req.module
+          code.python_src: rc.python_src:python_src.module
+          code.python_module_resource_target: rc.python_module_resource_target:python_module_resource_target.module
+          code.service_req: rc.service_req:service_req.module
+          code.target_set: rc.target_set:target_set.module
+        raw: {}
 
   ctr_from_template_creg:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: init_targets.module
       attr_name: ctr_from_template_creg

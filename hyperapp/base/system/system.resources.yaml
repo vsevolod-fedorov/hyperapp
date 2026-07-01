@@ -2,7 +2,7 @@ import:
 - builtins:cached_code_registry_ctr.service
 - builtins:code_registry_ctr.service
 - builtins:pyobj_creg.service
-- legacy_type.builtin:python_module
+- builtin:type:python_module
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:data_value_ctl
 - legacy_type.system:dict_config_ctl
@@ -19,21 +19,23 @@ import:
 definitions:
 
   system.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: system
       file_name: system.dyn.py
-      import_list:
-        htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
-        services.cached_code_registry_ctr: builtins:cached_code_registry_ctr.service
-        services.code_registry_ctr: builtins:code_registry_ctr.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        code.config_ctl: base.system.ctl.config_ctl:config_ctl.module
-        code.config_item_ctl: base.system.ctl.config_item_ctl:config_item_ctl.module
-        code.config_layer: base.system.config_layer:config_layer.module
-        code.services: base.system.services:services.module
-        code.actor_template: base.system.actor_template:actor_template.module
-        code.service_template: base.system.service_template:service_template.module
+      imports:
+        pyobj:
+          htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
+          services.cached_code_registry_ctr: builtins:cached_code_registry_ctr.service
+          services.code_registry_ctr: builtins:code_registry_ctr.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          code.config_ctl: base.system.ctl.config_ctl:config_ctl.module
+          code.config_item_ctl: base.system.ctl.config_item_ctl:config_item_ctl.module
+          code.config_layer: base.system.config_layer:config_layer.module
+          code.services: base.system.services:services.module
+          code.actor_template: base.system.actor_template:actor_template.module
+          code.service_template: base.system.service_template:service_template.module
+        raw: {}
 
   actor.value_ctl:
     type: legacy_type.system:actor_value_ctl

@@ -20,13 +20,15 @@ definitions:
     value:
       module_name: tcp_transport
       file_name: tcp_transport.dyn.py
-      import_list:
-        code.mark: base.mark:mark.module
-        code.transport: base.transport.transport:transport.module
-        code.tcp_utils: base.transport.tcp_utils:tcp_utils.module
-        htypes.tcp_transport.route: legacy_type.tcp_transport:route
-        services.mosaic: builtins:mosaic.service
-        services.unbundler: builtins:unbundler.service
+      imports:
+        pyobj:
+          code.mark: base.mark:mark.module
+          code.transport: base.transport.transport:transport.module
+          code.tcp_utils: base.transport.tcp_utils:tcp_utils.module
+          htypes.tcp_transport.route: legacy_type.tcp_transport:route
+          services.mosaic: builtins:mosaic.service
+          services.unbundler: builtins:unbundler.service
+        raw: {}
 
   Route:
     type: legacy_type.builtin:attribute

@@ -19,16 +19,18 @@ definitions:
     value:
       module_name: config_item_ctl
       file_name: config_item_ctl.dyn.py
-      import_list:
-        htypes.cfg_item.data_cfg_item: legacy_type.cfg_item:data_cfg_item
-        htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
-        htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
-        htypes.config_ctl.data_key_ctl: legacy_type.config_ctl:data_key_ctl
-        htypes.config_ctl.str_key_ctl: legacy_type.config_ctl:str_key_ctl
-        htypes.config_ctl.type_key_ctl: legacy_type.config_ctl:type_key_ctl
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        services.web: builtins:web.service
+      imports:
+        pyobj:
+          htypes.cfg_item.data_cfg_item: legacy_type.cfg_item:data_cfg_item
+          htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
+          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
+          htypes.config_ctl.data_key_ctl: legacy_type.config_ctl:data_key_ctl
+          htypes.config_ctl.str_key_ctl: legacy_type.config_ctl:str_key_ctl
+          htypes.config_ctl.type_key_ctl: legacy_type.config_ctl:type_key_ctl
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          services.web: builtins:web.service
+        raw: {}
 
   # data_cfg_item_name:
   #   type: legacy_type.builtin:attribute

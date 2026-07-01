@@ -1,13 +1,15 @@
 import:
-- legacy_type.builtin:python_module
+- builtin:type:python_module
 - rc.rc_target:rc_target.module
 
 definitions:
 
   config_item_target.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: config_item_target
       file_name: config_item_target.dyn.py
-      import_list:
-        code.rc_target: rc.rc_target:rc_target.module
+      imports:
+        pyobj:
+          code.rc_target: rc.rc_target:rc_target.module
+        raw: {}

@@ -23,16 +23,18 @@ definitions:
     value:
       module_name: config_layer
       file_name: config_layer.dyn.py
-      import_list:
-        services.code_registry_ctr: builtins:code_registry_ctr.service
-        services.deduce_t: builtins:deduce_t.service
-        services.mosaic: builtins:mosaic.service
-        services.resource_module_factory: builtins:resource_module_factory.service
-        services.web: builtins:web.service
-        htypes.builtin.call: legacy_type.builtin:call
-        htypes.builtin.record_mt: legacy_type.builtin:record_mt
-        htypes.system.service_config: legacy_type.system:service_config
-        htypes.system.system_config: legacy_type.system:system_config
+      imports:
+        pyobj:
+          services.code_registry_ctr: builtins:code_registry_ctr.service
+          services.deduce_t: builtins:deduce_t.service
+          services.mosaic: builtins:mosaic.service
+          services.resource_module_factory: builtins:resource_module_factory.service
+          services.web: builtins:web.service
+          htypes.builtin.call: legacy_type.builtin:call
+          htypes.builtin.record_mt: legacy_type.builtin:record_mt
+          htypes.system.service_config: legacy_type.system:service_config
+          htypes.system.system_config: legacy_type.system:system_config
+        raw: {}
 
   resource_name_creg:
     type: legacy_type.builtin:attribute

@@ -43,14 +43,16 @@ definitions:
     value:
       module_name: data_to_pyobj
       file_name: data_to_pyobj.dyn.py
-      import_list:
-        htypes.builtin.call: legacy_type.builtin:call
-        htypes.builtin.partial: legacy_type.builtin:partial
-        htypes.builtin.partial_param: legacy_type.builtin:partial_param
-        htypes.builtin.raw: legacy_type.builtin:raw
-        services.deduce_t: builtins:deduce_t.service
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
+      imports:
+        pyobj:
+          htypes.builtin.call: legacy_type.builtin:call
+          htypes.builtin.partial: legacy_type.builtin:partial
+          htypes.builtin.partial_param: legacy_type.builtin:partial_param
+          htypes.builtin.raw: legacy_type.builtin:raw
+          services.deduce_t: builtins:deduce_t.service
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+        raw: {}
 
   data_to_pyobj.service:
     type: legacy_type.system:service_template

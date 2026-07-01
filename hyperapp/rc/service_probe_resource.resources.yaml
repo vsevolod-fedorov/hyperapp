@@ -2,8 +2,8 @@ import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
 - builtins:web.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.service_resource:service_probe_ctr
@@ -19,27 +19,29 @@ import:
 definitions:
 
   service_probe_resource.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: service_probe_resource
       file_name: service_probe_resource.dyn.py
-      import_list:
-        htypes.builtin.attribute: legacy_type.builtin:attribute
-        htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
-        htypes.service_resource.service_probe_ctr: legacy_type.service_resource:service_probe_ctr
-        htypes.service_resource.service_probe_template: legacy_type.service_resource:service_probe_template
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
-        services.web: builtins:web.service
-        code.config_item_resource: rc.config_item_resource:config_item_resource.module
-        code.rc_constructor: rc.rc_constructor:rc_constructor.module
-        code.rc_resource: rc.rc_resource:rc_resource.module
-        code.service_ctr: rc.service_ctr:service_ctr.module
-        code.service_req: rc.service_req:service_req.module
-        code.system_probe: rc.system_probe:system_probe.module
+      imports:
+        pyobj:
+          htypes.builtin.attribute: builtin:type:attribute
+          htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
+          htypes.service_resource.service_probe_ctr: legacy_type.service_resource:service_probe_ctr
+          htypes.service_resource.service_probe_template: legacy_type.service_resource:service_probe_template
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+          services.web: builtins:web.service
+          code.config_item_resource: rc.config_item_resource:config_item_resource.module
+          code.rc_constructor: rc.rc_constructor:rc_constructor.module
+          code.rc_resource: rc.rc_resource:rc_resource.module
+          code.service_ctr: rc.service_ctr:service_ctr.module
+          code.service_req: rc.service_req:service_req.module
+          code.system_probe: rc.system_probe:system_probe.module
+        raw: {}
 
   resolve_service_probe_cfg_value:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: service_probe_resource.module
       attr_name: resolve_service_probe_cfg_value
@@ -57,13 +59,13 @@ definitions:
       value: resolve_service_probe_cfg_value.actor-template
 
   ServiceProbeCtr:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: service_probe_resource.module
       attr_name: ServiceProbeCtr
 
   ServiceProbeCtr.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ServiceProbeCtr
       attr_name: from_piece

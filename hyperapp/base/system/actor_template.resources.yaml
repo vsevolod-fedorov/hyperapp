@@ -10,6 +10,8 @@ definitions:
     value:
       module_name: actor_template
       file_name: actor_template.dyn.py
-      import_list:
-        htypes.system.actor_template: legacy_type.system:actor_template
-        services.pyobj_creg: builtins:pyobj_creg.service
+      imports:
+        pyobj:
+          htypes.system.actor_template: legacy_type.system:actor_template
+          services.pyobj_creg: builtins:pyobj_creg.service
+        raw: {}

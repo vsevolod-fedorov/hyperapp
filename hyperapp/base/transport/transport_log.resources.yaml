@@ -15,8 +15,10 @@ definitions:
     value:
       module_name: transport_log
       file_name: transport_log.dyn.py
-      import_list:
-        code.mark: base.mark:mark.module
+      imports:
+        pyobj:
+          code.mark: base.mark:mark.module
+        raw: {}
 
   system-actor.value-ctl:
     type: legacy_type.system:actor_value_ctl

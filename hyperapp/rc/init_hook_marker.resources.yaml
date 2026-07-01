@@ -1,6 +1,6 @@
 import:
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.marker:marker_template
 - rc.init_hook_ctr:init_hook_ctr.module
@@ -10,17 +10,19 @@ import:
 definitions:
 
   init_hook_marker.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: init_hook_marker
       file_name: init_hook_marker.dyn.py
-      import_list:
-        code.init_hook_ctr: rc.init_hook_ctr:init_hook_ctr.module
-        code.probe: rc.probe:probe.module
-        code.marker_utils: rc.marker_utils:marker_utils.module
+      imports:
+        pyobj:
+          code.init_hook_ctr: rc.init_hook_ctr:init_hook_ctr.module
+          code.probe: rc.probe:probe.module
+          code.marker_utils: rc.marker_utils:marker_utils.module
+        raw: {}
 
   init_hook_marker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: init_hook_marker.module
       attr_name: init_hook_marker

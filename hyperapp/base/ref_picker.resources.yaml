@@ -12,8 +12,10 @@ definitions:
     value:
       module_name: ref_picker
       file_name: ref_picker.dyn.py
-      import_list:
-        services.deduce_t: builtins:deduce_t.service
+      imports:
+        pyobj:
+          services.deduce_t: builtins:deduce_t.service
+        raw: {}
 
   ref_picker_cache:
     type: legacy_type.builtin:attribute

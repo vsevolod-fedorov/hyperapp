@@ -1,6 +1,6 @@
 import:
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.marker:marker_template
 - rc.ctx_actor_ctr:ctx_actor_ctr.module
@@ -10,17 +10,19 @@ import:
 definitions:
 
   ctx_actor_marker.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: ctx_actor_marker
       file_name: ctx_actor_marker.dyn.py
-      import_list:
-        code.actor_probe: rc.actor_probe:actor_probe.module
-        code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
-        code.marker_utils: rc.marker_utils:marker_utils.module
+      imports:
+        pyobj:
+          code.actor_probe: rc.actor_probe:actor_probe.module
+          code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
+          code.marker_utils: rc.marker_utils:marker_utils.module
+        raw: {}
 
   CtxActorMarker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ctx_actor_marker.module
       attr_name: CtxActorMarker

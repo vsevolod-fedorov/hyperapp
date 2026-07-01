@@ -16,12 +16,14 @@ definitions:
     value:
       module_name: partial_ref
       file_name: partial_ref.dyn.py
-      import_list:
-        htypes.builtin.partial_param: legacy_type.builtin:partial_param
-        htypes.builtin.partial: legacy_type.builtin:partial
-        htypes.builtin.raw: legacy_type.builtin:raw
-        services.mosaic: builtins:mosaic.service
-        services.pyobj_creg: builtins:pyobj_creg.service
+      imports:
+        pyobj:
+          htypes.builtin.partial_param: legacy_type.builtin:partial_param
+          htypes.builtin.partial: legacy_type.builtin:partial
+          htypes.builtin.raw: legacy_type.builtin:raw
+          services.mosaic: builtins:mosaic.service
+          services.pyobj_creg: builtins:pyobj_creg.service
+        raw: {}
 
   partial_ref:
     type: legacy_type.builtin:attribute

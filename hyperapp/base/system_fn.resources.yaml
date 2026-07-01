@@ -15,10 +15,12 @@ definitions:
     value:
       module_name: system_fn
       file_name: system_fn.dyn.py
-      import_list:
-        code.rpc_call: base.rpc.rpc_call:rpc_call.module
-        htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
-        services.pyobj_creg: builtins:pyobj_creg.service
+      imports:
+        pyobj:
+          code.rpc_call: base.rpc.rpc_call:rpc_call.module
+          htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
+          services.pyobj_creg: builtins:pyobj_creg.service
+        raw: {}
 
   ContextFn:
     type: legacy_type.builtin:attribute

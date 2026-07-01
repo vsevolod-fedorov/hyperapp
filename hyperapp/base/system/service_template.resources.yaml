@@ -11,7 +11,9 @@ definitions:
     value:
       module_name: service_template
       file_name: service_template.dyn.py
-      import_list:
-        htypes.system.finalizer_gen_service_template: legacy_type.system:finalizer_gen_service_template
-        htypes.system.service_template: legacy_type.system:service_template
-        services.pyobj_creg: builtins:pyobj_creg.service
+      imports:
+        pyobj:
+          htypes.system.finalizer_gen_service_template: legacy_type.system:finalizer_gen_service_template
+          htypes.system.service_template: legacy_type.system:service_template
+          services.pyobj_creg: builtins:pyobj_creg.service
+        raw: {}

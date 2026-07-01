@@ -19,9 +19,11 @@ definitions:
     value:
       module_name: assoc_key
       file_name: assoc_key.dyn.py
-      import_list:
-        services.association_reg: builtins:association_reg.service
-        services.code_registry_ctr: builtins:code_registry_ctr.service
+      imports:
+        pyobj:
+          services.association_reg: builtins:association_reg.service
+          services.code_registry_ctr: builtins:code_registry_ctr.service
+        raw: {}
 
   assoc_key:
     type: legacy_type.builtin:attribute

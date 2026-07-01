@@ -18,12 +18,14 @@ definitions:
     value:
       module_name: rsa_identity
       file_name: rsa_identity.dyn.py
-      import_list:
-        htypes.rsa_identity.rsa_identity: legacy_type.rsa_identity:rsa_identity
-        htypes.rsa_identity.rsa_parcel: legacy_type.rsa_identity:rsa_parcel
-        htypes.rsa_identity.rsa_peer: legacy_type.rsa_identity:rsa_peer
-        htypes.rsa_identity.rsa_signature: legacy_type.rsa_identity:rsa_signature
-        services.mosaic: builtins:mosaic.service
+      imports:
+        pyobj:
+          htypes.rsa_identity.rsa_identity: legacy_type.rsa_identity:rsa_identity
+          htypes.rsa_identity.rsa_parcel: legacy_type.rsa_identity:rsa_parcel
+          htypes.rsa_identity.rsa_peer: legacy_type.rsa_identity:rsa_peer
+          htypes.rsa_identity.rsa_signature: legacy_type.rsa_identity:rsa_signature
+          services.mosaic: builtins:mosaic.service
+        raw: {}
 
   RsaIdentity:
     type: legacy_type.builtin:attribute

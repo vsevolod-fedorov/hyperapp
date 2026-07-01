@@ -1,6 +1,6 @@
 import:
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:str_cfg_item
 - legacy_type.marker:marker_template
 - rc.fixture_ctr:fixture_ctr.module
@@ -8,15 +8,17 @@ import:
 definitions:
 
   config_fixture_marker.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: config_fixture_marker
       file_name: config_fixture_marker.dyn.py
-      import_list:
-        code.fixture_ctr: rc.fixture_ctr:fixture_ctr.module
+      imports:
+        pyobj:
+          code.fixture_ctr: rc.fixture_ctr:fixture_ctr.module
+        raw: {}
 
   config_fixture_marker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: config_fixture_marker.module
       attr_name: config_fixture_marker
@@ -35,7 +37,7 @@ definitions:
       value: config_fixture.marker-template
 
   config_template_fixture_marker:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: config_fixture_marker.module
       attr_name: config_template_fixture_marker

@@ -10,6 +10,8 @@ definitions:
     value:
       module_name: config_value_ctl
       file_name: config_value_ctl.dyn.py
-      import_list:
-        htypes.system.actor_value_ctl: legacy_type.system:actor_value_ctl
-        htypes.system.data_value_ctl: legacy_type.system:data_value_ctl
+      imports:
+        pyobj:
+          htypes.system.actor_value_ctl: legacy_type.system:actor_value_ctl
+          htypes.system.data_value_ctl: legacy_type.system:data_value_ctl
+        raw: {}

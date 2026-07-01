@@ -1,7 +1,7 @@
 import:
 - builtins:mosaic.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.rc_job:job_target
 - legacy_type.system:actor_template
@@ -11,16 +11,18 @@ import:
 definitions:
 
   rc_job.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: rc_job
       file_name: rc_job.dyn.py
-      import_list:
-        htypes.rc_job.job_target: legacy_type.rc_job:job_target
-        services.mosaic: builtins:mosaic.service
+      imports:
+        pyobj:
+          htypes.rc_job.job_target: legacy_type.rc_job:job_target
+          services.mosaic: builtins:mosaic.service
+        raw: {}
 
   rc_job_submit_factory:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: rc_job.module
       attr_name: rc_job_submit_factory
@@ -40,7 +42,7 @@ definitions:
       want_config: false
 
   run_job_target:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: rc_job.module
       attr_name: run_job_target
