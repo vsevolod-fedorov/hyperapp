@@ -90,7 +90,10 @@ class _Context:
     def resolve_name(self, name):
         parts = name.split(':')
         name_tuple = self._resolve_parts(parts, description=name)
-        return self.resolve(name_tuple)
+        try:
+            return self.resolve(name_tuple)
+        except KeyError as x:
+            raise RuntimeError(f"{self!r}: {x}")
 
     def resolve(self, name_tuple):
         return self._loader._resolve(name_tuple)
