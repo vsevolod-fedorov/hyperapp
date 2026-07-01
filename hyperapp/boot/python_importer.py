@@ -3,6 +3,7 @@ import importlib.abc
 import importlib.util
 import logging
 import sys
+import traceback
 from types import SimpleNamespace
 
 from hyperapp.boot.htypes import HException
@@ -13,12 +14,12 @@ log = logging.getLogger(__name__)
 ROOT_PACKAGE = 'hyperapp.dynamic'
 
 
-class PythonModuleImportError(Exception):
+class DynModuleImportError(Exception):
 
-    def __init__(self, message, original_error, import_name):
+    def __init__(self, message, original_error, tb):
         super().__init__(message)
         self.original_error = original_error
-        self.import_name = import_name
+        self.tb = tb
 
 
 def is_sub_path(sub_path, full_path):
@@ -74,7 +75,11 @@ class _DynModuleLoader:
         # module.__dict__['__module_source__'] = self._code_module.source
         # module.__dict__['__module_ref__'] = self._code_module_ref
         module.__dict__['__file__'] = self._file_path
-        exec(ast, module.__dict__)
+        try:
+            exec(ast, module.__dict__)
+        except Exception as x:
+            tb = traceback.format_tb(x.__traceback__)
+            raise DynModuleImportError(str(x), x, tb[1:]) from x
 
 
 class _ImportedObjectLoader:
@@ -141,8 +146,6 @@ class PythonImporter:
                 sys.meta_path.remove(finder)
         except HException:
             raise
-        except Exception as x:
-            raise PythonModuleImportError(str(x), x, module_name) from x
 
     @staticmethod
     def _make_package_objects(imports):

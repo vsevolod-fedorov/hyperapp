@@ -17,17 +17,18 @@ from ..htypes.python_module import (
 from ..htypes import HException
 from ..dict_decoder import NamedPairsDictDecoder
 from ..dict_encoder import NamedPairsDictEncoder
-from ..python_importer import PythonModuleImportError
+from ..python_importer import DynModuleImportError
 from .source import TextSource
 
 log = logging.getLogger(__name__)
 
 
-class PythonModuleResourceImportError(Exception):
+class DynModuleResourceImportError(Exception):
 
-    def __init__(self, message, original_error, import_name, module_name):
+    def __init__(self, message, original_error, tb, import_name, module_name):
         super().__init__(message)
         self.original_error = original_error
+        self.tb = tb
         self.import_name = import_name
         self.module_name = module_name
 
@@ -129,5 +130,6 @@ def python_module_pyobj(piece, mosaic, web, python_importer, source_path, pyobj_
         return python_importer.import_module(module_name, piece.source, file_path, imports)
     except HException:
         raise
-    except PythonModuleImportError as x:
-        raise PythonModuleResourceImportError(str(x), x.original_error, x.import_name, piece.module_name) from x
+    except DynModuleImportError as x:
+        raise DynModuleResourceImportError(
+            str(x), x.original_error, x.tb, module_name, piece.module_name) from x

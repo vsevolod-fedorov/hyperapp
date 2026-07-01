@@ -1,0 +1,14 @@
+definitions:
+  main.module:
+    type: builtin:type:python_module
+    value:
+      module_name: main
+      file_name: main.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+  main:
+    type: builtin:type:attribute
+    value:
+      object: main.module
+      attr_name: main
