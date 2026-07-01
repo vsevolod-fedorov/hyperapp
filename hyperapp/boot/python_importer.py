@@ -71,9 +71,6 @@ class _DynModuleLoader:
         log.debug('Executing code module: %s', self._file_path)
         # Using compile allows associate file path with loaded module.
         ast = compile(self._source, self._file_path, 'exec')
-        # Assign special globals here:
-        # module.__dict__['__module_source__'] = self._code_module.source
-        # module.__dict__['__module_ref__'] = self._code_module_ref
         module.__dict__['__file__'] = self._file_path
         try:
             exec(ast, module.__dict__)
