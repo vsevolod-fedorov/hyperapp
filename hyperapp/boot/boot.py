@@ -22,7 +22,7 @@ from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_
 from hyperapp.boot.resource.resource_type_producer import produce_resource_type
 from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
 from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
-from hyperapp.boot.resource.loader import load_file_tree, load_resources
+from hyperapp.boot.resource.loader import load_file_tree, load_resources, add_source_paths
 from hyperapp.boot.register_coders import register_coders
 
 
@@ -36,7 +36,14 @@ def init_services(pyobj_creg, mosaic, web, python_importer, source_path, builtin
 
 
 def load_projects_resources(
-        pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects_path):
+        pyobj_creg,
+        mosaic,
+        source_path,
+        builtin_name_to_type,
+        builtin_name_to_service,
+        resource_type_producer,
+        projects_path,
+        ):
     projects_dir = projects_path.parent
     project_to_path = yaml.safe_load(projects_path.read_text())
     project_to_files = {
@@ -45,6 +52,7 @@ def load_projects_resources(
         }
     resources, sources = load_resources(
         pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, project_to_files)
+    add_source_paths(projects_dir, project_to_path, sources, source_path)
     return resources
 
 
@@ -71,7 +79,14 @@ def boot(projects_path, main_path, args):
     resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
 
     resources = load_projects_resources(
-        pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects_path)
+        pyobj_creg,
+        mosaic,
+        source_path,
+        builtin_name_to_type,
+        builtin_name_to_service,
+        resource_type_producer,
+        projects_path,
+        )
     resource_path = parse_path(main_path)
     main_piece = resources[resource_path]
     main = pyobj_creg.animate(main_piece)

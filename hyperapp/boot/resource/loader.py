@@ -1,6 +1,7 @@
 import logging
 from pathlib import Path
 
+from ..htypes.python_module import python_module_t
 from .source import TextSource
 from .resource_module import ResourceModuleLoader
 from .type_module import TypeModuleLoader
@@ -201,3 +202,13 @@ class _ResourceLoader:
 def load_resources(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects):
     loader = _ResourceLoader(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects)
     return loader.load()
+
+
+def add_source_paths(root_dir, project_to_path, sources, source_path):
+    for piece in sources:
+        if not isinstance(piece, python_module_t):
+            continue
+        project_name, path, src = sources[piece.source]
+        project_path = root_dir / project_to_path[project_name]
+        full_path = project_path.joinpath(*path)
+        source_path[piece] = full_path

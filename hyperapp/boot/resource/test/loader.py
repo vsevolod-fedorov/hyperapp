@@ -2,8 +2,7 @@ import logging
 import pytest
 from pathlib import Path
 
-from hyperapp.boot.htypes.python_module import python_module_t
-from hyperapp.boot.resource.loader import load_file_tree, load_resources
+from hyperapp.boot.resource.loader import load_file_tree, load_resources, add_source_paths
 
 log = logging.getLogger(__name__)
 
@@ -34,12 +33,6 @@ def loader(
             log.info("Loaded piece: %s -> %r", name, piece)
         for piece, project_name_path_source in sources.items():
             log.info("Loaded source: %r -> %r", piece, project_name_path_source)
-        for piece in sources:
-            if not isinstance(piece, python_module_t):
-                continue
-            project_name, path, src = sources[piece.source]
-            project_path = resources_dir / project_to_path[project_name]
-            full_path = project_path.joinpath(*path)
-            source_path[piece] = full_path
+        add_source_paths(resources_dir, project_to_path, sources, source_path)
         return resources, sources
     return load
