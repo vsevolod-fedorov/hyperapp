@@ -15,7 +15,7 @@ import:
 definitions:
 
   assoc_key.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: assoc_key
       file_name: assoc_key.dyn.py
@@ -26,13 +26,13 @@ definitions:
         raw: {}
 
   assoc_key:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: assoc_key.module
       attr_name: assoc_key
 
   assoc_key.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: assoc_key
       ctl: base.system.config_ctl:data_service_config.ctl
@@ -45,13 +45,13 @@ definitions:
       want_config: true
 
   assoc_key_creg:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: assoc_key.module
       attr_name: assoc_key_creg
 
   assoc_key_creg.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: assoc_key_creg
       ctl: base.system.system:actor_dict.config_ctl
@@ -61,13 +61,13 @@ definitions:
       want_config: true
 
   init_assoc_key:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: assoc_key.module
       attr_name: init_assoc_key
 
   init_assoc_key.fn:
-    type: legacy_type.system_fn:ctx_fn
+    type: system_fn.t:ctx_fn
     value:
       function: init_assoc_key
       ctx_params: []
@@ -76,30 +76,30 @@ definitions:
       - system
 
   init_assoc_key.hook:
-    type: legacy_type.cfg_item:fn_value_template
+    type: cfg_item.t:fn_value_template
     value:
       system_fn: init_assoc_key.fn
 
   KeyBaseAssociation:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: assoc_key.module
       attr_name: KeyBaseAssociation
 
   KeyBaseAssociation.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: KeyBaseAssociation
       attr_name: from_piece
 
   KeyBaseAssociation.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: system.t:actor_template
     value:
       function: KeyBaseAssociation.from_piece
       service_params: []
 
   assoc_key_creg-assoc_key-key_base_association.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: cfg_item.t:type_cfg_item
     value:
       t: legacy_type.assoc_key:key_base_association
       value: KeyBaseAssociation.from_piece.actor-template

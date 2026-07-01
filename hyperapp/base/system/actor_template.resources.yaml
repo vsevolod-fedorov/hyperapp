@@ -6,7 +6,7 @@ import:
 definitions:
 
   actor_template.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: actor_template
       file_name: actor_template.dyn.py

@@ -9,7 +9,7 @@ import:
 definitions:
 
   init_hook.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: init_hook
       file_name: init_hook.dyn.py
@@ -19,17 +19,17 @@ definitions:
         raw: {}
 
   init_hook:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: init_hook.module
       attr_name: init_hook
 
   system-flat_list_config_ctl.ctl:
-    type: legacy_type.system:flat_list_config_ctl
+    type: system.t:flat_list_config_ctl
     value: {}
 
   init_hook.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: init_hook
       ctl: system-flat_list_config_ctl.ctl

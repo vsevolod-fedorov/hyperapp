@@ -7,16 +7,16 @@ import:
 
 definitions:
   config:
-    type: legacy_type.system:system_config
+    type: system.t:system_config
     value:
       services:
         services: services.config
   config_ctl_creg:
-    type: legacy_type.system:item_list_config
+    type: system.t:item_list_config
     value:
       items: []
   services.config:
-    type: legacy_type.system:item_list_config
+    type: system.t:item_list_config
     value:
       items:
       - base.system.file_bundle_config_layer:load_config_layers.service-cfg-item

@@ -15,7 +15,7 @@ import:
 definitions:
 
   config_item_ctl.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: config_item_ctl
       file_name: config_item_ctl.dyn.py
@@ -32,16 +32,13 @@ definitions:
           services.web: builtins:web.service
         raw: {}
 
-  # data_cfg_item_name:
-  #   type: legacy_type.builtin:attribute
+  # data_cfg_item_legacy_type.builtin:type:attribute
   #   value:
   #     object: config_item_ctl.module
   #     attr_name: data_cfg_item_name
 
   # data_cfg_item_name.actor-template:
-  #   type: legacy_type.system:actor_template
-  #   value:
-  #     function: data_cfg_item_name
+  #   type: legacy_type.system:actor_  #     function.t: data_cfg_item_name
   #     service_params: []
 
   # resource_name_creg-cfg_item-data_cfg_item.actor-cfg-item:

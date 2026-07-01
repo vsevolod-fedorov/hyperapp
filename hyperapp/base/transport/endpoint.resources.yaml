@@ -9,7 +9,7 @@ import:
 definitions:
 
   endpoint.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: endpoint
       file_name: endpoint.dyn.py
@@ -19,13 +19,13 @@ definitions:
         raw: {}
 
   endpoint_thread_pool:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: endpoint.module
       attr_name: endpoint_thread_pool
 
   endpoint_thread_pool.service:
-    type: legacy_type.system:finalizer_gen_service_template
+    type: system.t:finalizer_gen_service_template
     value:
       name: endpoint_thread_pool
       ctl: base.system.system:actor_dict.config_ctl
@@ -35,13 +35,13 @@ definitions:
       want_config: false
 
   endpoint_registry:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: endpoint.module
       attr_name: endpoint_registry
 
   endpoint_registry.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: endpoint_registry
       ctl: base.system.system:actor_dict.config_ctl

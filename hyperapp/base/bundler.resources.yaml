@@ -10,7 +10,7 @@ import:
 definitions:
 
   bundler.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: bundler
       file_name: bundler.dyn.py
@@ -22,13 +22,13 @@ definitions:
         raw: {}
 
   bundler:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: bundler.module
       attr_name: bundler
 
   bundler.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: bundler
       ctl: base.system.system:actor_dict.config_ctl

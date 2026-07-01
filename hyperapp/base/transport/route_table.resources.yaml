@@ -8,7 +8,7 @@ import:
 definitions:
 
   route_table.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: route_table
       file_name: route_table.dyn.py
@@ -18,13 +18,13 @@ definitions:
         raw: {}
 
   route_table:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: route_table.module
       attr_name: route_table
 
   route_table.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: route_table
       ctl: base.system.config_ctl:data_service_config.ctl

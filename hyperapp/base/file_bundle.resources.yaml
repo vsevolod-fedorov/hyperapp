@@ -10,7 +10,7 @@ import:
 definitions:
 
   file_bundle.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: file_bundle
       file_name: file_bundle.dyn.py
@@ -22,13 +22,13 @@ definitions:
         raw: {}
 
   file_bundle_factory:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: file_bundle.module
       attr_name: file_bundle_factory
 
   file_bundle_factory.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: file_bundle_factory
       ctl: base.system.system:actor_dict.config_ctl

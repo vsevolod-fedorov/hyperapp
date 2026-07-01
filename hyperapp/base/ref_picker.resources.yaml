@@ -8,7 +8,7 @@ import:
 definitions:
 
   ref_picker.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: ref_picker
       file_name: ref_picker.dyn.py
@@ -18,13 +18,13 @@ definitions:
         raw: {}
 
   ref_picker_cache:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ref_picker.module
       attr_name: ref_picker_cache
 
   ref_picker_cache.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: ref_picker_cache
       ctl: base.system.system:actor_dict.config_ctl
@@ -34,13 +34,13 @@ definitions:
       want_config: false
 
   pick_refs:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: ref_picker.module
       attr_name: pick_refs
 
   pick_refs.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: pick_refs
       ctl: base.system.system:actor_dict.config_ctl

@@ -10,7 +10,7 @@ import:
 definitions:
 
   type_reconstructor.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: type_reconstructor
       file_name: type_reconstructor.dyn.py

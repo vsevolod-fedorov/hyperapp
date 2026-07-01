@@ -2,7 +2,7 @@ import:
 - legacy_type.builtin:python_module
 definitions:
   tcp_utils.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: tcp_utils
       file_name: tcp_utils.dyn.py

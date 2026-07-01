@@ -8,7 +8,7 @@ import:
 definitions:
 
   fn_cfg_item.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: fn_cfg_item
       file_name: fn_cfg_item.dyn.py
@@ -16,38 +16,38 @@ definitions:
       pyobj:
 
     resolve_fn_cfg_item:
-      type: legacy_type.builtin:attribute
+      type: builtin:type:attribute
       value:
         object: fn_cfg_item.module
         attr_name: resolve_fn_cfg_item
       raw: {}
 
   resolve_fn_cfg_value:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: fn_cfg_item.module
       attr_name: resolve_fn_cfg_value
 
   resolve_fn_cfg_item.actor-template:
-    type: legacy_type.system:actor_template
+    type: system.t:actor_template
     value:
       function: resolve_fn_cfg_item
       service_params: []
 
   cfg_item_creg-cfg_item-fn_value_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: cfg_item.t:type_cfg_item
     value:
       t: legacy_type.cfg_item:fn_value_template
       value: resolve_fn_cfg_item.actor-template
 
   resolve_fn_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: system.t:actor_template
     value:
       function: resolve_fn_cfg_value
       service_params: []
 
   cfg_value_creg-cfg_item-fn_value_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: cfg_item.t:type_cfg_item
     value:
       t: legacy_type.cfg_item:fn_value_template
       value: resolve_fn_cfg_value.actor-template

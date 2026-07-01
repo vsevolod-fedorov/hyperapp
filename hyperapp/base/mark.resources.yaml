@@ -23,7 +23,7 @@ definitions:
       raw: {}
 
   marker_ctl.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: marker_ctl
       ctl: base.system.system:actor_dict.config_ctl

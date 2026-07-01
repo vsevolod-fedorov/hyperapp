@@ -16,7 +16,7 @@ import:
 definitions:
 
   tcp_transport.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: tcp_transport
       file_name: tcp_transport.dyn.py
@@ -31,25 +31,25 @@ definitions:
         raw: {}
 
   Route:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: tcp_transport.module
       attr_name: Route
 
   Route.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: Route
       attr_name: from_piece
 
   _address_to_tcp_conn:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: tcp_transport.module
       attr_name: _address_to_tcp_conn
 
   _address_to_tcp_conn.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: _address_to_tcp_conn
       ctl: base.system.system:actor_dict.config_ctl
@@ -59,13 +59,13 @@ definitions:
       free_params: []
 
   _tcp_selector:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: tcp_transport.module
       attr_name: _tcp_selector
 
   _tcp_selector.service:
-    type: legacy_type.system:finalizer_gen_service_template
+    type: system.t:finalizer_gen_service_template
     value:
       name: _tcp_selector
       ctl: base.system.system:actor_dict.config_ctl
@@ -76,13 +76,13 @@ definitions:
       want_config: false
 
   _tcp_services:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: tcp_transport.module
       attr_name: _tcp_services
 
   _tcp_services.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: _tcp_services
       ctl: base.system.system:actor_dict.config_ctl
@@ -99,13 +99,13 @@ definitions:
       free_params: []
 
   tcp_connection_factory:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: tcp_transport.module
       attr_name: tcp_connection_factory
 
   tcp_connection_factory.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: tcp_connection_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -117,13 +117,13 @@ definitions:
       - address
 
   tcp_server_factory:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: tcp_transport.module
       attr_name: tcp_server_factory
 
   tcp_server_factory.service:
-    type: legacy_type.system:service_template
+    type: system.t:service_template
     value:
       name: tcp_server_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -136,14 +136,14 @@ definitions:
       - bind_address
 
   Route.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: system.t:actor_template
     value:
       function: Route.from_piece
       service_params:
         - tcp_connection_factory
 
   route_creg-tcp_transport-route.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: cfg_item.t:type_cfg_item
     value:
       t: legacy_type.tcp_transport:route
       value: Route.from_piece.actor-template

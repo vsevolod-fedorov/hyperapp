@@ -11,7 +11,7 @@ import:
 definitions:
 
   record_config.module:
-    type: legacy_type.builtin:python_module
+    type: builtin:type:python_module
     value:
       module_name: record_config
       file_name: record_config.dyn.py
@@ -24,25 +24,25 @@ definitions:
         raw: {}
 
   RecordConfigCtl:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: record_config.module
       attr_name: RecordConfigCtl
 
   RecordConfigCtl.from_piece:
-    type: legacy_type.builtin:attribute
+    type: builtin:type:attribute
     value:
       object: RecordConfigCtl
       attr_name: from_piece
 
   RecordConfigCtl.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: system.t:actor_template
     value:
       function: RecordConfigCtl.from_piece
       service_params: []
 
   config_ctl_creg-record_config-config_ctl.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: cfg_item.t:type_cfg_item
     value:
       t: legacy_type.record_config:config_ctl
       value: RecordConfigCtl.from_piece.actor-template
