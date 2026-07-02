@@ -203,6 +203,8 @@ class _ResourceLoader:
             definition = self._name_tuple_to_definition[name_tuple]
         except KeyError:
             project_name, path, _ = name_tuple
+            if project_name == 'builtin':
+                raise
             if (project_name, path) not in self._project_and_path_to_loader:
                 raise KeyError((project_name, path))
             self._load_definitions(project_name, path)
