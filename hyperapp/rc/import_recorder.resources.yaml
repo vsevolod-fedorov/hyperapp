@@ -5,8 +5,8 @@ import:
 - builtin:type:python_module
 - legacy_type.import_recorder:config_ctl
 - legacy_type.import_recorder:import_recorder
-- legacy_type.system:actor_template
-- legacy_type.system:service_template
+- base:system/system.t:actor_template
+- base:system/system.t:service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
@@ -30,7 +30,7 @@ definitions:
       attr_name: import_recorder_reg
 
   import_recorder_reg.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: import_recorder_reg
       ctl: base.system.system:actor_dict.config_ctl

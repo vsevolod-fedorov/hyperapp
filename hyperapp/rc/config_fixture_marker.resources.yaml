@@ -1,8 +1,8 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- marker.t:marker_template
 - rc.fixture_ctr:fixture_ctr.module
 
 definitions:
@@ -24,14 +24,14 @@ definitions:
       attr_name: config_fixture_marker
 
   config_fixture.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: config_fixture_marker
       service_params:
       - ctr_collector
 
   config_fixture.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: config_fixture
       value: config_fixture.marker-template
@@ -43,14 +43,14 @@ definitions:
       attr_name: config_template_fixture_marker
 
   config_template_fixture.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: config_template_fixture_marker
       service_params:
       - ctr_collector
 
   config_template_fixture.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: config_template_fixture
       value: config_template_fixture.marker-template

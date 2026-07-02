@@ -2,10 +2,10 @@ import:
 - builtins:mosaic.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.rc_job:job_target
-- legacy_type.system:actor_template
-- legacy_type.system:service_template
+- base:system/system.t:actor_template
+- base:system/system.t:service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
@@ -28,7 +28,7 @@ definitions:
       attr_name: rc_job_submit_factory
 
   rc_job_submit_factory.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: rc_job_submit_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -48,14 +48,14 @@ definitions:
       attr_name: run_job_target
 
   run_job_target.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: run_job_target
       service_params:
       - rc_job_creg
 
   rpc_target_creg-job_target.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.rc_job:job_target
       value: run_job_target.actor-template

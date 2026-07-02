@@ -4,7 +4,7 @@ import:
 - builtin:type:attribute
 - builtin:type:python_module
 - legacy_type.rpc:server_error
-- legacy_type.system:service_template
+- base:system/system.t:service_template
 - base.reconstructors:reconstructors.module
 - rc.job_cache:job_cache.module
 - rc.init_targets:init_targets.module
@@ -41,7 +41,7 @@ definitions:
       attr_name: compile_resources
 
   compile_resources.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: compile_resources
       ctl: base.system.system:actor_dict.config_ctl
@@ -67,7 +67,7 @@ definitions:
       attr_name: rc_main
 
   rc_main.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: rc_main
       ctl: base.system.system:actor_dict.config_ctl

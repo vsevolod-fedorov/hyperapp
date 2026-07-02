@@ -1,9 +1,9 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.marker:marker_template
-- legacy_type.system:actor_template
+- base:cfg_item.t:type_cfg_item
+- marker.t:marker_template
+- base:system/system.t:actor_template
 - rc.rc_constructor:rc_constructor.module
 
 definitions:
@@ -31,13 +31,13 @@ definitions:
       attr_name: from_template_piece
 
   MarkerCtr.from_template_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: MarkerCtr.from_template_piece
       service_params: []
 
   marker-marker_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.marker:marker_template
+      t: marker.t:marker_template
       value: MarkerCtr.from_template_piece.actor-template

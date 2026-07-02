@@ -2,10 +2,10 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.marker:marker_template
-- legacy_type.system:actor_template
-- legacy_type.system:finalizer_gen_service_template
+- base:cfg_item.t:type_cfg_item
+- marker.t:marker_template
+- base:system/system.t:actor_template
+- base:system/system.t:finalizer_gen_service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
@@ -27,15 +27,15 @@ definitions:
       attr_name: resolve_marker_cfg_value
 
   resolve_marker_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_marker_cfg_value
       service_params: []
 
   cfg_value_creg-marker-marker_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.marker:marker_template
+      t: marker.t:marker_template
       value: resolve_marker_cfg_value.actor-template
 
   marker_registry:
@@ -45,7 +45,7 @@ definitions:
       attr_name: marker_registry
 
   marker_registry.service:
-    type: legacy_type.system:finalizer_gen_service_template
+    type: base:system/system.t:finalizer_gen_service_template
     value:
       name: marker_registry
       ctl: base.system.system:actor_dict.config_ctl

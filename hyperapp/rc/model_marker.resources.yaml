@@ -3,8 +3,8 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- marker.t:marker_template
 - legacy_type.model:index_list_ui_t
 - legacy_type.model:key_list_ui_t
 - legacy_type.model:record_ui_t
@@ -42,7 +42,7 @@ definitions:
       attr_name: ModelMarker
 
   model.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: ModelMarker
       service_params:
@@ -50,7 +50,7 @@ definitions:
       - ctr_collector
 
   model.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: model
       value: model.marker-template

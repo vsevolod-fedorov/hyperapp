@@ -2,10 +2,10 @@ import:
 - builtins:web.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.config_item_resource:config_item_resource
 - legacy_type.config_item_resource:config_item_resource_override
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.rc_resource:rc_resource.module
 
 definitions:
@@ -36,13 +36,13 @@ definitions:
       attr_name: from_piece
 
   ConfigItemResource.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ConfigItemResource.from_piece
       service_params: []
 
   config_item_resource-config_item_resource.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.config_item_resource:config_item_resource
       value: ConfigItemResource.from_piece.actor-template
@@ -60,13 +60,13 @@ definitions:
       attr_name: from_piece
 
   ConfigItemResourceOverride.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ConfigItemResourceOverride.from_piece
       service_params: []
 
   config_item_resource-config_item_resource_override.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.config_item_resource:config_item_resource_override
       value: ConfigItemResourceOverride.from_piece.actor-template

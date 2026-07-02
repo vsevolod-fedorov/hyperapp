@@ -2,7 +2,7 @@ import:
 - builtins:code_registry_ctr.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
+- base:system/system.t:service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
@@ -24,7 +24,7 @@ definitions:
       attr_name: rc_resource_creg
 
   rc_resource_creg.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: rc_resource_creg
       ctl: base.system.system:actor_dict.config_ctl

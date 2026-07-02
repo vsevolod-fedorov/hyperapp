@@ -7,8 +7,8 @@ import:
 - builtin:type:builtin_mt
 - builtin:type:python_module
 - builtin:type:record_mt
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
+- base:cfg_item.t:type_cfg_item
+- base:system/system.t:actor_template
 - rc.config_item_resource:config_item_resource.module
 - rc.rc_requirement:rc_requirement.module
 
@@ -44,13 +44,13 @@ definitions:
       attr_name: from_piece
 
   CfgItemReq.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: CfgItemReq.from_piece
       service_params: []
 
   actor_resource-cfg_item_req.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.actor_resource:cfg_item_req
       value: CfgItemReq.from_piece.actor-template

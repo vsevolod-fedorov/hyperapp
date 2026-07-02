@@ -3,11 +3,11 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- base:cfg_item.t:type_cfg_item
+- marker.t:marker_template
 - legacy_type.selector_resource:selector_probe_template
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.marker_utils:marker_utils.module
 - rc.selector_ctr:selector_ctr.module
 
@@ -33,13 +33,13 @@ definitions:
       attr_name: resolve_selector_probe_cfg_value
 
   resolve_selector_probe_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_selector_probe_cfg_value
       service_params: []
 
   cfg_value_creg-selector_resource-selector_probe_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.selector_resource:selector_probe_template
       value: resolve_selector_probe_cfg_value.actor-template

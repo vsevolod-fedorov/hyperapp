@@ -4,11 +4,11 @@ import:
 - builtins:web.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:str_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.service_resource:service_probe_ctr
 - legacy_type.service_resource:service_probe_template
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.config_item_resource:config_item_resource.module
 - rc.rc_constructor:rc_constructor.module
 - rc.rc_resource:rc_resource.module
@@ -26,7 +26,7 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
+          htypes.cfg_item.str_cfg_item: base:cfg_item.t:str_cfg_item
           htypes.service_resource.service_probe_ctr: legacy_type.service_resource:service_probe_ctr
           htypes.service_resource.service_probe_template: legacy_type.service_resource:service_probe_template
           services.mosaic: builtins:mosaic.service
@@ -47,13 +47,13 @@ definitions:
       attr_name: resolve_service_probe_cfg_value
 
   resolve_service_probe_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_service_probe_cfg_value
       service_params: []
 
   cfg_value_creg-service_resource-service_probe_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.service_resource:service_probe_template
       value: resolve_service_probe_cfg_value.actor-template
@@ -71,14 +71,14 @@ definitions:
       attr_name: from_piece
 
   ServiceProbeCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ServiceProbeCtr.from_piece
       service_params:
       - config_ctl
 
   service_resource-service_probe_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.service_resource:service_probe_ctr
       value: ServiceProbeCtr.from_piece.actor-template

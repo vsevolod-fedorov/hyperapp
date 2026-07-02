@@ -2,8 +2,8 @@ import:
 - builtins:mosaic.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- marker.t:marker_template
 - rc.service_probe_resource:service_probe_resource.module
 - base.system.config_ctl:config_ctl.module
 
@@ -28,7 +28,7 @@ definitions:
       attr_name: ServiceMarker
 
   service.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: ServiceMarker
       service_params:
@@ -37,7 +37,7 @@ definitions:
       - ctr_collector
 
   service.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: service
       value: service.marker-template

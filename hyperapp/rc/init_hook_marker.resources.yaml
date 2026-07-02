@@ -1,8 +1,8 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- marker.t:marker_template
 - rc.init_hook_ctr:init_hook_ctr.module
 - rc.marker_utils:marker_utils.module
 - rc.probe:probe.module
@@ -28,7 +28,7 @@ definitions:
       attr_name: init_hook_marker
 
   init_hook.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: init_hook_marker
       service_params:
@@ -36,7 +36,7 @@ definitions:
       - ctr_collector
 
   init_hook.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: init_hook
       value: init_hook.marker-template

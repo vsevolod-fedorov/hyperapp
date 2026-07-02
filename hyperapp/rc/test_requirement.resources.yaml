@@ -5,12 +5,12 @@ import:
 - builtin:type:attribute
 - builtin:type:import_rec
 - builtin:type:python_module
-- legacy_type.cfg_item:data_cfg_item
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:data_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.ctr_collector:mark_module_template
 - legacy_type.import_resource:import_template
 - legacy_type.import_resource:import_key_cfg_item
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - legacy_type.test_target:constructors_picker_resource
 - legacy_type.test_target:recorder_resource
 - legacy_type.test_target:tested_code_req
@@ -31,7 +31,7 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.import_rec: builtin:type:import_rec
-          htypes.cfg_item.data_cfg_item: legacy_type.cfg_item:data_cfg_item
+          htypes.cfg_item.data_cfg_item: base:cfg_item.t:data_cfg_item
           htypes.ctr_collector.mark_module_template: legacy_type.ctr_collector:mark_module_template
           htypes.import_resource.import_template: legacy_type.import_resource:import_template
           htypes.import_resource.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
@@ -62,13 +62,13 @@ definitions:
       attr_name: from_piece
 
   TestedCodeReq.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: TestedCodeReq.from_piece
       service_params: []
 
   test_target-tested_code_req.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_target:tested_code_req
       value: TestedCodeReq.from_piece.actor-template
@@ -86,13 +86,13 @@ definitions:
       attr_name: from_piece
 
   FixturesModuleReq.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: FixturesModuleReq.from_piece
       service_params: []
 
   test_target-fixtures_module_req.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_target:fixtures_module_req
       value: FixturesModuleReq.from_piece.actor-template
@@ -110,13 +110,13 @@ definitions:
       attr_name: from_piece
 
   TestedCodeResource.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: TestedCodeResource.from_piece
       service_params: []
 
   test_target-tested_code_resource.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_target:tested_code_resource
       value: TestedCodeResource.from_piece.actor-template
@@ -134,13 +134,13 @@ definitions:
       attr_name: from_piece
 
   RecorderResource.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: RecorderResource.from_piece
       service_params: []
 
   test_target-recorder_resource.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_target:recorder_resource
       value: RecorderResource.from_piece.actor-template

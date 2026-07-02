@@ -3,15 +3,15 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.command:model_command_fn
 - legacy_type.selector:template
 - legacy_type.selector_resource:open_ctr
 - legacy_type.selector_resource:pick_ctr
 - legacy_type.selector_resource:selector_probe_ctr
 - legacy_type.selector_resource:selector_probe_template
-- legacy_type.system:actor_template
-- legacy_type.system_fn:ctx_fn
+- base:system/system.t:actor_template
+- base:system/system.t_fn:ctx_fn
 - rc.cfg_item_req:cfg_item_req.module
 - rc.config_item_resource:config_item_resource.module
 - rc.ctx_actor_ctr:ctx_actor_ctr.module
@@ -27,14 +27,14 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
+          htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
           htypes.command.model_command_fn: legacy_type.command:model_command_fn
           htypes.selector.template: legacy_type.selector:template
           htypes.selector_resource.open_ctr: legacy_type.selector_resource:open_ctr
           htypes.selector_resource.pick_ctr: legacy_type.selector_resource:pick_ctr
           htypes.selector_resource.selector_probe_ctr: legacy_type.selector_resource:selector_probe_ctr
           htypes.selector_resource.selector_probe_template: legacy_type.selector_resource:selector_probe_template
-          htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
           code.rc_constructor: rc.rc_constructor:rc_constructor.module
@@ -56,13 +56,13 @@ definitions:
       attr_name: from_piece
 
   SelectorProbeCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: SelectorProbeCtr.from_piece
       service_params: []
 
   actor_resource-ctx_actor_probe_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.selector_resource:ctx_actor_probe_ctr
       value: SelectorProbeCtr.from_piece.actor-template
@@ -80,13 +80,13 @@ definitions:
       attr_name: from_piece
 
   SelectorOpenTemplateCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: SelectorOpenTemplateCtr.from_piece
       service_params: []
 
   selector_ctr-open_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.selector_resource:open_ctr
       value: SelectorOpenTemplateCtr.from_piece.actor-template
@@ -104,13 +104,13 @@ definitions:
       attr_name: from_piece
 
   SelectorPickTemplateCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: SelectorPickTemplateCtr.from_piece
       service_params: []
 
   selector_ctr-pick_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.selector_resource:pick_ctr
       value: SelectorPickTemplateCtr.from_piece.actor-template

@@ -4,11 +4,11 @@ import:
 - builtin:type:attribute
 - builtin:type:import_rec
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.import_resource:import_resource
 - legacy_type.import_resource:import_template
 - legacy_type.import_resource:import_key_cfg_item
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.rc_resource:rc_resource.module
 
 definitions:
@@ -42,13 +42,13 @@ definitions:
       attr_name: from_piece
 
   ImportResource.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ImportResource.from_piece
       service_params: []
 
   import_resource-import_resource.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.import_resource:import_resource
       value: ImportResource.from_piece.actor-template

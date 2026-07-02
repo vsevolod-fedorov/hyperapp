@@ -8,6 +8,6 @@ definitions:
     value:
       module_name: job_result
       file_name: job_result.dyn.py
-      imports: {}
-      pyobj:
-      raw: {}
+      imports:
+        pyobj: {}
+        raw: {}

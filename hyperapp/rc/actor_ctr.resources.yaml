@@ -6,8 +6,8 @@ import:
 - legacy_type.actor_resource:actor_template_ctr
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
+- base:cfg_item.t:type_cfg_item
+- base:system/system.t:actor_template
 - rc.cfg_item_req:cfg_item_req.module
 - rc.config_item_resource:config_item_resource.module
 - rc.rc_constructor:rc_constructor.module
@@ -25,8 +25,8 @@ definitions:
           htypes.actor_resource.actor_probe_template: legacy_type.actor_resource:actor_probe_template
           htypes.actor_resource.actor_template_ctr: legacy_type.actor_resource:actor_template_ctr
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
-          htypes.system.actor_template: legacy_type.system:actor_template
+          htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
+          htypes.system.actor_template: base:system/system.t:actor_template
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
           code.cfg_item_req: rc.cfg_item_req:cfg_item_req.module
@@ -47,13 +47,13 @@ definitions:
       attr_name: from_piece
 
   ActorProbeCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ActorProbeCtr.from_piece
       service_params: []
 
   actor_resource-actor_probe_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.actor_resource:actor_probe_ctr
       value: ActorProbeCtr.from_piece.actor-template
@@ -71,15 +71,15 @@ definitions:
       attr_name: from_cfg_item_piece
 
   CoreActorTemplateCtr.from_cfg_item_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: CoreActorTemplateCtr.from_cfg_item_piece
       service_params: []
 
   ctr_from_template_creg-cfg_item-type_cfg_item.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.cfg_item:type_cfg_item
+      t: base:cfg_item.t:type_cfg_item
       value: CoreActorTemplateCtr.from_cfg_item_piece.actor-template
 
   ActorTemplateCtr:
@@ -95,13 +95,13 @@ definitions:
       attr_name: from_piece
 
   ActorTemplateCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ActorTemplateCtr.from_piece
       service_params: []
 
   actor_resource-actor_template_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.actor_resource:actor_template_ctr
       value: ActorTemplateCtr.from_piece.actor-template

@@ -4,13 +4,13 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.import_job:failed_result
 - legacy_type.import_job:function
 - legacy_type.import_job:job
 - legacy_type.import_job:incomplete_result
 - legacy_type.import_job:succeeded_result
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.builtin_resources:builtin_resources.module
 - rc.job_result:job_result.module
 - rc.python_src:python_src.module
@@ -55,7 +55,7 @@ definitions:
       attr_name: from_piece
 
   SucceededImportResult.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: SucceededImportResult.from_piece
       service_params:
@@ -63,7 +63,7 @@ definitions:
       - rc_constructor_creg
 
   import_job-succeeded_result.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.import_job:succeeded_result
       value: SucceededImportResult.from_piece.actor-template
@@ -81,14 +81,14 @@ definitions:
       attr_name: from_piece
 
   IncompleteImportResult.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: IncompleteImportResult.from_piece
       service_params:
       - rc_requirement_creg
 
   import_job-incomplete_result.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.import_job:incomplete_result
       value: IncompleteImportResult.from_piece.actor-template
@@ -106,14 +106,14 @@ definitions:
       attr_name: from_piece
 
   FailedImportResult.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: FailedImportResult.from_piece
       service_params:
       - rc_requirement_creg
 
   import_job-failed_result.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.import_job:failed_result
       value: FailedImportResult.from_piece.actor-template
@@ -131,7 +131,7 @@ definitions:
       attr_name: from_piece
 
   ImportJob.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ImportJob.from_piece
       service_params:
@@ -139,7 +139,7 @@ definitions:
       - rc_resource_creg
 
   import_job-job.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.import_job:job
       value: ImportJob.from_piece.actor-template

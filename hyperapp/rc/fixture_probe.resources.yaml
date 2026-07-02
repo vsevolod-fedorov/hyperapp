@@ -4,10 +4,10 @@ import:
 - legacy_type.actor_resource:actor_probe_template
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.fixture_resource:fixture_obj_template
 - legacy_type.fixture_resource:fixture_probe_template
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.system_probe:system_probe.module
 
 definitions:
@@ -31,13 +31,13 @@ definitions:
       attr_name: resolve_fixture_obj_cfg_value
 
   resolve_fixture_obj_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_fixture_obj_cfg_value
       service_params: []
 
   cfg_value_creg-fixture_resource-fixture_obj_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.fixture_resource:fixture_obj_template
       value: resolve_fixture_obj_cfg_value.actor-template
@@ -49,13 +49,13 @@ definitions:
       attr_name: resolve_fixture_probe_cfg_value
 
   resolve_fixture_probe_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_fixture_probe_cfg_value
       service_params: []
 
   cfg_value_creg-fixture_resource-fixture_probe_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.fixture_resource:fixture_probe_template
       value: resolve_fixture_probe_cfg_value.actor-template

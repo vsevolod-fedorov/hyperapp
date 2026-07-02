@@ -3,7 +3,7 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.feed:feed_template
 - legacy_type.feed:index_tree_feed_ctr
 - legacy_type.feed:index_tree_feed_type
@@ -11,7 +11,7 @@ import:
 - legacy_type.feed:list_feed_type
 - legacy_type.feed:value_feed_ctr
 - legacy_type.feed:value_feed_type
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.cfg_item_req:cfg_item_req.module
 - rc.rc_constructor:rc_constructor.module
 
@@ -24,7 +24,7 @@ definitions:
       file_name: feed_ctr.dyn.py
       imports:
         pyobj:
-          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
+          htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
           htypes.feed.feed_template: legacy_type.feed:feed_template
           htypes.feed.list_feed_ctr: legacy_type.feed:list_feed_ctr
           htypes.feed.index_tree_feed_ctr: legacy_type.feed:index_tree_feed_ctr
@@ -51,13 +51,13 @@ definitions:
       attr_name: from_piece
 
   ListFeedCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ListFeedCtr.from_piece
       service_params: []
 
   feed-list_feed_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.feed:list_feed_ctr
       value: ListFeedCtr.from_piece.actor-template
@@ -75,13 +75,13 @@ definitions:
       attr_name: from_piece
 
   IndexTreeFeedCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: IndexTreeFeedCtr.from_piece
       service_params: []
 
   feed-index_tree_feed_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.feed:index_tree_feed_ctr
       value: IndexTreeFeedCtr.from_piece.actor-template
@@ -99,13 +99,13 @@ definitions:
       attr_name: from_piece
 
   ValueFeedCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ValueFeedCtr.from_piece
       service_params: []
 
   feed-value_feed_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.feed:value_feed_ctr
       value: ValueFeedCtr.from_piece.actor-template

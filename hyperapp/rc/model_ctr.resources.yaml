@@ -4,11 +4,11 @@ import:
 - builtins:web.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.model:model
 - legacy_type.model_resource:model_ctr
-- legacy_type.system:actor_template
-- legacy_type.system_fn:ctx_fn
+- base:system/system.t:actor_template
+- base:system/system.t_fn:ctx_fn
 - rc.cfg_item_req:cfg_item_req.module
 - rc.rc_constructor:rc_constructor.module
 
@@ -22,10 +22,10 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
+          htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
           htypes.model.model: legacy_type.model:model
           htypes.model_resource.model_ctr: legacy_type.model_resource:model_ctr
-          htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
           services.web: builtins:web.service
@@ -46,13 +46,13 @@ definitions:
       attr_name: from_piece
 
   ModelCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ModelCtr.from_piece
       service_params: []
 
   model_resource-model_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.model_resource:model_ctr
       value: ModelCtr.from_piece.actor-template

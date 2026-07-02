@@ -2,8 +2,8 @@ import:
 - builtins:deduce_t.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- marker.t:marker_template
 - rc.marker_utils:marker_utils.module
 - rc.view_factory_ctr:view_factory_ctr.module
 - rc.probe:probe.module
@@ -30,7 +30,7 @@ definitions:
       attr_name: ViewFactoryMarker
 
   view_factory.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: ViewFactoryMarker
       service_params:
@@ -38,7 +38,7 @@ definitions:
       - ctr_collector
 
   view_factory.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: view_factory
       value: view_factory.marker-template

@@ -3,8 +3,8 @@ import:
 - builtin:type:python_module
 - builtin:type:builtin_service
 - legacy_type.builtin_service:builtin_service_req
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
+- base:cfg_item.t:type_cfg_item
+- base:system/system.t:actor_template
 - rc.import_resource:import_resource.module
 - rc.rc_requirement:rc_requirement.module
 - rc.rc_target:rc_target.module
@@ -38,13 +38,13 @@ definitions:
       attr_name: from_piece
 
   BuiltinServiceReq.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: BuiltinServiceReq.from_piece
       service_params: []
 
   builtin_service-builtin_service_req.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.builtin_service:builtin_service_req
       value: BuiltinServiceReq.from_piece.actor-template

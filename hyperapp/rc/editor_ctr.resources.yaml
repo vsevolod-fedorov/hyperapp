@@ -3,10 +3,10 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.editor_ctr:default_ctr
-- legacy_type.system:actor_template
-- legacy_type.system_fn:ctx_fn
+- base:system/system.t:actor_template
+- base:system/system.t_fn:ctx_fn
 - rc.ctx_actor_ctr:ctx_actor_ctr.module
 - rc.rc_constructor:rc_constructor.module
 
@@ -20,9 +20,9 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
+          htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
           htypes.editor_ctr.default_ctr: legacy_type.editor_ctr:default_ctr
-          htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
           code.rc_constructor: rc.rc_constructor:rc_constructor.module
@@ -42,13 +42,13 @@ definitions:
       attr_name: from_piece
 
   EditorDefaultTemplateCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: EditorDefaultTemplateCtr.from_piece
       service_params: []
 
   editor_ctr-default_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.editor_ctr:default_ctr
       value: EditorDefaultTemplateCtr.from_piece.actor-template

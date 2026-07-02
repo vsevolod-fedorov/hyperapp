@@ -3,13 +3,13 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.command:type_str_command
 - legacy_type.crud:open_command
 - legacy_type.crud_ctr:commit_ctr
 - legacy_type.crud_ctr:init_ctr
-- legacy_type.system:actor_template
-- legacy_type.system_fn:ctx_fn
+- base:system/system.t:actor_template
+- base:system/system.t_fn:ctx_fn
 - rc.ctx_actor_ctr:ctx_actor_ctr.module
 - rc.rc_constructor:rc_constructor.module
 
@@ -23,12 +23,12 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.cfg_item.type_cfg_item: legacy_type.cfg_item:type_cfg_item
+          htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
           htypes.command.type_str_command: legacy_type.command:type_str_command
           htypes.crud.open_command: legacy_type.crud:open_command
           htypes.crud_ctr.init_ctr: legacy_type.crud_ctr:init_ctr
           htypes.crud_ctr.commit_ctr: legacy_type.crud_ctr:commit_ctr
-          htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
           code.rc_constructor: rc.rc_constructor:rc_constructor.module
@@ -48,13 +48,13 @@ definitions:
       attr_name: from_piece
 
   CrudInitTemplateCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: CrudInitTemplateCtr.from_piece
       service_params: []
 
   crud_ctr-init_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.crud_ctr:init_ctr
       value: CrudInitTemplateCtr.from_piece.actor-template
@@ -72,13 +72,13 @@ definitions:
       attr_name: from_piece
 
   CrudCommitTemplateCtr.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: CrudCommitTemplateCtr.from_piece
       service_params: []
 
   crud_ctr-commit_ctr.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.crud_ctr:commit_ctr
       value: CrudCommitTemplateCtr.from_piece.actor-template

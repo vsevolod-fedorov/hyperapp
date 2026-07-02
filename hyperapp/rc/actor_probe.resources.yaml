@@ -6,8 +6,8 @@ import:
 - legacy_type.actor_resource:ctx_actor_probe_template
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
+- base:cfg_item.t:type_cfg_item
+- base:system/system.t:actor_template
 - rc.actor_ctr:actor_ctr.module
 - rc.ctx_actor_ctr:ctx_actor_ctr.module
 - rc.marker_utils:marker_utils.module
@@ -40,13 +40,13 @@ definitions:
       attr_name: resolve_actor_probe_cfg_value
 
   resolve_actor_probe_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_actor_probe_cfg_value
       service_params: []
 
   cfg_value_creg-actor_resource-actor_probe_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.actor_resource:actor_probe_template
       value: resolve_actor_probe_cfg_value.actor-template
@@ -58,13 +58,13 @@ definitions:
       attr_name: resolve_ctx_actor_probe_cfg_value
 
   resolve_ctx_actor_probe_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_ctx_actor_probe_cfg_value
       service_params: []
 
   cfg_value_creg-actor_resource-ctx_actor_probe_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.actor_resource:ctx_actor_probe_template
       value: resolve_ctx_actor_probe_cfg_value.actor-template

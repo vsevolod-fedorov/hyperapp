@@ -1,7 +1,7 @@
 import:
 - builtins:mosaic.service
 - builtin:type:python_module
-- legacy_type.cfg_item:data_cfg_item
+- base:cfg_item.t:data_cfg_item
 - rc.cfg_item_req:cfg_item_req.module
 - rc.config_item_resource:config_item_resource.module
 - rc.rc_constructor:rc_constructor.module
@@ -15,7 +15,7 @@ definitions:
       file_name: data_config_ctr.dyn.py
       imports:
         pyobj:
-          htypes.cfg_item.data_cfg_item: legacy_type.cfg_item:data_cfg_item
+          htypes.cfg_item.data_cfg_item: base:cfg_item.t:data_cfg_item
           services.mosaic: builtins:mosaic.service
           code.cfg_item_req: rc.cfg_item_req:cfg_item_req.module
           code.rc_constructor: rc.rc_constructor:rc_constructor.module

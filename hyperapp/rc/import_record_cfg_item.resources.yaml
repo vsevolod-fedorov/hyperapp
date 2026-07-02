@@ -2,10 +2,10 @@ import:
 - builtins:web.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.import_resource:import_template
 - legacy_type.import_resource:import_key_cfg_item
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 
 definitions:
 
@@ -26,13 +26,13 @@ definitions:
       attr_name: resolve_import_key_cfg_item
 
   resolve_import_key_cfg_item.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_import_key_cfg_item
       service_params: []
 
   cfg_item_creg-import_resource-import_key_cfg_item.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.import_resource:import_key_cfg_item
       value: resolve_import_key_cfg_item.actor-template
@@ -44,13 +44,13 @@ definitions:
       attr_name: resolve_import_record_cfg_value
 
   resolve_import_record_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_import_record_cfg_value
       service_params: []
 
   cfg_value_creg-import_resource-import_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.import_resource:import_template
       value: resolve_import_record_cfg_value.actor-template

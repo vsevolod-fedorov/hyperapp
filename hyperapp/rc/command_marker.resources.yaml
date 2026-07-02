@@ -2,11 +2,11 @@ import:
 - builtins:deduce_t.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
+- base:cfg_item.t:str_cfg_item
 - legacy_type.command:model_command_add_fn
 - legacy_type.command:model_command_fn
 - legacy_type.command:model_command_remove_fn
-- legacy_type.marker:marker_template
+- marker.t:marker_template
 - rc.command_ctr:command_ctr.module
 - rc.marker_utils:marker_utils.module
 - rc.probe:probe.module
@@ -36,7 +36,7 @@ definitions:
       attr_name: UiCommandMarker
 
   ui_command.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: UiCommandMarker
       service_params:
@@ -44,7 +44,7 @@ definitions:
       - ctr_collector
 
   ui_command.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: ui_command
       value: ui_command.marker-template
@@ -56,7 +56,7 @@ definitions:
       attr_name: UniversalUiCommandMarker
 
   universal_ui_command.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: UniversalUiCommandMarker
       service_params:
@@ -64,7 +64,7 @@ definitions:
       - ctr_collector
 
   universal_ui_command.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: universal_ui_command
       value: universal_ui_command.marker-template
@@ -76,7 +76,7 @@ definitions:
       attr_name: UiCommandEnumeratorMarker
 
   ui_command_enum.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: UiCommandEnumeratorMarker
       service_params:
@@ -84,7 +84,7 @@ definitions:
       - ctr_collector
 
   ui_command_enum.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: ui_command_enum
       value: ui_command_enum.marker-template
@@ -96,7 +96,7 @@ definitions:
       attr_name: ModelCommandMarker
 
   command.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: ModelCommandMarker
       service_params:
@@ -104,7 +104,7 @@ definitions:
       - ctr_collector
 
   command.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: command
       value: command.marker-template
@@ -116,7 +116,7 @@ definitions:
       attr_name: ModelCommandEnumeratorMarker
 
   command_enum.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: ModelCommandEnumeratorMarker
       service_params:
@@ -124,7 +124,7 @@ definitions:
       - ctr_collector
 
   command_enum.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: command_enum
       value: command_enum.marker-template
@@ -136,7 +136,7 @@ definitions:
       attr_name: GlobalModelCommandMarker
 
   global_command.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: GlobalModelCommandMarker
       service_params:
@@ -144,7 +144,7 @@ definitions:
       - ctr_collector
 
   global_command.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: global_command
       value: global_command.marker-template

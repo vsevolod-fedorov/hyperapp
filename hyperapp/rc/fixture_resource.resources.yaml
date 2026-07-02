@@ -4,10 +4,10 @@ import:
 - builtins:web.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.fixture_resource:config_fixture_resource
 - legacy_type.fixture_resource:config_template_fixture_resource
-- legacy_type.system:actor_template
+- base:system/system.t:actor_template
 - rc.rc_resource:rc_resource.module
 - rc.system_probe:system_probe.module
 
@@ -42,13 +42,13 @@ definitions:
       attr_name: from_piece
 
   ConfigFixtureResource.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ConfigFixtureResource.from_piece
       service_params: []
 
   fixture_resource-config_fixture_resource.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.fixture_resource:config_fixture_resource
       value: ConfigFixtureResource.from_piece.actor-template
@@ -66,13 +66,13 @@ definitions:
       attr_name: from_piece
 
   ConfigTemplateFixtureResource.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: ConfigTemplateFixtureResource.from_piece
       service_params: []
 
   fixture_resource-config_template_fixture_resource.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.fixture_resource:config_template_fixture_resource
       value: ConfigTemplateFixtureResource.from_piece.actor-template

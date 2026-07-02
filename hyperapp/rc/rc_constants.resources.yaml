@@ -8,6 +8,6 @@ definitions:
     value:
       module_name: rc_constants
       file_name: rc_constants.dyn.py
-      imports: {}
-      pyobj:
-      raw: {}
+      imports:
+        pyobj: {}
+        raw: {}

@@ -1,11 +1,11 @@
 import:
 
-- legacy_type.system:item_list_config
-- legacy_type.system:system_config
+- base:system/system.t:item_list_config
+- base:system/system.t:system_config
 
 definitions:
 
   config:
-    type: legacy_type.system:system_config
+    type: base:system/system.t:system_config
     value:
       services: {}

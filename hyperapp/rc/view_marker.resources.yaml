@@ -1,8 +1,8 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- marker.t:marker_template
 - rc.actor_probe:actor_probe.module
 - rc.marker_utils:marker_utils.module
 
@@ -26,7 +26,7 @@ definitions:
       attr_name: view_marker
 
   view.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: view_marker
       service_params:
@@ -34,7 +34,7 @@ definitions:
       - ctr_collector
 
   view.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: view
       value: view.marker-template

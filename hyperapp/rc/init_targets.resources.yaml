@@ -5,7 +5,7 @@ import:
 - builtins:hyperapp_dir.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
+- base:system/system.t:service_template
 - rc.python_src:python_src.module
 - rc.cfg_item_req:cfg_item_req.module
 - rc.config_resource_target:config_resource_target.module
@@ -46,7 +46,7 @@ definitions:
       attr_name: ctr_from_template_creg
 
   ctr_from_template_creg.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: ctr_from_template_creg
       ctl: base.system.system:actor_dict.config_ctl

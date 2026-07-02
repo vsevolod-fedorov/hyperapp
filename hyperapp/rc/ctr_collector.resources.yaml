@@ -3,11 +3,11 @@ import:
 - builtins:web.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.ctr_collector:ignore_module_template
 - legacy_type.ctr_collector:mark_module_template
-- legacy_type.system:actor_template
-- legacy_type.system:finalizer_gen_service_template
+- base:system/system.t:actor_template
+- base:system/system.t:finalizer_gen_service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
@@ -30,7 +30,7 @@ definitions:
       attr_name: ctr_collector
 
   ctr_collector.service:
-    type: legacy_type.system:finalizer_gen_service_template
+    type: base:system/system.t:finalizer_gen_service_template
     value:
       name: ctr_collector
       ctl: base.system.system:actor_dict.config_ctl
@@ -48,13 +48,13 @@ definitions:
       attr_name: resolve_mark_module_cfg_value
 
   resolve_mark_module_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_mark_module_cfg_value
       service_params: []
 
   cfg_value_creg-ctr_collector-mark_module_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.ctr_collector:mark_module_template
       value: resolve_mark_module_cfg_value.actor-template
@@ -66,13 +66,13 @@ definitions:
       attr_name: resolve_ignore_module_cfg_value
 
   resolve_ignore_module_cfg_value.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: resolve_ignore_module_cfg_value
       service_params: []
 
   cfg_value_creg-ctr_collector-ignore_module_template.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.ctr_collector:ignore_module_template
       value: resolve_ignore_module_cfg_value.actor-template

@@ -1,8 +1,8 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.marker:marker_template
+- base:cfg_item.t:str_cfg_item
+- marker.t:marker_template
 - rc.actor_ctr:actor_ctr.module
 - rc.actor_probe:actor_probe.module
 - rc.marker_utils:marker_utils.module
@@ -28,7 +28,7 @@ definitions:
       attr_name: ActorMarker
 
   actor.marker-template:
-    type: legacy_type.marker:marker_template
+    type: marker.t:marker_template
     value:
       function: ActorMarker
       service_params:
@@ -36,7 +36,7 @@ definitions:
       - ctr_collector
 
   actor.marker-cfg-item:
-    type: legacy_type.cfg_item:str_cfg_item
+    type: base:cfg_item.t:str_cfg_item
     value:
       key: actor
       value: actor.marker-template

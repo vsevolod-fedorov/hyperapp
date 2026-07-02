@@ -1,7 +1,7 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
+- base:system/system.t:service_template
 - base.system.system:actor_dict.config_ctl
 
 definitions:
@@ -11,18 +11,18 @@ definitions:
     value:
       module_name: process_pool
       file_name: process_pool.dyn.py
-      imports: {}
-      pyobj:
+      imports:
+        pyobj: {}
+        raw: {}
 
     process_pool_running:
       type: builtin:type:attribute
       value:
         object: process_pool.module
         attr_name: process_pool_running
-      raw: {}
 
   process_pool_running.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: process_pool_running
       ctl: base.system.system:actor_dict.config_ctl

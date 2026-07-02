@@ -8,6 +8,6 @@ definitions:
     value:
       module_name: rc_constructor
       file_name: rc_constructor.dyn.py
-      imports: {}
-      pyobj:
-      raw: {}
+      imports:
+        pyobj: {}
+        raw: {}

@@ -5,10 +5,10 @@ import:
 - base.system.config_layer:one_way.key_ctl
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:actor_value_ctl
-- legacy_type.system:dict_config_ctl
-- legacy_type.system:service_template
-- legacy_type.system:single_struct_ctl
+- base:system/system.t:actor_value_ctl
+- base:system/system.t:dict_config_ctl
+- base:system/system.t:service_template
+- base:system/system.t:single_struct_ctl
 definitions:
   sample_fn_service_2:
     type: builtin:type:attribute
@@ -16,7 +16,7 @@ definitions:
       object: sample_service_2.module
       attr_name: sample_fn_service_2
   sample_fn_service_2.service:
-    type: legacy_type.system:service_template
+    type: base:system/system.t:service_template
     value:
       name: sample_fn_service_2
       ctl: system-dict_config.one_way.actor.single.ctl
@@ -35,13 +35,14 @@ definitions:
       imports:
         pyobj:
           code.mark: base.mark:mark.module
+        raw: {}
     sample_value_service_2:
       type: builtin:type:attribute
       value:
         object: sample_service_2.module
         attr_name: sample_value_service_2
     sample_value_service_2.service:
-      type: legacy_type.system:service_template
+      type: base:system/system.t:service_template
       value:
         name: sample_value_service_2
         ctl: system-dict_config.one_way.actor.single.ctl
@@ -51,15 +52,14 @@ definitions:
         want_config: false
         free_params: []
     system-actor.value-ctl:
-      type: legacy_type.system:actor_value_ctl
+      type: base:system/system.t:actor_value_ctl
       value: {}
     system-dict_config.one_way.actor.single.ctl:
-      type: legacy_type.system:dict_config_ctl
+      type: base:system/system.t:dict_config_ctl
       value:
         key_ctl: base.system.config_layer:one_way.key_ctl
         value_ctl: system-actor.value-ctl
         struct_ctl: system-single.struct-ctl
     system-single.struct-ctl:
-      type: legacy_type.system:single_struct_ctl
+      type: base:system/system.t:single_struct_ctl
       value: {}
-    raw: {}

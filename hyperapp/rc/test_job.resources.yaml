@@ -10,11 +10,11 @@ import:
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.cfg_item:type_cfg_item
+- base:cfg_item.t:str_cfg_item
+- base:cfg_item.t:type_cfg_item
 - legacy_type.fixture_resource:fixture_probe_template
-- legacy_type.system:actor_template
-- legacy_type.system:service_template
+- base:system/system.t:actor_template
+- base:system/system.t:service_template
 - legacy_type.rc_job:config_key_error
 - legacy_type.rc_job:unknown_service_error
 - legacy_type.test_job:failed_result
@@ -40,7 +40,7 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.builtin.python_module: builtin:type:python_module
-          htypes.cfg_item.str_cfg_item: legacy_type.cfg_item:str_cfg_item
+          htypes.cfg_item.str_cfg_item: base:cfg_item.t:str_cfg_item
           htypes.fixture_resource.fixture_probe_template: legacy_type.fixture_resource:fixture_probe_template
           htypes.rc_job.config_key_error: legacy_type.rc_job:config_key_error
           htypes.rc_job.unknown_service_error: legacy_type.rc_job:unknown_service_error
@@ -77,7 +77,7 @@ definitions:
       attr_name: from_piece
 
   SucceededTestResult.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: SucceededTestResult.from_piece
       service_params:
@@ -85,7 +85,7 @@ definitions:
       - rc_constructor_creg
 
   test_job-succeeded_result.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_job:succeeded_result
       value: SucceededTestResult.from_piece.actor-template
@@ -103,14 +103,14 @@ definitions:
       attr_name: from_piece
 
   IncompleteTestResult.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: IncompleteTestResult.from_piece
       service_params:
       - rc_requirement_creg
 
   test_job-incomplete_result.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_job:incomplete_result
       value: IncompleteTestResult.from_piece.actor-template
@@ -128,14 +128,14 @@ definitions:
       attr_name: from_piece
 
   FailedTestResult.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: FailedTestResult.from_piece
       service_params:
       - rc_requirement_creg
 
   test_job-failed_result.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_job:failed_result
       value: FailedTestResult.from_piece.actor-template
@@ -153,7 +153,7 @@ definitions:
       attr_name: from_piece
 
   TestJob.from_piece.actor-template:
-    type: legacy_type.system:actor_template
+    type: base:system/system.t:actor_template
     value:
       function: TestJob.from_piece
       service_params:
@@ -161,7 +161,7 @@ definitions:
       - rc_resource_creg
 
   test_job-job.actor-cfg-item:
-    type: legacy_type.cfg_item:type_cfg_item
+    type: base:cfg_item.t:type_cfg_item
     value:
       t: legacy_type.test_job:job
       value: TestJob.from_piece.actor-template
@@ -173,7 +173,7 @@ definitions:
       attr_name: rpc_service_wrapper
 
   # test_job_rpc_service_wrapper.service:
-  #   type: legacy_type.system:service_template
+  #   type: base:system/system.t:service_template
   #   value:
   #     name: test_job_rpc_service_wrapper
   #     ctl: base.system.system:actor_dict.config_ctl

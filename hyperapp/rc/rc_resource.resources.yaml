@@ -8,6 +8,6 @@ definitions:
     value:
       module_name: rc_resource
       file_name: rc_resource.dyn.py
-      imports: {}
-      pyobj:
-      raw: {}
+      imports:
+        pyobj: {}
+        raw: {}
