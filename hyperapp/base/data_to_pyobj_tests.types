@@ -1,7 +1,0 @@
-sample_empty_record = record
-
-sample_non_empty_record = record:
-  string_field: string
-  ref_field: ref
-
-sample_value = record
