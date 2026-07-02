@@ -1,6 +1,9 @@
 import logging
+from functools import partial
 
-from hyperapp.boot.htypes.builtin_service import builtin_service_t
+from ..htypes.builtin_service import builtin_service_t
+from ..htypes.deduce_value_type import deduce_value_type_with_list
+from ..code_registry import CodeRegistry
 
 log = logging.getLogger(__name__)
 
@@ -11,6 +14,8 @@ def make_builtin_name_to_service(pyobj_creg, mosaic, web, source_path):
         'mosaic': mosaic,
         'web': web,
         'source_path': source_path,
+        'code_registry_ctr': partial(CodeRegistry, pyobj_creg, web),
+        'deduce_t': partial(deduce_value_type_with_list, pyobj_creg),
         }
 
 
