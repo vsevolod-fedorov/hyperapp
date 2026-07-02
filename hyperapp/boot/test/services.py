@@ -18,8 +18,13 @@ log = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def pyobj_creg():
-    return PyObjRegistry(config={}, reconstructors=[])
+def reconstructors():
+    return []
+
+
+@pytest.fixture
+def pyobj_creg(reconstructors):
+    return PyObjRegistry(config={}, reconstructors=reconstructors)
 
 
 @pytest.fixture

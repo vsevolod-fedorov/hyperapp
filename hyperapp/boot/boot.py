@@ -63,7 +63,8 @@ def parse_path(resource_path):
 
 
 def boot(projects_path, main_path, args):
-    pyobj_creg = PyObjRegistry(config={}, reconstructors=[])
+    reconstructors = []
+    pyobj_creg = PyObjRegistry(config={}, reconstructors=reconstructors)
     mosaic = Mosaic(pyobj_creg)
     web = Web(mosaic, pyobj_creg)
     source_path = {}
@@ -71,9 +72,17 @@ def boot(projects_path, main_path, args):
         **make_builtin_name_to_type(),
         **make_meta_type_name_to_type(),
         }
-    builtin_name_to_service = make_builtin_name_to_service(pyobj_creg, mosaic, web, source_path)
+    builtin_name_to_service = make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path)
     python_importer = PythonImporter()
-    init_services(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_type, builtin_name_to_service)
+    init_services(
+        pyobj_creg,
+        mosaic,
+        web,
+        python_importer,
+        source_path,
+        builtin_name_to_type,
+        builtin_name_to_service,
+        )
     resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
     type_to_resource_type = make_type_to_resource_type()
     resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
