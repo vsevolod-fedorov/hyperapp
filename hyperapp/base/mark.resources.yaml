@@ -13,17 +13,17 @@ definitions:
       module_name: mark
       file_name: mark.dyn.py
       imports:
-        pyobj:
+        pyobj: {}
+        raw: {}
 
     marker_ctl:
       type: builtin:type:attribute
       value:
         object: mark.module
         attr_name: marker_ctl
-      raw: {}
 
   marker_ctl.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: marker_ctl
       ctl: base.system.system:actor_dict.config_ctl

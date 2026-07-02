@@ -9,5 +9,5 @@ definitions:
       module_name: visitor
       file_name: visitor.dyn.py
       imports:
-        pyobj:
-      raw: {}
+        pyobj: {}
+        raw: {}

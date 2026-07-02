@@ -49,7 +49,7 @@ definitions:
       attr_name: _address_to_tcp_conn
 
   _address_to_tcp_conn.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: _address_to_tcp_conn
       ctl: base.system.system:actor_dict.config_ctl
@@ -65,7 +65,7 @@ definitions:
       attr_name: _tcp_selector
 
   _tcp_selector.service:
-    type: system.t:finalizer_gen_service_template
+    type: system/system.t:finalizer_gen_service_template
     value:
       name: _tcp_selector
       ctl: base.system.system:actor_dict.config_ctl
@@ -82,7 +82,7 @@ definitions:
       attr_name: _tcp_services
 
   _tcp_services.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: _tcp_services
       ctl: base.system.system:actor_dict.config_ctl
@@ -105,7 +105,7 @@ definitions:
       attr_name: tcp_connection_factory
 
   tcp_connection_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: tcp_connection_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -123,7 +123,7 @@ definitions:
       attr_name: tcp_server_factory
 
   tcp_server_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: tcp_server_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -136,7 +136,7 @@ definitions:
       - bind_address
 
   Route.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: Route.from_piece
       service_params:

@@ -12,8 +12,9 @@ definitions:
     value:
       module_name: transport
       file_name: transport.dyn.py
-      imports: {}
-      pyobj:
+      imports:
+        pyobj: {}
+        raw: {}
 
     transport:
       type: builtin:type:attribute
@@ -28,7 +29,7 @@ definitions:
       t: legacy_type.transport:config
 
   transport.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: transport
       ctl: record_config-config.ctl

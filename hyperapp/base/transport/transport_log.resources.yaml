@@ -21,11 +21,11 @@ definitions:
         raw: {}
 
   system-actor.value-ctl:
-    type: system.t:actor_value_ctl
+    type: system/system.t:actor_value_ctl
     value: {}
 
   system-dict_config.one_way.actor.ctl:
-    type: system.t:dict_config_ctl
+    type: system/system.t:dict_config_ctl
     value:
       key_ctl: base.system.config_layer:one_way.key_ctl
       value_ctl: system-actor.value-ctl
@@ -38,7 +38,7 @@ definitions:
       attr_name: transport_log
 
   transport_log.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: transport_log
       ctl: system-dict_config.one_way.actor.ctl

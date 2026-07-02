@@ -40,7 +40,7 @@ definitions:
       attr_name: from_piece
 
   RsaIdentity.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: RsaIdentity.from_piece
       service_params: []
@@ -58,7 +58,7 @@ definitions:
       attr_name: generate
 
   generate_rsa_identity.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: generate_rsa_identity
       ctl: base.system.system:actor_dict.config_ctl
@@ -81,7 +81,7 @@ definitions:
       attr_name: from_piece
 
   RsaPeer.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: RsaPeer.from_piece
       service_params: []
@@ -105,7 +105,7 @@ definitions:
       attr_name: from_piece
 
   RsaSignature.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: RsaSignature.from_piece
       service_params: []
@@ -129,7 +129,7 @@ definitions:
       attr_name: from_piece
 
   RsaParcel.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: RsaParcel.from_piece
       service_params:

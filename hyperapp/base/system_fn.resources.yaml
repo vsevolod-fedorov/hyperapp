@@ -35,7 +35,7 @@ definitions:
       attr_name: from_piece
 
   ContextFn.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: ContextFn.from_piece
       service_params:

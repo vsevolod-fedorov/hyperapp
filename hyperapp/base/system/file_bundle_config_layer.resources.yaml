@@ -32,7 +32,7 @@ definitions:
       attr_name: FileBundleConfigLayer
 
   file_bundle_config_layer_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: file_bundle_config_layer_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -52,7 +52,7 @@ definitions:
       attr_name: load_config_layers
 
   load_config_layers.service:
-    type: service.t:service_fn
+    type: system/service.t:service_fn
     value:
       default_name: load_config_layers
       ctl: base.system.system:actor_dict.config_ctl

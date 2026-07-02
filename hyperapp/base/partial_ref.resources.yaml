@@ -32,7 +32,7 @@ definitions:
       attr_name: partial_ref
 
   partial_ref.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: partial_ref
       ctl: base.system.system:actor_dict.config_ctl

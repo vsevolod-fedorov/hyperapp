@@ -24,7 +24,7 @@ definitions:
       attr_name: system_fn_creg
 
   system_fn_creg.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: system_fn_creg
       ctl: base.system.system:actor_dict.config_ctl

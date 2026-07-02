@@ -30,7 +30,7 @@ definitions:
       attr_name: SubprocessRpcMain
 
   subprocess_rpc_main.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: subprocess_rpc_main
       ctl: base.system.system:actor_dict.config_ctl
@@ -46,7 +46,7 @@ definitions:
       attr_name: subprocess_rpc_server_running
 
   subprocess_rpc_server_running.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: subprocess_rpc_server_running
       ctl: base.system.system:actor_dict.config_ctl

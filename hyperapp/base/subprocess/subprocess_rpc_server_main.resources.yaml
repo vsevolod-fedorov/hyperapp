@@ -26,7 +26,7 @@ definitions:
       attr_name: rpc_server_main
 
   rpc_server_main.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_server_main
       ctl: base.system.system:actor_dict.config_ctl

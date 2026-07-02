@@ -8,6 +8,6 @@ definitions:
     value:
       module_name: services
       file_name: services.dyn.py
-      imports: {}
-      pyobj:
-      raw: {}
+      imports:
+        pyobj: {}
+        raw: {}

@@ -24,7 +24,7 @@ definitions:
       attr_name: ref_picker_cache
 
   ref_picker_cache.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: ref_picker_cache
       ctl: base.system.system:actor_dict.config_ctl
@@ -40,7 +40,7 @@ definitions:
       attr_name: pick_refs
 
   pick_refs.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: pick_refs
       ctl: base.system.system:actor_dict.config_ctl

@@ -36,7 +36,7 @@ definitions:
       attr_name: from_piece
 
   RecordConfigCtl.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: RecordConfigCtl.from_piece
       service_params: []

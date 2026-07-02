@@ -28,7 +28,7 @@ definitions:
       attr_name: bool_name
 
   bool_name.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: bool_name
       service_params: []
@@ -46,7 +46,7 @@ definitions:
       attr_name: string_name
 
   string_name.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: string_name
       service_params: []
@@ -64,7 +64,7 @@ definitions:
       attr_name: record_mt_name
 
   record_mt_name.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: record_mt_name
       service_params: []
@@ -82,7 +82,7 @@ definitions:
       attr_name: call_name
 
   call_name.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: call_name
       service_params: []

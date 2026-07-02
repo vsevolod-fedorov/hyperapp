@@ -32,7 +32,7 @@ definitions:
       attr_name: assoc_key
 
   assoc_key.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: assoc_key
       ctl: base.system.config_ctl:data_service_config.ctl
@@ -51,7 +51,7 @@ definitions:
       attr_name: assoc_key_creg
 
   assoc_key_creg.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: assoc_key_creg
       ctl: base.system.system:actor_dict.config_ctl
@@ -93,7 +93,7 @@ definitions:
       attr_name: from_piece
 
   KeyBaseAssociation.from_piece.actor-template:
-    type: system.t:actor_template
+    type: system/system.t:actor_template
     value:
       function: KeyBaseAssociation.from_piece
       service_params: []

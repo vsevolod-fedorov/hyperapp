@@ -38,7 +38,7 @@ definitions:
       attr_name: rpc_submit_target_factory
 
   rpc_submit_target_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_submit_target_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -58,7 +58,7 @@ definitions:
       attr_name: RpcServantWrapper
 
   rpc_servant_wrapper.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_servant_wrapper
       ctl: base.system.system:actor_dict.config_ctl
@@ -74,7 +74,7 @@ definitions:
       attr_name: RpcSystemServantWrapper
 
   rpc_system_servant_wrapper.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_system_servant_wrapper
       ctl: base.system.system:actor_dict.config_ctl
@@ -90,7 +90,7 @@ definitions:
       attr_name: RpcServiceWrapper
 
   rpc_service_wrapper.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_service_wrapper
       ctl: base.system.system:actor_dict.config_ctl
@@ -106,7 +106,7 @@ definitions:
       attr_name: rpc_submit_factory
 
   rpc_submit_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_submit_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -127,7 +127,7 @@ definitions:
       attr_name: rpc_system_fn_submit_factory
 
   rpc_system_fn_submit_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_system_fn_submit_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -148,7 +148,7 @@ definitions:
       attr_name: service_submit_factory
 
   service_submit_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: service_submit_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -169,7 +169,7 @@ definitions:
       attr_name: rpc_wait_for_future
 
   rpc_wait_for_future.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_wait_for_future
       ctl: base.system.system:actor_dict.config_ctl
@@ -187,7 +187,7 @@ definitions:
       attr_name: rpc_call_factory
 
   rpc_call_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_call_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -209,7 +209,7 @@ definitions:
       attr_name: rpc_system_call_factory
 
   rpc_system_call_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_system_call_factory
       ctl: base.system.system:actor_dict.config_ctl
@@ -231,7 +231,7 @@ definitions:
       attr_name: rpc_service_call_factory
 
   rpc_service_call_factory.service:
-    type: system.t:service_template
+    type: system/system.t:service_template
     value:
       name: rpc_service_call_factory
       ctl: base.system.system:actor_dict.config_ctl
