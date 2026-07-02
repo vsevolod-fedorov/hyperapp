@@ -8,7 +8,7 @@ from ..code_registry import CodeRegistry
 log = logging.getLogger(__name__)
 
 
-def make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path):
+def make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg):
     return {
         'reconstructors': reconstructors,
         'pyobj_creg': pyobj_creg,
@@ -17,6 +17,7 @@ def make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source
         'source_path': source_path,
         'code_registry_ctr': partial(CodeRegistry, pyobj_creg, web),
         'deduce_t': partial(deduce_value_type_with_list, pyobj_creg),
+        'association_reg': association_reg,
         }
 
 

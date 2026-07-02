@@ -26,8 +26,8 @@ def builtin_name_to_type():
 
 
 @pytest.fixture
-def builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path):
-    return make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path)
+def builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg):
+    return make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg)
 
 
 @pytest.fixture

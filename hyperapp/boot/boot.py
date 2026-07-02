@@ -16,6 +16,7 @@ from hyperapp.boot.htypes.meta_type import (
 from hyperapp.boot.mosaic import Mosaic
 from hyperapp.boot.web import Web
 from hyperapp.boot.pyobj_registry import PyObjRegistry
+from hyperapp.boot.association_registry import AssociationRegistry
 from hyperapp.boot.python_importer import PythonImporter
 from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
@@ -68,11 +69,19 @@ def boot(projects_path, main_path, args):
     mosaic = Mosaic(pyobj_creg)
     web = Web(mosaic, pyobj_creg)
     source_path = {}
+    association_reg = AssociationRegistry()
     builtin_name_to_type = {
         **make_builtin_name_to_type(),
         **make_meta_type_name_to_type(),
         }
-    builtin_name_to_service = make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path)
+    builtin_name_to_service = make_builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        association_reg,
+        )
     python_importer = PythonImporter()
     init_services(
         pyobj_creg,
