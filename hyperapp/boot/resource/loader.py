@@ -143,7 +143,6 @@ class _ResourceLoader:
         self._builtin_name_to_type = builtin_name_to_type
         self._resource_type_producer = resource_type_producer
         self._projects = projects  # project_name -> path_to_bytes
-        self._proj_path_to_def = {}  # (project_name, path) -> definition
         self._name_tuple_to_definition = {}
         self._name_tuple_to_piece = {
             **_name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type),
