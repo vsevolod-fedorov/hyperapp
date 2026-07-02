@@ -1,4 +1,5 @@
 import logging
+from collections import namedtuple
 from pathlib import Path
 
 from ..htypes.python_module import python_module_t
@@ -137,12 +138,15 @@ class _Context:
 
 class _ResourceLoader:
 
+    _LoaderRec = namedtuple('_LoaderRec', 'loader file_path')
+
     def __init__(self, pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects):
         self._pyobj_creg = pyobj_creg
         self._mosaic = mosaic
         self._builtin_name_to_type = builtin_name_to_type
         self._resource_type_producer = resource_type_producer
         self._projects = projects  # project_name -> path_to_bytes
+        self._project_and_path_to_loader = {}  # (project_name, path) -> _LoaderRec
         self._name_tuple_to_definition = {}
         self._name_tuple_to_piece = {
             **_name_to_builtin_type_piece(pyobj_creg, builtin_name_to_type),
@@ -157,48 +161,70 @@ class _ResourceLoader:
     def load(self):
         for project_name, path_to_bytes in self._projects.items():
             for file_path, bytes in path_to_bytes.items():
-                self._load_module(project_name, file_path, bytes)
+                self._discover_loader(project_name, file_path)
+        for project_name, path in self._project_and_path_to_loader:
+            self._load_definitions(project_name, path)
         name_tuple_to_piece = {
             name_tuple: self._resolve(name_tuple)
             for name_tuple in self._name_tuple_to_definition
             }
         return (name_tuple_to_piece, self._piece_to_source)
 
+    # def _has_module(self, project_name, path):
+    #     return (project_name, path) in self._has_modules
+
+    def _has_name(self, project_name, path, name):
+        if (project_name, path, name) not in self._name_tuple_to_definition:
+            try:
+                self._load_definitions(project_name, path)
+            except KeyError:
+                return False
+        return (project_name, path, name) in self._name_tuple_to_definition
+
     _loaders = {
         ResourceModuleLoader(),
         TypeModuleLoader(),
         }
 
-    def _load_module(self, project_name, file_path, bytes):
+    def _discover_loader(self, project_name, file_path):
         for loader in self._loaders:
             if not loader.applicable(file_path):
                 continue
             path = loader.file_path_to_path(file_path)
-            ctx = _Context(self, project_name, path)
-            source_path = '/'.join(file_path)
-            for name, definition in loader.load_definitions(
-                    self._pyobj_creg, self._mosaic, self._builtin_name_to_type, self._resource_type_producer,
-                    ctx, bytes, source_path):
-                self._name_tuple_to_definition[(project_name, path, name)] = definition
-                self._has_modules.add((project_name, path))
-
-    # def _has_module(self, project_name, path):
-    #     return (project_name, path) in self._has_modules
-
-    def _has_name(self, project_name, path, name):
-        return (project_name, path, name) in self._name_tuple_to_definition
+            self._project_and_path_to_loader[project_name, path] = self._LoaderRec(
+                loader=loader,
+                file_path=file_path,
+                )
+            self._has_modules.add((project_name, path))
 
     def _resolve(self, name_tuple):
         try:
             return self._name_tuple_to_piece[name_tuple]
         except KeyError:
             pass
-        definition = self._name_tuple_to_definition[name_tuple]
+        try:
+            definition = self._name_tuple_to_definition[name_tuple]
+        except KeyError:
+            project_name, path, _ = name_tuple
+            if (project_name, path) not in self._project_and_path_to_loader:
+                raise KeyError((project_name, path))
+            self._load_definitions(project_name, path)
+            definition = self._name_tuple_to_definition[name_tuple]
         ctx = _Context.from_name_tuple(self, name_tuple)
         piece, sources = definition.resolve(ctx)
         self._name_tuple_to_piece[name_tuple] = piece
         self._piece_to_source.update(sources)
         return piece
+
+    def _load_definitions(self, project_name, path):
+        rec = self._project_and_path_to_loader[project_name, path]
+        source_path = '/'.join(rec.file_path)
+        bytes = self._projects[project_name][rec.file_path]
+        ctx = _Context(self, project_name, path)
+        for name, definition in rec.loader.load_definitions(
+                self._pyobj_creg, self._mosaic, self._builtin_name_to_type, self._resource_type_producer,
+                ctx, bytes, source_path):
+            self._name_tuple_to_definition[(project_name, path, name)] = definition
 
 
 def load_resources(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects):
