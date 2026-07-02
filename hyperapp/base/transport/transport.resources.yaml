@@ -1,7 +1,7 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.record_config:config_ctl
+- base:record_config.t:config_ctl
 - legacy_type.system:service_template
 - legacy_type.transport:config
 

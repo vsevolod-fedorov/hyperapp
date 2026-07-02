@@ -1,6 +1,6 @@
 import:
 - base:system/system:actor_dict.config_ctl
-- builtins:association_reg.service
+- builtin:service:association_reg
 - builtin:service:mosaic
 - builtin:service:pyobj_creg
 - builtin:type:attribute
@@ -16,7 +16,7 @@ definitions:
       file_name: bundler.dyn.py
       imports:
         pyobj:
-          services.association_reg: builtins:association_reg.service
+          services.association_reg: builtin:service:association_reg
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}

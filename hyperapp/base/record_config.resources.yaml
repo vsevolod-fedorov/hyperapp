@@ -5,7 +5,7 @@ import:
 - builtin:type:attribute
 - builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
-- legacy_type.record_config:config_ctl
+- base:record_config.t:config_ctl
 - legacy_type.system:actor_template
 
 definitions:
@@ -17,7 +17,7 @@ definitions:
       file_name: record_config.dyn.py
       imports:
         pyobj:
-          htypes.record_config.config_ctl: legacy_type.record_config:config_ctl
+          htypes.record_config.config_ctl: base:record_config.t:config_ctl
           services.pyobj_creg: builtin:service:pyobj_creg
           # code.config_ctl: base:system/config_ctl:config_ctl.module
           code.mark: base:mark:mark.module
@@ -44,5 +44,5 @@ definitions:
   config_ctl_creg-record_config-config_ctl.actor-cfg-item:
     type: cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.record_config:config_ctl
+      t: base:record_config.t:config_ctl
       value: RecordConfigCtl.from_piece.actor-template

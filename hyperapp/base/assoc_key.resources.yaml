@@ -1,7 +1,7 @@
 import:
 - base:system/config_ctl:data_service_config.ctl
 - base:system/system:actor_dict.config_ctl
-- builtins:association_reg.service
+- builtin:service:association_reg
 - builtins:code_registry_ctr.service
 - legacy_type.assoc_key:key_base_association
 - builtin:type:attribute
@@ -21,7 +21,7 @@ definitions:
       file_name: assoc_key.dyn.py
       imports:
         pyobj:
-          services.association_reg: builtins:association_reg.service
+          services.association_reg: builtin:service:association_reg
           services.code_registry_ctr: builtins:code_registry_ctr.service
         raw: {}
 
