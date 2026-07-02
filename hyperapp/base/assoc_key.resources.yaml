@@ -1,6 +1,6 @@
 import:
-- base.system.config_ctl:data_service_config.ctl
-- base.system.system:actor_dict.config_ctl
+- base:system/config_ctl:data_service_config.ctl
+- base:system/system:actor_dict.config_ctl
 - builtins:association_reg.service
 - builtins:code_registry_ctr.service
 - legacy_type.assoc_key:key_base_association
@@ -35,7 +35,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: assoc_key
-      ctl: base.system.config_ctl:data_service_config.ctl
+      ctl: base:system/config_ctl:data_service_config.ctl
       function: assoc_key
       free_params: []
       service_params:
@@ -54,7 +54,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: assoc_key_creg
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: assoc_key_creg
       free_params: []
       service_params: []

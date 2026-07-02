@@ -1,5 +1,5 @@
 import:
-- builtins:deduce_t.service
+- builtin:service:deduce_t
 - builtin:type:attribute
 - builtin:type:python_module
 - base:cfg_item.t:str_cfg_item
@@ -16,7 +16,7 @@ definitions:
       file_name: editor_marker.dyn.py
       imports:
         pyobj:
-          services.deduce_t: builtins:deduce_t.service
+          services.deduce_t: builtin:service:deduce_t
           code.marker_utils: rc.marker_utils:marker_utils.module
           code.editor_ctr: rc.editor_ctr:editor_ctr.module
         raw: {}

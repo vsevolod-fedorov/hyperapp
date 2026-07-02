@@ -1,6 +1,6 @@
 import:
 - builtin:type:python_module
-- base.system.system:system.module
+- base:system/system:system.module
 
 definitions:
   subprocess_system_main.module:
@@ -10,5 +10,5 @@ definitions:
       file_name: subprocess_system_main.dyn.py
       imports:
         pyobj:
-          code.system: base.system.system:system.module
+          code.system: base:system/system:system.module
         raw: {}

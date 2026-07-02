@@ -1,5 +1,5 @@
 import:
-- builtins:deduce_t.service
+- builtin:service:deduce_t
 - builtins:mosaic.service
 - builtin:type:attribute
 - builtin:type:python_module
@@ -10,7 +10,7 @@ import:
 - legacy_type.rpc:service_target
 - legacy_type.rpc:system_fn_target
 - legacy_type.system:service_template
-- base.system.system:actor_dict.config_ctl
+- base:system/system:actor_dict.config_ctl
 
 definitions:
 
@@ -27,7 +27,7 @@ definitions:
           htypes.rpc.param: legacy_type.rpc:param
           htypes.rpc.request: legacy_type.rpc:request
           htypes.rpc.server_error: legacy_type.rpc:server_error
-          services.deduce_t: builtins:deduce_t.service
+          services.deduce_t: builtin:service:deduce_t
           services.mosaic: builtins:mosaic.service
         raw: {}
 
@@ -41,7 +41,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_submit_target_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rpc_submit_target_factory
       free_params:
       - receiver_peer
@@ -61,7 +61,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_servant_wrapper
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: RpcServantWrapper
       free_params: []
       service_params: []
@@ -77,7 +77,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_system_servant_wrapper
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: RpcSystemServantWrapper
       free_params: []
       service_params: []
@@ -93,7 +93,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_service_wrapper
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: RpcServiceWrapper
       free_params: []
       service_params: []
@@ -109,7 +109,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_submit_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rpc_submit_factory
       free_params:
       - receiver_peer
@@ -130,7 +130,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_system_fn_submit_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rpc_system_fn_submit_factory
       free_params:
       - receiver_peer
@@ -151,7 +151,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: service_submit_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: service_submit_factory
       free_params:
       - receiver_peer
@@ -172,7 +172,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_wait_for_future
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rpc_wait_for_future
       free_params:
       - future
@@ -190,7 +190,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_call_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rpc_call_factory
       free_params:
       - receiver_peer
@@ -212,7 +212,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_system_call_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rpc_system_call_factory
       free_params:
       - receiver_peer
@@ -234,7 +234,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: rpc_service_call_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rpc_service_call_factory
       free_params:
       - receiver_peer

@@ -4,7 +4,7 @@ import:
 - builtin:type:attribute
 - builtin:type:python_module
 - legacy_type.system:finalizer_gen_service_template
-- base.system.system:actor_dict.config_ctl
+- base:system/system:actor_dict.config_ctl
 
 definitions:
 
@@ -29,7 +29,7 @@ definitions:
     type: system/system.t:finalizer_gen_service_template
     value:
       name: subprocess_transport
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: subprocess_transport
       free_params: []
       service_params:

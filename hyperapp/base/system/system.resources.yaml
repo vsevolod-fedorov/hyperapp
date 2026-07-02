@@ -1,6 +1,6 @@
 import:
 - builtins:cached_code_registry_ctr.service
-- builtins:code_registry_ctr.service
+- builtin:service:code_registry_ctr
 - builtins:pyobj_creg.service
 - builtin:type:python_module
 - legacy_type.system:actor_value_ctl
@@ -8,13 +8,13 @@ import:
 - legacy_type.system:dict_config_ctl
 - legacy_type.system:one_way_key_ctl
 - legacy_type.system:single_struct_ctl
-- base.system.actor_template:actor_template.module
-- base.system.ctl.config_ctl:config_ctl.module
-- base.system.ctl.config_item_ctl:config_item_ctl.module
-- base.system.config_layer:config_layer.module
-- base.system.config_layer:one_way.key_ctl
-- base.system.service_template:service_template.module
-- base.system.services:services.module
+- base:system/actor_template:actor_template.module
+- base:system/ctl.config_ctl:config_ctl.module
+- base:system/ctl.config_item_ctl:config_item_ctl.module
+- base:system/config_layer:config_layer.module
+- base:system/config_layer:one_way.key_ctl
+- base:system/service_template:service_template.module
+- base:system/services:services.module
 
 definitions:
 
@@ -27,14 +27,14 @@ definitions:
         pyobj:
           htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
           services.cached_code_registry_ctr: builtins:cached_code_registry_ctr.service
-          services.code_registry_ctr: builtins:code_registry_ctr.service
+          services.code_registry_ctr: builtin:service:code_registry_ctr
           services.pyobj_creg: builtins:pyobj_creg.service
-          code.config_ctl: base.system.ctl.config_ctl:config_ctl.module
-          code.config_item_ctl: base.system.ctl.config_item_ctl:config_item_ctl.module
-          code.config_layer: base.system.config_layer:config_layer.module
-          code.services: base.system.services:services.module
-          code.actor_template: base.system.actor_template:actor_template.module
-          code.service_template: base.system.service_template:service_template.module
+          code.config_ctl: base:system/ctl.config_ctl:config_ctl.module
+          code.config_item_ctl: base:system/ctl.config_item_ctl:config_item_ctl.module
+          code.config_layer: base:system/config_layer:config_layer.module
+          code.services: base:system/services:services.module
+          code.actor_template: base:system/actor_template:actor_template.module
+          code.service_template: base:system/service_template:service_template.module
         raw: {}
 
   actor.value_ctl:
@@ -52,13 +52,13 @@ definitions:
   actor_dict.config_ctl:
     type: system/system.t:dict_config_ctl
     value:
-      key_ctl: base.system.config_layer:one_way.key_ctl
+      key_ctl: base:system/config_layer:one_way.key_ctl
       value_ctl: actor.value_ctl
       struct_ctl: single.struct_ctl
 
   data_dict.config_ctl:
     type: system/system.t:dict_config_ctl
     value:
-      key_ctl: base.system.config_layer:one_way.key_ctl
+      key_ctl: base:system/config_layer:one_way.key_ctl
       value_ctl: data.value_ctl
       struct_ctl: single.struct_ctl

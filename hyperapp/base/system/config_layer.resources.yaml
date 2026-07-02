@@ -1,6 +1,6 @@
 import:
-- builtins:code_registry_ctr.service
-- builtins:deduce_t.service
+- builtin:service:code_registry_ctr
+- builtin:service:deduce_t
 - builtins:mosaic.service
 - builtins:resource_module_factory.service
 - builtins:web.service
@@ -25,8 +25,8 @@ definitions:
       file_name: config_layer.dyn.py
       imports:
         pyobj:
-          services.code_registry_ctr: builtins:code_registry_ctr.service
-          services.deduce_t: builtins:deduce_t.service
+          services.code_registry_ctr: builtin:service:code_registry_ctr
+          services.deduce_t: builtin:service:deduce_t
           services.mosaic: builtins:mosaic.service
           services.resource_module_factory: builtins:resource_module_factory.service
           services.web: builtins:web.service

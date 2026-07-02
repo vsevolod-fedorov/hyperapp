@@ -1,6 +1,6 @@
 import:
-- base.system.config_layer:config_layer.module
-- base.system.system:actor_dict.config_ctl
+- base:system/config_layer:config_layer.module
+- base:system/system:actor_dict.config_ctl
 - builtins:mosaic.service
 - builtin:type:attribute
 - builtin:type:python_module
@@ -22,7 +22,7 @@ definitions:
           htypes.system.service_config: legacy_type.system:service_config
           htypes.system.system_config: legacy_type.system:system_config
           services.mosaic: builtins:mosaic.service
-          code.config_layer: base.system.config_layer:config_layer.module
+          code.config_layer: base:system/config_layer:config_layer.module
         raw: {}
 
   FileBundleConfigLayer:
@@ -35,7 +35,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: file_bundle_config_layer_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: FileBundleConfigLayer
       service_params:
       - system
@@ -55,7 +55,7 @@ definitions:
     type: system/service.t:service_fn
     value:
       default_name: load_config_layers
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: load_config_layers
       service_params:
       - system

@@ -1,8 +1,8 @@
 import:
-- base.mark:mark.module
-- base.system.system:actor_dict.config_ctl
-- base.transport.tcp_utils:tcp_utils.module
-- base.transport.transport:transport.module
+- base:mark:mark.module
+- base:system/system:actor_dict.config_ctl
+- base:transport.tcp_utils:tcp_utils.module
+- base:transport.transport:transport.module
 - builtins:mosaic.service
 - builtins:unbundler.service
 - legacy_type.builtin:attribute
@@ -22,9 +22,9 @@ definitions:
       file_name: tcp_transport.dyn.py
       imports:
         pyobj:
-          code.mark: base.mark:mark.module
-          code.transport: base.transport.transport:transport.module
-          code.tcp_utils: base.transport.tcp_utils:tcp_utils.module
+          code.mark: base:mark:mark.module
+          code.transport: base:transport.transport:transport.module
+          code.tcp_utils: base:transport.tcp_utils:tcp_utils.module
           htypes.tcp_transport.route: legacy_type.tcp_transport:route
           services.mosaic: builtins:mosaic.service
           services.unbundler: builtins:unbundler.service
@@ -52,7 +52,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: _address_to_tcp_conn
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: _address_to_tcp_conn
       service_params: []
       want_config: false
@@ -68,7 +68,7 @@ definitions:
     type: system/system.t:finalizer_gen_service_template
     value:
       name: _tcp_selector
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: _tcp_selector
       service_params:
       - system_failed
@@ -85,7 +85,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: _tcp_services
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: _tcp_services
       service_params:
       - bundler
@@ -108,7 +108,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: tcp_connection_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: tcp_connection_factory
       service_params:
       - _tcp_services
@@ -126,7 +126,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: tcp_server_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: tcp_server_factory
       service_params:
       - _tcp_services

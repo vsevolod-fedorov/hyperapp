@@ -1,5 +1,5 @@
 import:
-- builtins:deduce_t.service
+- builtin:service:deduce_t
 - builtin:type:attribute
 - builtin:type:python_module
 - base:cfg_item.t:str_cfg_item
@@ -23,7 +23,7 @@ definitions:
           htypes.command.model_command_add_fn: legacy_type.command:model_command_add_fn
           htypes.command.model_command_fn: legacy_type.command:model_command_fn
           htypes.command.model_command_remove_fn: legacy_type.command:model_command_remove_fn
-          services.deduce_t: builtins:deduce_t.service
+          services.deduce_t: builtin:service:deduce_t
           code.command_ctr: rc.command_ctr:command_ctr.module
           code.marker_utils: rc.marker_utils:marker_utils.module
           code.probe: rc.probe:probe.module

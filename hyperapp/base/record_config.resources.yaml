@@ -1,6 +1,6 @@
 import:
-- base.mark:mark.module
-# - base.system.config_ctl:config_ctl.module
+- base:mark:mark.module
+# - base:system/config_ctl:config_ctl.module
 - builtins:pyobj_creg.service
 - legacy_type.builtin:attribute
 - legacy_type.builtin:python_module
@@ -19,8 +19,8 @@ definitions:
         pyobj:
           htypes.record_config.config_ctl: legacy_type.record_config:config_ctl
           services.pyobj_creg: builtins:pyobj_creg.service
-          # code.config_ctl: base.system.config_ctl:config_ctl.module
-          code.mark: base.mark:mark.module
+          # code.config_ctl: base:system/config_ctl:config_ctl.module
+          code.mark: base:mark:mark.module
         raw: {}
 
   RecordConfigCtl:

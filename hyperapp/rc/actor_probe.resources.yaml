@@ -1,5 +1,5 @@
 import:
-- builtins:deduce_t.service
+- builtin:service:deduce_t
 - builtins:pyobj_creg.service
 - builtins:web.service
 - legacy_type.actor_resource:actor_probe_template
@@ -23,7 +23,7 @@ definitions:
       file_name: actor_probe.dyn.py
       imports:
         pyobj:
-          services.deduce_t: builtins:deduce_t.service
+          services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtins:pyobj_creg.service
           services.web: builtins:web.service
           code.actor_ctr: rc.actor_ctr:actor_ctr.module

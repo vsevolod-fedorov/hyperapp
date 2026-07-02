@@ -1,5 +1,5 @@
 import:
-- base.system.system:actor_dict.config_ctl
+- base:system/system:actor_dict.config_ctl
 - builtins:association_reg.service
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
@@ -31,7 +31,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: bundler
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: bundler
       free_params:
       - ref_list

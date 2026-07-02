@@ -1,7 +1,7 @@
 # Automatically generated file. Do not edit.
 
 import:
-- base.system.file_bundle_config_layer:load_config_layers.service-cfg-item
+- base:system/file_bundle_config_layer:load_config_layers.service-cfg-item
 - legacy_type.system:item_list_config
 - legacy_type.system:system_config
 
@@ -19,4 +19,4 @@ definitions:
     type: system/system.t:item_list_config
     value:
       items:
-      - base.system.file_bundle_config_layer:load_config_layers.service-cfg-item
+      - base:system/file_bundle_config_layer:load_config_layers.service-cfg-item

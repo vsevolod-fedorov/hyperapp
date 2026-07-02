@@ -1,5 +1,5 @@
 import:
-- builtins:deduce_t.service
+- builtin:service:deduce_t
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
@@ -23,7 +23,7 @@ definitions:
           htypes.model.index_list_ui_t: legacy_type.model:index_list_ui_t
           htypes.model.key_list_ui_t: legacy_type.model:key_list_ui_t
           htypes.model.index_tree_ui_t: legacy_type.model:index_tree_ui_t
-          services.deduce_t: builtins:deduce_t.service
+          services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtins:pyobj_creg.service
           code.marker_utils: rc.marker_utils:marker_utils.module
           code.crud_ctr: rc.crud_ctr:crud_ctr.module

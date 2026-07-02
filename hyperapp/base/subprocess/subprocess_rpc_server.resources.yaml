@@ -1,8 +1,8 @@
 import:
-- base.rpc.rpc_proxy:rpc_proxy.module
-- base.subprocess.subprocess_rpc_server_main:subprocess_rpc_server_main.module
-- base.subprocess.subprocess_system_main:subprocess_system_main.module
-- base.system.system:actor_dict.config_ctl
+- base:rpc.rpc_proxy:rpc_proxy.module
+- base:subprocess/subprocess_rpc_server_main:subprocess_rpc_server_main.module
+- base:subprocess/subprocess_system_main:subprocess_system_main.module
+- base:system/system:actor_dict.config_ctl
 - builtin:type:attribute
 - builtin:type:python_module
 - legacy_type.system:service_template
@@ -18,9 +18,9 @@ definitions:
       imports:
         pyobj:
           services.pyobj_creg: builtins:pyobj_creg.service
-          code.rpc_proxy: base.rpc.rpc_proxy:rpc_proxy.module
-          code.subprocess_system_main: base.subprocess.subprocess_system_main:subprocess_system_main.module
-          code.subprocess_rpc_server_main: base.subprocess.subprocess_rpc_server_main:subprocess_rpc_server_main.module
+          code.rpc_proxy: base:rpc.rpc_proxy:rpc_proxy.module
+          code.subprocess_system_main: base:subprocess/subprocess_system_main:subprocess_system_main.module
+          code.subprocess_rpc_server_main: base:subprocess/subprocess_rpc_server_main:subprocess_rpc_server_main.module
         raw: {}
 
   SubprocessRpcMain:
@@ -33,7 +33,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: subprocess_rpc_main
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: SubprocessRpcMain
       free_params: []
       service_params: []
@@ -49,7 +49,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: subprocess_rpc_server_running
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: subprocess_rpc_server_running
       free_params: []
       service_params:

@@ -1,5 +1,5 @@
 import:
-- builtins:deduce_t.service
+- builtin:service:deduce_t
 - builtins:pyobj_creg.service
 - builtin:type:attribute
 - builtin:type:python_module
@@ -20,7 +20,7 @@ definitions:
       file_name: selector_probe.dyn.py
       imports:
         pyobj:
-          services.deduce_t: builtins:deduce_t.service
+          services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtins:pyobj_creg.service
           code.marker_utils: rc.marker_utils:marker_utils.module
           code.selector_ctr: rc.selector_ctr:selector_ctr.module

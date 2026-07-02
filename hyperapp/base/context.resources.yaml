@@ -1,5 +1,5 @@
 import:
-- builtins:deduce_t.service
+- builtin:service:deduce_t
 - legacy_type.builtin:python_module
 
 definitions:
@@ -11,5 +11,5 @@ definitions:
       file_name: context.dyn.py
       imports:
         pyobj:
-          services.deduce_t: builtins:deduce_t.service
+          services.deduce_t: builtin:service:deduce_t
         raw: {}
