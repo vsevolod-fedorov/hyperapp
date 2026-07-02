@@ -116,10 +116,7 @@ class _Context:
             return (self._project_name, self._path, parts[0])
         if len(parts) == 2:
             # 1 colon, project-local name
-            name_path = _split_path(parts[0])
-            if len(name_path) > len(self._path):
-                raise RuntimeError(f"{self}: Malformed name: Path is too deep: {description!r}")
-            path = (*self._path[:len(self._path) - len(name_path)], *name_path)
+            path = _split_path(parts[0])
             return (self._project_name, path, parts[1])
         if len(parts) == 3:
             # 2 colons, full name.
