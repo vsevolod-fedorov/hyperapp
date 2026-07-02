@@ -1,6 +1,6 @@
 import:
 - builtin:service:deduce_t
-- legacy_type.builtin:python_module
+- builtin:type:python_module
 
 definitions:
 

@@ -1,7 +1,7 @@
 import:
 - builtins:cached_code_registry_ctr.service
 - builtin:service:code_registry_ctr
-- builtins:pyobj_creg.service
+- builtin:service:pyobj_creg
 - builtin:type:python_module
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:data_value_ctl
@@ -28,7 +28,7 @@ definitions:
           htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
           services.cached_code_registry_ctr: builtins:cached_code_registry_ctr.service
           services.code_registry_ctr: builtin:service:code_registry_ctr
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.config_ctl: base:system/ctl.config_ctl:config_ctl.module
           code.config_item_ctl: base:system/ctl.config_item_ctl:config_item_ctl.module
           code.config_layer: base:system/config_layer:config_layer.module

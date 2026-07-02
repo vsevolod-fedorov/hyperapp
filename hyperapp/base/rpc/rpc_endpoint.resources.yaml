@@ -1,8 +1,8 @@
 import:
 - builtins:code_registry_ctr.service
 - builtins:deduce_t.service
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
+- builtin:service:mosaic
+- builtin:service:pyobj_creg
 - builtin:type:attribute
 - builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
@@ -33,8 +33,8 @@ definitions:
           htypes.rpc.server_error: legacy_type.rpc:server_error
           services.code_registry_ctr: builtins:code_registry_ctr.service
           services.deduce_t: builtins:deduce_t.service
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.context: base:context:context.module
         raw: {}
 

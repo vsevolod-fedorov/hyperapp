@@ -1,5 +1,5 @@
 import:
-- builtins:mosaic.service
+- builtin:service:mosaic
 - builtin:type:attribute
 - builtin:type:python_module
 
@@ -13,5 +13,5 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
         raw: {}

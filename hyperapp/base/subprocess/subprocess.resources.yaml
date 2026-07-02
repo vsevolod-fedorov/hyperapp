@@ -1,5 +1,5 @@
 import:
-- builtins:mosaic.service
+- builtin:service:mosaic
 - builtin:type:attribute
 - builtin:type:python_module
 - legacy_type.system:service_template
@@ -14,7 +14,7 @@ definitions:
       file_name: subprocess.dyn.py
       imports:
         pyobj:
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
         raw: {}
 
   subprocess_running:

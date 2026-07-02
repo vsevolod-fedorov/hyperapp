@@ -1,6 +1,6 @@
 import:
 - builtin:service:deduce_t
-- builtins:mosaic.service
+- builtin:service:mosaic
 - builtin:type:attribute
 - builtin:type:python_module
 - legacy_type.rpc:function_target
@@ -28,7 +28,7 @@ definitions:
           htypes.rpc.request: legacy_type.rpc:request
           htypes.rpc.server_error: legacy_type.rpc:server_error
           services.deduce_t: builtin:service:deduce_t
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
         raw: {}
 
   rpc_submit_target_factory:

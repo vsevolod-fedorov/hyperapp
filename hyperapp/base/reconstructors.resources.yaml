@@ -1,6 +1,6 @@
 import:
-- builtins:reconstructors.service
-- legacy_type.builtin:python_module
+- builtin:service:reconstructors
+- builtin:type:python_module
 - base:fn_reconstructor:fn_reconstructor.module
 - base:type_reconstructor:type_reconstructor.module
 
@@ -15,5 +15,5 @@ definitions:
         pyobj:
           code.type_reconstructor: base:type_reconstructor:type_reconstructor.module
           code.fn_reconstructor: base:fn_reconstructor:fn_reconstructor.module
-          services.reconstructors: builtins:reconstructors.service
+          services.reconstructors: builtin:service:reconstructors
         raw: {}

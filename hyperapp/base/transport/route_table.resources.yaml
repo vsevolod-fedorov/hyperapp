@@ -1,8 +1,8 @@
 import:
 - base:system/config_ctl:data_service_config.ctl
 - builtins:web.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.system:service_template
 
 definitions:

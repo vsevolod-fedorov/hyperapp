@@ -1,11 +1,11 @@
 import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
-- legacy_type.builtin:partial_param
-- legacy_type.builtin:partial
-- legacy_type.builtin:raw
+- builtin:service:mosaic
+- builtin:service:pyobj_creg
+- builtin:type:attribute
+- builtin:type:python_module
+- builtin:type:partial_param
+- builtin:type:partial
+- builtin:type:raw
 - legacy_type.system:service_template
 - base:system/system:actor_dict.config_ctl
 
@@ -18,11 +18,11 @@ definitions:
       file_name: partial_ref.dyn.py
       imports:
         pyobj:
-          htypes.builtin.partial_param: legacy_type.builtin:partial_param
-          htypes.builtin.partial: legacy_type.builtin:partial
-          htypes.builtin.raw: legacy_type.builtin:raw
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          htypes.builtin.partial_param: builtin:type:partial_param
+          htypes.builtin.partial: builtin:type:partial
+          htypes.builtin.raw: builtin:type:raw
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}
 
   partial_ref:

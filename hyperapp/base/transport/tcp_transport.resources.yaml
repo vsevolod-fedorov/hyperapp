@@ -3,10 +3,10 @@ import:
 - base:system/system:actor_dict.config_ctl
 - base:transport.tcp_utils:tcp_utils.module
 - base:transport.transport:transport.module
-- builtins:mosaic.service
+- builtin:service:mosaic
 - builtins:unbundler.service
-- legacy_type.builtin:attribute
-- legacy_type.builtin:python_module
+- builtin:type:attribute
+- builtin:type:python_module
 - legacy_type.cfg_item:type_cfg_item
 - legacy_type.system:actor_template
 - legacy_type.system:finalizer_gen_service_template
@@ -26,7 +26,7 @@ definitions:
           code.transport: base:transport.transport:transport.module
           code.tcp_utils: base:transport.tcp_utils:tcp_utils.module
           htypes.tcp_transport.route: legacy_type.tcp_transport:route
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           services.unbundler: builtins:unbundler.service
         raw: {}
 

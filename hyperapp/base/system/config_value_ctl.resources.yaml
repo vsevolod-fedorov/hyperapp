@@ -1,5 +1,5 @@
 import:
-- legacy_type.builtin:python_module
+- builtin:type:python_module
 - legacy_type.system:actor_value_ctl
 - legacy_type.system:data_value_ctl
 

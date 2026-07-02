@@ -1,5 +1,5 @@
 import:
-- builtins:mosaic.service
+- builtin:service:mosaic
 - builtins:unbundler.service
 - builtin:type:attribute
 - builtin:type:python_module
@@ -15,7 +15,7 @@ definitions:
       file_name: subprocess_transport.dyn.py
       imports:
         pyobj:
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           services.unbundler: builtins:unbundler.service
         raw: {}
 
