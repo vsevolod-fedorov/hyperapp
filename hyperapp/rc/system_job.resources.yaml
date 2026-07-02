@@ -7,7 +7,7 @@ import:
 - legacy_type.ctr_collector:mark_module_template
 - legacy_type.rc_job:config_key_error
 - legacy_type.rc_job:unknown_service_error
-- legacy_type.rpc:server_error
+- base:rpc/rpc.t:server_error
 - base:system/system.t:actor_template
 - base:system/system.t_job:req_to_resource
 - rc.cfg_item_req:cfg_item_req.module
@@ -35,7 +35,7 @@ definitions:
           htypes.ctr_collector.mark_module_template: legacy_type.ctr_collector:mark_module_template
           htypes.rc_job.config_key_error: legacy_type.rc_job:config_key_error
           htypes.rc_job.unknown_service_error: legacy_type.rc_job:unknown_service_error
-          htypes.rpc.server_error: legacy_type.rpc:server_error
+          htypes.rpc.server_error: base:rpc/rpc.t:server_error
           htypes.system.actor_template: base:system/system.t:actor_template
           htypes.system_job.req_to_resource: base:system/system.t_job:req_to_resource
           services.mosaic: builtins:mosaic.service

@@ -3,12 +3,12 @@ import:
 - builtin:service:mosaic
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.rpc:function_target
-- legacy_type.rpc:param
-- legacy_type.rpc:request
-- legacy_type.rpc:server_error
-- legacy_type.rpc:service_target
-- legacy_type.rpc:system_fn_target
+- base:rpc/rpc.t:function_target
+- base:rpc/rpc.t:param
+- base:rpc/rpc.t:request
+- base:rpc/rpc.t:server_error
+- base:rpc/rpc.t:service_target
+- base:rpc/rpc.t:system_fn_target
 - legacy_type.system:service_template
 - base:system/system:actor_dict.config_ctl
 
@@ -21,12 +21,12 @@ definitions:
       file_name: rpc_call.dyn.py
       imports:
         pyobj:
-          htypes.rpc.function_target: legacy_type.rpc:function_target
-          htypes.rpc.service_target: legacy_type.rpc:service_target
-          htypes.rpc.system_fn_target: legacy_type.rpc:system_fn_target
-          htypes.rpc.param: legacy_type.rpc:param
-          htypes.rpc.request: legacy_type.rpc:request
-          htypes.rpc.server_error: legacy_type.rpc:server_error
+          htypes.rpc.function_target: base:rpc/rpc.t:function_target
+          htypes.rpc.service_target: base:rpc/rpc.t:service_target
+          htypes.rpc.system_fn_target: base:rpc/rpc.t:system_fn_target
+          htypes.rpc.param: base:rpc/rpc.t:param
+          htypes.rpc.request: base:rpc/rpc.t:request
+          htypes.rpc.server_error: base:rpc/rpc.t:server_error
           services.deduce_t: builtin:service:deduce_t
           services.mosaic: builtin:service:mosaic
         raw: {}

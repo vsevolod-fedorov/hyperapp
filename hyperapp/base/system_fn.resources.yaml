@@ -1,13 +1,3 @@
-import:
-
-- base:rpc/rpc_call:rpc_call.module
-- builtin:service:pyobj_creg
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
-- legacy_type.system_fn:ctx_fn
-
 definitions:
 
   system_fn.module:
@@ -17,7 +7,7 @@ definitions:
       file_name: system_fn.dyn.py
       imports:
         pyobj:
-          code.rpc_call: base:rpc/rpc_call:rpc_call.module
+          code.rpc_call: rpc/rpc_call:rpc_call.module
           htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
           services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}
