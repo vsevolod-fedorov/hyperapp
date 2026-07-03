@@ -99,6 +99,7 @@ def exception_from_piece(piece, pyobj_creg):
 
 
 _meta_type_list = [
+    builtin_mt,
     name_mt,
     optional_mt,
     list_mt,
