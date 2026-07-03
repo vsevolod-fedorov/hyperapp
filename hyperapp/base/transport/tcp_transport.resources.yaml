@@ -8,11 +8,11 @@ definitions:
       imports:
         pyobj:
           code.mark: base:mark:mark.module
-          code.transport: base:transport.transport:transport.module
-          code.tcp_utils: base:transport.tcp_utils:tcp_utils.module
-          htypes.tcp_transport.route: legacy_type.tcp_transport:route
+          code.transport: transport:transport.module
+          code.tcp_utils: tcp_utils:tcp_utils.module
+          htypes.tcp_transport.route: tcp_transport.t:route
           services.mosaic: builtin:service:mosaic
-          services.unbundler: builtins:unbundler.service
+          # services.unbundler: builtins:unbundler.service
         raw: {}
 
   Route:
@@ -130,5 +130,5 @@ definitions:
   route_creg-tcp_transport-route.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.tcp_transport:route
+      t: tcp_transport.t:route
       value: Route.from_piece.actor-template

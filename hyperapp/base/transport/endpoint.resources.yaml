@@ -1,11 +1,3 @@
-import:
-- builtins:unbundler.service
-- builtin:type:attribute
-- builtin:type:python_module
-- :system/system.t:finalizer_gen_service_template
-- :system/system.t:service_template
-- base:system/system:actor_dict.config_ctl
-
 definitions:
 
   endpoint.module:
@@ -14,8 +6,8 @@ definitions:
       module_name: endpoint
       file_name: endpoint.dyn.py
       imports:
-        pyobj:
-          services.unbundler: builtins:unbundler.service
+        pyobj: {}
+          # services.unbundler: builtins:unbundler.service
         raw: {}
 
   endpoint_thread_pool:

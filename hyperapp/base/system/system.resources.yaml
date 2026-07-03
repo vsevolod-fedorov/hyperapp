@@ -8,15 +8,15 @@ definitions:
       imports:
         pyobj:
           htypes.system.dict_config_ctl: system.t:dict_config_ctl
-          services.cached_code_registry_ctr: builtins:cached_code_registry_ctr.service
+          services.cached_code_registry_ctr: builtin:service:cached_code_registry_ctr
           services.code_registry_ctr: builtin:service:code_registry_ctr
           services.pyobj_creg: builtin:service:pyobj_creg
-          code.config_ctl: base:system/ctl.config_ctl:config_ctl.module
-          code.config_item_ctl: base:system/ctl.config_item_ctl:config_item_ctl.module
-          code.config_layer: base:system/config_layer:config_layer.module
-          code.services: base:system/services:services.module
-          code.actor_template: base:system/actor_template:actor_template.module
-          code.service_template: base:system/service_template:service_template.module
+          code.config_ctl: ctl/config_ctl:config_ctl.module
+          code.config_item_ctl: ctl/config_item_ctl:config_item_ctl.module
+          code.config_layer: config_layer:config_layer.module
+          code.services: services:services.module
+          code.actor_template: actor_template:actor_template.module
+          code.service_template: service_template:service_template.module
         raw: {}
 
   actor.value_ctl:
@@ -34,13 +34,13 @@ definitions:
   actor_dict.config_ctl:
     type: system.t:dict_config_ctl
     value:
-      key_ctl: base:system/config_layer:one_way.key_ctl
+      key_ctl: config_layer:one_way.key_ctl
       value_ctl: actor.value_ctl
       struct_ctl: single.struct_ctl
 
   data_dict.config_ctl:
     type: system.t:dict_config_ctl
     value:
-      key_ctl: base:system/config_layer:one_way.key_ctl
+      key_ctl: config_layer:one_way.key_ctl
       value_ctl: data.value_ctl
       struct_ctl: single.struct_ctl

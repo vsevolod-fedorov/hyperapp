@@ -7,10 +7,10 @@ definitions:
       file_name: rsa_identity.dyn.py
       imports:
         pyobj:
-          htypes.rsa_identity.rsa_identity: legacy_type.rsa_identity:rsa_identity
-          htypes.rsa_identity.rsa_parcel: legacy_type.rsa_identity:rsa_parcel
-          htypes.rsa_identity.rsa_peer: legacy_type.rsa_identity:rsa_peer
-          htypes.rsa_identity.rsa_signature: legacy_type.rsa_identity:rsa_signature
+          htypes.rsa_identity.rsa_identity: rsa_identity.t:rsa_identity
+          htypes.rsa_identity.rsa_parcel: rsa_identity.t:rsa_parcel
+          htypes.rsa_identity.rsa_peer: rsa_identity.t:rsa_peer
+          htypes.rsa_identity.rsa_signature: rsa_identity.t:rsa_signature
           services.mosaic: builtin:service:mosaic
         raw: {}
 
@@ -35,7 +35,7 @@ definitions:
   identity_creg-rsa_identity-rsa_identity.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rsa_identity:rsa_identity
+      t: rsa_identity.t:rsa_identity
       value: RsaIdentity.from_piece.actor-template
 
   RsaIdentity.generate:
@@ -76,7 +76,7 @@ definitions:
   peer_creg-rsa_identity-rsa_peer.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rsa_identity:rsa_peer
+      t: rsa_identity.t:rsa_peer
       value: RsaPeer.from_piece.actor-template
 
   RsaSignature:
@@ -100,7 +100,7 @@ definitions:
   signature_creg-rsa_identity-rsa_signature.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rsa_identity:rsa_signature
+      t: rsa_identity.t:rsa_signature
       value: RsaSignature.from_piece.actor-template
 
   RsaParcel:
@@ -125,5 +125,5 @@ definitions:
   parcel_creg-rsa_identity-rsa_parcel.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rsa_identity:rsa_parcel
+      t: rsa_identity.t:rsa_parcel
       value: RsaParcel.from_piece.actor-template

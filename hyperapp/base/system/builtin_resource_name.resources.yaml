@@ -77,8 +77,8 @@ definitions:
       function: call_name
       service_params: []
 
-  resource_name_creg-builtin-call.actor-cfg-item:
-    type: :cfg_item.t:type_cfg_item
-    value:
-      t: builtin:type:call
-      value: call_name.actor-template
+  # resource_name_creg-builtin-call.actor-cfg-item:
+  #   type: :cfg_item.t:type_cfg_item
+  #   value:
+  #     t: builtin:type:call
+  #     value: call_name.actor-template

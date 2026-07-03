@@ -1,10 +1,3 @@
-import:
-- builtin:type:attribute
-- builtin:type:python_module
-- system.t:finalizer_gen_service_template
-- system.t:service_template
-- base:system/system:actor_dict.config_ctl
-
 definitions:
 
   system_stop.module:
@@ -16,12 +9,11 @@ definitions:
         pyobj: {}
         raw: {}
 
-    stop_signal:
-      type: builtin:type:attribute
-      value:
-        object: system_stop.module
-        attr_name: stop_signal
-      raw: {}
+  stop_signal:
+    type: builtin:type:attribute
+    value:
+      object: system_stop.module
+      attr_name: stop_signal
 
   stop_signal.service:
     type: system.t:service_template

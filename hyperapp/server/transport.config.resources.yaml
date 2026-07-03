@@ -1,7 +1,3 @@
-import:
-- legacy_type.transport:config
-- legacy_type.system:system_config
-
 definitions:
 
   config:
@@ -11,6 +7,6 @@ definitions:
         transport: transport.config
 
   transport.config:
-    type: legacy_type.transport:config
+    type: base:transport/transport.t:config
     value:
       message_size_limit: 102400
