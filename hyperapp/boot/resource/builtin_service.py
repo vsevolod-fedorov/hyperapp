@@ -4,6 +4,7 @@ from functools import partial
 from ..htypes.builtin_service import builtin_service_t
 from ..htypes.deduce_value_type import deduce_value_type_with_list
 from ..code_registry import CodeRegistry
+from ..cached_code_registry import CachedCodeRegistry
 
 log = logging.getLogger(__name__)
 
@@ -16,6 +17,7 @@ def make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source
         'web': web,
         'source_path': source_path,
         'code_registry_ctr': partial(CodeRegistry, pyobj_creg, web),
+        'cached_code_registry_ctr': partial(CachedCodeRegistry, mosaic, pyobj_creg, web),
         'deduce_t': partial(deduce_value_type_with_list, pyobj_creg),
         'association_reg': association_reg,
         }
