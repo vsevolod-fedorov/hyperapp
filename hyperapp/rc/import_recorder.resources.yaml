@@ -1,14 +1,3 @@
-import:
-- builtins:pyobj_creg.service
-- legacy_type.import_recorder:import_recorder
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.import_recorder:config_ctl
-- legacy_type.import_recorder:import_recorder
-- base:system/system.t:actor_template
-- base:system/system.t:service_template
-- base.system.system:actor_dict.config_ctl
-
 definitions:
 
   import_recorder.module:

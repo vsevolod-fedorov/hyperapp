@@ -1,7 +1,3 @@
-import:
-- builtins:pyobj_creg.service
-- builtin:type:python_module
-
 definitions:
 
   d_type.module:

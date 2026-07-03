@@ -1,18 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.command:type_str_command
-- legacy_type.crud:open_command
-- legacy_type.crud_ctr:commit_ctr
-- legacy_type.crud_ctr:init_ctr
-- base:system/system.t:actor_template
-- base:system/system.t_fn:ctx_fn
-- rc.ctx_actor_ctr:ctx_actor_ctr.module
-- rc.rc_constructor:rc_constructor.module
-
 definitions:
 
   crud_ctr.module:

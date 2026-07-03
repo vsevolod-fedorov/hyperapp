@@ -1,18 +1,3 @@
-import:
-- builtin:service:mosaic
-- builtin:service:web
-- builtin:type:attribute
-- builtin:type:python_module
-- :system/system.t:actor_template
-- :system/system.t:data_key_ctl
-- :system/system.t:data_value_ctl
-- :system/system.t:dict_config_ctl
-- :system/system.t:flat_list_config_ctl
-- :system/system.t:item_list_config
-- :system/system.t:service_config
-- :system/system.t:single_struct_ctl
-- :system/system.t:system_config
-
 definitions:
 
   config_ctl.module:

@@ -1,21 +1,3 @@
-import:
-- base.system.config_ctl:config_ctl.module
-- base.system.system:actor_dict.config_ctl
-- builtin:service:code_registry_ctr
-- builtins:hyperapp_dir.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:system/system.t:service_template
-- rc.python_src:python_src.module
-- rc.cfg_item_req:cfg_item_req.module
-- rc.config_resource_target:config_resource_target.module
-- rc.import_target:import_target.module
-- rc.init_hook_req:init_hook_req.module
-- rc.marker_req:marker_req.module
-- rc.python_module_resource_target:python_module_resource_target.module
-- rc.service_req:service_req.module
-- rc.target_set:target_set.module
-
 definitions:
 
   init_targets.module:

@@ -1,9 +1,3 @@
-import:
-- builtins:builtin_services.service
-- builtin:type:builtin_service
-- builtin:type:python_module
-- rc.import_resource:import_resource.module
-
 definitions:
 
   builtin_resources.module:

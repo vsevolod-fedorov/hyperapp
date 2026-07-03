@@ -1,10 +1,5 @@
 # Automatically generated file. Do not edit.
 
-import:
-- base:system/file_bundle_config_layer:load_config_layers.service-cfg-item
-- :system/system.t:item_list_config
-- :system/system.t:system_config
-
 definitions:
   config:
     type: system/system.t:system_config

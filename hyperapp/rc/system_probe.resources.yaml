@@ -1,11 +1,3 @@
-import:
-- builtins:pyobj_creg.service
-- builtin:type:python_module
-- base.record_config:record_config.module
-- base.system.system:system.module
-- rc.marker_utils:marker_utils.module
-- rc.probe:probe.module
-
 definitions:
 
   system_probe.module:

@@ -1,18 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:fn_value_template
-- base:cfg_item.t:type_cfg_item
-- base:system/system.t:actor_template
-- builtin:type:attribute
-- base:cfg_item.t:fn_value_template
-- legacy_type.init_hook_ctr:init_hook_ctr
-- base:system/system.t_fn:ctx_fn
-- rc.ctx_actor_ctr:ctx_actor_ctr.module
-- rc.init_hook_req:init_hook_req.module
-- rc.rc_constructor:rc_constructor.module
-
 definitions:
 
   init_hook_ctr.module:

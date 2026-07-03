@@ -1,20 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.feed:feed_template
-- legacy_type.feed:index_tree_feed_ctr
-- legacy_type.feed:index_tree_feed_type
-- legacy_type.feed:list_feed_ctr
-- legacy_type.feed:list_feed_type
-- legacy_type.feed:value_feed_ctr
-- legacy_type.feed:value_feed_type
-- base:system/system.t:actor_template
-- rc.cfg_item_req:cfg_item_req.module
-- rc.rc_constructor:rc_constructor.module
-
 definitions:
 
   feed_ctr.module:

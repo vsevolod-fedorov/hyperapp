@@ -1,15 +1,3 @@
-import:
-- builtins:pyobj_creg.service
-- builtin:service:web
-- legacy_type.actor_resource:actor_probe_template
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.fixture_resource:fixture_obj_template
-- legacy_type.fixture_resource:fixture_probe_template
-- base:system/system.t:actor_template
-- rc.system_probe:system_probe.module
-
 definitions:
 
   fixture_probe.module:

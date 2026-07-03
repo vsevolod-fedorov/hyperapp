@@ -1,8 +1,3 @@
-import:
-- builtin:type:python_module
-- system.t:list_struct_ctl
-- system.t:single_struct_ctl
-
 definitions:
 
   config_struct_ctl.module:

@@ -1,9 +1,3 @@
-import:
-- builtin:service:pyobj_creg
-- builtin:type:python_module
-- system.t:finalizer_gen_service_template
-- system.t:service_template
-
 definitions:
 
   service_template.module:

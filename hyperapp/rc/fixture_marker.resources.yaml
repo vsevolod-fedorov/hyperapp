@@ -1,12 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:str_cfg_item
-- marker.t:marker_template
-- rc.fixture_ctr:fixture_ctr.module
-- base.system.config_ctl:config_ctl.module
-
 definitions:
 
   fixture_marker.module:

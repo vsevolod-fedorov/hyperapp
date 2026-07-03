@@ -1,20 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtin:service:web
-- builtin:type:attribute
-- builtin:type:call
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.service_resource:finalizer_gen_service_template_ctr
-- legacy_type.service_resource:service_template_ctr
-- base:system/system.t:actor_template
-- base:system/system.t:finalizer_gen_service_template
-- base:system/system.t:dict_config_ctl
-- base:system/system.t:one_way_key_ctl
-- base:system/system.t:service_template
-- rc.rc_constructor:rc_constructor.module
-- rc.service_req:service_req.module
-
 definitions:
 
   service_ctr.module:

@@ -1,16 +1,3 @@
-import:
-- builtin:service:deduce_t
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:str_cfg_item
-- base:cfg_item.t:type_cfg_item
-- marker.t:marker_template
-- legacy_type.selector_resource:selector_probe_template
-- base:system/system.t:actor_template
-- rc.marker_utils:marker_utils.module
-- rc.selector_ctr:selector_ctr.module
-
 definitions:
 
   selector_probe.module:

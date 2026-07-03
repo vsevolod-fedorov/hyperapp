@@ -1,13 +1,3 @@
-import:
-- builtin:type:python_module
-- rc.config_item_target:config_item_target.module
-- rc.config_resource_target:config_resource_target.module
-- rc.import_target:import_target.module
-- rc.python_module_resource_target:python_module_resource_target.module
-- rc.builtin_service_target:builtin_service_target.module
-- rc.service_req:service_req.module
-- rc.type_target:type_target.module
-
 definitions:
 
   target_set.module:

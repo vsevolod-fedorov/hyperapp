@@ -1,10 +1,3 @@
-import:
-- builtin:service:mosaic
-- builtin:type:attribute
-- builtin:type:python_module
-- :system/system.t:service_template
-- base:system/system:actor_dict.config_ctl
-
 definitions:
 
   subprocess.module:

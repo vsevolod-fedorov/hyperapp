@@ -1,22 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.command:model_command_fn
-- legacy_type.selector:template
-- legacy_type.selector_resource:open_ctr
-- legacy_type.selector_resource:pick_ctr
-- legacy_type.selector_resource:selector_probe_ctr
-- legacy_type.selector_resource:selector_probe_template
-- base:system/system.t:actor_template
-- base:system/system.t_fn:ctx_fn
-- rc.cfg_item_req:cfg_item_req.module
-- rc.config_item_resource:config_item_resource.module
-- rc.ctx_actor_ctr:ctx_actor_ctr.module
-- rc.rc_constructor:rc_constructor.module
-
 definitions:
 
   selector_ctr.module:

@@ -1,17 +1,3 @@
-import:
-- builtin:service:deduce_t
-- builtin:service:mosaic
-- builtin:type:attribute
-- builtin:type:python_module
-- base:rpc/rpc.t:function_target
-- base:rpc/rpc.t:param
-- base:rpc/rpc.t:request
-- base:rpc/rpc.t:server_error
-- base:rpc/rpc.t:service_target
-- base:rpc/rpc.t:system_fn_target
-- :system/system.t:service_template
-- base:system/system:actor_dict.config_ctl
-
 definitions:
 
   rpc_call.module:

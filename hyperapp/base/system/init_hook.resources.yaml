@@ -1,11 +1,3 @@
-import:
-- base:context:context.module
-- builtin:service:code_registry_ctr
-- builtin:type:attribute
-- builtin:type:python_module
-- system.t:service_template
-- system.t:flat_list_config_ctl
-
 definitions:
 
   init_hook.module:

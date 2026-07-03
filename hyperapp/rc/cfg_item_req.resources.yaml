@@ -1,17 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:service:web
-- legacy_type.actor_resource:cfg_item_req
-- builtin:type:attribute
-- builtin:type:builtin_mt
-- builtin:type:python_module
-- builtin:type:record_mt
-- base:cfg_item.t:type_cfg_item
-- base:system/system.t:actor_template
-- rc.config_item_resource:config_item_resource.module
-- rc.rc_requirement:rc_requirement.module
-
 definitions:
 
   cfg_item_req.module:

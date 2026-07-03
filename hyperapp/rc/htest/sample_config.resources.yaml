@@ -1,15 +1,5 @@
 # Automatically generated file. Do not edit.
 
-import:
-- base.mark:mark.module
-- base.system.config_layer:one_way.key_ctl
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.sample_config:sample_key
-- base:system/system.t:actor_value_ctl
-- base:system/system.t:dict_config_ctl
-- base:system/system.t:service_template
-- base:system/system.t:single_struct_ctl
 definitions:
   sample_config.module:
     type: builtin:type:python_module

@@ -1,17 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:service:web
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.model:model
-- legacy_type.model_resource:model_ctr
-- base:system/system.t:actor_template
-- base:system/system.t_fn:ctx_fn
-- rc.cfg_item_req:cfg_item_req.module
-- rc.rc_constructor:rc_constructor.module
-
 definitions:
 
   model_ctr.module:

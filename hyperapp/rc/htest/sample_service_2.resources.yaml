@@ -1,14 +1,5 @@
 # Automatically generated file. Do not edit.
 
-import:
-- base.mark:mark.module
-- base.system.config_layer:one_way.key_ctl
-- builtin:type:attribute
-- builtin:type:python_module
-- base:system/system.t:actor_value_ctl
-- base:system/system.t:dict_config_ctl
-- base:system/system.t:service_template
-- base:system/system.t:single_struct_ctl
 definitions:
   sample_fn_service_2:
     type: builtin:type:attribute

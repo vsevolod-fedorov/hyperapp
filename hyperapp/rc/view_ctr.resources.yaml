@@ -1,16 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:fn_value_template
-- base:cfg_item.t:type_cfg_item
-- base:system/system.t:actor_template
-- base:system/system.t_fn:ctx_fn
-- legacy_type.view_ctr:template_ctr
-- rc.cfg_item_req:cfg_item_req.module
-- rc.ctx_actor_ctr:ctx_actor_ctr.module
-
 definitions:
 
   view_ctr.module:

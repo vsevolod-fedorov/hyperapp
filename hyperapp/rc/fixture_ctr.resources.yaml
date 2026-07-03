@@ -1,22 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:str_cfg_item
-- base:cfg_item.t:type_cfg_item
-- legacy_type.fixture_resource:config_fixture_ctr
-- legacy_type.fixture_resource:config_template_fixture_ctr
-- legacy_type.fixture_resource:fixture_obj_ctr
-- legacy_type.fixture_resource:fixture_obj_template
-- legacy_type.fixture_resource:fixture_probe_ctr
-- legacy_type.fixture_resource:fixture_probe_template
-- base:system/system.t:actor_template
-- base:system/system.t:finalizer_gen_service_template
-- base:system/system.t:service_template
-- rc.config_item_resource:config_item_resource.module
-- rc.rc_constructor:rc_constructor.module
-- rc.fixture_resource:fixture_resource.module
-
 definitions:
 
   fixture_ctr.module:

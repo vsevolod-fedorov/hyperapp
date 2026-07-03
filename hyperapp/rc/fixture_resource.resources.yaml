@@ -1,16 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:service:web
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.fixture_resource:config_fixture_resource
-- legacy_type.fixture_resource:config_template_fixture_resource
-- base:system/system.t:actor_template
-- rc.rc_resource:rc_resource.module
-- rc.system_probe:system_probe.module
-
 definitions:
 
   fixture_resource.module:

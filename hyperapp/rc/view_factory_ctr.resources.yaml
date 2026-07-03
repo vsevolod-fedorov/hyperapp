@@ -1,18 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:data_cfg_item
-- base:cfg_item.t:type_cfg_item
-- base:system/system.t:actor_template
-- base:system/system.t_fn:ctx_fn
-- legacy_type.view_factory:template
-- legacy_type.view_factory_ctr:multi_model_ctr
-- legacy_type.view_factory_ctr:single_model_ctr
-- rc.d_type:d_type.module
-- rc.rc_constructor:rc_constructor.module
-
 definitions:
 
   view_factory_ctr.module:

@@ -1,12 +1,3 @@
-import:
-- builtin:service:pyobj_creg
-- builtin:type:exception_mt
-- builtin:type:field_mt
-- builtin:type:list_mt
-- builtin:type:optional_mt
-- builtin:type:python_module
-- builtin:type:record_mt
-
 definitions:
 
   type_reconstructor.module:

@@ -1,12 +1,3 @@
-import:
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:str_cfg_item
-- marker.t:marker_template
-- rc.actor_ctr:actor_ctr.module
-- rc.actor_probe:actor_probe.module
-- rc.marker_utils:marker_utils.module
-
 definitions:
 
   actor_marker.module:

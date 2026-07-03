@@ -1,16 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtin:service:web
-- builtin:type:attribute
-- builtin:type:import_rec
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.import_resource:import_resource
-- legacy_type.import_resource:import_template
-- legacy_type.import_resource:import_key_cfg_item
-- base:system/system.t:actor_template
-- rc.rc_resource:rc_resource.module
-
 definitions:
 
   import_resource.module:

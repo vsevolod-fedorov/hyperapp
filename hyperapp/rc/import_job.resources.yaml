@@ -1,23 +1,3 @@
-import:
-
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.import_job:failed_result
-- legacy_type.import_job:function
-- legacy_type.import_job:job
-- legacy_type.import_job:incomplete_result
-- legacy_type.import_job:succeeded_result
-- base:system/system.t:actor_template
-- rc.builtin_resources:builtin_resources.module
-- rc.job_result:job_result.module
-- rc.python_src:python_src.module
-- rc.test_module_resources_req:test_module_resources_req.module
-- rc.rc_constants:rc_constants.module
-- rc.system_job:system_job.module
-
 definitions:
 
   import_job.module:

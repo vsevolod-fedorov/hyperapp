@@ -1,34 +1,3 @@
-import:
-
-- base.context:context.module
-# - base.system.config_ctl:config_ctl.module
-- base.system.config_layer:config_layer.module
-# - base.system.system:actor_dict.config_ctl
-- base.system.system:system.module
-- base.system_fn:system_fn.module
-- builtins:mosaic.service
-- builtins:pyobj_creg.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:str_cfg_item
-- base:cfg_item.t:type_cfg_item
-- legacy_type.fixture_resource:fixture_probe_template
-- base:system/system.t:actor_template
-- base:system/system.t:service_template
-- legacy_type.rc_job:config_key_error
-- legacy_type.rc_job:unknown_service_error
-- legacy_type.test_job:failed_result
-- legacy_type.test_job:job
-- legacy_type.test_job:incomplete_result
-- legacy_type.test_job:succeeded_result
-- legacy_type.test_job:used_imports
-- rc.builtin_resources:builtin_resources.module
-- rc.import_recorder:import_recorder.module
-- rc.python_src:python_src.module
-- rc.rc_constants:rc_constants.module
-- rc.system_job:system_job.module
-- rc.system_probe:system_probe.module
-
 definitions:
 
   test_job.module:

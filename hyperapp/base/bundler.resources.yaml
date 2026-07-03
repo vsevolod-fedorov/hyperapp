@@ -1,12 +1,3 @@
-import:
-- base:system/system:actor_dict.config_ctl
-- builtin:service:association_reg
-- builtin:service:mosaic
-- builtin:service:pyobj_creg
-- builtin:type:attribute
-- builtin:type:python_module
-- :system/system.t:service_template
-
 definitions:
 
   bundler.module:

@@ -1,13 +1,3 @@
-import:
-- base:rpc/rpc_proxy:rpc_proxy.module
-- base:subprocess/subprocess_rpc_server_main:subprocess_rpc_server_main.module
-- base:subprocess/subprocess_system_main:subprocess_system_main.module
-- base:system/system:actor_dict.config_ctl
-- builtin:type:attribute
-- builtin:type:python_module
-- :system/system.t:service_template
-- builtin:service:pyobj_creg
-
 definitions:
 
   subprocess_rpc_server.module:

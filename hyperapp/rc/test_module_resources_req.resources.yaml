@@ -1,11 +1,3 @@
-import:
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.test_module_resources_req:test_module_resources_req
-- base:system/system.t:actor_template
-- rc.rc_requirement:rc_requirement.module
-
 definitions:
 
   test_module_resources_req.module:

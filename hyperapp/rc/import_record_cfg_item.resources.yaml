@@ -1,12 +1,3 @@
-import:
-- builtin:service:web
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.import_resource:import_template
-- legacy_type.import_resource:import_key_cfg_item
-- base:system/system.t:actor_template
-
 definitions:
 
   import_record_cfg_item.module:

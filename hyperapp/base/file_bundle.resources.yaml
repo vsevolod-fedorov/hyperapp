@@ -1,12 +1,3 @@
-import:
-- base:system/system:actor_dict.config_ctl
-- builtin:service:mosaic
-- builtins:unbundler.service
-- base:mark:mark.module
-- builtin:type:attribute
-- builtin:type:python_module
-- :system/system.t:service_template
-
 definitions:
 
   file_bundle.module:

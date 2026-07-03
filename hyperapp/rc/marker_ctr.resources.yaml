@@ -1,11 +1,3 @@
-import:
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- marker.t:marker_template
-- base:system/system.t:actor_template
-- rc.rc_constructor:rc_constructor.module
-
 definitions:
 
   marker_ctr.module:

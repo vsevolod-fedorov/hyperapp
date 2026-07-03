@@ -1,14 +1,3 @@
-import:
-- builtin:service:mosaic
-- builtin:service:pyobj_creg
-- builtin:type:attribute
-- builtin:type:python_module
-- builtin:type:partial_param
-- builtin:type:partial
-- builtin:type:raw
-- :system/system.t:service_template
-- base:system/system:actor_dict.config_ctl
-
 definitions:
 
   partial_ref.module:

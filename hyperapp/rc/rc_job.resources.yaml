@@ -1,13 +1,3 @@
-import:
-- builtins:mosaic.service
-- builtin:type:attribute
-- builtin:type:python_module
-- base:cfg_item.t:type_cfg_item
-- legacy_type.rc_job:job_target
-- base:system/system.t:actor_template
-- base:system/system.t:service_template
-- base.system.system:actor_dict.config_ctl
-
 definitions:
 
   rc_job.module:
