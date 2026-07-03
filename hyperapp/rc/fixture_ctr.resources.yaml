@@ -15,7 +15,7 @@ definitions:
           htypes.fixture_resource.fixture_obj_template: legacy_type.fixture_resource:fixture_obj_template
           htypes.fixture_resource.fixture_probe_ctr: legacy_type.fixture_resource:fixture_probe_ctr
           htypes.fixture_resource.fixture_probe_template: legacy_type.fixture_resource:fixture_probe_template
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           code.config_item_resource: config_item_resource:config_item_resource.module
           code.rc_constructor: rc_constructor:rc_constructor.module
           code.fixture_resource: fixture_resource:fixture_resource.module

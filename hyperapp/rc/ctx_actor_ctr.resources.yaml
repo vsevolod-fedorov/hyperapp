@@ -14,8 +14,8 @@ definitions:
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
           code.rc_constructor: rc_constructor:rc_constructor.module
           code.config_item_resource: config_item_resource:config_item_resource.module

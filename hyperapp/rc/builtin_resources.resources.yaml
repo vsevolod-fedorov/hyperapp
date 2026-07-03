@@ -8,6 +8,6 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.builtin_service: builtin:type:builtin_service
-          services.builtin_services: builtins:builtin_services.service
+          services.builtin_services: builtin:service:builtin_services
           code.import_resource: import_resource:import_resource.module
         raw: {}

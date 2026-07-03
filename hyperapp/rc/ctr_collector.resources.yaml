@@ -7,7 +7,7 @@ definitions:
       file_name: ctr_collector.dyn.py
       imports:
         pyobj:
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           services.web: builtin:service:web
         raw: {}
 

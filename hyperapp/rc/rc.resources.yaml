@@ -8,8 +8,8 @@ definitions:
       imports:
         pyobj:
           htypes.rpc.server_error: base:rpc/rpc.t:server_error
-          services.hyperapp_dir: builtins:hyperapp_dir.service
-          services.project_factory: builtins:project_factory.service
+          services.hyperapp_dir: builtin:service:hyperapp_dir
+          services.project_factory: builtin:service:project_factory
           code.init_targets: init_targets:init_targets.module
           code.job_cache: job_cache:job_cache.module
           code.reconstructors: base.reconstructors:reconstructors.module

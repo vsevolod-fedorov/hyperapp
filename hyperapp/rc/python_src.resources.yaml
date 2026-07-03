@@ -11,5 +11,5 @@ definitions:
           htypes.builtin.import_rec: builtin:type:import_rec
           htypes.builtin.python_module: builtin:type:python_module
           htypes.import_recorder.import_recorder: legacy_type.import_recorder:import_recorder
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
         raw: {}

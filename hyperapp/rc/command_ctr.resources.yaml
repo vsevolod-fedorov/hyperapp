@@ -37,8 +37,8 @@ definitions:
           htypes.command_resource.ui_model_command_template_ctr: legacy_type.command_resource:ui_model_command_template_ctr
           htypes.command_resource.universal_ui_command_template_ctr: legacy_type.command_resource:universal_ui_command_template_ctr
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.rc_constructor: rc_constructor:rc_constructor.module
           code.ctx_actor_ctr: ctx_actor_ctr:ctx_actor_ctr.module
           code.data_config_ctr: data_config_ctr:data_config_ctr.module

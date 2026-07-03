@@ -15,8 +15,8 @@ definitions:
           htypes.feed.list_feed_type: legacy_type.feed:list_feed_type
           htypes.feed.value_feed_ctr: legacy_type.feed:value_feed_ctr
           htypes.feed.value_feed_type: legacy_type.feed:value_feed_type
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
           code.rc_constructor: rc_constructor:rc_constructor.module
         raw: {}

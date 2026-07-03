@@ -10,8 +10,8 @@ definitions:
           htypes.actor_resource.cfg_item_req: legacy_type.actor_resource:cfg_item_req
           htypes.builtin.builtin_mt: builtin:type:builtin_mt
           htypes.builtin.record_mt: builtin:type:record_mt
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
           code.rc_requirement: rc_requirement:rc_requirement.module
           code.config_item_resource: config_item_resource:config_item_resource.module

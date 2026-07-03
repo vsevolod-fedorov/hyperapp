@@ -11,7 +11,7 @@ definitions:
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
           htypes.init_hook_ctr.init_hook_ctr: legacy_type.init_hook_ctr:init_hook_ctr
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           code.rc_constructor: rc_constructor:rc_constructor.module
           code.init_hook_req: init_hook_req:init_hook_req.module
           code.ctx_actor_ctr: ctx_actor_ctr:ctx_actor_ctr.module

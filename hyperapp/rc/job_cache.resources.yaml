@@ -10,7 +10,7 @@ definitions:
           htypes.job_cache.cache: legacy_type.job_cache:cache
           htypes.job_cache.dep: legacy_type.job_cache:dep
           htypes.job_cache.entry: legacy_type.job_cache:entry
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           code.python_src: python_src:python_src.module
         raw: {}
 

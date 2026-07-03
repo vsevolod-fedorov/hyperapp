@@ -7,5 +7,5 @@ definitions:
       file_name: d_type.dyn.py
       imports:
         pyobj:
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}

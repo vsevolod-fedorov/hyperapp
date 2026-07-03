@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.service_resource.service_req: legacy_type.service_resource:service_req
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           code.rc_requirement: rc_requirement:rc_requirement.module
           code.config_item_resource: config_item_resource:config_item_resource.module
         raw: {}

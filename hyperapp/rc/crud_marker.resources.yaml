@@ -11,7 +11,7 @@ definitions:
           htypes.model.key_list_ui_t: legacy_type.model:key_list_ui_t
           htypes.model.index_tree_ui_t: legacy_type.model:index_tree_ui_t
           services.deduce_t: builtin:service:deduce_t
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.marker_utils: marker_utils:marker_utils.module
           code.crud_ctr: crud_ctr:crud_ctr.module
         raw: {}

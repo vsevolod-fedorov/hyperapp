@@ -17,8 +17,8 @@ definitions:
           htypes.test_target.fixtures_module_req: legacy_type.test_target:fixtures_module_req
           htypes.test_target.tested_code_resource: legacy_type.test_target:tested_code_resource
           htypes.test_target.recorder_resource: legacy_type.test_target:recorder_resource
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
           code.config_item_resource: config_item_resource:config_item_resource.module
           code.rc_requirement: rc_requirement:rc_requirement.module

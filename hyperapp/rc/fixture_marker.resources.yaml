@@ -7,7 +7,7 @@ definitions:
       file_name: fixture_marker.dyn.py
       imports:
         pyobj:
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           code.config_ctl: base.system.config_ctl:config_ctl.module
           code.fixture_ctr: fixture_ctr:fixture_ctr.module
         raw: {}

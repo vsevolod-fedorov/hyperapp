@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           services.code_registry_ctr: builtin:service:code_registry_ctr
-          services.hyperapp_dir: builtins:hyperapp_dir.service
+          services.hyperapp_dir: builtin:service:hyperapp_dir
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
           code.config_ctl: base.system.config_ctl:config_ctl.module
           code.config_resource_target: config_resource_target:config_resource_target.module

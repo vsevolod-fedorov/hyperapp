@@ -11,7 +11,7 @@ definitions:
           htypes.import_resource.import_resource: legacy_type.import_resource:import_resource
           htypes.import_resource.import_template: legacy_type.import_resource:import_template
           htypes.import_resources.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           services.web: builtin:service:web
           code.rc_resource: rc_resource:rc_resource.module
         raw: {}

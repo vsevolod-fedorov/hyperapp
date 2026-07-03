@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.cfg_item.data_cfg_item: base:cfg_item.t:data_cfg_item
-          services.mosaic: builtins:mosaic.service
+          services.mosaic: builtin:service:mosaic
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
           code.rc_constructor: rc_constructor:rc_constructor.module
           code.config_item_resource: config_item_resource:config_item_resource.module

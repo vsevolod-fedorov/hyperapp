@@ -9,8 +9,8 @@ definitions:
         pyobj:
           htypes.fixture_resource.config_fixture_resource: legacy_type.fixture_resource:config_fixture_resource
           htypes.fixture_resource.config_template_fixture_resource: legacy_type.fixture_resource:config_template_fixture_resource
-          services.mosaic: builtins:mosaic.service
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
           code.rc_resource: rc_resource:rc_resource.module
           code.system_probe: system_probe:system_probe.module

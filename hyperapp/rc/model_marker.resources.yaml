@@ -13,7 +13,7 @@ definitions:
           htypes.model.index_tree_ui_t: legacy_type.model:index_tree_ui_t
           htypes.model.key_tree_ui_t: legacy_type.model:key_tree_ui_t
           services.deduce_t: builtin:service:deduce_t
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.feed_ctr: feed_ctr:feed_ctr.module
           code.marker_utils: marker_utils:marker_utils.module
           code.model_ctr: model_ctr:model_ctr.module

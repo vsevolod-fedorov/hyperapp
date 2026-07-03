@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           services.deduce_t: builtin:service:deduce_t
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.marker_utils: marker_utils:marker_utils.module
           code.selector_ctr: selector_ctr:selector_ctr.module
         raw: {}

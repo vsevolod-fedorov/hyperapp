@@ -7,7 +7,7 @@ definitions:
       file_name: system_probe.dyn.py
       imports:
         pyobj:
-          services.pyobj_creg: builtins:pyobj_creg.service
+          services.pyobj_creg: builtin:service:pyobj_creg
           code.record_config: base.record_config:record_config.module
           code.system: base.system.system:system.module
           code.probe: probe:probe.module
