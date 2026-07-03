@@ -58,7 +58,7 @@ class _ImportDefinition:
                 pass
         else:
             path_name = '.'.join(self._module_path)
-            raise RuntimeError(f"{ctx}: Unknown module: {path_name}")
+            raise RuntimeError(f"{ctx!r}: Unknown module: {path_name}")
         name_tuple = (project_name, path, self._name)
         mt = ctx.resolve(name_tuple)
         sources = {}
