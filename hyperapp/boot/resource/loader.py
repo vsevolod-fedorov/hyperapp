@@ -115,12 +115,16 @@ class _Context:
             # No colons, module-local name.
             return (self._project_name, self._path, parts[0])
         if len(parts) == 2:
-            # 1 colon, project-local name
-            path = _split_path(parts[0])
+            # 1 colon, project-local relative name.
+            rel_path = _split_path(parts[0])
+            path = (*self._path[:-1], *rel_path)
             return (self._project_name, path, parts[1])
-        if len(parts) == 3:
-            # 2 colons, full name.
-            return (parts[0], _split_path(parts[1]), parts[2])
+        if len(parts) == 3:  # 2 colons.
+            path = _split_path(parts[1])
+            if parts[0]:  # Full name.
+                return (parts[0], path, parts[2])
+            else:  # Project-local absolute name.
+                return (self._project_name, path, parts[2])
 
     def get_text(self, full_name):
         parts = full_name.split(':')
