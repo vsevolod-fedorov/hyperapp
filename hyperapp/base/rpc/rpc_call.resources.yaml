@@ -9,7 +9,7 @@ import:
 - base:rpc/rpc.t:server_error
 - base:rpc/rpc.t:service_target
 - base:rpc/rpc.t:system_fn_target
-- legacy_type.system:service_template
+- :system/system.t:service_template
 - base:system/system:actor_dict.config_ctl
 
 definitions:

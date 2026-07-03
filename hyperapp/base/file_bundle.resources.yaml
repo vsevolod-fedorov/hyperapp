@@ -5,7 +5,7 @@ import:
 - base:mark:mark.module
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
+- :system/system.t:service_template
 
 definitions:
 
@@ -18,7 +18,7 @@ definitions:
         pyobj:
           code.mark: base:mark:mark.module
           services.mosaic: builtin:service:mosaic
-          services.unbundler: builtins:unbundler.service
+          # services.unbundler: builtin:service:unbundler
         raw: {}
 
   file_bundle_factory:

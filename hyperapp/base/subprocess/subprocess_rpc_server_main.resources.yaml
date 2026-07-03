@@ -4,7 +4,7 @@ import:
 - base:system/system:actor_dict.config_ctl
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
+- :system/system.t:service_template
 
 definitions:
 

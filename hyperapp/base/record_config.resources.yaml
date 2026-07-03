@@ -1,13 +1,3 @@
-import:
-- base:mark:mark.module
-# - base:system/config_ctl:config_ctl.module
-- builtin:service:pyobj_creg
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- base:record_config.t:config_ctl
-- legacy_type.system:actor_template
-
 definitions:
 
   record_config.module:

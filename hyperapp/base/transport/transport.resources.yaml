@@ -2,7 +2,7 @@ import:
 - builtin:type:attribute
 - builtin:type:python_module
 - base:record_config.t:config_ctl
-- legacy_type.system:service_template
+- :system/system.t:service_template
 - legacy_type.transport:config
 
 definitions:

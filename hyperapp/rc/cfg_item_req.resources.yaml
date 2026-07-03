@@ -1,7 +1,7 @@
 import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
-- builtins:web.service
+- builtin:service:web
 - legacy_type.actor_resource:cfg_item_req
 - builtin:type:attribute
 - builtin:type:builtin_mt
@@ -26,7 +26,7 @@ definitions:
           htypes.builtin.record_mt: builtin:type:record_mt
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.rc_requirement: rc.rc_requirement:rc_requirement.module
           code.config_item_resource: rc.config_item_resource:config_item_resource.module
         raw: {}

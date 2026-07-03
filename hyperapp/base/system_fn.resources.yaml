@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           code.rpc_call: rpc/rpc_call:rpc_call.module
-          htypes.system_fn.ctx_fn: legacy_type.system_fn:ctx_fn
+          htypes.system_fn.ctx_fn: system_fn.t:ctx_fn
           services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}
 
@@ -35,5 +35,5 @@ definitions:
   system_fn_creg-system_fn-ctx_fn.actor-cfg-item:
     type: cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.system_fn:ctx_fn
+      t: system_fn.t:ctx_fn
       value: ContextFn.from_piece.actor-template

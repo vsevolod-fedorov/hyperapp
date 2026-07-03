@@ -1,10 +1,10 @@
 import:
 - base:context:context.module
-- builtins:code_registry_ctr.service
+- builtin:service:code_registry_ctr
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
-- legacy_type.system:flat_list_config_ctl
+- system.t:service_template
+- system.t:flat_list_config_ctl
 
 definitions:
 

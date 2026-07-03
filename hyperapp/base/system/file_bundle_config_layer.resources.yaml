@@ -1,15 +1,3 @@
-import:
-- base:system/config_layer:config_layer.module
-- base:system/system:actor_dict.config_ctl
-- builtin:service:mosaic
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.cfg_item:str_cfg_item
-- legacy_type.service:service_fn
-- legacy_type.system:service_config
-- legacy_type.system:service_template
-- legacy_type.system:system_config
-
 definitions:
 
   file_bundle_config_layer.module:
@@ -19,8 +7,8 @@ definitions:
       file_name: file_bundle_config_layer.dyn.py
       imports:
         pyobj:
-          htypes.system.service_config: legacy_type.system:service_config
-          htypes.system.system_config: legacy_type.system:system_config
+          htypes.system.service_config: system.t:service_config
+          htypes.system.system_config: system.t:system_config
           services.mosaic: builtin:service:mosaic
           code.config_layer: base:system/config_layer:config_layer.module
         raw: {}

@@ -1,17 +1,3 @@
-import:
-- base:system/config_ctl:data_service_config.ctl
-- base:system/system:actor_dict.config_ctl
-- builtin:service:association_reg
-- builtins:code_registry_ctr.service
-- legacy_type.assoc_key:key_base_association
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
-- legacy_type.system:service_template
-- legacy_type.system_fn:ctx_fn
-
 definitions:
 
   assoc_key.module:
@@ -22,7 +8,7 @@ definitions:
       imports:
         pyobj:
           services.association_reg: builtin:service:association_reg
-          services.code_registry_ctr: builtins:code_registry_ctr.service
+          services.code_registry_ctr: builtin:service:code_registry_ctr
         raw: {}
 
   assoc_key:
@@ -35,7 +21,7 @@ definitions:
     type: system/system.t:service_template
     value:
       name: assoc_key
-      ctl: base:system/config_ctl:data_service_config.ctl
+      ctl: system/ctl/config_ctl:data_service_config.ctl
       function: assoc_key
       free_params: []
       service_params:
@@ -101,5 +87,5 @@ definitions:
   assoc_key_creg-assoc_key-key_base_association.actor-cfg-item:
     type: cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.assoc_key:key_base_association
+      t: assoc_key.t:key_base_association
       value: KeyBaseAssociation.from_piece.actor-template

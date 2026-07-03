@@ -1,6 +1,6 @@
 import:
 - builtins:mosaic.service
-- builtins:web.service
+- builtin:service:web
 - builtin:type:attribute
 - builtin:type:import_rec
 - builtin:type:python_module
@@ -25,7 +25,7 @@ definitions:
           htypes.import_resource.import_template: legacy_type.import_resource:import_template
           htypes.import_resources.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
           services.mosaic: builtins:mosaic.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.rc_resource: rc.rc_resource:rc_resource.module
         raw: {}
 

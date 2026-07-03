@@ -6,7 +6,7 @@ import:
 - builtin:type:partial_param
 - builtin:type:partial
 - builtin:type:raw
-- legacy_type.system:service_template
+- :system/system.t:service_template
 - base:system/system:actor_dict.config_ctl
 
 definitions:

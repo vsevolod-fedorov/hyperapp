@@ -1,5 +1,5 @@
 import:
-- builtins:web.service
+- builtin:service:web
 - builtin:type:attribute
 - builtin:type:python_module
 - base:cfg_item.t:type_cfg_item
@@ -19,7 +19,7 @@ definitions:
         pyobj:
           htypes.config_item_resource.config_item_resource: legacy_type.config_item_resource:config_item_resource
           htypes.config_item_resource.config_item_resource_override: legacy_type.config_item_resource:config_item_resource_override
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.rc_resource: rc.rc_resource:rc_resource.module
         raw: {}
 

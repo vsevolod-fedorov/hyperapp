@@ -1,18 +1,3 @@
-import:
-- base:mark:mark.module
-- base:system/system:actor_dict.config_ctl
-- base:transport.tcp_utils:tcp_utils.module
-- base:transport.transport:transport.module
-- builtin:service:mosaic
-- builtins:unbundler.service
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
-- legacy_type.system:finalizer_gen_service_template
-- legacy_type.system:service_template
-- legacy_type.tcp_transport:route
-
 definitions:
 
   tcp_transport.module:

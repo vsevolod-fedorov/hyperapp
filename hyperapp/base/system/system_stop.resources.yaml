@@ -1,8 +1,8 @@
 import:
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:finalizer_gen_service_template
-- legacy_type.system:service_template
+- system.t:finalizer_gen_service_template
+- system.t:service_template
 - base:system/system:actor_dict.config_ctl
 
 definitions:

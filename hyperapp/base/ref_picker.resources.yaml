@@ -2,7 +2,7 @@ import:
 - builtin:service:deduce_t
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
+- :system/system.t:service_template
 - base:system/system:actor_dict.config_ctl
 
 definitions:

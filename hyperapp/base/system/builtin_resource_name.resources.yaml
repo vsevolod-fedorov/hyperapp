@@ -8,7 +8,7 @@ definitions:
       file_name: builtin_resource_name.dyn.py
       imports:
         pyobj:
-          services.web: builtins:web.service
+          services.web: builtin:service:web
         raw: {}
 
   bool_name:

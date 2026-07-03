@@ -1,10 +1,3 @@
-import:
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.cfg_item:fn_value_template
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
-
 definitions:
 
   fn_cfg_item.module:
@@ -16,12 +9,11 @@ definitions:
         pyobj: {}
         raw: {}
 
-    resolve_fn_cfg_item:
-      type: builtin:type:attribute
-      value:
-        object: fn_cfg_item.module
-        attr_name: resolve_fn_cfg_item
-      raw: {}
+  resolve_fn_cfg_item:
+    type: builtin:type:attribute
+    value:
+      object: fn_cfg_item.module
+      attr_name: resolve_fn_cfg_item
 
   resolve_fn_cfg_value:
     type: builtin:type:attribute
@@ -38,7 +30,7 @@ definitions:
   cfg_item_creg-cfg_item-fn_value_template.actor-cfg-item:
     type: cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.cfg_item:fn_value_template
+      t: cfg_item.t:fn_value_template
       value: resolve_fn_cfg_item.actor-template
 
   resolve_fn_cfg_value.actor-template:
@@ -50,5 +42,5 @@ definitions:
   cfg_value_creg-cfg_item-fn_value_template.actor-cfg-item:
     type: cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.cfg_item:fn_value_template
+      t: cfg_item.t:fn_value_template
       value: resolve_fn_cfg_value.actor-template

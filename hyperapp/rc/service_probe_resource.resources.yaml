@@ -1,7 +1,7 @@
 import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
-- builtins:web.service
+- builtin:service:web
 - builtin:type:attribute
 - builtin:type:python_module
 - base:cfg_item.t:str_cfg_item
@@ -31,7 +31,7 @@ definitions:
           htypes.service_resource.service_probe_template: legacy_type.service_resource:service_probe_template
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.config_item_resource: rc.config_item_resource:config_item_resource.module
           code.rc_constructor: rc.rc_constructor:rc_constructor.module
           code.rc_resource: rc.rc_resource:rc_resource.module

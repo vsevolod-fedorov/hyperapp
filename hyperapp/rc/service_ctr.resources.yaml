@@ -1,6 +1,6 @@
 import:
 - builtins:mosaic.service
-- builtins:web.service
+- builtin:service:web
 - builtin:type:attribute
 - builtin:type:call
 - builtin:type:python_module
@@ -33,7 +33,7 @@ definitions:
           htypes.system.service_template: base:system/system.t:service_template
           htypes.system.finalizer_gen_service_template: base:system/system.t:finalizer_gen_service_template
           services.mosaic: builtins:mosaic.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.rc_constructor: rc.rc_constructor:rc_constructor.module
           code.service_req: rc.service_req:service_req.module
         raw: {}

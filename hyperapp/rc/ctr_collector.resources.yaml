@@ -1,6 +1,6 @@
 import:
 - builtins:mosaic.service
-- builtins:web.service
+- builtin:service:web
 - builtin:type:attribute
 - builtin:type:python_module
 - base:cfg_item.t:type_cfg_item
@@ -20,7 +20,7 @@ definitions:
       imports:
         pyobj:
           services.mosaic: builtins:mosaic.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
         raw: {}
 
   ctr_collector:

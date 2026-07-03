@@ -1,7 +1,7 @@
 import:
 - builtin:service:deduce_t
 - builtins:pyobj_creg.service
-- builtins:web.service
+- builtin:service:web
 - legacy_type.actor_resource:actor_probe_template
 - legacy_type.actor_resource:ctx_actor_probe_template
 - builtin:type:attribute
@@ -25,7 +25,7 @@ definitions:
         pyobj:
           services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtins:pyobj_creg.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.actor_ctr: rc.actor_ctr:actor_ctr.module
           code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
           code.view_ctr: rc.view_ctr:view_ctr.module

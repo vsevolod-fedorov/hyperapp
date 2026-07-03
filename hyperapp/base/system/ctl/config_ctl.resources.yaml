@@ -1,17 +1,17 @@
 import:
 - builtin:service:mosaic
-- builtins:web.service
+- builtin:service:web
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:actor_template
-- legacy_type.system:data_key_ctl
-- legacy_type.system:data_value_ctl
-- legacy_type.system:dict_config_ctl
-- legacy_type.system:flat_list_config_ctl
-- legacy_type.system:item_list_config
-- legacy_type.system:service_config
-- legacy_type.system:single_struct_ctl
-- legacy_type.system:system_config
+- :system/system.t:actor_template
+- :system/system.t:data_key_ctl
+- :system/system.t:data_value_ctl
+- :system/system.t:dict_config_ctl
+- :system/system.t:flat_list_config_ctl
+- :system/system.t:item_list_config
+- :system/system.t:service_config
+- :system/system.t:single_struct_ctl
+- :system/system.t:system_config
 
 definitions:
 
@@ -22,13 +22,13 @@ definitions:
       file_name: config_ctl.dyn.py
       imports:
         pyobj:
-          htypes.system.dict_config_ctl: legacy_type.system:dict_config_ctl
-          htypes.system.flat_list_config_ctl: legacy_type.system:flat_list_config_ctl
-          htypes.system.item_list_config: legacy_type.system:item_list_config
-          htypes.system.service_config: legacy_type.system:service_config
-          htypes.system.system_config: legacy_type.system:system_config
+          htypes.system.dict_config_ctl: :system/system.t:dict_config_ctl
+          htypes.system.flat_list_config_ctl: :system/system.t:flat_list_config_ctl
+          htypes.system.item_list_config: :system/system.t:item_list_config
+          htypes.system.service_config: :system/system.t:service_config
+          htypes.system.system_config: :system/system.t:system_config
           services.mosaic: builtin:service:mosaic
-          services.web: builtins:web.service
+          services.web: builtin:service:web
         raw: {}
 
   FlatListConfigCtl:
@@ -54,7 +54,7 @@ definitions:
   config_ctl_creg-system-flat_list_config_ctl.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.system:flat_list_config_ctl
+      t: :system/system.t:flat_list_config_ctl
       value: FlatListConfigCtl.from_piece.actor-template
 
   data_key.ctl:

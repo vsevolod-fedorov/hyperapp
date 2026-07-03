@@ -1,7 +1,7 @@
 import:
 - builtin:service:pyobj_creg
 - builtin:type:python_module
-- legacy_type.system:actor_template
+- system.t:actor_template
 
 definitions:
 
@@ -12,6 +12,6 @@ definitions:
       file_name: actor_template.dyn.py
       imports:
         pyobj:
-          htypes.system.actor_template: legacy_type.system:actor_template
+          htypes.system.actor_template: system.t:actor_template
           services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}

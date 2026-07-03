@@ -1,11 +1,3 @@
-import:
-- builtin:service:mosaic
-- builtins:unbundler.service
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.system:finalizer_gen_service_template
-- base:system/system:actor_dict.config_ctl
-
 definitions:
 
   subprocess_transport.module:
@@ -16,7 +8,7 @@ definitions:
       imports:
         pyobj:
           services.mosaic: builtin:service:mosaic
-          services.unbundler: builtins:unbundler.service
+          # services.unbundler: builtin:service:unbundler
         raw: {}
 
   subprocess_transport:

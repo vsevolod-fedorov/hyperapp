@@ -4,9 +4,9 @@ import:
 - base:system/config_layer:single.struct_ctl
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:actor_value_ctl
-- legacy_type.system:dict_config_ctl
-- legacy_type.system:service_template
+- :system/system.t:actor_value_ctl
+- :system/system.t:dict_config_ctl
+- :system/system.t:service_template
 
 definitions:
 

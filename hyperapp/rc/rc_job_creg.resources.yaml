@@ -1,5 +1,5 @@
 import:
-- builtins:code_registry_ctr.service
+- builtin:service:code_registry_ctr
 - builtin:type:attribute
 - builtin:type:python_module
 - base:system/system.t:service_template
@@ -14,7 +14,7 @@ definitions:
       file_name: rc_job_creg.dyn.py
       imports:
         pyobj:
-          services.code_registry_ctr: builtins:code_registry_ctr.service
+          services.code_registry_ctr: builtin:service:code_registry_ctr
         raw: {}
 
   rc_job_creg:

@@ -1,7 +1,7 @@
 import:
 - builtins:mosaic.service
 - builtins:pyobj_creg.service
-- builtins:web.service
+- builtin:service:web
 - builtin:type:python_module
 - base:cfg_item.t:data_cfg_item
 - legacy_type.ctr_collector:mark_module_template
@@ -40,7 +40,7 @@ definitions:
           htypes.system_job.req_to_resource: base:system/system.t_job:req_to_resource
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.cfg_item_req: rc.cfg_item_req:cfg_item_req.module
           # code.config_ctl: base.system.config_ctl:config_ctl.module
           code.config_item_resource: rc.config_item_resource:config_item_resource.module

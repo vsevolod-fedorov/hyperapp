@@ -1,24 +1,3 @@
-import:
-- builtins:code_registry_ctr.service
-- builtins:deduce_t.service
-- builtin:service:mosaic
-- builtin:service:pyobj_creg
-- builtin:type:attribute
-- builtin:type:python_module
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.rpc:error_response
-- legacy_type.rpc:function_target
-- legacy_type.rpc:request
-- legacy_type.rpc:response
-- legacy_type.rpc:server_error
-- legacy_type.rpc:service_target
-- legacy_type.rpc:system_fn_target
-- legacy_type.system:actor_template
-- legacy_type.system:finalizer_gen_service_template
-- legacy_type.system:service_template
-- base:context:context.module
-- base:system/system:actor_dict.config_ctl
-
 definitions:
 
   rpc_endpoint.module:
@@ -28,11 +7,11 @@ definitions:
       file_name: rpc_endpoint.dyn.py
       imports:
         pyobj:
-          htypes.rpc.response: legacy_type.rpc:response
-          htypes.rpc.error_response: legacy_type.rpc:error_response
-          htypes.rpc.server_error: legacy_type.rpc:server_error
-          services.code_registry_ctr: builtins:code_registry_ctr.service
-          services.deduce_t: builtins:deduce_t.service
+          htypes.rpc.response: rpc.t:response
+          htypes.rpc.error_response: rpc.t:error_response
+          htypes.rpc.server_error: rpc.t:server_error
+          services.code_registry_ctr: builtin:service:code_registry_ctr
+          services.deduce_t: builtin:service:deduce_t
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           code.context: base:context:context.module
@@ -120,7 +99,7 @@ definitions:
   rpc_message_creg-rpc-response.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rpc:response
+      t: rpc.t:response
       value: on_rpc_response.actor-template
 
   on_rpc_error_response:
@@ -139,7 +118,7 @@ definitions:
   rpc_message_creg-rpc-error_response.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rpc:error_response
+      t: rpc.t:error_response
       value: on_rpc_error_response.actor-template
 
   rpc_target_creg:
@@ -177,7 +156,7 @@ definitions:
   rpc_message_creg-rpc-request.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rpc:request
+      t: rpc.t:request
       value: on_rpc_request.actor-template
 
   run_function_target:
@@ -195,7 +174,7 @@ definitions:
   rpc_target_creg-rpc-function_target.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rpc:function_target
+      t: rpc.t:function_target
       value: run_function_target.actor-template
 
   run_system_fn_target:
@@ -214,7 +193,7 @@ definitions:
   rpc_target_creg-rpc-system_fn_target.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rpc:system_fn_target
+      t: rpc.t:system_fn_target
       value: run_system_fn_target.actor-template
 
   run_service_target:
@@ -233,5 +212,5 @@ definitions:
   rpc_target_creg-rpc-service_target.actor-cfg-item:
     type: :cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.rpc:service_target
+      t: rpc.t:service_target
       value: run_service_target.actor-template

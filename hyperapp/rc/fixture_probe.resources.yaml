@@ -1,6 +1,6 @@
 import:
 - builtins:pyobj_creg.service
-- builtins:web.service
+- builtin:service:web
 - legacy_type.actor_resource:actor_probe_template
 - builtin:type:attribute
 - builtin:type:python_module
@@ -20,7 +20,7 @@ definitions:
       imports:
         pyobj:
           services.pyobj_creg: builtins:pyobj_creg.service
-          services.web: builtins:web.service
+          services.web: builtin:service:web
           code.system_probe: rc.system_probe:system_probe.module
         raw: {}
 

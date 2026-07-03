@@ -3,7 +3,7 @@ import:
 - builtin:service:code_registry_ctr
 - builtin:type:attribute
 - builtin:type:python_module
-- legacy_type.system:service_template
+- :system/system.t:service_template
 
 definitions:
 

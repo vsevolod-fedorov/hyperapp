@@ -1,7 +1,7 @@
 import:
 - builtin:type:python_module
-- legacy_type.system:list_struct_ctl
-- legacy_type.system:single_struct_ctl
+- system.t:list_struct_ctl
+- system.t:single_struct_ctl
 
 definitions:
 
@@ -12,6 +12,6 @@ definitions:
       file_name: config_struct_ctl.dyn.py
       imports:
         pyobj:
-          htypes.system.list_struct_ctl: legacy_type.system:list_struct_ctl
-          htypes.system.single_struct_ctl: legacy_type.system:single_struct_ctl
+          htypes.system.list_struct_ctl: system.t:list_struct_ctl
+          htypes.system.single_struct_ctl: system.t:single_struct_ctl
         raw: {}
