@@ -13,7 +13,7 @@ definitions:
           htypes.crud.open_command: crud.t:open_command
           htypes.crud_ctr.init_ctr: crud_ctr.t:init_ctr
           htypes.crud_ctr.commit_ctr: crud_ctr.t:commit_ctr
-          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system_fn.t:ctx_fn
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           code.rc_constructor: rc_constructor:rc_constructor.module

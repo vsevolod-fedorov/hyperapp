@@ -8,8 +8,8 @@ definitions:
       imports:
         pyobj:
           services.pyobj_creg: builtin:service:pyobj_creg
-          code.record_config: base.record_config:record_config.module
-          code.system: base.system.system:system.module
+          code.record_config: base:record_config:record_config.module
+          code.system: base:system/system:system.module
           code.probe: probe:probe.module
           code.marker_utils: marker_utils:marker_utils.module
         raw: {}

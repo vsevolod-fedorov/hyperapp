@@ -24,7 +24,7 @@ definitions:
     type: base:system/system.t:service_template
     value:
       name: job_cache
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: JobCache
       free_params:
       - path

@@ -9,7 +9,7 @@ definitions:
         pyobj:
           services.mosaic: builtin:service:mosaic
           services.resource_module_factory: builtin:service:resource_module_factory
-          # code.config_ctl: base.system.config_ctl:config_ctl.module
+          # code.config_ctl: base:system/config_ctl:config_ctl.module
           code.config_item_resource: config_item_resource:config_item_resource.module
           code.rc_target: rc_target:rc_target.module
         raw: {}

@@ -18,14 +18,14 @@ definitions:
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
-          # code.config_ctl: base.system.config_ctl:config_ctl.module
+          # code.config_ctl: base:system/config_ctl:config_ctl.module
           code.config_item_resource: config_item_resource:config_item_resource.module
-          code.config_layer: base.system.config_layer:config_layer.module
+          code.config_layer: base:system/config_layer:config_layer.module
           code.import_recorder: import_recorder:import_recorder.module
           code.job_result: job_result:job_result.module
           code.requirement_factory: requirement_factory:requirement_factory.module
           code.service_ctr: service_ctr:service_ctr.module
           code.service_req: service_req:service_req.module
-          code.system: base.system.system:system.module
+          code.system: base:system/system:system.module
           code.system_probe: system_probe:system_probe.module
         raw: {}

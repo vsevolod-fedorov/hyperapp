@@ -10,7 +10,7 @@ definitions:
           services.code_registry_ctr: builtin:service:code_registry_ctr
           services.hyperapp_dir: builtin:service:hyperapp_dir
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
-          code.config_ctl: base.system.config_ctl:config_ctl.module
+          code.config_ctl: base:system/config_ctl:config_ctl.module
           code.config_resource_target: config_resource_target:config_resource_target.module
           code.import_target: import_target:import_target.module
           code.init_hook_req: init_hook_req:init_hook_req.module
@@ -31,7 +31,7 @@ definitions:
     type: base:system/system.t:service_template
     value:
       name: ctr_from_template_creg
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: ctr_from_template_creg
       free_params: []
       service_params: []

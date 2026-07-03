@@ -8,7 +8,7 @@ definitions:
       file_name: sample_config.dyn.py
       imports:
         pyobj:
-          code.mark: base.mark:mark.module
+          code.mark: base:mark:mark.module
           htypes.sample_config.sample_key: sample_config.t:sample_key
         raw: {}
     sample_config_service:
@@ -31,7 +31,7 @@ definitions:
     system-dict_config.one_way.actor.single.ctl:
       type: base:system/system.t:dict_config_ctl
       value:
-        key_ctl: base.system.config_layer:one_way.key_ctl
+        key_ctl: base:system/config_layer:one_way.key_ctl
         value_ctl: system-actor.value-ctl
         struct_ctl: system-single.struct-ctl
     system-single.struct-ctl:

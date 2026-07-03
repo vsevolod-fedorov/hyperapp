@@ -11,7 +11,7 @@ definitions:
           htypes.actor_resource.ctx_actor_probe_template: actor_resource.t:ctx_actor_probe_template
           htypes.actor_resource.ctx_actor_template_ctr: actor_resource.t:ctx_actor_template_ctr
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system_fn.t:ctx_fn
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
           services.mosaic: builtin:service:mosaic

@@ -19,7 +19,7 @@ definitions:
     type: base:system/system.t:service_template
     value:
       name: process_pool_running
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: process_pool_running
       free_params:
       - process_count

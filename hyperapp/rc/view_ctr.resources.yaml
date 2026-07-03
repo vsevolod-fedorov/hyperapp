@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system_fn.t:ctx_fn
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
           htypes.view_ctr.template_ctr: view_ctr.t:template_ctr

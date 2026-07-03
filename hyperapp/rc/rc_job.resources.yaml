@@ -21,7 +21,7 @@ definitions:
     type: base:system/system.t:service_template
     value:
       name: rc_job_submit_factory
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rc_job_submit_factory
       free_params:
       - receiver_peer

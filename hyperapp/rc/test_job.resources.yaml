@@ -20,15 +20,15 @@ definitions:
           htypes.test_job.used_imports: test_job.t:used_imports
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
-          # code.config_ctl: base.system.config_ctl:config_ctl.module
-          code.config_layer: base.system.config_layer:config_layer.module
-          code.context: base.context:context.module
+          # code.config_ctl: base:system/config_ctl:config_ctl.module
+          code.config_layer: base:system/config_layer:config_layer.module
+          code.context: base:context:context.module
           code.python_src: python_src:python_src.module
           code.builtin_resources: builtin_resources:builtin_resources.module
           code.import_recorder: import_recorder:import_recorder.module
           code.rc_constants: rc_constants:rc_constants.module
-          code.system: base.system.system:system.module
-          code.system_fn: base.system_fn:system_fn.module
+          code.system: base:system/system:system.module
+          code.system_fn: base:system_fn:system_fn.module
           code.system_job: system_job:system_job.module
           code.system_probe: system_probe:system_probe.module
         raw: {}
@@ -145,7 +145,7 @@ definitions:
   #   type: base:system/system.t:service_template
   #   value:
   #     name: test_job_rpc_service_wrapper
-  #     ctl: base.system.system:actor_dict.config_ctl
+  #     ctl: base:system/system:actor_dict.config_ctl
   #     function: rpc_service_wrapper
   #     free_params:
   #     - _real_service_name

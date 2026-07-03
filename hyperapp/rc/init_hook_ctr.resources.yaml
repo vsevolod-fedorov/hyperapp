@@ -10,7 +10,7 @@ definitions:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
           htypes.init_hook_ctr.init_hook_ctr: init_hook_ctr.t:init_hook_ctr
-          htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
+          htypes.system_fn.ctx_fn: base:system_fn.t:ctx_fn
           services.mosaic: builtin:service:mosaic
           code.rc_constructor: rc_constructor:rc_constructor.module
           code.init_hook_req: init_hook_req:init_hook_req.module

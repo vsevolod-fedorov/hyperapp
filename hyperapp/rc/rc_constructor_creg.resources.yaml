@@ -20,7 +20,7 @@ definitions:
     type: base:system/system.t:service_template
     value:
       name: rc_constructor_creg
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rc_constructor_creg
       free_params: []
       service_params: []

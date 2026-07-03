@@ -12,7 +12,7 @@ definitions:
           services.project_factory: builtin:service:project_factory
           code.init_targets: init_targets:init_targets.module
           code.job_cache: job_cache:job_cache.module
-          code.reconstructors: base.reconstructors:reconstructors.module
+          code.reconstructors: base:reconstructors:reconstructors.module
           code.rc_constants: rc_constants:rc_constants.module
           code.rc_filter: rc_filter:rc_filter.module
           code.target_set: target_set:target_set.module
@@ -28,7 +28,7 @@ definitions:
     type: base:system/system.t:service_template
     value:
       name: compile_resources
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: compile_resources
       free_params:
       - name_to_project
@@ -54,7 +54,7 @@ definitions:
     type: base:system/system.t:service_template
     value:
       name: rc_main
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: rc_main
       free_params:
       - name_to_project

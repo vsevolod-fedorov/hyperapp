@@ -38,7 +38,7 @@ definitions:
     type: base:system/system.t:finalizer_gen_service_template
     value:
       name: marker_registry
-      ctl: base.system.system:actor_dict.config_ctl
+      ctl: base:system/system:actor_dict.config_ctl
       function: marker_registry
       free_params: []
       service_params:

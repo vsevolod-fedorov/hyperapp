@@ -7,6 +7,6 @@ definitions:
       file_name: marker_utils.dyn.py
       imports:
         pyobj:
-          code.context: base.context:context.module
+          code.context: base:context:context.module
           code.probe: probe:probe.module
         raw: {}
