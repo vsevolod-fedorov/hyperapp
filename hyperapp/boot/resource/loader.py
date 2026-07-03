@@ -94,7 +94,7 @@ class _Context:
         try:
             return self.resolve(name_tuple)
         except KeyError as x:
-            raise RuntimeError(f"{self!r}: {x}")
+            raise RuntimeError(f"{self!r}: Missing: {x}")
 
     def resolve(self, name_tuple):
         return self._loader._resolve(name_tuple)
@@ -125,7 +125,10 @@ class _Context:
     def get_text(self, full_name):
         parts = full_name.split(':')
         project_name, path, _ = self._resolve_parts((*parts, ''), description=full_name)
-        bytes = self._loader._projects[project_name][path]
+        try:
+            bytes = self._loader._projects[project_name][path]
+        except KeyError:
+            raise RuntimeError(f"{self!r}: Missing: {project_name}:{'/'.join(path)}")
         text = bytes.decode()
         sources = {
             text: (project_name, path, TextSource(text))
