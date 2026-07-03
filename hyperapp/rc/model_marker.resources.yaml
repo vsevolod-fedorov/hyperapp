@@ -7,11 +7,11 @@ definitions:
       file_name: model_marker.dyn.py
       imports:
         pyobj:
-          htypes.model.index_list_ui_t: legacy_type.model:index_list_ui_t
-          htypes.model.key_list_ui_t: legacy_type.model:key_list_ui_t
-          htypes.model.record_ui_t: legacy_type.model:record_ui_t
-          htypes.model.index_tree_ui_t: legacy_type.model:index_tree_ui_t
-          htypes.model.key_tree_ui_t: legacy_type.model:key_tree_ui_t
+          htypes.model.index_list_ui_t: base:ui/model.t:index_list_ui_t
+          htypes.model.key_list_ui_t: base:ui/model.t:key_list_ui_t
+          htypes.model.record_ui_t: base:ui/model.t:record_ui_t
+          htypes.model.index_tree_ui_t: base:ui/model.t:index_tree_ui_t
+          htypes.model.key_tree_ui_t: base:ui/model.t:key_tree_ui_t
           services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtin:service:pyobj_creg
           code.feed_ctr: feed_ctr:feed_ctr.module

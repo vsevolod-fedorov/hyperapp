@@ -9,14 +9,14 @@ definitions:
         pyobj:
           htypes.builtin.import_rec: builtin:type:import_rec
           htypes.cfg_item.data_cfg_item: base:cfg_item.t:data_cfg_item
-          htypes.ctr_collector.mark_module_template: legacy_type.ctr_collector:mark_module_template
-          htypes.import_resource.import_template: legacy_type.import_resource:import_template
-          htypes.import_resource.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
-          htypes.test_target.constructors_picker_resource: legacy_type.test_target:constructors_picker_resource
-          htypes.test_target.tested_code_req: legacy_type.test_target:tested_code_req
-          htypes.test_target.fixtures_module_req: legacy_type.test_target:fixtures_module_req
-          htypes.test_target.tested_code_resource: legacy_type.test_target:tested_code_resource
-          htypes.test_target.recorder_resource: legacy_type.test_target:recorder_resource
+          htypes.ctr_collector.mark_module_template: ctr_collector.t:mark_module_template
+          htypes.import_resource.import_template: import_resource.t:import_template
+          htypes.import_resource.import_key_cfg_item: import_resource.t:import_key_cfg_item
+          htypes.test_target.constructors_picker_resource: test_target.t:constructors_picker_resource
+          htypes.test_target.tested_code_req: test_target.t:tested_code_req
+          htypes.test_target.fixtures_module_req: test_target.t:fixtures_module_req
+          htypes.test_target.tested_code_resource: test_target.t:tested_code_resource
+          htypes.test_target.recorder_resource: test_target.t:recorder_resource
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
@@ -47,7 +47,7 @@ definitions:
   test_target-tested_code_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_target:tested_code_req
+      t: test_target.t:tested_code_req
       value: TestedCodeReq.from_piece.actor-template
 
   FixturesModuleReq:
@@ -71,7 +71,7 @@ definitions:
   test_target-fixtures_module_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_target:fixtures_module_req
+      t: test_target.t:fixtures_module_req
       value: FixturesModuleReq.from_piece.actor-template
 
   TestedCodeResource:
@@ -95,7 +95,7 @@ definitions:
   test_target-tested_code_resource.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_target:tested_code_resource
+      t: test_target.t:tested_code_resource
       value: TestedCodeResource.from_piece.actor-template
 
   RecorderResource:
@@ -119,5 +119,5 @@ definitions:
   test_target-recorder_resource.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_target:recorder_resource
+      t: test_target.t:recorder_resource
       value: RecorderResource.from_piece.actor-template

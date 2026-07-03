@@ -7,7 +7,7 @@ definitions:
       file_name: service_req.dyn.py
       imports:
         pyobj:
-          htypes.service_resource.service_req: legacy_type.service_resource:service_req
+          htypes.service_resource.service_req: service_resource.t:service_req
           services.mosaic: builtin:service:mosaic
           code.rc_requirement: rc_requirement:rc_requirement.module
           code.config_item_resource: config_item_resource:config_item_resource.module
@@ -34,5 +34,5 @@ definitions:
   service_resource-service_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.service_resource:service_req
+      t: service_resource.t:service_req
       value: ServiceReq.from_piece.actor-template

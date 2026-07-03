@@ -9,7 +9,7 @@ definitions:
       imports:
         pyobj:
           code.mark: base.mark:mark.module
-          htypes.sample_config.sample_key: legacy_type.sample_config:sample_key
+          htypes.sample_config.sample_key: sample_config.t:sample_key
         raw: {}
     sample_config_service:
       type: builtin:type:attribute

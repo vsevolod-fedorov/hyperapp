@@ -7,9 +7,9 @@ definitions:
       file_name: ctx_actor_ctr.dyn.py
       imports:
         pyobj:
-          htypes.actor_resource.ctx_actor_probe_ctr: legacy_type.actor_resource:ctx_actor_probe_ctr
-          htypes.actor_resource.ctx_actor_probe_template: legacy_type.actor_resource:ctx_actor_probe_template
-          htypes.actor_resource.ctx_actor_template_ctr: legacy_type.actor_resource:ctx_actor_template_ctr
+          htypes.actor_resource.ctx_actor_probe_ctr: actor_resource.t:ctx_actor_probe_ctr
+          htypes.actor_resource.ctx_actor_probe_template: actor_resource.t:ctx_actor_probe_template
+          htypes.actor_resource.ctx_actor_template_ctr: actor_resource.t:ctx_actor_template_ctr
           htypes.builtin.attribute: builtin:type:attribute
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
@@ -42,7 +42,7 @@ definitions:
   actor_resource-ctx_actor_probe_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.actor_resource:ctx_actor_probe_ctr
+      t: actor_resource.t:ctx_actor_probe_ctr
       value: CtxActorProbeCtr.from_piece.actor-template
 
   CtxActorTemplateCtr:
@@ -66,5 +66,5 @@ definitions:
   actor_resource-ctx_actor_template_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.actor_resource:ctx_actor_template_ctr
+      t: actor_resource.t:ctx_actor_template_ctr
       value: CtxActorTemplateCtr.from_piece.actor-template

@@ -9,8 +9,8 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.builtin.call: builtin:type:call
-          htypes.service_resource.service_template_ctr: legacy_type.service_resource:service_template_ctr
-          htypes.service_resource.finalizer_gen_service_template_ctr: legacy_type.service_resource:finalizer_gen_service_template_ctr
+          htypes.service_resource.service_template_ctr: service_resource.t:service_template_ctr
+          htypes.service_resource.finalizer_gen_service_template_ctr: service_resource.t:finalizer_gen_service_template_ctr
           htypes.system.dict_config_ctl: base:system/system.t:dict_config_ctl
           htypes.system.one_way_key_ctl: base:system/system.t:one_way_key_ctl
           htypes.system.service_template: base:system/system.t:service_template
@@ -79,7 +79,7 @@ definitions:
   service_resource-service_template_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.service_resource:service_template_ctr
+      t: service_resource.t:service_template_ctr
       value: ServiceTemplateCtr.from_piece.actor-template
 
   FinalizerGenServiceTemplateCtr:
@@ -104,5 +104,5 @@ definitions:
   service_resource-finalizer_gen_service_template_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.service_resource:finalizer_gen_service_template_ctr
+      t: service_resource.t:finalizer_gen_service_template_ctr
       value: FinalizerGenServiceTemplateCtr.from_piece.actor-template

@@ -7,9 +7,9 @@ definitions:
       file_name: job_cache.dyn.py
       imports:
         pyobj:
-          htypes.job_cache.cache: legacy_type.job_cache:cache
-          htypes.job_cache.dep: legacy_type.job_cache:dep
-          htypes.job_cache.entry: legacy_type.job_cache:entry
+          htypes.job_cache.cache: job_cache.t:cache
+          htypes.job_cache.dep: job_cache.t:dep
+          htypes.job_cache.entry: job_cache.t:entry
           services.mosaic: builtin:service:mosaic
           code.python_src: python_src:python_src.module
         raw: {}

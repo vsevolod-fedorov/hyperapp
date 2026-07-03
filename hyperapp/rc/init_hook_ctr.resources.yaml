@@ -9,7 +9,7 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
-          htypes.init_hook_ctr.init_hook_ctr: legacy_type.init_hook_ctr:init_hook_ctr
+          htypes.init_hook_ctr.init_hook_ctr: init_hook_ctr.t:init_hook_ctr
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtin:service:mosaic
           code.rc_constructor: rc_constructor:rc_constructor.module
@@ -62,5 +62,5 @@ definitions:
   init_hook_ctr-init_hook_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.init_hook_ctr:init_hook_ctr
+      t: init_hook_ctr.t:init_hook_ctr
       value: InitHookCtr.from_piece.actor-template

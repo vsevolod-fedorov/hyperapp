@@ -9,8 +9,8 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.str_cfg_item: base:cfg_item.t:str_cfg_item
-          htypes.service_resource.service_probe_ctr: legacy_type.service_resource:service_probe_ctr
-          htypes.service_resource.service_probe_template: legacy_type.service_resource:service_probe_template
+          htypes.service_resource.service_probe_ctr: service_resource.t:service_probe_ctr
+          htypes.service_resource.service_probe_template: service_resource.t:service_probe_template
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
@@ -37,7 +37,7 @@ definitions:
   cfg_value_creg-service_resource-service_probe_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.service_resource:service_probe_template
+      t: service_resource.t:service_probe_template
       value: resolve_service_probe_cfg_value.actor-template
 
   ServiceProbeCtr:
@@ -62,5 +62,5 @@ definitions:
   service_resource-service_probe_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.service_resource:service_probe_ctr
+      t: service_resource.t:service_probe_ctr
       value: ServiceProbeCtr.from_piece.actor-template

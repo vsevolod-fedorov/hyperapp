@@ -8,9 +8,9 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.import_rec: builtin:type:import_rec
-          htypes.import_resource.import_resource: legacy_type.import_resource:import_resource
-          htypes.import_resource.import_template: legacy_type.import_resource:import_template
-          htypes.import_resources.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
+          htypes.import_resource.import_resource: import_resource.t:import_resource
+          htypes.import_resource.import_template: import_resource.t:import_template
+          htypes.import_resources.import_key_cfg_item: import_resource.t:import_key_cfg_item
           services.mosaic: builtin:service:mosaic
           services.web: builtin:service:web
           code.rc_resource: rc_resource:rc_resource.module
@@ -37,5 +37,5 @@ definitions:
   import_resource-import_resource.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.import_resource:import_resource
+      t: import_resource.t:import_resource
       value: ImportResource.from_piece.actor-template

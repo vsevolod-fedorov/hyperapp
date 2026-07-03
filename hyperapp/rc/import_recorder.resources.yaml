@@ -7,8 +7,8 @@ definitions:
       file_name: import_recorder.dyn.py
       imports:
         pyobj:
-          htypes.import_recorder.config_ctl: legacy_type.import_recorder:config_ctl
-          htypes.import_recorder.import_recorder: legacy_type.import_recorder:import_recorder
+          htypes.import_recorder.config_ctl: import_recorder.t:config_ctl
+          htypes.import_recorder.import_recorder: import_recorder.t:import_recorder
           services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}
 

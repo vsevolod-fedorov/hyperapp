@@ -10,14 +10,14 @@ definitions:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.builtin.python_module: builtin:type:python_module
           htypes.cfg_item.str_cfg_item: base:cfg_item.t:str_cfg_item
-          htypes.fixture_resource.fixture_probe_template: legacy_type.fixture_resource:fixture_probe_template
-          htypes.rc_job.config_key_error: legacy_type.rc_job:config_key_error
-          htypes.rc_job.unknown_service_error: legacy_type.rc_job:unknown_service_error
-          htypes.test_job.failed_result: legacy_type.test_job:failed_result
-          htypes.test_job.job: legacy_type.test_job:job
-          htypes.test_job.incomplete_result: legacy_type.test_job:incomplete_result
-          htypes.test_job.succeeded_result: legacy_type.test_job:succeeded_result
-          htypes.test_job.used_imports: legacy_type.test_job:used_imports
+          htypes.fixture_resource.fixture_probe_template: fixture_resource.t:fixture_probe_template
+          htypes.rc_job.config_key_error: rc_job.t:config_key_error
+          htypes.rc_job.unknown_service_error: rc_job.t:unknown_service_error
+          htypes.test_job.failed_result: test_job.t:failed_result
+          htypes.test_job.job: test_job.t:job
+          htypes.test_job.incomplete_result: test_job.t:incomplete_result
+          htypes.test_job.succeeded_result: test_job.t:succeeded_result
+          htypes.test_job.used_imports: test_job.t:used_imports
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           # code.config_ctl: base.system.config_ctl:config_ctl.module
@@ -56,7 +56,7 @@ definitions:
   test_job-succeeded_result.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_job:succeeded_result
+      t: test_job.t:succeeded_result
       value: SucceededTestResult.from_piece.actor-template
 
   IncompleteTestResult:
@@ -81,7 +81,7 @@ definitions:
   test_job-incomplete_result.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_job:incomplete_result
+      t: test_job.t:incomplete_result
       value: IncompleteTestResult.from_piece.actor-template
 
   FailedTestResult:
@@ -106,7 +106,7 @@ definitions:
   test_job-failed_result.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_job:failed_result
+      t: test_job.t:failed_result
       value: FailedTestResult.from_piece.actor-template
 
   TestJob:
@@ -132,7 +132,7 @@ definitions:
   test_job-job.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_job:job
+      t: test_job.t:job
       value: TestJob.from_piece.actor-template
 
   rpc_service_wrapper:

@@ -7,11 +7,11 @@ definitions:
       file_name: import_job.dyn.py
       imports:
         pyobj:
-          htypes.import_job.failed_result: legacy_type.import_job:failed_result
-          htypes.import_job.function: legacy_type.import_job:function
-          htypes.import_job.job: legacy_type.import_job:job
-          htypes.import_job.incomplete_result: legacy_type.import_job:incomplete_result
-          htypes.import_job.succeeded_result: legacy_type.import_job:succeeded_result
+          htypes.import_job.failed_result: import_job.t:failed_result
+          htypes.import_job.function: import_job.t:function
+          htypes.import_job.job: import_job.t:job
+          htypes.import_job.incomplete_result: import_job.t:incomplete_result
+          htypes.import_job.succeeded_result: import_job.t:succeeded_result
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           code.builtin_resources: builtin_resources:builtin_resources.module
@@ -45,7 +45,7 @@ definitions:
   import_job-succeeded_result.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.import_job:succeeded_result
+      t: import_job.t:succeeded_result
       value: SucceededImportResult.from_piece.actor-template
 
   IncompleteImportResult:
@@ -70,7 +70,7 @@ definitions:
   import_job-incomplete_result.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.import_job:incomplete_result
+      t: import_job.t:incomplete_result
       value: IncompleteImportResult.from_piece.actor-template
 
   FailedImportResult:
@@ -95,7 +95,7 @@ definitions:
   import_job-failed_result.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.import_job:failed_result
+      t: import_job.t:failed_result
       value: FailedImportResult.from_piece.actor-template
 
   ImportJob:
@@ -121,5 +121,5 @@ definitions:
   import_job-job.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.import_job:job
+      t: import_job.t:job
       value: ImportJob.from_piece.actor-template

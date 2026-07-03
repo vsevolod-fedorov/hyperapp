@@ -7,7 +7,7 @@ definitions:
       file_name: cfg_item_req.dyn.py
       imports:
         pyobj:
-          htypes.actor_resource.cfg_item_req: legacy_type.actor_resource:cfg_item_req
+          htypes.actor_resource.cfg_item_req: actor_resource.t:cfg_item_req
           htypes.builtin.builtin_mt: builtin:type:builtin_mt
           htypes.builtin.record_mt: builtin:type:record_mt
           services.mosaic: builtin:service:mosaic
@@ -38,5 +38,5 @@ definitions:
   actor_resource-cfg_item_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.actor_resource:cfg_item_req
+      t: actor_resource.t:cfg_item_req
       value: CfgItemReq.from_piece.actor-template

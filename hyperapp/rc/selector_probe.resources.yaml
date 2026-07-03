@@ -28,5 +28,5 @@ definitions:
   cfg_value_creg-selector_resource-selector_probe_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.selector_resource:selector_probe_template
+      t: selector_resource.t:selector_probe_template
       value: resolve_selector_probe_cfg_value.actor-template

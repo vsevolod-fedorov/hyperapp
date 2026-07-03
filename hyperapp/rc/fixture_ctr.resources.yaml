@@ -9,12 +9,12 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.str_cfg_item: base:cfg_item.t:str_cfg_item
-          htypes.fixture_resource.config_fixture_ctr: legacy_type.fixture_resource:config_fixture_ctr
-          htypes.fixture_resource.config_template_fixture_ctr: legacy_type.fixture_resource:config_template_fixture_ctr
-          htypes.fixture_resource.fixture_obj_ctr: legacy_type.fixture_resource:fixture_obj_ctr
-          htypes.fixture_resource.fixture_obj_template: legacy_type.fixture_resource:fixture_obj_template
-          htypes.fixture_resource.fixture_probe_ctr: legacy_type.fixture_resource:fixture_probe_ctr
-          htypes.fixture_resource.fixture_probe_template: legacy_type.fixture_resource:fixture_probe_template
+          htypes.fixture_resource.config_fixture_ctr: fixture_resource.t:config_fixture_ctr
+          htypes.fixture_resource.config_template_fixture_ctr: fixture_resource.t:config_template_fixture_ctr
+          htypes.fixture_resource.fixture_obj_ctr: fixture_resource.t:fixture_obj_ctr
+          htypes.fixture_resource.fixture_obj_template: fixture_resource.t:fixture_obj_template
+          htypes.fixture_resource.fixture_probe_ctr: fixture_resource.t:fixture_probe_ctr
+          htypes.fixture_resource.fixture_probe_template: fixture_resource.t:fixture_probe_template
           services.mosaic: builtin:service:mosaic
           code.config_item_resource: config_item_resource:config_item_resource.module
           code.rc_constructor: rc_constructor:rc_constructor.module
@@ -42,7 +42,7 @@ definitions:
   fixture_resource-fixture_obj_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:fixture_obj_ctr
+      t: fixture_resource.t:fixture_obj_ctr
       value: FixtureObjCtr.from_piece.actor-template
 
   FixtureProbeCtr:
@@ -66,7 +66,7 @@ definitions:
   fixture_resource-fixture_probe_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:fixture_probe_ctr
+      t: fixture_resource.t:fixture_probe_ctr
       value: FixtureProbeCtr.from_piece.actor-template
 
   ConfigFixtureCtr:
@@ -90,7 +90,7 @@ definitions:
   fixture_resource-config_fixture_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:config_fixture_ctr
+      t: fixture_resource.t:config_fixture_ctr
       value: ConfigFixtureCtr.from_piece.actor-template
 
   ConfigTemplateFixtureCtr:
@@ -114,5 +114,5 @@ definitions:
   fixture_resource-config_template_fixture_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:config_template_fixture_ctr
+      t: fixture_resource.t:config_template_fixture_ctr
       value: ConfigTemplateFixtureCtr.from_piece.actor-template

@@ -9,8 +9,8 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
-          htypes.model.model: legacy_type.model:model
-          htypes.model_resource.model_ctr: legacy_type.model_resource:model_ctr
+          htypes.model.model: base:ui/model.t:model
+          htypes.model_resource.model_ctr: model_resource.t:model_ctr
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
@@ -40,5 +40,5 @@ definitions:
   model_resource-model_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.model_resource:model_ctr
+      t: model_resource.t:model_ctr
       value: ModelCtr.from_piece.actor-template

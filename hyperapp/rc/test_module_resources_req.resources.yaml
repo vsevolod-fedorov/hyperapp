@@ -7,7 +7,7 @@ definitions:
       file_name: test_module_resources_req.dyn.py
       imports:
         pyobj:
-          htypes.test_module_resources_req.test_module_resources_req: legacy_type.test_module_resources_req:test_module_resources_req
+          htypes.test_module_resources_req.test_module_resources_req: test_module_resources_req.t:test_module_resources_req
           code.rc_requirement: rc_requirement:rc_requirement.module
         raw: {}
 
@@ -32,5 +32,5 @@ definitions:
   test_module_resources_req-test_module_resources_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.test_module_resources_req:test_module_resources_req
+      t: test_module_resources_req.t:test_module_resources_req
       value: TestModuleResourcesReq.from_piece.actor-template

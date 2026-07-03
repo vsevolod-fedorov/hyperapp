@@ -9,7 +9,7 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
-          htypes.editor_ctr.default_ctr: legacy_type.editor_ctr:default_ctr
+          htypes.editor_ctr.default_ctr: editor_ctr.t:default_ctr
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
@@ -38,5 +38,5 @@ definitions:
   editor_ctr-default_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.editor_ctr:default_ctr
+      t: editor_ctr.t:default_ctr
       value: EditorDefaultTemplateCtr.from_piece.actor-template

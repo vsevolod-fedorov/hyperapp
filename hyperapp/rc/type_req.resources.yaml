@@ -7,7 +7,7 @@ definitions:
       file_name: type_req.dyn.py
       imports:
         pyobj:
-          htypes.type_resource.type_req: legacy_type.type_resource:type_req
+          htypes.type_resource.type_req: type_resource.t:type_req
           code.rc_requirement: rc_requirement:rc_requirement.module
         raw: {}
 
@@ -32,5 +32,5 @@ definitions:
   type_resource-type_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.type_resource:type_req
+      t: type_resource.t:type_req
       value: TypeReq.from_piece.actor-template

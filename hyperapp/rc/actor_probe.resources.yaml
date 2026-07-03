@@ -32,7 +32,7 @@ definitions:
   cfg_value_creg-actor_resource-actor_probe_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.actor_resource:actor_probe_template
+      t: actor_resource.t:actor_probe_template
       value: resolve_actor_probe_cfg_value.actor-template
 
   resolve_ctx_actor_probe_cfg_value:
@@ -50,5 +50,5 @@ definitions:
   cfg_value_creg-actor_resource-ctx_actor_probe_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.actor_resource:ctx_actor_probe_template
+      t: actor_resource.t:ctx_actor_probe_template
       value: resolve_ctx_actor_probe_cfg_value.actor-template

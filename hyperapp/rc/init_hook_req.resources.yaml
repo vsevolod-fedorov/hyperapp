@@ -7,7 +7,7 @@ definitions:
       file_name: init_hook_req.dyn.py
       imports:
         pyobj:
-          htypes.init_hook_req.init_hook_req: legacy_type.init_hook_req:init_hook_req
+          htypes.init_hook_req.init_hook_req: init_hook_req.t:init_hook_req
           code.rc_requirement: rc_requirement:rc_requirement.module
         raw: {}
 
@@ -32,5 +32,5 @@ definitions:
   init_hook_req-init_hook_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.init_hook_req:init_hook_req
+      t: init_hook_req.t:init_hook_req
       value: InitHookReq.from_piece.actor-template

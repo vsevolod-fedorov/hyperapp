@@ -7,8 +7,8 @@ definitions:
       file_name: fixture_resource.dyn.py
       imports:
         pyobj:
-          htypes.fixture_resource.config_fixture_resource: legacy_type.fixture_resource:config_fixture_resource
-          htypes.fixture_resource.config_template_fixture_resource: legacy_type.fixture_resource:config_template_fixture_resource
+          htypes.fixture_resource.config_fixture_resource: fixture_resource.t:config_fixture_resource
+          htypes.fixture_resource.config_template_fixture_resource: fixture_resource.t:config_template_fixture_resource
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
@@ -37,7 +37,7 @@ definitions:
   fixture_resource-config_fixture_resource.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:config_fixture_resource
+      t: fixture_resource.t:config_fixture_resource
       value: ConfigFixtureResource.from_piece.actor-template
 
   ConfigTemplateFixtureResource:
@@ -61,5 +61,5 @@ definitions:
   fixture_resource-config_template_fixture_resource.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:config_template_fixture_resource
+      t: fixture_resource.t:config_template_fixture_resource
       value: ConfigTemplateFixtureResource.from_piece.actor-template

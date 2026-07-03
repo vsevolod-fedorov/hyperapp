@@ -7,8 +7,8 @@ definitions:
       file_name: config_item_resource.dyn.py
       imports:
         pyobj:
-          htypes.config_item_resource.config_item_resource: legacy_type.config_item_resource:config_item_resource
-          htypes.config_item_resource.config_item_resource_override: legacy_type.config_item_resource:config_item_resource_override
+          htypes.config_item_resource.config_item_resource: config_item_resource.t:config_item_resource
+          htypes.config_item_resource.config_item_resource_override: config_item_resource.t:config_item_resource_override
           services.web: builtin:service:web
           code.rc_resource: rc_resource:rc_resource.module
         raw: {}
@@ -34,7 +34,7 @@ definitions:
   config_item_resource-config_item_resource.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.config_item_resource:config_item_resource
+      t: config_item_resource.t:config_item_resource
       value: ConfigItemResource.from_piece.actor-template
 
   ConfigItemResourceOverride:
@@ -58,5 +58,5 @@ definitions:
   config_item_resource-config_item_resource_override.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.config_item_resource:config_item_resource_override
+      t: config_item_resource.t:config_item_resource_override
       value: ConfigItemResourceOverride.from_piece.actor-template

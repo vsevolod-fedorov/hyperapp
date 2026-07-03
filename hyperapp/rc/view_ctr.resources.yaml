@@ -11,7 +11,7 @@ definitions:
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           htypes.cfg_item.fn_value_template: base:cfg_item.t:fn_value_template
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
-          htypes.view_ctr.template_ctr: legacy_type.view_ctr:template_ctr
+          htypes.view_ctr.template_ctr: view_ctr.t:template_ctr
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
@@ -39,5 +39,5 @@ definitions:
   view_ctr-template_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.view_ctr:template_ctr
+      t: view_ctr.t:template_ctr
       value: ViewTemplateCtr.from_piece.actor-template

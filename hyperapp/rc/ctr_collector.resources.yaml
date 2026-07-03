@@ -44,7 +44,7 @@ definitions:
   cfg_value_creg-ctr_collector-mark_module_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.ctr_collector:mark_module_template
+      t: ctr_collector.t:mark_module_template
       value: resolve_mark_module_cfg_value.actor-template
 
   resolve_ignore_module_cfg_value:
@@ -62,5 +62,5 @@ definitions:
   cfg_value_creg-ctr_collector-ignore_module_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.ctr_collector:ignore_module_template
+      t: ctr_collector.t:ignore_module_template
       value: resolve_ignore_module_cfg_value.actor-template

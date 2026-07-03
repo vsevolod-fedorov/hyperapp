@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.builtin_service: builtin:type:builtin_service
-          htypes.builtin_service.builtin_service_req: legacy_type.builtin_service:builtin_service_req
+          htypes.builtin_service.builtin_service_req: builtin_service.t:builtin_service_req
           code.import_resource: import_resource:import_resource.module
           code.rc_requirement: rc_requirement:rc_requirement.module
           code.rc_target: rc_target:rc_target.module
@@ -35,5 +35,5 @@ definitions:
   builtin_service-builtin_service_req.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.builtin_service:builtin_service_req
+      t: builtin_service.t:builtin_service_req
       value: BuiltinServiceReq.from_piece.actor-template

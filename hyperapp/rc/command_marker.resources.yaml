@@ -7,9 +7,9 @@ definitions:
       file_name: command_marker.dyn.py
       imports:
         pyobj:
-          htypes.command.model_command_add_fn: legacy_type.command:model_command_add_fn
-          htypes.command.model_command_fn: legacy_type.command:model_command_fn
-          htypes.command.model_command_remove_fn: legacy_type.command:model_command_remove_fn
+          htypes.command.model_command_add_fn: base:ui/command.t:model_command_add_fn
+          htypes.command.model_command_fn: base:ui/command.t:model_command_fn
+          htypes.command.model_command_remove_fn: base:ui/command.t:model_command_remove_fn
           services.deduce_t: builtin:service:deduce_t
           code.command_ctr: command_ctr:command_ctr.module
           code.marker_utils: marker_utils:marker_utils.module

@@ -9,12 +9,12 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
-          htypes.command.model_command_fn: legacy_type.command:model_command_fn
-          htypes.selector.template: legacy_type.selector:template
-          htypes.selector_resource.open_ctr: legacy_type.selector_resource:open_ctr
-          htypes.selector_resource.pick_ctr: legacy_type.selector_resource:pick_ctr
-          htypes.selector_resource.selector_probe_ctr: legacy_type.selector_resource:selector_probe_ctr
-          htypes.selector_resource.selector_probe_template: legacy_type.selector_resource:selector_probe_template
+          htypes.command.model_command_fn: command.t:model_command_fn
+          htypes.selector.template: selector.t:template
+          htypes.selector_resource.open_ctr: selector_resource.t:open_ctr
+          htypes.selector_resource.pick_ctr: selector_resource.t:pick_ctr
+          htypes.selector_resource.selector_probe_ctr: selector_resource.t:selector_probe_ctr
+          htypes.selector_resource.selector_probe_template: selector_resource.t:selector_probe_template
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
@@ -45,7 +45,7 @@ definitions:
   actor_resource-ctx_actor_probe_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.selector_resource:ctx_actor_probe_ctr
+      t: selector_resource.t:ctx_actor_probe_ctr
       value: SelectorProbeCtr.from_piece.actor-template
 
   SelectorOpenTemplateCtr:
@@ -69,7 +69,7 @@ definitions:
   selector_ctr-open_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.selector_resource:open_ctr
+      t: selector_resource.t:open_ctr
       value: SelectorOpenTemplateCtr.from_piece.actor-template
 
   SelectorPickTemplateCtr:
@@ -93,5 +93,5 @@ definitions:
   selector_ctr-pick_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.selector_resource:pick_ctr
+      t: selector_resource.t:pick_ctr
       value: SelectorPickTemplateCtr.from_piece.actor-template

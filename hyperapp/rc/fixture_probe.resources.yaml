@@ -27,7 +27,7 @@ definitions:
   cfg_value_creg-fixture_resource-fixture_obj_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:fixture_obj_template
+      t: fixture_resource.t:fixture_obj_template
       value: resolve_fixture_obj_cfg_value.actor-template
 
   resolve_fixture_probe_cfg_value:
@@ -45,5 +45,5 @@ definitions:
   cfg_value_creg-fixture_resource-fixture_probe_template.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: legacy_type.fixture_resource:fixture_probe_template
+      t: fixture_resource.t:fixture_probe_template
       value: resolve_fixture_probe_cfg_value.actor-template

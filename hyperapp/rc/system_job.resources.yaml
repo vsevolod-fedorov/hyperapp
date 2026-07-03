@@ -8,9 +8,9 @@ definitions:
       imports:
         pyobj:
           htypes.cfg_item.data_cfg_item: base:cfg_item.t:data_cfg_item
-          htypes.ctr_collector.mark_module_template: legacy_type.ctr_collector:mark_module_template
-          htypes.rc_job.config_key_error: legacy_type.rc_job:config_key_error
-          htypes.rc_job.unknown_service_error: legacy_type.rc_job:unknown_service_error
+          htypes.ctr_collector.mark_module_template: ctr_collector.t:mark_module_template
+          htypes.rc_job.config_key_error: rc_job.t:config_key_error
+          htypes.rc_job.unknown_service_error: rc_job.t:unknown_service_error
           htypes.rpc.server_error: base:rpc/rpc.t:server_error
           htypes.system.actor_template: base:system/system.t:actor_template
           htypes.system_job.req_to_resource: base:system/system.t_job:req_to_resource
