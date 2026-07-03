@@ -94,7 +94,14 @@ class _Context:
         try:
             return self.resolve(name_tuple)
         except KeyError as x:
-            raise RuntimeError(f"{self!r}: Missing: {x}")
+            assert name_tuple[:2] == x.args[0][:2]
+            if len(x.args[0]) == 3:
+                assert name_tuple[2] == x.args[0][2]
+                project_name, path, name = x.args[0]
+                raise RuntimeError(f"{self!r}: Missing: {project_name}:{'/'.join(path)}:{name}")
+            else:
+                project_name, path = x.args[0]
+                raise RuntimeError(f"{self!r}: Missing: {project_name}:{'/'.join(path)}")
 
     def resolve(self, name_tuple):
         return self._loader._resolve(name_tuple)
