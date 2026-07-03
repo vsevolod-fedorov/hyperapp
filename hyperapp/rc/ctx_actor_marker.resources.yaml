@@ -7,9 +7,9 @@ definitions:
       file_name: ctx_actor_marker.dyn.py
       imports:
         pyobj:
-          code.actor_probe: rc.actor_probe:actor_probe.module
-          code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
-          code.marker_utils: rc.marker_utils:marker_utils.module
+          code.actor_probe: actor_probe:actor_probe.module
+          code.ctx_actor_ctr: ctx_actor_ctr:ctx_actor_ctr.module
+          code.marker_utils: marker_utils:marker_utils.module
         raw: {}
 
   CtxActorMarker:

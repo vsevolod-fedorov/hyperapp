@@ -7,6 +7,6 @@ definitions:
       file_name: type_target.dyn.py
       imports:
         pyobj:
-          code.import_resource: rc.import_resource:import_resource.module
-          code.rc_target: rc.rc_target:rc_target.module
+          code.import_resource: import_resource:import_resource.module
+          code.rc_target: rc_target:rc_target.module
         raw: {}

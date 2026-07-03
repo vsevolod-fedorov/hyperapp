@@ -7,7 +7,7 @@ definitions:
       file_name: config_fixture_marker.dyn.py
       imports:
         pyobj:
-          code.fixture_ctr: rc.fixture_ctr:fixture_ctr.module
+          code.fixture_ctr: fixture_ctr:fixture_ctr.module
         raw: {}
 
   config_fixture_marker:

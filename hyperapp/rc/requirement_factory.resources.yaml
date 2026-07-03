@@ -7,7 +7,7 @@ definitions:
       file_name: requirement_factory.dyn.py
       imports:
         pyobj:
-          code.python_module_resource_target: rc.python_module_resource_target:python_module_resource_target.module
-          code.builtin_service_target: rc.builtin_service_target:builtin_service_target.module
-          code.test_requirement: rc.test_requirement:test_requirement.module
+          code.python_module_resource_target: python_module_resource_target:python_module_resource_target.module
+          code.builtin_service_target: builtin_service_target:builtin_service_target.module
+          code.test_requirement: test_requirement:test_requirement.module
         raw: {}

@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.test_module_resources_req.test_module_resources_req: legacy_type.test_module_resources_req:test_module_resources_req
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
         raw: {}
 
   TestModuleResourcesReq:

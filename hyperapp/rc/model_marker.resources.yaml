@@ -14,9 +14,9 @@ definitions:
           htypes.model.key_tree_ui_t: legacy_type.model:key_tree_ui_t
           services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtins:pyobj_creg.service
-          code.feed_ctr: rc.feed_ctr:feed_ctr.module
-          code.marker_utils: rc.marker_utils:marker_utils.module
-          code.model_ctr: rc.model_ctr:model_ctr.module
+          code.feed_ctr: feed_ctr:feed_ctr.module
+          code.marker_utils: marker_utils:marker_utils.module
+          code.model_ctr: model_ctr:model_ctr.module
         raw: {}
 
   ModelMarker:

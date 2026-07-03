@@ -10,6 +10,6 @@ definitions:
           services.mosaic: builtins:mosaic.service
           services.resource_module_factory: builtins:resource_module_factory.service
           # code.config_ctl: base.system.config_ctl:config_ctl.module
-          code.config_item_resource: rc.config_item_resource:config_item_resource.module
-          code.rc_target: rc.rc_target:rc_target.module
+          code.config_item_resource: config_item_resource:config_item_resource.module
+          code.rc_target: rc_target:rc_target.module
         raw: {}

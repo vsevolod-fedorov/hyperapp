@@ -9,5 +9,5 @@ definitions:
         pyobj:
           htypes.builtin.builtin_service: builtin:type:builtin_service
           services.builtin_services: builtins:builtin_services.service
-          code.import_resource: rc.import_resource:import_resource.module
+          code.import_resource: import_resource:import_resource.module
         raw: {}

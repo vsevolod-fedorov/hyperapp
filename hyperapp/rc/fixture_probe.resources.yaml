@@ -9,7 +9,7 @@ definitions:
         pyobj:
           services.pyobj_creg: builtins:pyobj_creg.service
           services.web: builtin:service:web
-          code.system_probe: rc.system_probe:system_probe.module
+          code.system_probe: system_probe:system_probe.module
         raw: {}
 
   resolve_fixture_obj_cfg_value:

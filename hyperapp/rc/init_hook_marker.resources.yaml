@@ -7,9 +7,9 @@ definitions:
       file_name: init_hook_marker.dyn.py
       imports:
         pyobj:
-          code.init_hook_ctr: rc.init_hook_ctr:init_hook_ctr.module
-          code.probe: rc.probe:probe.module
-          code.marker_utils: rc.marker_utils:marker_utils.module
+          code.init_hook_ctr: init_hook_ctr:init_hook_ctr.module
+          code.probe: probe:probe.module
+          code.marker_utils: marker_utils:marker_utils.module
         raw: {}
 
   init_hook_marker:

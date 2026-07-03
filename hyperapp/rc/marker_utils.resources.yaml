@@ -8,5 +8,5 @@ definitions:
       imports:
         pyobj:
           code.context: base.context:context.module
-          code.probe: rc.probe:probe.module
+          code.probe: probe:probe.module
         raw: {}

@@ -10,11 +10,11 @@ definitions:
           services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtins:pyobj_creg.service
           services.web: builtin:service:web
-          code.actor_ctr: rc.actor_ctr:actor_ctr.module
-          code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
-          code.view_ctr: rc.view_ctr:view_ctr.module
-          code.probe: rc.probe:probe.module
-          code.marker_utils: rc.marker_utils:marker_utils.module
+          code.actor_ctr: actor_ctr:actor_ctr.module
+          code.ctx_actor_ctr: ctx_actor_ctr:ctx_actor_ctr.module
+          code.view_ctr: view_ctr:view_ctr.module
+          code.probe: probe:probe.module
+          code.marker_utils: marker_utils:marker_utils.module
         raw: {}
 
   resolve_actor_probe_cfg_value:

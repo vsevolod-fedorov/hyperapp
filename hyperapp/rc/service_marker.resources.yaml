@@ -9,7 +9,7 @@ definitions:
         pyobj:
           services.mosaic: builtins:mosaic.service
           code.config_ctl: base.system.config_ctl:config_ctl.module
-          code.service_probe_resource: rc.service_probe_resource:service_probe_resource.module
+          code.service_probe_resource: service_probe_resource:service_probe_resource.module
         raw: {}
 
   ServiceMarker:

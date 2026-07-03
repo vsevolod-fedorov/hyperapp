@@ -8,9 +8,9 @@ definitions:
       imports:
         pyobj:
           services.deduce_t: builtin:service:deduce_t
-          code.marker_utils: rc.marker_utils:marker_utils.module
-          code.view_factory_ctr: rc.view_factory_ctr:view_factory_ctr.module
-          code.probe: rc.probe:probe.module
+          code.marker_utils: marker_utils:marker_utils.module
+          code.view_factory_ctr: view_factory_ctr:view_factory_ctr.module
+          code.probe: probe:probe.module
         raw: {}
 
   ViewFactoryMarker:

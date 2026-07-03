@@ -17,8 +17,8 @@ definitions:
           htypes.system.finalizer_gen_service_template: base:system/system.t:finalizer_gen_service_template
           services.mosaic: builtins:mosaic.service
           services.web: builtin:service:web
-          code.rc_constructor: rc.rc_constructor:rc_constructor.module
-          code.service_req: rc.service_req:service_req.module
+          code.rc_constructor: rc_constructor:rc_constructor.module
+          code.service_req: service_req:service_req.module
         raw: {}
 
   CoreServiceTemplateCtr:

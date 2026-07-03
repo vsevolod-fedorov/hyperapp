@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.init_hook_req.init_hook_req: legacy_type.init_hook_req:init_hook_req
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
         raw: {}
 
   InitHookReq:

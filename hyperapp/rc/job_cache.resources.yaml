@@ -11,7 +11,7 @@ definitions:
           htypes.job_cache.dep: legacy_type.job_cache:dep
           htypes.job_cache.entry: legacy_type.job_cache:entry
           services.mosaic: builtins:mosaic.service
-          code.python_src: rc.python_src:python_src.module
+          code.python_src: python_src:python_src.module
         raw: {}
 
   JobCache:

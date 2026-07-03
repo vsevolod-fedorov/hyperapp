@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.type_resource.type_req: legacy_type.type_resource:type_req
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
         raw: {}
 
   TypeReq:

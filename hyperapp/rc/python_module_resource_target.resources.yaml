@@ -10,9 +10,9 @@ definitions:
           htypes.python_module_resource_target.import_python_module_req: legacy_type.python_module_resource_target:import_python_module_req
           htypes.python_module_resource_target.python_module_req: legacy_type.python_module_resource_target:python_module_req
           services.resource_module_factory: builtins:resource_module_factory.service
-          code.import_resource: rc.import_resource:import_resource.module
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
-          code.rc_target: rc.rc_target:rc_target.module
+          code.import_resource: import_resource:import_resource.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
+          code.rc_target: rc_target:rc_target.module
         raw: {}
 
   ImportPythonModuleReq:

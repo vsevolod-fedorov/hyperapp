@@ -15,8 +15,8 @@ definitions:
           htypes.view_factory_ctr.single_model_ctr: legacy_type.view_factory_ctr:single_model_ctr
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
-          code.rc_constructor: rc.rc_constructor:rc_constructor.module
-          code.d_type: rc.d_type:d_type.module
+          code.rc_constructor: rc_constructor:rc_constructor.module
+          code.d_type: d_type:d_type.module
         raw: {}
 
   ViewFactoryTemplateSingleModelCtr:

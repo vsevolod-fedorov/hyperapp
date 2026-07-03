@@ -23,14 +23,14 @@ definitions:
           # code.config_ctl: base.system.config_ctl:config_ctl.module
           code.config_layer: base.system.config_layer:config_layer.module
           code.context: base.context:context.module
-          code.python_src: rc.python_src:python_src.module
-          code.builtin_resources: rc.builtin_resources:builtin_resources.module
-          code.import_recorder: rc.import_recorder:import_recorder.module
-          code.rc_constants: rc.rc_constants:rc_constants.module
+          code.python_src: python_src:python_src.module
+          code.builtin_resources: builtin_resources:builtin_resources.module
+          code.import_recorder: import_recorder:import_recorder.module
+          code.rc_constants: rc_constants:rc_constants.module
           code.system: base.system.system:system.module
           code.system_fn: base.system_fn:system_fn.module
-          code.system_job: rc.system_job:system_job.module
-          code.system_probe: rc.system_probe:system_probe.module
+          code.system_job: system_job:system_job.module
+          code.system_probe: system_probe:system_probe.module
         raw: {}
 
   SucceededTestResult:

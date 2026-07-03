@@ -10,6 +10,6 @@ definitions:
           services.pyobj_creg: builtins:pyobj_creg.service
           code.record_config: base.record_config:record_config.module
           code.system: base.system.system:system.module
-          code.probe: rc.probe:probe.module
-          code.marker_utils: rc.marker_utils:marker_utils.module
+          code.probe: probe:probe.module
+          code.marker_utils: marker_utils:marker_utils.module
         raw: {}

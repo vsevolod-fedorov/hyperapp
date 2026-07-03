@@ -14,12 +14,12 @@ definitions:
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
           services.web: builtin:service:web
-          code.config_item_resource: rc.config_item_resource:config_item_resource.module
-          code.rc_constructor: rc.rc_constructor:rc_constructor.module
-          code.rc_resource: rc.rc_resource:rc_resource.module
-          code.service_ctr: rc.service_ctr:service_ctr.module
-          code.service_req: rc.service_req:service_req.module
-          code.system_probe: rc.system_probe:system_probe.module
+          code.config_item_resource: config_item_resource:config_item_resource.module
+          code.rc_constructor: rc_constructor:rc_constructor.module
+          code.rc_resource: rc_resource:rc_resource.module
+          code.service_ctr: service_ctr:service_ctr.module
+          code.service_req: service_req:service_req.module
+          code.system_probe: system_probe:system_probe.module
         raw: {}
 
   resolve_service_probe_cfg_value:

@@ -13,8 +13,8 @@ definitions:
           htypes.system_fn.ctx_fn: base:system/system.t_fn:ctx_fn
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
-          code.rc_constructor: rc.rc_constructor:rc_constructor.module
-          code.ctx_actor_ctr: rc.ctx_actor_ctr:ctx_actor_ctr.module
+          code.rc_constructor: rc_constructor:rc_constructor.module
+          code.ctx_actor_ctr: ctx_actor_ctr:ctx_actor_ctr.module
         raw: {}
 
   EditorDefaultTemplateCtr:

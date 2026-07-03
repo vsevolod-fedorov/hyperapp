@@ -7,5 +7,5 @@ definitions:
       file_name: config_item_target.dyn.py
       imports:
         pyobj:
-          code.rc_target: rc.rc_target:rc_target.module
+          code.rc_target: rc_target:rc_target.module
         raw: {}

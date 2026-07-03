@@ -9,8 +9,8 @@ definitions:
         pyobj:
           htypes.service_resource.service_req: legacy_type.service_resource:service_req
           services.mosaic: builtins:mosaic.service
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
-          code.config_item_resource: rc.config_item_resource:config_item_resource.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
+          code.config_item_resource: config_item_resource:config_item_resource.module
         raw: {}
 
   ServiceReq:

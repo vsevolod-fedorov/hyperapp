@@ -20,10 +20,10 @@ definitions:
           services.mosaic: builtins:mosaic.service
           services.pyobj_creg: builtins:pyobj_creg.service
           services.web: builtin:service:web
-          code.config_item_resource: rc.config_item_resource:config_item_resource.module
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
-          code.rc_resource: rc.rc_resource:rc_resource.module
-          code.python_module_resource_target: rc.python_module_resource_target:python_module_resource_target.module
+          code.config_item_resource: config_item_resource:config_item_resource.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
+          code.rc_resource: rc_resource:rc_resource.module
+          code.python_module_resource_target: python_module_resource_target:python_module_resource_target.module
         raw: {}
 
   TestedCodeReq:

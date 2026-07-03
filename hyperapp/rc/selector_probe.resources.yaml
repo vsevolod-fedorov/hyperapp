@@ -9,8 +9,8 @@ definitions:
         pyobj:
           services.deduce_t: builtin:service:deduce_t
           services.pyobj_creg: builtins:pyobj_creg.service
-          code.marker_utils: rc.marker_utils:marker_utils.module
-          code.selector_ctr: rc.selector_ctr:selector_ctr.module
+          code.marker_utils: marker_utils:marker_utils.module
+          code.selector_ctr: selector_ctr:selector_ctr.module
         raw: {}
 
   resolve_selector_probe_cfg_value:

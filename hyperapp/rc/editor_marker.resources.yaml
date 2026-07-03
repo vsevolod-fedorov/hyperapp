@@ -8,8 +8,8 @@ definitions:
       imports:
         pyobj:
           services.deduce_t: builtin:service:deduce_t
-          code.marker_utils: rc.marker_utils:marker_utils.module
-          code.editor_ctr: rc.editor_ctr:editor_ctr.module
+          code.marker_utils: marker_utils:marker_utils.module
+          code.editor_ctr: editor_ctr:editor_ctr.module
         raw: {}
 
   EditorMarker:

@@ -7,8 +7,8 @@ definitions:
       file_name: selector_marker.dyn.py
       imports:
         pyobj:
-          code.marker_utils: rc.marker_utils:marker_utils.module
-          code.selector_probe: rc.selector_probe:selector_probe.module
+          code.marker_utils: marker_utils:marker_utils.module
+          code.selector_probe: selector_probe:selector_probe.module
         raw: {}
 
   SelectorMarker:

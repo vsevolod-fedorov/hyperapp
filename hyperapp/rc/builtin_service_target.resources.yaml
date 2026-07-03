@@ -9,9 +9,9 @@ definitions:
         pyobj:
           htypes.builtin.builtin_service: builtin:type:builtin_service
           htypes.builtin_service.builtin_service_req: legacy_type.builtin_service:builtin_service_req
-          code.import_resource: rc.import_resource:import_resource.module
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
-          code.rc_target: rc.rc_target:rc_target.module
+          code.import_resource: import_resource:import_resource.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
+          code.rc_target: rc_target:rc_target.module
         raw: {}
 
   BuiltinServiceReq:

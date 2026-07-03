@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.marker_req.marker_req: marker.t_req:marker_req
-          code.rc_requirement: rc.rc_requirement:rc_requirement.module
+          code.rc_requirement: rc_requirement:rc_requirement.module
         raw: {}
 
   MarkerReq:

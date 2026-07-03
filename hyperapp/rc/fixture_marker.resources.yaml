@@ -9,7 +9,7 @@ definitions:
         pyobj:
           services.mosaic: builtins:mosaic.service
           code.config_ctl: base.system.config_ctl:config_ctl.module
-          code.fixture_ctr: rc.fixture_ctr:fixture_ctr.module
+          code.fixture_ctr: fixture_ctr:fixture_ctr.module
         raw: {}
 
   FixtureMarker:

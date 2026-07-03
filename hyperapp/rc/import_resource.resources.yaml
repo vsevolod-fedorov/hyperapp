@@ -13,7 +13,7 @@ definitions:
           htypes.import_resources.import_key_cfg_item: legacy_type.import_resource:import_key_cfg_item
           services.mosaic: builtins:mosaic.service
           services.web: builtin:service:web
-          code.rc_resource: rc.rc_resource:rc_resource.module
+          code.rc_resource: rc_resource:rc_resource.module
         raw: {}
 
   ImportResource:
