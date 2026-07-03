@@ -24,12 +24,12 @@ definitions:
       raw: {}
 
   record_config-config.ctl:
-    type: record_config.t:config_ctl
+    type: :record_config.t:config_ctl
     value:
       t: legacy_type.transport:config
 
   transport.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: transport
       ctl: record_config-config.ctl

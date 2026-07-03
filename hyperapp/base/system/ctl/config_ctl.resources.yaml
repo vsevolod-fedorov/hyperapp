@@ -44,7 +44,7 @@ definitions:
       attr_name: from_piece
 
   FlatListConfigCtl.from_piece.actor-template:
-    type: system/system.t:actor_template
+    type: :system/system.t:actor_template
     value:
       function: FlatListConfigCtl.from_piece
       service_params:
@@ -52,25 +52,25 @@ definitions:
       - cfg_value_creg
 
   config_ctl_creg-system-flat_list_config_ctl.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: legacy_type.system:flat_list_config_ctl
       value: FlatListConfigCtl.from_piece.actor-template
 
   data_key.ctl:
-    type: system/system.t:data_key_ctl
+    type: :system/system.t:data_key_ctl
     value: {}
 
   data_value.ctl:
-    type: system/system.t:data_value_ctl
+    type: :system/system.t:data_value_ctl
     value: {}
 
   single.struct_ctl:
-    type: system/system.t:single_struct_ctl
+    type: :system/system.t:single_struct_ctl
     value: {}
 
   data_service_config.ctl:
-    type: system/system.t:dict_config_ctl
+    type: :system/system.t:dict_config_ctl
     value:
       key_ctl: data_key.ctl
       value_ctl: data_value.ctl

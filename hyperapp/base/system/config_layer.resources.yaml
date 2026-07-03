@@ -43,7 +43,7 @@ definitions:
       attr_name: resource_name_creg
 
   resource_name_creg.service:
-    type: system/system.t:service_template
+    type: system.t:service_template
     value:
       name: resource_name_creg
       ctl: actor_dict.config_ctl
@@ -53,19 +53,19 @@ definitions:
       free_params: []
 
   one_way.key_ctl:
-    type: system/system.t:one_way_key_ctl
+    type: system.t:one_way_key_ctl
     value: {}
 
   actor.value_ctl:
-    type: system/system.t:actor_value_ctl
+    type: system.t:actor_value_ctl
     value: {}
 
   single.struct_ctl:
-    type: system/system.t:single_struct_ctl
+    type: system.t:single_struct_ctl
     value: {}
 
   actor_dict.config_ctl:
-    type: system/system.t:dict_config_ctl
+    type: system.t:dict_config_ctl
     value:
       key_ctl: one_way.key_ctl
       value_ctl: actor.value_ctl

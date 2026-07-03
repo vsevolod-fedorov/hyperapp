@@ -25,7 +25,7 @@ definitions:
       attr_name: endpoint_thread_pool
 
   endpoint_thread_pool.service:
-    type: system/system.t:finalizer_gen_service_template
+    type: :system/system.t:finalizer_gen_service_template
     value:
       name: endpoint_thread_pool
       ctl: base:system/system:actor_dict.config_ctl
@@ -41,7 +41,7 @@ definitions:
       attr_name: endpoint_registry
 
   endpoint_registry.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: endpoint_registry
       ctl: base:system/system:actor_dict.config_ctl

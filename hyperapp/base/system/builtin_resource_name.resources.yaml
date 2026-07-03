@@ -1,13 +1,3 @@
-import:
-- builtins:web.service
-- builtin:type:attribute
-- builtin:type:bool
-- builtin:type:call
-- builtin:type:python_module
-- builtin:type:record_mt
-- builtin:type:string
-- legacy_type.cfg_item:type_cfg_item
-- legacy_type.system:actor_template
 
 definitions:
 
@@ -28,13 +18,13 @@ definitions:
       attr_name: bool_name
 
   bool_name.actor-template:
-    type: system/system.t:actor_template
+    type: system.t:actor_template
     value:
       function: bool_name
       service_params: []
 
   resource_name_creg-builtin-bool.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: builtin:type:bool
       value: bool_name.actor-template
@@ -46,13 +36,13 @@ definitions:
       attr_name: string_name
 
   string_name.actor-template:
-    type: system/system.t:actor_template
+    type: system.t:actor_template
     value:
       function: string_name
       service_params: []
 
   resource_name_creg-builtin-string.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: builtin:type:string
       value: string_name.actor-template
@@ -64,13 +54,13 @@ definitions:
       attr_name: record_mt_name
 
   record_mt_name.actor-template:
-    type: system/system.t:actor_template
+    type: system.t:actor_template
     value:
       function: record_mt_name
       service_params: []
 
   resource_name_creg-builtin-record_mt.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: builtin:type:record_mt
       value: record_mt_name.actor-template
@@ -82,13 +72,13 @@ definitions:
       attr_name: call_name
 
   call_name.actor-template:
-    type: system/system.t:actor_template
+    type: system.t:actor_template
     value:
       function: call_name
       service_params: []
 
   resource_name_creg-builtin-call.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: builtin:type:call
       value: call_name.actor-template

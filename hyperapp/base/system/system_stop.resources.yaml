@@ -24,7 +24,7 @@ definitions:
       raw: {}
 
   stop_signal.service:
-    type: system/system.t:service_template
+    type: system.t:service_template
     value:
       name: stop_signal
       ctl: base:system/system:actor_dict.config_ctl
@@ -40,7 +40,7 @@ definitions:
       attr_name: system_failed
 
   system_failed.service:
-    type: system/system.t:finalizer_gen_service_template
+    type: system.t:finalizer_gen_service_template
     value:
       name: system_failed
       ctl: base:system/system:actor_dict.config_ctl

@@ -45,7 +45,7 @@ definitions:
       attr_name: rpc_message_creg
 
   rpc_message_creg.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: rpc_message_creg
       ctl: base:system/system:actor_dict.config_ctl
@@ -61,7 +61,7 @@ definitions:
       attr_name: rpc_endpoint
 
   rpc_endpoint.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: rpc_endpoint
       ctl: base:system/system:actor_dict.config_ctl
@@ -78,7 +78,7 @@ definitions:
       attr_name: rpc_request_futures
 
   rpc_request_futures.service:
-    type: system/system.t:finalizer_gen_service_template
+    type: :system/system.t:finalizer_gen_service_template
     value:
       name: rpc_request_futures
       ctl: base:system/system:actor_dict.config_ctl
@@ -94,7 +94,7 @@ definitions:
       attr_name: cancel_rpc_request_futures
 
   cancel_rpc_request_futures.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: cancel_rpc_request_futures
       ctl: base:system/system:actor_dict.config_ctl
@@ -111,14 +111,14 @@ definitions:
       attr_name: on_rpc_response
 
   on_rpc_response.actor-template:
-    type: system/system.t:actor_template
+    type: :system/system.t:actor_template
     value:
       function: on_rpc_response
       service_params:
       - rpc_request_futures
 
   rpc_message_creg-rpc-response.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: legacy_type.rpc:response
       value: on_rpc_response.actor-template
@@ -130,14 +130,14 @@ definitions:
       attr_name: on_rpc_error_response
 
   on_rpc_error_response.actor-template:
-    type: system/system.t:actor_template
+    type: :system/system.t:actor_template
     value:
       function: on_rpc_error_response
       service_params:
       - rpc_request_futures
 
   rpc_message_creg-rpc-error_response.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: legacy_type.rpc:error_response
       value: on_rpc_error_response.actor-template
@@ -149,7 +149,7 @@ definitions:
       attr_name: rpc_target_creg
 
   rpc_target_creg.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: rpc_target_creg
       ctl: base:system/system:actor_dict.config_ctl
@@ -165,7 +165,7 @@ definitions:
       attr_name: on_rpc_request
 
   on_rpc_request.actor-template:
-    type: system/system.t:actor_template
+    type: :system/system.t:actor_template
     value:
       function: on_rpc_request
       service_params:
@@ -175,7 +175,7 @@ definitions:
       - rpc_target_creg
 
   rpc_message_creg-rpc-request.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: legacy_type.rpc:request
       value: on_rpc_request.actor-template
@@ -187,13 +187,13 @@ definitions:
       attr_name: run_function_target
 
   run_function_target.actor-template:
-    type: system/system.t:actor_template
+    type: :system/system.t:actor_template
     value:
       function: run_function_target
       service_params: []
 
   rpc_target_creg-rpc-function_target.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: legacy_type.rpc:function_target
       value: run_function_target.actor-template
@@ -205,14 +205,14 @@ definitions:
       attr_name: run_system_fn_target
 
   run_system_fn_target.actor-template:
-    type: system/system.t:actor_template
+    type: :system/system.t:actor_template
     value:
       function: run_system_fn_target
       service_params:
       - system_fn_creg
 
   rpc_target_creg-rpc-system_fn_target.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: legacy_type.rpc:system_fn_target
       value: run_system_fn_target.actor-template
@@ -224,14 +224,14 @@ definitions:
       attr_name: run_service_target
 
   run_service_target.actor-template:
-    type: system/system.t:actor_template
+    type: :system/system.t:actor_template
     value:
       function: run_service_target
       service_params:
       - system
 
   rpc_target_creg-rpc-service_target.actor-cfg-item:
-    type: cfg_item.t:type_cfg_item
+    type: :cfg_item.t:type_cfg_item
     value:
       t: legacy_type.rpc:service_target
       value: run_service_target.actor-template

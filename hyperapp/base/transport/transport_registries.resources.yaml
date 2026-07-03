@@ -24,7 +24,7 @@ definitions:
       attr_name: identity_creg
 
   identity_creg.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: identity_creg
       ctl: base:system/system:actor_dict.config_ctl
@@ -40,7 +40,7 @@ definitions:
       attr_name: parcel_creg
 
   parcel_creg.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: parcel_creg
       ctl: base:system/system:actor_dict.config_ctl
@@ -56,7 +56,7 @@ definitions:
       attr_name: peer_creg
 
   peer_creg.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: peer_creg
       ctl: base:system/system:actor_dict.config_ctl
@@ -72,7 +72,7 @@ definitions:
       attr_name: signature_creg
 
   signature_creg.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: signature_creg
       ctl: base:system/system:actor_dict.config_ctl
@@ -88,7 +88,7 @@ definitions:
       attr_name: route_creg
 
   route_creg.service:
-    type: system/system.t:service_template
+    type: :system/system.t:service_template
     value:
       name: route_creg
       ctl: base:system/system:actor_dict.config_ctl

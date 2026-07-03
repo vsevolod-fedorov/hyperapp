@@ -25,11 +25,11 @@ definitions:
       attr_name: init_hook
 
   system-flat_list_config_ctl.ctl:
-    type: system/system.t:flat_list_config_ctl
+    type: system.t:flat_list_config_ctl
     value: {}
 
   init_hook.service:
-    type: system/system.t:service_template
+    type: system.t:service_template
     value:
       name: init_hook
       ctl: system-flat_list_config_ctl.ctl

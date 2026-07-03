@@ -26,7 +26,7 @@ definitions:
       attr_name: subprocess_transport
 
   subprocess_transport.service:
-    type: system/system.t:finalizer_gen_service_template
+    type: :system/system.t:finalizer_gen_service_template
     value:
       name: subprocess_transport
       ctl: base:system/system:actor_dict.config_ctl
