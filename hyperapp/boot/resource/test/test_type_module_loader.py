@@ -1,4 +1,5 @@
 import logging
+from pathlib import Path
 
 import pytest
 
@@ -123,6 +124,29 @@ def test_resolve_mixed_imports(pyobj_creg, resources_dir, loader):
     assert sources[middle_1_mt] == ('a-project', ('sample_2.t',), TextSource(source_2_text))
     assert sources[middle_2_mt] == ('a-project', ('sample_2',), ResourceModuleSource('middle_2_record'))
     assert sources[outer_mt] == ('a-project', ('sample_3.t',), TextSource(source_3_text))
+
+
+def test_resolve_project_imports(pyobj_creg, resources_dir, loader):
+    dir = Path('resolve_project_imports')
+    source_1_text = resources_dir.joinpath(dir, 'project_1/sample.types').read_text()
+    source_2_text = resources_dir.joinpath(dir, 'project_2/sample.types').read_text()
+    source_3_text = resources_dir.joinpath(dir, 'project_3/sample.types').read_text()
+    resources, sources = loader({
+        'project_1': dir / 'project_1',
+        'project_2': dir / 'project_2',
+        'project_3': dir / 'project_3',
+        })
+    record_1_mt = resources['project_1', ('sample.t',), 'record_1']
+    record_2_mt = resources['project_2', ('sample.t',), 'record_2']
+    record_3_mt = resources['project_3', ('sample.t',), 'record_3']
+    record_1_t = pyobj_creg.animate(record_1_mt)
+    record_2_t = pyobj_creg.animate(record_2_mt)
+    record_3_t = pyobj_creg.animate(record_3_mt)
+    assert record_3_t.fields['field_3'] is record_2_t
+    assert record_2_t.fields['field_2'].element_t is record_1_t
+    assert sources[record_1_mt] == ('project_1', ('sample.t',), TextSource(source_1_text))
+    assert sources[record_2_mt] == ('project_2', ('sample.t',), TextSource(source_2_text))
+    assert sources[record_3_mt] == ('project_3', ('sample.t',), TextSource(source_3_text))
 
 
 def test_resolve_builtin_type(pyobj_creg, resources_dir, loader):

@@ -1,0 +1,6 @@
+from project_2.sample import record_2
+from project_1.sample import record_1 as record_1_base
+
+
+record_3 = record(record_1_base):
+  field_3: record_2

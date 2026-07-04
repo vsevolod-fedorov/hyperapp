@@ -113,6 +113,9 @@ class _Context:
             path = (*self._path[:idx], *sub_path)
             if self._loader._has_name(self._project_name, path, name):
                 return (self._project_name, path)
+        # Check if we have this name in another module, if sub_path starts with that module name.
+        if self._loader._has_name(path[0], path[1:], name):
+            return (path[0], path[1:])
         raise KeyError(sub_path)
 
     def _resolve_parts(self, parts, description):

@@ -1,0 +1,5 @@
+from project_1.sample import record_1
+
+
+record_2 = record:
+  field_2: record_1 list
