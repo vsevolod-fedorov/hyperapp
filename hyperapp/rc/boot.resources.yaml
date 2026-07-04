@@ -7,9 +7,6 @@ definitions:
       file_name: boot.dyn.py
       imports:
         pyobj:
-          htypes.builtin.int: builtin:type:int
-          htypes.sample_1.inner_record: sample_1.t:inner_record
-          htypes.sample_2.outer_record: sample_2.t:outer_record
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
