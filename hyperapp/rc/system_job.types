@@ -1,4 +1,4 @@
-from system import system_config
+from base.system.system import system_config
 from python_src import python_module_src
 
 

@@ -8,13 +8,13 @@ definitions:
       imports:
         pyobj:
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
-          htypes.feed.feed_template: feed.t:feed_template
-          htypes.feed.list_feed_ctr: feed.t:list_feed_ctr
-          htypes.feed.index_tree_feed_ctr: feed.t:index_tree_feed_ctr
-          htypes.feed.index_tree_feed_type: feed.t:index_tree_feed_type
-          htypes.feed.list_feed_type: feed.t:list_feed_type
-          htypes.feed.value_feed_ctr: feed.t:value_feed_ctr
-          htypes.feed.value_feed_type: feed.t:value_feed_type
+          htypes.feed.feed_template: base:ui/feed.t:feed_template
+          htypes.feed.list_feed_ctr: base:ui/feed.t:list_feed_ctr
+          htypes.feed.index_tree_feed_ctr: base:ui/feed.t:index_tree_feed_ctr
+          htypes.feed.index_tree_feed_type: base:ui/feed.t:index_tree_feed_type
+          htypes.feed.list_feed_type: base:ui/feed.t:list_feed_type
+          htypes.feed.value_feed_ctr: base:ui/feed.t:value_feed_ctr
+          htypes.feed.value_feed_type: base:ui/feed.t:value_feed_type
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           code.cfg_item_req: cfg_item_req:cfg_item_req.module
@@ -42,7 +42,7 @@ definitions:
   feed-list_feed_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: feed.t:list_feed_ctr
+      t: base:ui/feed.t:list_feed_ctr
       value: ListFeedCtr.from_piece.actor-template
 
   IndexTreeFeedCtr:
@@ -66,7 +66,7 @@ definitions:
   feed-index_tree_feed_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: feed.t:index_tree_feed_ctr
+      t: base:ui/feed.t:index_tree_feed_ctr
       value: IndexTreeFeedCtr.from_piece.actor-template
 
   ValueFeedCtr:
@@ -90,5 +90,5 @@ definitions:
   feed-value_feed_ctr.actor-cfg-item:
     type: base:cfg_item.t:type_cfg_item
     value:
-      t: feed.t:value_feed_ctr
+      t: base:ui/feed.t:value_feed_ctr
       value: ValueFeedCtr.from_piece.actor-template

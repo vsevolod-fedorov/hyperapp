@@ -9,11 +9,11 @@ definitions:
         pyobj: {}
         raw: {}
 
-    process_pool_running:
-      type: builtin:type:attribute
-      value:
-        object: process_pool.module
-        attr_name: process_pool_running
+  process_pool_running:
+    type: builtin:type:attribute
+    value:
+      object: process_pool.module
+      attr_name: process_pool_running
 
   process_pool_running.service:
     type: base:system/system.t:service_template

@@ -13,7 +13,7 @@ definitions:
           htypes.rc_job.unknown_service_error: rc_job.t:unknown_service_error
           htypes.rpc.server_error: base:rpc/rpc.t:server_error
           htypes.system.actor_template: base:system/system.t:actor_template
-          htypes.system_job.req_to_resource: base:system/system.t_job:req_to_resource
+          htypes.system_job.req_to_resource: system_job.t:req_to_resource
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web

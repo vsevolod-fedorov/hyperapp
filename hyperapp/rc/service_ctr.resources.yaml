@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
-          htypes.builtin.call: builtin:type:call
+          # htypes.builtin.call: builtin:type:call
           htypes.service_resource.service_template_ctr: service_resource.t:service_template_ctr
           htypes.service_resource.finalizer_gen_service_template_ctr: service_resource.t:finalizer_gen_service_template_ctr
           htypes.system.dict_config_ctl: base:system/system.t:dict_config_ctl

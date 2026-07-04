@@ -9,8 +9,8 @@ definitions:
         pyobj:
           htypes.builtin.attribute: builtin:type:attribute
           htypes.cfg_item.type_cfg_item: base:cfg_item.t:type_cfg_item
-          htypes.command.type_str_command: command.t:type_str_command
-          htypes.crud.open_command: crud.t:open_command
+          htypes.command.type_str_command: base:ui/command.t:type_str_command
+          htypes.crud.open_command: base:ui/crud.t:open_command
           htypes.crud_ctr.init_ctr: crud_ctr.t:init_ctr
           htypes.crud_ctr.commit_ctr: crud_ctr.t:commit_ctr
           htypes.system_fn.ctx_fn: base:system_fn.t:ctx_fn

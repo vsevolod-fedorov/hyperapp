@@ -8,7 +8,7 @@ definitions:
       imports:
         pyobj:
           services.mosaic: builtin:service:mosaic
-          code.config_ctl: base:system/config_ctl:config_ctl.module
+          code.config_ctl: base:system/ctl/config_ctl:config_ctl.module
           code.service_probe_resource: service_probe_resource:service_probe_resource.module
         raw: {}
 
