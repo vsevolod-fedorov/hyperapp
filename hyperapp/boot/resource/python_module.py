@@ -47,7 +47,7 @@ class PythonModuleResourceType:
 
     def from_dict(self, data):
         decoder = NamedPairsDictDecoder()
-        return decoder.decode_dict(self.definition_t, data)
+        return decoder.decode_dict(data, self.definition_t)
 
     def to_dict(self, definition):
         encoder = NamedPairsDictEncoder()

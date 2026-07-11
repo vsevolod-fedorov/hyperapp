@@ -35,7 +35,7 @@ class DictDecoder(metaclass=abc.ABCMeta):
         self._mosaic = mosaic
         self._types = types
 
-    def decode_dict(self, t, value, path='root'):
+    def decode_dict(self, value, t, path='root'):
         return self.dispatch(t, value, path)
 
     def expect(self, path, expr, desc):
@@ -150,7 +150,7 @@ class DictDecoderBase(DictDecoder, metaclass=abc.ABCMeta):
 
     def decode(self, t, value, path='root'):
         assert isinstance(value, bytes), repr(value)
-        return self.decode_dict(t, self._str_to_dict(value.decode()), path)
+        return self.decode_dict(self._str_to_dict(value.decode()), t, path)
 
     @abc.abstractmethod
     def _str_to_dict(self, value):

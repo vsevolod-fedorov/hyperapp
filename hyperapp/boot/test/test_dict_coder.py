@@ -29,6 +29,6 @@ def test_named_pair():
                 },
             },
         }
-    value = decoder.decode_dict(t, data)
+    value = decoder.decode_dict(data, t)
     decoded_data = encoder.encode_dict(value, t)
     assert decoded_data == data
