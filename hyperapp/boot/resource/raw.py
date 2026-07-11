@@ -20,7 +20,7 @@ class RawResourceType:
 
     def to_dict(self, definition):
         encoder = NamedPairsDictEncoder()
-        return encoder.encode(definition)
+        return encoder.encode_dict(definition)
 
     def resolve(self, definition, ctx):
         return raw_t(

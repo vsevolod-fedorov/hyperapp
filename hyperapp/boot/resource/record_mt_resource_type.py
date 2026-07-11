@@ -41,7 +41,7 @@ class RecordMtResourceType:
 
     def to_dict(self, definition):
         encoder = NamedPairsDictEncoder()
-        return encoder.encode(definition)
+        return encoder.encode_dict(definition)
 
     def resolve(self, definition, ctx):
         piece = record_mt(

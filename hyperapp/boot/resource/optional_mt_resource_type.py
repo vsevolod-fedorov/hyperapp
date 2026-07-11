@@ -31,7 +31,7 @@ class OptionalMtResourceType:
 
     def to_dict(self, definition):
         encoder = NamedPairsDictEncoder()
-        return encoder.encode(definition)
+        return encoder.encode_dict(definition)
 
     def resolve(self, definition, ctx):
         piece = optional_mt(

@@ -29,12 +29,9 @@ class DictEncoder(metaclass=abc.ABCMeta):
     def __init__(self, mosaic=None):
         self._mosaic = mosaic
 
-    def encode(self, value, t=None):
+    def encode_dict(self, value, t=None):
         t = t or deduce_value_type(value)
-        return self._encode_dict(self.dispatch(t, value))
-
-    def _encode_dict(self, value):
-        return value
+        return self.dispatch(t, value)
 
     @singledispatchmethod
     def dispatch(self, t, value):
@@ -112,17 +109,28 @@ class NamedPairsDictEncoder(DictEncoder):
             }
 
 
-class JsonEncoder(DictEncoder):
+class DictEncoderBase(DictEncoder, metaclass=abc.ABCMeta):
+
+    def encode(self, value, t=None):
+        data = self.encode_dict(value, t)
+        return self._dict_to_str(data)
+
+    @abc.abstractmethod
+    def _dict_to_str(self, value):
+        pass
+
+
+class JsonEncoder(DictEncoderBase):
 
     def __init__(self, pretty=True):
         super().__init__()
         self._pretty = pretty
 
-    def _encode_dict(self, value):
+    def _dict_to_str(self, value):
         return json.dumps(value, indent=2 if self._pretty else None).encode()
 
 
-class YamlEncoder(DictEncoder):
+class YamlEncoder(DictEncoderBase):
 
-    def _encode_dict(self, value):
+    def _dict_to_str(self, value):
         return yaml.dump(value).encode()
