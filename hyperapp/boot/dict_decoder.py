@@ -145,6 +145,7 @@ class NamedPairsDictDecoder(DictDecoder):
             result.append(element_t(key, value))
         return tuple(result)
 
+
 class DictDecoderBase(DictDecoder, metaclass=abc.ABCMeta):
 
     def decode(self, t, value, path='root'):
