@@ -36,7 +36,6 @@ def test_import_error():
             assert re.match('.*' + expected, line)
 
 
-
 def test_run_error():
     try:
         _ = boot(Path(RESOURCES_ROOT / 'run_error/projects.yaml'), 'sample:main:main', ['a-param'])
