@@ -2,4 +2,25 @@ definitions:
   config:
     type: system/system.t:system_config
     value:
-      services: {}
+      services:
+        system/system:adapter_creg.service: adapter_creg.config
+        system/system:service_creg.service: service_creg.config
+        transport/registries:identity_creg.service: identity_creg.config
+
+  adapter_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        system/adapter.t:typed_dict_config_adapter: system/config:typed_dict_config_adapter.actor
+
+  service_creg.config:
+    type: system/system.t:data_item_list
+    value:
+      items:
+        transport/registries:identity_creg.service: transport/registries:identity_creg.actor
+
+  identity_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        transport/rsa_identity.t:rsa_identity: transport/rsa_identity:RsaIdentity.from_piece.actor

@@ -22,6 +22,8 @@ data_item_list = record:
   items: data_item list
 
 
+config_creg = record
+adapter_creg = record
 service_creg = record
 service_config_creg = record
 
@@ -31,6 +33,10 @@ service_param = record:
   service: ref
 
 actor = record:
+  fn: ref
+  service_params: service_param list
+
+service_actor = record:
   fn: ref
   adapters: ref list
   service_params: service_param list

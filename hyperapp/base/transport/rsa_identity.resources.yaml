@@ -1,0 +1,123 @@
+definitions:
+
+  rsa_identity.module:
+    type: builtin:type:python_module
+    value:
+      module_name: rsa_identity
+      file_name: rsa_identity.dyn.py
+      imports:
+        pyobj:
+          htypes.rsa_identity.rsa_identity: rsa_identity.t:rsa_identity
+          htypes.rsa_identity.rsa_parcel: rsa_identity.t:rsa_parcel
+          htypes.rsa_identity.rsa_peer: rsa_identity.t:rsa_peer
+          htypes.rsa_identity.rsa_signature: rsa_identity.t:rsa_signature
+          services.mosaic: builtin:service:mosaic
+        raw: {}
+
+  RsaIdentity:
+    type: builtin:type:attribute
+    value:
+      object: rsa_identity.module
+      attr_name: RsaIdentity
+
+  RsaIdentity.from_piece:
+    type: builtin:type:attribute
+    value:
+      object: RsaIdentity
+      attr_name: from_piece
+
+  RsaIdentity.from_piece.actor:
+    type: :system/system.t:actor
+    value:
+      fn: RsaIdentity.from_piece
+      service_params: {}
+
+  RsaIdentity.generate:
+    type: builtin:type:attribute
+    value:
+      object: RsaIdentity
+      attr_name: generate
+
+  # generate_rsa_identity.service:
+  #   type: legacy_type.system:service_template
+  #   value:
+  #     name: generate_rsa_identity
+  #     ctl: base.system.system:actor_dict.config_ctl
+  #     function: RsaIdentity.generate
+  #     free_params:
+  #     - fast
+  #     service_params: []
+  #     want_config: false
+
+  RsaPeer:
+    type: builtin:type:attribute
+    value:
+      object: rsa_identity.module
+      attr_name: RsaPeer
+
+  RsaPeer.from_piece:
+    type: builtin:type:attribute
+    value:
+      object: RsaPeer
+      attr_name: from_piece
+
+  # RsaPeer.from_piece.actor-template:
+  #   type: legacy_type.system:actor_template
+  #   value:
+  #     function: RsaPeer.from_piece
+  #     service_params: []
+
+  # peer_creg-rsa_identity-rsa_peer.actor-cfg-item:
+  #   type: legacy_type.cfg_item:typed_cfg_item
+  #   value:
+  #     t: rsa_identity.t:rsa_peer
+  #     value: RsaPeer.from_piece.actor-template
+
+  RsaSignature:
+    type: builtin:type:attribute
+    value:
+      object: rsa_identity.module
+      attr_name: RsaSignature
+
+  RsaSignature.from_piece:
+    type: builtin:type:attribute
+    value:
+      object: RsaSignature
+      attr_name: from_piece
+
+  # RsaSignature.from_piece.actor-template:
+  #   type: legacy_type.system:actor_template
+  #   value:
+  #     function: RsaSignature.from_piece
+  #     service_params: []
+
+  # signature_creg-rsa_identity-rsa_signature.actor-cfg-item:
+  #   type: legacy_type.cfg_item:typed_cfg_item
+  #   value:
+  #     t: rsa_identity.t:rsa_signature
+  #     value: RsaSignature.from_piece.actor-template
+
+  RsaParcel:
+    type: builtin:type:attribute
+    value:
+      object: rsa_identity.module
+      attr_name: RsaParcel
+
+  RsaParcel.from_piece:
+    type: builtin:type:attribute
+    value:
+      object: RsaParcel
+      attr_name: from_piece
+
+  # RsaParcel.from_piece.actor-template:
+  #   type: legacy_type.system:actor_template
+  #   value:
+  #     function: RsaParcel.from_piece
+  #     service_params:
+  #     - signature_creg
+
+  # parcel_creg-rsa_identity-rsa_parcel.actor-cfg-item:
+  #   type: legacy_type.cfg_item:typed_cfg_item
+  #   value:
+  #     t: rsa_identity.t:rsa_parcel
+  #     value: RsaParcel.from_piece.actor-template

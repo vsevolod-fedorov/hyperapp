@@ -28,8 +28,20 @@ definitions:
       attr_name: from_config_piece
 
   TypedDictConfig.from_config_piece.actor:
-    type: base:system/system.t:actor
+    type: system.t:service_actor
     value:
       fn: TypedDictConfig.from_config_piece
       adapters: []
+      service_params: {}
+
+  typed_dict_config_adapter:
+    type: builtin:type:attribute
+    value:
+      object: config.module
+      attr_name: typed_dict_config_adapter
+
+  typed_dict_config_adapter.actor:
+    type: system.t:actor
+    value:
+      fn: typed_dict_config_adapter
       service_params: {}

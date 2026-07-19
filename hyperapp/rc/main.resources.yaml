@@ -27,7 +27,7 @@ definitions:
     value: {}
 
   compile_resources.actor:
-    type: base:system/system.t:actor
+    type: base:system/system.t:service_actor
     value:
       fn: compile_resources
       adapters: []
@@ -51,9 +51,10 @@ definitions:
     value: {}
 
   main.actor:
-    type: base:system/system.t:actor
+    type: base:system/system.t:service_actor
     value:
       fn: main
       adapters: []
       service_params:
+        identity_creg: base:transport/registries:identity_creg.service
         compile_resources: compile_resources.service

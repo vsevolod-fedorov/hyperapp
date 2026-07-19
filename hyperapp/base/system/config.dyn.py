@@ -5,6 +5,26 @@ from .services import (
     )
 
 
+class TypedDictConfig:
+
+    @classmethod
+    def from_config_piece(cls, piece):
+        pass
+
+    def __init__(self):
+        pass
+
+    def from_piece_list(self, piece_list):
+        config = {}
+        for piece in piece_list:
+            assert isinstance(piece, htypes.system.typed_item_list)
+            for item in piece.items:
+                t = pyobj_creg.invite(item.t)
+                value = web.summon(item.value)
+                config[t] = value
+        return config
+
+
 class DataDictConfig:
 
     @classmethod
@@ -23,3 +43,7 @@ class DataDictConfig:
                 value = web.summon(item.value)
                 config[key] = value
         return config
+
+
+def typed_dict_config_adapter(piece, apiece):
+    assert 0

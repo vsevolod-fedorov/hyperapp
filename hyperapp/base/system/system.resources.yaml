@@ -1,5 +1,21 @@
 definitions:
 
+  config_creg.service:
+    type: system.t:config_creg
+    value: {}
+
+  adapter_creg.service:
+    type: system.t:adapter_creg
+    value: {}
+
+  service_creg.service:
+    type: system.t:service_creg
+    value: {}
+
+  service_config_creg.service:
+    type: system.t:service_config_creg
+    value: {}
+
   system.module:
     type: builtin:type:python_module
     value:
@@ -12,11 +28,3 @@ definitions:
           code.resolving_code_registry: resolving_code_registry:resolving_code_registry.module
           code.config: config:config.module
         raw: {}
-
-  service_creg.service:
-    type: system.t:service_creg
-    value: {}
-
-  service_config_creg.service:
-    type: system.t:service_config_creg
-    value: {}

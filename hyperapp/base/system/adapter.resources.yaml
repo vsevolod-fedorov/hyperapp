@@ -1,0 +1,5 @@
+definitions:
+
+  typed_dict_config_adapter:
+    type: adapter.t:typed_dict_config_adapter
+    value: {}
