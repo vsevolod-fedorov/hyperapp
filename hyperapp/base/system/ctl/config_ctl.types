@@ -1,3 +1,0 @@
-str_key_ctl = record
-data_key_ctl = record
-type_key_ctl = record

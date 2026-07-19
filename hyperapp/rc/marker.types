@@ -1,3 +1,0 @@
-marker_template = record:
-  function: ref
-  service_params: string list

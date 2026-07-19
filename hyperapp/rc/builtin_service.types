@@ -1,3 +1,0 @@
-builtin_service_req = record:
-  required_by_module_name: string
-  service_name: string

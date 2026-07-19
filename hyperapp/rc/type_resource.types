@@ -1,3 +1,0 @@
-type_req = record:
-  module_name: string
-  name: string

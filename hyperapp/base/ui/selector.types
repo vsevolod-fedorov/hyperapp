@@ -1,4 +1,0 @@
-template = record:
-  model_t: ref
-  open_action: ref
-  pick_action: ref

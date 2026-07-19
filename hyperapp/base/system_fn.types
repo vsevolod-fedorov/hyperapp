@@ -1,4 +1,0 @@
-ctx_fn = record:
-  function: ref
-  ctx_params: string list
-  service_params: string list

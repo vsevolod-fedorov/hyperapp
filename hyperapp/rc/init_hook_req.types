@@ -1,2 +1,0 @@
-init_hook_req = record:
-  var_name: string

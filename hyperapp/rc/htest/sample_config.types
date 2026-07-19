@@ -1,4 +1,0 @@
-sample_key = record
-
-sample_item = record:
-  value: int

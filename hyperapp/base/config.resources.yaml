@@ -1,17 +1,5 @@
-# Automatically generated file. Do not edit.
-
 definitions:
   config:
     type: system/system.t:system_config
     value:
-      services:
-        services: services.config
-  config_ctl_creg:
-    type: system/system.t:item_list_config
-    value:
-      items: []
-  services.config:
-    type: system/system.t:item_list_config
-    value:
-      items:
-      - base:system/file_bundle_config_layer:load_config_layers.service-cfg-item
+      services: {}

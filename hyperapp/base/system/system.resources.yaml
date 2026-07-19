@@ -7,40 +7,5 @@ definitions:
       file_name: system.dyn.py
       imports:
         pyobj:
-          htypes.system.dict_config_ctl: system.t:dict_config_ctl
-          services.cached_code_registry_ctr: builtin:service:cached_code_registry_ctr
-          services.code_registry_ctr: builtin:service:code_registry_ctr
           services.pyobj_creg: builtin:service:pyobj_creg
-          code.config_ctl: ctl/config_ctl:config_ctl.module
-          code.config_item_ctl: ctl/config_item_ctl:config_item_ctl.module
-          code.config_layer: config_layer:config_layer.module
-          code.services: services:services.module
-          code.actor_template: actor_template:actor_template.module
-          code.service_template: service_template:service_template.module
         raw: {}
-
-  actor.value_ctl:
-    type: system.t:actor_value_ctl
-    value: {}
-
-  data.value_ctl:
-    type: system.t:data_value_ctl
-    value: {}
-
-  single.struct_ctl:
-    type: system.t:single_struct_ctl
-    value: {}
-
-  actor_dict.config_ctl:
-    type: system.t:dict_config_ctl
-    value:
-      key_ctl: config_layer:one_way.key_ctl
-      value_ctl: actor.value_ctl
-      struct_ctl: single.struct_ctl
-
-  data_dict.config_ctl:
-    type: system.t:dict_config_ctl
-    value:
-      key_ctl: config_layer:one_way.key_ctl
-      value_ctl: data.value_ctl
-      struct_ctl: single.struct_ctl

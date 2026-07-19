@@ -1,2 +1,0 @@
-config = record:
-  message_size_limit: int
