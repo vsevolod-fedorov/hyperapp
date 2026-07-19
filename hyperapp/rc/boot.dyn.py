@@ -10,4 +10,4 @@ def main(args):
     print('rc config:', rc_config)
     service_creg = setup_system([base_config, rc_config])
     main = service_creg.animate(main_svc)
-    main()
+    main(args)

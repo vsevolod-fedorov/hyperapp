@@ -1,3 +1,3 @@
 
-def main():
-    print('rc main service')
+def main(args):
+    print('rc main service:', args)
