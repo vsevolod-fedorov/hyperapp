@@ -7,7 +7,7 @@ from .code.resolving_code_registry import (
     AdapterCodeRegistry,
     ServiceCodeRegistry,
     )
-from .code.config import DataDictConfig
+from .code.config import TypedDictConfig, DataDictConfig
 
 
 def setup_system(config_piece_list):
@@ -21,7 +21,9 @@ def setup_system(config_piece_list):
 
     config_creg = ResolvingCodeRegistry('config_creg', {})
     service_config_creg = ResolvingCodeRegistry('service_config_creg', {})
-    adapter_creg = AdapterCodeRegistry('adapter_creg', {})
+    adapter_creg_config = TypedDictConfig().from_piece_list(
+        service_to_config_pieces[htypes.adapter_creg()])
+    adapter_creg = AdapterCodeRegistry('adapter_creg', adapter_creg_config)
     service_creg_config = DataDictConfig().from_piece_list(
         service_to_config_pieces[htypes.service_creg()])
     print("service_creg_config:", service_creg_config)

@@ -4,6 +4,7 @@ from hyperapp.boot.config_key_error import ConfigKeyError
 from hyperapp.boot.code_registry import CodeRegistry
 from hyperapp.boot.cached_code_registry import CachedCodeRegistry
 
+from . import htypes
 from .services import (
   mosaic,
   pyobj_creg,
@@ -20,11 +21,27 @@ class ResolvingCodeRegistry(CachedCodeRegistry):
 class AdapterCodeRegistry(CodeRegistry):
 
     def __init__(self, service_name, config):
-        super().__init__(pyobj_creg, web, service_name, config)
+        super().__init__(pyobj_creg, web, service_name, {})
         self._service_creg = None
+        self._unresolved_config = config
 
     def set_service_creg(self, service_creg):
         self._service_creg = service_creg
+
+    def _resolve(self, t):
+        try:
+            return super()._resolve(t)
+        except KeyError:
+            pass
+        actor = self._unresolved_config[t]
+        service_params = {
+            rec.name: self._service_creg.invite(rec.service)
+            for rec in actor.service_params
+            }
+        fn = pyobj_creg.invite(actor.fn)
+        if service_params:
+            fn = partial(fn, **service_params)
+        return fn
 
 
 class ServiceCodeRegistry:
@@ -33,13 +50,18 @@ class ServiceCodeRegistry:
         self._config = config
         self._adapter_creg = adapter_creg
 
+    def invite(self, ref):
+        assert isinstance(ref, htypes.builtin.ref), repr(ref)
+        value = web.summon(ref)
+        return self.animate(value)
+
     def animate(self, piece):
         try:
             actor = self._config[piece]
         except KeyError:
             raise ConfigKeyError('service_creg', piece)
         service_params = {
-            rec.name: self._resolve_service(rec.service)
+            rec.name: self.invite(rec.service)
             for rec in actor.service_params
             }
         fn = pyobj_creg.invite(actor.fn)
@@ -48,7 +70,3 @@ class ServiceCodeRegistry:
         for adapter_ref in actor.adapters:
             fn = self._adapter_creg.invite(adapter_ref, piece)
         return fn
-
-    def _resolve_service(self, service_ref):
-        service_r = web.summon(service_ref)
-        return self.animate(service_r)
