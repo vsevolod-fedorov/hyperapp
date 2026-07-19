@@ -44,4 +44,5 @@ definitions:
     type: system.t:actor
     value:
       fn: typed_dict_config_adapter
-      service_params: {}
+      service_params:
+        service_config_creg: system:service_config_creg.service

@@ -29,3 +29,16 @@ definitions:
           code.resolving_code_registry: resolving_code_registry:resolving_code_registry.module
           code.config: config:config.module
         raw: {}
+
+  service_config_creg:
+    type: builtin:type:attribute
+    value:
+      object: system.module
+      attr_name: service_config_creg
+
+  service_config_creg.actor:
+    type: system.t:service_actor
+    value:
+      fn: service_config_creg
+      adapters: []
+      service_params: {}

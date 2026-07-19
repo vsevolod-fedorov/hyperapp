@@ -32,3 +32,7 @@ def setup_system(config_piece_list):
     # service_creg_r = htypes.service_creg()
     # print("service_creg_r:", service_creg_r)
     return service_creg
+
+
+def service_config_creg():
+    assert 0

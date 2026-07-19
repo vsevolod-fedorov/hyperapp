@@ -45,5 +45,5 @@ class DataDictConfig:
         return config
 
 
-def typed_dict_config_adapter(piece, apiece):
-    assert 0
+def typed_dict_config_adapter(piece, apiece, fn, service_config_creg):
+    assert 0, (piece, apiece, fn, service_config_creg)

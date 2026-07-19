@@ -18,6 +18,7 @@ definitions:
     value:
       items:
         transport/registries:identity_creg.service: transport/registries:identity_creg.actor
+        system/system:service_config_creg.service: system/system:service_config_creg.actor
 
   identity_creg.config:
     type: system/system.t:typed_item_list

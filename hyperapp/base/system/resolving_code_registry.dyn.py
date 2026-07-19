@@ -68,5 +68,5 @@ class ServiceCodeRegistry:
         if service_params:
             fn = partial(fn, **service_params)
         for adapter_ref in actor.adapters:
-            fn = self._adapter_creg.invite(adapter_ref, piece)
+            fn = self._adapter_creg.invite(adapter_ref, piece, fn)
         return fn

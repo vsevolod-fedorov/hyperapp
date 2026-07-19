@@ -41,6 +41,8 @@ class CodeRegistry:
     def _animate(self, t, piece, args, kw):
         try:
             fn = self._resolve(t)
+        except ConfigKeyError:
+            raise
         except KeyError:
             raise ConfigKeyError(self._service_name, t)
         _log.debug('Producing %s actor for %s of type %s using %s(%s, %s)',
