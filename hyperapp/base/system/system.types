@@ -1,6 +1,36 @@
 service_config = record:
-  service: string
+  service: ref
   config: ref
 
 system_config = record:
   services: service_config list
+
+
+typed_item = record:
+  t: ref
+  value: ref
+
+typed_item_list = record:
+  items: typed_item list
+
+
+data_item = record:
+  key: ref
+  value: ref
+
+data_item_list = record:
+  items: data_item list
+
+
+service_creg = record
+service_config_creg = record
+
+
+service_param = record:
+  name: string
+  service: ref
+
+actor = record:
+  fn: ref
+  adapters: ref list
+  service_params: service_param list

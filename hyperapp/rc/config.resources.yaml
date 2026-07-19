@@ -3,4 +3,18 @@ definitions:
   config:
     type: base:system/system.t:system_config
     value:
-      services: {}
+      services:
+        base:system/system:service_config_creg.service: service_config_creg.config
+        base:system/system:service_creg.service: service_creg.config
+
+  service_config_creg.config:
+    type: base:system/system.t:data_item_list
+    value:
+      items:
+        main:main.service: base:system/config:TypedDictConfig.from_config_piece.actor
+
+  service_creg.config:
+    type: base:system/system.t:data_item_list
+    value:
+      items:
+        main:main.service: main:main.actor

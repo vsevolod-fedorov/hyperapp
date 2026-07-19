@@ -7,5 +7,16 @@ definitions:
       file_name: system.dyn.py
       imports:
         pyobj:
-          services.pyobj_creg: builtin:service:pyobj_creg
+          htypes.service_creg: system.t:service_creg
+          services.web: builtin:service:web
+          code.resolving_code_registry: resolving_code_registry:resolving_code_registry.module
+          code.config: config:config.module
         raw: {}
+
+  service_creg.service:
+    type: system.t:service_creg
+    value: {}
+
+  service_config_creg.service:
+    type: system.t:service_config_creg
+    value: {}

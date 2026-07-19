@@ -1,0 +1,34 @@
+definitions:
+
+  main.module:
+    type: builtin:type:python_module
+    value:
+      module_name: main
+      file_name: main.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  main:
+    type: builtin:type:attribute
+    value:
+      object: main.module
+      attr_name: main
+
+  main.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: main
+      base: null
+      fields: {}
+
+  main.service:
+    type: main.service.t
+    value: {}
+
+  main.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: main
+      adapters: []
+      service_params: {}

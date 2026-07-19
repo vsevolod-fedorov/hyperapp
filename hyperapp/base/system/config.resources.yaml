@@ -1,0 +1,35 @@
+definitions:
+
+  config.module:
+    type: builtin:type:python_module
+    value:
+      module_name: config
+      file_name: config.dyn.py
+      imports:
+        pyobj:
+          htypes.system.typed_item: system.t:typed_item
+          htypes.system.typed_item_list: system.t:typed_item_list
+          htypes.system.data_item: system.t:data_item
+          htypes.system.data_item_list: system.t:data_item_list
+          services.pyobj_creg: builtin:service:pyobj_creg
+          services.web: builtin:service:web
+        raw: {}
+
+  TypedDictConfig:
+    type: builtin:type:attribute
+    value:
+      object: config.module
+      attr_name: TypedDictConfig
+
+  TypedDictConfig.from_config_piece:
+    type: builtin:type:attribute
+    value:
+      object: TypedDictConfig
+      attr_name: from_config_piece
+
+  TypedDictConfig.from_config_piece.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: TypedDictConfig.from_config_piece
+      adapters: []
+      service_params: {}
