@@ -9,6 +9,30 @@ definitions:
         pyobj: {}
         raw: {}
 
+  compile_resources:
+    type: builtin:type:attribute
+    value:
+      object: main.module
+      attr_name: compile_resources
+
+  compile_resources.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: compile_resources
+      base: null
+      fields: {}
+
+  compile_resources.service:
+    type: compile_resources.service.t
+    value: {}
+
+  compile_resources.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: compile_resources
+      adapters: []
+      service_params: {}
+
   main:
     type: builtin:type:attribute
     value:
@@ -31,4 +55,5 @@ definitions:
     value:
       fn: main
       adapters: []
-      service_params: {}
+      service_params:
+        compile_resources: compile_resources.service

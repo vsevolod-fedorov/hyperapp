@@ -1,3 +1,5 @@
+from functools import partial
+
 from hyperapp.boot.config_key_error import ConfigKeyError
 from hyperapp.boot.cached_code_registry import CachedCodeRegistry
 
@@ -35,5 +37,13 @@ class ServiceCodeRegistry:
             actor = self._config[piece]
         except KeyError:
             raise ConfigKeyError('service_creg', piece)
+        service_params = {
+            rec.name: self._resolve_service(rec.service)
+            for rec in actor.service_params
+            }
         fn = pyobj_creg.invite(actor.fn)
-        return fn
+        return partial(fn, **service_params)
+
+    def _resolve_service(self, service_ref):
+        service_r = web.summon(service_ref)
+        return self.animate(service_r)

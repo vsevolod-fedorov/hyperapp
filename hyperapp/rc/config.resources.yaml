@@ -10,11 +10,11 @@ definitions:
   service_config_creg.config:
     type: base:system/system.t:data_item_list
     value:
-      items:
-        main:main.service: base:system/config:TypedDictConfig.from_config_piece.actor
+      items: {}
 
   service_creg.config:
     type: base:system/system.t:data_item_list
     value:
       items:
+        main:compile_resources.service: main:compile_resources.actor
         main:main.service: main:main.actor
