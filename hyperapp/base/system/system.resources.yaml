@@ -36,7 +36,7 @@ definitions:
       object: system.module
       attr_name: service_config_creg
 
-  service_config_creg.actor:
+  service_config_creg.service-actor:
     type: system.t:service_actor
     value:
       fn: service_config_creg

@@ -28,7 +28,7 @@ definitions:
     type: identity_creg.service.t
     value: {}
 
-  identity_creg.actor:
+  identity_creg.service-actor:
     type: :system/system.t:service_actor
     value:
       fn: identity_creg

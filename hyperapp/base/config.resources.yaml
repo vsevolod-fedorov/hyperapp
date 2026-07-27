@@ -18,8 +18,8 @@ definitions:
     type: system/system.t:data_item_list
     value:
       items:
-        transport/registries:identity_creg.service: transport/registries:identity_creg.actor
-        system/system:service_config_creg.service: system/system:service_config_creg.actor
+        transport/registries:identity_creg.service: transport/registries:identity_creg.service-actor
+        system/system:service_config_creg.service: system/system:service_config_creg.service-actor
 
   identity_creg.config:
     type: system/system.t:typed_item_list
