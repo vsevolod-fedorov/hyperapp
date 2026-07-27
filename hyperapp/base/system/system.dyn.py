@@ -35,4 +35,4 @@ def setup_system(config_piece_list):
 
 
 def service_config_creg():
-    assert 0
+    return ResolvingCodeRegistry('service_config_creg', {})

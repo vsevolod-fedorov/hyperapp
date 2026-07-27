@@ -4,6 +4,10 @@ definitions:
     type: adapter.t:typed_dict_config_adapter
     value: {}
 
+  service_object.adapter:
+    type: adapter.t:service_object_adapter
+    value: {}
+
   adapter.module:
     type: builtin:type:python_module
     value:
@@ -25,3 +29,15 @@ definitions:
       fn: typed_dict_config_adapter
       service_params:
         service_config_creg: system:service_config_creg.service
+
+  service_object_adapter:
+    type: builtin:type:attribute
+    value:
+      object: adapter.module
+      attr_name: service_object_adapter
+
+  service_object_adapter.actor:
+    type: system.t:actor
+    value:
+      fn: service_object_adapter
+      service_params: {}
