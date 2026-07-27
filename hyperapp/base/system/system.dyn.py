@@ -21,10 +21,10 @@ def setup_system(config_piece_list):
 
     config_creg = ResolvingCodeRegistry('config_creg', {})
     service_config_creg = ResolvingCodeRegistry('service_config_creg', {})
-    adapter_creg_config = TypedDictConfig().from_piece_list(
+    adapter_creg_config = TypedDictConfig().piece_list_to_config(
         service_to_config_pieces[htypes.adapter_creg()])
     adapter_creg = AdapterCodeRegistry('adapter_creg', adapter_creg_config)
-    service_creg_config = DataDictConfig().from_piece_list(
+    service_creg_config = DataDictConfig().piece_list_to_config(
         service_to_config_pieces[htypes.service_creg()])
     print("service_creg_config:", service_creg_config)
     service_creg = ServiceCodeRegistry(adapter_creg, service_creg_config)

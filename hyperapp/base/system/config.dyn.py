@@ -14,7 +14,7 @@ class TypedDictConfig:
     def __init__(self):
         pass
 
-    def from_piece_list(self, piece_list):
+    def piece_list_to_config(self, piece_list):
         config = {}
         for piece in piece_list:
             assert isinstance(piece, htypes.system.typed_item_list)
@@ -34,7 +34,7 @@ class DataDictConfig:
     def __init__(self):
         pass
 
-    def from_piece_list(self, piece_list):
+    def piece_list_to_config(self, piece_list):
         config = {}
         for piece in piece_list:
             assert isinstance(piece, htypes.system.data_item_list)
