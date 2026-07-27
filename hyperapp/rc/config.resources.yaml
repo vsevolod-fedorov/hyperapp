@@ -8,7 +8,7 @@ definitions:
         base:system/system:service_creg.service: service_creg.config
 
   service_config_creg.config:
-    type: base:system/system.t:data_item_list
+    type: base:system/system.t:typed_item_list
     value:
       items: {}
 

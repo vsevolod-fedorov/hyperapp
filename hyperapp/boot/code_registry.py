@@ -16,7 +16,7 @@ class CodeRegistry:
         self._service_name = service_name
         self._config = config  # t -> fn
 
-    def update_config(self, config):
+    def update_resolved_config(self, config):
         self._config.update(config)
 
     def invite(self, ref, *args, **kw):

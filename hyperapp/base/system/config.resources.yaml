@@ -33,3 +33,16 @@ definitions:
       fn: TypedDictConfig.from_config_piece
       adapters: []
       service_params: {}
+
+  TypedDictConfig.from_service_piece:
+    type: builtin:type:attribute
+    value:
+      object: TypedDictConfig
+      attr_name: from_service_piece
+
+  TypedDictConfig.from_service_piece.actor:
+    type: system.t:service_actor
+    value:
+      fn: TypedDictConfig.from_service_piece
+      adapters: []
+      service_params: {}

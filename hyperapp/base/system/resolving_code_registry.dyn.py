@@ -12,25 +12,54 @@ from .services import (
   )
 
 
-class ResolvingCodeRegistry(CachedCodeRegistry):
+class ResolvingCodeRegistry(CodeRegistry):
 
-    def __init__(self, service_name, config):
-        super().__init__(mosaic, pyobj_creg, web, service_name, config)
-
-
-class AdapterCodeRegistry(CodeRegistry):
-
-    def __init__(self, service_name, config):
+    def __init__(self, service_name, config=None):
         super().__init__(pyobj_creg, web, service_name, {})
+        self._unresolved_config = config or {}
+
+    def update_config(self, config):
+        self._unresolved_config.update(config)
+
+    def _resolve(self, t):
+        try:
+            return super()._resolve(t)
+        except KeyError:
+            pass
+        actor = self._unresolved_config[t]
+        return pyobj_creg.invite(actor.fn)
+
+
+class CachedResolvingCodeRegistry(CachedCodeRegistry):
+
+    def __init__(self, service_name, config=None):
+        super().__init__(mosaic, pyobj_creg, web, service_name, {})
+        self._unresolved_config = config or {}
+
+    def update_config(self, config):
+        self._unresolved_config.update(config)
+
+    def _resolve(self, t):
+        try:
+            return super()._resolve(t)
+        except KeyError:
+            pass
+        actor = self._unresolved_config[t]
+        return pyobj_creg.invite(actor.fn)
+
+
+class AdapterCodeRegistry(ResolvingCodeRegistry):
+
+    def __init__(self, service_name, config):
+        super().__init__(service_name, config)
         self._service_creg = None
-        self._unresolved_config = config
 
     def set_service_creg(self, service_creg):
         self._service_creg = service_creg
 
     def _resolve(self, t):
         try:
-            return super()._resolve(t)
+            return CodeRegistry._resolve(self, t)
         except KeyError:
             pass
         actor = self._unresolved_config[t]
@@ -49,6 +78,7 @@ class ServiceCodeRegistry:
     def __init__(self, adapter_creg, config):
         self._config = config
         self._adapter_creg = adapter_creg
+        self._cache = {}  # piece -> actor
 
     def invite(self, ref):
         assert isinstance(ref, htypes.builtin.ref), repr(ref)
@@ -56,6 +86,10 @@ class ServiceCodeRegistry:
         return self.animate(value)
 
     def animate(self, piece):
+        try:
+            return self._cache[piece]
+        except KeyError:
+            pass
         try:
             actor = self._config[piece]
         except KeyError:
@@ -69,4 +103,5 @@ class ServiceCodeRegistry:
             fn = partial(fn, **service_params)
         for adapter_ref in actor.adapters:
             fn = self._adapter_creg.invite(adapter_ref, piece, fn)
+        self._cache[piece] = fn
         return fn

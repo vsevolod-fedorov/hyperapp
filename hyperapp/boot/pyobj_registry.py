@@ -31,4 +31,4 @@ class PyObjRegistry(CachedCodeRegistry):
             raise
 
     def register_actor(self, t, factory, **kw):
-        self.update_config({t: partial(factory, **kw)})
+        self.update_resolved_config({t: partial(factory, **kw)})

@@ -28,7 +28,8 @@ definitions:
           services.web: builtin:service:web
           code.resolving_code_registry: resolving_code_registry:resolving_code_registry.module
           code.config: config:config.module
-        raw: {}
+        raw:
+          data.system.service.service_config_creg: service_config_creg.service
 
   service_config_creg:
     type: builtin:type:attribute

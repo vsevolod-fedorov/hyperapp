@@ -5,6 +5,7 @@ definitions:
       services:
         system/system:adapter_creg.service: adapter_creg.config
         system/system:service_creg.service: service_creg.config
+        system/system:service_config_creg.service: service_config_creg.config
         transport/registries:identity_creg.service: identity_creg.config
 
   adapter_creg.config:
@@ -18,8 +19,14 @@ definitions:
     type: system/system.t:data_item_list
     value:
       items:
-        transport/registries:identity_creg.service: transport/registries:identity_creg.service-actor
         system/system:service_config_creg.service: system/system:service_config_creg.service-actor
+        transport/registries:identity_creg.service: transport/registries:identity_creg.service-actor
+
+  service_config_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        transport/registries:identity_creg.service.t: system/config:TypedDictConfig.from_service_piece.actor
 
   identity_creg.config:
     type: system/system.t:typed_item_list
