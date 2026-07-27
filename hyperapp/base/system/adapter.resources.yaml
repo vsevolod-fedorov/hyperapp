@@ -1,5 +1,27 @@
 definitions:
 
-  typed_dict_config_adapter:
+  typed_dict_config.adapter:
     type: adapter.t:typed_dict_config_adapter
     value: {}
+
+  adapter.module:
+    type: builtin:type:python_module
+    value:
+      module_name: adapter
+      file_name: adapter.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  typed_dict_config_adapter:
+    type: builtin:type:attribute
+    value:
+      object: adapter.module
+      attr_name: typed_dict_config_adapter
+
+  typed_dict_config_adapter.actor:
+    type: system.t:actor
+    value:
+      fn: typed_dict_config_adapter
+      service_params:
+        service_config_creg: system:service_config_creg.service

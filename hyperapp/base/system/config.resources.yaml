@@ -33,16 +33,3 @@ definitions:
       fn: TypedDictConfig.from_config_piece
       adapters: []
       service_params: {}
-
-  typed_dict_config_adapter:
-    type: builtin:type:attribute
-    value:
-      object: config.module
-      attr_name: typed_dict_config_adapter
-
-  typed_dict_config_adapter.actor:
-    type: system.t:actor
-    value:
-      fn: typed_dict_config_adapter
-      service_params:
-        service_config_creg: system:service_config_creg.service
