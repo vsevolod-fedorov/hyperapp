@@ -13,8 +13,8 @@ definitions:
       items: {}
 
   service_creg.config:
-    type: base:system/system.t:data_item_list
+    type: base:system/system.t:typed_item_list
     value:
       items:
-        main:compile_resources.service: main:compile_resources.actor
-        main:main.service: main:main.actor
+        main:compile_resources.service.t: main:compile_resources.actor
+        main:main.service.t: main:main.actor

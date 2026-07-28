@@ -40,19 +40,19 @@ class CodeRegistry:
 
     def _animate(self, t, piece, args, kw):
         try:
-            fn = self._resolve(t)
+            fn = self._resolve(t, piece)
         except ConfigKeyError:
             raise
         except KeyError:
             raise ConfigKeyError(self._service_name, t)
         _log.debug('Producing %s actor for %s of type %s using %s(%s, %s)',
                    self._service_name, piece, t, fn, args, kw)
-        result = self._call(fn, piece, args, kw)
+        result = self._post_process(fn, piece, args, kw)
         _log.debug('Animated %s actor: %s to %s', self._service_name, piece, str(result))
         return result
 
-    def _resolve(self, t):
+    def _resolve(self, t, piece):
         return self._config[t]
 
-    def _call(self, fn, piece, args, kw):
+    def _post_process(self, fn, piece, args, kw):
         return fn(piece, *args, **kw)

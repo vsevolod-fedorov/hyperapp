@@ -16,11 +16,11 @@ definitions:
         system/adapter.t:service_object_adapter: system/adapter:service_object_adapter.actor
 
   service_creg.config:
-    type: system/system.t:data_item_list
+    type: system/system.t:typed_item_list
     value:
       items:
-        system/system:service_config_creg.service: system/system:service_config_creg.service-actor
-        transport/registries:identity_creg.service: transport/registries:identity_creg.service-actor
+        system/system.t:service_config_creg: system/system:service_config_creg.service-actor
+        transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
 
   service_config_creg.config:
     type: system/system.t:typed_item_list

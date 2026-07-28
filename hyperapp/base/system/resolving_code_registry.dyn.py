@@ -21,13 +21,16 @@ class ResolvingCodeRegistry(CodeRegistry):
     def update_config(self, config):
         self._unresolved_config.update(config)
 
-    def _resolve(self, t):
+    def _resolve_actor(self, piece, actor):
+        return pyobj_creg.invite(actor.fn)
+
+    def _resolve(self, t, piece):
         try:
-            return super()._resolve(t)
+            return super()._resolve(t, piece)
         except KeyError:
             pass
         actor = self._unresolved_config[t]
-        return pyobj_creg.invite(actor.fn)
+        return self._resolve_actor(piece, actor)
 
 
 class CachedResolvingCodeRegistry(CachedCodeRegistry):
@@ -39,13 +42,16 @@ class CachedResolvingCodeRegistry(CachedCodeRegistry):
     def update_config(self, config):
         self._unresolved_config.update(config)
 
-    def _resolve(self, t):
+    def _resolve_actor(self, piece, actor):
+        return pyobj_creg.invite(actor.fn)
+
+    def _resolve(self, t, piece):
         try:
-            return super()._resolve(t)
+            return super()._resolve(t, piece)
         except KeyError:
             pass
         actor = self._unresolved_config[t]
-        return pyobj_creg.invite(actor.fn)
+        return self._resolve_actor(piece, actor)
 
 
 class AdapterCodeRegistry(ResolvingCodeRegistry):
@@ -57,9 +63,9 @@ class AdapterCodeRegistry(ResolvingCodeRegistry):
     def set_service_creg(self, service_creg):
         self._service_creg = service_creg
 
-    def _resolve(self, t):
+    def _resolve(self, t, piece):
         try:
-            return CodeRegistry._resolve(self, t)
+            return CodeRegistry._resolve(self, t, piece)
         except KeyError:
             pass
         actor = self._unresolved_config[t]
@@ -73,35 +79,24 @@ class AdapterCodeRegistry(ResolvingCodeRegistry):
         return fn
 
 
-class ServiceCodeRegistry:
+class ServiceCodeRegistry(CachedResolvingCodeRegistry):
 
     def __init__(self, adapter_creg, config):
-        self._config = config
+        super().__init__('service_creg', config)
         self._adapter_creg = adapter_creg
-        self._cache = {}  # piece -> actor
 
-    def invite(self, ref):
-        assert isinstance(ref, htypes.builtin.ref), repr(ref)
-        value = web.summon(ref)
-        return self.animate(value)
-
-    def animate(self, piece):
-        try:
-            return self._cache[piece]
-        except KeyError:
-            pass
-        try:
-            actor = self._config[piece]
-        except KeyError:
-            raise ConfigKeyError('service_creg', piece)
+    def _resolve_actor(self, piece, actor):
+        fn = super()._resolve_actor(piece, actor)
         service_params = {
             rec.name: self.invite(rec.service)
             for rec in actor.service_params
             }
-        fn = pyobj_creg.invite(actor.fn)
         if service_params:
             fn = partial(fn, **service_params)
         for adapter_ref in actor.adapters:
             fn = self._adapter_creg.invite(adapter_ref, piece, fn)
-        self._cache[piece] = fn
+        return fn  # After adapter calls it may be object.
+
+    def _post_process(self, fn, piece, args, kw):
+        assert not args and not kw
         return fn
