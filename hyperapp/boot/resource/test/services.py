@@ -26,8 +26,29 @@ def builtin_name_to_type():
 
 
 @pytest.fixture
-def builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg):
-    return make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg)
+def type_to_resource_type():
+    return make_type_to_resource_type()
+
+
+@pytest.fixture
+def builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        association_reg,
+        type_to_resource_type,
+        ):
+    return make_builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        association_reg,
+        type_to_resource_type,
+        )
 
 
 @pytest.fixture
@@ -43,11 +64,6 @@ def init(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_
 @pytest.fixture
 def resource_type_factory(mosaic, web, pyobj_creg, init):
     return partial(ResourceType, mosaic, web, pyobj_creg)
-
-
-@pytest.fixture
-def type_to_resource_type():
-    return make_type_to_resource_type()
 
 
 @pytest.fixture

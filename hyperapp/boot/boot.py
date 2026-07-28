@@ -74,6 +74,7 @@ def boot(projects_path, main_path, args):
         **make_builtin_name_to_type(),
         **make_meta_type_name_to_type(),
         }
+    type_to_resource_type = make_type_to_resource_type()
     builtin_name_to_service = make_builtin_name_to_service(
         reconstructors,
         pyobj_creg,
@@ -81,6 +82,7 @@ def boot(projects_path, main_path, args):
         web,
         source_path,
         association_reg,
+        type_to_resource_type,
         )
     python_importer = PythonImporter()
     init_services(
@@ -93,7 +95,6 @@ def boot(projects_path, main_path, args):
         builtin_name_to_service,
         )
     resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
-    type_to_resource_type = make_type_to_resource_type()
     resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
 
     resources = load_projects_resources(
