@@ -1,12 +1,16 @@
+import codecs
 import logging
 import multiprocessing
+import os
 import sys
+import tempfile
 from contextlib import contextmanager
 from pathlib import Path
 
+from hyperapp.boot.ref import hash_sha512
 from hyperapp.boot.htypes.packet_coders import packet_coders
 
-from . import data
+from .data.subprocess import subprocess_mp_main
 
 log = logging.getLogger(__name__)
 
@@ -21,21 +25,41 @@ class _Subprocess:
         self.sent_refs = sent_refs
 
 
+def _cache_dir():
+    runtime_dir = (
+        os.environ.get('XDG_RUNTIME_DIR')
+        or tempfile.gettempdir()
+        )
+    dir = Path(runtime_dir) / 'hyperapp/subprocess'
+    dir.mkdir(parents=True, exist_ok=True)
+    return dir
+
+
+def _prepare_mp_main(dir):
+    data = subprocess_mp_main.data
+    hash = hash_sha512(data)
+    suffix = codecs.encode(hash[:4], 'hex').decode()
+    path = dir / f'subprocess_mp_main_{suffix}.py'
+    if not path.exists():
+        path.write_bytes(data)
+    return path
+
+
 # def subprocess_running(bundler):
 def subprocess_running():
 
     @contextmanager
     def _subprocess_running(name, main_fn_ref):
-        # TODO: Move subprocess_mp_main.py to data resource.
-        source_dir = Path.cwd() / 'hyperapp/base/subprocess'
-        subprocess_mp_main = source_dir / 'subprocess_mp_main.py'
-        sys.path.append(str(source_dir))
-        module = __import__('subprocess_mp_main', level=0)
+        dir = _cache_dir()
+        mp_main_path = _prepare_mp_main(dir)
+        sys.path.append(str(dir))
+        module = __import__(mp_main_path.stem, level=0)
         subprocess_main = module.subprocess_main
 
-        refs_and_bundle = bundler([main_fn_ref])
-        bundle_cdr = packet_coders.encode('cdr', refs_and_bundle.bundle)
-        log.info("Subprocess %s: Packed main function. Bundle size: %.2f KB", name, len(bundle_cdr)/1024)
+        # refs_and_bundle = bundler([main_fn_ref])
+        # bundle_cdr = packet_coders.encode('cdr', refs_and_bundle.bundle)
+        # log.info("Subprocess %s: Packed main function. Bundle size: %.2f KB", name, len(bundle_cdr)/1024)
+        bundle_cdr = None
 
         parent_connection, child_connection = _mp_context.Pipe()
         subprocess_args = [name, child_connection, bundle_cdr]
@@ -43,7 +67,8 @@ def subprocess_running():
         process.start()
 
         try:
-            yield _Subprocess(parent_connection, refs_and_bundle.ref_set)
+            # yield _Subprocess(parent_connection, refs_and_bundle.ref_set)
+            yield _Subprocess(parent_connection, None)
         finally:
             parent_connection.close()  # Signal child to stop.
             log.info("Joining process %s...", name)

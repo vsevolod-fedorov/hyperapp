@@ -4,10 +4,9 @@ import traceback
 import threading
 from contextlib import contextmanager
 
-from hyperapp.boot.htypes import bundle_t
-from hyperapp.boot import cdr_coders  # self-registering
+# from hyperapp.boot.htypes import bundle_t
 from hyperapp.boot.htypes.packet_coders import packet_coders
-from hyperapp.boot.services import HYPERAPP_DIR, Services
+# from hyperapp.boot.services import HYPERAPP_DIR, Services
 
 log = logging.getLogger(__name__)
 
@@ -30,6 +29,8 @@ def logging_inited(process_name):
 
 
 def subprocess_main(process_name, connection, main_fn_bundle_cdr):
+    print("In subprocess:", process_name)
+    return
     with logging_inited(process_name):
         try:
             subprocess_main_safe(connection, main_fn_bundle_cdr)
