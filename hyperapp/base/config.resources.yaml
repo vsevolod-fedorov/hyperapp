@@ -26,7 +26,7 @@ definitions:
     type: system/system.t:typed_item_list
     value:
       items:
-        transport/registries:identity_creg.service.t: system/config:TypedDictConfig.from_service_piece.actor
+        transport/registries:identity_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
 
   identity_creg.config:
     type: system/system.t:typed_item_list

@@ -23,12 +23,12 @@ definitions:
       file_name: system.dyn.py
       imports:
         pyobj:
-          htypes.adapter_creg: system.t:adapter_creg
-          htypes.service_creg: system.t:service_creg
           services.web: builtin:service:web
           code.resolving_code_registry: resolving_code_registry:resolving_code_registry.module
           code.config: config:config.module
         raw:
+          data.system.service.adapter_creg: adapter_creg.service
+          data.system.service.service_creg: service_creg.service
           data.system.service.service_config_creg: service_config_creg.service
 
   service_config_creg:

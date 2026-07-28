@@ -15,34 +15,34 @@ definitions:
           services.web: builtin:service:web
         raw: {}
 
-  TypedDictConfig:
+  TypedDictConfigCtl:
     type: builtin:type:attribute
     value:
       object: config.module
-      attr_name: TypedDictConfig
+      attr_name: TypedDictConfigCtl
 
-  TypedDictConfig.from_config_piece:
+  TypedDictConfigCtl.from_config_piece:
     type: builtin:type:attribute
     value:
-      object: TypedDictConfig
+      object: TypedDictConfigCtl
       attr_name: from_config_piece
 
-  TypedDictConfig.from_config_piece.actor:
+  TypedDictConfigCtl.from_config_piece.actor:
     type: system.t:service_actor
     value:
-      fn: TypedDictConfig.from_config_piece
+      fn: TypedDictConfigCtl.from_config_piece
       adapters: []
       service_params: {}
 
-  TypedDictConfig.from_service_piece:
+  TypedDictConfigCtl.from_service_piece:
     type: builtin:type:attribute
     value:
-      object: TypedDictConfig
+      object: TypedDictConfigCtl
       attr_name: from_service_piece
 
-  TypedDictConfig.from_service_piece.actor:
+  TypedDictConfigCtl.from_service_piece.actor:
     type: system.t:service_actor
     value:
-      fn: TypedDictConfig.from_service_piece
+      fn: TypedDictConfigCtl.from_service_piece
       adapters: []
       service_params: {}

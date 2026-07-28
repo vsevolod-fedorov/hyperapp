@@ -5,7 +5,14 @@ from .services import (
     )
 
 
-class TypedDictConfig:
+class ConfigRec:
+
+    def __init__(self, ctl):
+        self.ctl = ctl
+        self.config = {}
+
+
+class TypedDictConfigCtl:
 
     @classmethod
     def from_config_piece(cls, piece):
@@ -13,7 +20,8 @@ class TypedDictConfig:
 
     @classmethod
     def from_service_piece(cls, piece):
-        assert 0, piece
+        # Expected to be hashable by CachedCodeRegistry.
+        return ConfigRec(cls())
 
     def __init__(self):
         pass
@@ -29,7 +37,7 @@ class TypedDictConfig:
         return config
 
 
-class DataDictConfig:
+class DataDictConfigCtl:
 
     @classmethod
     def from_config_piece(cls, piece):

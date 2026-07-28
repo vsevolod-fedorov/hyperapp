@@ -1,4 +1,3 @@
-from . import htypes
 from .services import (
     web,
     )
@@ -8,7 +7,7 @@ from .code.resolving_code_registry import (
     AdapterCodeRegistry,
     ServiceCodeRegistry,
     )
-from .code.config import TypedDictConfig, DataDictConfig
+from .code.config import TypedDictConfigCtl, DataDictConfigCtl
 from . import data
 
 
@@ -22,18 +21,27 @@ def setup_system(config_piece_list):
     print("service_to_config_pieces:", service_to_config_pieces)
 
     config_creg = ResolvingCodeRegistry('config_creg')
-    adapter_creg_config = TypedDictConfig().piece_list_to_config(
-        service_to_config_pieces[htypes.adapter_creg()])
+    adapter_creg_config = TypedDictConfigCtl().piece_list_to_config(
+        service_to_config_pieces[data.system.service.adapter_creg])
     adapter_creg = AdapterCodeRegistry('adapter_creg', adapter_creg_config)
-    service_creg_config = DataDictConfig().piece_list_to_config(
-        service_to_config_pieces[htypes.service_creg()])
+    service_creg_config = DataDictConfigCtl().piece_list_to_config(
+        service_to_config_pieces[data.system.service.service_creg])
     print("service_creg_config:", service_creg_config)
     service_creg = ServiceCodeRegistry(adapter_creg, service_creg_config)
     adapter_creg.set_service_creg(service_creg)
-    service_config_creg_config = TypedDictConfig().piece_list_to_config(
+    service_config_creg_config = TypedDictConfigCtl().piece_list_to_config(
         service_to_config_pieces[data.system.service.service_config_creg])
     service_config_creg = service_creg.animate(data.system.service.service_config_creg)
     service_config_creg.update_config(service_config_creg_config)
+
+    for service, config_pieces in service_to_config_pieces.items():
+        if service in {data.system.service.adapter_creg,
+                       data.system.service.service_creg,
+                       data.system.service.service_config_creg}:
+            continue
+        rec = service_config_creg.animate(service)
+        rec.config = rec.ctl.piece_list_to_config(config_pieces)
+
     return service_creg
 
 
