@@ -15,6 +15,7 @@ from .hyper_ref import (
     )
 from .association import association_t
 from .python_module import import_rec_t, python_module_t, import_rec_def_t, python_module_def_t
+from .file_data import file_data_t, file_data_def_t
 from .builtin_service import builtin_service_t
 from .attribute import attribute_t, attribute_def_t
 from .partial import partial_param_t, partial_param_def_t, partial_t, partial_def_t
@@ -38,6 +39,8 @@ _builtin_type_list = [
     python_module_t,
     import_rec_def_t,
     python_module_def_t,
+    file_data_t,
+    file_data_def_t,
     builtin_service_t,
     attribute_t,
     attribute_def_t,

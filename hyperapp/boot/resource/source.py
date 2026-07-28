@@ -7,5 +7,10 @@ class ResourceModuleSource:
 
 
 @dataclass(frozen=True)
+class DataSource:
+    data: bytes
+
+
+@dataclass(frozen=True)
 class TextSource:
     text: str

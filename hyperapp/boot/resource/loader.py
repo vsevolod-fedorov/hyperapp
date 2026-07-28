@@ -3,7 +3,7 @@ from collections import namedtuple
 from pathlib import Path
 
 from ..htypes.python_module import python_module_t
-from .source import TextSource
+from .source import DataSource, TextSource
 from .resource_module import ResourceModuleLoader
 from .type_module import TypeModuleLoader
 from .builtin_service import builtin_service_name_to_piece
@@ -136,14 +136,25 @@ class _Context:
             else:  # Project-local absolute name.
                 return (self._project_name, path, parts[2])
 
-    def get_text(self, full_name):
+    def _get_bytes(self, full_name):
         parts = full_name.split(':')
         project_name, path, _ = self._resolve_parts((*parts, ''), description=full_name)
         try:
-            bytes = self._loader._projects[project_name][path]
+            data = self._loader._projects[project_name][path]
         except KeyError:
             raise RuntimeError(f"{self!r}: Missing: {project_name}:{'/'.join(path)}")
-        text = bytes.decode()
+        return (data, project_name, path)
+
+    def get_bytes(self, full_name):
+        data, project_name, path = self._get_bytes(full_name)
+        sources = {
+            data: (project_name, path, DataSource(data))
+            }
+        return (data, project_name, path, sources)
+
+    def get_text(self, full_name):
+        data, project_name, path = self._get_bytes(full_name)
+        text = data.decode()
         sources = {
             text: (project_name, path, TextSource(text))
             }
