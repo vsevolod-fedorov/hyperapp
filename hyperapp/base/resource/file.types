@@ -1,0 +1,5 @@
+file = record:
+  data: binary
+
+file_def = record:
+  path: string

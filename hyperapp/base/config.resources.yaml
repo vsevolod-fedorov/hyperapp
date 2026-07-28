@@ -21,6 +21,7 @@ definitions:
       items:
         system/system.t:service_config_creg: system/system:service_config_creg.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
+        subprocess/subprocess:subprocess_running.service.t: subprocess/subprocess:subprocess_running.service-actor
 
   service_config_creg.config:
     type: system/system.t:typed_item_list

@@ -57,4 +57,5 @@ definitions:
       adapters: []
       service_params:
         identity_creg: base:transport/registries:identity_creg.service
+        subprocess_running: base:subprocess/subprocess:subprocess_running.service
         compile_resources: compile_resources.service

@@ -1,0 +1,41 @@
+definitions:
+
+  subprocess.module:
+    type: builtin:type:python_module
+    value:
+      module_name: subprocess
+      file_name: subprocess.dyn.py
+      imports:
+        pyobj: {}
+        raw:
+          data.subprocess.subprocess_mp_main: subprocess_mp_main.py
+
+  subprocess_mp_main.py:
+    type: builtin:type:file_data
+    value:
+      file_name: subprocess_mp_main.py
+
+  subprocess_running:
+    type: builtin:type:attribute
+    value:
+      object: subprocess.module
+      attr_name: subprocess_running
+
+  subprocess_running.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: subprocess_running
+      base: null
+      fields: {}
+
+  subprocess_running.service:
+    type: subprocess_running.service.t
+    value: {}
+
+  subprocess_running.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: subprocess_running
+      adapters:
+      - :system/adapter:service_object.adapter
+      service_params: {}
