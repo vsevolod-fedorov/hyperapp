@@ -30,7 +30,7 @@ def _cache_dir():
         os.environ.get('XDG_RUNTIME_DIR')
         or tempfile.gettempdir()
         )
-    dir = Path(runtime_dir) / 'hyperapp/subprocess'
+    dir = Path(runtime_dir) / 'hyperapp/subprocess/source'
     dir.mkdir(parents=True, exist_ok=True)
     return dir
 
