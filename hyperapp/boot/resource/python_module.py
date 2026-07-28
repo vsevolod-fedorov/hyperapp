@@ -1,10 +1,6 @@
 import codecs
-import inspect
 import logging
-import importlib
 import sys
-from collections import defaultdict
-from pathlib import Path
 
 from ..htypes.python_module import (
     import_rec_t,
@@ -18,7 +14,6 @@ from ..htypes import HException
 from ..dict_decoder import NamedPairsDictDecoder
 from ..dict_encoder import NamedPairsDictEncoder
 from ..python_importer import DynModuleImportError
-from .source import TextSource
 
 log = logging.getLogger(__name__)
 
