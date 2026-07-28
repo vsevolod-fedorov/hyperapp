@@ -16,5 +16,5 @@ definitions:
     type: base:system/system.t:typed_item_list
     value:
       items:
-        main:compile_resources.service.t: main:compile_resources.actor
-        main:main.service.t: main:main.actor
+        main:compile_resources.service.t: main:compile_resources.service-actor
+        main:main.service.t: main:main.service-actor

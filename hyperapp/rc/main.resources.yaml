@@ -26,7 +26,7 @@ definitions:
     type: compile_resources.service.t
     value: {}
 
-  compile_resources.actor:
+  compile_resources.service-actor:
     type: base:system/system.t:service_actor
     value:
       fn: compile_resources
@@ -50,7 +50,7 @@ definitions:
     type: main.service.t
     value: {}
 
-  main.actor:
+  main.service-actor:
     type: base:system/system.t:service_actor
     value:
       fn: main
