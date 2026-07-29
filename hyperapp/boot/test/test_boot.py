@@ -48,7 +48,7 @@ def test_run_error():
             'File ".+/hyperapp/boot/test/resources/run_error/main.dyn.py", line 6, in fn',
             "  assert False, f'sample-error:{value}'",
             ]
-        tb = traceback.format_tb(x.__traceback__)[2:]
+        tb = traceback.format_tb(x.__traceback__)[3:]  # 1 entry from test_boot and 2 from boot module.
         tb_lines = ''.join(tb).splitlines()
         print(''.join(tb))
         for line, expected in zip(tb_lines, expected_tb):

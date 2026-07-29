@@ -9,7 +9,15 @@ from ..cached_code_registry import CachedCodeRegistry
 log = logging.getLogger(__name__)
 
 
-def make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg):
+def make_builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        association_reg,
+        unbundler,
+        ):
     return {
         'reconstructors': reconstructors,
         'pyobj_creg': pyobj_creg,
@@ -20,6 +28,7 @@ def make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source
         'cached_code_registry_ctr': partial(CachedCodeRegistry, mosaic, pyobj_creg, web),
         'deduce_t': partial(deduce_value_type_with_list, pyobj_creg),
         'association_reg': association_reg,
+        'unbundler': unbundler,
         }
 
 

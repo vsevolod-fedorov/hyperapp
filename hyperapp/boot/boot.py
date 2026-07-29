@@ -3,6 +3,7 @@
 import sys
 from functools import partial
 from pathlib import Path
+from types import SimpleNamespace
 
 import yaml
 
@@ -25,6 +26,7 @@ from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
 from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
 from hyperapp.boot.resource.loader import load_file_tree, load_resources, add_source_paths
 from hyperapp.boot.register_coders import register_coders
+from hyperapp.boot.unbundler import Unbundler
 
 
 def init_services(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_type, builtin_name_to_service):
@@ -34,6 +36,51 @@ def init_services(pyobj_creg, mosaic, web, python_importer, source_path, builtin
     register_pyobj_creg_mt_actors(pyobj_creg)
     register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_service)
     register_coders()
+
+
+def setup_services():
+    reconstructors = []
+    pyobj_creg = PyObjRegistry(config={}, reconstructors=reconstructors)
+    mosaic = Mosaic(pyobj_creg)
+    web = Web(mosaic, pyobj_creg)
+    source_path = {}
+    association_reg = AssociationRegistry()
+    unbundler = Unbundler(web, mosaic, association_reg)
+    builtin_name_to_type = {
+        **make_builtin_name_to_type(),
+        **make_meta_type_name_to_type(),
+        }
+    builtin_name_to_service = make_builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        association_reg,
+        unbundler,
+        )
+    python_importer = PythonImporter()
+    init_services(
+        pyobj_creg,
+        mosaic,
+        web,
+        python_importer,
+        source_path,
+        builtin_name_to_type,
+        builtin_name_to_service,
+        )
+    resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
+    type_to_resource_type = make_type_to_resource_type()
+    resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
+    return SimpleNamespace(
+        pyobj_creg=pyobj_creg,
+        mosaic=mosaic,
+        source_path=source_path,
+        builtin_name_to_type=builtin_name_to_type,
+        builtin_name_to_service=builtin_name_to_service,
+        resource_type_producer=resource_type_producer,
+        unbundler=unbundler,
+        )
 
 
 def load_projects_resources(
@@ -63,52 +110,25 @@ def parse_path(resource_path):
     return (project_name, path, name)
 
 
-def boot(projects_path, main_path, args):
-    reconstructors = []
-    pyobj_creg = PyObjRegistry(config={}, reconstructors=reconstructors)
-    mosaic = Mosaic(pyobj_creg)
-    web = Web(mosaic, pyobj_creg)
-    source_path = {}
-    association_reg = AssociationRegistry()
-    builtin_name_to_type = {
-        **make_builtin_name_to_type(),
-        **make_meta_type_name_to_type(),
-        }
-    builtin_name_to_service = make_builtin_name_to_service(
-        reconstructors,
-        pyobj_creg,
-        mosaic,
-        web,
-        source_path,
-        association_reg,
-        )
-    python_importer = PythonImporter()
-    init_services(
-        pyobj_creg,
-        mosaic,
-        web,
-        python_importer,
-        source_path,
-        builtin_name_to_type,
-        builtin_name_to_service,
-        )
-    resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
-    type_to_resource_type = make_type_to_resource_type()
-    resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
-
+def load(svc, projects_path, main_path, args):
     resources = load_projects_resources(
-        pyobj_creg,
-        mosaic,
-        source_path,
-        builtin_name_to_type,
-        builtin_name_to_service,
-        resource_type_producer,
+        svc.pyobj_creg,
+        svc.mosaic,
+        svc.source_path,
+        svc.builtin_name_to_type,
+        svc.builtin_name_to_service,
+        svc.resource_type_producer,
         projects_path,
         )
     resource_path = parse_path(main_path)
     main_piece = resources[resource_path]
-    main = pyobj_creg.animate(main_piece)
+    main = svc.pyobj_creg.animate(main_piece)
     return main(args)
+
+
+def boot(projects_path, main_path, args):
+    svc = setup_services()
+    return load(svc, projects_path, main_path, args)
 
 
 if __name__ == '__main__':

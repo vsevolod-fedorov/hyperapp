@@ -15,6 +15,7 @@ from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
 from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
 from hyperapp.boot.resource.resource_type_producer import produce_resource_type
 from hyperapp.boot.register_coders import register_coders
+from hyperapp.boot.unbundler import Unbundler
 
 
 @pytest.fixture
@@ -26,8 +27,29 @@ def builtin_name_to_type():
 
 
 @pytest.fixture
-def builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg):
-    return make_builtin_name_to_service(reconstructors, pyobj_creg, mosaic, web, source_path, association_reg)
+def unbundler(web, mosaic, association_reg):
+    return Unbundler(web, mosaic, association_reg)
+
+
+@pytest.fixture
+def builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        association_reg,
+        unbundler
+        ):
+    return make_builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        association_reg,
+        unbundler,
+        )
 
 
 @pytest.fixture
