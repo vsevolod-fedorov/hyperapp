@@ -59,7 +59,7 @@ def load_projects_resources(
 
 def parse_path(resource_path):
     project_name, path_str, name = resource_path.split(':')
-    path = tuple(path_str.split('.'))
+    path = tuple(path_str.split('/'))
     return (project_name, path, name)
 
 
