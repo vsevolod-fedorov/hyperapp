@@ -10,6 +10,9 @@ from pathlib import Path
 from hyperapp.boot.ref import hash_sha512
 from hyperapp.boot.htypes.packet_coders import packet_coders
 
+from .services import (
+    mosaic,
+    )
 from .data.subprocess import subprocess_mp_main
 
 log = logging.getLogger(__name__)
@@ -45,21 +48,19 @@ def _prepare_mp_main(dir):
     return path
 
 
-# def subprocess_running(bundler):
-def subprocess_running():
+def subprocess_running(bundler):
 
     @contextmanager
-    def _subprocess_running(name, main_fn_ref):
+    def _subprocess_running(name, main_fn_piece):
         dir = _cache_dir()
         mp_main_path = _prepare_mp_main(dir)
         sys.path.append(str(dir))
         module = __import__(mp_main_path.stem, level=0)
         subprocess_main = module.subprocess_main
 
-        # refs_and_bundle = bundler([main_fn_ref])
-        # bundle_cdr = packet_coders.encode('cdr', refs_and_bundle.bundle)
-        # log.info("Subprocess %s: Packed main function. Bundle size: %.2f KB", name, len(bundle_cdr)/1024)
-        bundle_cdr = None
+        refs_and_bundle = bundler([mosaic.put(main_fn_piece)])
+        bundle_cdr = packet_coders.encode('cdr', refs_and_bundle.bundle)
+        log.info("Subprocess %s: Packed main function. Bundle size: %.2f KB", name, len(bundle_cdr)/1024)
 
         parent_connection, child_connection = _mp_context.Pipe()
         subprocess_args = [name, child_connection, bundle_cdr]
@@ -67,8 +68,7 @@ def subprocess_running():
         process.start()
 
         try:
-            # yield _Subprocess(parent_connection, refs_and_bundle.ref_set)
-            yield _Subprocess(parent_connection, None)
+            yield _Subprocess(parent_connection, refs_and_bundle.ref_set)
         finally:
             parent_connection.close()  # Signal child to stop.
             log.info("Joining process %s...", name)

@@ -6,7 +6,8 @@ definitions:
       module_name: subprocess
       file_name: subprocess.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          services.mosaic: builtin:service:mosaic
         raw:
           data.subprocess.subprocess_mp_main: subprocess_mp_main.py
 
@@ -33,9 +34,10 @@ definitions:
     value: {}
 
   subprocess_running.service-actor:
-    type: base:system/system.t:service_actor
+    type: :system/system.t:service_actor
     value:
       fn: subprocess_running
       adapters:
       - :system/adapter:service_object.adapter
-      service_params: {}
+      service_params:
+        bundler: :bundler:bundler.service

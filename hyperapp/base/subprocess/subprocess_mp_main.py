@@ -6,8 +6,9 @@ import threading
 from contextlib import contextmanager
 from pathlib import Path
 
-# from hyperapp.boot.htypes import bundle_t
+from hyperapp.boot.htypes import bundle_t
 from hyperapp.boot.htypes.packet_coders import packet_coders
+from hyperapp.boot.boot import setup_services
 # from hyperapp.boot.services import HYPERAPP_DIR, Services
 
 log = logging.getLogger(__name__)
@@ -55,12 +56,10 @@ def subprocess_main(process_name, connection, main_fn_bundle_cdr):
 
 def subprocess_main_safe(connection, main_fn_bundle_cdr):
     log.info("Subprocess: Init services.")
-    return
-    services = Services()
-    services.init_services()
+    svc = setup_services()
 
-    pyobj_creg = services.pyobj_creg
-    unbundler = services.unbundler
+    pyobj_creg = svc.pyobj_creg
+    unbundler = svc.unbundler
 
     log.info("Subprocess: Unpack main function. Bundle size: %.2f KB", len(main_fn_bundle_cdr)/1024)
 
@@ -70,9 +69,5 @@ def subprocess_main_safe(connection, main_fn_bundle_cdr):
     main_fn = pyobj_creg.invite(main_fn_ref)
 
     log.info("Subprocess: Run main function %s: %s", main_fn_ref, main_fn)
-    try:
-        main_fn(connection, received_refs)
-    finally:
-        log.info("Subprocess: Stopping services.")
-        services.stop()
-        log.info("Subprocess: Services are stopped. Exiting.")
+    main_fn(connection, received_refs)
+    log.info("Subprocess: Done.")
