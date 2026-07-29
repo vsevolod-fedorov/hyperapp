@@ -58,10 +58,10 @@ class PartialResourceType:
             )
 
 
-def partial_pyobj(piece, pyobj_creg):
+def partial_pyobj(piece, pyobj_creg, web):
     fn = pyobj_creg.invite(piece.function)
     kw = {
-        param.name: pyobj_creg.invite(param.value)
+        param.name: web.summon(param.value)
         for param in piece.params
         }
     return partial(fn, **kw)
