@@ -1,3 +1,4 @@
+import inspect
 from functools import partial
 
 from hyperapp.boot.config_key_error import ConfigKeyError
@@ -92,10 +93,18 @@ class ServiceCodeRegistry(CachedResolvingCodeRegistry):
             for rec in actor.service_params
             }
         if service_params:
-            fn = partial(fn, **service_params)
+            fn = self._make_partial(fn, service_params)
         for adapter_ref in actor.adapters:
             fn = self._adapter_creg.invite(adapter_ref, piece, fn)
         return fn  # After adapter calls it may be object.
+
+    def _make_partial(self, fn, params):
+        fn_params = list(inspect.signature(fn).parameters)
+        for fname, name in zip(fn_params, params):
+            if fname != name:
+                raise RuntimeError(
+                    f"Wrong service parameter order for {fn}: {list(params)} vs actual {fn_params}")
+        return partial(fn, *params.values())
 
     def _post_process(self, fn, piece, args, kw):
         assert not args and not kw
