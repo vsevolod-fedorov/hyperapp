@@ -1,0 +1,38 @@
+definitions:
+
+  bundler.module:
+    type: builtin:type:python_module
+    value:
+      module_name: bundler
+      file_name: bundler.dyn.py
+      imports:
+        pyobj:
+          services.association_reg: builtin:service:association_reg
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
+        raw: {}
+
+  bundler:
+    type: builtin:type:attribute
+    value:
+      object: bundler.module
+      attr_name: bundler
+
+  bundler.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: bundler
+      base: null
+      fields: {}
+
+  bundler.service:
+    type: bundler.service.t
+    value: {}
+
+  bundler.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: bundler
+      adapters: []
+      service_params:
+        pick_refs: pick_refs:pick_refs.service
