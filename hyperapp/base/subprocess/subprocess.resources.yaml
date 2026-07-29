@@ -9,12 +9,12 @@ definitions:
         pyobj:
           services.mosaic: builtin:service:mosaic
         raw:
-          data.subprocess.subprocess_mp_main: subprocess_mp_main.py
+          data.subprocess.mp_main: mp_main.py
 
-  subprocess_mp_main.py:
+  mp_main.py:
     type: builtin:type:file_data
     value:
-      file_name: subprocess_mp_main.py
+      file_name: mp_main.py
 
   subprocess_running:
     type: builtin:type:attribute

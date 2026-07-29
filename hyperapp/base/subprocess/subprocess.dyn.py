@@ -13,7 +13,7 @@ from hyperapp.boot.htypes.packet_coders import packet_coders
 from .services import (
     mosaic,
     )
-from .data.subprocess import subprocess_mp_main
+from .data.subprocess import mp_main
 
 log = logging.getLogger(__name__)
 
@@ -39,7 +39,7 @@ def _cache_dir():
 
 
 def _prepare_mp_main(dir):
-    data = subprocess_mp_main.data
+    data = mp_main.data
     hash = hash_sha512(data)
     suffix = codecs.encode(hash[:4], 'hex').decode()
     path = dir / f'subprocess_mp_main_{suffix}.py'
