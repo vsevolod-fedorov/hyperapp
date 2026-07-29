@@ -1,0 +1,61 @@
+definitions:
+
+  pick_refs.module:
+    type: builtin:type:python_module
+    value:
+      module_name: pick_refs
+      file_name: pick_refs.dyn.py
+      imports:
+        pyobj:
+          services.deduce_t: builtin:service:deduce_t
+        raw: {}
+
+  pick_refs_cache:
+    type: builtin:type:attribute
+    value:
+      object: pick_refs.module
+      attr_name: pick_refs_cache
+
+  pick_refs_cache.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: pick_refs_cache
+      base: null
+      fields: {}
+
+  pick_refs_cache.service:
+    type: pick_refs_cache.service.t
+    value: {}
+
+  pick_refs_cache.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: pick_refs_cache
+      adapters:
+      - system/adapter:service_object.adapter
+      service_params: {}
+
+  pick_refs:
+    type: builtin:type:attribute
+    value:
+      object: pick_refs.module
+      attr_name: pick_refs
+
+  pick_refs.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: pick_refs
+      base: null
+      fields: {}
+
+  pick_refs.service:
+    type: pick_refs.service.t
+    value: {}
+
+  pick_refs.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: pick_refs
+      adapters: []
+      service_params:
+        pick_refs_cache: pick_refs_cache.service

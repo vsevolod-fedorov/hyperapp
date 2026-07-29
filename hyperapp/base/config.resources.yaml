@@ -20,6 +20,8 @@ definitions:
     value:
       items:
         system/system.t:service_config_creg: system/system:service_config_creg.service-actor
+        pick_refs:pick_refs.service.t: pick_refs:pick_refs.service-actor
+        pick_refs:pick_refs_cache.service.t: pick_refs:pick_refs_cache.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
         subprocess/subprocess:subprocess_running.service.t: subprocess/subprocess:subprocess_running.service-actor
 
