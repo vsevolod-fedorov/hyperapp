@@ -136,7 +136,7 @@ if __name__ == '__main__':
     main_path = sys.argv[2]
     args = sys.argv[3:]
     result = boot(projects_path, main_path, args)
-    if type(result) is int:
+    if type(result) is int or result is None:
         sys.exit(result)  # Result is exit code.
-    if result is None or not result:
+    if not result:
         sys.exit(100)
