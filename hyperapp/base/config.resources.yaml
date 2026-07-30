@@ -24,8 +24,8 @@ definitions:
         pick_refs:pick_refs.service.t: pick_refs:pick_refs.service-actor
         pick_refs:pick_refs_cache.service.t: pick_refs:pick_refs_cache.service-actor
         bundler:bundler.service.t: bundler:bundler.service-actor
+        subprocess/subprocess_running:subprocess_running.service.t: subprocess/subprocess_running:subprocess_running.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
-        subprocess/subprocess:subprocess_running.service.t: subprocess/subprocess:subprocess_running.service-actor
 
   service_config_creg.config:
     type: system/system.t:typed_item_list

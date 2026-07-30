@@ -1,10 +1,10 @@
 definitions:
 
-  subprocess.module:
+  subprocess_running.module:
     type: builtin:type:python_module
     value:
-      module_name: subprocess
-      file_name: subprocess.dyn.py
+      module_name: subprocess_running
+      file_name: subprocess_running.dyn.py
       imports:
         pyobj:
           services.mosaic: builtin:service:mosaic
@@ -19,7 +19,7 @@ definitions:
   subprocess_running:
     type: builtin:type:attribute
     value:
-      object: subprocess.module
+      object: subprocess_running.module
       attr_name: subprocess_running
 
   subprocess_running.service.t:
