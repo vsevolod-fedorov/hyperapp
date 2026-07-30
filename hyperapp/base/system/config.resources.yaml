@@ -15,6 +15,24 @@ definitions:
           services.web: builtin:service:web
         raw: {}
 
+  RecordConfigCtl:
+    type: builtin:type:attribute
+    value:
+      object: config.module
+      attr_name: RecordConfigCtl
+
+  RecordConfigCtl.from_service_piece:
+    type: builtin:type:attribute
+    value:
+      object: RecordConfigCtl
+      attr_name: from_service_piece
+
+  RecordConfigCtl.from_service_piece.actor:
+    type: system.t:service_actor
+    value:
+      fn: RecordConfigCtl.from_service_piece
+      adapters: []
+
   TypedDictConfigCtl:
     type: builtin:type:attribute
     value:

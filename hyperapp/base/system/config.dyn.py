@@ -5,11 +5,22 @@ from .services import (
     )
 
 
+# Expected to be hashable by CachedCodeRegistry.
 class ConfigRec:
 
-    def __init__(self, ctl):
+    def __init__(self, ctl, config):
         self.ctl = ctl
-        self.config = {}
+        self.config = config
+
+
+class RecordConfigCtl:
+
+    @classmethod
+    def from_service_piece(cls, piece):
+        return ConfigRec(cls(), None)
+
+    def piece_list_to_config(self, piece_list):
+        return piece_list[-1]  # Last one override others, if they exist.
 
 
 class TypedDictConfigCtl:
@@ -20,8 +31,7 @@ class TypedDictConfigCtl:
 
     @classmethod
     def from_service_piece(cls, piece):
-        # Expected to be hashable by CachedCodeRegistry.
-        return ConfigRec(cls())
+        return ConfigRec(cls(), {})
 
     def __init__(self):
         pass
