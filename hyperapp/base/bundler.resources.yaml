@@ -33,6 +33,11 @@ definitions:
     type: base:system/system.t:service_actor
     value:
       fn: bundler
-      adapters: []
-      service_params:
+      adapters:
+      - bundler.service-args-adapter
+
+  bundler.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
         pick_refs: pick_refs:pick_refs.service

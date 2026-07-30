@@ -32,7 +32,6 @@ definitions:
     value:
       fn: TypedDictConfigCtl.from_config_piece
       adapters: []
-      service_params: {}
 
   TypedDictConfigCtl.from_service_piece:
     type: builtin:type:attribute
@@ -45,4 +44,3 @@ definitions:
     value:
       fn: TypedDictConfigCtl.from_service_piece
       adapters: []
-      service_params: {}

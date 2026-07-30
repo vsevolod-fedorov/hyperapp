@@ -38,6 +38,11 @@ definitions:
     value:
       fn: subprocess_running
       adapters:
+      - subprocess_running.service-args-adapter
       - :system/adapter:service_object.adapter
-      service_params:
+
+  subprocess_running.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
         bundler: :bundler:bundler.service

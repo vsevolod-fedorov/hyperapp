@@ -30,6 +30,19 @@ definitions:
       service_params:
         service_config_creg: system:service_config_creg.service
 
+  service_args_adapter:
+    type: builtin:type:attribute
+    value:
+      object: adapter.module
+      attr_name: service_args_adapter
+
+  service_args_adapter.actor:
+    type: system.t:actor
+    value:
+      fn: service_args_adapter
+      service_params:
+        service_creg: system:service_creg.service
+
   service_object_adapter:
     type: builtin:type:attribute
     value:

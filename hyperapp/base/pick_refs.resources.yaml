@@ -33,7 +33,6 @@ definitions:
       fn: pick_refs_cache
       adapters:
       - system/adapter:service_object.adapter
-      service_params: {}
 
   pick_refs:
     type: builtin:type:attribute
@@ -56,6 +55,11 @@ definitions:
     type: base:system/system.t:service_actor
     value:
       fn: pick_refs
-      adapters: []
-      service_params:
+      adapters:
+      - pick_refs.service-args-adapter
+
+  pick_refs.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
         pick_refs_cache: pick_refs_cache.service

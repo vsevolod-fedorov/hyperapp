@@ -31,7 +31,6 @@ definitions:
     value:
       fn: compile_resources
       adapters: []
-      service_params: {}
 
   main:
     type: builtin:type:attribute
@@ -54,8 +53,13 @@ definitions:
     type: base:system/system.t:service_actor
     value:
       fn: main
-      adapters: []
-      service_params:
+      adapters:
+      - main.service-args-adapter
+
+  main.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
         identity_creg: base:transport/registries:identity_creg.service
         subprocess_running: base:subprocess/subprocess:subprocess_running.service
         compile_resources: compile_resources.service

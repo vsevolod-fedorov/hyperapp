@@ -39,4 +39,3 @@ actor = record:
 service_actor = record:
   fn: ref
   adapters: ref list
-  service_params: service_param list

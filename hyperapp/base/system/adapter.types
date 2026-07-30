@@ -1,2 +1,9 @@
+from system import service_param
+
+
 typed_dict_config_adapter = record
+
+service_args_adapter = record:
+  args: service_param list
+
 service_object_adapter = record

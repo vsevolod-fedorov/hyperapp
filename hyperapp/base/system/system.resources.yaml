@@ -43,4 +43,3 @@ definitions:
       fn: service_config_creg
       adapters:
       - adapter:service_object.adapter
-      service_params: {}
