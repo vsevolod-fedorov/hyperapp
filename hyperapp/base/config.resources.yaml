@@ -12,7 +12,7 @@ definitions:
     type: system/system.t:typed_item_list
     value:
       items:
-        system/adapter.t:typed_dict_config_adapter: system/adapter:typed_dict_config_adapter.actor
+        system/adapter.t:config_adapter: system/adapter:config_adapter.actor
         system/adapter.t:service_args_adapter: system/adapter:service_args_adapter.actor
         system/adapter.t:service_object_adapter: system/adapter:service_object_adapter.actor
 

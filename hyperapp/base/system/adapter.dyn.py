@@ -2,7 +2,7 @@ import inspect
 from functools import partial
 
 
-def typed_dict_config_adapter(piece, spiece, fn, service_config_creg):
+def config_adapter(piece, spiece, fn, service_config_creg):
     rec = service_config_creg.animate(spiece)
     return partial(fn, rec.config)
 

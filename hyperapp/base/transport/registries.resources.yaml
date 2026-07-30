@@ -33,7 +33,7 @@ definitions:
     value:
       fn: identity_creg
       adapters:
-      - :system/adapter:typed_dict_config.adapter
+      - :system/adapter:config.adapter
       - :system/adapter:service_object.adapter
 
   parcel_creg:
