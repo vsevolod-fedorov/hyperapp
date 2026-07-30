@@ -28,6 +28,7 @@ def setup_system(config_piece_list):
         service_to_config_pieces[data.system.service.service_creg])
     print("service_creg_config:", service_creg_config)
     service_creg = ServiceCodeRegistry(adapter_creg, service_creg_config)
+    service_creg.add_to_cache(data.system.service.service_creg, service_creg)
     adapter_creg.set_service_creg(service_creg)
     service_config_creg_config = TypedDictConfigCtl().piece_list_to_config(
         service_to_config_pieces[data.system.service.service_config_creg])
