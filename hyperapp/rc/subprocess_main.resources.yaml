@@ -1,0 +1,16 @@
+definitions:
+
+  subprocess_main.module:
+    type: builtin:type:python_module
+    value:
+      module_name: subprocess_main
+      file_name: subprocess_main.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  subprocess_main:
+    type: builtin:type:attribute
+    value:
+      object: subprocess_main.module
+      attr_name: subprocess_main

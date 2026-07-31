@@ -6,8 +6,10 @@ definitions:
       module_name: main
       file_name: main.dyn.py
       imports:
-        pyobj: {}
-        raw: {}
+        pyobj:
+          code.make_partial: base:make_partial:make_partial.module
+        raw:
+          data.subprocess_main.subprocess_main: subprocess_main:subprocess_main
 
   compile_resources:
     type: builtin:type:attribute
@@ -61,5 +63,7 @@ definitions:
     value:
       args:
         identity_creg: base:transport/registries:identity_creg.service
-        subprocess_running: base:subprocess/subprocess_running:subprocess_running.service
+        generate_rsa_identity: base:transport/rsa_identity:generate_rsa_identity.service
+        subprocess_server_running: base:subprocess/server:subprocess_server_running.service
+        transport: base:transport/transport:transport.service
         compile_resources: compile_resources.service
