@@ -10,18 +10,18 @@ RESOURCES_ROOT = TEST_DIR / 'resources'
 
 
 def test_simple():
-    result = boot(Path(RESOURCES_ROOT / 'simple/projects.yaml'), 'sample:main:main', [23])
+    result = boot(Path(RESOURCES_ROOT / 'simple/projects.yaml'), 'sample:main:main')([23])
     assert result == 2300
 
 
 def test_imports():
-    result = boot(Path(RESOURCES_ROOT / 'imports/projects.yaml'), 'sample:main:main', [23])
+    result = boot(Path(RESOURCES_ROOT / 'imports/projects.yaml'), 'sample:main:main')([23])
     assert result == 2300
 
 
 def test_import_error():
     try:
-        _ = boot(Path(RESOURCES_ROOT / 'import_error/projects.yaml'), 'sample:main:main', [])
+        _ = boot(Path(RESOURCES_ROOT / 'import_error/projects.yaml'), 'sample:main:main')
     except DynModuleResourceImportError as x:
         assert isinstance(x.original_error, AssertionError)
         assert x.original_error.args == ('sample-error',)
@@ -38,7 +38,7 @@ def test_import_error():
 
 def test_run_error():
     try:
-        _ = boot(Path(RESOURCES_ROOT / 'run_error/projects.yaml'), 'sample:main:main', ['a-param'])
+        _ = boot(Path(RESOURCES_ROOT / 'run_error/projects.yaml'), 'sample:main:main')(['a-param'])
     except AssertionError as x:
         assert isinstance(x, AssertionError)
         assert x.args == ('sample-error:a-param',)

@@ -110,7 +110,7 @@ def parse_path(resource_path):
     return (project_name, path, name)
 
 
-def load(svc, projects_path, main_path, args):
+def load(svc, projects_path, main_path):
     resources = load_projects_resources(
         svc.pyobj_creg,
         svc.mosaic,
@@ -123,19 +123,20 @@ def load(svc, projects_path, main_path, args):
     resource_path = parse_path(main_path)
     main_piece = resources[resource_path]
     main = svc.pyobj_creg.animate(main_piece)
-    return main(args)
+    return main
 
 
-def boot(projects_path, main_path, args):
+def boot(projects_path, main_path):
     svc = boot_services()
-    return load(svc, projects_path, main_path, args)
+    return load(svc, projects_path, main_path)
 
 
 if __name__ == '__main__':
     projects_path = Path(sys.argv[1])
     main_path = sys.argv[2]
     args = sys.argv[3:]
-    result = boot(projects_path, main_path, args)
+    main = boot(projects_path, main_path)
+    result = main(args)
     if type(result) is int or result is None:
         sys.exit(result)  # Result is exit code.
     if not result:
