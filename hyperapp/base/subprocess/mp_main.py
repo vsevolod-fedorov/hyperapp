@@ -8,7 +8,7 @@ from pathlib import Path
 
 from hyperapp.boot.htypes import bundle_t
 from hyperapp.boot.htypes.packet_coders import packet_coders
-from hyperapp.boot.boot import setup_services
+from hyperapp.boot.boot import boot_services
 # from hyperapp.boot.services import HYPERAPP_DIR, Services
 
 log = logging.getLogger(__name__)
@@ -56,7 +56,7 @@ def subprocess_main(process_name, connection, main_fn_bundle_cdr):
 
 def subprocess_main_safe(connection, main_fn_bundle_cdr):
     log.info("Subprocess: Init services.")
-    svc = setup_services()
+    svc = boot_services()
 
     pyobj_creg = svc.pyobj_creg
     unbundler = svc.unbundler

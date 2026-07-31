@@ -38,7 +38,7 @@ def init_services(pyobj_creg, mosaic, web, python_importer, source_path, builtin
     register_coders()
 
 
-def setup_services():
+def boot_services():
     reconstructors = []
     pyobj_creg = PyObjRegistry(config={}, reconstructors=reconstructors)
     mosaic = Mosaic(pyobj_creg)
@@ -127,7 +127,7 @@ def load(svc, projects_path, main_path, args):
 
 
 def boot(projects_path, main_path, args):
-    svc = setup_services()
+    svc = boot_services()
     return load(svc, projects_path, main_path, args)
 
 
