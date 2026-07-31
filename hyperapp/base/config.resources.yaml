@@ -26,6 +26,7 @@ definitions:
         bundler:bundler.service.t: bundler:bundler.service-actor
         subprocess/subprocess_running:subprocess_running.service.t: subprocess/subprocess_running:subprocess_running.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
+        transport/rsa_identity:generate_rsa_identity.service.t: transport/rsa_identity:generate_rsa_identity.service-actor
 
   service_config_creg.config:
     type: system/system.t:typed_item_list

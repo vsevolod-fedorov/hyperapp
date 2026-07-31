@@ -38,16 +38,22 @@ definitions:
       object: RsaIdentity
       attr_name: generate
 
-  # generate_rsa_identity.service:
-  #   type: legacy_type.system:service_template
-  #   value:
-  #     name: generate_rsa_identity
-  #     ctl: base.system.system:actor_dict.config_ctl
-  #     function: RsaIdentity.generate
-  #     free_params:
-  #     - fast
-  #     service_params: []
-  #     want_config: false
+  generate_rsa_identity.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: generate_rsa_identity
+      base: null
+      fields: {}
+
+  generate_rsa_identity.service:
+    type: generate_rsa_identity.service.t
+    value: {}
+
+  generate_rsa_identity.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: RsaIdentity.generate
+      adapters: []
 
   RsaPeer:
     type: builtin:type:attribute
