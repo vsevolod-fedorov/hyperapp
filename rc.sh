@@ -14,4 +14,4 @@ cd "$root_dir"
 
 set -x
 
-time hyperapp/boot/boot.py hyperapp/projects.yaml rc:boot:main "$@"
+time hyperapp/boot/boot.py hyperapp/projects.yaml rc:boot:boot "$@"

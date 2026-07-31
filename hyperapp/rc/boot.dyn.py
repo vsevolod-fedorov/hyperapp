@@ -4,7 +4,7 @@ from .data.rc.config import config as rc_config
 from .data import main_svc
 
 
-def main(args):
+def boot(args):
     print('rc main:', args)
     print('base config:', base_config)
     print('rc config:', rc_config)
