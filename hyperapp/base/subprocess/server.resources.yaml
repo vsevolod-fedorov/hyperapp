@@ -1,0 +1,45 @@
+definitions:
+
+  server.module:
+    type: builtin:type:python_module
+    value:
+      module_name: server
+      file_name: server.dyn.py
+      imports:
+        pyobj:
+          code.make_partial: :make_partial:make_partial.module
+          code.futures: futures:futures.module
+        raw:
+          data.server_boot.boot: server_boot:boot
+
+  subprocess_server_running:
+    type: builtin:type:attribute
+    value:
+      object: server.module
+      attr_name: subprocess_server_running
+
+  subprocess_server_running.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: subprocess_server_running
+      base: null
+      fields: {}
+
+  subprocess_server_running.service:
+    type: subprocess_server_running.service.t
+    value: {}
+
+  subprocess_server_running.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: subprocess_server_running
+      adapters:
+      - subprocess_server_running.service-args-adapter
+      - :system/adapter:service_object.adapter
+
+  subprocess_server_running.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        transport: :transport/transport:transport.service
+        subprocess_running: subprocess_running:subprocess_running.service

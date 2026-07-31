@@ -1,0 +1,43 @@
+definitions:
+
+  transport.module:
+    type: builtin:type:python_module
+    value:
+      module_name: transport
+      file_name: transport.dyn.py
+      imports:
+        pyobj:
+          services.mosaic: builtin:service:mosaic
+        raw: {}
+
+  transport:
+    type: builtin:type:attribute
+    value:
+      object: transport.module
+      attr_name: transport
+
+  transport.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: transport
+      base: null
+      fields: {}
+
+  transport.service:
+    type: transport.service.t
+    value: {}
+
+  transport.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: transport
+      adapters:
+      - :system/adapter:config.adapter
+      - transport.service-args-adapter
+      - :system/adapter:service_object.adapter
+
+  transport.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        bundler: :bundler:bundler.service

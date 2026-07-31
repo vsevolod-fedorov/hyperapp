@@ -1,0 +1,10 @@
+definitions:
+
+  futures.module:
+    type: builtin:type:python_module
+    value:
+      module_name: futures
+      file_name: futures.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

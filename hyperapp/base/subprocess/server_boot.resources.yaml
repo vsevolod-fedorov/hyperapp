@@ -1,0 +1,19 @@
+definitions:
+
+  server_boot.module:
+    type: builtin:type:python_module
+    value:
+      module_name: server_boot
+      file_name: server_boot.dyn.py
+      imports:
+        pyobj:
+          code.system: :system/system:system.module
+        raw:
+          data.base.subprocess.config.config: config:config
+          data.main_svc: server_main:subprocess_server_main.service
+
+  boot:
+    type: builtin:type:attribute
+    value:
+      object: server_boot.module
+      attr_name: boot

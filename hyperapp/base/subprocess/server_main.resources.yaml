@@ -1,0 +1,40 @@
+definitions:
+
+  server_main.module:
+    type: builtin:type:python_module
+    value:
+      module_name: server_main
+      file_name: server_main.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  subprocess_server_main:
+    type: builtin:type:attribute
+    value:
+      object: server_main.module
+      attr_name: subprocess_server_main
+
+  subprocess_server_main.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: subprocess_server_main
+      base: null
+      fields: {}
+
+  subprocess_server_main.service:
+    type: subprocess_server_main.service.t
+    value: {}
+
+  subprocess_server_main.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: subprocess_server_main
+      adapters:
+      - subprocess_server_main.service-args-adapter
+
+  subprocess_server_main.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        transport: :transport/transport:transport.service

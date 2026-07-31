@@ -1,0 +1,20 @@
+definitions:
+
+  boot.module:
+    type: builtin:type:python_module
+    value:
+      module_name: boot
+      file_name: boot.dyn.py
+      imports:
+        pyobj:
+          htypes.test.empty_record: test.t:empty_record
+          services.mosaic: builtin:service:mosaic
+          code.pick_refs: base:pick_refs:pick_refs.module
+          code.bundler: base:bundler:bundler.module
+        raw: {}
+
+  boot:
+    type: builtin:type:attribute
+    value:
+      object: boot.module
+      attr_name: boot

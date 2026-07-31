@@ -25,14 +25,17 @@ definitions:
         pick_refs:pick_refs_cache.service.t: pick_refs:pick_refs_cache.service-actor
         bundler:bundler.service.t: bundler:bundler.service-actor
         subprocess/subprocess_running:subprocess_running.service.t: subprocess/subprocess_running:subprocess_running.service-actor
+        subprocess/server:subprocess_server_running.service.t: subprocess/server:subprocess_server_running.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
         transport/rsa_identity:generate_rsa_identity.service.t: transport/rsa_identity:generate_rsa_identity.service-actor
+        transport/transport:transport.service.t: transport/transport:transport.service-actor
 
   service_config_creg.config:
     type: system/system.t:typed_item_list
     value:
       items:
         transport/registries:identity_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
+        transport/transport:transport.service.t: system/config:RecordConfigCtl.from_service_piece.actor
 
   identity_creg.config:
     type: system/system.t:typed_item_list

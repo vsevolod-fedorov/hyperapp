@@ -1,0 +1,13 @@
+definitions:
+
+  config:
+    type: :system/system.t:system_config
+    value:
+      services:
+        :system/system:service_creg.service: service_creg.config
+
+  service_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        server_main:subprocess_server_main.service.t: server_main:subprocess_server_main.service-actor
