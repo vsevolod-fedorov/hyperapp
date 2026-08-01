@@ -5,3 +5,6 @@ simple = record:
 
 ref_list = record:
   elements: ref list
+
+derived = record(simple):
+  value: string
