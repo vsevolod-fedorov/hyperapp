@@ -7,9 +7,12 @@ definitions:
       file_name: boot.dyn.py
       imports:
         pyobj:
-          htypes.test.empty_record: test.t:empty_record
+          htypes.test.empty: test.t:empty
+          htypes.test.simple: test.t:simple
+          htypes.test.ref_list: test.t:ref_list
           services.pyobj_creg: builtin:service:pyobj_creg
           services.mosaic: builtin:service:mosaic
+          services.unbundler: builtin:service:unbundler
           code.pick_refs: base:pick_refs:pick_refs.module
           code.bundler: base:bundler:bundler.module
         raw: {}

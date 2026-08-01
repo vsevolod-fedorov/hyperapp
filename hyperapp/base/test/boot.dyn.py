@@ -4,6 +4,7 @@ from . import htypes
 from .services import (
     pyobj_creg,
     mosaic,
+    unbundler,
     )
 from .code import pick_refs as pick_refs_module
 from .code.bundler import Bundler

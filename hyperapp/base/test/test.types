@@ -1,1 +1,7 @@
-empty_record = record
+empty = record
+
+simple = record:
+  id: int
+
+ref_list = record:
+  elements: ref list
