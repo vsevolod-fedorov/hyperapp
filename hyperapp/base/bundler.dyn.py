@@ -14,105 +14,97 @@ from .services import (
 log = logging.getLogger(__name__)
 
 
-BUNDLED_REFS_LIMIT = 100000
+ITERATION_LIMIT = 100000
 
 _RefsAndBundle = namedtuple('_RefsAndBundle', 'ref_set bundle')
+
+
+def _capsule_size(capsule):
+    return len(capsule.encoded_object)  # TODO: Calculate full capsule size.
+
+
+class _Batch:
+
+    def __init__(self, visited):
+        self.capsules = []
+        self.visited = set(visited)
+
+    def __iadd__(self, batch):
+        self.capsules += batch.capsules
+        self.visited |= batch.visited
+        return self
+
+    @property
+    def size(self):
+        return sum(
+            _capsule_size(capsule)
+            for capsule in self.capsules
+            )
 
 
 class Bundler:
 
     def __init__(self, pick_refs):
         self._pick_refs = pick_refs
+        self._missing_ref_count = 0
+        self._seen_asss = set()
+        self._processed_count = 0
 
-    def bundle(self, ref, seen_refs=None, size_limit=None):
-        assert isinstance(ref, ref_t), repr(ref)
-        log.debug("Making bundle from ref: %s", ref)
-        refs, asss, capsule_list = self._collect_capsule_list(ref, seen_refs or [], size_limit)
+    def run(self, target_ref, seen_refs, size_limit):
+        log.debug("Making bundle from ref: %s", target_ref)
+        batch = self._collect_batch(target_ref, seen_refs or set(), size_limit)
+        if self._missing_ref_count:
+            log.warning("Failed to resolve %d refs", self._missing_ref_count)
         bundle = bundle_t(
-            root=ref,
-            associations=tuple(asss),
-            capsule_list=tuple(capsule_list),
+            root=target_ref,
+            associations=tuple(self._seen_asss),
+            capsule_list=tuple(batch.capsules),
             )
-        return _RefsAndBundle(refs, bundle)
+        return _RefsAndBundle(batch.visited, bundle)
 
-    def _collect_capsule_list(self, ref, seen_refs, size_limit):
-        result_capsule_list = []  # Capsules within size limit
-        result_size = 0
-        current_capsule_list = []  # Current ref capsule and it's type dependencies.
-        current_size = 0
-        missing_ref_count = 0
-        seen_asss = set()
-        visited_refs = set(seen_refs)
-        unvisited_refs = [ref]
-        current_refs = []
-        type_idx = {}  # ref -> index of type in current capsule list.
-        current_types = set()  # Type refs in current block.
-
-        i = 0
-        while unvisited_refs or current_refs:
-            if i > BUNDLED_REFS_LIMIT:
-                raise RuntimeError(f"Bundler: Reached refs limit {BUNDLED_REFS_LIMIT}")
-            if current_refs:
-                # Types and their deps should come first, or unbundler won't be able to decode capsules.
-                ref = current_refs.pop(0)
-                target_refs = current_refs
-            else:
-                ref = unvisited_refs.pop(0)
-                target_refs = unvisited_refs
+    def _collect_batch(self, target_ref, visited, size_limit=None):
+        batch = _Batch(visited)
+        unvisited = [target_ref]
+        while unvisited:
+            if self._processed_count > ITERATION_LIMIT:
+                raise RuntimeError(f"Bundler: Reached iteration limit {ITERATION_LIMIT}")
+            ref = unvisited.pop(0)
             if ref.hash_algorithm == 'phony':
                 continue
-            if ref in visited_refs:
+            if ref in batch.visited:
                 continue
             try:
                 rec = mosaic.resolve_ref(ref)
             except KeyError:
                 log.warning("Failed to resolve ref %s", ref)
-                missing_ref_count += 1
+                self._missing_ref_count += 1
                 continue
-            if rec.type_ref in type_idx:
-                target_idx = type_idx[rec.type_ref]
-            else:
-                target_idx = len(current_capsule_list)
-            current_capsule_list.insert(target_idx, rec.capsule)
-            if ref in current_types:
-                type_idx[ref] = target_idx
-            current_size += len(rec.capsule.encoded_object)
-            if size_limit and result_size + current_size > size_limit:
-                break
-            if rec.type_ref.hash_algorithm != 'phony' and rec.type_ref not in visited_refs:
-                current_refs.append(rec.type_ref)
-                current_types.add(rec.type_ref)
-            visited_refs.add(ref)
-            associations = self._collect_associations(ref, rec.t, rec.value)
-            current_refs += [ass for ass in associations if ass not in visited_refs]
-            seen_asss |= set(associations)
-            dep_refs = self._pick_refs(rec.value, rec.t)
-            target_refs += [d for d in dep_refs if d not in visited_refs]
-            if not current_refs:
-                result_capsule_list += reversed(current_capsule_list)
-                current_capsule_list = []
-                result_size += current_size
-                current_size = 0
-                current_types = set()
-            i += 1
+            type_batch = self._collect_batch(rec.type_ref, batch.visited)
+            if size_limit:
+                size = type_batch.size + _capsule_size(rec.capsule)
+                if size > size_limit:
+                    if not batch.capsules:
+                        raise RuntimeError(f"Root capsule of size {size} did not fit in limit {size_limit}")
+                    break
+            batch += type_batch
+            batch.capsules.append(rec.capsule)
+            batch.visited.add(ref)
+            unvisited += self._pick_refs(rec.value, rec.t)
+            self._processed_count += 1
+        return batch
 
-        if not size_limit or result_size + current_size <= size_limit:
-            result_capsule_list += reversed(current_capsule_list)
-        if missing_ref_count:
-            log.warning("Failed to resolve %d refs", missing_ref_count)
-        return (visited_refs, seen_asss & visited_refs, result_capsule_list)
-
-    def _collect_associations(self, ref, t, value):
-        result = []
-        t_res = pyobj_creg.actor_to_piece(t)
-        for obj in [t_res, value]:
-            for ass in association_reg.base_to_ass_list(obj):
-                piece = ass.to_piece(mosaic)
-                ass_ref = mosaic.put(piece)
-                log.debug("Bundle association %s: %s (%s)", ass_ref, ass, piece)
-                result.append(ass_ref)
-        return result
+    # def _collect_associations(self, ref, t, value):
+    #     result = []
+    #     t_res = pyobj_creg.actor_to_piece(t)
+    #     for obj in [t_res, value]:
+    #         for ass in association_reg.base_to_ass_list(obj):
+    #             piece = ass.to_piece(mosaic)
+    #             ass_ref = mosaic.put(piece)
+    #             log.debug("Bundle association %s: %s (%s)", ass_ref, ass, piece)
+    #             result.append(ass_ref)
+    #     return result
 
 
 def bundler(pick_refs, ref, seen_refs=None, size_limit=None):
-    return Bundler(pick_refs).bundle(ref, seen_refs, size_limit)
+    assert isinstance(ref, ref_t), repr(ref)
+    return Bundler(pick_refs).run(ref, seen_refs, size_limit)

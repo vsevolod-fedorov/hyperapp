@@ -1,3 +1,4 @@
+from collections import Counter
 from pathlib import Path
 
 import pytest
@@ -42,12 +43,15 @@ def unbundler(module):
 def bundle(mosaic, bundler, unbundler):
     saved = []
     def _bundle(piece, size_limit=None):
-        refs_and_bundle = bundler.bundle(mosaic.put(piece), size_limit=size_limit)
+        refs_and_bundle = bundler(mosaic.put(piece), size_limit=size_limit)
         saved.append(refs_and_bundle.bundle)
-        return [
+        pieces = [
             mosaic.resolve_ref(make_ref(capsule)).value
             for capsule in refs_and_bundle.bundle.capsule_list
             ]
+        dups = [item for item, count in Counter(pieces).items() if count > 1]
+        assert not dups
+        return pieces
     yield _bundle
     # Check it could be unbundled
     if saved:
@@ -58,6 +62,7 @@ def test_type_should_be_before_value(htypes, pyobj_creg, mosaic, bundle):
     value = htypes.empty()
     type_mt = pyobj_creg.actor_to_piece(htypes.empty)
     pieces = bundle(value)
+    assert value in pieces
     assert pieces.index(type_mt) < pieces.index(value)
 
 
@@ -96,17 +101,16 @@ def test_type_should_be_before_both_values(htypes, pyobj_creg, mosaic, bundle):
     assert pieces.index(element_mt) < pieces.index(elements[1])
 
 
-def test_base_type_should_be_before_derived_type(htypes, pyobj_creg, mosaic, bundle):
+def test_base_type_should_be_before_value(htypes, pyobj_creg, mosaic, bundle):
     value = htypes.derived(id=123, value='sample value')
     simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
     derived_mt = pyobj_creg.actor_to_piece(htypes.derived)
     pieces = bundle(value)
-    assert (pieces.index(simple_mt)
-            < pieces.index(derived_mt)
-            < pieces.index(value))
+    assert pieces.index(derived_mt) < pieces.index(value)
+    assert pieces.index(simple_mt) < pieces.index(value)
 
 
-def test_field_type_should_be_before_complex_type(htypes, pyobj_creg, mosaic, bundle):
+def test_field_type_should_be_before_value(htypes, pyobj_creg, mosaic, bundle):
     element = htypes.simple(id=123)
     container = htypes.complex_1(
         inner=element,
@@ -114,12 +118,11 @@ def test_field_type_should_be_before_complex_type(htypes, pyobj_creg, mosaic, bu
     simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
     complex_1_mt = pyobj_creg.actor_to_piece(htypes.complex_1)
     pieces = bundle(container)
-    assert (pieces.index(simple_mt)
-            < pieces.index(complex_1_mt)
-            < pieces.index(container))
+    assert pieces.index(complex_1_mt) < pieces.index(container)
+    assert pieces.index(simple_mt) < pieces.index(container)
 
 
-def test_both_field_types_should_be_before_complex_type(htypes, pyobj_creg, mosaic, bundle):
+def test_both_field_types_should_be_before_value(htypes, pyobj_creg, mosaic, bundle):
     container = htypes.complex_2(
         simple=htypes.simple(id=111),
         derived=htypes.derived(id=222, value='sample value'),
@@ -128,11 +131,24 @@ def test_both_field_types_should_be_before_complex_type(htypes, pyobj_creg, mosa
     derived_mt = pyobj_creg.actor_to_piece(htypes.derived)
     complex_2_mt = pyobj_creg.actor_to_piece(htypes.complex_2)
     pieces = bundle(container)
-    assert (pieces.index(simple_mt)
-            < pieces.index(derived_mt)
-            < pieces.index(complex_2_mt)
-            < pieces.index(container)
-            )
+    assert pieces.index(complex_2_mt) < pieces.index(container)
+    assert pieces.index(simple_mt) < pieces.index(container)
+    assert pieces.index(derived_mt) < pieces.index(container)
+
+
+def test_element_type_should_be_before_value(htypes, pyobj_creg, mosaic, bundle):
+    rec_list = htypes.rec_list(
+        elements=(
+            htypes.simple(100),
+            htypes.simple(200),
+            ),
+        )
+    simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
+    rec_list_mt = pyobj_creg.actor_to_piece(htypes.rec_list)
+    pieces = bundle(rec_list)
+    assert pieces.index(rec_list_mt) < pieces.index(rec_list)
+    assert pieces.index(simple_mt) < pieces.index(rec_list)
+
 
 def test_size_limit(htypes, pyobj_creg, mosaic, bundle):
     small = htypes.simple(id=123)
