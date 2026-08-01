@@ -11,3 +11,7 @@ derived = record(simple):
 
 complex_1 = record:
   inner: simple
+
+complex_2 = record:
+  simple: simple
+  derived: derived

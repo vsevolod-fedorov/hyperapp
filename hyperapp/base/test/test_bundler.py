@@ -100,3 +100,19 @@ def test_field_type_should_be_before_complex_type(htypes, pyobj_creg, mosaic, bu
     assert (pieces.index(simple_mt)
             < pieces.index(complex_1_mt)
             < pieces.index(container))
+
+
+def test_both_field_types_should_be_before_complex_type(htypes, pyobj_creg, mosaic, bundle):
+    container = htypes.complex_2(
+        simple=htypes.simple(id=111),
+        derived=htypes.derived(id=222, value='sample value'),
+        )
+    simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
+    derived_mt = pyobj_creg.actor_to_piece(htypes.derived)
+    complex_2_mt = pyobj_creg.actor_to_piece(htypes.complex_2)
+    pieces = bundle(container)
+    assert (pieces.index(simple_mt)
+            < pieces.index(derived_mt)
+            < pieces.index(complex_2_mt)
+            < pieces.index(container)
+            )
