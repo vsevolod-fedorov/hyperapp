@@ -84,5 +84,19 @@ def test_base_type_should_be_before_derived_type(htypes, pyobj_creg, mosaic, bun
     simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
     derived_mt = pyobj_creg.actor_to_piece(htypes.derived)
     pieces = bundle(value)
-    assert pieces.index(simple_mt) < pieces.index(derived_mt)
-    assert pieces.index(derived_mt) < pieces.index(value)
+    assert (pieces.index(simple_mt)
+            < pieces.index(derived_mt)
+            < pieces.index(value))
+
+
+def test_field_type_should_be_before_complex_type(htypes, pyobj_creg, mosaic, bundle):
+    element = htypes.simple(id=123)
+    container = htypes.complex_1(
+        inner=element,
+        )
+    simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
+    complex_1_mt = pyobj_creg.actor_to_piece(htypes.complex_1)
+    pieces = bundle(container)
+    assert (pieces.index(simple_mt)
+            < pieces.index(complex_1_mt)
+            < pieces.index(container))

@@ -11,6 +11,7 @@ definitions:
           htypes.test.simple: test.t:simple
           htypes.test.ref_list: test.t:ref_list
           htypes.test.derived: test.t:derived
+          htypes.test.complex_1: test.t:complex_1
           services.pyobj_creg: builtin:service:pyobj_creg
           services.mosaic: builtin:service:mosaic
           services.unbundler: builtin:service:unbundler

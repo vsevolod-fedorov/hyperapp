@@ -8,3 +8,6 @@ ref_list = record:
 
 derived = record(simple):
   value: string
+
+complex_1 = record:
+  inner: simple
