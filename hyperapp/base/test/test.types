@@ -3,6 +3,9 @@ empty = record
 simple = record:
   id: int
 
+big = record:
+  value: string
+
 ref_list = record:
   elements: ref list
 

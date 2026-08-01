@@ -41,8 +41,8 @@ def unbundler(module):
 @pytest.fixture
 def bundle(mosaic, bundler, unbundler):
     saved = []
-    def _bundle(piece):
-        refs_and_bundle = bundler.bundle([mosaic.put(piece)])
+    def _bundle(piece, size_limit=None):
+        refs_and_bundle = bundler.bundle([mosaic.put(piece)], size_limit=size_limit)
         saved.append(refs_and_bundle.bundle)
         return [
             mosaic.resolve_ref(make_ref(capsule)).value
@@ -116,3 +116,23 @@ def test_both_field_types_should_be_before_complex_type(htypes, pyobj_creg, mosa
             < pieces.index(complex_2_mt)
             < pieces.index(container)
             )
+
+def test_size_limit(htypes, pyobj_creg, mosaic, bundle):
+    small = htypes.simple(id=123)
+    big = htypes.big(value='x' * 102400)
+    container = htypes.ref_list(
+        elements=(
+            mosaic.put(small),
+            mosaic.put(big),
+            ),
+        )
+    simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
+    big_mt = pyobj_creg.actor_to_piece(htypes.big)
+    ref_list_mt = pyobj_creg.actor_to_piece(htypes.ref_list)
+    pieces = bundle(container, size_limit=1024)
+    assert container in pieces
+    assert small in pieces
+    assert pieces.index(simple_mt) < pieces.index(small)
+    assert pieces.index(ref_list_mt) < pieces.index(container)
+    assert big not in pieces
+    assert big_mt not in pieces

@@ -9,6 +9,7 @@ definitions:
         pyobj:
           htypes.test.empty: test.t:empty
           htypes.test.simple: test.t:simple
+          htypes.test.big: test.t:big
           htypes.test.ref_list: test.t:ref_list
           htypes.test.derived: test.t:derived
           htypes.test.complex_1: test.t:complex_1
