@@ -9,7 +9,7 @@ capsule_t = TRecord(BUILTIN_MODULE_NAME, 'capsule', {
     })
 
 bundle_t = TRecord(BUILTIN_MODULE_NAME, 'bundle', {
-    'roots': TList(ref_t),
+    'root': ref_t,
     'associations': TList(ref_t),
     'capsule_list': TList(capsule_t),
     })

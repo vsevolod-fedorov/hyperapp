@@ -58,7 +58,7 @@ def subprocess_running(bundler):
         module = __import__(mp_main_path.stem, level=0)
         subprocess_main = module.subprocess_main
 
-        refs_and_bundle = bundler([mosaic.put(main_fn_piece)])
+        refs_and_bundle = bundler(mosaic.put(main_fn_piece))
         bundle_cdr = packet_coders.encode('cdr', refs_and_bundle.bundle)
         log.info("Subprocess %s: Packed main function. Bundle size: %.2f KB", name, len(bundle_cdr)/1024)
 

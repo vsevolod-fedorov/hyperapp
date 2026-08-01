@@ -24,18 +24,18 @@ class Bundler:
     def __init__(self, pick_refs):
         self._pick_refs = pick_refs
 
-    def bundle(self, ref_list, seen_refs=None, size_limit=None):
-        assert is_list_inst(ref_list, ref_t), repr(ref_list)
-        log.debug("Making bundle from refs: %s", [str(ref) for ref in ref_list])
-        refs, asss, capsule_list = self._collect_capsule_list(ref_list, seen_refs or [], size_limit)
+    def bundle(self, ref, seen_refs=None, size_limit=None):
+        assert isinstance(ref, ref_t), repr(ref)
+        log.debug("Making bundle from ref: %s", ref)
+        refs, asss, capsule_list = self._collect_capsule_list(ref, seen_refs or [], size_limit)
         bundle = bundle_t(
-            roots=tuple(ref_list),
+            root=ref,
             associations=tuple(asss),
             capsule_list=tuple(capsule_list),
             )
         return _RefsAndBundle(refs, bundle)
 
-    def _collect_capsule_list(self, ref_list, seen_refs, size_limit):
+    def _collect_capsule_list(self, ref, seen_refs, size_limit):
         result_capsule_list = []  # Capsules within size limit
         result_size = 0
         current_capsule_list = []  # Current ref capsule and it's type dependencies.
@@ -43,7 +43,7 @@ class Bundler:
         missing_ref_count = 0
         seen_asss = set()
         visited_refs = set(seen_refs)
-        unvisited_refs = [*ref_list]
+        unvisited_refs = [ref]
         current_refs = []
         type_idx = {}  # ref -> index of type in current capsule list.
         current_types = set()  # Type refs in current block.
@@ -114,5 +114,5 @@ class Bundler:
         return result
 
 
-def bundler(pick_refs, ref_list, seen_refs=None, size_limit=None):
-    return Bundler(pick_refs).bundle(ref_list, seen_refs, size_limit)
+def bundler(pick_refs, ref, seen_refs=None, size_limit=None):
+    return Bundler(pick_refs).bundle(ref, seen_refs, size_limit)

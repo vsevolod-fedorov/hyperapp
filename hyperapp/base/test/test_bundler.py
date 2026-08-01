@@ -42,7 +42,7 @@ def unbundler(module):
 def bundle(mosaic, bundler, unbundler):
     saved = []
     def _bundle(piece, size_limit=None):
-        refs_and_bundle = bundler.bundle([mosaic.put(piece)], size_limit=size_limit)
+        refs_and_bundle = bundler.bundle(mosaic.put(piece), size_limit=size_limit)
         saved.append(refs_and_bundle.bundle)
         return [
             mosaic.resolve_ref(make_ref(capsule)).value

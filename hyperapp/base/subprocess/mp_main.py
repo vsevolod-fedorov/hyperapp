@@ -65,7 +65,7 @@ def subprocess_main_safe(connection, main_fn_bundle_cdr):
 
     bundle = packet_coders.decode('cdr', main_fn_bundle_cdr, bundle_t)
     received_refs = unbundler.register_bundle(bundle)
-    main_fn_ref = bundle.roots[0]
+    main_fn_ref = bundle.root
     main_fn = pyobj_creg.invite(main_fn_ref)
 
     log.info("Subprocess: Run main function %s: %s", main_fn_ref, main_fn)
