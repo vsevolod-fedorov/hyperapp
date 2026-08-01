@@ -55,11 +55,28 @@ def bundle(mosaic, bundler, unbundler):
 
 
 def test_type_should_be_before_value(htypes, pyobj_creg, mosaic, bundle):
-    t = htypes.empty
-    value = t()
-    type_mt = pyobj_creg.actor_to_piece(t)
+    value = htypes.empty()
+    type_mt = pyobj_creg.actor_to_piece(htypes.empty)
     pieces = bundle(value)
     assert pieces.index(type_mt) < pieces.index(value)
+
+
+def test_two_types(htypes, pyobj_creg, mosaic, bundle):
+    empty = htypes.empty()
+    simple = htypes.simple(123)
+    empty_mt = pyobj_creg.actor_to_piece(htypes.empty)
+    simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
+    container = htypes.ref_list(
+        elements=(
+            mosaic.put(empty),
+            mosaic.put(simple),
+            ),
+        )
+    ref_list_mt = pyobj_creg.actor_to_piece(htypes.ref_list)
+    pieces = bundle(container)
+    assert pieces.index(ref_list_mt) < pieces.index(container)
+    assert pieces.index(empty_mt) < pieces.index(empty)
+    assert pieces.index(simple_mt) < pieces.index(simple)
 
 
 def test_type_should_be_before_both_values(htypes, pyobj_creg, mosaic, bundle):
