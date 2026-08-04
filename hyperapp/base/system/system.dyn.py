@@ -18,7 +18,6 @@ def setup_system(config_piece_list):
             service = web.summon(rec.service)
             service_config = web.summon(rec.config)
             service_to_config_pieces.setdefault(service, []).append(service_config)
-    print("service_to_config_pieces:", service_to_config_pieces)
 
     config_creg = ResolvingCodeRegistry('config_creg')
     adapter_creg_config = TypedDictConfigCtl().piece_list_to_config(
@@ -26,7 +25,6 @@ def setup_system(config_piece_list):
     adapter_creg = AdapterCodeRegistry('adapter_creg', adapter_creg_config)
     service_creg_config = TypedDictConfigCtl().piece_list_to_config(
         service_to_config_pieces[data.system.service.service_creg])
-    print("service_creg_config:", service_creg_config)
     service_creg = ServiceCodeRegistry(adapter_creg, service_creg_config)
     service_creg.add_to_cache(data.system.service.service_creg, service_creg)
     adapter_creg.set_service_creg(service_creg)
