@@ -1,0 +1,41 @@
+definitions:
+
+  config:
+    type: :system/system.t:system_config
+    value:
+      services:
+        :system/system:adapter_creg.service: adapter_creg.config
+        :system/system:service_creg.service: service_creg.config
+        :system/system:service_config_creg.service: service_config_creg.config
+        :transport/transport:transport.service: transport.config
+
+  adapter_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        :system/adapter.t:config_adapter: :system/adapter:config_adapter.actor
+        :system/adapter.t:service_args_adapter: :system/adapter:service_args_adapter.actor
+        :system/adapter.t:service_object_adapter: :system/adapter:service_object_adapter.actor
+
+  service_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        :system/system.t:service_config_creg: :system/system:service_config_creg.service-actor
+        :pick_refs:pick_refs.service.t: :pick_refs:pick_refs.service-actor
+        :pick_refs:pick_refs_cache.service.t: :pick_refs:pick_refs_cache.service-actor
+        :bundler:bundler.service.t: :bundler:bundler.service-actor
+        :transport/transport:transport.service.t: :transport/transport:transport.service-actor
+        server_main:subprocess_server_main.service.t: server_main:subprocess_server_main.service-actor
+
+  service_config_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        :transport/registries:identity_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
+        :transport/transport:transport.service.t: :system/config:RecordConfigCtl.from_service_piece.actor
+
+  transport.config:
+    type: :transport/transport.t:config
+    value:
+      message_size_limit: null

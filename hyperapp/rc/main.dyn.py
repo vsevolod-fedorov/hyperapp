@@ -1,12 +1,16 @@
+
+
 def compile_resources():
     print("rc compile resources")
 
 
-def main(args, compile_resources, subprocess_running, identity_creg):
+def main(identity_creg, generate_rsa_identity, subprocess_server_running, transport, compile_resources, args):
     print("rc main service:", args)
-    print("subprocess_running:", subprocess_running)
     print("identity_creg:", identity_creg)
+    print("transport:", transport)
     compile_resources()
-    with subprocess_running('sample', None):
+    master_identity = generate_rsa_identity(fast=True)
+    print("master identity:", master_identity)
+    with subprocess_server_running(master_identity, 'sample', count=2, timeout_sec=5, start_timeout_sec=5):
         print("subprocess is running")
     print("subprocess is finished")
