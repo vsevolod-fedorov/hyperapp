@@ -51,6 +51,7 @@ def subprocess_main(process_name, connection, main_fn_bundle_cdr):
             subprocess_main_safe(connection, main_fn_bundle_cdr)
         except Exception as x:
             log.exception("Subprocess: Failed with exception: %r", x)
+            raise
         connection.close()
 
 
