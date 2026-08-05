@@ -34,6 +34,7 @@ definitions:
         transport/registries:peer_creg.service.t: transport/registries:peer_creg.service-actor
         transport/registries:signature_creg.service.t: transport/registries:signature_creg.service-actor
         transport/registries:parcel_creg.service.t: transport/registries:parcel_creg.service-actor
+        transport/registries:message_creg.service.t: transport/registries:message_creg.service-actor
         transport/rsa:generate_rsa_identity.service.t: transport/rsa:generate_rsa_identity.service-actor
         transport/selectors:selectors.service.t: transport/selectors:selectors.service-actor
         transport/transport:transport.service.t: transport/transport:transport.service-actor
@@ -46,6 +47,7 @@ definitions:
         transport/registries:peer_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/registries:signature_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/registries:parcel_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
+        transport/registries:message_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/transport:transport.service.t: system/config:RecordConfigCtl.from_service_piece.actor
 
   identity_creg.config:
