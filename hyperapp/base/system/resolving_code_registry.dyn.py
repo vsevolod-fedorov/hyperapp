@@ -54,13 +54,10 @@ class CachedResolvingCodeRegistry(CachedCodeRegistry):
         return self._resolve_actor(piece, actor)
 
 
-class AdapterCodeRegistry(ResolvingCodeRegistry):
+class SystemCodeRegistry(ResolvingCodeRegistry):
 
-    def __init__(self, service_name, config):
+    def __init__(self, service_creg, service_name, config):
         super().__init__(service_name, config)
-        self._service_creg = None
-
-    def set_service_creg(self, service_creg):
         self._service_creg = service_creg
 
     def _resolve(self, t, piece):
@@ -79,6 +76,15 @@ class AdapterCodeRegistry(ResolvingCodeRegistry):
         return fn
 
 
+class AdapterCodeRegistry(SystemCodeRegistry):
+
+    def __init__(self, service_name, config):
+        super().__init__(None, service_name, config)
+
+    def set_service_creg(self, service_creg):
+        self._service_creg = service_creg
+
+
 class ServiceCodeRegistry(CachedResolvingCodeRegistry):
 
     def __init__(self, adapter_creg, config):
@@ -94,3 +100,7 @@ class ServiceCodeRegistry(CachedResolvingCodeRegistry):
     def _post_process(self, fn, piece, args, kw):
         assert not args and not kw
         return fn
+
+
+def system_code_registry_factory(service_creg, service_name, config):
+    return SystemCodeRegistry(service_creg, service_name, config)

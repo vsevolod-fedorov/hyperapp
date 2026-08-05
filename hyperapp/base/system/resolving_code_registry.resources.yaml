@@ -12,3 +12,33 @@ definitions:
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
         raw: {}
+
+  system_code_registry_factory:
+    type: builtin:type:attribute
+    value:
+      object: resolving_code_registry.module
+      attr_name: system_code_registry_factory
+
+  system_code_registry_factory.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: system_code_registry_factory
+      base: null
+      fields: {}
+
+  system_code_registry_factory.service:
+    type: system_code_registry_factory.service.t
+    value: {}
+
+  system_code_registry_factory.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: system_code_registry_factory
+      adapters:
+      - system_code_registry_factory.service-args-adapter
+
+  system_code_registry_factory.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        service_creg: system:service_creg.service

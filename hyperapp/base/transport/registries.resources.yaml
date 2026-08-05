@@ -11,6 +11,12 @@ definitions:
           code.resolving_code_registry: :system/resolving_code_registry:resolving_code_registry.module
         raw: {}
 
+  with-system_code_registry_factory.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        system_code_registry_factory: :system/resolving_code_registry:system_code_registry_factory.service
+
   identity_creg:
     type: builtin:type:attribute
     value:
@@ -34,6 +40,7 @@ definitions:
       fn: identity_creg
       adapters:
       - :system/adapter:config.adapter
+      - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
   peer_creg:
@@ -59,6 +66,7 @@ definitions:
       fn: peer_creg
       adapters:
       - :system/adapter:config.adapter
+      - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
   signature_creg:
@@ -84,6 +92,7 @@ definitions:
       fn: signature_creg
       adapters:
       - :system/adapter:config.adapter
+      - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
   parcel_creg:
@@ -109,6 +118,7 @@ definitions:
       fn: parcel_creg
       adapters:
       - :system/adapter:config.adapter
+      - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
   route_creg:
@@ -150,4 +160,5 @@ definitions:
       fn: message_creg
       adapters:
       - :system/adapter:config.adapter
+      - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
