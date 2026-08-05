@@ -1,0 +1,10 @@
+definitions:
+
+  packet.module:
+    type: builtin:type:python_module
+    value:
+      module_name: packet
+      file_name: packet.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

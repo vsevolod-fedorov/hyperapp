@@ -6,7 +6,9 @@ definitions:
       module_name: server_main
       file_name: server_main.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          htypes.subprocess.server_started_report: subprocess.t:server_started_report
+          code.subprocess.transport: :subprocess/transport:transport.module
         raw: {}
 
   subprocess_server_main:
@@ -37,4 +39,7 @@ definitions:
     type: :system/adapter.t:service_args_adapter
     value:
       args:
+        bundler: :bundler:bundler.service
         transport: :transport/transport:transport.service
+        peer_creg: :transport/registries:peer_creg.service
+        generate_rsa_identity: :transport/rsa_identity:generate_rsa_identity.service

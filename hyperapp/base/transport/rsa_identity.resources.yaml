@@ -67,6 +67,12 @@ definitions:
       object: RsaPeer
       attr_name: from_piece
 
+  RsaPeer.from_piece.actor:
+    type: :system/system.t:actor
+    value:
+      fn: RsaPeer.from_piece
+      service_params: {}
+
   # RsaPeer.from_piece.actor-template:
   #   type: legacy_type.system:actor_template
   #   value:

@@ -8,6 +8,7 @@ definitions:
         :system/system:service_creg.service: service_creg.config
         :system/system:service_config_creg.service: service_config_creg.config
         :transport/transport:transport.service: transport.config
+        :transport/registries:peer_creg.service: peer_creg.config
 
   adapter_creg.config:
     type: :system/system.t:typed_item_list
@@ -26,6 +27,8 @@ definitions:
         :pick_refs:pick_refs_cache.service.t: :pick_refs:pick_refs_cache.service-actor
         :bundler:bundler.service.t: :bundler:bundler.service-actor
         :transport/transport:transport.service.t: :transport/transport:transport.service-actor
+        :transport/registries:peer_creg.service.t: :transport/registries:peer_creg.service-actor
+        :transport/rsa_identity:generate_rsa_identity.service.t: :transport/rsa_identity:generate_rsa_identity.service-actor
         server_main:subprocess_server_main.service.t: server_main:subprocess_server_main.service-actor
 
   service_config_creg.config:
@@ -33,9 +36,16 @@ definitions:
     value:
       items:
         :transport/registries:identity_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
+        :transport/registries:peer_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/transport:transport.service.t: :system/config:RecordConfigCtl.from_service_piece.actor
 
   transport.config:
     type: :transport/transport.t:config
     value:
       message_size_limit: null
+
+  peer_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        :transport/rsa_identity.t:rsa_peer: :transport/rsa_identity:RsaPeer.from_piece.actor

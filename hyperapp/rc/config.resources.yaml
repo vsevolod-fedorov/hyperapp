@@ -6,6 +6,7 @@ definitions:
       services:
         base:system/system:service_config_creg.service: service_config_creg.config
         base:system/system:service_creg.service: service_creg.config
+        base:transport/transport:transport.service: transport.config
 
   service_config_creg.config:
     type: base:system/system.t:typed_item_list
@@ -18,3 +19,8 @@ definitions:
       items:
         main:compile_resources.service.t: main:compile_resources.service-actor
         main:main.service.t: main:main.service-actor
+
+  transport.config:
+    type: base:transport/transport.t:config
+    value:
+      message_size_limit: null

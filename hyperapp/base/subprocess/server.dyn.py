@@ -21,7 +21,8 @@ def subprocess_server_running(
             for idx in range(count):
                 process_id = next(_process_id_counter)
                 future = get_process_future(process_id)
-                main = make_partial(server_boot, process_id=process_id)
+                main = make_partial(
+                    server_boot, process_id=process_id, master_peer=master_identity.peer.piece)
                 rec = stack.enter_context(subprocess_running(f'{name}-{idx:02d}', main))
                 print(rec.connection)
             yield

@@ -7,6 +7,7 @@ definitions:
         system/system:service_creg.service: service_creg.config
         system/system:service_config_creg.service: service_config_creg.config
         transport/registries:identity_creg.service: identity_creg.config
+        transport/registries:peer_creg.service: peer_creg.config
 
   adapter_creg.config:
     type: system/system.t:typed_item_list
@@ -27,16 +28,26 @@ definitions:
         subprocess/subprocess_running:subprocess_running.service.t: subprocess/subprocess_running:subprocess_running.service-actor
         subprocess/server:subprocess_server_running.service.t: subprocess/server:subprocess_server_running.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
+        transport/registries:peer_creg.service.t: transport/registries:peer_creg.service-actor
         transport/rsa_identity:generate_rsa_identity.service.t: transport/rsa_identity:generate_rsa_identity.service-actor
+        transport/transport:transport.service.t: transport/transport:transport.service-actor
 
   service_config_creg.config:
     type: system/system.t:typed_item_list
     value:
       items:
         transport/registries:identity_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
+        transport/registries:peer_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
+        transport/transport:transport.service.t: system/config:RecordConfigCtl.from_service_piece.actor
 
   identity_creg.config:
     type: system/system.t:typed_item_list
     value:
       items:
         transport/rsa_identity.t:rsa_identity: transport/rsa_identity:RsaIdentity.from_piece.actor
+
+  peer_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        transport/rsa_identity.t:rsa_peer: transport/rsa_identity:RsaPeer.from_piece.actor
