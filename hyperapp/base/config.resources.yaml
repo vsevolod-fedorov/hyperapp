@@ -8,6 +8,8 @@ definitions:
         system/system:service_config_creg.service: service_config_creg.config
         transport/registries:identity_creg.service: identity_creg.config
         transport/registries:peer_creg.service: peer_creg.config
+        transport/registries:signature_creg.service: signature_creg.config
+        transport/registries:parcel_creg.service: parcel_creg.config
 
   adapter_creg.config:
     type: system/system.t:typed_item_list
@@ -29,7 +31,10 @@ definitions:
         subprocess/worker:subprocess_workers_running.service.t: subprocess/worker:subprocess_workers_running.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
         transport/registries:peer_creg.service.t: transport/registries:peer_creg.service-actor
-        transport/rsa_identity:generate_rsa_identity.service.t: transport/rsa_identity:generate_rsa_identity.service-actor
+        transport/registries:signature_creg.service.t: transport/registries:signature_creg.service-actor
+        transport/registries:parcel_creg.service.t: transport/registries:parcel_creg.service-actor
+        transport/rsa:generate_rsa_identity.service.t: transport/rsa:generate_rsa_identity.service-actor
+        transport/selectors:selectors.service.t: transport/selectors:selectors.service-actor
         transport/transport:transport.service.t: transport/transport:transport.service-actor
 
   service_config_creg.config:
@@ -38,16 +43,30 @@ definitions:
       items:
         transport/registries:identity_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/registries:peer_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
+        transport/registries:signature_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
+        transport/registries:parcel_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/transport:transport.service.t: system/config:RecordConfigCtl.from_service_piece.actor
 
   identity_creg.config:
     type: system/system.t:typed_item_list
     value:
       items:
-        transport/rsa_identity.t:rsa_identity: transport/rsa_identity:RsaIdentity.from_piece.actor
+        transport/rsa.t:rsa_identity: transport/rsa:RsaIdentity.from_piece.actor
 
   peer_creg.config:
     type: system/system.t:typed_item_list
     value:
       items:
-        transport/rsa_identity.t:rsa_peer: transport/rsa_identity:RsaPeer.from_piece.actor
+        transport/rsa.t:rsa_peer: transport/rsa:RsaPeer.from_piece.actor
+
+  signature_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        transport/rsa.t:rsa_signature: transport/rsa:RsaSignature.from_piece.actor
+
+  parcel_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        transport/rsa.t:rsa_parcel: transport/rsa:RsaParcel.from_piece.actor

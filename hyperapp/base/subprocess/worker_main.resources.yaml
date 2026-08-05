@@ -42,4 +42,4 @@ definitions:
         bundler: :bundler:bundler.service
         transport: :transport/transport:transport.service
         peer_creg: :transport/registries:peer_creg.service
-        generate_rsa_identity: :transport/rsa_identity:generate_rsa_identity.service
+        generate_rsa_identity: :transport/rsa:generate_rsa_identity.service

@@ -9,6 +9,8 @@ definitions:
         :system/system:service_config_creg.service: service_config_creg.config
         :transport/transport:transport.service: transport.config
         :transport/registries:peer_creg.service: peer_creg.config
+        :transport/registries:signature_creg.service: signature_creg.config
+        :transport/registries:parcel_creg.service: parcel_creg.config
 
   adapter_creg.config:
     type: :system/system.t:typed_item_list
@@ -26,9 +28,12 @@ definitions:
         :pick_refs:pick_refs.service.t: :pick_refs:pick_refs.service-actor
         :pick_refs:pick_refs_cache.service.t: :pick_refs:pick_refs_cache.service-actor
         :bundler:bundler.service.t: :bundler:bundler.service-actor
+        :transport/selectors:selectors.service.t: :transport/selectors:selectors.service-actor
         :transport/transport:transport.service.t: :transport/transport:transport.service-actor
         :transport/registries:peer_creg.service.t: :transport/registries:peer_creg.service-actor
-        :transport/rsa_identity:generate_rsa_identity.service.t: :transport/rsa_identity:generate_rsa_identity.service-actor
+        :transport/registries:signature_creg.service.t: :transport/registries:signature_creg.service-actor
+        :transport/registries:parcel_creg.service.t: :transport/registries:parcel_creg.service-actor
+        :transport/rsa:generate_rsa_identity.service.t: :transport/rsa:generate_rsa_identity.service-actor
         worker_main:subprocess_worker_main.service.t: worker_main:subprocess_worker_main.service-actor
 
   service_config_creg.config:
@@ -37,6 +42,8 @@ definitions:
       items:
         :transport/registries:identity_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/registries:peer_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
+        :transport/registries:signature_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
+        :transport/registries:parcel_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/transport:transport.service.t: :system/config:RecordConfigCtl.from_service_piece.actor
 
   transport.config:
@@ -48,4 +55,16 @@ definitions:
     type: :system/system.t:typed_item_list
     value:
       items:
-        :transport/rsa_identity.t:rsa_peer: :transport/rsa_identity:RsaPeer.from_piece.actor
+        :transport/rsa.t:rsa_peer: :transport/rsa:RsaPeer.from_piece.actor
+
+  signature_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        :transport/rsa.t:rsa_signature: :transport/rsa:RsaSignature.from_piece.actor
+
+  parcel_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        :transport/rsa.t:rsa_parcel: :transport/rsa:RsaParcel.from_piece.actor

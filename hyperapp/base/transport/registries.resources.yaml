@@ -36,22 +36,6 @@ definitions:
       - :system/adapter:config.adapter
       - :system/adapter:service_object.adapter
 
-  parcel_creg:
-    type: builtin:type:attribute
-    value:
-      object: registries.module
-      attr_name: parcel_creg
-
-  # parcel_creg.service:
-  #   type: legacy_type.system:service_template
-  #   value:
-  #     name: parcel_creg
-  #     ctl: base.system.system:actor_dict.config_ctl
-  #     function: parcel_creg
-  #     free_params: []
-  #     service_params: []
-  #     want_config: true
-
   peer_creg:
     type: builtin:type:attribute
     value:
@@ -83,15 +67,49 @@ definitions:
       object: registries.module
       attr_name: signature_creg
 
-  # signature_creg.service:
-  #   type: legacy_type.system:service_template
-  #   value:
-  #     name: signature_creg
-  #     ctl: base.system.system:actor_dict.config_ctl
-  #     function: signature_creg
-  #     free_params: []
-  #     service_params: []
-  #     want_config: true
+  signature_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: signature_creg
+      base: null
+      fields: {}
+
+  signature_creg.service:
+    type: signature_creg.service.t
+    value: {}
+
+  signature_creg.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: signature_creg
+      adapters:
+      - :system/adapter:config.adapter
+      - :system/adapter:service_object.adapter
+
+  parcel_creg:
+    type: builtin:type:attribute
+    value:
+      object: registries.module
+      attr_name: parcel_creg
+
+  parcel_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: parcel_creg
+      base: null
+      fields: {}
+
+  parcel_creg.service:
+    type: parcel_creg.service.t
+    value: {}
+
+  parcel_creg.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: parcel_creg
+      adapters:
+      - :system/adapter:config.adapter
+      - :system/adapter:service_object.adapter
 
   route_creg:
     type: builtin:type:attribute

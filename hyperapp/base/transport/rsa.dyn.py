@@ -58,7 +58,7 @@ class RsaIdentity:
             format=serialization.PrivateFormat.PKCS8,
             encryption_algorithm=serialization.NoEncryption(),
             )
-        return htypes.rsa_identity.rsa_identity(private_key_pem)
+        return htypes.rsa.rsa_identity(private_key_pem)
 
     @cached_property
     def peer(self):
@@ -121,7 +121,7 @@ class RsaPeer:
 
     @property
     def piece(self):
-        return htypes.rsa_identity.rsa_peer(self.public_key_pem)
+        return htypes.rsa.rsa_peer(self.public_key_pem)
 
     @cached_property
     def public_key_pem(self):
@@ -168,7 +168,7 @@ class RsaSignature:
 
     @property
     def piece(self):
-        return htypes.rsa_identity.rsa_signature(
+        return htypes.rsa.rsa_signature(
             signer_public_key_pem=self._signer.public_key_pem,
             hash_algorithm=self._hash_algorithm,
             padding=self._padding,
@@ -213,7 +213,7 @@ class RsaParcel:
     @property
     def piece(self):
         signature_ref = mosaic.put(self._signature.piece)
-        return htypes.rsa_identity.rsa_parcel(
+        return htypes.rsa.rsa_parcel(
             receiver_public_key_pem=self._receiver.public_key_pem,
             encrypted_fernet_key=self._encrypted_fernet_key,
             encrypted_bundle=self._encrypted_bundle,
