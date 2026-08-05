@@ -29,7 +29,7 @@ definitions:
         :transport/transport:transport.service.t: :transport/transport:transport.service-actor
         :transport/registries:peer_creg.service.t: :transport/registries:peer_creg.service-actor
         :transport/rsa_identity:generate_rsa_identity.service.t: :transport/rsa_identity:generate_rsa_identity.service-actor
-        server_main:subprocess_server_main.service.t: server_main:subprocess_server_main.service-actor
+        worker_main:subprocess_worker_main.service.t: worker_main:subprocess_worker_main.service-actor
 
   service_config_creg.config:
     type: :system/system.t:typed_item_list

@@ -1,2 +1,2 @@
-server_started_report = record:
+worker_started_report = record:
   process_id: int

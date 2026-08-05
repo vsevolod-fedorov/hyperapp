@@ -1,43 +1,43 @@
 definitions:
 
-  server.module:
+  worker.module:
     type: builtin:type:python_module
     value:
-      module_name: server
-      file_name: server.dyn.py
+      module_name: worker
+      file_name: worker.dyn.py
       imports:
         pyobj:
           code.make_partial: :make_partial:make_partial.module
           code.futures: futures:futures.module
         raw:
-          data.server_boot.boot: server_boot:boot
+          data.worker_boot.boot: worker_boot:boot
 
-  subprocess_server_running:
+  subprocess_workers_running:
     type: builtin:type:attribute
     value:
-      object: server.module
-      attr_name: subprocess_server_running
+      object: worker.module
+      attr_name: subprocess_workers_running
 
-  subprocess_server_running.service.t:
+  subprocess_workers_running.service.t:
     type: builtin:type:record_mt
     value:
-      name: subprocess_server_running
+      name: subprocess_workers_running
       base: null
       fields: {}
 
-  subprocess_server_running.service:
-    type: subprocess_server_running.service.t
+  subprocess_workers_running.service:
+    type: subprocess_workers_running.service.t
     value: {}
 
-  subprocess_server_running.service-actor:
+  subprocess_workers_running.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: subprocess_server_running
+      fn: subprocess_workers_running
       adapters:
-      - subprocess_server_running.service-args-adapter
+      - subprocess_workers_running.service-args-adapter
       - :system/adapter:service_object.adapter
 
-  subprocess_server_running.service-args-adapter:
+  subprocess_workers_running.service-args-adapter:
     type: :system/adapter.t:service_args_adapter
     value:
       args:

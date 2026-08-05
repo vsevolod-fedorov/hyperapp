@@ -62,6 +62,6 @@ definitions:
       args:
         identity_creg: base:transport/registries:identity_creg.service
         generate_rsa_identity: base:transport/rsa_identity:generate_rsa_identity.service
-        subprocess_server_running: base:subprocess/server:subprocess_server_running.service
+        subprocess_workers_running: base:subprocess/worker:subprocess_workers_running.service
         transport: base:transport/transport:transport.service
         compile_resources: compile_resources.service

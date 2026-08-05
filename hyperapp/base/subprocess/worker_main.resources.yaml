@@ -1,41 +1,41 @@
 definitions:
 
-  server_main.module:
+  worker_main.module:
     type: builtin:type:python_module
     value:
-      module_name: server_main
-      file_name: server_main.dyn.py
+      module_name: worker_main
+      file_name: worker_main.dyn.py
       imports:
         pyobj:
-          htypes.subprocess.server_started_report: subprocess.t:server_started_report
+          htypes.subprocess.worker_started_report: subprocess.t:worker_started_report
           code.subprocess.transport: :subprocess/transport:transport.module
         raw: {}
 
-  subprocess_server_main:
+  subprocess_worker_main:
     type: builtin:type:attribute
     value:
-      object: server_main.module
-      attr_name: subprocess_server_main
+      object: worker_main.module
+      attr_name: subprocess_worker_main
 
-  subprocess_server_main.service.t:
+  subprocess_worker_main.service.t:
     type: builtin:type:record_mt
     value:
-      name: subprocess_server_main
+      name: subprocess_worker_main
       base: null
       fields: {}
 
-  subprocess_server_main.service:
-    type: subprocess_server_main.service.t
+  subprocess_worker_main.service:
+    type: subprocess_worker_main.service.t
     value: {}
 
-  subprocess_server_main.service-actor:
+  subprocess_worker_main.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: subprocess_server_main
+      fn: subprocess_worker_main
       adapters:
-      - subprocess_server_main.service-args-adapter
+      - subprocess_worker_main.service-args-adapter
 
-  subprocess_server_main.service-args-adapter:
+  subprocess_worker_main.service-args-adapter:
     type: :system/adapter.t:service_args_adapter
     value:
       args:

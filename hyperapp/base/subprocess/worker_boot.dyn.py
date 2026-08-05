@@ -4,7 +4,7 @@ from .data import main_svc
 
 
 def boot(connection, received_refs, process_id, master_peer):
-    print("Server boot. Process_id:", process_id)
+    print("Worker boot. Process_id:", process_id)
     service_creg = setup_system([subprocess_config])
     main = service_creg.animate(main_svc)
     main(connection, process_id, master_peer)
