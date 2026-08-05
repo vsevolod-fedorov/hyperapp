@@ -40,8 +40,10 @@ class Connection:
 
     def __init__(self, transport):
         self._transport = transport
-        self._seen_refs = set()
         self._buffer = b''
+
+    def __repr__(self):
+        return f"<{self}>"
 
     def _process_data(self, data):
         self._buffer += data
@@ -51,8 +53,7 @@ class Connection:
         self._buffer = self._buffer[packet_size:]
         log.info("%s: Received bundle, %d bytes: parcel: %s", self, packet_size, bundle.root)
         ref_set = unbundler.register_bundle(bundle)
-        self._seen_refs |= ref_set
-        self._transport.process_incoming_parcel(bundle.root)
+        self._transport.process_incoming_parcel(bundle.root, ref_set)
 
 
 class LocalEndpoint:
@@ -63,10 +64,11 @@ class LocalEndpoint:
         self._message_creg = message_creg
         self._identity = identity
 
-    def process_parcel(self, parcel):
+    def process_parcel(self, parcel, peer_refs):
         parcel.verify()
         bundle = self._identity.decrypt_parcel(parcel)
-        unbundler.register_bundle(bundle)
+        ref_set = unbundler.register_bundle(bundle)
+        peer_refs |= ref_set
         request = self._Request(self._identity, parcel.sender)
         self._message_creg.invite(bundle.root, request)
 
@@ -75,9 +77,11 @@ class Transport:
 
     _Route = namedtuple('_Route', 'route is_internal')
 
-    def __init__(self, bundler, message_size_limit):
+    def __init__(self, bundler, parcel_creg, selectors, message_size_limit):
         self._bundler = bundler
-        self._receiver_peer_refs = defaultdict(set)
+        self._parcel_creg = parcel_creg
+        self._selectors = selectors
+        self._peer_refs = defaultdict(set)
         self._message_size_limit = message_size_limit
         self._peer_to_routes = defaultdict(set)
         self._peer_to_endpoint = {}
@@ -91,9 +95,13 @@ class Transport:
     def add_internal_route(self, peer, route):
         self._peer_to_routes[peer].add(self._Route(route, is_internal=True))
 
+    def register_connection(self, connection):
+        log.debug("Transport: Register connection: %s", connection)
+        self._selectors.register(connection)
+
     def send_message(self, receiver_peer, sender_identity, message):
         log.debug("Send %s to %s from %s", message, receiver_peer, sender_identity)
-        peer_refs = self._receiver_peer_refs[receiver_peer]
+        peer_refs = self._peer_refs[receiver_peer]
         refs_and_bundle = self._bundler(mosaic.put(message), peer_refs, size_limit=self._message_size_limit)
         peer_refs |= refs_and_bundle.ref_set
         parcel = receiver_peer.make_parcel(refs_and_bundle.bundle, sender_identity)
@@ -108,11 +116,13 @@ class Transport:
         log.debug("Send parcel %s by route %s (all routes: %s)", parcel, rec.route, routes)
         rec.route.send(parcel, peer_refs)
 
-    def process_incoming_parcel(self, parcel_ref):
-        parcel = self._svc.parcel_creg.invite(parcel_ref)
-        endpoint = self._peer_to_endpoint(parcel.receiver.peer)
-        endpoint.process_parcel(parcel)
+    def process_incoming_parcel(self, parcel_ref, ref_set):
+        parcel = self._parcel_creg.invite(parcel_ref)
+        peer_refs = self._peer_refs[parcel.receiver]
+        peer_refs |= ref_set
+        endpoint = self._peer_to_endpoint[parcel.receiver]
+        endpoint.process_parcel(parcel, peer_refs)
 
 
-def transport(config, bundler):
-    return Transport(bundler, config.message_size_limit)
+def transport(config, bundler, parcel_creg, selectors):
+    return Transport(bundler, parcel_creg, selectors, config.message_size_limit)

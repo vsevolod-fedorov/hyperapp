@@ -1,0 +1,34 @@
+definitions:
+
+  selectors.module:
+    type: builtin:type:python_module
+    value:
+      module_name: selectors
+      file_name: selectors.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  selectors:
+    type: builtin:type:attribute
+    value:
+      object: selectors.module
+      attr_name: selectors
+
+  selectors.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: selectors
+      base: null
+      fields: {}
+
+  selectors.service:
+    type: selectors.service.t
+    value: {}
+
+  selectors.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: selectors
+      adapters:
+      - :system/adapter:service_object.adapter

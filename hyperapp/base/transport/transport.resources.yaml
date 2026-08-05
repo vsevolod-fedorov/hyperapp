@@ -43,3 +43,5 @@ definitions:
     value:
       args:
         bundler: :bundler:bundler.service
+        parcel_creg: registries:parcel_creg.service
+        selectors: selectors:selectors.service

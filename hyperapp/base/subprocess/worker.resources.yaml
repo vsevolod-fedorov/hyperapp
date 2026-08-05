@@ -9,6 +9,7 @@ definitions:
         pyobj:
           code.make_partial: :make_partial:make_partial.module
           code.futures: futures:futures.module
+          code.transport: transport:transport.module
         raw:
           data.worker_boot.boot: worker_boot:boot
 

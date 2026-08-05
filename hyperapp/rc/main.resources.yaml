@@ -6,7 +6,8 @@ definitions:
       module_name: main
       file_name: main.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          code.transport: base:transport/transport:transport.module
         raw: {}
 
   compile_resources:
@@ -63,5 +64,7 @@ definitions:
         identity_creg: base:transport/registries:identity_creg.service
         generate_rsa_identity: base:transport/rsa:generate_rsa_identity.service
         subprocess_workers_running: base:subprocess/worker:subprocess_workers_running.service
+        selectors: base:transport/selectors:selectors.service
         transport: base:transport/transport:transport.service
+        message_creg: base:transport/registries:message_creg.service
         compile_resources: compile_resources.service
