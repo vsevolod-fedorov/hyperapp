@@ -8,7 +8,7 @@ definitions:
       file_name: registries.dyn.py
       imports:
         pyobj:
-          services.code_registry_ctr: builtin:service:code_registry_ctr
+          code.resolving_code_registry: :system/resolving_code_registry:resolving_code_registry.module
         raw: {}
 
   identity_creg:
@@ -58,15 +58,24 @@ definitions:
       object: registries.module
       attr_name: peer_creg
 
-  # peer_creg.service:
-  #   type: legacy_type.system:service_template
-  #   value:
-  #     name: peer_creg
-  #     ctl: base.system.system:actor_dict.config_ctl
-  #     function: peer_creg
-  #     free_params: []
-  #     service_params: []
-  #     want_config: true
+  peer_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: peer_creg
+      base: null
+      fields: {}
+
+  peer_creg.service:
+    type: peer_creg.service.t
+    value: {}
+
+  peer_creg.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: peer_creg
+      adapters:
+      - :system/adapter:config.adapter
+      - :system/adapter:service_object.adapter
 
   signature_creg:
     type: builtin:type:attribute
@@ -99,3 +108,28 @@ definitions:
   #     free_params: []
   #     service_params: []
   #     want_config: true
+
+  message_creg:
+    type: builtin:type:attribute
+    value:
+      object: registries.module
+      attr_name: message_creg
+
+  message_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: message_creg
+      base: null
+      fields: {}
+
+  message_creg.service:
+    type: message_creg.service.t
+    value: {}
+
+  message_creg.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: message_creg
+      adapters:
+      - :system/adapter:config.adapter
+      - :system/adapter:service_object.adapter
