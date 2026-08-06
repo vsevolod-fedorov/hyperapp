@@ -8,6 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.subprocess.worker_started_report: subprocess.t:worker_started_report
+          code.selectors: :transport/selectors:selectors.module
           code.subprocess.transport: :subprocess/transport:transport.module
         raw: {}
 
@@ -40,6 +41,7 @@ definitions:
     value:
       args:
         bundler: :bundler:bundler.service
+        selectors: :transport/selectors:selectors.service
         transport: :transport/transport:transport.service
         peer_creg: :transport/registries:peer_creg.service
         generate_rsa_identity: :transport/rsa:generate_rsa_identity.service

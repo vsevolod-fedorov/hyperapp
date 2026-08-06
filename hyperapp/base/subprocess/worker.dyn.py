@@ -6,7 +6,7 @@ from contextlib import ExitStack, contextmanager
 from .code.make_partial import make_partial
 from .code.futures import get_process_future
 from .code.selectors import StopSignal
-from .code.transport import IncomingConnection
+from .code.subprocess.transport import IncomingConnection
 from .data.worker_boot import boot as worker_boot
 
 log = logging.getLogger(__name__)
@@ -115,7 +115,7 @@ def subprocess_workers_running(
                     worker_boot, process_id=process_id, master_peer=master_identity.peer.piece)
                 worker_name = f'{name}-{idx:02d}'
                 rec = stack.enter_context(subprocess_running(worker_name, main))
-                connection = IncomingConnection(transport, worker_name, rec.connection)
+                connection = IncomingConnection(selectors, transport, worker_name, rec.connection)
                 transport.register_connection(connection)
                 sentinel = _Sentinel(selectors, sync, process_id, rec.process)
                 stack.enter_context(sentinel.registered())

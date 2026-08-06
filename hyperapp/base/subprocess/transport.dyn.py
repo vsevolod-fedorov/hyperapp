@@ -1,12 +1,18 @@
+import logging
+
 from .code.transport import Connection, PacketRoute
+
+log = logging.getLogger(__name__)
 
 
 class IncomingConnection(Connection):
 
-    def __init__(self, transport, name, connection):
+    def __init__(self, selectors, transport, name, connection, on_eof=None):
         super().__init__(transport)
+        self._selectors = selectors
         self._name = name
         self._connection = connection
+        self._on_eof = on_eof
 
     def __str__(self):
         return f"Subprocess {self._name!r}"
@@ -15,7 +21,14 @@ class IncomingConnection(Connection):
         return self._connection.fileno()
 
     def process(self):
-        data = self._connection.recv()
+        try:
+            data = self._connection.recv()
+        except EOFError:
+            log.info("Subprocess incoming connection %r is closed by remote peer", self._name)
+            self._selectors.unregister(self)
+            if self._on_eof:
+                self._on_eof()
+            return
         self._process_data(data)
 
 
