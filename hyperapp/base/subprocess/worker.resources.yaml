@@ -9,9 +9,23 @@ definitions:
         pyobj:
           code.make_partial: :make_partial:make_partial.module
           code.futures: futures:futures.module
+          code.selectors: :transport/selectors:selectors.module
           code.transport: transport:transport.module
         raw:
           data.worker_boot.boot: worker_boot:boot
+
+
+  worker_started:
+    type: builtin:type:attribute
+    value:
+      object: worker.module
+      attr_name: worker_started
+
+  worker_started.actor:
+    type: :system/system.t:actor
+    value:
+      fn: worker_started
+      service_params: {}
 
   subprocess_workers_running:
     type: builtin:type:attribute
@@ -42,5 +56,6 @@ definitions:
     type: :system/adapter.t:service_args_adapter
     value:
       args:
+        selectors: :transport/selectors:selectors.service
         transport: :transport/transport:transport.service
         subprocess_running: subprocess_running:subprocess_running.service

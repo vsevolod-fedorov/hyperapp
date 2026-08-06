@@ -10,6 +10,7 @@ definitions:
         transport/registries:peer_creg.service: peer_creg.config
         transport/registries:signature_creg.service: signature_creg.config
         transport/registries:parcel_creg.service: parcel_creg.config
+        transport/registries:message_creg.service: message_creg.config
 
   adapter_creg.config:
     type: system/system.t:typed_item_list
@@ -73,3 +74,9 @@ definitions:
     value:
       items:
         transport/rsa.t:rsa_parcel: transport/rsa:RsaParcel.from_piece.actor
+
+  message_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        subprocess/subprocess.t:worker_started_report: subprocess/worker:worker_started.actor

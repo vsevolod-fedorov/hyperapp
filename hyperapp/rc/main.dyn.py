@@ -22,7 +22,8 @@ def main(
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
     print("master identity:", master_identity)
-    with subprocess_workers_running(master_identity, 'sample', count=2, timeout_sec=5, start_timeout_sec=5):
-        print("subprocess is running")
+    with subprocess_workers_running(
+            master_identity, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
+        print("workers are running:", workers.peers)
         selectors.run(1)
     print("subprocess is finished")
