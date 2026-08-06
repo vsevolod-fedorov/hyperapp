@@ -1,4 +1,8 @@
+import logging
+
 from .code.transport import LocalEndpoint
+
+log = logging.getLogger(__name__)
 
 
 def compile_resources():
@@ -15,15 +19,12 @@ def main(
         compile_resources,
         args,
         ):
-    print("rc main service:", args)
-    print("identity_creg:", identity_creg)
-    print("transport:", transport)
     compile_resources()
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
-    print("master identity:", master_identity)
+    log.info("master identity: %s", master_identity)
     with subprocess_workers_running(
             master_identity, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
-        print("workers are running:", workers.peers)
+        log.info("workers are running: %s", workers.peers)
         selectors.run(1)
-    print("subprocess is finished")
+    log.info("workers are finished")
