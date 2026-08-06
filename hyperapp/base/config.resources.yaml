@@ -29,7 +29,7 @@ definitions:
         pick_refs:pick_refs.service.t: pick_refs:pick_refs.service-actor
         pick_refs:pick_refs_cache.service.t: pick_refs:pick_refs_cache.service-actor
         bundler:bundler.service.t: bundler:bundler.service-actor
-        subprocess/subprocess_running:subprocess_running.service.t: subprocess/subprocess_running:subprocess_running.service-actor
+        subprocess/subprocess:subprocess_running.service.t: subprocess/subprocess:subprocess_running.service-actor
         subprocess/worker:subprocess_workers_running.service.t: subprocess/worker:subprocess_workers_running.service-actor
         transport/registries:identity_creg.service.t: transport/registries:identity_creg.service-actor
         transport/registries:peer_creg.service.t: transport/registries:peer_creg.service-actor

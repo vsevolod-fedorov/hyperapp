@@ -58,4 +58,4 @@ definitions:
       args:
         selectors: :transport/selectors:selectors.service
         transport: :transport/transport:transport.service
-        subprocess_running: subprocess_running:subprocess_running.service
+        subprocess_running: subprocess:subprocess_running.service
