@@ -56,7 +56,7 @@ def subprocess_main(process_name, connection, main_fn_bundle_cdr):
 
 
 def subprocess_main_safe(connection, main_fn_bundle_cdr):
-    log.info("Subprocess: Init services.")
+    log.info("Subprocess: Boot")
     svc = boot_services()
 
     pyobj_creg = svc.pyobj_creg
@@ -71,4 +71,4 @@ def subprocess_main_safe(connection, main_fn_bundle_cdr):
 
     log.info("Subprocess: Run main function %s: %s", main_fn_ref, main_fn)
     main_fn(connection, received_refs)
-    log.info("Subprocess: Done.")
+    log.info("Subprocess: Done")
