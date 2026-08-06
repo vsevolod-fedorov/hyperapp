@@ -51,7 +51,7 @@ class Connection:
             return
         bundle, packet_size = decode_packet(self._buffer)
         self._buffer = self._buffer[packet_size:]
-        log.info("%s: Received bundle, %d bytes: parcel: %s", self, packet_size, bundle.root)
+        log.debug("%s: Received bundle, %d bytes: parcel: %s", self, packet_size, bundle.root)
         ref_set = unbundler.register_bundle(bundle)
         self._transport.process_incoming_parcel(bundle.root, ref_set)
 

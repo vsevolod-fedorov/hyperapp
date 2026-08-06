@@ -62,7 +62,7 @@ def subprocess_main_safe(connection, main_fn_bundle_cdr):
     pyobj_creg = svc.pyobj_creg
     unbundler = svc.unbundler
 
-    log.info("Subprocess: Unpack main function. Bundle size: %.2f KB", len(main_fn_bundle_cdr)/1024)
+    log.debug("Subprocess: Unpack main function. Bundle size: %.2f KB", len(main_fn_bundle_cdr)/1024)
 
     bundle = packet_coders.decode('cdr', main_fn_bundle_cdr, bundle_t)
     received_refs = unbundler.register_bundle(bundle)

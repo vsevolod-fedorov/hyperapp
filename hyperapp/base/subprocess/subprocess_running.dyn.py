@@ -23,7 +23,8 @@ _mp_context = multiprocessing.get_context('spawn')
 
 class _Subprocess:
 
-    def __init__(self, connection, sent_refs):
+    def __init__(self, process, connection, sent_refs):
+        self.process = process
         self.connection = connection
         self.sent_refs = sent_refs
 
@@ -60,7 +61,7 @@ def subprocess_running(bundler):
 
         refs_and_bundle = bundler(mosaic.put(main_fn_piece))
         bundle_cdr = packet_coders.encode('cdr', refs_and_bundle.bundle)
-        log.info("Subprocess %s: Packed main function. Bundle size: %.2f KB", name, len(bundle_cdr)/1024)
+        log.debug("Subprocess %s: Packed main function. Bundle size: %.2f KB", name, len(bundle_cdr)/1024)
 
         parent_connection, child_connection = _mp_context.Pipe()
         subprocess_args = [name, child_connection, bundle_cdr]
@@ -68,11 +69,11 @@ def subprocess_running(bundler):
         process.start()
 
         try:
-            yield _Subprocess(parent_connection, refs_and_bundle.ref_set)
+            yield _Subprocess(process, parent_connection, refs_and_bundle.ref_set)
         finally:
             parent_connection.close()  # Signal child to stop.
-            log.info("Joining process %s...", name)
+            log.debug("Joining process %s...", name)
             process.join()
-            log.info("Joining process %s: done", name)
+            log.debug("Joining process %s: done", name)
 
     return _subprocess_running
