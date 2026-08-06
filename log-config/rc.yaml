@@ -12,7 +12,7 @@ formatters:
 handlers:
   console:
     class: logging.StreamHandler
-    level: DEBUG
+    level: INFO
     formatter: simple
     stream: ext://sys.stdout
   file-debug:
@@ -30,7 +30,7 @@ handlers:
     backupCount: 5
 
 loggers:
-  hyperapp: {level: INFO}
+  hyperapp: {level: DEBUG}
   rc: {level: INFO}
 
 root:
