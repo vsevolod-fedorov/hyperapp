@@ -6,7 +6,7 @@ log = logging.getLogger(__name__)
 
 
 def compile_resources():
-    print("rc compile resources")
+    pass
 
 
 def main(
