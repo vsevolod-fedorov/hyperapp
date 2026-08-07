@@ -15,7 +15,7 @@ def make_builtin_name_to_service(
         mosaic,
         web,
         source_path,
-        association_reg,
+        assoc_implanters,
         unbundler,
         ):
     return {
@@ -27,7 +27,7 @@ def make_builtin_name_to_service(
         'code_registry_ctr': partial(CodeRegistry, pyobj_creg, web),
         'cached_code_registry_ctr': partial(CachedCodeRegistry, mosaic, pyobj_creg, web),
         'deduce_t': partial(deduce_value_type_with_list, pyobj_creg),
-        'association_reg': association_reg,
+        'assoc_implanters': assoc_implanters,
         'unbundler': unbundler,
         }
 

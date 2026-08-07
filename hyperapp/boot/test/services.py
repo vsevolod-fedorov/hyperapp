@@ -6,15 +6,14 @@ from hyperapp.boot.htypes.builtins import make_builtin_name_to_type
 from hyperapp.boot.mosaic import Mosaic
 from hyperapp.boot.web import Web
 from hyperapp.boot.pyobj_registry import PyObjRegistry
-from hyperapp.boot.association_registry import AssociationRegistry
 from hyperapp.boot.python_importer import PythonImporter
 
 log = logging.getLogger(__name__)
 
 
 @pytest.fixture
-def association_reg():
-    return AssociationRegistry()
+def assoc_implanters():
+    return []
 
 
 @pytest.fixture

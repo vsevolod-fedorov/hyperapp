@@ -27,8 +27,8 @@ def builtin_name_to_type():
 
 
 @pytest.fixture
-def unbundler(web, mosaic, association_reg):
-    return Unbundler(web, mosaic, association_reg)
+def unbundler(web, mosaic, assoc_implanters):
+    return Unbundler(web, mosaic, assoc_implanters)
 
 
 @pytest.fixture
@@ -38,7 +38,7 @@ def builtin_name_to_service(
         mosaic,
         web,
         source_path,
-        association_reg,
+        assoc_implanters,
         unbundler
         ):
     return make_builtin_name_to_service(
@@ -47,7 +47,7 @@ def builtin_name_to_service(
         mosaic,
         web,
         source_path,
-        association_reg,
+        assoc_implanters,
         unbundler,
         )
 

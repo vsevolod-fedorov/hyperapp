@@ -17,7 +17,6 @@ from hyperapp.boot.htypes.meta_type import (
 from hyperapp.boot.mosaic import Mosaic
 from hyperapp.boot.web import Web
 from hyperapp.boot.pyobj_registry import PyObjRegistry
-from hyperapp.boot.association_registry import AssociationRegistry
 from hyperapp.boot.python_importer import PythonImporter
 from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
@@ -44,8 +43,8 @@ def boot_services():
     mosaic = Mosaic(pyobj_creg)
     web = Web(mosaic, pyobj_creg)
     source_path = {}
-    association_reg = AssociationRegistry()
-    unbundler = Unbundler(web, mosaic, association_reg)
+    assoc_implanters = []
+    unbundler = Unbundler(web, mosaic, assoc_implanters)
     builtin_name_to_type = {
         **make_builtin_name_to_type(),
         **make_meta_type_name_to_type(),
@@ -56,7 +55,7 @@ def boot_services():
         mosaic,
         web,
         source_path,
-        association_reg,
+        assoc_implanters,
         unbundler,
         )
     python_importer = PythonImporter()
