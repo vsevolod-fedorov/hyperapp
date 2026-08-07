@@ -6,7 +6,6 @@ from hyperapp.boot.htypes import ref_t, bundle_t
 from hyperapp.boot.util import is_list_inst
 
 from .services import (
-    association_reg,
     mosaic,
     pyobj_creg,
     )

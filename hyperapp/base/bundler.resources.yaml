@@ -7,7 +7,6 @@ definitions:
       file_name: bundler.dyn.py
       imports:
         pyobj:
-          services.association_reg: builtin:service:association_reg
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}
