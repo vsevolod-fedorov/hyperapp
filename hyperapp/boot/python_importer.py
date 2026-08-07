@@ -35,7 +35,7 @@ def is_sub_path(sub_path, full_path):
 class _PackageLoader:
     is_package = True
 
-    def __init__(self, objects):
+    def __init__(self, objects=None):
         self._objects = objects
 
     def create_module(self, spec):
@@ -45,16 +45,8 @@ class _PackageLoader:
     # > from . import htypes
     # > htypes.module.type
     def exec_module(self, module):
-        self._dict_to_attrs(module, self._objects)
-
-    def _dict_to_attrs(self, target, objects):
-        for name, obj in objects.items():
-            if isinstance(obj, dict):
-                tgt = SimpleNamespace()
-                self._dict_to_attrs(tgt, obj)
-                setattr(target, name, tgt)
-            else:
-                setattr(target, name, obj)
+        if self._objects:
+            module.__dict__.update(self._objects.__dict__)
 
 
 class _DynModuleLoader:
@@ -123,7 +115,7 @@ class PythonImporter:
         fullname_to_loader = {
             **package_loaders,
             **import_loaders,  # Should go after package loaders to override packages.
-            ROOT_PACKAGE: _PackageLoader({}),  # Should go after package loaders.
+            ROOT_PACKAGE: _PackageLoader(),  # Should go after package loaders.
             module_full_name: _DynModuleLoader(source, file_path),  # Guess.
             }
         finder = _Finder(fullname_to_loader)
@@ -152,7 +144,7 @@ class PythonImporter:
             for i in reversed(range(1, len(name_parts))):
                 pkg_name = '.'.join(name_parts[:i])
                 name = name_parts[i]
-                name_to_objects.setdefault(pkg_name, {})
-                name_to_objects[pkg_name][name] = obj
+                name_to_objects.setdefault(pkg_name, SimpleNamespace())
+                setattr(name_to_objects[pkg_name], name, obj)
                 obj = name_to_objects[pkg_name]
         return name_to_objects

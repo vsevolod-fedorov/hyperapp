@@ -1,3 +1,5 @@
+from types import SimpleNamespace
+
 from hyperapp.boot.python_importer import PythonImporter
 
 
@@ -7,9 +9,9 @@ def test_single():
         }
     name_to_objects = PythonImporter._make_package_objects(imports)
     assert dict(name_to_objects) == {
-        'a.b.c': {'d': 123},
-        'a.b': {'c': {'d': 123}},
-        'a': {'b': {'c': {'d': 123}}},
+        'a.b.c': SimpleNamespace(d=123),
+        'a.b': SimpleNamespace(c=SimpleNamespace(d=123)),
+        'a': SimpleNamespace(b=SimpleNamespace(c=SimpleNamespace(d=123))),
         }
 
 
@@ -21,7 +23,7 @@ def test_three():
         }
     name_to_objects = PythonImporter._make_package_objects(imports)
     assert dict(name_to_objects) == {
-        'a.b.c': {'a': 11, 'b': 22, 'c': 33},
-        'a.b': {'c': {'a': 11, 'b': 22, 'c': 33}},
-        'a': {'b': {'c': {'a': 11, 'b': 22, 'c': 33}}},
+        'a.b.c': SimpleNamespace(a=11, b=22, c=33),
+        'a.b': SimpleNamespace(c=SimpleNamespace(a=11, b=22, c=33)),
+        'a': SimpleNamespace(b=SimpleNamespace(c=SimpleNamespace(a=11, b=22, c=33))),
         }
