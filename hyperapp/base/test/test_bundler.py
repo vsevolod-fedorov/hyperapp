@@ -197,6 +197,24 @@ def test_association_included(htypes, pyobj_creg, mosaic, assoc_pickers, bundle)
     assert assoc_list == [assoc]
 
 
+def test_association_type_should_be_before_association(htypes, pyobj_creg, mosaic, assoc_pickers, bundle):
+    value = htypes.empty()
+    assoc = htypes.simple(id=2)
+
+    def picker(v):
+        if v == value:
+            return [assoc]
+
+    assoc_pickers.append(picker)
+    simple_mt = pyobj_creg.actor_to_piece(htypes.simple)
+    pieces, assoc_list = bundle(value)
+    assert value in pieces
+    assert assoc in pieces
+    assert assoc_list == [assoc]
+    assert simple_mt in pieces
+    assert pieces.index(simple_mt) < pieces.index(assoc)
+
+
 def test_association_refs_included(htypes, pyobj_creg, mosaic, assoc_pickers, bundle):
     value = htypes.simple(id=1)
     element = htypes.simple(id=2)

@@ -82,7 +82,8 @@ class Bundler:
                 self._missing_ref_count += 1
                 continue
             type_batch = self._collect_batch(rec.type_ref, batch.visited)
-            assoc_batch, assoc_unvisited = self._pick_associations(rec.value, batch.visited)
+            assoc_batch, assoc_unvisited = self._pick_associations(
+                rec.value, batch.visited | type_batch.visited)
             if size_limit:
                 size = type_batch.size + assoc_batch.size + _capsule_size(rec.capsule)
                 if size > size_limit:
@@ -111,8 +112,11 @@ class Bundler:
             rec = mosaic.put_for_rec(assoc)
             if rec.ref in visited:
                 continue
+            type_batch = self._collect_batch(rec.type_ref, batch.visited)
+            batch += type_batch
             batch.assocs.append(rec.ref)
             batch.capsules.append(rec.capsule)
+            batch.visited.add(rec.ref)
             unvisited += self._pick_refs(assoc, rec.t)
         return (batch, unvisited)
 
