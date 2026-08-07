@@ -14,12 +14,12 @@ log = logging.getLogger(__name__)
 
 class Mosaic:
 
-    _Rec = namedtuple('_Rec', 'capsule type_ref t value')
+    _Rec = namedtuple('_Rec', 'ref capsule type_ref t value')
 
     def __init__(self, pyobj_creg):
         self._pyobj_creg = pyobj_creg
         self._ref_to_rec = {}  # ref -> _Rec
-        self._piece_to_ref = {}
+        self._piece_to_rec = {}
         self._lock = threading.Lock()
 
     def register_capsule(self, capsule):
@@ -37,8 +37,16 @@ class Mosaic:
             return ref
 
     def put(self, piece, t=None):
+        rec = self._put(piece, t)
+        return rec.ref
+
+    def put_for_rec(self, piece, t=None):
+        rec = self._put(piece, t)
+        return rec
+
+    def _put(self, piece, t=None):
         try:
-            return self._piece_to_ref[piece, type(piece)]
+            return self._piece_to_rec[piece, type(piece)]
         except TypeError as x:
             raise RuntimeError(f"{x}: {piece}")
         except KeyError:
@@ -50,17 +58,19 @@ class Mosaic:
         with self._lock:
             try:
                 # Check it is not added by another thread.
-                return self._piece_to_ref[piece, type(piece)]
+                return self._piece_to_rec[piece, type(piece)]
             except KeyError:
                 pass
             log.debug('Registering piece %r: %s', t.name, piece)
-            self._register_capsule(piece, t, ref, capsule.type_ref, capsule)
+            rec = self._register_capsule(piece, t, ref, capsule.type_ref, capsule)
             log.debug('Registered piece %s (type: %s): %r', ref, capsule.type_ref, piece)
-            return ref
+            return rec
 
     def _register_capsule(self, piece, t, ref, type_ref, capsule):
-        self._ref_to_rec[ref] = self._Rec(capsule, type_ref, t, piece)
-        self._piece_to_ref[piece, type(piece)] = ref
+        rec = self._Rec(ref, capsule, type_ref, t, piece)
+        self._ref_to_rec[ref] = rec
+        self._piece_to_rec[piece, type(piece)] = rec
+        return rec
 
     def add_to_cache(self, piece, t, ref):
         with self._lock:
