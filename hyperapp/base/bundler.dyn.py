@@ -20,18 +20,20 @@ _RefsAndBundle = namedtuple('_RefsAndBundle', 'ref_set bundle')
 
 
 def _capsule_size(capsule):
-    return len(capsule.encoded_object)  # TODO: Calculate full capsule size.
+    return len(capsule.encoded_object)  # TODO: Calculate full capsule size; Add association sizes.
 
 
 class _Batch:
 
     def __init__(self, visited):
         self.capsules = []
-        self.visited = set(visited)
+        self.visited = set(visited)  # ref set
+        self.assocs = []  # ref list
 
     def __iadd__(self, batch):
         self.capsules += batch.capsules
         self.visited |= batch.visited
+        self.assocs += batch.assocs
         return self
 
     @property
@@ -48,7 +50,6 @@ class Bundler:
         self._assoc_pickers = assoc_pickers
         self._pick_refs = pick_refs
         self._missing_ref_count = 0
-        self._seen_asss = set()
         self._processed_count = 0
 
     def run(self, target_ref, seen_refs, size_limit):
@@ -58,7 +59,7 @@ class Bundler:
             log.warning("Failed to resolve %d refs", self._missing_ref_count)
         bundle = bundle_t(
             root=target_ref,
-            associations=tuple(self._seen_asss),
+            associations=tuple(batch.assocs),
             capsule_list=tuple(batch.capsules),
             )
         return _RefsAndBundle(batch.visited, bundle)
@@ -81,29 +82,39 @@ class Bundler:
                 self._missing_ref_count += 1
                 continue
             type_batch = self._collect_batch(rec.type_ref, batch.visited)
+            assoc_batch, assoc_unvisited = self._pick_associations(rec.value, batch.visited)
             if size_limit:
-                size = type_batch.size + _capsule_size(rec.capsule)
+                size = type_batch.size + assoc_batch.size + _capsule_size(rec.capsule)
                 if size > size_limit:
                     if not batch.capsules:
                         raise RuntimeError(f"Root capsule of size {size} did not fit in limit {size_limit}")
                     break
             batch += type_batch
+            batch += assoc_batch
             batch.capsules.append(rec.capsule)
             batch.visited.add(ref)
+            unvisited += assoc_unvisited
             unvisited += self._pick_refs(rec.value, rec.t)
             self._processed_count += 1
         return batch
 
-    # def _collect_associations(self, ref, t, value):
-    #     result = []
-    #     t_res = pyobj_creg.actor_to_piece(t)
-    #     for obj in [t_res, value]:
-    #         for ass in association_reg.base_to_ass_list(obj):
-    #             piece = ass.to_piece(mosaic)
-    #             ass_ref = mosaic.put(piece)
-    #             log.debug("Bundle association %s: %s (%s)", ass_ref, ass, piece)
-    #             result.append(ass_ref)
-    #     return result
+    def _pick_associations(self, value, visited):
+        unvisited = []
+        assoc_list = []
+        for picker in self._assoc_pickers:
+            new_list = picker(value)
+            if new_list:
+                log.debug("Bundle associations from %s: %s", picker, new_list)
+                assoc_list += new_list
+        batch = _Batch(visited)
+        for assoc in assoc_list:
+            rec = mosaic.put_for_rec(assoc)
+            if rec.ref in visited:
+                continue
+            batch.assocs.append(rec.ref)
+            batch.capsules.append(rec.capsule)
+            unvisited += self._pick_refs(assoc, rec.t)
+        return (batch, unvisited)
 
 
 def bundler(assoc_pickers, pick_refs, ref, seen_refs=None, size_limit=None):

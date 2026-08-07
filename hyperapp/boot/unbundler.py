@@ -25,7 +25,7 @@ class Unbundler:
         for ass_ref in bundle.associations:
             decoded_capsule = self._mosaic.resolve_ref(ass_ref)
             log.debug("Unbundle association: %s %s: %s", ass_ref, decoded_capsule.t, decoded_capsule.value)
-            ass_list.append(
-                Association.from_piece(decoded_capsule.value, self._web))
+            # ass_list.append(
+            #     Association.from_piece(decoded_capsule.value, self._web))
         self._association_reg.set_list(ass_list)
         return ref_set | set(bundle.associations)
