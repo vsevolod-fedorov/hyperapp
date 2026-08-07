@@ -40,9 +40,10 @@ def _is_named_tuple(value):
     return all(hasattr(value, field) for field in ['_fields', '_field_defaults', '_replace', '_make'])
 
 
-def is_record(value):
-    t = getattr(value, '_t', None)
-    return isinstance(t, TRecord)
+# Fast alternative for deduce_t service for records.
+def is_record(value, t):
+    _t = getattr(value, '_t', None)
+    return _t is t
 
 
 def _deduce_type(value):
