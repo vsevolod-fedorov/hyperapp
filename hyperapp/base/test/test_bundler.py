@@ -30,8 +30,13 @@ def mosaic(module):
 
 
 @pytest.fixture
-def bundler(module):
-    return module.make_bundler()
+def assoc_pickers():
+    return []
+
+
+@pytest.fixture
+def bundler(module, assoc_pickers):
+    return module.make_bundler(assoc_pickers)
 
 
 @pytest.fixture

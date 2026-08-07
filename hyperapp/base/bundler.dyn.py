@@ -44,7 +44,8 @@ class _Batch:
 
 class Bundler:
 
-    def __init__(self, pick_refs):
+    def __init__(self, assoc_pickers, pick_refs):
+        self._assoc_pickers = assoc_pickers
         self._pick_refs = pick_refs
         self._missing_ref_count = 0
         self._seen_asss = set()
@@ -105,6 +106,6 @@ class Bundler:
     #     return result
 
 
-def bundler(pick_refs, ref, seen_refs=None, size_limit=None):
+def bundler(assoc_pickers, pick_refs, ref, seen_refs=None, size_limit=None):
     assert isinstance(ref, ref_t), repr(ref)
-    return Bundler(pick_refs).run(ref, seen_refs, size_limit)
+    return Bundler(assoc_pickers, pick_refs).run(ref, seen_refs, size_limit)

@@ -40,4 +40,5 @@ definitions:
     type: :system/adapter.t:service_args_adapter
     value:
       args:
+        assoc_pickers: assoc_pickers:assoc_pickers.service
         pick_refs: pick_refs:pick_refs.service

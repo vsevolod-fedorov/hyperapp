@@ -1,0 +1,37 @@
+definitions:
+
+  assoc_pickers.module:
+    type: builtin:type:python_module
+    value:
+      module_name: assoc_pickers
+      file_name: assoc_pickers.dyn.py
+      imports:
+        pyobj:
+          services.association_reg: builtin:service:association_reg
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
+        raw: {}
+
+  assoc_pickers:
+    type: builtin:type:attribute
+    value:
+      object: assoc_pickers.module
+      attr_name: assoc_pickers
+
+  assoc_pickers.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: assoc_pickers
+      base: null
+      fields: {}
+
+  assoc_pickers.service:
+    type: assoc_pickers.service.t
+    value: {}
+
+  assoc_pickers.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: assoc_pickers
+      adapters:
+      - system/adapter:service_object.adapter

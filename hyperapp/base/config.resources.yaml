@@ -26,6 +26,7 @@ definitions:
       items:
         system/system.t:service_config_creg: system/system:service_config_creg.service-actor
         system/resolving_code_registry:system_code_registry_factory.service.t: system/resolving_code_registry:system_code_registry_factory.service-actor
+        assoc_pickers:assoc_pickers.service.t: assoc_pickers:assoc_pickers.service-actor
         pick_refs:pick_refs.service.t: pick_refs:pick_refs.service-actor
         pick_refs:pick_refs_cache.service.t: pick_refs:pick_refs_cache.service-actor
         bundler:bundler.service.t: bundler:bundler.service-actor
