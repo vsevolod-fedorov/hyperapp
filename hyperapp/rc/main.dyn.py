@@ -1,5 +1,6 @@
 import logging
 
+from .code.source_path import pick_source_path_assoc
 from .code.transport import LocalEndpoint
 
 log = logging.getLogger(__name__)
@@ -10,6 +11,7 @@ def compile_resources():
 
 
 def main(
+        assoc_pickers,
         identity_creg,
         generate_rsa_identity,
         subprocess_workers_running,
@@ -19,6 +21,7 @@ def main(
         compile_resources,
         args,
         ):
+    assoc_pickers.append(pick_source_path_assoc)
     compile_resources()
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))

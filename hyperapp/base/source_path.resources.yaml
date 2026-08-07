@@ -1,0 +1,14 @@
+definitions:
+
+  source_path.module:
+    type: builtin:type:python_module
+    value:
+      module_name: source_path
+      file_name: source_path.dyn.py
+      imports:
+        pyobj:
+          htypes.builtin.python_module: builtin:type:python_module
+          htypes.source_path.source_path_assoc: source_path.t:source_path_assoc
+          services.mosaic: builtin:service:mosaic
+          services.source_path: builtin:service:source_path
+        raw: {}

@@ -1,0 +1,3 @@
+source_path_assoc = record:
+  python_module: ref
+  path: string
