@@ -10,8 +10,8 @@ root_dir="$( dirname "$0" )"
 
 export PYTHONPATH="$root_dir:$PYTHONPATH"
 
-cd "$root_dir"
+cd /tmp
 
 set -x
 
-time hyperapp/boot/boot.py hyperapp/projects.yaml rc:boot:boot "$@"
+time "$root_dir/hyperapp/boot/boot.py" "$root_dir/hyperapp/projects.yaml" rc:boot:boot "$@"
