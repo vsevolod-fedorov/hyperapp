@@ -19,7 +19,6 @@ from .file_data import file_data_t, file_data_def_t
 from .builtin_service import builtin_service_t
 from .attribute import attribute_t, attribute_def_t
 from .partial import partial_param_t, partial_param_def_t, partial_t, partial_def_t
-from .raw import raw_t, raw_def_t
 
 log = logging.getLogger(__name__)
 
@@ -48,8 +47,6 @@ _builtin_type_list = [
     partial_param_def_t,
     partial_t,
     partial_def_t,
-    raw_t,
-    raw_def_t,
     ]
 
 
