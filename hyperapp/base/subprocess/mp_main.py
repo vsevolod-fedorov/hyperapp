@@ -9,7 +9,6 @@ from pathlib import Path
 from hyperapp.boot.htypes import bundle_t
 from hyperapp.boot.htypes.packet_coders import packet_coders
 from hyperapp.boot.boot import boot_services
-# from hyperapp.boot.services import HYPERAPP_DIR, Services
 
 log = logging.getLogger(__name__)
 
