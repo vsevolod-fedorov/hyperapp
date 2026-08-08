@@ -8,11 +8,9 @@ log = logging.getLogger(__name__)
 
 
 def subprocess_worker_main(
-        bundler, assoc_implanter, selectors, transport, peer_creg, generate_rsa_identity,
-        connection, associations, received_refs, process_id, master_peer):
+        bundler, selectors, transport, peer_creg, generate_rsa_identity,
+        connection, received_refs, process_id, master_peer):
     log.info("Worker %d is starting", process_id)
-    assoc_implanter.init()
-    assoc_implanter.implant(associations)
     master = peer_creg.animate(master_peer)
     transport.add_internal_route(master, SubprocessRoute(bundler, 'master', connection))
     stop_signal = StopSignal()

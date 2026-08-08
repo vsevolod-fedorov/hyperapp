@@ -10,7 +10,8 @@ definitions:
           code.system: :system/system:system.module
         raw:
           data.subprocess.config.config: config:config
-          data.main_svc: worker_main:subprocess_worker_main.service
+          data.svc.main: worker_main:subprocess_worker_main.service
+          data.svc.assoc_implanter: base:assoc_implanter:assoc_implanter.service
 
   boot:
     type: builtin:type:attribute
