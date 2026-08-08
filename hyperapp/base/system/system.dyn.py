@@ -1,7 +1,7 @@
 from .services import (
     web,
     )
-from .code.resolving_code_registry import (
+from .code.code_registry import (
     ResolvingCodeRegistry,
     CachedResolvingCodeRegistry,
     AdapterCodeRegistry,

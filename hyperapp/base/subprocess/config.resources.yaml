@@ -26,7 +26,7 @@ definitions:
     value:
       items:
         :system/system.t:service_config_creg: :system/system:service_config_creg.service-actor
-        :system/resolving_code_registry:system_code_registry_factory.service.t: :system/resolving_code_registry:system_code_registry_factory.service-actor
+        :system/code_registry:system_code_registry_factory.service.t: :system/code_registry:system_code_registry_factory.service-actor
         :assoc_pickers:assoc_pickers.service.t: :assoc_pickers:assoc_pickers.service-actor
         :assoc_implanter:assoc_implanter.service.t: :assoc_implanter:assoc_implanter.service-actor
         :assoc_implanter:assoc_creg.service.t: :assoc_implanter:assoc_creg.service-actor

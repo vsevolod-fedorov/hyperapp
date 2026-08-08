@@ -1,10 +1,10 @@
 definitions:
 
-  resolving_code_registry.module:
+  code_registry.module:
     type: builtin:type:python_module
     value:
-      module_name: resolving_code_registry
-      file_name: resolving_code_registry.dyn.py
+      module_name: code_registry
+      file_name: code_registry.dyn.py
       imports:
         pyobj:
           htypes.builtin.ref: builtin:type:ref
@@ -16,7 +16,7 @@ definitions:
   system_code_registry_factory:
     type: builtin:type:attribute
     value:
-      object: resolving_code_registry.module
+      object: code_registry.module
       attr_name: system_code_registry_factory
 
   system_code_registry_factory.service.t:

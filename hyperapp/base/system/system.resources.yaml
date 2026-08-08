@@ -24,7 +24,7 @@ definitions:
       imports:
         pyobj:
           services.web: builtin:service:web
-          code.resolving_code_registry: resolving_code_registry:resolving_code_registry.module
+          code.code_registry: code_registry:code_registry.module
           code.config: config:config.module
         raw:
           data.system.service.adapter_creg: adapter_creg.service

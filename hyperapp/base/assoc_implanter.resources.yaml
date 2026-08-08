@@ -72,4 +72,4 @@ definitions:
     type: :system/adapter.t:service_args_adapter
     value:
       args:
-        system_code_registry_factory: :system/resolving_code_registry:system_code_registry_factory.service
+        system_code_registry_factory: :system/code_registry:system_code_registry_factory.service

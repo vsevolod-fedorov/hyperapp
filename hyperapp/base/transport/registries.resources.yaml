@@ -8,14 +8,14 @@ definitions:
       file_name: registries.dyn.py
       imports:
         pyobj:
-          code.resolving_code_registry: :system/resolving_code_registry:resolving_code_registry.module
+          code.code_registry: :system/code_registry:code_registry.module
         raw: {}
 
   with-system_code_registry_factory.service-args-adapter:
     type: :system/adapter.t:service_args_adapter
     value:
       args:
-        system_code_registry_factory: :system/resolving_code_registry:system_code_registry_factory.service
+        system_code_registry_factory: :system/code_registry:system_code_registry_factory.service
 
   identity_creg:
     type: builtin:type:attribute
