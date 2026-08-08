@@ -12,6 +12,7 @@ def subprocess_worker_main(
         connection, received_refs, process_id, master_peer):
     log.info("Worker %d is starting", process_id)
     master = peer_creg.animate(master_peer)
+    transport.add_peer_refs(master, received_refs)
     transport.add_internal_route(master, SubprocessRoute(bundler, 'master', connection))
     stop_signal = StopSignal()
     selectors.register(stop_signal)

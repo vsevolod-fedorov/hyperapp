@@ -95,6 +95,9 @@ class Transport:
     def add_internal_route(self, peer, route):
         self._peer_to_routes[peer].add(self._Route(route, is_internal=True))
 
+    def add_peer_refs(self, peer, ref_set):
+        self._peer_refs[peer] |= ref_set
+
     def register_connection(self, connection):
         log.debug("Transport: Register connection: %s", connection)
         self._selectors.register(connection)
