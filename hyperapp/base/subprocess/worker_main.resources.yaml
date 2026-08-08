@@ -41,6 +41,7 @@ definitions:
     value:
       args:
         bundler: :bundler:bundler.service
+        assoc_implanter: :assoc_implanter:assoc_implanter.service
         selectors: :transport/selectors:selectors.service
         transport: :transport/transport:transport.service
         peer_creg: :transport/registries:peer_creg.service

@@ -27,6 +27,8 @@ definitions:
         :system/system.t:service_config_creg: :system/system:service_config_creg.service-actor
         :system/resolving_code_registry:system_code_registry_factory.service.t: :system/resolving_code_registry:system_code_registry_factory.service-actor
         :assoc_pickers:assoc_pickers.service.t: :assoc_pickers:assoc_pickers.service-actor
+        :assoc_implanter:assoc_implanter.service.t: :assoc_implanter:assoc_implanter.service-actor
+        :assoc_implanter:assoc_creg.service.t: :assoc_implanter:assoc_creg.service-actor
         :pick_refs:pick_refs.service.t: :pick_refs:pick_refs.service-actor
         :pick_refs:pick_refs_cache.service.t: :pick_refs:pick_refs_cache.service-actor
         :bundler:bundler.service.t: :bundler:bundler.service-actor
@@ -43,6 +45,7 @@ definitions:
     type: :system/system.t:typed_item_list
     value:
       items:
+        :assoc_implanter:assoc_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/registries:identity_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/registries:peer_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/registries:signature_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor

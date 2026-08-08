@@ -12,6 +12,7 @@ def compile_resources():
 
 def main(
         assoc_pickers,
+        assoc_implanter,
         identity_creg,
         generate_rsa_identity,
         subprocess_workers_running,
@@ -22,6 +23,7 @@ def main(
         args,
         ):
     assoc_pickers.append(pick_source_path_assoc)
+    assoc_implanter.init()
     compile_resources()
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))

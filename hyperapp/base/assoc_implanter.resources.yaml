@@ -1,0 +1,75 @@
+definitions:
+
+  assoc_implanter.module:
+    type: builtin:type:python_module
+    value:
+      module_name: assoc_implanter
+      file_name: assoc_implanter.dyn.py
+      imports:
+        pyobj:
+          services.assoc_implanters: builtin:service:assoc_implanters
+          services.web: builtin:service:web
+        raw: {}
+
+  assoc_implanter:
+    type: builtin:type:attribute
+    value:
+      object: assoc_implanter.module
+      attr_name: assoc_implanter
+
+  assoc_implanter.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: assoc_implanter
+      base: null
+      fields: {}
+
+  assoc_implanter.service:
+    type: assoc_implanter.service.t
+    value: {}
+
+  assoc_implanter.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: assoc_implanter
+      adapters:
+      - assoc_implanter.service-args-adapter
+      - :system/adapter:service_object.adapter
+
+  assoc_implanter.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        assoc_creg: assoc_creg.service
+
+  assoc_creg:
+    type: builtin:type:attribute
+    value:
+      object: assoc_implanter.module
+      attr_name: assoc_creg
+
+  assoc_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: assoc_creg
+      base: null
+      fields: {}
+
+  assoc_creg.service:
+    type: assoc_creg.service.t
+    value: {}
+
+  assoc_creg.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: assoc_creg
+      adapters:
+      - :system/adapter:config.adapter
+      - assoc_creg.service-args-adapter
+      - :system/adapter:service_object.adapter
+
+  assoc_creg.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        system_code_registry_factory: :system/resolving_code_registry:system_code_registry_factory.service

@@ -63,6 +63,7 @@ definitions:
     value:
       args:
         assoc_pickers: base:assoc_pickers:assoc_pickers.service
+        assoc_implanter: base:assoc_implanter:assoc_implanter.service
         identity_creg: base:transport/registries:identity_creg.service
         generate_rsa_identity: base:transport/rsa:generate_rsa_identity.service
         subprocess_workers_running: base:subprocess/worker:subprocess_workers_running.service
