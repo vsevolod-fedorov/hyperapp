@@ -7,6 +7,7 @@ definitions:
         :system/system:adapter_creg.service: adapter_creg.config
         :system/system:service_creg.service: service_creg.config
         :system/system:service_config_creg.service: service_config_creg.config
+        :assoc_implanter:assoc_creg.service: assoc_creg.config
         :transport/transport:transport.service: transport.config
         :transport/registries:peer_creg.service: peer_creg.config
         :transport/registries:signature_creg.service: signature_creg.config
@@ -52,6 +53,12 @@ definitions:
         :transport/registries:parcel_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/registries:message_creg.service.t: :system/config:TypedDictConfigCtl.from_service_piece.actor
         :transport/transport:transport.service.t: :system/config:RecordConfigCtl.from_service_piece.actor
+
+  assoc_creg.config:
+    type: :system/system.t:typed_item_list
+    value:
+      items:
+        :source_path.t:source_path_assoc: :source_path:implant_source_path_assoc.actor
 
   transport.config:
     type: :transport/transport.t:config

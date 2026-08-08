@@ -10,5 +10,18 @@ definitions:
           htypes.builtin.python_module: builtin:type:python_module
           htypes.source_path.source_path_assoc: source_path.t:source_path_assoc
           services.mosaic: builtin:service:mosaic
+          services.web: builtin:service:web
           services.source_path: builtin:service:source_path
         raw: {}
+
+  implant_source_path_assoc:
+    type: builtin:type:attribute
+    value:
+      object: source_path.module
+      attr_name: implant_source_path_assoc
+
+  implant_source_path_assoc.actor:
+    type: :system/system.t:actor
+    value:
+      fn: implant_source_path_assoc
+      service_params: {}
