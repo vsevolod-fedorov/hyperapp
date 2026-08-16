@@ -1,0 +1,2 @@
+foo_record = record:
+  an_int: int

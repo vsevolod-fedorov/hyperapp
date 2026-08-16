@@ -1,0 +1,2 @@
+bar_record = record:
+  a_string: string

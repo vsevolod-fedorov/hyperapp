@@ -50,6 +50,7 @@ class _Context:
         self._loader = loader
         self._project_name = project_name
         self._path = path
+        self._project = loader._projects[project_name]
 
     def __repr__(self):
         return f"@{self._project_name}:{'/'.join(self._path)}"
@@ -88,8 +89,24 @@ class _Context:
                 project_name, path = x.args[0]
                 raise RuntimeError(f"{self!r}: Missing: {project_name}:{'/'.join(path)}")
 
-    def resolve(self, name_tuple):
-        return self._loader._resolve(name_tuple)
+    def resolve(self, local_name_tuple):
+        local_project_name, path, name = local_name_tuple
+        global_project_name = self._resolve_project(local_project_name)
+        global_name_tuple = (global_project_name, path, name)
+        return self._loader._resolve(global_name_tuple)
+
+    def _try_resolve_project(self, local_project_name):
+        if local_project_name == 'builtin':
+            return local_project_name
+        if local_project_name == self._project.local_name:
+            return self._project_name
+        return self._project.imports[local_project_name]
+
+    def _resolve_project(self, local_project_name):
+        try:
+            return self._try_resolve_project(local_project_name)
+        except KeyError:
+            raise RuntimeError(f"{self!r}: Project not imported: {local_project_name!r}")
 
     def find_nearest_module(self, sub_path, name):
         idx = len(self._path)
@@ -97,10 +114,12 @@ class _Context:
             idx -= 1
             path = (*self._path[:idx], *sub_path)
             if self._loader._has_name(self._project_name, path, name):
-                return (self._project_name, path)
-        # Check if we have this name in another module, if sub_path starts with that module name.
-        if self._loader._has_name(path[0], path[1:], name):
-            return (path[0], path[1:])
+                return (self._project.local_name, path)
+        if len(sub_path) > 1:
+            # Check if we have this name in another project, if sub_path starts with that project name.
+            project_name = self._try_resolve_project(path[0])  # KeyError if path[0] is not a known project
+            if self._loader._has_name(project_name, path[1:], name):
+                return (path[0], path[1:])
         raise KeyError(sub_path)
 
     def _resolve_parts(self, parts, description):
@@ -108,22 +127,23 @@ class _Context:
             raise RuntimeError(f"{self}: Malformed name: More than two colons: {description!r}")
         if len(parts) == 1:
             # No colons, module-local name.
-            return (self._project_name, self._path, parts[0])
+            return (self._project.local_name, self._path, parts[0])
         if len(parts) == 2:
             # 1 colon, project-local relative name.
             rel_path = _split_path(parts[0])
             path = (*self._path[:-1], *rel_path)
-            return (self._project_name, path, parts[1])
+            return (self._project.local_name, path, parts[1])
         if len(parts) == 3:  # 2 colons.
             path = _split_path(parts[1])
             if parts[0]:  # Full name.
                 return (parts[0], path, parts[2])
             else:  # Project-local absolute name.
-                return (self._project_name, path, parts[2])
+                return (self._project.local_name, path, parts[2])
 
     def _get_bytes(self, full_name):
         parts = full_name.split(':')
-        project_name, path, _ = self._resolve_parts((*parts, ''), description=full_name)
+        local_project_name, path, _ = self._resolve_parts((*parts, ''), description=full_name)
+        project_name = self._resolve_project(local_project_name)
         try:
             data = self._loader._projects[project_name].path_to_bytes[path]
         except KeyError:

@@ -1,0 +1,9 @@
+from foox.sample import foo_record
+from subdir.sample import bar_record as bar_subdir_record
+from sample import bar_record
+
+
+composite = record:
+  foo: foo_record
+  bar_subdir: bar_subdir_record
+  bar: bar_record

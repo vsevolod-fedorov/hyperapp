@@ -1,0 +1,24 @@
+definitions:
+
+  main.module:
+    type: builtin:type:python_module
+    value:
+      module_name: main
+      file_name: main.dyn.py
+      imports:
+        pyobj:
+          htypes.builtin.int: builtin:type:int
+          htypes.foo_a.inner_record: foo_a:sample.t:inner_record
+          htypes.foo_b.inner_record: foo_b:sample.t:inner_record
+          htypes.sample.outer_record: sample.t:outer_record
+          htypes.sample.empty_record: barr:sample.t:empty_record
+          services.mosaic: builtin:service:mosaic
+          services.pyobj_creg: builtin:service:pyobj_creg
+          services.web: builtin:service:web
+        raw: {}
+
+  main:
+    type: builtin:type:attribute
+    value:
+      object: main.module
+      attr_name: main

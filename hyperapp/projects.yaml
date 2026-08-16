@@ -1,2 +1,10 @@
-base: base
-rc: rc
+projects:
+  base:
+    path: base
+    local_name: base
+    imports: {}
+  rc:
+    path: rc
+    local_name: rc
+    imports:
+      base: base

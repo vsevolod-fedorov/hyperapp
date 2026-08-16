@@ -1,0 +1,15 @@
+projects:
+  foo_1:
+    path: foo_1
+    local_name: foo
+    imports: {}
+  foo_2:
+    path: foo_2
+    local_name: foo
+    imports: {}
+  bar:
+    path: bar
+    local_name: barr
+    imports:
+      foo_a: foo_1
+      foo_b: foo_2

@@ -1,0 +1,8 @@
+from foo_a.sample import inner_record as inner_a
+from foo_b.sample import inner_record as inner_b
+
+outer_record = record:
+  inner_a: inner_a
+  inner_b: inner_b
+
+empty_record = record

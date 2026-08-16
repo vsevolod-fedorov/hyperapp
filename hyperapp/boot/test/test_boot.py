@@ -19,6 +19,18 @@ def test_imports():
     assert result == 2300
 
 
+def test_project_rename():
+    result = boot(Path(RESOURCES_ROOT / 'project_rename/projects.yaml'), 'bar:main:main')([23])
+    assert result == 2300
+
+
+def test_find_type_module():
+    t = boot(Path(RESOURCES_ROOT / 'find_type_module/projects.yaml'), 'bar:test.t:composite')
+    assert 'an_int' in t.fields['foo'].fields
+    assert 'a_bool' in t.fields['bar'].fields
+    assert 'a_string' in t.fields['bar_subdir'].fields
+
+
 def test_import_error():
     try:
         _ = boot(Path(RESOURCES_ROOT / 'import_error/projects.yaml'), 'sample:main:main')

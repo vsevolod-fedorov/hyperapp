@@ -1,0 +1,10 @@
+projects:
+  foo:
+    path: foo
+    local_name: fooo
+    imports: {}
+  bar:
+    path: bar
+    local_name: barr
+    imports:
+      foox: foo

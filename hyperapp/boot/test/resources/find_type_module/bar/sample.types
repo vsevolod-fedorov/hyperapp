@@ -1,0 +1,3 @@
+
+bar_record = record:
+  a_bool: bool
