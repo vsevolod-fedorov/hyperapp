@@ -12,21 +12,6 @@ from .builtin_service import builtin_service_name_to_piece
 log = logging.getLogger(__name__)
 
 
-# Returns dict: parts tuple -> bytes
-def load_file_tree(dir):
-    path_to_bytes = {}
-    for path in dir.rglob('*'):
-        if path.is_dir():
-            continue
-        if path.suffix == '.pyc':
-            continue
-        rel_path = path.relative_to(dir)
-        if 'test' in rel_path.parts:
-            continue  # Skip pytest subdirectories.
-        path_to_bytes[tuple(rel_path.parts)] = path.read_bytes()
-    return path_to_bytes
-
-
 _builtin_project_name = 'builtin'
 _builtin_type_path = ('type',)
 _builtin_service_path = ('service',)
@@ -140,7 +125,7 @@ class _Context:
         parts = full_name.split(':')
         project_name, path, _ = self._resolve_parts((*parts, ''), description=full_name)
         try:
-            data = self._loader._projects[project_name][path]
+            data = self._loader._projects[project_name].path_to_bytes[path]
         except KeyError:
             raise RuntimeError(f"{self!r}: Missing: {project_name}:{'/'.join(path)}")
         return (data, project_name, path)
@@ -184,8 +169,8 @@ class _ResourceLoader:
         self._piece_to_source = {}  # piece -> (project_name, path, source)
 
     def load(self):
-        for project_name, path_to_bytes in self._projects.items():
-            for file_path, bytes in path_to_bytes.items():
+        for project_name, project in self._projects.items():
+            for file_path in project.path_to_bytes:
                 self._discover_loader(project_name, file_path)
         for project_name, path in self._project_and_path_to_loader:
             self._load_definitions(project_name, path)
@@ -246,7 +231,7 @@ class _ResourceLoader:
     def _load_definitions(self, project_name, path):
         rec = self._project_and_path_to_loader[project_name, path]
         source_path = '/'.join(rec.file_path)
-        bytes = self._projects[project_name][rec.file_path]
+        bytes = self._projects[project_name].path_to_bytes[rec.file_path]
         ctx = _Context(self, project_name, path)
         for name, definition in rec.loader.load_definitions(
                 self._pyobj_creg, self._mosaic, self._builtin_name_to_type, self._resource_type_producer,
@@ -259,11 +244,11 @@ def load_resources(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_ser
     return loader.load()
 
 
-def add_source_paths(root_dir, project_to_path, sources, source_path):
+def add_source_paths(projects, sources, source_path):
     for piece in sources:
         if not isinstance(piece, python_module_t):
             continue
         project_name, path, src = sources[piece.source]
-        project_path = root_dir / project_to_path[project_name]
+        project_path = projects[project_name].path
         full_path = project_path.joinpath(*path)
         source_path[piece] = full_path

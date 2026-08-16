@@ -1,1 +1,5 @@
-sample: .
+projects:
+  sample:
+    path: .
+    local_name: sample
+    imports: {}

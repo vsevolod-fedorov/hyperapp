@@ -23,7 +23,8 @@ from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_
 from hyperapp.boot.resource.resource_type_producer import produce_resource_type
 from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
 from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
-from hyperapp.boot.resource.loader import load_file_tree, load_resources, add_source_paths
+from hyperapp.boot.resource.workspace import Workspace
+from hyperapp.boot.resource.loader import load_resources, add_source_paths
 from hyperapp.boot.register_coders import register_coders
 from hyperapp.boot.unbundler import Unbundler
 
@@ -91,15 +92,16 @@ def load_projects_resources(
         resource_type_producer,
         projects_path,
         ):
-    projects_dir = projects_path.parent
-    project_to_path = yaml.safe_load(projects_path.read_text())
-    project_to_files = {
-        name: load_file_tree(projects_dir / path)
-        for name, path in project_to_path.items()
-        }
+    workspace = Workspace.from_yaml_file(projects_path)
     resources, sources = load_resources(
-        pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, project_to_files)
-    add_source_paths(projects_dir, project_to_path, sources, source_path)
+        pyobj_creg,
+        mosaic,
+        builtin_name_to_type,
+        builtin_name_to_service,
+        resource_type_producer,
+        workspace.projects,
+        )
+    add_source_paths(workspace.projects, sources, source_path)
     return resources
 
 
