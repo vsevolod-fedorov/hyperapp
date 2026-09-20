@@ -16,13 +16,13 @@ pytest_plugins = [
     ]
 
 
-def test_definition_type(resource_type_producer):
+def test_definition_type(resource_type_producer, init):
     resource_t = record_mt
     resource_type = resource_type_producer(resource_t)
     assert resource_type.definition_t is record_def_mt
 
 
-def test_from_dict_without_base(resource_type_producer):
+def test_from_dict_without_base(resource_type_producer, init):
     resource_t = record_mt
     resource_type = resource_type_producer(resource_t)
     definition_dict = {
@@ -43,7 +43,7 @@ def test_from_dict_without_base(resource_type_producer):
         )
 
 
-def test_from_dict_with_base(resource_type_producer):
+def test_from_dict_with_base(resource_type_producer, init):
     resource_t = record_mt
     resource_type = resource_type_producer(resource_t)
     definition_dict = {
@@ -75,7 +75,7 @@ def mock_ctx(names):
         )
 
 
-def test_resolve(mosaic, pyobj_creg, resource_type_producer):
+def test_resolve(mosaic, pyobj_creg, resource_type_producer, init):
     resource_t = record_mt
     resource_type = resource_type_producer(resource_t)
 
@@ -113,5 +113,5 @@ def test_resolve(mosaic, pyobj_creg, resource_type_producer):
         )
 
 
-def test_reverse_resolve(mosaic, pyobj_creg, resource_type_producer):
+def test_reverse_resolve(mosaic, pyobj_creg, resource_type_producer, init):
     pass  # TODO

@@ -31,13 +31,13 @@ def mock_ctx(names):
     return Mock(resolve_to_ref=resolve_to_ref)
 
 
-def test_definition_type(resource_type_producer):
+def test_definition_type(resource_type_producer, init):
     resource_t = optional_mt
     resource_type = resource_type_producer(resource_t)
     assert resource_type.definition_t is optional_def_mt
 
 
-def test_from_dict(resource_type_producer):
+def test_from_dict(resource_type_producer, init):
     resource_t = optional_mt
     resource_type = resource_type_producer(resource_t)
     definition_dict = {
@@ -50,7 +50,7 @@ def test_from_dict(resource_type_producer):
         )
 
 
-def test_resolve(mosaic, pyobj_creg, resource_type_producer):
+def test_resolve(mosaic, pyobj_creg, resource_type_producer, init):
     resource_t = optional_mt
     resource_type = resource_type_producer(resource_t)
 
@@ -71,7 +71,7 @@ def test_resolve(mosaic, pyobj_creg, resource_type_producer):
         )
 
 
-def test_reverse_resolve(mosaic, pyobj_creg, resource_type_producer):
+def test_reverse_resolve(mosaic, pyobj_creg, resource_type_producer, init):
     resource_t = optional_mt
     resource_type = resource_type_producer(resource_t)
 

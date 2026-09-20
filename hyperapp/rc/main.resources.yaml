@@ -7,6 +7,7 @@ definitions:
       file_name: main.dyn.py
       imports:
         pyobj:
+          services.load_resources: builtin:service:load_resources
           code.source_path: base:source_path:source_path.module
           code.transport: base:transport/transport:transport.module
         raw: {}

@@ -31,7 +31,7 @@ def mock_ctx(names):
     return Mock(resolve_to_ref=resolve_to_ref)
 
 
-def test_definition_type_partial(resource_type_producer):
+def test_definition_type_partial(resource_type_producer, init):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     log.info("definition_t: %r", resource_type.definition_t)
@@ -45,7 +45,7 @@ def test_definition_type_partial(resource_type_producer):
 
 
 @pytest.fixture
-def a_record_t(pyobj_creg, mosaic):
+def a_record_t(pyobj_creg, mosaic, init):
     ref_mt = builtin_mt('ref')
     ref_opt_mt = optional_mt(mosaic.put(ref_mt))
     base_record_mt = record_mt('a_module', 'base_record', base=None, fields=(
@@ -58,7 +58,7 @@ def a_record_t(pyobj_creg, mosaic):
     return  pyobj_creg.animate(a_record_mt)
 
 
-def test_definition_type_based(resource_type_factory, a_record_t):
+def test_definition_type_based(resource_type_factory, init, a_record_t):
     resource_type = resource_type_factory(a_record_t)
     log.info("definition_t: %r", resource_type.definition_t)
     expected_base_t = TRecord('a_module', 'base_record_def', {
@@ -70,13 +70,13 @@ def test_definition_type_based(resource_type_factory, a_record_t):
         }, base=expected_base_t)
 
 
-def test_mapper(resource_type_factory):
+def test_mapper(resource_type_factory, init):
     resource_t = partial_t
     resource_type = resource_type_factory(resource_t)
     log.info("mapper: %r", resource_type._mapper)
 
 
-def test_from_dict_partial(resource_type_producer):
+def test_from_dict_partial(resource_type_producer, init):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     log.info("definition_t: %r", resource_type.definition_t)
@@ -99,7 +99,7 @@ def test_from_dict_partial(resource_type_producer):
         )
 
 
-def test_from_dict_based(resource_type_factory, a_record_t):
+def test_from_dict_based(resource_type_factory, init, a_record_t):
     resource_type = resource_type_factory(a_record_t)
     log.info("definition_t: %r", resource_type.definition_t)
     definition_dict = {
@@ -114,7 +114,7 @@ def test_from_dict_based(resource_type_factory, a_record_t):
         )
 
 
-def test_to_dict_partial(resource_type_producer):
+def test_to_dict_partial(resource_type_producer, init):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     param_t = resource_type.definition_t.fields['params'].element_t
@@ -136,7 +136,7 @@ def test_to_dict_partial(resource_type_producer):
         }
 
 
-def test_to_dict_based(resource_type_factory, a_record_t):
+def test_to_dict_based(resource_type_factory, init, a_record_t):
     resource_type = resource_type_factory(a_record_t)
     definition = resource_type.definition_t(
         a_ref_opt='some-int',
@@ -150,7 +150,7 @@ def test_to_dict_based(resource_type_factory, a_record_t):
         }
 
 
-def test_resolve_definition_partial(mosaic, resource_type_producer):
+def test_resolve_definition_partial(mosaic, resource_type_producer, init):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     param_t = resource_type.definition_t.fields['params'].element_t
@@ -178,7 +178,7 @@ def test_resolve_definition_partial(mosaic, resource_type_producer):
     )
 
 
-def test_resolve_definition_based(mosaic, resource_type_factory, a_record_t):
+def test_resolve_definition_based(mosaic, resource_type_factory, init, a_record_t):
     resource_type = resource_type_factory(a_record_t)
     definition = resource_type.definition_t(
         a_ref_opt='some-int',
@@ -198,7 +198,7 @@ def test_resolve_definition_based(mosaic, resource_type_factory, a_record_t):
     )
 
 
-def test_reverse_resolve_definition_partial(mosaic, resource_type_producer):
+def test_reverse_resolve_definition_partial(mosaic, resource_type_producer, init):
     resource_t = partial_t
     resource_type = resource_type_producer(resource_t)
     names = {
@@ -232,7 +232,7 @@ def test_reverse_resolve_definition_partial(mosaic, resource_type_producer):
     )
 
 
-def _test_reverse_resolve_definition_based(mosaic, resource_type_factory, a_record_t):
+def _test_reverse_resolve_definition_based(mosaic, resource_type_factory, init, a_record_t):
     resource_type = resource_type_factory(a_record_t)
     names = {
         'some-value': mosaic.put('some value'),
@@ -258,7 +258,7 @@ def _test_reverse_resolve_definition_based(mosaic, resource_type_factory, a_reco
         )
 
 
-def test_resolve_definition_empty_inherited_record(pyobj_creg, mosaic, resource_type_factory):
+def test_resolve_definition_empty_inherited_record(pyobj_creg, mosaic, resource_type_factory, init):
     string_mt = builtin_mt('string')
     ref_mt = builtin_mt('ref')
     ref_list_mt = list_mt(mosaic.put(ref_mt))

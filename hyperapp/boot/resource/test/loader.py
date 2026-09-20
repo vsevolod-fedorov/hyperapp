@@ -21,6 +21,7 @@ def loader(
         builtin_name_to_type,
         builtin_name_to_service,
         resource_type_producer,
+        init,
         resources_dir,
         ):
     def load(project_to_path):

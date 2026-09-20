@@ -34,13 +34,13 @@ def resource_type_reg():
     return reg
 
 
-def test_definition_type(resource_type_producer):
+def test_definition_type(resource_type_producer, init):
     resource_t = python_module_t
     resource_type = resource_type_producer(resource_t)
     assert resource_type.definition_t is python_module_def_t
 
 
-def test_from_dict(resource_type_producer):
+def test_from_dict(resource_type_producer, init):
     resource_t = python_module_t
     resource_type = resource_type_producer(resource_t)
     definition_dict = {
@@ -83,7 +83,7 @@ def mock_ctx(project_name, names, text):
     )
 
 
-def test_resolve(mosaic, resource_type_producer):
+def test_resolve(mosaic, resource_type_producer, init):
     resource_t = python_module_t
     resource_type = resource_type_producer(resource_t)
 
@@ -129,7 +129,7 @@ def test_resolve(mosaic, resource_type_producer):
     assert sources[resource.source][:2] == (project_name, ('sample_module.dyn.py',))
 
 
-def test_reverse_resolve(mosaic, resource_type_producer):
+def test_reverse_resolve(mosaic, resource_type_producer, init):
     resource_t = python_module_t
     resource_type = resource_type_producer(resource_t)
 

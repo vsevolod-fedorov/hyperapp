@@ -65,7 +65,7 @@ def mock_ctx(project_name, names, data):
     )
 
 
-def test_resolve(mosaic, resource_type_producer):
+def test_resolve(mosaic, resource_type_producer, init):
     resource_t = file_data_t
     resource_type = resource_type_producer(resource_t)
 

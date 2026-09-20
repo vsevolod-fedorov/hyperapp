@@ -12,7 +12,7 @@ from hyperapp.boot.htypes.meta_type import (
 from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
 from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
-from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
+from hyperapp.boot.resource.builtin_name_to_service import make_builtin_name_to_service
 from hyperapp.boot.resource.resource_type_producer import produce_resource_type
 from hyperapp.boot.register_coders import register_coders
 from hyperapp.boot.unbundler import Unbundler
@@ -32,38 +32,7 @@ def unbundler(web, mosaic, assoc_implanters):
 
 
 @pytest.fixture
-def builtin_name_to_service(
-        reconstructors,
-        pyobj_creg,
-        mosaic,
-        web,
-        source_path,
-        assoc_implanters,
-        unbundler
-        ):
-    return make_builtin_name_to_service(
-        reconstructors,
-        pyobj_creg,
-        mosaic,
-        web,
-        source_path,
-        assoc_implanters,
-        unbundler,
-        )
-
-
-@pytest.fixture
-def init(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_type, builtin_name_to_service):
-    pyobj_creg.init(mosaic, web)
-    add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
-    register_builtin_mt(mosaic, pyobj_creg)
-    register_pyobj_creg_mt_actors(pyobj_creg)
-    register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_service)
-    register_coders()
-
-
-@pytest.fixture
-def resource_type_factory(mosaic, web, pyobj_creg, init):
+def resource_type_factory(mosaic, web, pyobj_creg):
     return partial(ResourceType, mosaic, web, pyobj_creg)
 
 
@@ -75,3 +44,38 @@ def type_to_resource_type():
 @pytest.fixture
 def resource_type_producer(resource_type_factory, type_to_resource_type):
     return partial(produce_resource_type, resource_type_factory, type_to_resource_type)
+
+
+@pytest.fixture
+def builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        assoc_implanters,
+        unbundler,
+        builtin_name_to_type,
+        resource_type_producer,
+        ):
+    return make_builtin_name_to_service(
+        reconstructors,
+        pyobj_creg,
+        mosaic,
+        web,
+        source_path,
+        assoc_implanters,
+        unbundler,
+        builtin_name_to_type,
+        resource_type_producer,
+        )
+
+
+@pytest.fixture
+def init(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_type, builtin_name_to_service):
+    pyobj_creg.init(mosaic, web)
+    add_types_to_pyobj_creg_cache(pyobj_creg, builtin_name_to_type)
+    register_builtin_mt(mosaic, pyobj_creg)
+    register_pyobj_creg_mt_actors(pyobj_creg)
+    register_pyobj_creg_actors(pyobj_creg, mosaic, web, python_importer, source_path, builtin_name_to_service)
+    register_coders()

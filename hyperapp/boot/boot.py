@@ -22,7 +22,7 @@ from hyperapp.boot.resource.resource_type import ResourceType
 from hyperapp.boot.resource.resource_type_registry import make_type_to_resource_type
 from hyperapp.boot.resource.resource_type_producer import produce_resource_type
 from hyperapp.boot.resource.pyobj_registry import register_pyobj_creg_actors
-from hyperapp.boot.resource.builtin_service import make_builtin_name_to_service
+from hyperapp.boot.resource.builtin_name_to_service import make_builtin_name_to_service
 from hyperapp.boot.resource.workspace import Workspace
 from hyperapp.boot.resource.loader import load_resources, add_source_paths
 from hyperapp.boot.register_coders import register_coders
@@ -50,6 +50,9 @@ def boot_services():
         **make_builtin_name_to_type(),
         **make_meta_type_name_to_type(),
         }
+    resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
+    type_to_resource_type = make_type_to_resource_type()
+    resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
     builtin_name_to_service = make_builtin_name_to_service(
         reconstructors,
         pyobj_creg,
@@ -58,6 +61,8 @@ def boot_services():
         source_path,
         assoc_implanters,
         unbundler,
+        builtin_name_to_type,
+        resource_type_producer,
         )
     python_importer = PythonImporter()
     init_services(
@@ -69,9 +74,6 @@ def boot_services():
         builtin_name_to_type,
         builtin_name_to_service,
         )
-    resource_type_factory = partial(ResourceType, mosaic, web, pyobj_creg)
-    type_to_resource_type = make_type_to_resource_type()
-    resource_type_producer = partial(produce_resource_type, resource_type_factory, type_to_resource_type)
     return SimpleNamespace(
         pyobj_creg=pyobj_creg,
         mosaic=mosaic,
