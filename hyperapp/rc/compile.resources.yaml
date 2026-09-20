@@ -1,0 +1,35 @@
+definitions:
+
+  compile.module:
+    type: builtin:type:python_module
+    value:
+      module_name: compile
+      file_name: compile.dyn.py
+      imports:
+        pyobj:
+          services.load_resources: builtin:service:load_resources
+          code.module: module:module.module
+        raw: {}
+
+  compile_resources.attr:
+    type: builtin:type:attribute
+    value:
+      object: compile.module
+      attr_name: compile_resources
+
+  compile_resources.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: compile_resources
+      base: null
+      fields: {}
+
+  compile_resources.service:
+    type: compile_resources.service.t
+    value: {}
+
+  compile_resources.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: compile_resources.attr
+      adapters: []

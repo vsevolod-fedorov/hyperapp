@@ -2,23 +2,10 @@ import argparse
 import logging
 from pathlib import Path
 
-from hyperapp.boot.resource.workspace import Workspace, load_file_tree
-
-from .services import (
-    load_resources,
-    )
 from .code.source_path import pick_source_path_assoc
 from .code.transport import LocalEndpoint
-from .code.module import Module
 
 log = logging.getLogger(__name__)
-
-
-def compile_resources(workspace_path):
-    log.info("Loading workspace: %s", workspace_path)
-    workspace = Workspace.from_yaml_file(workspace_path)
-    project_to_tree = workspace.load_file_tree()
-    resources, sources = load_resources(workspace.projects, project_to_tree)
 
 
 def _parse_args(sys_argv):

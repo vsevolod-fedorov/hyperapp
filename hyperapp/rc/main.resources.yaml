@@ -7,34 +7,9 @@ definitions:
       file_name: main.dyn.py
       imports:
         pyobj:
-          services.load_resources: builtin:service:load_resources
           code.source_path: base:source_path:source_path.module
           code.transport: base:transport/transport:transport.module
-          code.module: module:module.module
         raw: {}
-
-  compile_resources.attr:
-    type: builtin:type:attribute
-    value:
-      object: main.module
-      attr_name: compile_resources
-
-  compile_resources.service.t:
-    type: builtin:type:record_mt
-    value:
-      name: compile_resources
-      base: null
-      fields: {}
-
-  compile_resources.service:
-    type: compile_resources.service.t
-    value: {}
-
-  compile_resources.service-actor:
-    type: base:system/system.t:service_actor
-    value:
-      fn: compile_resources.attr
-      adapters: []
 
   main.attr:
     type: builtin:type:attribute
@@ -72,4 +47,4 @@ definitions:
         selectors: base:transport/selectors:selectors.service
         transport: base:transport/transport:transport.service
         message_creg: base:transport/registries:message_creg.service
-        compile_resources: compile_resources.service
+        compile_resources: compile:compile_resources.service
