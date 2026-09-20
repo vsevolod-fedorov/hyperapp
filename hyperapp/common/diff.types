@@ -1,3 +1,0 @@
-model_diff = record:
-  model: ref
-  diff: ref

@@ -1,3 +1,0 @@
-value_adapter = record:
-  accessor: ref
-  convertor: ref

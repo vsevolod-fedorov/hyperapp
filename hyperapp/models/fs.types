@@ -1,8 +1,0 @@
-model = record
-
-item = record:
-  name: string
-  size: int opt
-
-path = record:
-  parts: string list

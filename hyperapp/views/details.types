@@ -1,7 +1,0 @@
-view = record:
-  command: ref
-  details_model: ref
-  details_view: ref
-
-factory_k = record:
-  command: ref

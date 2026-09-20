@@ -1,3 +1,0 @@
-value = record:
-  id: int
-  text: string

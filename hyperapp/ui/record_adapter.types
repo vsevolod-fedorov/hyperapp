@@ -1,7 +1,0 @@
-record_adapter = record:
-  record_t: ref
-
-static_record_adapter = record(record_adapter)
-
-fn_record_adapter = record(record_adapter):
-  system_fn: ref

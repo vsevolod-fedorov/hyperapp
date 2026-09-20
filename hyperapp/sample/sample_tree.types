@@ -1,6 +1,0 @@
-model = record
-
-item = record:
-  id: int
-  title: string
-

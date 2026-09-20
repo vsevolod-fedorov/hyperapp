@@ -1,4 +1,0 @@
-view = record:
-  base: ref
-  model: ref
-  value: ref opt

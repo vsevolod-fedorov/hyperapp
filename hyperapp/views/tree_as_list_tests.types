@@ -1,6 +1,0 @@
-sample_tree_model = record
-
-item = record:
-  id: int
-  name: string
-  text: string

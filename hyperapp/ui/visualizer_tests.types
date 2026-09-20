@@ -1,5 +1,0 @@
-sample_list = record
-sample_list_item = record
-
-sample_k = record
-sample_view = record

@@ -1,5 +1,0 @@
-from box_layout import view as box_layout_view
-
-
-view = record(box_layout_view):
-  adapter: ref

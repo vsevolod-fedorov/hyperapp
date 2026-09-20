@@ -1,4 +1,0 @@
-sample_list_feed = record
-
-sample_item = record:
-  attr: string

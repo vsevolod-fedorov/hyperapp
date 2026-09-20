@@ -1,7 +1,0 @@
-sample_model = record
-
-sample_value = record:
-  str_field: string
-
-sample_d = record
-base_factory_k = record

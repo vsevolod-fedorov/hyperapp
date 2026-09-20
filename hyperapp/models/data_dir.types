@@ -1,2 +1,0 @@
-config = record:
-  data_dir: string

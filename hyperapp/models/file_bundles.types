@@ -1,9 +1,0 @@
-view = record
-
-item = record:
-  name: string
-  path: string
-
-
-open_file_bundle_list_d = record
-open_d = record

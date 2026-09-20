@@ -1,5 +1,0 @@
-schedule_sample_list_feed_d = record
-schedule_sample_tree_feed_d = record
-
-sample_list_feed = record
-sample_tree_feed = record

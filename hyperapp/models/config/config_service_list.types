@@ -1,7 +1,0 @@
-model = record:
-  layer: string opt  # All layers if none.
-
-item = record:
-  service_name: string
-  item_count: int opt
-  assoc: string

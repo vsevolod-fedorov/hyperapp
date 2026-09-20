@@ -1,5 +1,0 @@
-view = record:
-  adapter: ref
-
-state = record:
-  current_idx: int

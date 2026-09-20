@@ -1,9 +1,0 @@
-sample_tree = record
-
-index_item = record:
-  id: int
-  text: string
-
-key_item = record:
-  key: string
-  text: string

@@ -1,8 +1,0 @@
-edit_view = record:
-  adapter: ref
-
-readonly_view = record:
-  adapter: ref
-
-state = record:
-  text: string

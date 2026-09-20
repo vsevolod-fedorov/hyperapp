@@ -1,5 +1,0 @@
-string_view_k = record
-int_view_k = record
-
-sample_string_view = record
-sample_int_view = record

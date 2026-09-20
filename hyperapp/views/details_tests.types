@@ -1,5 +1,0 @@
-sample_model = record
-sample_command = record
-
-item = record:
-  id: int

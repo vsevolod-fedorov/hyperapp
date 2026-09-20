@@ -1,4 +1,0 @@
-view = record:
-  text: string
-
-state = record

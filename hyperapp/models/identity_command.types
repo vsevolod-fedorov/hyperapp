@@ -1,4 +1,0 @@
-add_identity_command_d = record
-
-identity_command = record:
-  d: ref
