@@ -17,7 +17,7 @@ definitions:
       args:
         system_code_registry_factory: :system/code_registry:system_code_registry_factory.service
 
-  identity_creg:
+  identity_creg.attr:
     type: builtin:type:attribute
     value:
       object: registries.module
@@ -37,13 +37,13 @@ definitions:
   identity_creg.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: identity_creg
+      fn: identity_creg.attr
       adapters:
       - :system/adapter:config.adapter
       - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
-  peer_creg:
+  peer_creg.attr:
     type: builtin:type:attribute
     value:
       object: registries.module
@@ -63,13 +63,13 @@ definitions:
   peer_creg.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: peer_creg
+      fn: peer_creg.attr
       adapters:
       - :system/adapter:config.adapter
       - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
-  signature_creg:
+  signature_creg.attr:
     type: builtin:type:attribute
     value:
       object: registries.module
@@ -89,13 +89,13 @@ definitions:
   signature_creg.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: signature_creg
+      fn: signature_creg.attr
       adapters:
       - :system/adapter:config.adapter
       - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
-  parcel_creg:
+  parcel_creg.attr:
     type: builtin:type:attribute
     value:
       object: registries.module
@@ -115,13 +115,13 @@ definitions:
   parcel_creg.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: parcel_creg
+      fn: parcel_creg.attr
       adapters:
       - :system/adapter:config.adapter
       - with-system_code_registry_factory.service-args-adapter
       - :system/adapter:service_object.adapter
 
-  route_creg:
+  route_creg.attr:
     type: builtin:type:attribute
     value:
       object: registries.module
@@ -132,12 +132,12 @@ definitions:
   #   value:
   #     name: route_creg
   #     ctl: base.system.system:actor_dict.config_ctl
-  #     function: route_creg
+  #     function: route_creg.attr
   #     free_params: []
   #     service_params: []
   #     want_config: true
 
-  message_creg:
+  message_creg.attr:
     type: builtin:type:attribute
     value:
       object: registries.module
@@ -157,7 +157,7 @@ definitions:
   message_creg.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: message_creg
+      fn: message_creg.attr
       adapters:
       - :system/adapter:config.adapter
       - with-system_code_registry_factory.service-args-adapter

@@ -17,7 +17,7 @@ definitions:
         pyobj: {}
         raw: {}
 
-  config_adapter:
+  config_adapter.attr:
     type: builtin:type:attribute
     value:
       object: adapter.module
@@ -26,11 +26,11 @@ definitions:
   config_adapter.actor:
     type: system.t:actor
     value:
-      fn: config_adapter
+      fn: config_adapter.attr
       service_params:
         service_config_creg: system:service_config_creg.service
 
-  service_args_adapter:
+  service_args_adapter.attr:
     type: builtin:type:attribute
     value:
       object: adapter.module
@@ -39,11 +39,11 @@ definitions:
   service_args_adapter.actor:
     type: system.t:actor
     value:
-      fn: service_args_adapter
+      fn: service_args_adapter.attr
       service_params:
         service_creg: system:service_creg.service
 
-  service_object_adapter:
+  service_object_adapter.attr:
     type: builtin:type:attribute
     value:
       object: adapter.module
@@ -52,5 +52,5 @@ definitions:
   service_object_adapter.actor:
     type: system.t:actor
     value:
-      fn: service_object_adapter
+      fn: service_object_adapter.attr
       service_params: {}

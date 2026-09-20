@@ -31,7 +31,7 @@ definitions:
           data.system.service.service_creg: service_creg.service
           data.system.service.service_config_creg: service_config_creg.service
 
-  service_config_creg:
+  service_config_creg.attr:
     type: builtin:type:attribute
     value:
       object: system.module
@@ -40,6 +40,6 @@ definitions:
   service_config_creg.service-actor:
     type: system.t:service_actor
     value:
-      fn: service_config_creg
+      fn: service_config_creg.attr
       adapters:
       - adapter:service_object.adapter

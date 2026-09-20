@@ -12,7 +12,7 @@ definitions:
           code.packet: packet:packet.module
         raw: {}
 
-  transport:
+  transport.attr:
     type: builtin:type:attribute
     value:
       object: transport.module
@@ -32,7 +32,7 @@ definitions:
   transport.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: transport
+      fn: transport.attr
       adapters:
       - :system/adapter:config.adapter
       - transport.service-args-adapter

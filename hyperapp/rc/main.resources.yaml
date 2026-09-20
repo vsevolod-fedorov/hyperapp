@@ -13,7 +13,7 @@ definitions:
           code.module: module:module.module
         raw: {}
 
-  compile_resources:
+  compile_resources.attr:
     type: builtin:type:attribute
     value:
       object: main.module
@@ -33,10 +33,10 @@ definitions:
   compile_resources.service-actor:
     type: base:system/system.t:service_actor
     value:
-      fn: compile_resources
+      fn: compile_resources.attr
       adapters: []
 
-  main:
+  main.attr:
     type: builtin:type:attribute
     value:
       object: main.module
@@ -56,7 +56,7 @@ definitions:
   main.service-actor:
     type: base:system/system.t:service_actor
     value:
-      fn: main
+      fn: main.attr
       adapters:
       - main.service-args-adapter
 

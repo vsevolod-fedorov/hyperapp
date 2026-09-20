@@ -13,7 +13,7 @@ definitions:
           data.svc.main: worker_main:subprocess_worker_main.service
           data.svc.assoc_implanter: base:assoc_implanter:assoc_implanter.service
 
-  boot:
+  boot.attr:
     type: builtin:type:attribute
     value:
       object: worker_boot.module

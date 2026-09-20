@@ -20,7 +20,7 @@ definitions:
     type: builtin:type:int
     value: 12345
 
-  main:
+  main.attr:
     type: builtin:type:attribute
     value:
       object: sample.module

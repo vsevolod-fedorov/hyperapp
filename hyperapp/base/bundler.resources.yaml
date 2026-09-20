@@ -11,7 +11,7 @@ definitions:
           services.pyobj_creg: builtin:service:pyobj_creg
         raw: {}
 
-  bundler:
+  bundler.attr:
     type: builtin:type:attribute
     value:
       object: bundler.module
@@ -31,7 +31,7 @@ definitions:
   bundler.service-actor:
     type: base:system/system.t:service_actor
     value:
-      fn: bundler
+      fn: bundler.attr
       adapters:
       - bundler.service-args-adapter
 

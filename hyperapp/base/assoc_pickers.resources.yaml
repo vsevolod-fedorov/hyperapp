@@ -9,7 +9,7 @@ definitions:
         pyobj: {}
         raw: {}
 
-  assoc_pickers:
+  assoc_pickers.attr:
     type: builtin:type:attribute
     value:
       object: assoc_pickers.module
@@ -29,6 +29,6 @@ definitions:
   assoc_pickers.service-actor:
     type: base:system/system.t:service_actor
     value:
-      fn: assoc_pickers
+      fn: assoc_pickers.attr
       adapters:
       - system/adapter:service_object.adapter

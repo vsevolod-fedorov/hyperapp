@@ -16,7 +16,7 @@ definitions:
     value:
       file_name: mp_main.py
 
-  subprocess_running:
+  subprocess_running.attr:
     type: builtin:type:attribute
     value:
       object: subprocess.module
@@ -36,7 +36,7 @@ definitions:
   subprocess_running.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: subprocess_running
+      fn: subprocess_running.attr
       adapters:
       - subprocess_running.service-args-adapter
       - :system/adapter:service_object.adapter

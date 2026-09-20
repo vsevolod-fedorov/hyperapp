@@ -15,50 +15,50 @@ definitions:
           services.web: builtin:service:web
         raw: {}
 
-  RecordConfigCtl:
+  RecordConfigCtl.attr:
     type: builtin:type:attribute
     value:
       object: config.module
       attr_name: RecordConfigCtl
 
-  RecordConfigCtl.from_service_piece:
+  RecordConfigCtl.from_service_piece.attr:
     type: builtin:type:attribute
     value:
-      object: RecordConfigCtl
+      object: RecordConfigCtl.attr
       attr_name: from_service_piece
 
   RecordConfigCtl.from_service_piece.actor:
     type: system.t:service_actor
     value:
-      fn: RecordConfigCtl.from_service_piece
+      fn: RecordConfigCtl.from_service_piece.attr
       adapters: []
 
-  TypedDictConfigCtl:
+  TypedDictConfigCtl.attr:
     type: builtin:type:attribute
     value:
       object: config.module
       attr_name: TypedDictConfigCtl
 
-  TypedDictConfigCtl.from_config_piece:
+  TypedDictConfigCtl.from_config_piece.attr:
     type: builtin:type:attribute
     value:
-      object: TypedDictConfigCtl
+      object: TypedDictConfigCtl.attr
       attr_name: from_config_piece
 
   TypedDictConfigCtl.from_config_piece.actor:
     type: system.t:service_actor
     value:
-      fn: TypedDictConfigCtl.from_config_piece
+      fn: TypedDictConfigCtl.from_config_piece.attr
       adapters: []
 
-  TypedDictConfigCtl.from_service_piece:
+  TypedDictConfigCtl.from_service_piece.attr:
     type: builtin:type:attribute
     value:
-      object: TypedDictConfigCtl
+      object: TypedDictConfigCtl.attr
       attr_name: from_service_piece
 
   TypedDictConfigCtl.from_service_piece.actor:
     type: system.t:service_actor
     value:
-      fn: TypedDictConfigCtl.from_service_piece
+      fn: TypedDictConfigCtl.from_service_piece.attr
       adapters: []

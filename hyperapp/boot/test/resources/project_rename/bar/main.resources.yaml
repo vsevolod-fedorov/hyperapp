@@ -17,7 +17,7 @@ definitions:
           services.web: builtin:service:web
         raw: {}
 
-  main:
+  main.attr:
     type: builtin:type:attribute
     value:
       object: main.module

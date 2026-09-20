@@ -9,7 +9,7 @@ definitions:
         pyobj: {}
         raw: {}
 
-  selectors:
+  selectors.attr:
     type: builtin:type:attribute
     value:
       object: selectors.module
@@ -29,6 +29,6 @@ definitions:
   selectors.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: selectors
+      fn: selectors.attr
       adapters:
       - :system/adapter:service_object.adapter

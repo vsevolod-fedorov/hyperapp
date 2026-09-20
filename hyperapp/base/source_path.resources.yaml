@@ -14,7 +14,7 @@ definitions:
           services.source_path: builtin:service:source_path
         raw: {}
 
-  implant_source_path_assoc:
+  implant_source_path_assoc.attr:
     type: builtin:type:attribute
     value:
       object: source_path.module
@@ -23,5 +23,5 @@ definitions:
   implant_source_path_assoc.actor:
     type: :system/system.t:actor
     value:
-      fn: implant_source_path_assoc
+      fn: implant_source_path_assoc.attr
       service_params: {}

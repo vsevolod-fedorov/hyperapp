@@ -12,10 +12,10 @@ definitions:
           code.selectors: :transport/selectors:selectors.module
           code.subprocess.transport: transport:transport.module
         raw:
-          data.worker_boot.boot: worker_boot:boot
+          data.worker_boot.boot: worker_boot:boot.attr
 
 
-  worker_started:
+  worker_started.attr:
     type: builtin:type:attribute
     value:
       object: worker.module
@@ -24,10 +24,10 @@ definitions:
   worker_started.actor:
     type: :system/system.t:actor
     value:
-      fn: worker_started
+      fn: worker_started.attr
       service_params: {}
 
-  subprocess_workers_running:
+  subprocess_workers_running.attr:
     type: builtin:type:attribute
     value:
       object: worker.module
@@ -47,7 +47,7 @@ definitions:
   subprocess_workers_running.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: subprocess_workers_running
+      fn: subprocess_workers_running.attr
       adapters:
       - subprocess_workers_running.service-args-adapter
       - :system/adapter:service_object.adapter

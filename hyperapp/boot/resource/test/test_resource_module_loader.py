@@ -26,14 +26,14 @@ def test_primitive_types(loader):
 
 def test_resolve_local(web, loader):
     resources, sources = loader({'a-project': 'resolve_local'})
-    attr = resources['a-project', ('sample',), 'an_attribute']
+    attr = resources['a-project', ('sample',), 'an_attribute.attr']
     object = web.summon(attr.object)
     assert object == 123
 
 
 def test_resolve_in_project(web, loader):
     resources, sources = loader({'a-project': 'resolve_in_project'})
-    attr = resources['a-project', ('module_2',), 'an_attribute']
+    attr = resources['a-project', ('module_2',), 'an_attribute.attr']
     object = web.summon(attr.object)
     assert object == 123
     assert resources['a-project', ('module_1',), 'an_int'] == 123
@@ -45,8 +45,8 @@ def test_resolve_between_projects(web, loader):
         'project-2': 'resolve_between_projects/project_2',
         }
     resources, sources = loader(projects)
-    attr = resources['project-2', ('module_2',), 'an_attribute']
+    attr = resources['project-2', ('module_2',), 'an_attribute.attr']
     object = web.summon(attr.object)
     assert object == 123
     assert resources['project-1', ('subdir', 'module_1'), 'an_int'] == 123
-    assert sources[attr] == ('project-2', ('module_2',), ResourceModuleSource('an_attribute'))
+    assert sources[attr] == ('project-2', ('module_2',), ResourceModuleSource('an_attribute.attr'))

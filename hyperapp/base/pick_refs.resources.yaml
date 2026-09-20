@@ -10,7 +10,7 @@ definitions:
           services.deduce_t: builtin:service:deduce_t
         raw: {}
 
-  pick_refs_cache:
+  pick_refs_cache.attr:
     type: builtin:type:attribute
     value:
       object: pick_refs.module
@@ -30,11 +30,11 @@ definitions:
   pick_refs_cache.service-actor:
     type: base:system/system.t:service_actor
     value:
-      fn: pick_refs_cache
+      fn: pick_refs_cache.attr
       adapters:
       - system/adapter:service_object.adapter
 
-  pick_refs:
+  pick_refs.attr:
     type: builtin:type:attribute
     value:
       object: pick_refs.module
@@ -54,7 +54,7 @@ definitions:
   pick_refs.service-actor:
     type: base:system/system.t:service_actor
     value:
-      fn: pick_refs
+      fn: pick_refs.attr
       adapters:
       - pick_refs.service-args-adapter
 

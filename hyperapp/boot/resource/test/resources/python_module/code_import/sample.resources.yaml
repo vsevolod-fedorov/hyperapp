@@ -18,7 +18,7 @@ definitions:
           code.sample_1: sample_1.module
         raw: {}
 
-  main:
+  main.attr:
     type: builtin:type:attribute
     value:
       object: sample_2.module

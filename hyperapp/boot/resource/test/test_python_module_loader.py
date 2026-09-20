@@ -33,7 +33,7 @@ def test_module(pyobj_creg, loader):
 
 def test_fn(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'fn'})
-    piece = resources['a-project', ('sample',), 'fn']
+    piece = resources['a-project', ('sample',), 'fn.attr']
     fn = pyobj_creg.animate(piece)
     result = fn()
     assert result == 123
@@ -41,7 +41,7 @@ def test_fn(pyobj_creg, loader):
 
 def test_code_import(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'code_import'})
-    piece = resources['a-project', ('sample',), 'main']
+    piece = resources['a-project', ('sample',), 'main.attr']
     main = pyobj_creg.animate(piece)
     result = main()
     assert result == 123
@@ -49,7 +49,7 @@ def test_code_import(pyobj_creg, loader):
 
 def test_code_and_htypes_import(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'import'})
-    piece = resources['a-project', ('sample',), 'main']
+    piece = resources['a-project', ('sample',), 'main.attr']
     main = pyobj_creg.animate(piece)
     result = main()
     assert result == 123
@@ -57,14 +57,14 @@ def test_code_and_htypes_import(pyobj_creg, loader):
 
 def test_package_import(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'package_import'})
-    piece = resources['a-project', ('sample',), 'main']
+    piece = resources['a-project', ('sample',), 'main.attr']
     main = pyobj_creg.animate(piece)
     assert main() == 100
 
 
 def test_builtin_services(pyobj_creg, loader):
     resources, sources = loader({'a-project': 'builtin_services'})
-    fn_piece = resources['a-project', ('sample',), 'run_tests']
+    fn_piece = resources['a-project', ('sample',), 'run_tests.attr']
     run_tests = pyobj_creg.animate(fn_piece)
     result = run_tests()
     assert result == 'ok'

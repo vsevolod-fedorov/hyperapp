@@ -14,28 +14,28 @@ definitions:
           services.mosaic: builtin:service:mosaic
         raw: {}
 
-  RsaIdentity:
+  RsaIdentity.attr:
     type: builtin:type:attribute
     value:
       object: rsa.module
       attr_name: RsaIdentity
 
-  RsaIdentity.from_piece:
+  RsaIdentity.from_piece.attr:
     type: builtin:type:attribute
     value:
-      object: RsaIdentity
+      object: RsaIdentity.attr
       attr_name: from_piece
 
   RsaIdentity.from_piece.actor:
     type: :system/system.t:actor
     value:
-      fn: RsaIdentity.from_piece
+      fn: RsaIdentity.from_piece.attr
       service_params: {}
 
-  RsaIdentity.generate:
+  RsaIdentity.generate.attr:
     type: builtin:type:attribute
     value:
-      object: RsaIdentity
+      object: RsaIdentity.attr
       attr_name: generate
 
   generate_rsa_identity.service.t:
@@ -52,31 +52,31 @@ definitions:
   generate_rsa_identity.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: RsaIdentity.generate
+      fn: RsaIdentity.generate.attr
       adapters: []
 
-  RsaPeer:
+  RsaPeer.attr:
     type: builtin:type:attribute
     value:
       object: rsa.module
       attr_name: RsaPeer
 
-  RsaPeer.from_piece:
+  RsaPeer.from_piece.attr:
     type: builtin:type:attribute
     value:
-      object: RsaPeer
+      object: RsaPeer.attr
       attr_name: from_piece
 
   RsaPeer.from_piece.actor:
     type: :system/system.t:actor
     value:
-      fn: RsaPeer.from_piece
+      fn: RsaPeer.from_piece.attr
       service_params: {}
 
   # RsaPeer.from_piece.actor-template:
   #   type: legacy_type.system:actor_template
   #   value:
-  #     function: RsaPeer.from_piece
+  #     function: RsaPeer.from_piece.attr
   #     service_params: []
 
   # peer_creg-rsa-rsa_peer.actor-cfg-item:
@@ -85,39 +85,39 @@ definitions:
   #     t: rsa.t:rsa_peer
   #     value: RsaPeer.from_piece.actor-template
 
-  RsaSignature:
+  RsaSignature.attr:
     type: builtin:type:attribute
     value:
       object: rsa.module
       attr_name: RsaSignature
 
-  RsaSignature.from_piece:
+  RsaSignature.from_piece.attr:
     type: builtin:type:attribute
     value:
-      object: RsaSignature
+      object: RsaSignature.attr
       attr_name: from_piece
 
   RsaSignature.from_piece.actor:
     type: :system/system.t:actor
     value:
-      fn: RsaSignature.from_piece
+      fn: RsaSignature.from_piece.attr
       service_params: {}
 
-  RsaParcel:
+  RsaParcel.attr:
     type: builtin:type:attribute
     value:
       object: rsa.module
       attr_name: RsaParcel
 
-  RsaParcel.from_piece:
+  RsaParcel.from_piece.attr:
     type: builtin:type:attribute
     value:
-      object: RsaParcel
+      object: RsaParcel.attr
       attr_name: from_piece
 
   RsaParcel.from_piece.actor:
     type: :system/system.t:actor
     value:
-      fn: RsaParcel.from_piece
+      fn: RsaParcel.from_piece.attr
       service_params:
         signature_creg: registries:signature_creg.service

@@ -11,7 +11,7 @@ definitions:
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
         raw: {}
-  run_tests:
+  run_tests.attr:
     type: builtin:type:attribute
     value:
       object: sample.module

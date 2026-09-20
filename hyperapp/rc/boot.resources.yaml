@@ -16,7 +16,7 @@ definitions:
           data.rc.config.config: rc:config:config
           data.main_svc: main:main.service
 
-  boot:
+  boot.attr:
     type: builtin:type:attribute
     value:
       object: boot.module

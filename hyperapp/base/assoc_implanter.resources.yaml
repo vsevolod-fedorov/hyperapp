@@ -11,7 +11,7 @@ definitions:
           services.web: builtin:service:web
         raw: {}
 
-  assoc_implanter:
+  assoc_implanter.attr:
     type: builtin:type:attribute
     value:
       object: assoc_implanter.module
@@ -31,7 +31,7 @@ definitions:
   assoc_implanter.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: assoc_implanter
+      fn: assoc_implanter.attr
       adapters:
       - assoc_implanter.service-args-adapter
       - :system/adapter:service_object.adapter
@@ -42,7 +42,7 @@ definitions:
       args:
         assoc_creg: assoc_creg.service
 
-  assoc_creg:
+  assoc_creg.attr:
     type: builtin:type:attribute
     value:
       object: assoc_implanter.module
@@ -62,7 +62,7 @@ definitions:
   assoc_creg.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: assoc_creg
+      fn: assoc_creg.attr
       adapters:
       - :system/adapter:config.adapter
       - assoc_creg.service-args-adapter

@@ -15,4 +15,4 @@ cd /tmp
 
 set -x
 
-time "$root_dir/hyperapp/boot/boot.py" "$root_dir/hyperapp/projects.yaml" rc:boot:boot "$workspace" "$@"
+time "$root_dir/hyperapp/boot/boot.py" "$root_dir/hyperapp/projects.yaml" rc:boot:boot.attr "$workspace" "$@"

@@ -13,7 +13,7 @@ definitions:
           services.web: builtin:service:web
         raw: {}
 
-  system_code_registry_factory:
+  system_code_registry_factory.attr:
     type: builtin:type:attribute
     value:
       object: code_registry.module
@@ -33,7 +33,7 @@ definitions:
   system_code_registry_factory.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: system_code_registry_factory
+      fn: system_code_registry_factory.attr
       adapters:
       - system_code_registry_factory.service-args-adapter
 

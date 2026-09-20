@@ -12,7 +12,7 @@ definitions:
           code.subprocess.transport: :subprocess/transport:transport.module
         raw: {}
 
-  subprocess_worker_main:
+  subprocess_worker_main.attr:
     type: builtin:type:attribute
     value:
       object: worker_main.module
@@ -32,7 +32,7 @@ definitions:
   subprocess_worker_main.service-actor:
     type: :system/system.t:service_actor
     value:
-      fn: subprocess_worker_main
+      fn: subprocess_worker_main.attr
       adapters:
       - subprocess_worker_main.service-args-adapter
 
