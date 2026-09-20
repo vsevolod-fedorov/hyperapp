@@ -9,6 +9,7 @@ from .services import (
     )
 from .code.source_path import pick_source_path_assoc
 from .code.transport import LocalEndpoint
+from .code.module import Module
 
 log = logging.getLogger(__name__)
 

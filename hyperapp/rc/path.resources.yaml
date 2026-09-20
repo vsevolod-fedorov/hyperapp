@@ -1,0 +1,10 @@
+definitions:
+
+  path.module:
+    type: builtin:type:python_module
+    value:
+      module_name: path
+      file_name: path.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
