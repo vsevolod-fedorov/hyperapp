@@ -25,6 +25,7 @@ def loader(
         ):
     def load(project_to_path):
         workspace = Workspace.from_simple_dict(resources_dir, project_to_path)
+        project_to_tree = workspace.load_file_tree()
         resources, sources = load_resources(
             pyobj_creg,
             mosaic,
@@ -32,6 +33,7 @@ def loader(
             builtin_name_to_service,
             resource_type_producer,
             workspace.projects,
+            project_to_tree,
             )
         for name, piece in resources.items():
             log.info("Loaded piece: %s -> %r", name, piece)

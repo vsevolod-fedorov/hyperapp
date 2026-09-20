@@ -93,6 +93,7 @@ def load_projects_resources(
         projects_path,
         ):
     workspace = Workspace.from_yaml_file(projects_path)
+    project_to_tree = workspace.load_file_tree()
     resources, sources = load_resources(
         pyobj_creg,
         mosaic,
@@ -100,6 +101,7 @@ def load_projects_resources(
         builtin_name_to_service,
         resource_type_producer,
         workspace.projects,
+        project_to_tree,
         )
     add_source_paths(workspace.projects, sources, source_path)
     return resources

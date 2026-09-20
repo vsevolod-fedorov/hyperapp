@@ -34,6 +34,13 @@ class Workspace:
             imports[name] = name
         return cls(projects)
 
+    def load_file_tree(self):
+        return {
+            name: load_file_tree(project.path)
+            for name, project
+            in self.projects.items()
+            }
+
 
 # Returns dict: parts tuple -> bytes
 def load_file_tree(dir):

@@ -15,8 +15,7 @@ log = logging.getLogger(__name__)
 class _Project:
 
     @classmethod
-    def from_workspace_project(cls, project):
-        path_to_bytes = load_file_tree(project.path)
+    def from_workspace_project(cls, project, path_to_bytes):
         return cls(project.path, project.local_name, project.imports, path_to_bytes)
 
     def __init__(self, path, local_name, imports, path_to_bytes):
@@ -273,12 +272,14 @@ class _ResourceLoader:
             self._name_tuple_to_definition[(project_name, path, name)] = definition
 
 
-def load_resources(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects):
+def load_resources(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer,
+                   projects, project_to_tree):
     loader_projects = {
-        name: _Project.from_workspace_project(proj)
+        name: _Project.from_workspace_project(proj, project_to_tree[name])
         for name, proj in projects.items()
         }
-    loader = _ResourceLoader(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, loader_projects)
+    loader = _ResourceLoader(
+        pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, loader_projects)
     return loader.load()
 
 
