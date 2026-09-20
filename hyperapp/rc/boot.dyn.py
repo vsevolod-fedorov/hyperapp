@@ -10,9 +10,9 @@ from .data import main_svc
 log = logging.getLogger(__name__)
 
 
-def boot(args):
+def boot(argv):
     init_logging('rc')
-    log.info("RC boot: %s", args)
+    log.info("RC boot: %s", argv)
     service_creg = setup_system([base_config, rc_config])
     main = service_creg.animate(main_svc)
-    main(args)
+    main(argv)
