@@ -10,3 +10,4 @@ prof
 *.hash
 ipython-profile/history.sqlite
 ipython-profile/startup/README
+graphify-out/*
