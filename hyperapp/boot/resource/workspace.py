@@ -11,10 +11,6 @@ class Project:
     local_name: str
     imports: dict[str, str] = Field(default_factory=dict)
 
-    @cached_property
-    def path_to_bytes(self):
-        return load_file_tree(self.path)
-
 
 @pydantic_dataclass
 class Workspace:

@@ -3,13 +3,27 @@ from collections import namedtuple
 from pathlib import Path
 
 from ..htypes.python_module import python_module_t
+from .workspace import load_file_tree
 from .source import DataSource, TextSource
 from .resource_module import ResourceModuleLoader
 from .type_module import TypeModuleLoader
 from .builtin_service import builtin_service_name_to_piece
 
-
 log = logging.getLogger(__name__)
+
+
+class _Project:
+
+    @classmethod
+    def from_workspace_project(cls, project):
+        path_to_bytes = load_file_tree(project.path)
+        return cls(project.path, project.local_name, project.imports, path_to_bytes)
+
+    def __init__(self, path, local_name, imports, path_to_bytes):
+        self.path = path
+        self.local_name = local_name
+        self.imports = imports
+        self.path_to_bytes = path_to_bytes
 
 
 _builtin_project_name = 'builtin'
@@ -175,7 +189,7 @@ class _ResourceLoader:
         self._mosaic = mosaic
         self._builtin_name_to_type = builtin_name_to_type
         self._resource_type_producer = resource_type_producer
-        self._projects = projects  # project_name -> path_to_bytes
+        self._projects = projects  # project_name -> _Project
         self._project_and_path_to_loader = {}  # (project_name, path) -> _LoaderRec
         self._name_tuple_to_definition = {}
         self._name_tuple_to_piece = {
@@ -260,7 +274,11 @@ class _ResourceLoader:
 
 
 def load_resources(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects):
-    loader = _ResourceLoader(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, projects)
+    loader_projects = {
+        name: _Project.from_workspace_project(proj)
+        for name, proj in projects.items()
+        }
+    loader = _ResourceLoader(pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer, loader_projects)
     return loader.load()
 
 
