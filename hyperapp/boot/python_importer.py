@@ -103,6 +103,8 @@ class PythonImporter:
 
     def import_module(self, module_name, source, file_path, imports):
         module_full_name = f'{ROOT_PACKAGE}.{module_name}'
+        if module_full_name in sys.modules:
+            raise RuntimeError(f"Error: module {module_name} is already imported")
         package_objects = self._make_package_objects(imports)
         package_loaders = {
             f'{module_full_name}.{name}': _PackageLoader(objects)

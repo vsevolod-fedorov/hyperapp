@@ -1,6 +1,5 @@
 import codecs
 import logging
-import sys
 
 from ..htypes.python_module import (
     import_rec_t,
@@ -110,8 +109,6 @@ def python_module_pyobj(piece, mosaic, web, python_importer, source_path, pyobj_
     file_path = source_path.get(piece)
     if not file_path:
         file_path = f'hyperapp://{module_name}'
-    if module_name in sys.modules:
-        raise RuntimeError(f"Error: module {module_name} is aleady imported")
     try:
         pyobj_imports = {
             rec.full_name: pyobj_creg.invite(rec.resource)
