@@ -1,7 +1,10 @@
 import logging
+import sys
+
 import pytest
 
 from hyperapp.boot.init_logging import setup_filter
+from hyperapp.boot.python_importer import ROOT_PACKAGE
 
 log = logging.getLogger(__name__)
 
@@ -61,3 +64,14 @@ def pytest_pyfunc_call(pyfuncitem):
     passed = outcome.excinfo is None
     if passed and event_loop:
         assert not handler.had_exceptions, 'Event loop had unhandled exceptions'
+
+
+# Dynamic module names are content hashes, same across boots, but a module binds
+# services of the boot that imported it. Remove them so next test boot imports fresh ones.
+@pytest.fixture(autouse=True)
+def cleanup_dynamic_modules():
+    before = set(sys.modules)
+    yield
+    for name in list(sys.modules):
+        if name not in before and name.startswith(ROOT_PACKAGE + '.'):
+            del sys.modules[name]
