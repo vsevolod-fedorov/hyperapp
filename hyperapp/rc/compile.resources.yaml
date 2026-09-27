@@ -9,6 +9,7 @@ definitions:
         pyobj:
           services.load_resources: builtin:service:load_resources
           code.module: module:module.module
+          code.transport: base:transport/transport:transport.module
         raw: {}
 
   compile_resources.attr:
@@ -32,4 +33,14 @@ definitions:
     type: base:system/system.t:service_actor
     value:
       fn: compile_resources.attr
-      adapters: []
+      adapters:
+      - compile_resources.service-args-adapter
+
+  compile_resources.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
+        generate_rsa_identity: base:transport/rsa:generate_rsa_identity.service
+        subprocess_workers_running: base:subprocess/worker:subprocess_workers_running.service
+        transport: base:transport/transport:transport.service
+        message_creg: base:transport/registries:message_creg.service

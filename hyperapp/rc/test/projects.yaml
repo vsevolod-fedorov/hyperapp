@@ -1,0 +1,16 @@
+projects:
+  base:
+    path: ../../base
+    local_name: base
+    imports: {}
+  rc:
+    path: ..
+    local_name: rc
+    imports:
+      base: base
+  rc_test:
+    path: .
+    local_name: rc_test
+    imports:
+      base: base
+      rc: rc

@@ -16,28 +16,29 @@ definitions:
       object: main.module
       attr_name: main
 
-  main.service.t:
+  test_main.service.t:
     type: builtin:type:record_mt
     value:
-      name: main
+      name: test_main
       base: null
       fields: {}
 
-  main.service:
-    type: main.service.t
+  test_main.service:
+    type: test_main.service.t
     value: {}
 
-  main.service-actor:
+  test_main.service-actor:
     type: base:system/system.t:service_actor
     value:
       fn: main.attr
       adapters:
-      - main.service-args-adapter
+      - test_main.service-args-adapter
 
-  main.service-args-adapter:
+  test_main.service-args-adapter:
     type: base:system/adapter.t:service_args_adapter
     value:
       args:
         assoc_pickers: base:assoc_pickers:assoc_pickers.service
         assoc_implanter: base:assoc_implanter:assoc_implanter.service
-        compile_resources: compile:compile_resources.service
+        identity_creg: base:transport/registries:identity_creg.service
+        compile_resources: rc:compile:compile_resources.service

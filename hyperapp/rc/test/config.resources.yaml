@@ -1,0 +1,13 @@
+definitions:
+
+  config:
+    type: base:system/system.t:system_config
+    value:
+      services:
+        base:system/system:service_creg.service: service_creg.config
+
+  service_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        main:test_main.service.t: main:test_main.service-actor
