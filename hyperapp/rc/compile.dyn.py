@@ -1,4 +1,5 @@
 import logging
+from collections import defaultdict
 
 from hyperapp.boot.resource.workspace import Workspace, load_file_tree
 
@@ -9,6 +10,9 @@ from .code.module import Module
 from .code.transport import LocalEndpoint
 
 log = logging.getLogger(__name__)
+
+
+AUTO_GEN_LINE = '# Automatically generated file. Do not edit.'
 
 
 def compile_resources(
@@ -28,8 +32,40 @@ def compile_resources(
     log.info("workers are finished")
 
 
+def _collect_modules(project_to_tree):
+    dyn_ext = '.dyn.py'
+    resources_ext = '.resources.yaml'
+    modules = defaultdict(set)  # project -> paths
+    for project, tree in project_to_tree.items():
+        for path, bytes in tree.items():
+            name = path[-1]
+            if name.endswith(dyn_ext):
+                modules[project].add((*path[:-1], name[:-len(dyn_ext)]))
+            if name.endswith(resources_ext):
+                modules[project].add((*path[:-1], name[:-len(resources_ext)]))
+    compiled = {}  # project -> path list
+    manual = {}  # project -> path list
+    # Modules having resources (or lone resources) without auto-get line are manual,
+    # others are compiled (including lone dyn modules).
+    for project, path_set in modules.items():
+        for path in sorted(path_set):
+            resources_path = (*path[:-1], path[-1] + resources_ext)
+            try:
+                resources_text = project_to_tree[project][resources_path]
+            except KeyError:
+                pass
+            else:
+                if not resources_text.decode().startswith(AUTO_GEN_LINE):
+                    manual.setdefault(project, []).append(path)
+                    continue
+            compiled.setdefault(project, []).append(path)
+    return (manual, compiled)
+
+
 def _compile(workers, workspace_path):
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
+    manual_modules, compiled_modules = _collect_modules(project_to_tree)
     resources, sources = load_resources(workspace.projects, project_to_tree)
+    log.info("loaded %d resources, %d sources", len(resources), len(sources))
