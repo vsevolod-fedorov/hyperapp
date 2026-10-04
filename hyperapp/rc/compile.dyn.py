@@ -16,6 +16,9 @@ log = logging.getLogger(__name__)
 
 AUTO_GEN_LINE = '# Automatically generated file. Do not edit.'
 
+DYN_EXT = '.dyn.py'
+RESOURCES_EXT = '.resources.yaml'
+
 
 def compile_resources(
         generate_rsa_identity,
@@ -35,23 +38,21 @@ def compile_resources(
 
 
 def _collect_modules(project_to_tree):
-    dyn_ext = '.dyn.py'
-    resources_ext = '.resources.yaml'
     modules = defaultdict(set)  # project -> paths
     for project, tree in project_to_tree.items():
         for path, bytes in tree.items():
             name = path[-1]
-            if name.endswith(dyn_ext):
-                modules[project].add((*path[:-1], name[:-len(dyn_ext)]))
-            if name.endswith(resources_ext):
-                modules[project].add((*path[:-1], name[:-len(resources_ext)]))
+            if name.endswith(DYN_EXT):
+                modules[project].add((*path[:-1], name[:-len(DYN_EXT)]))
+            if name.endswith(RESOURCES_EXT):
+                modules[project].add((*path[:-1], name[:-len(RESOURCES_EXT)]))
     compiled = []  # Path list
     manual = []  # Path list
     # Modules having resources (or lone resources) without auto-get line are manual,
     # others are compiled (including lone dyn modules).
     for project, path_set in modules.items():
         for path in sorted(path_set):
-            resources_path = (*path[:-1], path[-1] + resources_ext)
+            resources_path = (*path[:-1], path[-1] + RESOURCES_EXT)
             try:
                 resources_text = project_to_tree[project][resources_path]
             except KeyError:
@@ -64,10 +65,12 @@ def _collect_modules(project_to_tree):
     return (manual, compiled)
 
 
-def _create_targets(compiled_modules):
+def _create_targets(compiled_modules, project_to_tree):
     targets = []
     for path in compiled_modules:
-        targets.append(ImportTarget(path))
+        dyn_path = (*path.path[:-1], path.path[-1] + DYN_EXT)
+        source = project_to_tree[path.project][dyn_path].decode()
+        targets.append(ImportTarget(path, source))
     return targets
 
 
@@ -88,6 +91,6 @@ def _compile(workers, workspace_path):
     log.info("%d compiled modules", len(compiled_modules))
     resources, sources = load_resources(workspace.projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
-    targets = _create_targets(compiled_modules)
+    targets = _create_targets(compiled_modules, project_to_tree)
     log.info("%d targets", len(targets))
     _run(workers, targets)

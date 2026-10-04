@@ -6,5 +6,6 @@ definitions:
       module_name: path
       file_name: path.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          htypes.path.path: path.t:path
         raw: {}

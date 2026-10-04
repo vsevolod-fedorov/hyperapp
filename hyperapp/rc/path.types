@@ -1,0 +1,3 @@
+path = record:
+  project: string
+  path: string list

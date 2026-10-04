@@ -7,5 +7,5 @@ definitions:
       file_name: import.dyn.py
       imports:
         pyobj:
-          code.import_job: :job/import:import.module
+          htypes.import_job.import_job: :job/import.t:import_job
         raw: {}

@@ -1,0 +1,5 @@
+from path import path
+
+import_job = record:
+  path: path
+  source: string
