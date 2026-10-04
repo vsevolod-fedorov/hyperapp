@@ -2,13 +2,14 @@ import logging
 
 from . import htypes
 from .code.selectors import StopSignal
+from .code.transport import LocalEndpoint
 from .code.subprocess.transport import IncomingConnection, SubprocessRoute
 
 log = logging.getLogger(__name__)
 
 
 def subprocess_worker_main(
-        bundler, selectors, transport, peer_creg, generate_rsa_identity,
+        bundler, selectors, transport, peer_creg, message_creg, generate_rsa_identity,
         connection, received_refs, process_id, master_peer):
     log.info("Worker %d is starting", process_id)
     master = peer_creg.animate(master_peer)
@@ -20,6 +21,7 @@ def subprocess_worker_main(
         selectors, transport, f"worker#{process_id}", connection, on_eof=stop_signal.fire)
     selectors.register(connection)
     identity = generate_rsa_identity(fast=True)
+    transport.add_endpoint(identity.peer, LocalEndpoint(message_creg, identity))
     message = htypes.subprocess.worker_started_report(
         process_id=process_id,
         )
