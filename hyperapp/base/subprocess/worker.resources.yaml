@@ -56,6 +56,7 @@ definitions:
     type: :system/adapter.t:service_args_adapter
     value:
       args:
+        bundler: :bundler:bundler.service
         selectors: :transport/selectors:selectors.service
         transport: :transport/transport:transport.service
         subprocess_running: subprocess:subprocess_running.service

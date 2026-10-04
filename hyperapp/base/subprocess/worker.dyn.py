@@ -6,7 +6,7 @@ from contextlib import ExitStack, contextmanager
 from .code.make_partial import make_partial
 from .code.futures import get_process_future
 from .code.selectors import StopSignal
-from .code.subprocess.transport import IncomingConnection
+from .code.subprocess.transport import IncomingConnection, SubprocessRoute
 from .data.worker_boot import boot as worker_boot
 
 log = logging.getLogger(__name__)
@@ -37,6 +37,10 @@ class _Sync:
             peer for process_id, peer
             in sorted(self._process_id_to_peer.items())
             ]
+
+    @property
+    def process_id_to_peer(self):
+        return self._process_id_to_peer
 
     @property
     def failed_count(self):
@@ -97,6 +101,7 @@ def worker_started(piece, request):
 
 
 def subprocess_workers_running(
+        bundler,
         selectors,
         transport,
         subprocess_running,
@@ -107,6 +112,7 @@ def subprocess_workers_running(
         with ExitStack() as stack:
             stop_signal = StopSignal()
             sync = _Sync(stop_signal, count)
+            process_id_to_connection = {}
             for idx in range(count):
                 process_id = next(_process_id_counter)
                 _process_sync[process_id] = sync
@@ -115,6 +121,7 @@ def subprocess_workers_running(
                     worker_boot, process_id=process_id, master_peer=master_identity.peer.piece)
                 worker_name = f'{name}-{idx:02d}'
                 rec = stack.enter_context(subprocess_running(worker_name, main))
+                process_id_to_connection[process_id] = (worker_name, rec.connection)
                 connection = IncomingConnection(selectors, transport, worker_name, rec.connection)
                 transport.register_connection(connection)
                 sentinel = _Sentinel(selectors, sync, process_id, rec.process)
@@ -123,6 +130,9 @@ def subprocess_workers_running(
             selectors.run()
             if sync.failed_count:
                 raise RuntimeError(f"{sync.failed_count} workers are failed to start")
+            for process_id, peer in sync.process_id_to_peer.items():
+                worker_name, connection = process_id_to_connection[process_id]
+                transport.add_internal_route(peer, SubprocessRoute(bundler, worker_name, connection))
             yield _Workers(sync.peers)
 
     return _subprocess_workers_running
