@@ -28,7 +28,7 @@ import_rec_def_t = TRecord(BUILTIN_MODULE_NAME, 'import_rec_def', {
     'resource': tString,
     })
 
-imports_def_t = TRecord(BUILTIN_MODULE_NAME, 'imports', {
+imports_def_t = TRecord(BUILTIN_MODULE_NAME, 'imports_def', {
     'pyobj': TList(import_rec_def_t),
     'raw': TList(import_rec_def_t),
     })
