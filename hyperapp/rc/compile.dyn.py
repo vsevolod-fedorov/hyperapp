@@ -33,7 +33,7 @@ def compile_resources(
     with subprocess_workers_running(
             master_identity, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
-        _compile(workers, workspace_path)
+        _compile(transport, master_identity, workers, workspace_path)
     log.info("workers are finished")
 
 
@@ -74,16 +74,17 @@ def _create_targets(compiled_modules, project_to_tree):
     return targets
 
 
-def _start_job(workers, job):
+def _start_job(transport, master_identity, workers, job):
     log.info("Start job: %s", job)
+    transport.send_message(workers.peers[0], master_identity, job)
 
 
-def _run(workers, targets):
+def _run(transport, master_identity, workers, targets):
     for tgt in targets:
-        _start_job(workers, tgt.job)
+        _start_job(transport, master_identity, workers, tgt.job)
 
 
-def _compile(workers, workspace_path):
+def _compile(transport, master_identity, workers, workspace_path):
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
@@ -93,4 +94,4 @@ def _compile(workers, workspace_path):
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     targets = _create_targets(compiled_modules, project_to_tree)
     log.info("%d targets", len(targets))
-    _run(workers, targets)
+    _run(transport, master_identity, workers, targets)
