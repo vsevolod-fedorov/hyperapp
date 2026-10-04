@@ -10,6 +10,8 @@ definitions:
           services.load_resources: builtin:service:load_resources
           code.module: module:module.module
           code.transport: base:transport/transport:transport.module
+          code.path: path:path.module
+          code.import_target: target/import:import.module
         raw: {}
 
   compile_resources.attr:

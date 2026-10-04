@@ -1,0 +1,11 @@
+definitions:
+
+  import.module:
+    type: builtin:type:python_module
+    value:
+      module_name: import
+      file_name: import.dyn.py
+      imports:
+        pyobj:
+          code.import_job: :job/import:import.module
+        raw: {}

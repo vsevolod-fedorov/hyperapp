@@ -8,6 +8,8 @@ from .services import (
     )
 from .code.module import Module
 from .code.transport import LocalEndpoint
+from .code.path import Path
+from .code.import_target import ImportTarget
 
 log = logging.getLogger(__name__)
 
@@ -43,8 +45,8 @@ def _collect_modules(project_to_tree):
                 modules[project].add((*path[:-1], name[:-len(dyn_ext)]))
             if name.endswith(resources_ext):
                 modules[project].add((*path[:-1], name[:-len(resources_ext)]))
-    compiled = {}  # project -> path list
-    manual = {}  # project -> path list
+    compiled = []  # Path list
+    manual = []  # Path list
     # Modules having resources (or lone resources) without auto-get line are manual,
     # others are compiled (including lone dyn modules).
     for project, path_set in modules.items():
@@ -56,10 +58,26 @@ def _collect_modules(project_to_tree):
                 pass
             else:
                 if not resources_text.decode().startswith(AUTO_GEN_LINE):
-                    manual.setdefault(project, []).append(path)
+                    manual.append(Path(project, path))
                     continue
-            compiled.setdefault(project, []).append(path)
+            compiled.append(Path(project, path))
     return (manual, compiled)
+
+
+def _create_targets(compiled_modules):
+    targets = []
+    for path in compiled_modules:
+        targets.append(ImportTarget(path))
+    return targets
+
+
+def _start_job(workers, job):
+    log.info("Start job: %s", job)
+
+
+def _run(workers, targets):
+    for tgt in targets:
+        _start_job(workers, tgt.job)
 
 
 def _compile(workers, workspace_path):
@@ -67,5 +85,9 @@ def _compile(workers, workspace_path):
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
     manual_modules, compiled_modules = _collect_modules(project_to_tree)
+    log.info("%d compiled modules", len(compiled_modules))
     resources, sources = load_resources(workspace.projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
+    targets = _create_targets(compiled_modules)
+    log.info("%d targets", len(targets))
+    _run(workers, targets)
