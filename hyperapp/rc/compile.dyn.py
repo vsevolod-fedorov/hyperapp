@@ -10,6 +10,7 @@ from .code.module import Module
 from .code.transport import LocalEndpoint
 from .code.path import Path
 from .code.import_target import ImportTarget
+from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
 
@@ -31,7 +32,7 @@ def compile_resources(
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
     log.info("master identity: %s", master_identity)
     with subprocess_workers_running(
-            master_identity, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
+            master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
         _compile(transport, master_identity, workers, workspace_path)
     log.info("workers are finished")

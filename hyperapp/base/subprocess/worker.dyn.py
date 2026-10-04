@@ -108,7 +108,7 @@ def subprocess_workers_running(
         ):
 
     @contextmanager
-    def _subprocess_workers_running(master_identity, name, count, timeout_sec, start_timeout_sec):
+    def _subprocess_workers_running(master_identity, config, name, count, timeout_sec, start_timeout_sec):
         with ExitStack() as stack:
             stop_signal = StopSignal()
             sync = _Sync(stop_signal, count)
@@ -118,7 +118,7 @@ def subprocess_workers_running(
                 _process_sync[process_id] = sync
                 future = get_process_future(process_id)
                 main = make_partial(
-                    worker_boot, process_id=process_id, master_peer=master_identity.peer.piece)
+                    worker_boot, process_id=process_id, master_peer=master_identity.peer.piece, config=config)
                 worker_name = f'{name}-{idx:02d}'
                 rec = stack.enter_context(subprocess_running(worker_name, main))
                 process_id_to_connection[process_id] = (worker_name, rec.connection)

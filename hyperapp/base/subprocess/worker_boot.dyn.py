@@ -3,8 +3,8 @@ from .data.subprocess.config import config as subprocess_config
 from .data import svc
 
 
-def boot(connection, associations, received_refs, process_id, master_peer):
-    service_creg = setup_system([subprocess_config])
+def boot(connection, associations, received_refs, process_id, master_peer, config):
+    service_creg = setup_system([subprocess_config, config])
     # Implant associations before main module is loaded so that it's paths will be available.
     implanter = service_creg.animate(svc.assoc_implanter)
     implanter.init()

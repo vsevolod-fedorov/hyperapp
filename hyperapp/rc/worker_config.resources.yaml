@@ -1,0 +1,13 @@
+definitions:
+
+  config:
+    type: base:system/system.t:system_config
+    value:
+      services:
+        base:transport/registries:message_creg.service: message_creg.config
+
+  message_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        job/import.t:import_job: job/import:run_import_job.actor

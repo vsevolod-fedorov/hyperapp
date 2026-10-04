@@ -12,7 +12,8 @@ definitions:
           code.transport: base:transport/transport:transport.module
           code.path: path:path.module
           code.import_target: target/import:import.module
-        raw: {}
+        raw:
+          data.worker.config: worker_config:config
 
   compile_resources.attr:
     type: builtin:type:attribute

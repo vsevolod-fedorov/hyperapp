@@ -8,3 +8,15 @@ definitions:
       imports:
         pyobj: {}
         raw: {}
+
+  run_import_job.attr:
+    type: builtin:type:attribute
+    value:
+      object: import.module
+      attr_name: run_import_job
+
+  run_import_job.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: run_import_job.attr
+      service_params: {}

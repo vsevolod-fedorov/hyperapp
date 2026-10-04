@@ -1,8 +1,7 @@
+import logging
 
-class ImportJob:
+log = logging.getLogger(__name__)
 
-    def __init__(self, path):
-        self._path = path
 
-    def __repr__(self):
-        return f"<ImportJob: {self._path}>"
+def run_import_job(piece, request):
+    log.info("[%s] Run import job: %s", request, piece)
