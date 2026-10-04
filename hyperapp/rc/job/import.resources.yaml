@@ -6,8 +6,13 @@ definitions:
       module_name: import
       file_name: import.dyn.py
       imports:
-        pyobj: {}
-        raw: {}
+        pyobj:
+          htypes.builtin.python_module: builtin:type:python_module
+          htypes.builtin.imports: builtin:type:imports
+          services.pyobj_creg: builtin:service:pyobj_creg
+          code.system: base:system/system:system.module
+        raw:
+          data.base.config.config: base:config:config
 
   run_import_job.attr:
     type: builtin:type:attribute
