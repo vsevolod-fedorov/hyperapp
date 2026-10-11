@@ -84,16 +84,47 @@ class _ImportedObjectLoader:
         pass
 
 
+# Resolves any submodule not matched exactly by walking attributes of the catch-all object.
+class _CatchAllLoader:
+    is_package = True
+
+    def __init__(self, root, path):
+        self._root = root
+        self._path = path
+
+    def create_module(self, spec):
+        obj = self._root
+        for name in self._path:
+            obj = getattr(obj, name)
+        return obj
+
+    def exec_module(self, module):
+        pass
+
+
 class _Finder(importlib.abc.MetaPathFinder):
 
-    def __init__(self, fullname_to_loader):
+    def __init__(self, fullname_to_loader, module_full_name, catch_all):
         self._fullname_to_loader = fullname_to_loader
+        self._module_full_name = module_full_name
+        self._catch_all = catch_all
 
     def find_spec(self, fullname, path, target=None):
         log.debug('find_spec fullname=%r path=%r target=%r', fullname, path, target)
         loader = self._fullname_to_loader.get(fullname)
+        if not loader:
+            loader = self._catch_all_loader(fullname)
         if loader:
             return importlib.util.spec_from_loader(fullname, loader, is_package=loader.is_package)
+
+    def _catch_all_loader(self, fullname):
+        if self._catch_all is None:
+            return None
+        prefix = self._module_full_name + '.'
+        if not fullname.startswith(prefix):
+            return None
+        rel_path = fullname[len(prefix):].split('.')
+        return _CatchAllLoader(self._catch_all, rel_path)
 
 
 class PythonImporter:
@@ -105,6 +136,8 @@ class PythonImporter:
         module_full_name = f'{ROOT_PACKAGE}.{module_name}'
         if module_full_name in sys.modules:
             raise RuntimeError(f"Error: module {module_name} is already imported")
+        imports = dict(imports)
+        catch_all = imports.pop('', None)  # Import with empty name serves all submodules not imported explicitly.
         package_objects = self._make_package_objects(imports)
         package_loaders = {
             f'{module_full_name}.{name}': _PackageLoader(objects)
@@ -120,7 +153,7 @@ class PythonImporter:
             ROOT_PACKAGE: _PackageLoader(),  # Should go after package loaders.
             module_full_name: _DynModuleLoader(source, file_path),  # Guess.
             }
-        finder = _Finder(fullname_to_loader)
+        finder = _Finder(fullname_to_loader, module_full_name, catch_all)
         sys.meta_path.append(finder)
         log.debug('Import python module: %s', module_name)
         try:
