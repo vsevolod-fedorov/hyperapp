@@ -174,12 +174,16 @@ _type_to_decoder_ctr = {
 
 # Global cache, persists between systems, so elements are accumulated with time.
 # TODO: May be improve by using weak key dict or LRU eviction.
-_type_to_decoder_cache = {}
+# Keyed by type identity, not equality: each boot_services call (e.g. per test) creates new pyobj_creg
+# with new, equal but distinct, type objects, and record instance checks are by identity.
+# Type is kept in the value so its id is not reused.
+# TODO: Move from global to a registry with same livespan as boot/pyobj_creg, drop id(t) and t in value (revert this commit).
+_type_to_decoder_cache = {}  # id(t) -> (t, decoder)
 
 
 def _type_to_decoder(t):
     try:
-        return _type_to_decoder_cache[t]
+        return _type_to_decoder_cache[id(t)][1]
     except KeyError:
         pass
     tt = type(t)
@@ -188,7 +192,7 @@ def _type_to_decoder(t):
     except KeyError:
         ctr = _type_to_decoder_ctr[tt]
         decoder = ctr(t)
-    _type_to_decoder_cache[t] = decoder
+    _type_to_decoder_cache[id(t)] = (t, decoder)
     return decoder
 
 
