@@ -1,0 +1,12 @@
+definitions:
+
+  import_recorder.module:
+    type: builtin:type:python_module
+    value:
+      module_name: import_recorder
+      file_name: import_recorder.dyn.py
+      imports:
+        pyobj:
+          htypes.import_recorder.import_recorder: import_recorder.t:import_recorder
+          services.pyobj_creg: builtin:service:pyobj_creg
+        raw: {}

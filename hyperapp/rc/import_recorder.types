@@ -1,0 +1,4 @@
+from path import path
+
+import_recorder = record:
+  module_path: path
