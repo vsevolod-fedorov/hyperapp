@@ -20,6 +20,10 @@ class _Recorder:
         self._used_imports.add(path)
         return _Recorder(self._used_imports, path)
 
+    @property
+    def used_imports(self):
+        return self._used_imports
+
 
 def register_import_recorder_pyobj():
     pyobj_creg.update_resolved_config({

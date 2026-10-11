@@ -1,1 +1,1 @@
-a_value = 123
+sample_1_value = 111

@@ -40,10 +40,10 @@ def collecting_import_results(stop_signal, paths):
 
 
 def succeeded_result(piece, request):
-    log.info("[%s] Import succeeded: %s", request, piece.path)
+    log.info("%s: import succeeded: %s", piece.path, piece)
     _collector.add(piece.path, None)
 
 
 def failed_result(piece, request):
-    log.info("[%s] Import failed: %s: %s\n%s", request, piece.path, piece.error, ''.join(piece.traceback))
+    log.info("%s: import failed: %s", piece.path, piece)
     _collector.add(piece.path, piece.error)

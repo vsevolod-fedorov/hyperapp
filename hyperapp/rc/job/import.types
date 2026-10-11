@@ -6,8 +6,10 @@ import_job = record:
 
 succeeded_result = record:
   path: path
+  used_imports: string list list
 
 failed_result = record:
   path: path
+  used_imports: string list list
   error: string
   traceback: string list
