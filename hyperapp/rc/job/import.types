@@ -4,8 +4,10 @@ import_job = record:
   path: path
   source: string
 
-succeeded_result = record
+succeeded_result = record:
+  path: path
 
 failed_result = record:
+  path: path
   error: string
   traceback: string list

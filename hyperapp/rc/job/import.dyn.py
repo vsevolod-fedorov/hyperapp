@@ -22,10 +22,11 @@ def run_import_job(piece, request, transport):
     try:
         module = pyobj_creg.animate(python_module)
         log.info("Imported module: %s", module)
-        result = htypes.import_job.succeeded_result()
+        result = htypes.import_job.succeeded_result(path=piece.path)
     except Exception as x:
         log.info("Import failed: %s", x)
         result = htypes.import_job.failed_result(
+            path=piece.path,
             error=str(x),
             traceback=tuple(traceback.format_tb(x.__traceback__)),
             )

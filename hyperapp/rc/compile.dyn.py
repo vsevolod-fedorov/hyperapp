@@ -10,6 +10,8 @@ from .code.module import Module
 from .code.transport import LocalEndpoint
 from .code.path import Path
 from .code.import_target import ImportTarget
+from .code.import_result import collecting_import_results
+from .code.selectors import StopSignal
 from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
@@ -20,12 +22,15 @@ AUTO_GEN_LINE = '# Automatically generated file. Do not edit.'
 DYN_EXT = '.dyn.py'
 RESOURCES_EXT = '.resources.yaml'
 
+RESULT_TIMEOUT_SEC = 10
+
 
 def compile_resources(
         generate_rsa_identity,
         subprocess_workers_running,
         transport,
         message_creg,
+        selectors,
         workspace_path,
         ):
     master_identity = generate_rsa_identity(fast=True)
@@ -34,7 +39,7 @@ def compile_resources(
     with subprocess_workers_running(
             master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
-        _compile(transport, master_identity, workers, workspace_path)
+        _compile(transport, selectors, master_identity, workers, workspace_path)
     log.info("workers are finished")
 
 
@@ -80,12 +85,23 @@ def _start_job(transport, master_identity, workers, job):
     transport.send_message(workers.peers[0], master_identity, job)
 
 
-def _run(transport, master_identity, workers, targets):
-    for tgt in targets:
-        _start_job(transport, master_identity, workers, tgt.job)
+def _run(transport, selectors, master_identity, workers, targets):
+    stop_signal = StopSignal()
+    paths = [tgt.job.path for tgt in targets]
+    with collecting_import_results(stop_signal, paths) as collector:
+        with selectors.registered(stop_signal):
+            for tgt in targets:
+                _start_job(transport, master_identity, workers, tgt.job)
+            if collector.pending:
+                selectors.run(RESULT_TIMEOUT_SEC)
+        if collector.pending:
+            raise RuntimeError(f"No import results for {len(collector.pending)} jobs: {collector.pending}")
+        path_to_error = collector.path_to_error
+    failed_count = sum(1 for error in path_to_error.values() if error is not None)
+    log.info("%d import jobs are finished, %d failed", len(path_to_error), failed_count)
 
 
-def _compile(transport, master_identity, workers, workspace_path):
+def _compile(transport, selectors, master_identity, workers, workspace_path):
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
@@ -95,4 +111,4 @@ def _compile(transport, master_identity, workers, workspace_path):
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     targets = _create_targets(compiled_modules, project_to_tree)
     log.info("%d targets", len(targets))
-    _run(transport, master_identity, workers, targets)
+    _run(transport, selectors, master_identity, workers, targets)
