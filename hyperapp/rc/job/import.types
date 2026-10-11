@@ -3,3 +3,9 @@ from path import path
 import_job = record:
   path: path
   source: string
+
+succeeded_result = record
+
+failed_result = record:
+  error: string
+  traceback: string list

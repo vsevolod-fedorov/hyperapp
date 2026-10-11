@@ -9,6 +9,8 @@ definitions:
         pyobj:
           htypes.builtin.python_module: builtin:type:python_module
           htypes.builtin.imports: builtin:type:imports
+          htypes.import_job.succeeded_result: import.t:succeeded_result
+          htypes.import_job.failed_result: import.t:failed_result
           services.pyobj_creg: builtin:service:pyobj_creg
           code.system: base:system/system:system.module
         raw:
@@ -24,4 +26,5 @@ definitions:
     type: base:system/system.t:actor
     value:
       fn: run_import_job.attr
-      service_params: {}
+      service_params:
+        transport: base:transport/transport:transport.service

@@ -1,0 +1,34 @@
+definitions:
+
+  import_result.module:
+    type: builtin:type:python_module
+    value:
+      module_name: import_result
+      file_name: import_result.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  succeeded_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: import_result.module
+      attr_name: succeeded_result
+
+  succeeded_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: succeeded_result.attr
+      service_params: {}
+
+  failed_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: import_result.module
+      attr_name: failed_result
+
+  failed_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: failed_result.attr
+      service_params: {}
