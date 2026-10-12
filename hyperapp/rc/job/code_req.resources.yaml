@@ -7,7 +7,7 @@ definitions:
       file_name: code_req.dyn.py
       imports:
         pyobj:
-          htypes.code_req.code_req: code_req.t:code_req
+          htypes.code_req.code_req: :code_req.t:code_req
         raw: {}
 
   import_to_code_req.attr:
@@ -23,5 +23,5 @@ definitions:
       service_params: {}
 
   code.import-prefix:
-    type: job/import_to_req:import_prefix.t
+    type: import_to_req:import_prefix.t
     value: [code]
