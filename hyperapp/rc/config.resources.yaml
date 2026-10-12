@@ -8,6 +8,7 @@ definitions:
         base:system/system:service_creg.service: service_creg.config
         base:transport/registries:message_creg.service: message_creg.config
         base:transport/transport:transport.service: transport.config
+        requirement_creg:requirement_creg.service: requirement_creg.config
 
   service_config_creg.config:
     type: base:system/system.t:typed_item_list
@@ -21,6 +22,7 @@ definitions:
       items:
         compile:compile_resources.service.t: compile:compile_resources.service-actor
         main:main.service.t: main:main.service-actor
+        requirement_creg:requirement_creg.service.t: requirement_creg:requirement_creg.service-actor
 
   message_creg.config:
     type: base:system/system.t:typed_item_list
@@ -33,3 +35,9 @@ definitions:
     type: base:transport/transport.t:config
     value:
       message_size_limit: null
+
+  requirement_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        code_req.t:code_req: code_req:CodeReq.from_piece.actor
