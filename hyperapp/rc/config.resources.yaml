@@ -12,7 +12,8 @@ definitions:
   service_config_creg.config:
     type: base:system/system.t:typed_item_list
     value:
-      items: {}
+      items:
+        requirement_creg:requirement_creg.service.t: base:system/config:TypedDictConfigCtl.from_service_piece.actor
 
   service_creg.config:
     type: base:system/system.t:typed_item_list

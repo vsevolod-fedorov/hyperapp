@@ -1,0 +1,42 @@
+definitions:
+
+  requirement_creg.module:
+    type: builtin:type:python_module
+    value:
+      module_name: requirement_creg
+      file_name: requirement_creg.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  requirement_creg.attr:
+    type: builtin:type:attribute
+    value:
+      object: requirement_creg.module
+      attr_name: requirement_creg
+
+  requirement_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: requirement_creg
+      base: null
+      fields: {}
+
+  requirement_creg.service:
+    type: requirement_creg.service.t
+    value: {}
+
+  requirement_creg.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: requirement_creg.attr
+      adapters:
+      - base:system/adapter:config.adapter
+      - requirement_creg.service-args-adapter
+      - base:system/adapter:service_object.adapter
+
+  requirement_creg.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
+        system_code_registry_factory: base:system/code_registry:system_code_registry_factory.service
