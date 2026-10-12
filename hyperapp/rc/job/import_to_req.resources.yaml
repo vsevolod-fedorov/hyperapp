@@ -1,0 +1,40 @@
+definitions:
+
+  import_to_req.module:
+    type: builtin:type:python_module
+    value:
+      module_name: import_to_req
+      file_name: import_to_req.dyn.py
+      imports:
+        pyobj:
+          services.pyobj_creg: builtin:service:pyobj_creg
+        raw: {}
+
+  import_to_req.attr:
+    type: builtin:type:attribute
+    value:
+      object: import_to_req.module
+      attr_name: import_to_req
+
+  import_to_req.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: import_to_req
+      base: null
+      fields: {}
+
+  import_to_req.service:
+    type: import_to_req.service.t
+    value: {}
+
+  import_to_req.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: import_to_req.attr
+      adapters:
+      - base:system/adapter:config.adapter
+
+  import_prefix.t:
+    type: builtin:type:list_mt
+    value:
+      element: builtin:type:string
