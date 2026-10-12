@@ -53,6 +53,10 @@ class DataDictConfigCtl:
     def from_config_piece(cls, piece):
         pass
 
+    @classmethod
+    def from_service_piece(cls, piece):
+        return ConfigRec(cls(), {})
+
     def __init__(self):
         pass
 

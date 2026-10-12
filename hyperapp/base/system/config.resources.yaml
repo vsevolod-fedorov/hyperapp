@@ -62,3 +62,21 @@ definitions:
     value:
       fn: TypedDictConfigCtl.from_service_piece.attr
       adapters: []
+
+  DataDictConfigCtl.attr:
+    type: builtin:type:attribute
+    value:
+      object: config.module
+      attr_name: DataDictConfigCtl
+
+  DataDictConfigCtl.from_service_piece.attr:
+    type: builtin:type:attribute
+    value:
+      object: DataDictConfigCtl.attr
+      attr_name: from_service_piece
+
+  DataDictConfigCtl.from_service_piece.actor:
+    type: system.t:service_actor
+    value:
+      fn: DataDictConfigCtl.from_service_piece.attr
+      adapters: []
