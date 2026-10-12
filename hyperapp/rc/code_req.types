@@ -1,0 +1,5 @@
+from path import path
+
+code_req = record:
+  path: path
+  import_as: string list

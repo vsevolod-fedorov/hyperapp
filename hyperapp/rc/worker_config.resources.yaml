@@ -4,10 +4,31 @@ definitions:
     type: base:system/system.t:system_config
     value:
       services:
+        base:system/system:service_creg.service: service_creg.config
+        base:system/system:service_config_creg.service: service_config_creg.config
         base:transport/registries:message_creg.service: message_creg.config
+        job/import_to_req:import_to_req.service: import_to_req.config
+
+  service_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        job/import_to_req:import_to_req.service.t: job/import_to_req:import_to_req.service-actor
+
+  service_config_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        job/import_to_req:import_to_req.service.t: base:system/config:DataDictConfigCtl.from_service_piece.actor
 
   message_creg.config:
     type: base:system/system.t:typed_item_list
     value:
       items:
         job/import.t:import_job: job/import:run_import_job.actor
+
+  import_to_req.config:
+    type: base:system/system.t:data_item_list
+    value:
+      items:
+        code_req:code.import-prefix: code_req:import_to_code_req.actor
