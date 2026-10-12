@@ -6,7 +6,8 @@ definitions:
       module_name: import_result
       file_name: import_result.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          code.path: :path:path.module
         raw: {}
 
   succeeded_result.attr:

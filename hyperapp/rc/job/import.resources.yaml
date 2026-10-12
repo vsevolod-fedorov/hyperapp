@@ -16,6 +16,7 @@ definitions:
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           code.system: base:system/system:system.module
+          code.path: :path:path.module
           code.import_recorder: :import_recorder:import_recorder.module
         raw:
           data.base.config.config: base:config:config
@@ -31,4 +32,5 @@ definitions:
     value:
       fn: run_import_job.attr
       service_params:
+        import_to_req: import_to_req:import_to_req.service
         transport: base:transport/transport:transport.service

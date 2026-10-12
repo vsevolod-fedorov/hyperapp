@@ -1,6 +1,8 @@
 import logging
 from contextlib import contextmanager
 
+from .code.path import Path
+
 log = logging.getLogger(__name__)
 
 
@@ -40,10 +42,12 @@ def collecting_import_results(stop_signal, paths):
 
 
 def succeeded_result(piece, request):
-    log.info("%s: import succeeded: %s", piece.path, piece)
+    path = Path.from_piece(piece.path)
+    log.info("%s: import succeeded: %s", path, piece)
     _collector.add(piece.path, None)
 
 
 def failed_result(piece, request):
-    log.info("%s: import failed: %s", piece.path, piece)
+    path = Path.from_piece(piece.path)
+    log.info("%s: import failed: %s", path, piece)
     _collector.add(piece.path, piece.error)
