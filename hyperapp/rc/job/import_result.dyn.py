@@ -41,9 +41,15 @@ def collecting_import_results(stop_signal, paths):
         _collector = None
 
 
-def succeeded_result(piece, request):
+def succeeded_result(piece, request, requirement_creg):
     path = Path.from_piece(piece.path)
     log.info("%s: import succeeded: %s", path, piece)
+    requirements = [
+        requirement_creg.invite(req)
+        for req in piece.requirements
+        ]
+    for req in requirements:
+        log.info("%s: requirement: %s", path, req)
     _collector.add(piece.path, None)
 
 

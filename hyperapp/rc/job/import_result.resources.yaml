@@ -20,7 +20,8 @@ definitions:
     type: base:system/system.t:actor
     value:
       fn: succeeded_result.attr
-      service_params: {}
+      service_params:
+        requirement_creg: :requirement_creg:requirement_creg.service
 
   failed_result.attr:
     type: builtin:type:attribute
