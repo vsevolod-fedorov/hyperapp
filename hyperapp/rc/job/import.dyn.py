@@ -14,10 +14,21 @@ from .data.base.config import config as base_config
 log = logging.getLogger(__name__)
 
 
+def _without_prefixes(import_paths):
+    return [
+        import_path for import_path in import_paths
+        if not any(
+            len(other) > len(import_path) and other[:len(import_path)] == import_path
+            for other in import_paths
+            )
+        ]
+
+
 def _enum_import_requirements(path, recorder, import_to_req):
-    for import_path in recorder.used_imports:
+    for import_path in sorted(_without_prefixes(recorder.used_imports)):
         req = import_to_req(path, import_path)
-        yield mosaic.put(req)
+        if req is not None:
+            yield mosaic.put(req)
 
 
 def run_import_job(piece, request, import_to_req, transport):

@@ -6,6 +6,8 @@ from .services import (
 def import_to_req(config, path, import_path):
     for key, actor in config.items():
         if import_path[:len(key)] == key:
+            if len(import_path) == len(key):
+                return None  # Lone prefix, like 'code'.
             req_ctr = pyobj_creg.invite(actor.fn)
             return req_ctr(path, import_path)
     raise RuntimeError(f"Unknown import prefix: {'.'.join(import_path)}")
