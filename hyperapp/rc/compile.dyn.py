@@ -6,7 +6,7 @@ from hyperapp.boot.resource.workspace import Workspace, load_file_tree
 from .services import (
     load_resources,
     )
-from .code.module import Module
+from .code.module import ModuleType, Module
 from .code.transport import LocalEndpoint
 from .code.path import Path
 from .code.import_target import ImportTarget
@@ -44,20 +44,19 @@ def compile_resources(
     log.info("workers are finished")
 
 
-def _collect_modules(project_to_tree):
-    modules = defaultdict(set)  # project -> paths
+def _collect_modules(project_to_tree, targets):
+    module_paths = defaultdict(set)  # project -> paths
     for project, tree in project_to_tree.items():
         for path, bytes in tree.items():
             name = path[-1]
             if name.endswith(DYN_EXT):
-                modules[project].add((*path[:-1], name[:-len(DYN_EXT)]))
+                module_paths[project].add((*path[:-1], name[:-len(DYN_EXT)]))
             if name.endswith(RESOURCES_EXT):
-                modules[project].add((*path[:-1], name[:-len(RESOURCES_EXT)]))
-    compiled = []  # Path list
-    manual = []  # Path list
+                module_paths[project].add((*path[:-1], name[:-len(RESOURCES_EXT)]))
+    modules = []
     # Modules having resources (or lone resources) without auto-get line are manual,
     # others are compiled (including lone dyn modules).
-    for project, path_set in modules.items():
+    for project, path_set in module_paths.items():
         for path in sorted(path_set):
             resources_path = (*path[:-1], path[-1] + RESOURCES_EXT)
             try:
@@ -66,19 +65,13 @@ def _collect_modules(project_to_tree):
                 pass
             else:
                 if not resources_text.decode().startswith(AUTO_GEN_LINE):
-                    manual.append(Path(project, path))
+                    modules.append(Module(ModuleType.MANUAL, Path(project, path)))
                     continue
-            compiled.append(Path(project, path))
-    return (manual, compiled)
-
-
-def _create_targets(compiled_modules, project_to_tree):
-    targets = TargetSet()
-    for path in compiled_modules:
-        dyn_path = (*path.path[:-1], path.path[-1] + DYN_EXT)
-        source = project_to_tree[path.project][dyn_path].decode()
-        ImportTarget.ensure(targets, path, source)
-    return targets
+            dyn_path = (*path[:-1], path[-1] + DYN_EXT)
+            source = project_to_tree[project][dyn_path].decode()
+            import_tgt = ImportTarget.ensure(targets, Path(project, path), source)
+            modules.append(Module(ModuleType.COMPILED, Path(project, path), import_tgt))
+    return modules
 
 
 def _run(transport, selectors, job_pool, master_identity, workers, targets):
@@ -96,10 +89,11 @@ def _compile(transport, selectors, job_pool, master_identity, workers, workspace
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
-    manual_modules, compiled_modules = _collect_modules(project_to_tree)
-    log.info("%d compiled modules", len(compiled_modules))
+    targets = TargetSet()
+    modules = _collect_modules(project_to_tree, targets)
+    compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
+    log.info("%d modules, %d compiled", len(modules), compiled_count)
     resources, sources = load_resources(workspace.projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
-    targets = _create_targets(compiled_modules, project_to_tree)
     log.info("%d targets", len(targets))
     _run(transport, selectors, job_pool, master_identity, workers, targets)
