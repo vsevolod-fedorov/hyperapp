@@ -30,7 +30,7 @@ class JobPool:
                 self._queue.append(target)
                 return
             peer = self._free_workers.pop(0)
-            log.info("Start job for: %s", target.name)
+            log.info("Start job for: %s at %s", target.name, peer)
             self._transport.send_message(peer, self._identity, target.job)
             self._pending[target.name] = (target, peer)
 
