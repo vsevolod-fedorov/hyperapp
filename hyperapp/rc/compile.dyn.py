@@ -10,7 +10,7 @@ from .code.module import Module
 from .code.transport import LocalEndpoint
 from .code.path import Path
 from .code.import_target import ImportTarget
-from .code.import_result import collecting_import_results
+from .code.target_set import TargetSet
 from .code.selectors import StopSignal
 from .data.worker import config as worker_config
 
@@ -31,6 +31,7 @@ def compile_resources(
         transport,
         message_creg,
         selectors,
+        job_pool,
         workspace_path,
         ):
     master_identity = generate_rsa_identity(fast=True)
@@ -39,7 +40,7 @@ def compile_resources(
     with subprocess_workers_running(
             master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
-        _compile(transport, selectors, master_identity, workers, workspace_path)
+        _compile(transport, selectors, job_pool, master_identity, workers, workspace_path)
     log.info("workers are finished")
 
 
@@ -72,36 +73,26 @@ def _collect_modules(project_to_tree):
 
 
 def _create_targets(compiled_modules, project_to_tree):
-    targets = []
+    targets = TargetSet()
     for path in compiled_modules:
         dyn_path = (*path.path[:-1], path.path[-1] + DYN_EXT)
         source = project_to_tree[path.project][dyn_path].decode()
-        targets.append(ImportTarget(path, source))
+        ImportTarget.ensure(targets, path, source)
     return targets
 
 
-def _start_job(transport, master_identity, workers, job):
-    log.info("Start job: %s", job)
-    transport.send_message(workers.peers[0], master_identity, job)
-
-
-def _run(transport, selectors, master_identity, workers, targets):
+def _run(transport, selectors, job_pool, master_identity, workers, targets):
     stop_signal = StopSignal()
-    paths = [tgt.job.path for tgt in targets]
-    with collecting_import_results(stop_signal, paths) as collector:
+    with job_pool.running(master_identity, stop_signal, workers):
         with selectors.registered(stop_signal):
-            for tgt in targets:
-                _start_job(transport, master_identity, workers, tgt.job)
-            if collector.pending:
+            for tgt in targets.enum_ready():
+                job_pool.start_job(tgt)
+            if job_pool.pending:
                 selectors.run(RESULT_TIMEOUT_SEC)
-        if collector.pending:
-            raise RuntimeError(f"No import results for {len(collector.pending)} jobs: {collector.pending}")
-        path_to_error = collector.path_to_error
-    failed_count = sum(1 for error in path_to_error.values() if error is not None)
-    log.info("%d import jobs are finished, %d failed", len(path_to_error), failed_count)
+        log.info("%d import jobs are finished", len(job_pool.completed))
 
 
-def _compile(transport, selectors, master_identity, workers, workspace_path):
+def _compile(transport, selectors, job_pool, master_identity, workers, workspace_path):
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
@@ -111,4 +102,4 @@ def _compile(transport, selectors, master_identity, workers, workspace_path):
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     targets = _create_targets(compiled_modules, project_to_tree)
     log.info("%d targets", len(targets))
-    _run(transport, selectors, master_identity, workers, targets)
+    _run(transport, selectors, job_pool, master_identity, workers, targets)

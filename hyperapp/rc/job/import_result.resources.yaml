@@ -6,8 +6,7 @@ definitions:
       module_name: import_result
       file_name: import_result.dyn.py
       imports:
-        pyobj:
-          code.path: :path:path.module
+        pyobj: {}
         raw: {}
 
   succeeded_result.attr:
@@ -22,6 +21,7 @@ definitions:
       fn: succeeded_result.attr
       service_params:
         requirement_creg: :requirement_creg:requirement_creg.service
+        job_pool: :job_pool:job_pool.service
 
   failed_result.attr:
     type: builtin:type:attribute
@@ -33,4 +33,5 @@ definitions:
     type: base:system/system.t:actor
     value:
       fn: failed_result.attr
-      service_params: {}
+      service_params:
+        job_pool: :job_pool:job_pool.service

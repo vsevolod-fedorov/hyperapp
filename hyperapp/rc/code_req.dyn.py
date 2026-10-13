@@ -14,3 +14,6 @@ class CodeReq:
             path=Path.from_piece(piece.path),
             import_as=piece.import_as,
             )
+
+    def get_target(self, target_set):
+        pass

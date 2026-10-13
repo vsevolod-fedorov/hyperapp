@@ -21,6 +21,7 @@ definitions:
     value:
       items:
         compile:compile_resources.service.t: compile:compile_resources.service-actor
+        job_pool:job_pool.service.t: job_pool:job_pool.service-actor
         main:main.service.t: main:main.service-actor
         requirement_creg:requirement_creg.service.t: requirement_creg:requirement_creg.service-actor
 

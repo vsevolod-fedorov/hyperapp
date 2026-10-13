@@ -1,0 +1,10 @@
+definitions:
+
+  set.module:
+    type: builtin:type:python_module
+    value:
+      module_name: set
+      file_name: set.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

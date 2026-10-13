@@ -57,13 +57,13 @@ def run_import_job(piece, request, import_to_req, transport):
         module = pyobj_creg.animate(python_module)
         log.info("Imported module: %s", module)
         result = htypes.import_job.succeeded_result(
-            path=piece.path,
+            target=piece.target,
             requirements=tuple(_enum_import_requirements(path, recorder, import_to_req)),
             )
     except Exception as x:
         log.info("Import failed: %s", x)
         result = htypes.import_job.failed_result(
-            path=piece.path,
+            target=piece.target,
             requirements=tuple(_enum_import_requirements(path, recorder, import_to_req)),
             error=str(x),
             traceback=tuple(traceback.format_tb(x.__traceback__)),

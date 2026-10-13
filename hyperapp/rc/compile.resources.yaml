@@ -12,7 +12,7 @@ definitions:
           code.transport: base:transport/transport:transport.module
           code.path: path:path.module
           code.import_target: target/import:import.module
-          code.import_result: job/import_result:import_result.module
+          code.target_set: target/set:set.module
           code.selectors: base:transport/selectors:selectors.module
         raw:
           data.worker.config: worker_config:config
@@ -50,3 +50,4 @@ definitions:
         transport: base:transport/transport:transport.service
         message_creg: base:transport/registries:message_creg.service
         selectors: base:transport/selectors:selectors.service
+        job_pool: job_pool:job_pool.service

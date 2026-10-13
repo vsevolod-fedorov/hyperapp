@@ -1,0 +1,41 @@
+definitions:
+
+  job_pool.module:
+    type: builtin:type:python_module
+    value:
+      module_name: job_pool
+      file_name: job_pool.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  job_pool.attr:
+    type: builtin:type:attribute
+    value:
+      object: job_pool.module
+      attr_name: job_pool
+
+  job_pool.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: job_pool
+      base: null
+      fields: {}
+
+  job_pool.service:
+    type: job_pool.service.t
+    value: {}
+
+  job_pool.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: job_pool.attr
+      adapters:
+      - job_pool.service-args-adapter
+      - base:system/adapter:service_object.adapter
+
+  job_pool.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
+        transport: base:transport/transport:transport.service
