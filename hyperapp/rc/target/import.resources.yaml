@@ -9,3 +9,30 @@ definitions:
         pyobj:
           htypes.import_job.import_job: :job/import.t:import_job
         raw: {}
+
+  succeeded_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: import.module
+      attr_name: succeeded_result
+
+  succeeded_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: succeeded_result.attr
+      service_params:
+        requirement_creg: :requirement_creg:requirement_creg.service
+        job_pool: :job_pool:job_pool.service
+
+  failed_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: import.module
+      attr_name: failed_result
+
+  failed_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: failed_result.attr
+      service_params:
+        job_pool: :job_pool:job_pool.service
