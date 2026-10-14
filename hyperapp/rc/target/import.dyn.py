@@ -25,6 +25,7 @@ class ImportTarget:
         self._idx = idx
         self._path = path
         self._source = source
+        self._resolved = False
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -34,8 +35,12 @@ class ImportTarget:
         return self._name
 
     @property
-    def ready(self):
+    def runnable(self):
         return True
+
+    @property
+    def resolved(self):
+        return self._resolved
 
     @property
     def job(self):
@@ -44,6 +49,9 @@ class ImportTarget:
             path=self._path.piece,
             source=self._source,
             )
+
+    def process_job_result(self, requirements):
+        self._resolved = True
 
 
 def succeeded_result(piece, request, requirement_creg, job_pool):
@@ -55,6 +63,7 @@ def succeeded_result(piece, request, requirement_creg, job_pool):
         ]
     for req in requirements:
         log.info("%s: requirement: %s", target, req)
+    target.process_job_result(requirements)
 
 
 def failed_result(piece, request, job_pool):

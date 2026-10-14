@@ -78,7 +78,7 @@ def _run(transport, selectors, job_pool, master_identity, workers, targets):
     stop_signal = StopSignal()
     with job_pool.running(master_identity, stop_signal, workers):
         with selectors.registered(stop_signal):
-            for tgt in targets.enum_ready():
+            for tgt in targets.enum_runnable():
                 job_pool.start_job(tgt)
             if job_pool.pending:
                 selectors.run(RESULT_TIMEOUT_SEC)

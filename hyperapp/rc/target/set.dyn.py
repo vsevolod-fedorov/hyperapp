@@ -13,7 +13,7 @@ class TargetSet:
     def __setitem__(self, name, target):
         self._name_to_target[name] = target
 
-    def enum_ready(self):
+    def enum_runnable(self):
         for tgt in self._name_to_target.values():
-            if tgt.ready:
+            if tgt.runnable:
                 yield tgt
