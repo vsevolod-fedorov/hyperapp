@@ -16,5 +16,12 @@ class CodeReq:
             )
 
     def get_target(self, targets):
-        module = targets.find_module(self.path, self.import_as[1:])
-        return module.module_tgt
+        # import_as is ('code', *module_path, *attr_path); Try longest module path first.
+        sub_path = self.import_as[1:]
+        for idx in range(len(sub_path), 0, -1):
+            try:
+                module = targets.find_nearest_module(self.path, sub_path[:idx])
+            except KeyError:
+                continue
+            return module.module_tgt
+        raise KeyError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")

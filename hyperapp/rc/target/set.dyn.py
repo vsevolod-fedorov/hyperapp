@@ -1,7 +1,11 @@
 
+from .code.path import Path
+
+
 class TargetSet:
 
-    def __init__(self, module_list):
+    def __init__(self, projects, module_list):
+        self._projects = projects
         self._path_to_module = {module.path: module for module in module_list}
         self._name_to_target = {}
 
@@ -22,5 +26,18 @@ class TargetSet:
             if tgt.runnable:
                 yield tgt
 
-    def find_module(self, from_path, sub_path):
-        pass # TODO
+    def find_nearest_module(self, from_path, sub_path):
+        module_dir = from_path.path[:-1]
+        for idx in range(len(module_dir), -1, -1):
+            module = self._path_to_module.get(Path(from_path.project, (*module_dir[:idx], *sub_path)))
+            if module:
+                return module
+        if len(sub_path) > 1:
+            # Check if sub_path starts with name of a project imported by from_path project.
+            project = self._projects[from_path.project]
+            project_name = project.imports.get(sub_path[0])
+            if project_name:
+                module = self._path_to_module.get(Path(project_name, sub_path[1:]))
+                if module:
+                    return module
+        raise KeyError(f"{from_path}: Module not found: {'/'.join(sub_path)}")

@@ -6,5 +6,6 @@ definitions:
       module_name: set
       file_name: set.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          code.path: :path:path.module
         raw: {}

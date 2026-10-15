@@ -110,7 +110,7 @@ def _compile(transport, selectors, job_pool, master_identity, workers, workspace
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
     modules = _collect_modules(project_to_tree)
-    targets = TargetSet(modules)
+    targets = TargetSet(workspace.projects, modules)
     _create_targets(modules, targets)
     compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
     log.info("%d modules, %d compiled", len(modules), compiled_count)
