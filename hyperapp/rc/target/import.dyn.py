@@ -51,25 +51,26 @@ class ProjectImportsTarget:
 class ImportTarget:
 
     @classmethod
-    def ensure(cls, targets, path, source):
+    def ensure(cls, targets, path, source, module_tgt):
         idx = 0
         name = f'import/{path.project}/{"/".join(path.path)}/{idx}'
         try:
             return targets[name]
         except KeyError:
             pass
-        tgt = cls(targets, name, idx, path, source)
+        tgt = cls(targets, name, idx, path, source, module_tgt)
         targets[name] = tgt
         project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
         project_imports_tgt.add_dep(tgt)
         return tgt
 
-    def __init__(self, targets, name, idx, path, source):
+    def __init__(self, targets, name, idx, path, source, module_tgt):
         self._targets = targets
         self._name = name
         self._idx = idx
         self._path = path
         self._source = source
+        self._module_tgt = module_tgt
         self._resolved = False
 
     def __repr__(self):
@@ -101,6 +102,8 @@ class ImportTarget:
 
     def process_job_result(self, requirements):
         self._resolved = True
+        for req in requirements:
+            self._module_tgt.add_dep(req.get_target(self._targets))
 
 
 def succeeded_result(piece, request, requirement_creg, job_pool):
