@@ -94,6 +94,17 @@ def _run(transport, selectors, job_pool, master_identity, workers, targets):
     log.info("%d/%d targets resolved", sum(1 for t in targets if t.resolved), len(targets))
 
 
+def _target_state(tgt):
+    return "resolved" if tgt.resolved else "unresolved"
+
+
+def _log_targets(targets):
+    for tgt in sorted(targets, key=lambda t: t.name):
+        log.info("Target %s: %s", tgt.name, _target_state(tgt))
+        for dep in sorted(tgt.deps, key=lambda t: t.name):
+            log.info("  dep %s: %s", dep.name, _target_state(dep))
+
+
 def _compile(transport, selectors, job_pool, master_identity, workers, workspace_path):
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
@@ -107,3 +118,4 @@ def _compile(transport, selectors, job_pool, master_identity, workers, workspace
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     log.info("%d targets", len(targets))
     _run(transport, selectors, job_pool, master_identity, workers, targets)
+    _log_targets(targets)

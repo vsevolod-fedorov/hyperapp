@@ -88,6 +88,10 @@ class ImportTarget:
         return self._resolved
 
     @property
+    def deps(self):
+        return set()
+
+    @property
     def job(self):
         return htypes.import_job.import_job(
             target=self._name,
