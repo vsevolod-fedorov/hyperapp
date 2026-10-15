@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from . import htypes
 
 
-@dataclass
+@dataclass(frozen=True)
 class Path:
     project: str
     path: tuple[str]
