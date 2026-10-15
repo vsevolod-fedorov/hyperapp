@@ -7,6 +7,9 @@ definitions:
       file_name: code_req.dyn.py
       imports:
         pyobj:
+          services.mosaic: builtin:service:mosaic
+          htypes.builtin.import_rec: builtin:type:import_rec
+          htypes.builtin.imports: builtin:type:imports
           code.path: path:path.module
         raw: {}
 
