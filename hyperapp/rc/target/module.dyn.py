@@ -1,4 +1,5 @@
 from . import htypes
+from .code.target.import_target import ProjectImportsTarget
 
 
 class CompiledModuleTarget:
@@ -19,6 +20,7 @@ class CompiledModuleTarget:
         self._name = name
         self._path = path
         self._source = source
+        self._project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
         self._deps = set()
 
     def __repr__(self):
@@ -34,11 +36,11 @@ class CompiledModuleTarget:
 
     @property
     def resolved(self):
-        return all(tgt.resolved for tgt in self._deps)
+        return all(tgt.resolved for tgt in self.deps)
 
     @property
     def deps(self):
-        return self._deps
+        return {self._project_imports_tgt, *self._deps}
 
     def add_dep(self, tgt):
         self._deps.add(tgt)

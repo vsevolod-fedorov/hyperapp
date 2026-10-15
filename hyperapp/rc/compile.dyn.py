@@ -11,7 +11,7 @@ from .code.selectors import StopSignal
 from .code.path import Path
 from .code.module import ModuleType, Module
 from .code.target_set import TargetSet
-from .code.target.import_target import ProjectImportsTarget, ImportTarget
+from .code.target.import_target import ImportTarget
 from .code.target.module import CompiledModuleTarget
 from .data.worker import config as worker_config
 
@@ -80,7 +80,6 @@ def _create_targets(modules, targets):
             continue
         module.module_tgt = CompiledModuleTarget.ensure(targets, module.path, module.source)
         module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
-        module.module_tgt.add_dep(ProjectImportsTarget.ensure(targets, module.path.project))
 
 
 def _run(transport, selectors, job_pool, master_identity, workers, targets):
