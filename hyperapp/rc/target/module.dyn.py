@@ -21,7 +21,7 @@ class CompiledModuleTarget:
         self._path = path
         self._source = source
         self._project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
-        self._deps = set()
+        self._import_req_to_target = {}
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -40,18 +40,24 @@ class CompiledModuleTarget:
 
     @property
     def deps(self):
-        return {self._project_imports_tgt, *self._deps}
+        return {self._project_imports_tgt, *self._import_req_to_target.values()}
 
-    def add_dep(self, tgt):
-        self._deps.add(tgt)
+    def add_import_req(self, req):
+        self._import_req_to_target[req] = req.get_target(self._targets)
 
     @property
     def resource(self):
+        name_to_pyobj = {}
+        name_to_raw = {}
+        for req in self._import_req_to_target:
+            imports = req.resolve_to_import(self._targets)
+            name_to_pyobj.update({rec.full_name: rec for rec in imports.pyobj})
+            name_to_raw.update({rec.full_name: rec for rec in imports.raw})
         return htypes.builtin.python_module(
             module_name=self._path.path[-1],
             source=self._source,
             imports=htypes.builtin.imports(
-                pyobj=(),
-                raw=(),
+                pyobj=tuple(rec for name, rec in sorted(name_to_pyobj.items())),
+                raw=tuple(rec for name, rec in sorted(name_to_raw.items())),
                 ),
             )

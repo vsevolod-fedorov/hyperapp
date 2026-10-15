@@ -107,7 +107,7 @@ class ImportTarget:
     def process_job_result(self, requirements):
         self._resolved = True
         for req in requirements:
-            self._module_tgt.add_dep(req.get_target(self._targets))
+            self._module_tgt.add_import_req(req)
 
     @property
     def resource(self):
