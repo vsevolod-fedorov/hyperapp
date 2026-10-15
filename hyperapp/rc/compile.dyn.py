@@ -5,6 +5,7 @@ from hyperapp.boot.resource.workspace import Workspace, load_file_tree
 
 from .services import (
     load_resources,
+    mosaic,
     )
 from .code.transport import LocalEndpoint
 from .code.selectors import StopSignal
@@ -102,7 +103,7 @@ def _log_targets(targets):
     for tgt in sorted(targets, key=lambda t: t.name):
         log.info("Target %s: %s", tgt.name, _target_state(tgt))
         if tgt.resolved and tgt.resource:
-            log.info("  resource: %s", tgt.resource)
+            log.info("  resource: %s %s", mosaic.put(tgt.resource), tgt.resource)
         for dep in sorted(tgt.deps, key=lambda t: t.name):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
 
