@@ -91,6 +91,7 @@ def _run(transport, selectors, job_pool, master_identity, workers, targets):
             if job_pool.pending:
                 selectors.run(RESULT_TIMEOUT_SEC)
         log.info("%d import jobs are finished", len(job_pool.completed))
+    log.info("%d/%d targets resolved", sum(1 for t in targets if t.resolved), len(targets))
 
 
 def _compile(transport, selectors, job_pool, master_identity, workers, workspace_path):

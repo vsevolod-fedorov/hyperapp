@@ -8,6 +8,9 @@ class TargetSet:
     def __len__(self):
         return len(self._name_to_target)
 
+    def __iter__(self):
+        return iter(self._name_to_target.values())
+
     def __getitem__(self, name):
         return self._name_to_target[name]
 
