@@ -11,7 +11,8 @@ definitions:
           code.module: module:module.module
           code.transport: base:transport/transport:transport.module
           code.path: path:path.module
-          code.import_target: target/import:import.module
+          code.target.import_target: target/import:import.module
+          code.target.module: target/module:module.module
           code.target_set: target/set:set.module
           code.selectors: base:transport/selectors:selectors.module
         raw:

@@ -15,5 +15,6 @@ class CodeReq:
             import_as=piece.import_as,
             )
 
-    def get_target(self, target_set):
-        pass
+    def get_target(self, targets):
+        module = targets.find_module(self.path, self.import_as[1:])
+        return module.module_tgt

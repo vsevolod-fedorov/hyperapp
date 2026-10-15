@@ -13,7 +13,10 @@ class ModuleType(Enum):
 
 class Module:
 
-    def __init__(self, type, path, import_tgt=None):
+    def __init__(self, type, path, source=None):
         self.type = type
         self.path = path
-        self._import_tgt = import_tgt
+        self.source = source
+        self.import_tgt = None
+        self.module_tgt = None
+        self.resource_tgt = None

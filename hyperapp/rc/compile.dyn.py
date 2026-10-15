@@ -6,12 +6,13 @@ from hyperapp.boot.resource.workspace import Workspace, load_file_tree
 from .services import (
     load_resources,
     )
-from .code.module import ModuleType, Module
 from .code.transport import LocalEndpoint
-from .code.path import Path
-from .code.import_target import ImportTarget
-from .code.target_set import TargetSet
 from .code.selectors import StopSignal
+from .code.path import Path
+from .code.module import ModuleType, Module
+from .code.target_set import TargetSet
+from .code.target.import_target import ImportTarget
+from .code.target.module import CompiledModuleTarget
 from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
@@ -44,7 +45,7 @@ def compile_resources(
     log.info("workers are finished")
 
 
-def _collect_modules(project_to_tree, targets):
+def _collect_modules(project_to_tree):
     module_paths = defaultdict(set)  # project -> paths
     for project, tree in project_to_tree.items():
         for path, bytes in tree.items():
@@ -69,9 +70,16 @@ def _collect_modules(project_to_tree, targets):
                     continue
             dyn_path = (*path[:-1], path[-1] + DYN_EXT)
             source = project_to_tree[project][dyn_path].decode()
-            import_tgt = ImportTarget.ensure(targets, Path(project, path), source)
-            modules.append(Module(ModuleType.COMPILED, Path(project, path), import_tgt))
+            modules.append(Module(ModuleType.COMPILED, Path(project, path), source))
     return modules
+
+
+def _create_targets(modules, targets):
+    for module in modules:
+        if module.type != ModuleType.COMPILED:
+            continue
+        module.import_tgt = ImportTarget.ensure(targets, module.path, module.source)
+        module.module_tgt = CompiledModuleTarget.ensure(targets, module.path)
 
 
 def _run(transport, selectors, job_pool, master_identity, workers, targets):
@@ -89,8 +97,9 @@ def _compile(transport, selectors, job_pool, master_identity, workers, workspace
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
-    targets = TargetSet()
-    modules = _collect_modules(project_to_tree, targets)
+    modules = _collect_modules(project_to_tree)
+    targets = TargetSet(modules)
+    _create_targets(modules, targets)
     compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
     log.info("%d modules, %d compiled", len(modules), compiled_count)
     resources, sources = load_resources(workspace.projects, project_to_tree)
