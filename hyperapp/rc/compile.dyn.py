@@ -78,7 +78,7 @@ def _create_targets(modules, targets):
     for module in modules:
         if module.type != ModuleType.COMPILED:
             continue
-        module.module_tgt = CompiledModuleTarget.ensure(targets, module.path)
+        module.module_tgt = CompiledModuleTarget.ensure(targets, module.path, module.source)
         module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
         module.module_tgt.add_dep(ProjectImportsTarget.ensure(targets, module.path.project))
 

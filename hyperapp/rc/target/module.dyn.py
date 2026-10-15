@@ -1,21 +1,24 @@
+from . import htypes
+
 
 class CompiledModuleTarget:
 
     @classmethod
-    def ensure(cls, targets, path):
+    def ensure(cls, targets, path, source):
         name = f'module/compiled/{path.project}/{"/".join(path.path)}'
         try:
             return targets[name]
         except KeyError:
             pass
-        tgt = cls(targets, name, path)
+        tgt = cls(targets, name, path, source)
         targets[name] = tgt
         return tgt
 
-    def __init__(self, targets, name, path):
+    def __init__(self, targets, name, path, source):
         self._targets = targets
         self._name = name
         self._path = path
+        self._source = source
         self._deps = set()
 
     def __repr__(self):
@@ -39,3 +42,14 @@ class CompiledModuleTarget:
 
     def add_dep(self, tgt):
         self._deps.add(tgt)
+
+    @property
+    def resource(self):
+        return htypes.builtin.python_module(
+            module_name=self._path.path[-1],
+            source=self._source,
+            imports=htypes.builtin.imports(
+                pyobj=(),
+                raw=(),
+                ),
+            )
