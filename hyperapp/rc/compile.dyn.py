@@ -102,6 +102,8 @@ def _target_state(tgt):
 def _log_targets(targets):
     for tgt in sorted(targets, key=lambda t: t.name):
         log.info("Target %s: %s", tgt.name, _target_state(tgt))
+        if tgt.resolved and tgt.resource:
+            log.info("  resource: %s", tgt.resource)
         for dep in sorted(tgt.deps, key=lambda t: t.name):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
 

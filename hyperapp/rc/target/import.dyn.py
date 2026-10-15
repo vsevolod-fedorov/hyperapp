@@ -47,6 +47,10 @@ class ProjectImportsTarget:
     def add_dep(self, tgt):
         self._deps.add(tgt)
 
+    @property
+    def resource(self):
+        return None
+
 
 class ImportTarget:
 
@@ -104,6 +108,10 @@ class ImportTarget:
         self._resolved = True
         for req in requirements:
             self._module_tgt.add_dep(req.get_target(self._targets))
+
+    @property
+    def resource(self):
+        return None
 
 
 def succeeded_result(piece, request, requirement_creg, job_pool):
