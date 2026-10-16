@@ -82,6 +82,9 @@ class _Sentinel:
     def process(self):
         self._selectors.unregister(self)
         self._registered = False
+        # Sentinel fires when the child closes its fds, which is slightly before it can be reaped;
+        # exitcode is None until then. The process is exiting, so join returns promptly.
+        self._process.join()
         self._sync.worker_failed(self._process_id, self._process.exitcode)
 
     @contextmanager
