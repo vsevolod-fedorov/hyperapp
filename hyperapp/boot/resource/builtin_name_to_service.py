@@ -31,6 +31,7 @@ def make_builtin_name_to_service(
         'deduce_t': partial(deduce_value_type_with_list, pyobj_creg),
         'assoc_implanters': assoc_implanters,
         'unbundler': unbundler,
+        'resource_type_producer': resource_type_producer,
         }
     loader = partial(
         load_resources, pyobj_creg, mosaic, builtin_name_to_type, builtin_name_to_service, resource_type_producer)
