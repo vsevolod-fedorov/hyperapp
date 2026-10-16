@@ -1,6 +1,7 @@
 import logging
 import logging.handlers
 import os
+import tempfile
 import traceback
 import threading
 from contextlib import contextmanager
