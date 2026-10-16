@@ -16,6 +16,14 @@ def _parse_args(sys_argv):
     return args
 
 
+def _write_tree(projects, project_to_tree):
+    for project_name, tree in project_to_tree.items():
+        for file_path, data in sorted(tree.items()):
+            path = projects[project_name].path.joinpath(*file_path)
+            log.info("Write %s", path)
+            path.write_bytes(data)
+
+
 def main(
         assoc_pickers,
         assoc_implanter,
@@ -27,4 +35,5 @@ def main(
     args = _parse_args(sys_argv)
     log.info("Loading workspace: %s", args.workspace)
     workspace = Workspace.from_yaml_file(args.workspace)
-    compile_resources(workspace.projects, workspace.load_file_tree())
+    result_tree = compile_resources(workspace.projects, workspace.load_file_tree())
+    _write_tree(workspace.projects, result_tree)

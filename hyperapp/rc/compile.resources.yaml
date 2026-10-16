@@ -55,3 +55,4 @@ definitions:
         selectors: base:transport/selectors:selectors.service
         job_pool: job_pool:job_pool.service
         name_resources: base:resource/name:name_resources.service
+        dump_resource_modules: base:resource/dump:dump_resource_modules.service

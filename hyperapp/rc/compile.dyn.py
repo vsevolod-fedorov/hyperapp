@@ -34,12 +34,14 @@ def compile_resources(
         selectors,
         job_pool,
         name_resources,
+        dump_resource_modules,
         projects,
         project_to_tree,
         ):
     """Compile resources of workspace projects.
 
     project_to_tree: project name -> file path tuple -> bytes, the sources.
+    Returns generated files in the same form.
     """
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
@@ -47,10 +49,11 @@ def compile_resources(
     with subprocess_workers_running(
             master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
-        _compile(
-            transport, selectors, job_pool, name_resources,
+        result_tree = _compile(
+            transport, selectors, job_pool, name_resources, dump_resource_modules,
             master_identity, workers, projects, project_to_tree)
     log.info("workers are finished")
+    return result_tree
 
 
 def _collect_modules(project_to_tree):
@@ -143,8 +146,17 @@ def _log_names(piece_to_name, resource_locations):
             log.info("Named %s:%s:%s: %s %s", project_name, '/'.join(path), name, mosaic.put(piece), piece)
 
 
+def _resource_tree(dump_resource_modules, projects, piece_to_name, resource_locations):
+    location_to_text = dump_resource_modules(projects, piece_to_name, resource_locations)
+    project_to_tree = defaultdict(dict)
+    for (project_name, path), text in sorted(location_to_text.items()):
+        file_path = (*path[:-1], path[-1] + RESOURCES_EXT)
+        project_to_tree[project_name][file_path] = f'{AUTO_GEN_LINE}\n\n{text}'.encode()
+    return dict(project_to_tree)
+
+
 def _compile(
-        transport, selectors, job_pool, name_resources,
+        transport, selectors, job_pool, name_resources, dump_resource_modules,
         master_identity, workers, projects, project_to_tree):
     modules = _collect_modules(project_to_tree)
     targets = TargetSet(projects, modules)
@@ -160,3 +172,4 @@ def _compile(
     resource_locations = _resource_locations(project_tgts)
     piece_to_name = name_resources(resources, resource_locations)
     _log_names(piece_to_name, resource_locations)
+    return _resource_tree(dump_resource_modules, projects, piece_to_name, resource_locations)
