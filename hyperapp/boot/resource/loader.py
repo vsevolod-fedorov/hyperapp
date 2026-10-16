@@ -207,11 +207,10 @@ class _ResourceLoader:
                 self._discover_loader(project_name, file_path)
         for project_name, path in self._project_and_path_to_loader:
             self._load_definitions(project_name, path)
-        name_tuple_to_piece = {
-            name_tuple: self._resolve(name_tuple)
-            for name_tuple in self._name_tuple_to_definition
-            }
-        return (name_tuple_to_piece, self._piece_to_source)
+        for name_tuple in self._name_tuple_to_definition:
+            self._resolve(name_tuple)
+        # Builtins included, so every loaded piece can be named back, like types of resources.
+        return (dict(self._name_tuple_to_piece), self._piece_to_source)
 
     # def _has_module(self, project_name, path):
     #     return (project_name, path) in self._has_modules
