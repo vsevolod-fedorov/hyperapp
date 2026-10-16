@@ -62,10 +62,24 @@ def test_elements(mosaic, name_resources):
     piece_to_name = name_resources(known_names, {('proj', ('module_1',)): module})
     location = ('proj', ('module_1',))
     assert piece_to_name == {
+        known_module: ('base', ('known',), 'known.module'),
         module: (*location, 'module_1.module'),
         other_module: (*location, 'other.module'),
         cls: (*location, 'other.SomeClass.attr'),
         method: (*location, 'other.SomeClass.some_method.attr'),
+        }
+
+
+def test_known_name_in_replaced_file(mosaic, name_resources):
+    other_module = _python_module(mosaic, 'other')
+    module = _python_module(mosaic, 'module_1', imports=[('code.other', other_module)])
+    location = ('proj', ('module_1',))
+    # Loaded from the file which is replaced now.
+    known_names = {(*location, 'old_other.module'): other_module}
+    piece_to_name = name_resources(known_names, {location: module})
+    assert piece_to_name == {
+        module: (*location, 'module_1.module'),
+        other_module: (*location, 'other.module'),
         }
 
 

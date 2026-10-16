@@ -15,18 +15,21 @@ class _Namer:
         self._piece_to_known_name = {}
         # A piece may be defined under several names; any one of them will do.
         for name_tuple, piece in known_names.items():
+            project_name, path, name = name_tuple
+            if (project_name, path) in resource_locations:
+                continue  # That resource file is to be replaced, along with all its names.
             self._piece_to_known_name.setdefault(piece, name_tuple)
         self._piece_to_location = {
             piece: location
             for location, piece in resource_locations.items()
             }
-        self._piece_to_name = {}  # Newly named pieces only.
+        self._piece_to_name = {}
         self._name_to_piece = {}
 
     def name_all(self):
         for piece, location in self._piece_to_location.items():
             self._name(piece, location)
-        return self._piece_to_name
+        return {**self._piece_to_known_name, **self._piece_to_name}
 
     def _name(self, piece, referrer_location):
         try:
@@ -71,7 +74,7 @@ def name_resources(resource_name_creg, pick_refs, known_names, resource_location
 
     known_names: (project_name, path, name) -> piece, as returned by resource loader.
     resource_locations: (project_name, path) -> piece, a resource file and its main piece.
-    Returns piece -> (project_name, path, name), for newly named pieces only.
+    Returns piece -> (project_name, path, name), for known and newly named pieces.
     """
     namer = _Namer(resource_name_creg, pick_refs, known_names, resource_locations)
     return namer.name_all()
