@@ -15,7 +15,7 @@ class ProjectTarget:
         self._targets = targets
         self._name = name
         self._project_name = project_name
-        self._deps = set()
+        self._path_to_resource_tgt = {}
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -30,15 +30,23 @@ class ProjectTarget:
 
     @property
     def resolved(self):
-        return all(tgt.resolved for tgt in self._deps)
+        return all(tgt.resolved for tgt in self._path_to_resource_tgt.values())
 
     @property
     def deps(self):
-        return self._deps
+        return self._path_to_resource_tgt.values()
 
-    def add_dep(self, tgt):
-        self._deps.add(tgt)
+    def add_resource_tgt(self, path, tgt):
+        self._path_to_resource_tgt[path] = tgt
 
     @property
     def result(self):
         return None
+
+    @property
+    def resources(self):
+        return {
+            path: tgt.result
+            for path, tgt
+            in self._path_to_resource_tgt.items()
+            }

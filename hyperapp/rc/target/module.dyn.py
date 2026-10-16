@@ -15,7 +15,7 @@ class CompiledModuleTarget:
         tgt = cls(targets, name, path, source)
         targets[name] = tgt
         project_tgt = ProjectTarget.ensure(targets, path.project)
-        project_tgt.add_dep(tgt)
+        project_tgt.add_resource_tgt(path, tgt)
         return tgt
 
     def __init__(self, targets, name, path, source):
