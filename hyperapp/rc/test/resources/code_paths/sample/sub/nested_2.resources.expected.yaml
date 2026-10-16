@@ -1,0 +1,15 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  nested_2.module:
+    type: builtin:type:python_module
+    value:
+      module_name: nested_2
+      file_name: nested_2.dyn.py
+      imports:
+        pyobj:
+          code.common: common:common.module
+          code.module_1: :module_1:module_1.module
+          code.nested: nested:nested.module
+        raw: {}

@@ -1,0 +1,18 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  root_user.module:
+    type: builtin:type:python_module
+    value:
+      module_name: root_user
+      file_name: root_user.dyn.py
+      imports:
+        pyobj:
+          code.common: common:common.module
+          code.lib.sub.deep: lib:sub/deep:deep.module
+          code.lib.util: lib:util:util.module
+          code.module_1: module_1:module_1.module
+          code.sub.nested: sub/nested:nested.module
+          code.sub.nested_2: sub/nested_2:nested_2.module
+        raw: {}

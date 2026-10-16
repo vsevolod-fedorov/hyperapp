@@ -1,0 +1,12 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  common.module:
+    type: builtin:type:python_module
+    value:
+      module_name: common
+      file_name: common.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

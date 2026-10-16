@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  deep.module:
+    type: builtin:type:python_module
+    value:
+      module_name: deep
+      file_name: deep.dyn.py
+      imports:
+        pyobj:
+          code.util: :util:util.module
+        raw: {}

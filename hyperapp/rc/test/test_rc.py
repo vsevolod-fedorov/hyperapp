@@ -48,3 +48,7 @@ def test_empty_module():
 
 def test_code_import():
     _compile_and_check('code_import')
+
+
+def test_code_paths():
+    _compile_and_check('code_paths')
