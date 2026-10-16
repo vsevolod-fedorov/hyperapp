@@ -12,6 +12,7 @@ definitions:
         transport/registries:signature_creg.service: signature_creg.config
         transport/registries:parcel_creg.service: parcel_creg.config
         transport/registries:message_creg.service: message_creg.config
+        resource/name:resource_name_creg.service: resource_name_creg.config
 
   adapter_creg.config:
     type: system/system.t:typed_item_list
@@ -94,3 +95,10 @@ definitions:
     value:
       items:
         subprocess/subprocess.t:worker_started_report: subprocess/worker:worker_started.actor
+
+  resource_name_creg.config:
+    type: system/system.t:typed_item_list
+    value:
+      items:
+        builtin:type:python_module: resource/builtin_name:python_module_resource_name.actor
+        builtin:type:attribute: resource/builtin_name:attribute_resource_name.actor

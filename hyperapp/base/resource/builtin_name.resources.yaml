@@ -1,0 +1,35 @@
+definitions:
+
+  builtin_name.module:
+    type: builtin:type:python_module
+    value:
+      module_name: builtin_name
+      file_name: builtin_name.dyn.py
+      imports:
+        pyobj:
+          services.web: builtin:service:web
+        raw: {}
+
+  python_module_resource_name.attr:
+    type: builtin:type:attribute
+    value:
+      object: builtin_name.module
+      attr_name: python_module_resource_name
+
+  python_module_resource_name.actor:
+    type: :system/system.t:actor
+    value:
+      fn: python_module_resource_name.attr
+      service_params: {}
+
+  attribute_resource_name.attr:
+    type: builtin:type:attribute
+    value:
+      object: builtin_name.module
+      attr_name: attribute_resource_name
+
+  attribute_resource_name.actor:
+    type: :system/system.t:actor
+    value:
+      fn: attribute_resource_name.attr
+      service_params: {}
