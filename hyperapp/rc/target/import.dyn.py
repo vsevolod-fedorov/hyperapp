@@ -48,7 +48,7 @@ class ProjectImportsTarget:
         self._deps.add(tgt)
 
     @property
-    def resource(self):
+    def result(self):
         return None
 
 
@@ -110,7 +110,7 @@ class ImportTarget:
             self._module_tgt.add_import_req(req)
 
     @property
-    def resource(self):
+    def result(self):
         return None
 
 

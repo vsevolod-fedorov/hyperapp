@@ -38,7 +38,7 @@ class CodeReq:
         import_name, module = self._find_module(targets)
         rec = htypes.builtin.import_rec(
             full_name='.'.join(import_name),
-            resource=mosaic.put(module.module_tgt.resource),
+            resource=mosaic.put(module.module_tgt.result),
             )
         return htypes.builtin.imports(
             pyobj=(rec,),

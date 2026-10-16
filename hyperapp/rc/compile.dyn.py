@@ -102,8 +102,8 @@ def _target_state(tgt):
 def _log_targets(targets):
     for tgt in sorted(targets, key=lambda t: t.name):
         log.info("Target %s: %s", tgt.name, _target_state(tgt))
-        if tgt.resolved and tgt.resource:
-            log.info("  resource: %s %s", mosaic.put(tgt.resource), tgt.resource)
+        if tgt.resolved and tgt.result:
+            log.info("  result: %s %s", mosaic.put(tgt.result), tgt.result)
         for dep in sorted(tgt.deps, key=lambda t: t.name):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
 

@@ -46,7 +46,7 @@ class CompiledModuleTarget:
         self._import_req_to_target[req] = req.get_target(self._targets)
 
     @property
-    def resource(self):
+    def result(self):
         name_to_pyobj = {}
         name_to_raw = {}
         for req in self._import_req_to_target:
