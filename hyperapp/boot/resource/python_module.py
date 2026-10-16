@@ -90,7 +90,8 @@ class PythonModuleResourceType:
             )
         return python_module_def_t(
             module_name=resource.module_name,
-            file_name='',  # TODO
+            # Piece has no file name. Follow convention: source file is named after the module.
+            file_name=f'{resource.module_name}.dyn.py',
             imports=imports_def_t(
                 pyobj=pyobj_imports,
                 raw=raw_imports,

@@ -144,7 +144,7 @@ def test_reverse_resolve(mosaic, resource_type_producer, init):
         return reverse_names[name]
 
     resource = resource_t(
-        module_name='sample module',
+        module_name='sample_module',
         source=TEST_RESOURCES_DIR.joinpath('sample_module.dyn.py').read_text(),
         imports=imports_t(
             pyobj=(
@@ -159,8 +159,8 @@ def test_reverse_resolve(mosaic, resource_type_producer, init):
     log.info('Resolved definition: %r', definition)
 
     assert definition == resource_type.definition_t(
-        module_name='sample module',
-        file_name='',
+        module_name='sample_module',
+        file_name='sample_module.dyn.py',
         imports=imports_def_t(
             pyobj=(
                 import_rec_def_t('some.used_1', 'resource_1'),
