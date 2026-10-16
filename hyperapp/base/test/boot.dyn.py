@@ -13,6 +13,7 @@ from .code import pick_refs as pick_refs_module
 from .code.bundler import Bundler
 from .code import resource_name
 from .code import builtin_name
+from .code import resource_dump
 
 
 def make_bundler(assoc_pickers):

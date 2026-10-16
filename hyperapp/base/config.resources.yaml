@@ -35,6 +35,7 @@ definitions:
         pick_refs:pick_refs_cache.service.t: pick_refs:pick_refs_cache.service-actor
         resource/name:resource_name_creg.service.t: resource/name:resource_name_creg.service-actor
         resource/name:name_resources.service.t: resource/name:name_resources.service-actor
+        resource/dump:dump_resource_modules.service.t: resource/dump:dump_resource_modules.service-actor
         bundler:bundler.service.t: bundler:bundler.service-actor
         subprocess/subprocess:subprocess_running.service.t: subprocess/subprocess:subprocess_running.service-actor
         subprocess/worker:subprocess_workers_running.service.t: subprocess/worker:subprocess_workers_running.service-actor

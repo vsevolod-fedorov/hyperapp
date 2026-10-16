@@ -1,0 +1,14 @@
+definitions:
+
+  module_1.module:
+    type: builtin:type:python_module
+    value:
+      module_name: module_1
+      file_name: module_1.dyn.py
+      imports:
+        pyobj:
+          code.nested: sub/nested:nested.module
+          code.other_dir: :other/other_dir:other_dir.module
+          code.other_project: base:lib:other_project.module
+          code.sibling: sibling:sibling.module
+        raw: {}

@@ -25,4 +25,5 @@ definitions:
           code.bundler: base:bundler:bundler.module
           code.resource_name: base:resource/name:name.module
           code.builtin_name: base:resource/builtin_name:builtin_name.module
+          code.resource_dump: base:resource/dump:dump.module
         raw: {}

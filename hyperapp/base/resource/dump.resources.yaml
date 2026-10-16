@@ -1,0 +1,37 @@
+definitions:
+
+  dump.module:
+    type: builtin:type:python_module
+    value:
+      module_name: dump
+      file_name: dump.dyn.py
+      imports:
+        pyobj:
+          services.deduce_t: builtin:service:deduce_t
+          services.pyobj_creg: builtin:service:pyobj_creg
+          services.resource_type_producer: builtin:service:resource_type_producer
+          services.web: builtin:service:web
+        raw: {}
+
+  dump_resource_modules.attr:
+    type: builtin:type:attribute
+    value:
+      object: dump.module
+      attr_name: dump_resource_modules
+
+  dump_resource_modules.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: dump_resource_modules
+      base: null
+      fields: {}
+
+  dump_resource_modules.service:
+    type: dump_resource_modules.service.t
+    value: {}
+
+  dump_resource_modules.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: dump_resource_modules.attr
+      adapters: []
