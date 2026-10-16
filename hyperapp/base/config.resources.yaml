@@ -32,6 +32,8 @@ definitions:
         assoc_implanter:assoc_creg.service.t: assoc_implanter:assoc_creg.service-actor
         pick_refs:pick_refs.service.t: pick_refs:pick_refs.service-actor
         pick_refs:pick_refs_cache.service.t: pick_refs:pick_refs_cache.service-actor
+        resource/name:resource_name_creg.service.t: resource/name:resource_name_creg.service-actor
+        resource/name:name_resources.service.t: resource/name:name_resources.service-actor
         bundler:bundler.service.t: bundler:bundler.service-actor
         subprocess/subprocess:subprocess_running.service.t: subprocess/subprocess:subprocess_running.service-actor
         subprocess/worker:subprocess_workers_running.service.t: subprocess/worker:subprocess_workers_running.service-actor
@@ -54,6 +56,7 @@ definitions:
         transport/registries:signature_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/registries:parcel_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/registries:message_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
+        resource/name:resource_name_creg.service.t: system/config:TypedDictConfigCtl.from_service_piece.actor
         transport/transport:transport.service.t: system/config:RecordConfigCtl.from_service_piece.actor
 
   assoc_creg.config:

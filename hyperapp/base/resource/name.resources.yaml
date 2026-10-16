@@ -1,0 +1,74 @@
+definitions:
+
+  name.module:
+    type: builtin:type:python_module
+    value:
+      module_name: name
+      file_name: name.dyn.py
+      imports:
+        pyobj:
+          services.web: builtin:service:web
+        raw: {}
+
+  resource_name_creg.attr:
+    type: builtin:type:attribute
+    value:
+      object: name.module
+      attr_name: resource_name_creg
+
+  resource_name_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: resource_name_creg
+      base: null
+      fields: {}
+
+  resource_name_creg.service:
+    type: resource_name_creg.service.t
+    value: {}
+
+  resource_name_creg.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: resource_name_creg.attr
+      adapters:
+      - :system/adapter:config.adapter
+      - resource_name_creg.service-args-adapter
+      - :system/adapter:service_object.adapter
+
+  resource_name_creg.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        system_code_registry_factory: :system/code_registry:system_code_registry_factory.service
+
+  name_resources.attr:
+    type: builtin:type:attribute
+    value:
+      object: name.module
+      attr_name: name_resources
+
+  name_resources.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: name_resources
+      base: null
+      fields: {}
+
+  name_resources.service:
+    type: name_resources.service.t
+    value: {}
+
+  name_resources.service-actor:
+    type: :system/system.t:service_actor
+    value:
+      fn: name_resources.attr
+      adapters:
+      - name_resources.service-args-adapter
+
+  name_resources.service-args-adapter:
+    type: :system/adapter.t:service_args_adapter
+    value:
+      args:
+        resource_name_creg: resource_name_creg.service
+        pick_refs: :pick_refs:pick_refs.service
