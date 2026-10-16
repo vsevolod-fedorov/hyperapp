@@ -9,8 +9,8 @@ from .data import test_main_svc
 log = logging.getLogger(__name__)
 
 
-def boot(workspace_path):
-    log.info("RC test boot: %s", workspace_path)
+def boot(projects, project_to_tree):
+    log.info("RC test boot: %s", ', '.join(projects))
     service_creg = setup_system([base_config, rc_config, rc_test_config])
     test_main = service_creg.animate(test_main_svc)
-    test_main(workspace_path)
+    return test_main(projects, project_to_tree)

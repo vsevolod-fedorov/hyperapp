@@ -1,8 +1,6 @@
 import logging
 from collections import defaultdict
 
-from hyperapp.boot.resource.workspace import Workspace, load_file_tree
-
 from .services import (
     load_resources,
     mosaic,
@@ -36,15 +34,22 @@ def compile_resources(
         selectors,
         job_pool,
         name_resources,
-        workspace_path,
+        projects,
+        project_to_tree,
         ):
+    """Compile resources of workspace projects.
+
+    project_to_tree: project name -> file path tuple -> bytes, the sources.
+    """
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
     log.info("master identity: %s", master_identity)
     with subprocess_workers_running(
             master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
-        _compile(transport, selectors, job_pool, name_resources, master_identity, workers, workspace_path)
+        _compile(
+            transport, selectors, job_pool, name_resources,
+            master_identity, workers, projects, project_to_tree)
     log.info("workers are finished")
 
 
@@ -114,8 +119,8 @@ def _log_targets(targets):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
 
 
-def _log_projects(projects):
-    for tgt in projects:
+def _log_projects(project_tgts):
+    for tgt in project_tgts:
         log.info("Project %s: %s", tgt.name, _target_state(tgt))
         if not tgt.resolved:
             continue
@@ -123,31 +128,35 @@ def _log_projects(projects):
             log.info("  resource %s: %s %s", path, mosaic.put(piece), piece)
 
 
-def _name_resources(name_resources, resources, projects):
-    resource_locations = {
+def _resource_locations(project_tgts):
+    return {
         (path.project, path.path): piece
-        for tgt in projects
+        for tgt in project_tgts
         if tgt.resolved
         for path, piece in tgt.resources.items()
         }
-    piece_to_name = name_resources(resources, resource_locations)
+
+
+def _log_names(piece_to_name, resource_locations):
     for piece, (project_name, path, name) in sorted(piece_to_name.items(), key=lambda item: item[1]):
-        log.info("Named %s:%s:%s: %s %s", project_name, '/'.join(path), name, mosaic.put(piece), piece)
+        if (project_name, path) in resource_locations:
+            log.info("Named %s:%s:%s: %s %s", project_name, '/'.join(path), name, mosaic.put(piece), piece)
 
 
-def _compile(transport, selectors, job_pool, name_resources, master_identity, workers, workspace_path):
-    log.info("Loading workspace: %s", workspace_path)
-    workspace = Workspace.from_yaml_file(workspace_path)
-    project_to_tree = workspace.load_file_tree()
+def _compile(
+        transport, selectors, job_pool, name_resources,
+        master_identity, workers, projects, project_to_tree):
     modules = _collect_modules(project_to_tree)
-    targets = TargetSet(workspace.projects, modules)
-    projects = _create_targets(modules, targets)
+    targets = TargetSet(projects, modules)
+    project_tgts = _create_targets(modules, targets)
     compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
     log.info("%d modules, %d compiled", len(modules), compiled_count)
-    resources, sources = load_resources(workspace.projects, project_to_tree)
+    resources, sources = load_resources(projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     log.info("%d targets", len(targets))
     _run(transport, selectors, job_pool, master_identity, workers, targets)
     _log_targets(targets)
-    _log_projects(projects)
-    _name_resources(name_resources, resources, projects)
+    _log_projects(project_tgts)
+    resource_locations = _resource_locations(project_tgts)
+    piece_to_name = name_resources(resources, resource_locations)
+    _log_names(piece_to_name, resource_locations)

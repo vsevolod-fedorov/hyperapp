@@ -2,6 +2,8 @@ import argparse
 import logging
 from pathlib import Path
 
+from hyperapp.boot.resource.workspace import Workspace
+
 from .code.source_path import pick_source_path_assoc
 
 log = logging.getLogger(__name__)
@@ -23,4 +25,6 @@ def main(
     assoc_pickers.append(pick_source_path_assoc)
     assoc_implanter.init()
     args = _parse_args(sys_argv)
-    compile_resources(args.workspace)
+    log.info("Loading workspace: %s", args.workspace)
+    workspace = Workspace.from_yaml_file(args.workspace)
+    compile_resources(workspace.projects, workspace.load_file_tree())

@@ -10,8 +10,9 @@ def main(
         assoc_implanter,
         identity_creg,
         compile_resources,
-        workspace_path,
+        projects,
+        project_to_tree,
         ):
     assoc_pickers.append(pick_source_path_assoc)
     assoc_implanter.init()
-    compile_resources(workspace_path)
+    return compile_resources(projects, project_to_tree)
