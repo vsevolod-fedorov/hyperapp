@@ -54,3 +54,4 @@ definitions:
         message_creg: base:transport/registries:message_creg.service
         selectors: base:transport/selectors:selectors.service
         job_pool: job_pool:job_pool.service
+        name_resources: base:resource/name:name_resources.service

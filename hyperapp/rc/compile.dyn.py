@@ -35,6 +35,7 @@ def compile_resources(
         message_creg,
         selectors,
         job_pool,
+        name_resources,
         workspace_path,
         ):
     master_identity = generate_rsa_identity(fast=True)
@@ -43,7 +44,7 @@ def compile_resources(
     with subprocess_workers_running(
             master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
-        _compile(transport, selectors, job_pool, master_identity, workers, workspace_path)
+        _compile(transport, selectors, job_pool, name_resources, master_identity, workers, workspace_path)
     log.info("workers are finished")
 
 
@@ -122,7 +123,19 @@ def _log_projects(projects):
             log.info("  resource %s: %s %s", path, mosaic.put(piece), piece)
 
 
-def _compile(transport, selectors, job_pool, master_identity, workers, workspace_path):
+def _name_resources(name_resources, resources, projects):
+    resource_locations = {
+        (path.project, path.path): piece
+        for tgt in projects
+        if tgt.resolved
+        for path, piece in tgt.resources.items()
+        }
+    piece_to_name = name_resources(resources, resource_locations)
+    for piece, (project_name, path, name) in sorted(piece_to_name.items(), key=lambda item: item[1]):
+        log.info("Named %s:%s:%s: %s %s", project_name, '/'.join(path), name, mosaic.put(piece), piece)
+
+
+def _compile(transport, selectors, job_pool, name_resources, master_identity, workers, workspace_path):
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
@@ -137,3 +150,4 @@ def _compile(transport, selectors, job_pool, master_identity, workers, workspace
     _run(transport, selectors, job_pool, master_identity, workers, targets)
     _log_targets(targets)
     _log_projects(projects)
+    _name_resources(name_resources, resources, projects)
