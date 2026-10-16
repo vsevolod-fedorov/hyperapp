@@ -14,6 +14,7 @@ from .code.module import ModuleType, Module
 from .code.target_set import TargetSet
 from .code.target.import_target import ImportTarget
 from .code.target.module import CompiledModuleTarget
+from .code.target.project import ProjectTarget
 from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
@@ -76,11 +77,15 @@ def _collect_modules(project_to_tree):
 
 
 def _create_targets(modules, targets):
+    project_names = set()
     for module in modules:
         if module.type != ModuleType.COMPILED:
             continue
         module.module_tgt = CompiledModuleTarget.ensure(targets, module.path, module.source)
         module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
+        project_names.add(module.path.project)
+    # Already created by CompiledModuleTarget.ensure; just pick them up.
+    return [ProjectTarget.ensure(targets, name) for name in sorted(project_names)]
 
 
 def _run(transport, selectors, job_pool, master_identity, workers, targets):
@@ -108,13 +113,22 @@ def _log_targets(targets):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
 
 
+def _log_projects(projects):
+    for tgt in projects:
+        log.info("Project %s: %s", tgt.name, _target_state(tgt))
+        if not tgt.resolved:
+            continue
+        for path, piece in sorted(tgt.resources.items(), key=lambda item: str(item[0])):
+            log.info("  resource %s: %s %s", path, mosaic.put(piece), piece)
+
+
 def _compile(transport, selectors, job_pool, master_identity, workers, workspace_path):
     log.info("Loading workspace: %s", workspace_path)
     workspace = Workspace.from_yaml_file(workspace_path)
     project_to_tree = workspace.load_file_tree()
     modules = _collect_modules(project_to_tree)
     targets = TargetSet(workspace.projects, modules)
-    _create_targets(modules, targets)
+    projects = _create_targets(modules, targets)
     compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
     log.info("%d modules, %d compiled", len(modules), compiled_count)
     resources, sources = load_resources(workspace.projects, project_to_tree)
@@ -122,3 +136,4 @@ def _compile(transport, selectors, job_pool, master_identity, workers, workspace
     log.info("%d targets", len(targets))
     _run(transport, selectors, job_pool, master_identity, workers, targets)
     _log_targets(targets)
+    _log_projects(projects)
