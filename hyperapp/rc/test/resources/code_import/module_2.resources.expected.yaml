@@ -8,5 +8,6 @@ definitions:
       module_name: module_2
       file_name: module_2.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          code.module_1: module_1:module_1.module
         raw: {}
