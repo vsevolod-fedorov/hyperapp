@@ -1,0 +1,10 @@
+definitions:
+
+  project.module:
+    type: builtin:type:python_module
+    value:
+      module_name: project
+      file_name: project.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

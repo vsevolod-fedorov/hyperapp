@@ -1,5 +1,6 @@
 from . import htypes
 from .code.target.import_target import ProjectImportsTarget
+from .code.target.project import ProjectTarget
 
 
 class CompiledModuleTarget:
@@ -13,6 +14,8 @@ class CompiledModuleTarget:
             pass
         tgt = cls(targets, name, path, source)
         targets[name] = tgt
+        project_tgt = ProjectTarget.ensure(targets, path.project)
+        project_tgt.add_dep(tgt)
         return tgt
 
     def __init__(self, targets, name, path, source):
