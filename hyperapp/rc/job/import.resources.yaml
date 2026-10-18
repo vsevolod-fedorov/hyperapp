@@ -11,6 +11,7 @@ definitions:
           htypes.builtin.imports: builtin:type:imports
           htypes.builtin.import_rec: builtin:type:import_rec
           htypes.import_job.succeeded_result: import.t:succeeded_result
+          htypes.import_job.incomplete_result: import.t:incomplete_result
           htypes.import_job.failed_result: import.t:failed_result
           htypes.import_recorder.import_recorder: :import_recorder.t:import_recorder
           services.mosaic: builtin:service:mosaic

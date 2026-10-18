@@ -9,6 +9,10 @@ succeeded_result = record:
   target: string
   requirements: ref list
 
+incomplete_result = record:
+  target: string
+  requirements: ref list
+
 failed_result = record:
   target: string
   requirements: ref list
