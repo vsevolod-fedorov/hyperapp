@@ -54,8 +54,7 @@ class ProjectImportsTarget:
 class ImportTarget:
 
     @classmethod
-    def ensure(cls, targets, path, source, module_tgt):
-        idx = 0
+    def ensure(cls, targets, path, source, module_tgt, idx=0):
         name = f'import/{path.project}/{"/".join(path.path)}/{idx}'
         try:
             return targets[name]
@@ -63,8 +62,6 @@ class ImportTarget:
             pass
         tgt = cls(targets, name, idx, path, source, module_tgt)
         targets[name] = tgt
-        project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
-        project_imports_tgt.add_dep(tgt)
         return tgt
 
     def __init__(self, targets, name, idx, path, source, module_tgt):
@@ -111,31 +108,47 @@ class ImportTarget:
     def job_started(self):
         self._state = TargetState.RUNNING
 
-    def process_job_result(self, requirements):
+    def _process_job_result(self, requirements):
         self._state = TargetState.RESOLVED
+
+    def process_succeeded_job_result(self, requirements):
+        self._process_job_result(requirements)
         for req in requirements:
             self._module_tgt.add_import_req(req)
+
+    def process_incomplete_job_result(self, requirements):
+        self._process_job_result(requirements)
+        next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
+        for req in requirements:
+            next_tgt.add_dep(req.get_target(self._targets))
 
     @property
     def result(self):
         return None
 
 
+def _resolve_requirements(requirement_creg, requirement_refs):
+    requirements = [
+        requirement_creg.invite(req)
+        for req in requirement_refs
+        ]
+    for req in requirements:
+        log.info("\trequirement: %s", req)
+    return requirements
+
+
 def succeeded_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import succeeded: %s", target, piece)
-    requirements = [
-        requirement_creg.invite(req)
-        for req in piece.requirements
-        ]
-    for req in requirements:
-        log.info("%s: requirement: %s", target, req)
-    target.process_job_result(requirements)
+    requirements = _resolve_requirements(requirement_creg, piece.requirements)
+    target.process_succeeded_job_result(requirements)
 
 
-def incomplete_result(piece, request, job_pool):
+def incomplete_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import is incomplete: %s", target, piece)
+    requirements = _resolve_requirements(requirement_creg, piece.requirements)
+    target.process_incomplete_job_result(requirements)
 
 
 def failed_result(piece, request, job_pool):

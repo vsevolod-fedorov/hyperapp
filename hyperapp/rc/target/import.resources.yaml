@@ -36,6 +36,7 @@ definitions:
     value:
       fn: incomplete_result.attr
       service_params:
+        requirement_creg: :requirement_creg:requirement_creg.service
         job_pool: :job_pool:job_pool.service
 
   failed_result.attr:

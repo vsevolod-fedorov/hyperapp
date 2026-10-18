@@ -9,7 +9,7 @@ from .code.transport import LocalEndpoint
 from .code.path import Path
 from .code.module import ModuleType, Module
 from .code.target_set import TargetSet
-from .code.target.import_target import ImportTarget
+from .code.target.import_target import ImportTarget, ProjectImportsTarget
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import TargetState
@@ -90,6 +90,7 @@ def _create_targets(modules, targets):
             continue
         module.module_tgt = CompiledModuleTarget.ensure(targets, module.path, module.source)
         module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
+        ProjectImportsTarget.ensure(targets, module.path.project).add_dep(module.import_tgt)
         project_names.add(module.path.project)
     # Already created by CompiledModuleTarget.ensure; just pick them up.
     return [ProjectTarget.ensure(targets, name) for name in sorted(project_names)]
