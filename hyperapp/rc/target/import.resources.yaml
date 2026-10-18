@@ -25,6 +25,19 @@ definitions:
         requirement_creg: :requirement_creg:requirement_creg.service
         job_pool: :job_pool:job_pool.service
 
+  incomplete_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: import.module
+      attr_name: incomplete_result
+
+  incomplete_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: incomplete_result.attr
+      service_params:
+        job_pool: :job_pool:job_pool.service
+
   failed_result.attr:
     type: builtin:type:attribute
     value:

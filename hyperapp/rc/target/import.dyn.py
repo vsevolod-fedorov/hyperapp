@@ -124,6 +124,11 @@ def succeeded_result(piece, request, requirement_creg, job_pool):
     target.process_job_result(requirements)
 
 
+def incomplete_result(piece, request, job_pool):
+    target = job_pool.job_finished(piece.target)
+    log.info("%s: import is incomplete: %s", target, piece)
+
+
 def failed_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import failed: %s", target, piece)

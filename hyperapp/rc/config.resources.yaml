@@ -30,6 +30,7 @@ definitions:
     value:
       items:
         job/import.t:succeeded_result: target/import:succeeded_result.actor
+        job/import.t:incomplete_result: target/import:incomplete_result.actor
         job/import.t:failed_result: target/import:failed_result.actor
 
   transport.config:
