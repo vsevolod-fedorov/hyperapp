@@ -48,6 +48,12 @@ class Selectors:
                 if key.fileobj.process():
                     return
 
+    def run_once(self, timeout_sec=None):
+        ready_list = self._selectors.select(timeout_sec)
+        for key, events in ready_list:
+            key.fileobj.process()
+        return bool(ready_list)
+
 
 def selectors():
     return Selectors()
