@@ -71,7 +71,7 @@ class ImportTarget:
         self._path = path
         self._source = source
         self._module_tgt = module_tgt
-        self._deps = set()
+        self._import_req_to_path_target = {}
         # Job lifecycle only; RUNNABLE is derived from deps in the state property.
         self._state = TargetState.WAITING
 
@@ -84,18 +84,18 @@ class ImportTarget:
 
     @property
     def state(self):
-        if self._state == TargetState.WAITING and all(tgt.state == TargetState.RESOLVED for tgt in self._deps):
+        if self._state == TargetState.WAITING and all(tgt.state == TargetState.RESOLVED for tgt in self.deps):
             return TargetState.RUNNABLE
         return self._state
 
     @property
     def deps(self):
-        return self._deps
+        return {tgt for path, tgt in self._import_req_to_path_target.values()}
 
-    def add_dep(self, tgt):
+    def add_import_req(self, req):
         # Deps added after the job is started would not be waited for.
         assert self._state == TargetState.WAITING, (self, self._state)
-        self._deps.add(tgt)
+        self._import_req_to_path_target[req] = req.find_import_target(self._targets)
 
     @property
     def job(self):
@@ -120,8 +120,7 @@ class ImportTarget:
         self._process_job_result(requirements)
         next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
         for req in requirements:
-            _, tgt = req.find_import_target(self._targets)
-            next_tgt.add_dep(tgt)
+            next_tgt.add_import_req(req)
 
     @property
     def result(self):
