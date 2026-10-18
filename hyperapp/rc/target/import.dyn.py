@@ -120,7 +120,8 @@ class ImportTarget:
         self._process_job_result(requirements)
         next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
         for req in requirements:
-            next_tgt.add_dep(req.get_target(self._targets))
+            _, tgt = req.find_import_target(self._targets)
+            next_tgt.add_dep(tgt)
 
     @property
     def result(self):

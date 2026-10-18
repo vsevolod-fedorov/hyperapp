@@ -25,7 +25,7 @@ class CompiledModuleTarget:
         self._path = path
         self._source = source
         self._project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
-        self._import_req_to_target = {}
+        self._import_req_to_path_target = {}
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -42,17 +42,17 @@ class CompiledModuleTarget:
 
     @property
     def deps(self):
-        return {self._project_imports_tgt, *self._import_req_to_target.values()}
+        return {self._project_imports_tgt, *(tgt for path, tgt in self._import_req_to_path_target.values())}
 
     def add_import_req(self, req):
-        self._import_req_to_target[req] = req.get_target(self._targets)
+        self._import_req_to_path_target[req] = req.find_import_target(self._targets)
 
     @property
     def result(self):
         name_to_pyobj = {}
         name_to_raw = {}
-        for req in self._import_req_to_target:
-            imports = req.resolve_to_import(self._targets)
+        for req, (import_path, tgt) in self._import_req_to_path_target.items():
+            imports = req.resolve_to_import(import_path, tgt)
             name_to_pyobj.update({rec.full_name: rec for rec in imports.pyobj})
             name_to_raw.update({rec.full_name: rec for rec in imports.raw})
         return htypes.builtin.python_module(
