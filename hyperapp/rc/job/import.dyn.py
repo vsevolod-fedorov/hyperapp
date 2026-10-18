@@ -40,16 +40,8 @@ def _incomplete_error(x):
     return None
 
 
-def run_import_job(piece, request, import_to_req, transport):
-    log.info("[%s] Run import job: %s", request, piece)
-    path = Path.from_piece(piece.path)
-    register_import_recorder_pyobj()
-    service_creg = setup_system([base_config])
-    recorder_piece = htypes.import_recorder.import_recorder(
-        module_path=piece.path,
-        )
-    recorder = pyobj_creg.animate(recorder_piece)
-    python_module = htypes.builtin.python_module(
+def _python_module(piece, recorder_piece):
+    return htypes.builtin.python_module(
         module_name=piece.path.path[-1],
         source=piece.source,
         imports=htypes.builtin.imports(
@@ -62,27 +54,45 @@ def run_import_job(piece, request, import_to_req, transport):
             raw=(),
             ),
         )
+
+
+def run_import_job(piece, request, import_to_req, transport):
+    log.info("[%s] Run import job: %s", request, piece)
+    path = Path.from_piece(piece.path)
+    register_import_recorder_pyobj()
+    service_creg = setup_system([base_config])
+    recorder_piece = htypes.import_recorder.import_recorder(
+        module_path=piece.path,
+        )
+    recorder = pyobj_creg.animate(recorder_piece)
     try:
-        module = pyobj_creg.animate(python_module)
+        module = pyobj_creg.animate(_python_module(piece, recorder_piece))
         log.info("Imported module: %s", module)
-        result = htypes.import_job.succeeded_result(
-            target=piece.target,
-            requirements=tuple(_enum_import_requirements(path, recorder, import_to_req)),
-            )
+        error = None
     except Exception as x:
-        incomplete = _incomplete_error(x)
-        if incomplete is not None:
-            log.info("Import is incomplete: %s", incomplete)
-            result = htypes.import_job.incomplete_result(
-                target=piece.target,
-                requirements=tuple(_enum_import_requirements(path, recorder, import_to_req)),
-                )
-        else:
-            log.info("Import failed: %s", x)
-            result = htypes.import_job.failed_result(
-                target=piece.target,
-                requirements=tuple(_enum_import_requirements(path, recorder, import_to_req)),
-                error=str(x),
-                traceback=tuple(traceback.format_tb(x.__traceback__)),
-                )
+        error = x
+    # Collected outside of the except block, so its errors are not chained to the import error.
+    requirements = tuple(_enum_import_requirements(path, recorder, import_to_req))
+    result = _import_result(piece, requirements, error)
     transport.send_message(request.remote_peer, request.local_identity, result)
+
+
+def _import_result(piece, requirements, error):
+    if error is None:
+        return htypes.import_job.succeeded_result(
+            target=piece.target,
+            requirements=requirements,
+            )
+    if (incomplete := _incomplete_error(error)) is not None:
+        log.info("Import is incomplete: %s", incomplete)
+        return htypes.import_job.incomplete_result(
+            target=piece.target,
+            requirements=requirements,
+            )
+    log.info("Import failed: %s", error)
+    return htypes.import_job.failed_result(
+        target=piece.target,
+        requirements=requirements,
+        error=str(error),
+        traceback=tuple(traceback.format_tb(error.__traceback__)),
+        )
