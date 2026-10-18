@@ -14,8 +14,8 @@ def _path_str(path):
     return '/'.join(path)
 
 
+# Make shortest reference string to a name from resource file at location, as resource loader resolves it.
 def _name_ref(projects, location, name_tuple):
-    """Make shortest reference string to a name from resource file at location, as resource loader resolves it."""
     project_name, path = location
     target_project_name, target_path, name = name_tuple
     if target_project_name == 'builtin':
@@ -63,14 +63,12 @@ def _module_text(projects, piece_to_name, location, name_to_piece):
     return 'definitions:\n\n' + '\n'.join(blocks)
 
 
+# Make resource module (.resources.yaml) texts.
+# projects: project name -> workspace project, for its imports.
+# piece_to_name: piece -> (project_name, path, name), for written pieces and all pieces they refer to.
+# locations: (project_name, path) for resource files to make; each gets all pieces named there.
+# Returns (project_name, path) -> text.
 def dump_resource_modules(projects, piece_to_name, locations):
-    """Make resource module (.resources.yaml) texts.
-
-    projects: project name -> workspace project, for its imports.
-    piece_to_name: piece -> (project_name, path, name), for written pieces and all pieces they refer to.
-    locations: (project_name, path) for resource files to make; each gets all pieces named there.
-    Returns (project_name, path) -> text.
-    """
     location_to_name_to_piece = defaultdict(dict)
     for piece, (project_name, path, name) in piece_to_name.items():
         if (project_name, path) in locations:

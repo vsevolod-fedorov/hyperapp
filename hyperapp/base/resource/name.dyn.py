@@ -69,12 +69,10 @@ class _Namer:
         return name_of
 
 
+# Give names to resources placed into resource files, and to their unnamed elements.
+# known_names: (project_name, path, name) -> piece, as returned by resource loader.
+# resource_locations: (project_name, path) -> piece, a resource file and its main piece.
+# Returns piece -> (project_name, path, name), for known and newly named pieces.
 def name_resources(resource_name_creg, pick_refs, known_names, resource_locations):
-    """Give names to resources placed into resource files, and to their unnamed elements.
-
-    known_names: (project_name, path, name) -> piece, as returned by resource loader.
-    resource_locations: (project_name, path) -> piece, a resource file and its main piece.
-    Returns piece -> (project_name, path, name), for known and newly named pieces.
-    """
     namer = _Namer(resource_name_creg, pick_refs, known_names, resource_locations)
     return namer.name_all()

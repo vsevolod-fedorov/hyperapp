@@ -27,6 +27,9 @@ RESOURCES_EXT = '.resources.yaml'
 RESULT_TIMEOUT_SEC = 10
 
 
+# Compile resources of workspace projects.
+# project_to_tree: project name -> file path tuple -> bytes, the sources.
+# Returns generated files in the same form.
 def compile_resources(
         generate_rsa_identity,
         subprocess_workers_running,
@@ -39,11 +42,6 @@ def compile_resources(
         projects,
         project_to_tree,
         ):
-    """Compile resources of workspace projects.
-
-    project_to_tree: project name -> file path tuple -> bytes, the sources.
-    Returns generated files in the same form.
-    """
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
     log.info("master identity: %s", master_identity)
