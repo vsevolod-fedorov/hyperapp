@@ -52,3 +52,9 @@ def test_code_import():
 
 def test_code_paths():
     _compile_and_check('code_paths')
+
+
+# Incomplete imports leave their targets unresolved, and so the whole project:
+# no resource files are generated, hence no expected files in the workspace.
+def test_code_import_incomplete():
+    _compile_and_check('code_import_incomplete')
