@@ -18,3 +18,9 @@ failed_result = record:
   requirements: ref list
   error: string
   traceback: string list
+
+# Error in the import job itself, not in the imported module.
+internal_error_result = record:
+  target: string
+  error: string
+  traceback: string list

@@ -72,8 +72,17 @@ def run_import_job(piece, request, import_to_req, transport):
     except Exception as x:
         error = x
     # Collected outside of the except block, so its errors are not chained to the import error.
-    requirements = tuple(_enum_import_requirements(path, recorder, import_to_req))
-    result = _import_result(piece, requirements, error)
+    try:
+        requirements = tuple(_enum_import_requirements(path, recorder, import_to_req))
+    except Exception as x:
+        log.exception("Error collecting requirements")
+        result = htypes.import_job.internal_error_result(
+            target=piece.target,
+            error=str(x),
+            traceback=tuple(traceback.format_tb(x.__traceback__)),
+            )
+    else:
+        result = _import_result(piece, requirements, error)
     transport.send_message(request.remote_peer, request.local_identity, result)
 
 

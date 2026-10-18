@@ -50,3 +50,16 @@ definitions:
       fn: failed_result.attr
       service_params:
         job_pool: :job_pool:job_pool.service
+
+  internal_error_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: import.module
+      attr_name: internal_error_result
+
+  internal_error_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: internal_error_result.attr
+      service_params:
+        job_pool: :job_pool:job_pool.service

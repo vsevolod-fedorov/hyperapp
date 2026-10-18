@@ -32,6 +32,7 @@ definitions:
         job/import.t:succeeded_result: target/import:succeeded_result.actor
         job/import.t:incomplete_result: target/import:incomplete_result.actor
         job/import.t:failed_result: target/import:failed_result.actor
+        job/import.t:internal_error_result: target/import:internal_error_result.actor
 
   transport.config:
     type: base:transport/transport.t:config

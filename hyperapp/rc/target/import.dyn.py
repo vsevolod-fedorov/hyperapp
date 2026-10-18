@@ -132,3 +132,8 @@ def incomplete_result(piece, request, job_pool):
 def failed_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import failed: %s", target, piece)
+
+
+def internal_error_result(piece, request, job_pool):
+    target = job_pool.job_finished(piece.target)
+    log.error("%s: import job error: %s\n%s", target, piece.error, ''.join(piece.traceback))
