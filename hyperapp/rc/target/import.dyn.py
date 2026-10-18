@@ -128,6 +128,13 @@ class ImportTarget:
             self._module_tgt.add_import_req(req)
 
     def process_incomplete_job_result(self, requirements):
+        known_paths = {path for path, tgt in self._import_req_to_path_target.values()}
+        new_paths = {req.find_import_target(self._targets)[0] for req in requirements} - known_paths
+        if not new_paths:
+            # Next job would get the same imports resolved and be incomplete the same way, forever.
+            # Left unresolved, as a failed one, so its module is not resolved without imports.
+            log.error("%s: import is incomplete, but has no new imports to resolve", self)
+            return
         self._process_job_result(requirements)
         next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
         for req in requirements:
