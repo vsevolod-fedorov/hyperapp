@@ -13,6 +13,7 @@ from .code.target_set import TargetSet
 from .code.target.import_target import ImportTarget
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
+from .code.target.state import TargetState
 from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
@@ -106,17 +107,17 @@ def _run(transport, selectors, job_pool, master_identity, workers, targets):
             if job_pool.pending:
                 selectors.run(RESULT_TIMEOUT_SEC)
         log.info("%d import jobs are finished", len(job_pool.completed))
-    log.info("%d/%d targets resolved", sum(1 for t in targets if t.resolved), len(targets))
+    log.info("%d/%d targets resolved", sum(1 for t in targets if t.state == TargetState.RESOLVED), len(targets))
 
 
 def _target_state(tgt):
-    return "resolved" if tgt.resolved else "unresolved"
+    return tgt.state.name.lower()
 
 
 def _log_targets(targets):
     for tgt in sorted(targets, key=lambda t: t.name):
         log.info("Target %s: %s", tgt.name, _target_state(tgt))
-        if tgt.resolved and tgt.result:
+        if tgt.state == TargetState.RESOLVED and tgt.result:
             log.info("  result: %s %s", mosaic.put(tgt.result), tgt.result)
         for dep in sorted(tgt.deps, key=lambda t: t.name):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
@@ -125,7 +126,7 @@ def _log_targets(targets):
 def _log_projects(project_tgts):
     for tgt in project_tgts:
         log.info("Project %s: %s", tgt.name, _target_state(tgt))
-        if not tgt.resolved:
+        if tgt.state != TargetState.RESOLVED:
             continue
         for path, piece in sorted(tgt.resources.items(), key=lambda item: str(item[0])):
             log.info("  resource %s: %s %s", path, mosaic.put(piece), piece)
@@ -135,7 +136,7 @@ def _resource_locations(project_tgts):
     return {
         (path.project, path.path): piece
         for tgt in project_tgts
-        if tgt.resolved
+        if tgt.state == TargetState.RESOLVED
         for path, piece in tgt.resources.items()
         }
 

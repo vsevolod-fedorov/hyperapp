@@ -1,5 +1,6 @@
 
 from .code.path import Path
+from .code.target.state import TargetState
 
 
 class TargetSet:
@@ -23,7 +24,7 @@ class TargetSet:
 
     def enum_runnable(self):
         for tgt in self._name_to_target.values():
-            if tgt.runnable:
+            if tgt.state == TargetState.RUNNABLE:
                 yield tgt
 
     def find_nearest_module(self, from_path, sub_path):

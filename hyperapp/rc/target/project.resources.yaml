@@ -6,5 +6,6 @@ definitions:
       module_name: project
       file_name: project.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          code.target.state: state:state.module
         raw: {}

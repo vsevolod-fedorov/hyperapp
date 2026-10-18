@@ -8,6 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.import_job.import_job: :job/import.t:import_job
+          code.target.state: state:state.module
         raw: {}
 
   succeeded_result.attr:

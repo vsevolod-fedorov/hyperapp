@@ -26,9 +26,14 @@ class JobPool:
             return self._completed
 
         def start_job(self, target):
+            # Mark queued jobs as started too, so the target is not runnable anymore and won't be queued twice.
+            target.job_started()
             if not self._free_workers:
                 self._queue.append(target)
                 return
+            self._send_job(target)
+
+        def _send_job(self, target):
             peer = self._free_workers.pop(0)
             log.info("Start job for: %s at %s", target.name, peer)
             self._transport.send_message(peer, self._identity, target.job)
@@ -39,7 +44,7 @@ class JobPool:
             self._completed.append(target)
             self._free_workers.append(peer)
             if self._queue:
-                self.start_job(self._queue.pop(0))
+                self._send_job(self._queue.pop(0))
             if not self.pending:
                 self._stop_signal.fire()
             return target

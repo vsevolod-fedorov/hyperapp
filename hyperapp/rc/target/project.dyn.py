@@ -1,3 +1,6 @@
+from .code.target.state import TargetState
+
+
 class ProjectTarget:
 
     @classmethod
@@ -25,12 +28,10 @@ class ProjectTarget:
         return self._name
 
     @property
-    def runnable(self):
-        return False
-
-    @property
-    def resolved(self):
-        return all(tgt.resolved for tgt in self._path_to_resource_tgt.values())
+    def state(self):
+        if all(tgt.state == TargetState.RESOLVED for tgt in self._path_to_resource_tgt.values()):
+            return TargetState.RESOLVED
+        return TargetState.WAITING
 
     @property
     def deps(self):

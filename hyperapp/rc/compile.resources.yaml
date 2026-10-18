@@ -15,6 +15,7 @@ definitions:
           code.target.import_target: target/import:import.module
           code.target.module: target/module:module.module
           code.target.project: target/project:project.module
+          code.target.state: target/state:state.module
           code.target_set: target/set:set.module
           code.selectors: base:transport/selectors:selectors.module
         raw:

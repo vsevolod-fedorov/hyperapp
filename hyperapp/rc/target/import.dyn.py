@@ -1,6 +1,7 @@
 import logging
 
 from . import htypes
+from .code.target.state import TargetState
 
 log = logging.getLogger(__name__)
 
@@ -33,12 +34,10 @@ class ProjectImportsTarget:
         return self._name
 
     @property
-    def runnable(self):
-        return False
-
-    @property
-    def resolved(self):
-        return all(tgt.resolved for tgt in self._deps)
+    def state(self):
+        if all(tgt.state == TargetState.RESOLVED for tgt in self._deps):
+            return TargetState.RESOLVED
+        return TargetState.WAITING
 
     @property
     def deps(self):
@@ -75,7 +74,7 @@ class ImportTarget:
         self._path = path
         self._source = source
         self._module_tgt = module_tgt
-        self._resolved = False
+        self._state = TargetState.RUNNABLE  # No deps, so it is runnable right away.
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -85,12 +84,8 @@ class ImportTarget:
         return self._name
 
     @property
-    def runnable(self):
-        return True
-
-    @property
-    def resolved(self):
-        return self._resolved
+    def state(self):
+        return self._state
 
     @property
     def deps(self):
@@ -104,8 +99,11 @@ class ImportTarget:
             source=self._source,
             )
 
+    def job_started(self):
+        self._state = TargetState.RUNNING
+
     def process_job_result(self, requirements):
-        self._resolved = True
+        self._state = TargetState.RESOLVED
         for req in requirements:
             self._module_tgt.add_import_req(req)
 

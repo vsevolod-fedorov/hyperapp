@@ -8,4 +8,5 @@ definitions:
       imports:
         pyobj:
           code.path: :path:path.module
+          code.target.state: state:state.module
         raw: {}
