@@ -28,7 +28,7 @@ class CompiledModuleTarget:
         # Last import target; set by it right after this target is created.
         # Project imports target has only the first ones, not ones following incomplete imports.
         self._import_tgt = None
-        self._import_req_to_path_target = {}
+        self._import_deps = set()
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -48,21 +48,21 @@ class CompiledModuleTarget:
         return {
             self._project_imports_tgt,
             self._import_tgt,
-            *(tgt for path, tgt in self._import_req_to_path_target.values()),
+            *(dep.target for dep in self._import_deps),
             }
 
     def set_import_tgt(self, tgt):
         self._import_tgt = tgt
 
     def add_import_req(self, req):
-        self._import_req_to_path_target[req] = req.find_import_target(self._targets)
+        self._import_deps.add(req.resolve(self._targets))
 
     @property
     def result(self):
         name_to_pyobj = {}
         name_to_raw = {}
-        for req, (import_path, tgt) in self._import_req_to_path_target.items():
-            imports = req.resolve_to_import(import_path, tgt)
+        for dep in self._import_deps:
+            imports = dep.make_import()
             name_to_pyobj.update({rec.full_name: rec for rec in imports.pyobj})
             name_to_raw.update({rec.full_name: rec for rec in imports.raw})
         return htypes.builtin.python_module(

@@ -75,7 +75,7 @@ class ImportTarget:
         self._path = path
         self._source = source
         self._module_tgt = module_tgt
-        self._import_req_to_path_target = {}
+        self._import_deps = set()
         # Job lifecycle only; RUNNABLE is derived from deps in the state property.
         self._state = TargetState.WAITING
 
@@ -94,26 +94,23 @@ class ImportTarget:
 
     @property
     def deps(self):
-        return {tgt for path, tgt in self._import_req_to_path_target.values()}
+        return {dep.target for dep in self._import_deps}
 
-    def add_import_req(self, req):
+    def add_import_dep(self, dep):
         # Deps added after the job is started would not be waited for.
         assert self._state == TargetState.WAITING, (self, self._state)
-        self._import_req_to_path_target[req] = req.find_import_target(self._targets)
+        self._import_deps.add(dep)
 
     # Job is produced only when runnable, so all dep targets are resolved and have results.
     @property
     def job(self):
-        # Several reqs may import from the same module, giving the same cfg item.
-        path_to_cfg_item = {
-            import_path: req.make_cfg_item(import_path, tgt)
-            for req, (import_path, tgt) in self._import_req_to_path_target.items()
-            }
+        cfg_items = [mosaic.put(dep.make_cfg_item()) for dep in self._import_deps]
         return htypes.import_job.import_job(
             target=self._name,
             path=self._path.piece,
             source=self._source,
-            cfg_items=tuple(mosaic.put(item) for path, item in sorted(path_to_cfg_item.items())),
+            # Deps set order depends on target ids; sorted for a stable job piece.
+            cfg_items=tuple(sorted(cfg_items, key=lambda ref: ref.hash)),
             )
 
     def job_started(self):
@@ -128,17 +125,16 @@ class ImportTarget:
             self._module_tgt.add_import_req(req)
 
     def process_incomplete_job_result(self, requirements):
-        known_paths = {path for path, tgt in self._import_req_to_path_target.values()}
-        new_paths = {req.find_import_target(self._targets)[0] for req in requirements} - known_paths
-        if not new_paths:
+        deps = {req.resolve(self._targets) for req in requirements}
+        if deps <= self._import_deps:
             # Next job would get the same imports resolved and be incomplete the same way, forever.
             # Left unresolved, as a failed one, so its module is not resolved without imports.
             log.error("%s: import is incomplete, but has no new imports to resolve", self)
             return
         self._process_job_result(requirements)
         next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
-        for req in requirements:
-            next_tgt.add_import_req(req)
+        for dep in deps:
+            next_tgt.add_import_dep(dep)
 
     @property
     def result(self):

@@ -7,6 +7,29 @@ from .services import (
 from .code.path import Path
 
 
+# Requirement resolved to a module target. Reqs importing from the same module give equal deps.
+@dataclass(frozen=True)
+class CodeDep:
+    import_path: tuple[str]  # import_as prefix naming the module.
+    target: object
+
+    def make_cfg_item(self):
+        return htypes.import_recorder.import_cfg_item(
+            import_path=self.import_path,
+            resource=mosaic.put(self.target.result),
+            )
+
+    def make_import(self):
+        rec = htypes.builtin.import_rec(
+            full_name='.'.join(self.import_path),
+            resource=mosaic.put(self.target.result),
+            )
+        return htypes.builtin.imports(
+            pyobj=(rec,),
+            raw=(),
+            )
+
+
 @dataclass(frozen=True)
 class CodeReq:
     path: Path
@@ -19,8 +42,7 @@ class CodeReq:
             import_as=piece.import_as,
             )
 
-    # Returns (import_path, module_target); import_path is the import_as prefix naming the module.
-    def find_import_target(self, targets):
+    def resolve(self, targets):
         # import_as is ('code', *module_path, *attr_path); Try longest module path first.
         sub_path = self.import_as[1:]
         for idx in range(len(sub_path), 0, -1):
@@ -28,21 +50,5 @@ class CodeReq:
                 module = targets.find_nearest_module(self.path, sub_path[:idx])
             except KeyError:
                 continue
-            return (self.import_as[:idx + 1], module.module_tgt)
+            return CodeDep(self.import_as[:idx + 1], module.module_tgt)
         raise KeyError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
-
-    def resolve_to_import(self, import_path, target):
-        rec = htypes.builtin.import_rec(
-            full_name='.'.join(import_path),
-            resource=mosaic.put(target.result),
-            )
-        return htypes.builtin.imports(
-            pyobj=(rec,),
-            raw=(),
-            )
-
-    def make_cfg_item(self, import_path, target):
-        return htypes.import_recorder.import_cfg_item(
-            import_path=import_path,
-            resource=mosaic.put(target.result),
-            )
