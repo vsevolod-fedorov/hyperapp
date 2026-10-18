@@ -1,4 +1,4 @@
-from .code.target.state import TargetState
+from .code.target.state import deps_state
 
 
 class ProjectTarget:
@@ -29,9 +29,7 @@ class ProjectTarget:
 
     @property
     def state(self):
-        if all(tgt.state == TargetState.RESOLVED for tgt in self._path_to_resource_tgt.values()):
-            return TargetState.RESOLVED
-        return TargetState.WAITING
+        return deps_state(self._path_to_resource_tgt.values())
 
     @property
     def deps(self):

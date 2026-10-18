@@ -7,3 +7,15 @@ class TargetState(Enum):
     RUNNABLE = auto()  # Deps are resolved, job can be produced. Only targets having a job get here.
     RUNNING = auto()   # Job is started.
     RESOLVED = auto()  # Job is finished or there is no job, and all deps are resolved; target result can be used.
+    FAILED = auto()    # Job is failed or some dep is failed; target will never be resolved.
+
+
+# State of a target having no job of its own.
+# Failed dep wins over waiting ones: target can not be resolved anyway, and should not be reported as waiting.
+def deps_state(deps):
+    states = {tgt.state for tgt in deps}
+    if TargetState.FAILED in states:
+        return TargetState.FAILED
+    if states <= {TargetState.RESOLVED}:
+        return TargetState.RESOLVED
+    return TargetState.WAITING

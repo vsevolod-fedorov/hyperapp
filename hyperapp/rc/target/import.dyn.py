@@ -4,7 +4,7 @@ from . import htypes
 from .services import (
     mosaic,
     )
-from .code.target.state import TargetState
+from .code.target.state import TargetState, deps_state
 
 log = logging.getLogger(__name__)
 
@@ -38,9 +38,7 @@ class ProjectImportsTarget:
 
     @property
     def state(self):
-        if all(tgt.state == TargetState.RESOLVED for tgt in self._deps):
-            return TargetState.RESOLVED
-        return TargetState.WAITING
+        return deps_state(self._deps)
 
     @property
     def deps(self):
@@ -76,7 +74,7 @@ class ImportTarget:
         self._source = source
         self._module_tgt = module_tgt
         self._import_deps = set()
-        # Job lifecycle only; RUNNABLE is derived from deps in the state property.
+        # Job lifecycle only; RUNNABLE, and FAILED by failed deps, are derived from deps in the state property.
         self._state = TargetState.WAITING
 
     def __repr__(self):
@@ -88,8 +86,11 @@ class ImportTarget:
 
     @property
     def state(self):
-        if self._state == TargetState.WAITING and all(tgt.state == TargetState.RESOLVED for tgt in self.deps):
-            return TargetState.RUNNABLE
+        if self._state == TargetState.WAITING:
+            state = deps_state(self.deps)
+            if state == TargetState.RESOLVED:
+                return TargetState.RUNNABLE
+            return state
         return self._state
 
     @property

@@ -1,7 +1,7 @@
 from . import htypes
 from .code.target.import_target import ProjectImportsTarget
 from .code.target.project import ProjectTarget
-from .code.target.state import TargetState
+from .code.target.state import deps_state
 
 
 class CompiledModuleTarget:
@@ -39,9 +39,7 @@ class CompiledModuleTarget:
 
     @property
     def state(self):
-        if all(tgt.state == TargetState.RESOLVED for tgt in self.deps):
-            return TargetState.RESOLVED
-        return TargetState.WAITING
+        return deps_state(self.deps)
 
     @property
     def deps(self):
