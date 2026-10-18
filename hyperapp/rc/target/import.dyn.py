@@ -74,7 +74,9 @@ class ImportTarget:
         self._path = path
         self._source = source
         self._module_tgt = module_tgt
-        self._state = TargetState.RUNNABLE  # No deps, so it is runnable right away.
+        self._deps = set()
+        # Job lifecycle only; RUNNABLE is derived from deps in the state property.
+        self._state = TargetState.WAITING
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -85,11 +87,18 @@ class ImportTarget:
 
     @property
     def state(self):
+        if self._state == TargetState.WAITING and all(tgt.state == TargetState.RESOLVED for tgt in self._deps):
+            return TargetState.RUNNABLE
         return self._state
 
     @property
     def deps(self):
-        return set()
+        return self._deps
+
+    def add_dep(self, tgt):
+        # Deps added after the job is started would not be waited for.
+        assert self._state == TargetState.WAITING, (self, self._state)
+        self._deps.add(tgt)
 
     @property
     def job(self):
