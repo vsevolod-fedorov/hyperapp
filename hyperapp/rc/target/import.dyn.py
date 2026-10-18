@@ -120,6 +120,9 @@ class ImportTarget:
     def _process_job_result(self, requirements):
         self._state = TargetState.RESOLVED
 
+    def job_failed(self):
+        self._state = TargetState.FAILED
+
     def process_succeeded_job_result(self, requirements):
         self._process_job_result(requirements)
         for req in requirements:
@@ -129,8 +132,9 @@ class ImportTarget:
         deps = {req.resolve(self._targets) for req in requirements}
         if deps <= self._import_deps:
             # Next job would get the same imports resolved and be incomplete the same way, forever.
-            # Left unresolved, as a failed one, so its module is not resolved without imports.
+            # Failed, so its module is not resolved without imports.
             log.error("%s: import is incomplete, but has no new imports to resolve", self)
+            self.job_failed()
             return
         self._process_job_result(requirements)
         next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
@@ -169,8 +173,10 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
 def failed_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import failed: %s", target, piece)
+    target.job_failed()
 
 
 def internal_error_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
     log.error("%s: import job error: %s\n%s", target, piece.error, ''.join(piece.traceback))
+    target.job_failed()
