@@ -25,6 +25,9 @@ class CompiledModuleTarget:
         self._path = path
         self._source = source
         self._project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
+        # Last import target; set by it right after this target is created.
+        # Project imports target has only the first ones, not ones following incomplete imports.
+        self._import_tgt = None
         self._import_req_to_path_target = {}
 
     def __repr__(self):
@@ -42,7 +45,14 @@ class CompiledModuleTarget:
 
     @property
     def deps(self):
-        return {self._project_imports_tgt, *(tgt for path, tgt in self._import_req_to_path_target.values())}
+        return {
+            self._project_imports_tgt,
+            self._import_tgt,
+            *(tgt for path, tgt in self._import_req_to_path_target.values()),
+            }
+
+    def set_import_tgt(self, tgt):
+        self._import_tgt = tgt
 
     def add_import_req(self, req):
         self._import_req_to_path_target[req] = req.find_import_target(self._targets)

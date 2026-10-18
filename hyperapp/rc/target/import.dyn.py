@@ -62,6 +62,7 @@ class ImportTarget:
             pass
         tgt = cls(targets, name, idx, path, source, module_tgt)
         targets[name] = tgt
+        module_tgt.set_import_tgt(tgt)
         return tgt
 
     def __init__(self, targets, name, idx, path, source, module_tgt):
