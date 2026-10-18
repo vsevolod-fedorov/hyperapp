@@ -107,7 +107,12 @@ def _run(transport, selectors, job_pool, master_identity, workers, targets):
                 log.warning("Timed out waiting for job results")
                 break
         log.info("%d import jobs are finished", len(job_pool.completed))
-    log.info("%d/%d targets resolved", sum(1 for t in targets if t.state == TargetState.RESOLVED), len(targets))
+    log.info(
+        "%d/%d targets resolved, %d failed",
+        sum(1 for t in targets if t.state == TargetState.RESOLVED),
+        len(targets),
+        sum(1 for t in targets if t.state == TargetState.FAILED),
+        )
 
 
 def _target_state(tgt):
