@@ -6,7 +6,6 @@ from .services import (
     mosaic,
     )
 from .code.transport import LocalEndpoint
-from .code.selectors import StopSignal
 from .code.path import Path
 from .code.module import ModuleType, Module
 from .code.target_set import TargetSet
@@ -97,13 +96,15 @@ def _create_targets(modules, targets):
 
 
 def _run(transport, selectors, job_pool, master_identity, workers, targets):
-    stop_signal = StopSignal()
-    with job_pool.running(master_identity, stop_signal, workers):
-        with selectors.registered(stop_signal):
+    with job_pool.running(master_identity, workers):
+        while True:
             for tgt in targets.enum_runnable():
                 job_pool.start_job(tgt)
-            if job_pool.pending:
-                selectors.run(RESULT_TIMEOUT_SEC)
+            if not job_pool.pending:
+                break
+            if not selectors.run_once(RESULT_TIMEOUT_SEC):
+                log.warning("Timed out waiting for job results")
+                break
         log.info("%d import jobs are finished", len(job_pool.completed))
     log.info("%d/%d targets resolved", sum(1 for t in targets if t.state == TargetState.RESOLVED), len(targets))
 

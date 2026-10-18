@@ -8,10 +8,9 @@ class JobPool:
 
     class _Pool:
 
-        def __init__(self, transport, identity, stop_signal, workers):
+        def __init__(self, transport, identity, workers):
             self._transport = transport
             self._identity = identity
-            self._stop_signal = stop_signal
             self._free_workers = [*workers.peers]
             self._queue = []
             self._pending = {}  # target name -> (target, peer)
@@ -45,8 +44,6 @@ class JobPool:
             self._free_workers.append(peer)
             if self._queue:
                 self._send_job(self._queue.pop(0))
-            if not self.pending:
-                self._stop_signal.fire()
             return target
 
     def __init__(self, transport):
@@ -54,8 +51,8 @@ class JobPool:
         self._instance = None
 
     @contextmanager
-    def running(self, identity, stop_signal, workers):
-        self._instance = self._Pool(self._transport, identity, stop_signal, workers)
+    def running(self, identity, workers):
+        self._instance = self._Pool(self._transport, identity, workers)
         try:
             yield
         finally:
