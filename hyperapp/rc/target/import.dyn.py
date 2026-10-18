@@ -1,6 +1,9 @@
 import logging
 
 from . import htypes
+from .services import (
+    mosaic,
+    )
 from .code.target.state import TargetState
 
 log = logging.getLogger(__name__)
@@ -98,12 +101,19 @@ class ImportTarget:
         assert self._state == TargetState.WAITING, (self, self._state)
         self._import_req_to_path_target[req] = req.find_import_target(self._targets)
 
+    # Job is produced only when runnable, so all dep targets are resolved and have results.
     @property
     def job(self):
+        # Several reqs may import from the same module, giving the same cfg item.
+        path_to_cfg_item = {
+            import_path: req.make_cfg_item(import_path, tgt)
+            for req, (import_path, tgt) in self._import_req_to_path_target.items()
+            }
         return htypes.import_job.import_job(
             target=self._name,
             path=self._path.piece,
             source=self._source,
+            cfg_items=tuple(mosaic.put(item) for path, item in sorted(path_to_cfg_item.items())),
             )
 
     def job_started(self):

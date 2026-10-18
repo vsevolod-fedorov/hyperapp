@@ -4,6 +4,7 @@ import_job = record:
   target: string
   path: path
   source: string
+  cfg_items: ref list  # Of any type; import recorder picks its own.
 
 succeeded_result = record:
   target: string

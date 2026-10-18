@@ -10,6 +10,7 @@ definitions:
           services.mosaic: builtin:service:mosaic
           htypes.builtin.import_rec: builtin:type:import_rec
           htypes.builtin.imports: builtin:type:imports
+          htypes.import_recorder.import_cfg_item: import_recorder.t:import_cfg_item
           code.path: path:path.module
         raw: {}
 

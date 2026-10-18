@@ -8,6 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.import_job.import_job: :job/import.t:import_job
+          services.mosaic: builtin:service:mosaic
           code.target.state: state:state.module
         raw: {}
 

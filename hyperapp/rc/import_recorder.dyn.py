@@ -15,8 +15,9 @@ class IncompleteImportError(Exception):
 
 class _Recorder:
 
-    def __init__(self, used_imports, prefix=()):
+    def __init__(self, config, used_imports, prefix=()):
         self._prefix = prefix
+        self._config = config  # name tuple -> resource ref.
         self._used_imports = used_imports  # name tuple set.
 
     def __repr__(self):
@@ -29,8 +30,13 @@ class _Recorder:
         return self._get_resource(path)
 
     def _get_resource(self, path):
+        # Resolved imports are recorded too: requirements of the last, succeeded, job become module imports.
         self._used_imports.add(path)
-        return _Recorder(self._used_imports, path)
+        try:
+            resource_ref = self._config[path]
+        except KeyError:
+            return _Recorder(self._config, self._used_imports, path)
+        return pyobj_creg.invite(resource_ref)
 
     @property
     def used_imports(self):
@@ -71,5 +77,9 @@ def register_import_recorder_pyobj():
 
 
 def recorder_from_piece(piece):
+    config = {
+        tuple(item.import_path): item.resource
+        for item in piece.cfg_items
+        }
     used_imports = set()
-    return _Recorder(used_imports)
+    return _Recorder(config, used_imports)

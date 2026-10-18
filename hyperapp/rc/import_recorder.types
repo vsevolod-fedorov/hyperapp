@@ -1,4 +1,10 @@
 from path import path
 
+# Recorder returns this resource for the import path, instead of a recorder object.
+import_cfg_item = record:
+  import_path: string list
+  resource: ref
+
 import_recorder = record:
   module_path: path
+  cfg_items: import_cfg_item list

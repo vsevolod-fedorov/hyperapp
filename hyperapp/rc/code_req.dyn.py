@@ -40,3 +40,9 @@ class CodeReq:
             pyobj=(rec,),
             raw=(),
             )
+
+    def make_cfg_item(self, import_path, target):
+        return htypes.import_recorder.import_cfg_item(
+            import_path=import_path,
+            resource=mosaic.put(target.result),
+            )

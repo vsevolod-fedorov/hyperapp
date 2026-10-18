@@ -5,6 +5,7 @@ from . import htypes
 from .services import (
     mosaic,
     pyobj_creg,
+    web,
     )
 from .code.system import setup_system
 from .code.path import Path
@@ -56,6 +57,12 @@ def _python_module(piece, recorder_piece):
         )
 
 
+# Items for other consumers are ignored for now.
+def _recorder_cfg_items(cfg_item_refs):
+    items = (web.summon(ref) for ref in cfg_item_refs)
+    return tuple(item for item in items if isinstance(item, htypes.import_recorder.import_cfg_item))
+
+
 def run_import_job(piece, request, import_to_req, transport):
     log.info("[%s] Run import job: %s", request, piece)
     path = Path.from_piece(piece.path)
@@ -63,6 +70,7 @@ def run_import_job(piece, request, import_to_req, transport):
     service_creg = setup_system([base_config])
     recorder_piece = htypes.import_recorder.import_recorder(
         module_path=piece.path,
+        cfg_items=_recorder_cfg_items(piece.cfg_items),
         )
     recorder = pyobj_creg.animate(recorder_piece)
     try:
