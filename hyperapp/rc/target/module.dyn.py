@@ -47,6 +47,10 @@ class CompiledModuleTarget:
             }
 
     @property
+    def path(self):
+        return self._path
+
+    @property
     def import_deps(self):
         return self._import_deps
 

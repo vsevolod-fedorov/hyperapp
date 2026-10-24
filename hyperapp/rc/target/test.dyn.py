@@ -157,6 +157,25 @@ class TestModuleTarget:
         cfg_items = sorted_cfg_items(self._cfg_item(dep) for dep in alias_tgt.module_tgt.import_deps)
         return alias_tgt.recorded_module(cfg_items)
 
+    # Hint for a dependency cycle going through this target, as target list, first one repeated last:
+    # it is a tested module imported by another tested one through an untested one. None if it is not.
+    def cycle_hint(self, cycle):
+        untested_tgt = cycle[cycle.index(self) + 1]  # Self is never only last: it is repeated first.
+        tested_module_tgts = {alias_tgt.module_tgt for alias_tgt in self._tested_alias_tgts}
+        if untested_tgt in tested_module_tgts:
+            return None
+        importers = sorted(
+            (tgt for tgt in tested_module_tgts if any(dep.target is untested_tgt for dep in tgt.import_deps)),
+            key=lambda tgt: tgt.name)
+        tested_in_cycle = [tgt for tgt in cycle if tgt in tested_module_tgts]
+        if not importers or not tested_in_cycle:
+            return None
+        tested, importer, untested = tested_in_cycle[0].path, importers[0].path, untested_tgt.path
+        return (
+            f"Tested module {tested} is imported by tested module {importer} through untested module {untested}."
+            f" Being complete, {untested} requires complete {tested}, which waits for its tests."
+            " Tested modules may import each other only directly")
+
     @property
     def error(self):
         return None

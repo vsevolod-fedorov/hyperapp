@@ -158,21 +158,25 @@ def test_tested_imported_indirectly():
         'module/compiled/sample/module_a': 'failed',
         'module/compiled/sample/module_b': 'failed',
         }
+    hint = (
+        "Tested module sample:module_b is imported by tested module sample:module_a"
+        " through untested module sample:module_c. Being complete, sample:module_c requires complete"
+        " sample:module_b, which waits for its tests. Tested modules may import each other only directly")
     cycles = [
-        [
+        ([
             'module/compiled/sample/module_b',
             'module/test/sample/indirect.tests',
             'module/compiled/sample/module_c',
             'module/compiled/sample/module_b',
-            ],
-        [
+            ], hint),
+        ([
             'module/compiled/sample/module_b',
             'test/sample/indirect.tests/test_fn',
             'test/sample/indirect.tests/test_fn/0',
             'module/test/sample/indirect.tests',
             'module/compiled/sample/module_c',
             'module/compiled/sample/module_b',
-            ],
+            ], hint),
         ]
     _compile_and_check('tested_imported_indirectly', states, expected_cycles=cycles)
 

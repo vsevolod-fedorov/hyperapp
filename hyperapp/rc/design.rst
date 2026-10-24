@@ -70,7 +70,8 @@ Tested module gets its own imports, found by its import job, resolved before tes
 * other module tested by the same test module, imported directly: the same recorded one the test gets.
 
 Tested module importing another tested one through an untested one can not work: untested one is complete,
-so needs complete tested module, which waits for its tests. It is a dependency cycle (``tested_imported_indirectly``).
+so needs complete tested module, which waits for its tests. It is a dependency cycle (``tested_imported_indirectly``);
+test module target in it gives a hint naming the three modules.
 
 Test runs
 +++++++++

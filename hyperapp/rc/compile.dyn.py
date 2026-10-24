@@ -14,6 +14,7 @@ from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectI
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import TargetState
+from .code.target.test import TestModuleTarget
 from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
@@ -32,7 +33,7 @@ class CompileResult:
     resource_tree: dict  # Generated files: project name -> file path tuple -> bytes.
     target_states: dict  # Target name -> TargetState.
     errors: dict  # Target name -> error, for targets failed by themselves, not by their deps.
-    cycles: list  # Dependency cycles, as target name lists, first one repeated last.
+    cycles: list  # Dependency cycles, as (target name list, first one repeated last; hint or None) tuples.
 
 
 # Compile resources of workspace projects.
@@ -172,6 +173,15 @@ def _resource_tree(dump_resource_modules, projects, piece_to_name, resource_loca
     return dict(project_to_tree)
 
 
+# Test modules know why tests got into a cycle.
+def _cycle_hint(cycle):
+    for tgt in cycle[:-1]:
+        if isinstance(tgt, TestModuleTarget):
+            if hint := tgt.cycle_hint(cycle):
+                return hint
+    return None
+
+
 def _compile(
         transport, selectors, job_pool, name_resources, dump_resource_modules,
         master_identity, workers, projects, project_to_tree):
@@ -189,9 +199,9 @@ def _compile(
     resource_locations = _resource_locations(project_tgts)
     target_states = {tgt.name: tgt.state for tgt in targets}
     errors = {tgt.name: tgt.error for tgt in targets if tgt.error}
-    cycles = [[tgt.name for tgt in cycle] for cycle in targets.cycles]
-    for cycle in cycles:
-        log.error("Dependency cycle: %s", " -> ".join(cycle))
+    cycles = [([tgt.name for tgt in cycle], _cycle_hint(cycle)) for cycle in targets.cycles]
+    for names, hint in cycles:
+        log.error("Dependency cycle: %s%s", " -> ".join(names), f". {hint}" if hint else "")
     piece_to_name = name_resources(resources, resource_locations)
     _log_names(piece_to_name, resource_locations)
     return CompileResult(
