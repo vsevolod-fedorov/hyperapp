@@ -109,3 +109,29 @@ def recorded_python_module(module_name, source, recorder_piece):
             raw=(),
             ),
         )
+
+
+def _without_prefixes(import_paths):
+    return [
+        import_path for import_path in import_paths
+        if not any(
+            len(other) > len(import_path) and other[:len(import_path)] == import_path
+            for other in import_paths
+            )
+        ]
+
+
+def enum_import_requirements(path, recorder, import_to_req):
+    for import_path in sorted(_without_prefixes(recorder.used_imports)):
+        req = import_to_req(path, import_path)
+        if req is not None:
+            yield mosaic.put(req)
+
+
+# The python importer wraps errors raised by module code (twice), so look through the chain.
+def find_incomplete_error(x):
+    while x is not None:
+        if isinstance(x, IncompleteImportError):
+            return x
+        x = x.__cause__ or x.__context__
+    return None

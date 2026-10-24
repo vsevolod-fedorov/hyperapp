@@ -4,14 +4,14 @@ import traceback
 
 from . import htypes
 from .services import (
-    mosaic,
     pyobj_creg,
     web,
     )
 from .code.system import setup_system
 from .code.path import Path
 from .code.import_recorder import (
-    IncompleteImportError,
+    enum_import_requirements,
+    find_incomplete_error,
     import_recorder_piece,
     recorded_python_module,
     register_import_recorder_pyobj,
@@ -19,32 +19,6 @@ from .code.import_recorder import (
 from .data.base.config import config as base_config
 
 log = logging.getLogger(__name__)
-
-
-def _without_prefixes(import_paths):
-    return [
-        import_path for import_path in import_paths
-        if not any(
-            len(other) > len(import_path) and other[:len(import_path)] == import_path
-            for other in import_paths
-            )
-        ]
-
-
-def _enum_import_requirements(path, recorder, import_to_req):
-    for import_path in sorted(_without_prefixes(recorder.used_imports)):
-        req = import_to_req(path, import_path)
-        if req is not None:
-            yield mosaic.put(req)
-
-
-# The python importer wraps errors raised by module code (twice), so look through the chain.
-def _incomplete_error(x):
-    while x is not None:
-        if isinstance(x, IncompleteImportError):
-            return x
-        x = x.__cause__ or x.__context__
-    return None
 
 
 def run_import_job(piece, request, import_to_req, transport):
@@ -63,7 +37,7 @@ def run_import_job(piece, request, import_to_req, transport):
         error = x
     # Collected outside of the except block, so its errors are not chained to the import error.
     try:
-        requirements = tuple(_enum_import_requirements(path, recorder, import_to_req))
+        requirements = tuple(enum_import_requirements(path, recorder, import_to_req))
     except Exception as x:
         log.exception("Error collecting requirements")
         result = htypes.import_job.internal_error_result(
@@ -83,7 +57,7 @@ def _import_result(piece, requirements, module, error):
             requirements=requirements,
             test_functions=tuple(_enum_test_functions(module)),
             )
-    if (incomplete := _incomplete_error(error)) is not None:
+    if (incomplete := find_incomplete_error(error)) is not None:
         log.info("Import is incomplete: %s", incomplete)
         return htypes.import_job.incomplete_result(
             target=piece.target,
