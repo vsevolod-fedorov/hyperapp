@@ -76,9 +76,8 @@ class CodeReq:
 class TestedCodeReq(CodeReq):
 
     # Module as recorded by its import, so tests record what the tested module uses.
+    # Manual module is not compiled, so there is nothing to record its uses for: it is tested as it is.
     def _module_target(self, module):
         if module.import_alias_tgt is None:
-            # Manual module is not imported by a job, so there is nothing to record its uses.
-            raise UnknownModuleError(
-                f"{self.path}: Manual module can not be tested yet: {'.'.join(self.import_as)}")
+            return super()._module_target(module)
         return module.import_alias_tgt

@@ -1,4 +1,4 @@
-# Manual module lib is not imported by a job, so there is nothing to record its uses.
+# Manual module lib is not compiled, so its uses are not recorded: it is tested as it is.
 from .tested.code import lib
 
 

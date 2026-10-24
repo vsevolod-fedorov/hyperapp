@@ -233,12 +233,11 @@ def test_manual_module_no_resource():
         })
 
 
-# Manual modules can not be tested yet; their tested code import fails the test module.
+# Manual module is tested as it is: it is not compiled, so there is nothing to record its uses for.
 def test_manual_module_tested():
     states = {
         'module/manual/sample/lib': 'resolved',
-        'import/sample/lib.tests/0': 'failed',
+        'module/test/sample/lib.tests': 'resolved',
+        'test/sample/lib.tests/test_fn': 'resolved',
         }
-    _compile_and_check('manual_module_tested', states, {
-        'import/sample/lib.tests/0': "sample:lib.tests: Manual module can not be tested yet: tested.code.lib",
-        })
+    _compile_and_check('manual_module_tested', states)

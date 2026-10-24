@@ -29,8 +29,7 @@ is passed by registration, in ``worker_config.resources.yaml``.
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
 Import of a module not found, or of a manual one having no module resource, fails the importing target
-(``code_import_missing``, ``manual_module_no_resource``). So does tested code import of a manual module:
-it can not be tested yet (``manual_module_tested``).
+(``code_import_missing``, ``manual_module_no_resource``).
 
 Targets
 +++++++
@@ -72,6 +71,9 @@ Tested modules
 ++++++++++++++
 
 Test gets tested modules recorded, so tests record what tested modules use.
+Manual module is tested as it is, like a code import: it is not compiled, so there is nothing to record
+its uses for (``manual_module_tested``).
+
 Tested module gets its own imports, found by its import job, resolved before tests run:
 
 * untested module: complete one, compiled before tests (``test_collection/module_4.dyn.py``);

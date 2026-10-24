@@ -93,12 +93,22 @@ class TestModuleTarget:
     def _dep_target(self, dep):
         return self._tested_alias_tgt(dep) or dep.target
 
+    # None for other imports, and for tested manual modules: these are tested as they are, like code imports,
+    # and having no resources to give, do not wait for tests.
+    def _req_tested_alias_tgt(self, req):
+        if not isinstance(req, TestedCodeReq):
+            return None
+        tgt = req.resolve(self._targets).target
+        if isinstance(tgt, ImportAliasTarget):
+            return tgt
+        return None
+
     # Returns target for the module to use from now on: self.
     def import_attempt_finished(self, idx, requirements):
         req_to_alias_tgt = {
-            req: req.resolve(self._targets).target
+            req: alias_tgt
             for req in requirements
-            if isinstance(req, TestedCodeReq)
+            if (alias_tgt := self._req_tested_alias_tgt(req)) is not None
             }
         if idx == 0:
             self._tested_alias_tgts = set(req_to_alias_tgt.values())
@@ -116,9 +126,8 @@ class TestModuleTarget:
     # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
     def check_test_requirements(self, requirements, tested_requirements):
         for req in requirements:
-            if not isinstance(req, TestedCodeReq):
-                continue
-            if req.resolve(self._targets).target not in self._tested_alias_tgts:
+            alias_tgt = self._req_tested_alias_tgt(req)
+            if alias_tgt is not None and alias_tgt not in self._tested_alias_tgts:
                 return (
                     f"Tested module {'.'.join(req.import_as)} is first used when the test runs."
                     " Tested modules are decided by the test module import; import it at module level")
