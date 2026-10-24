@@ -5,7 +5,12 @@ from .services import (
     mosaic,
     )
 from .code.code_req import TestedCodeReq
-from .code.target.import_target import ImportAliasTarget, resolve_requirements, sorted_cfg_items
+from .code.target.import_target import (
+    ImportAliasTarget,
+    ImportRequirementsError,
+    resolve_requirements,
+    sorted_cfg_items,
+    )
 from .code.target.state import TargetState, deps_state
 
 log = logging.getLogger(__name__)
@@ -88,7 +93,7 @@ class TestModuleTarget:
     def _dep_target(self, dep):
         return self._tested_alias_tgt(dep) or dep.target
 
-    # Returns self, or None if import requirements are wrong.
+    # Returns target for the module to use from now on: self.
     def import_attempt_finished(self, idx, requirements):
         req_to_alias_tgt = {
             req: req.resolve(self._targets).target
@@ -102,11 +107,10 @@ class TestModuleTarget:
             return self
         new_tested = [req for req, alias_tgt in req_to_alias_tgt.items() if alias_tgt not in self._tested_alias_tgts]
         if new_tested:
-            log.error(
-                "%s: Tested modules are imported by import attempt #%d only: %s. Tested modules are decided by"
-                " the first attempt; import them before anything making the test module import incomplete",
-                self, idx, ", ".join(sorted('.'.join(req.import_as) for req in new_tested)))
-            return None
+            raise ImportRequirementsError(
+                f"Tested modules are imported by import attempt #{idx} only:"
+                f" {', '.join(sorted('.'.join(req.import_as) for req in new_tested))}. Tested modules are decided"
+                " by the first attempt; import them before anything making the test module import incomplete")
         return self
 
     # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
@@ -154,6 +158,10 @@ class TestModuleTarget:
         return alias_tgt.recorded_module(cfg_items)
 
     @property
+    def error(self):
+        return None
+
+    @property
     def result(self):
         return None
 
@@ -184,9 +192,9 @@ class TestTarget:
         self._import_deps = set()  # Ones added by incomplete runs; test module ones are kept by its target.
         # Job lifecycle only; RUNNABLE, and FAILED by failed deps, are derived from deps in the state property.
         self._state = TargetState.WAITING
+        self._error = None
         if function.params:
-            log.error("%s: Fixtures are not supported yet; test has params: %s", self, ", ".join(function.params))
-            self._state = TargetState.FAILED
+            self.job_failed(f"Fixtures are not supported yet; test has params: {', '.join(function.params)}")
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -239,27 +247,31 @@ class TestTarget:
     def job_started(self):
         self._state = TargetState.RUNNING
 
-    def job_failed(self):
+    def job_failed(self, error, traceback=()):
         self._state = TargetState.FAILED
+        self._error = error
+        log.error("%s: %s%s", self, error, ''.join(['\n', *traceback]) if traceback else '')
 
     def process_succeeded_job_result(self):
         self._state = TargetState.RESOLVED
 
     def process_incomplete_job_result(self, requirements, tested_requirements):
         if error := self._module_tgt.check_test_requirements(requirements, tested_requirements):
-            log.error("%s: %s", self, error)
-            self.job_failed()
+            self.job_failed(error)
             return
         deps = {req.resolve(self._targets) for req in requirements}
         if deps <= self._all_import_deps:
             # Next job would be incomplete the same way, forever.
-            log.error("%s: test is incomplete, but has no new imports to resolve", self)
-            self.job_failed()
+            self.job_failed("Test is incomplete, but has no new imports to resolve")
             return
         self._state = TargetState.RESOLVED
         next_tgt = TestTarget.ensure(self._targets, self._module_tgt, self._function, idx=self._idx + 1)
         for dep in deps:
             next_tgt.add_import_dep(dep)
+
+    @property
+    def error(self):
+        return self._error
 
     @property
     def result(self):
@@ -305,6 +317,10 @@ class TestAliasTarget:
         self._test_tgt = tgt
 
     @property
+    def error(self):
+        return None
+
+    @property
     def result(self):
         return None
 
@@ -327,11 +343,9 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
 
 def failed_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
-    log.error("%s: test failed: %s\n%s", target, piece.error, ''.join(piece.traceback))
-    target.job_failed()
+    target.job_failed(f"Test failed: {piece.error}", piece.traceback)
 
 
 def internal_error_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
-    log.error("%s: test job error: %s\n%s", target, piece.error, ''.join(piece.traceback))
-    target.job_failed()
+    target.job_failed(f"Test job error: {piece.error}", piece.traceback)

@@ -42,6 +42,10 @@ class ProjectTarget:
         self._path_to_resource_tgt[path] = tgt
 
     @property
+    def error(self):
+        return None
+
+    @property
     def result(self):
         return None
 

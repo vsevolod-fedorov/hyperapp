@@ -10,6 +10,11 @@ from .code.target.state import TargetState, deps_state
 log = logging.getLogger(__name__)
 
 
+# Raised by a module target for import requirements it can not take.
+class ImportRequirementsError(Exception):
+    pass
+
+
 class ProjectImportsTarget:
 
     @classmethod
@@ -49,6 +54,10 @@ class ProjectImportsTarget:
         self._deps.add(tgt)
 
     @property
+    def error(self):
+        return None
+
+    @property
     def result(self):
         return None
 
@@ -77,6 +86,7 @@ class ImportTarget:
         self._import_deps = set()
         # Job lifecycle only; RUNNABLE, and FAILED by failed deps, are derived from deps in the state property.
         self._state = TargetState.WAITING
+        self._error = None
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -134,15 +144,17 @@ class ImportTarget:
     def _process_job_result(self, requirements):
         self._state = TargetState.RESOLVED
 
-    def job_failed(self):
+    def job_failed(self, error, traceback=()):
         self._state = TargetState.FAILED
+        self._error = error
+        log.error("%s: %s%s", self, error, ''.join(['\n', *traceback]) if traceback else '')
 
     def _import_attempt_finished(self, requirements):
-        module_tgt = self._module_tgt.import_attempt_finished(self._idx, requirements)
-        if module_tgt is None:
-            self.job_failed()
+        try:
+            self._module_tgt = self._module_tgt.import_attempt_finished(self._idx, requirements)
+        except ImportRequirementsError as x:
+            self.job_failed(str(x))
             return False
-        self._module_tgt = module_tgt
         return True
 
     def process_succeeded_job_result(self, requirements, test_functions):
@@ -161,13 +173,16 @@ class ImportTarget:
         if deps <= self._import_deps:
             # Next job would get the same imports resolved and be incomplete the same way, forever.
             # Failed, so its module is not resolved without imports.
-            log.error("%s: import is incomplete, but has no new imports to resolve", self)
-            self.job_failed()
+            self.job_failed("Import is incomplete, but has no new imports to resolve")
             return
         self._process_job_result(requirements)
         next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
         for dep in deps:
             next_tgt.add_import_dep(dep)
+
+    @property
+    def error(self):
+        return self._error
 
     @property
     def result(self):
@@ -222,6 +237,10 @@ class ImportAliasTarget:
         return self._import_tgt.module_tgt
 
     @property
+    def error(self):
+        return None
+
+    @property
     def result(self):
         return self._import_tgt.recorded_module()
 
@@ -257,10 +276,9 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
 def failed_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import failed: %s", target, piece)
-    target.job_failed()
+    target.job_failed(f"Import failed: {piece.error}", piece.traceback)
 
 
 def internal_error_result(piece, request, job_pool):
     target = job_pool.job_finished(piece.target)
-    log.error("%s: import job error: %s\n%s", target, piece.error, ''.join(piece.traceback))
-    target.job_failed()
+    target.job_failed(f"Import job error: {piece.error}", piece.traceback)

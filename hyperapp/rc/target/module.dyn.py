@@ -1,13 +1,9 @@
-import logging
-
 from . import htypes
 from .code.code_req import TestedCodeReq
-from .code.target.import_target import ImportAliasTarget, ProjectImportsTarget
+from .code.target.import_target import ImportAliasTarget, ImportRequirementsError, ProjectImportsTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import TargetState, deps_state
 from .code.target.test import TestModuleTarget
-
-log = logging.getLogger(__name__)
 
 
 # Made for each dyn module: code imports are resolved to it before its first import decides if it is
@@ -54,7 +50,7 @@ class CompiledModuleTarget:
     def import_deps(self):
         return self._import_deps
 
-    # Returns target for the module to use from now on, or None if import requirements are wrong.
+    # Returns target for the module to use from now on.
     # Module having tested code imports is a test module, giving no resources.
     # Decided by the first import attempt, which the project imports target waits for.
     def import_attempt_finished(self, idx, requirements):
@@ -68,11 +64,10 @@ class CompiledModuleTarget:
             ProjectTarget.ensure(self._targets, self._path.project).add_resource_tgt(self._path, self)
             return self
         if tested:
-            log.error(
-                "%s: Tested modules are imported by import attempt #%d only: %s. Whether a module is"
-                " a test one is decided by the first attempt; import them before anything making the import incomplete",
-                self, idx, ", ".join('.'.join(req.import_as) for req in tested))
-            return None
+            raise ImportRequirementsError(
+                f"Tested modules are imported by import attempt #{idx} only:"
+                f" {', '.join('.'.join(req.import_as) for req in tested)}. Whether a module is a test one"
+                " is decided by the first attempt; import them before anything making the import incomplete")
         return self
 
     def add_test_module(self, test_module_tgt):
@@ -84,6 +79,10 @@ class CompiledModuleTarget:
     # Import job collects test functions from any module; only tests use them.
     def add_test_function(self, function):
         pass
+
+    @property
+    def error(self):
+        return None
 
     @property
     def result(self):

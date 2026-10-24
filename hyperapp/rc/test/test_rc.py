@@ -139,8 +139,8 @@ def test_tested_imported_late(caplog):
         'import/sample/late_import.tests/1': 'failed',
         }
     _compile_and_check(caplog, 'tested_imported_late', states, [
-        "late_compiled>: Tested modules are imported by import attempt #1 only: tested.code.module_1.",
-        "late_import.tests>: Tested modules are imported by import attempt #1 only: tested.code.module_2.",
+        "late_compiled/1>: Tested modules are imported by import attempt #1 only: tested.code.module_1.",
+        "late_import.tests/1>: Tested modules are imported by import attempt #1 only: tested.code.module_2.",
         ])
 
 
