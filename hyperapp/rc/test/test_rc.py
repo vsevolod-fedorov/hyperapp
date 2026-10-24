@@ -58,3 +58,8 @@ def test_code_paths():
 # with those imports resolved to real modules.
 def test_code_import_incomplete():
     _compile_and_check('code_import_incomplete')
+
+
+# Test module imports tested modules with 'tested.code' prefix.
+def test_test_collection():
+    _compile_and_check('test_collection')
