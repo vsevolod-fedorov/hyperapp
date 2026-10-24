@@ -1,5 +1,7 @@
 from pathlib import Path
 
+import pytest
+
 from hyperapp.boot.boot import boot
 from hyperapp.boot.resource.workspace import Workspace
 
@@ -145,14 +147,21 @@ def test_tested_imported_late():
 
 
 # Tested module uses an import only when the test runs, so it is not resolved for it, and the test fails.
-def test_tested_import_used_by_test_run():
+# Other tests of its test module are not failed by that, whether they are run by the same worker or not:
+# by one worker, all tests are; by 4, first runs of the 4 tests are run by a worker each.
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_tested_import_used_by_test_run(worker_count):
     states = {
         'test/sample/lazy.tests/test_fn': 'failed',
+        **{
+            f'test/sample/lazy.tests/test_code_{idx}': 'resolved'
+            for idx in [1, 2, 3]
+            },
         }
     _compile_and_check('tested_import_used_by_test_run', states, {
         'test/sample/lazy.tests/test_fn/0':
             "Tested module sample:lazy uses code.module_1.fn_1 when the test runs, but not when it is imported",
-        })
+        }, worker_count=worker_count)
 
 
 # Tested module imports another tested one through an untested one: a dependency cycle, failing them all.

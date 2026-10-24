@@ -44,6 +44,9 @@ class _Recorder:
     def used_imports(self):
         return self._used_imports
 
+    def clear_used_imports(self):
+        self._used_imports.clear()
+
 
 def _raise_incomplete(self, *args, **kw):
     raise IncompleteImportError(self._prefix)

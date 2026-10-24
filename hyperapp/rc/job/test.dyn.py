@@ -30,6 +30,11 @@ def run_test_job(piece, request, import_to_req, transport):
     cfg_items = [web.summon(ref) for ref in piece.cfg_items]
     recorder_piece = import_recorder_piece(piece.path, cfg_items)
     recorder = pyobj_creg.animate(recorder_piece)
+    tested_recorders = list(_tested_recorders(cfg_items))
+    # Recorders are cached by their pieces, so this worker may have given them to its previous jobs.
+    # Their uses must not be reported as this job's: a test run is failed by unexpected ones.
+    for rec in [recorder, *(rec for path, rec in tested_recorders)]:
+        rec.clear_used_imports()
     try:
         module = pyobj_creg.animate(recorded_python_module(piece.path.path[-1], piece.source, recorder_piece))
         _run_test_fn(getattr(module, piece.function.name), piece.function)
@@ -39,7 +44,11 @@ def run_test_job(piece, request, import_to_req, transport):
     # Collected outside of the except block, so its errors are not chained to the test error.
     try:
         requirements = tuple(enum_import_requirements(path, recorder, import_to_req))
-        tested_requirements = tuple(_enum_tested_requirements(cfg_items, import_to_req))
+        tested_requirements = tuple(
+            req
+            for path, rec in tested_recorders
+            for req in enum_import_requirements(path, rec, import_to_req)
+            )
     except Exception as x:
         log.exception("Error collecting requirements")
         result = htypes.test_job.internal_error_result(
@@ -70,17 +79,16 @@ async def _run_async_test_fn(fn, function):
         await fn()
 
 
-# Tested modules are imported recorded, so their recorders keep what they used while the test ran.
-def _enum_tested_requirements(cfg_items, import_to_req):
+# Tested modules are imported recorded, so their recorders keep what they use while the test runs.
+# Yields (tested module path, its recorder).
+def _tested_recorders(cfg_items):
     for item in cfg_items:
         if not isinstance(item, htypes.import_recorder.import_cfg_item):
             continue
         recorder_piece = module_recorder_piece(web.summon(item.resource))
         if recorder_piece is None:
             continue  # Complete module, not a tested one.
-        recorder = pyobj_creg.animate(recorder_piece)
-        path = Path.from_piece(recorder_piece.module_path)
-        yield from enum_import_requirements(path, recorder, import_to_req)
+        yield (Path.from_piece(recorder_piece.module_path), pyobj_creg.animate(recorder_piece))
 
 
 def _test_result(piece, requirements, tested_requirements, error):

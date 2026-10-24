@@ -81,6 +81,8 @@ Test runs
 
 Test job (``job/test.dyn.py``) imports the test module and calls the function: async ones by ``asyncio.run``,
 generators are run to their end. Tests with parameters fail: fixtures are not supported yet.
+Recorders are cached by worker, so used imports are cleared for each test job: they are reported
+as of that test only (``tested_import_used_by_test_run``, run by one worker, and by a worker per test).
 
 Test run can not change which modules are tested, or what they import. These fail, saying why:
 
