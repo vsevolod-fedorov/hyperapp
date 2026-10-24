@@ -19,7 +19,6 @@ class ProjectImportsTarget:
 
     @classmethod
     def ensure(cls, targets, project_name):
-        idx = 0
         name = f'imports/{project_name}'
         try:
             return targets[name]
@@ -141,9 +140,6 @@ class ImportTarget:
     def job_started(self):
         self._state = TargetState.RUNNING
 
-    def _process_job_result(self, requirements):
-        self._state = TargetState.RESOLVED
-
     def job_failed(self, error, traceback=()):
         self._state = TargetState.FAILED
         self._error = error
@@ -160,7 +156,7 @@ class ImportTarget:
     def process_succeeded_job_result(self, requirements, test_functions):
         if not self._import_attempt_finished(requirements):
             return
-        self._process_job_result(requirements)
+        self._state = TargetState.RESOLVED
         for req in requirements:
             self._module_tgt.add_import_req(req)
         for function in test_functions:
@@ -175,7 +171,7 @@ class ImportTarget:
             # Failed, so its module is not resolved without imports.
             self.job_failed("Import is incomplete, but has no new imports to resolve")
             return
-        self._process_job_result(requirements)
+        self._state = TargetState.RESOLVED
         next_tgt = ImportTarget.ensure(self._targets, self._path, self._source, self._module_tgt, idx=self._idx + 1)
         for dep in deps:
             next_tgt.add_import_dep(dep)
