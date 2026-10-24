@@ -213,11 +213,32 @@ def test_code_import_missing():
         })
 
 
-# Manual modules can not be imported yet; their import fails the importing module.
+# Manual module is imported by its module resource, as written; tests of its importers get it too.
 def test_manual_module_import():
+    states = {
+        'module/manual/sample/lib': 'resolved',
+        'module/compiled/sample/user': 'resolved',
+        'test/sample/user.tests/test_fn': 'resolved',
+        }
+    _compile_and_check('manual_module_import', states)
+
+
+# Manual resources without a module resource can not be imported; their import fails the importing module.
+def test_manual_module_no_resource():
     states = {
         'import/sample/user/0': 'failed',
         }
-    _compile_and_check('manual_module_import', states, {
-        'import/sample/user/0': "sample:user: Manual module can not be imported yet: code.lib",
+    _compile_and_check('manual_module_no_resource', states, {
+        'import/sample/user/0': "sample:user: Manual module has no settings.module resource for import: code.settings",
+        })
+
+
+# Manual modules can not be tested yet; their tested code import fails the test module.
+def test_manual_module_tested():
+    states = {
+        'module/manual/sample/lib': 'resolved',
+        'import/sample/lib.tests/0': 'failed',
+        }
+    _compile_and_check('manual_module_tested', states, {
+        'import/sample/lib.tests/0': "sample:lib.tests: Manual module can not be tested yet: tested.code.lib",
         })

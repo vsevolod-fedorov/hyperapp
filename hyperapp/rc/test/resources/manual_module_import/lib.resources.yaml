@@ -1,1 +1,10 @@
-definitions: {}
+definitions:
+
+  lib.module:
+    type: builtin:type:python_module
+    value:
+      module_name: lib
+      file_name: lib.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

@@ -11,7 +11,7 @@ from .code.path import Path
 from .code.module import ModuleType, Module
 from .code.target_set import TargetSet
 from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectImportsTarget
-from .code.target.module import CompiledModuleTarget
+from .code.target.module import CompiledModuleTarget, ManualModuleTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import TargetState
 from .code.target.test import TestModuleTarget
@@ -96,10 +96,12 @@ def _collect_modules(project_to_tree):
     return modules
 
 
-def _create_targets(modules, targets):
+# resources: loaded ones, name tuple -> piece. Manual modules are imported by them.
+def _create_targets(modules, targets, resources):
     project_names = set()
     for module in modules:
-        if module.type != ModuleType.COMPILED:
+        if module.type == ModuleType.MANUAL:
+            _create_manual_target(module, targets, resources)
             continue
         module.module_tgt = CompiledModuleTarget(targets, module.path, module.source)
         module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
@@ -109,6 +111,17 @@ def _create_targets(modules, targets):
         ProjectImportsTarget.ensure(targets, module.path.project).add_dep(module.import_tgt)
         project_names.add(module.path.project)
     return [ProjectTarget.ensure(targets, name) for name in sorted(project_names)]
+
+
+# Manual module without module resource, like a lone config one, gets no target: it can not be imported.
+def _create_manual_target(module, targets, resources):
+    path = module.path
+    try:
+        piece = resources[path.project, path.path, f'{path.path[-1]}.module']
+    except KeyError:
+        return
+    module.module_tgt = ManualModuleTarget(path, piece)
+    targets[module.module_tgt.name] = module.module_tgt
 
 
 def _run(transport, selectors, job_pool, master_identity, workers, targets):
@@ -189,12 +202,12 @@ def _compile(
         transport, selectors, job_pool, name_resources, dump_resource_modules,
         master_identity, workers, projects, project_to_tree):
     modules = _collect_modules(project_to_tree)
-    targets = TargetSet(projects, modules)
-    project_tgts = _create_targets(modules, targets)
-    compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
-    log.info("%d modules, %d compiled", len(modules), compiled_count)
     resources, sources = load_resources(projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
+    targets = TargetSet(projects, modules)
+    project_tgts = _create_targets(modules, targets, resources)
+    compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
+    log.info("%d modules, %d compiled", len(modules), compiled_count)
     log.info("%d targets", len(targets))
     _run(transport, selectors, job_pool, master_identity, workers, targets)
     _log_targets(targets)

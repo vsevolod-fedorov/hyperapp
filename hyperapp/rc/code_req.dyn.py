@@ -58,16 +58,16 @@ class CodeReq:
                 module = targets.find_nearest_module(self.path, sub_path[:idx])
             except KeyError:
                 continue
-            module_tgt = self._module_target(module)
-            if module_tgt is None:
-                # Manual modules have no targets: their resources are not loaded as ones to import yet.
-                raise UnknownModuleError(
-                    f"{self.path}: Manual module can not be imported yet: {'.'.join(self.import_as)}")
-            return CodeDep(self.import_as[:prefix_len + idx], module_tgt)
+            return CodeDep(self.import_as[:prefix_len + idx], self._module_target(module))
         raise UnknownModuleError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
 
     # Complete module, having all its imports resolved.
     def _module_target(self, module):
+        if module.module_tgt is None:
+            # Only manual modules having a module resource get a target.
+            raise UnknownModuleError(
+                f"{self.path}: Manual module has no {module.path.path[-1]}.module resource"
+                f" for import: {'.'.join(self.import_as)}")
         return module.module_tgt
 
 
@@ -77,4 +77,8 @@ class TestedCodeReq(CodeReq):
 
     # Module as recorded by its import, so tests record what the tested module uses.
     def _module_target(self, module):
+        if module.import_alias_tgt is None:
+            # Manual module is not imported by a job, so there is nothing to record its uses.
+            raise UnknownModuleError(
+                f"{self.path}: Manual module can not be tested yet: {'.'.join(self.import_as)}")
         return module.import_alias_tgt

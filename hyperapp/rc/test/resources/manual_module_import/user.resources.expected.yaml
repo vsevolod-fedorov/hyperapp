@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  user.module:
+    type: builtin:type:python_module
+    value:
+      module_name: user
+      file_name: user.dyn.py
+      imports:
+        pyobj:
+          code.lib: lib:lib.module
+        raw: {}

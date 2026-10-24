@@ -13,6 +13,8 @@ Modules
 +++++++
 
 * Manual: has a ``.resources.yaml`` without the auto-generated line. Not compiled.
+  One having a ``<name>.module`` resource gets a ``module/manual/<project>/<path>`` target, resolved from the start
+  to that loaded resource; code imports of it resolve to it, as written (``manual_module_import``).
 * Compiled: other dyn modules. Resources are generated for them.
 * Test: a dyn module having ``tested.code`` imports. Gives no resources; its ``test_*`` functions are run.
   Name, like ``.tests`` suffix, does not matter (``test_module_by_imports``).
@@ -26,8 +28,9 @@ is passed by registration, in ``worker_config.resources.yaml``.
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
-Import of a module not found, or of a manual one, which can not be imported yet, fails the importing target
-(``code_import_missing``, ``manual_module_import``).
+Import of a module not found, or of a manual one having no module resource, fails the importing target
+(``code_import_missing``, ``manual_module_no_resource``). So does tested code import of a manual module:
+it can not be tested yet (``manual_module_tested``).
 
 Targets
 +++++++
@@ -39,6 +42,8 @@ Targets
 * ``module/compiled/<project>/<path>``: complete module, with all its imports resolved; its result is the resource.
   Made for each dyn module up front, as code imports are resolved to it before it is known what the module is;
   added to targets and its project only when its first import attempt decides it is a compiled one.
+* ``module/manual/<project>/<path>``: manual module having a module resource; its result is that resource.
+  Resources it refers to are loaded ones too: generated ones are of the previous compile.
 * ``module/test/<project>/<path>``: test module imports. Added when the first import attempt finds
   ``tested.code`` imports; following attempts of the module use it instead of the compiled one.
 * ``test/<project>/<path>/<function>/<idx>``: test run. Next one is added while the run is incomplete.

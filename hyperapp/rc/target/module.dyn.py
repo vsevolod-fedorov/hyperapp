@@ -104,3 +104,40 @@ class CompiledModuleTarget:
                 raw=tuple(rec for name, rec in sorted(name_to_raw.items())),
                 ),
             )
+
+
+# Module having hand-written resources: not compiled, so it is resolved from the start.
+# Code imports of it are resolved to its loaded module resource.
+class ManualModuleTarget:
+
+    def __init__(self, path, piece):
+        self._name = f'module/manual/{path.project}/{"/".join(path.path)}'
+        self._path = path
+        self._piece = piece
+
+    def __repr__(self):
+        return f"<Target:{self._name}>"
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def state(self):
+        return TargetState.RESOLVED
+
+    @property
+    def deps(self):
+        return set()
+
+    @property
+    def path(self):
+        return self._path
+
+    @property
+    def error(self):
+        return None
+
+    @property
+    def result(self):
+        return self._piece
