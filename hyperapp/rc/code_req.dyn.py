@@ -7,6 +7,11 @@ from .services import (
 from .code.path import Path
 
 
+# Import can not be resolved to a module target. Fails the target having the import.
+class UnknownModuleError(Exception):
+    pass
+
+
 # Requirement resolved to a module target. Reqs importing from the same module give equal deps.
 @dataclass(frozen=True)
 class CodeDep:
@@ -53,8 +58,13 @@ class CodeReq:
                 module = targets.find_nearest_module(self.path, sub_path[:idx])
             except KeyError:
                 continue
-            return CodeDep(self.import_as[:prefix_len + idx], self._module_target(module))
-        raise KeyError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
+            module_tgt = self._module_target(module)
+            if module_tgt is None:
+                # Manual modules have no targets: their resources are not loaded as ones to import yet.
+                raise UnknownModuleError(
+                    f"{self.path}: Manual module can not be imported yet: {'.'.join(self.import_as)}")
+            return CodeDep(self.import_as[:prefix_len + idx], module_tgt)
+        raise UnknownModuleError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
 
     # Complete module, having all its imports resolved.
     def _module_target(self, module):

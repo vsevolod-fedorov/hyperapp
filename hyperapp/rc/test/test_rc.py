@@ -188,3 +188,23 @@ def test_test_module_by_imports():
         'test/sample/checks/test_fn_1': 'resolved',
         }
     _compile_and_check('test_module_by_imports', states)
+
+
+# Import of a module not found fails the importing module, not the whole compile.
+def test_code_import_missing():
+    states = {
+        'import/sample/user/0': 'failed',
+        }
+    _compile_and_check('code_import_missing', states, {
+        'import/sample/user/0': "sample:user: Module not found for import: code.missing",
+        })
+
+
+# Manual modules can not be imported yet; their import fails the importing module.
+def test_manual_module_import():
+    states = {
+        'import/sample/user/0': 'failed',
+        }
+    _compile_and_check('manual_module_import', states, {
+        'import/sample/user/0': "sample:user: Manual module can not be imported yet: code.lib",
+        })

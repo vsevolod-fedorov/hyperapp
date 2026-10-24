@@ -25,6 +25,8 @@ is passed by registration, in ``worker_config.resources.yaml``.
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
+Import of a module not found, or of a manual one, which can not be imported yet, fails the importing target
+(``code_import_missing``, ``manual_module_import``).
 
 Targets
 +++++++

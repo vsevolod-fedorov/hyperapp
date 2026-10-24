@@ -10,11 +10,6 @@ Bugs already marked with a TODO in the code are not listed here.
   and reads its `.dyn.py` source. A module that has only the `.resources.yaml` fails there with
   `KeyError`. (Found 2026-10-04.)
 
-- **Importing a manual module from a compiled one breaks target resolution.** `CodeReq.get_target`
-  in `hyperapp/rc/code_req.dyn.py` returns `module.module_tgt`, which is `None` for manual modules
-  (only compiled modules get one in `_create_targets`). `CompiledModuleTarget.state` then calls
-  `None.state`, and `result` calls `None.result`. (Found 2026-10-15.)
-
 - **Code import of a test module fails its importer without saying why.** Code imports resolve to the
   module's `CompiledModuleTarget` in `hyperapp/rc/target/module.dyn.py`, which is failed once the module's
   first import makes it a test module. The importer then fails only by a failed dep, with no error naming

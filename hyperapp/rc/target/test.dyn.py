@@ -4,7 +4,7 @@ from . import htypes
 from .services import (
     mosaic,
     )
-from .code.code_req import TestedCodeReq
+from .code.code_req import TestedCodeReq, UnknownModuleError
 from .code.target.import_target import (
     ImportAliasTarget,
     ImportRequirementsError,
@@ -358,7 +358,10 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
     log.info("%s: test is incomplete: %s", target, piece)
     requirements = resolve_requirements(requirement_creg, piece.requirements)
     tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
-    target.process_incomplete_job_result(requirements, tested_requirements)
+    try:
+        target.process_incomplete_job_result(requirements, tested_requirements)
+    except UnknownModuleError as x:
+        target.job_failed(str(x))
 
 
 def failed_result(piece, request, job_pool):
