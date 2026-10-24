@@ -1,5 +1,6 @@
 import logging
 from collections import defaultdict
+from dataclasses import dataclass
 
 from .services import (
     load_resources,
@@ -26,9 +27,17 @@ RESOURCES_EXT = '.resources.yaml'
 RESULT_TIMEOUT_SEC = 10
 
 
+@dataclass
+class CompileResult:
+    resource_tree: dict  # Generated files: project name -> file path tuple -> bytes.
+    target_states: dict  # Target name -> TargetState.
+    errors: dict  # Target name -> error, for targets failed by themselves, not by their deps.
+    cycles: list  # Dependency cycles, as target name lists, first one repeated last.
+
+
 # Compile resources of workspace projects.
 # project_to_tree: project name -> file path tuple -> bytes, the sources.
-# Returns generated files in the same form.
+# Returns CompileResult.
 def compile_resources(
         generate_rsa_identity,
         subprocess_workers_running,
@@ -47,11 +56,11 @@ def compile_resources(
     with subprocess_workers_running(
             master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
-        result_tree = _compile(
+        result = _compile(
             transport, selectors, job_pool, name_resources, dump_resource_modules,
             master_identity, workers, projects, project_to_tree)
     log.info("workers are finished")
-    return result_tree
+    return result
 
 
 def _collect_modules(project_to_tree):
@@ -128,8 +137,6 @@ def _log_targets(targets):
             log.info("  result: %s %s", mosaic.put(tgt.result), tgt.result)
         for dep in sorted(tgt.deps, key=lambda t: t.name):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
-    for cycle in pop_dependency_cycles():
-        log.error("Dependency cycle: %s", " -> ".join(tgt.name for tgt in cycle))
 
 
 def _log_projects(project_tgts):
@@ -180,6 +187,18 @@ def _compile(
     _log_targets(targets)
     _log_projects(project_tgts)
     resource_locations = _resource_locations(project_tgts)
+    target_states = {tgt.name: tgt.state for tgt in targets}
+    errors = {tgt.name: tgt.error for tgt in targets if tgt.error}
+    # Getting states is what finds cycles, so these are got after the last state is.
+    # Cycles found later would be reported by the next compile run.
+    cycles = [[tgt.name for tgt in cycle] for cycle in pop_dependency_cycles()]
+    for cycle in cycles:
+        log.error("Dependency cycle: %s", " -> ".join(cycle))
     piece_to_name = name_resources(resources, resource_locations)
     _log_names(piece_to_name, resource_locations)
-    return _resource_tree(dump_resource_modules, projects, piece_to_name, resource_locations)
+    return CompileResult(
+        resource_tree=_resource_tree(dump_resource_modules, projects, piece_to_name, resource_locations),
+        target_states=target_states,
+        errors=errors,
+        cycles=cycles,
+        )

@@ -35,5 +35,5 @@ def main(
     args = _parse_args(sys_argv)
     log.info("Loading workspace: %s", args.workspace)
     workspace = Workspace.from_yaml_file(args.workspace)
-    result_tree = compile_resources(workspace.projects, workspace.load_file_tree())
-    _write_tree(workspace.projects, result_tree)
+    result = compile_resources(workspace.projects, workspace.load_file_tree())
+    _write_tree(workspace.projects, result.resource_tree)

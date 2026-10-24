@@ -3,7 +3,9 @@ Resource compiler design
 
 Compiler (``compile.dyn.py``) makes ``.resources.yaml`` files for dyn modules of workspace projects.
 Work is a graph of targets; jobs of runnable targets are run by subprocess workers, results update the graph.
-Tests in ``test/test_rc.py`` check each rule below on a workspace in ``test/resources/``;
+It returns ``CompileResult``: generated files, target states, errors of targets failed by themselves
+(not by their deps), and dependency cycles.
+Tests in ``test/test_rc.py`` check these for each rule below, on a workspace in ``test/resources/``;
 workspaces named below are there.
 
 Modules
@@ -40,7 +42,8 @@ Targets
 * ``test/<project>/<path>/<function>``: test alias, follows the last run. Resolved when the test is passed.
 * ``project/<project>``: all compiled modules of a project. Failed one fails the whole project: no resources.
 
-States are got from deps (``target/state.dyn.py``). Dependency cycle fails all targets in it, and is logged.
+States are got from deps (``target/state.dyn.py``). Dependency cycle fails all targets in it, and is reported.
+Target failed by itself keeps its error; wrong import requirements fail the import attempt finding them.
 
 First import decides
 ++++++++++++++++++++
