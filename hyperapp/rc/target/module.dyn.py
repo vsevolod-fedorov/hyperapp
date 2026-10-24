@@ -2,7 +2,7 @@ from . import htypes
 from .code.code_req import TestedCodeReq
 from .code.target.import_target import ImportAliasTarget, ImportRequirementsError, ProjectImportsTarget
 from .code.target.project import ProjectTarget
-from .code.target.state import TargetState, deps_state
+from .code.target.state import TargetState
 from .code.target.test import TestModuleTarget
 
 
@@ -35,7 +35,7 @@ class CompiledModuleTarget:
     def state(self):
         if self._is_test:
             return TargetState.FAILED  # Test module is imported as code.
-        return deps_state(self.deps)
+        return self._targets.deps_state(self.deps)
 
     @property
     def deps(self):

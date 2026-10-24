@@ -1,5 +1,4 @@
 from .code.target.import_target import ProjectImportsTarget
-from .code.target.state import deps_state
 
 
 class ProjectTarget:
@@ -32,7 +31,7 @@ class ProjectTarget:
 
     @property
     def state(self):
-        return deps_state(self.deps)
+        return self._targets.deps_state(self.deps)
 
     @property
     def deps(self):

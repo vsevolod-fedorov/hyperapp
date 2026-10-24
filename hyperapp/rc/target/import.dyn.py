@@ -5,7 +5,7 @@ from .services import (
     mosaic,
     )
 from .code.import_recorder import import_recorder_piece, recorded_python_module
-from .code.target.state import TargetState, deps_state
+from .code.target.state import TargetState
 
 log = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ class ProjectImportsTarget:
 
     @property
     def state(self):
-        return deps_state(self._deps)
+        return self._targets.deps_state(self._deps)
 
     @property
     def deps(self):
@@ -102,7 +102,7 @@ class ImportTarget:
     @property
     def state(self):
         if self._state == TargetState.WAITING:
-            state = deps_state(self.deps)
+            state = self._targets.deps_state(self.deps)
             if state == TargetState.RESOLVED:
                 return TargetState.RUNNABLE
             return state
@@ -205,11 +205,12 @@ class ImportAliasTarget:
             return targets[name]
         except KeyError:
             pass
-        tgt = cls(name)
+        tgt = cls(targets, name)
         targets[name] = tgt
         return tgt
 
-    def __init__(self, name):
+    def __init__(self, targets, name):
+        self._targets = targets
         self._name = name
         self._import_tgt = None
 
@@ -223,7 +224,7 @@ class ImportAliasTarget:
     # Has no job, so runnable or running import target is just waiting for it.
     @property
     def state(self):
-        return deps_state(self.deps)
+        return self._targets.deps_state(self.deps)
 
     @property
     def deps(self):

@@ -42,7 +42,8 @@ Targets
 * ``test/<project>/<path>/<function>``: test alias, follows the last run. Resolved when the test is passed.
 * ``project/<project>``: all compiled modules of a project. Failed one fails the whole project: no resources.
 
-States are got from deps (``target/state.dyn.py``). Dependency cycle fails all targets in it, and is reported.
+States are got from deps, by target set (``target/set.dyn.py``). Dependency cycle fails all targets in it,
+and is reported.
 Target failed by itself keeps its error; wrong import requirements fail the import attempt finding them.
 
 First import decides

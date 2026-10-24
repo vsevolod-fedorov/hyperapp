@@ -13,7 +13,7 @@ from .code.target_set import TargetSet
 from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectImportsTarget
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
-from .code.target.state import TargetState, pop_dependency_cycles
+from .code.target.state import TargetState
 from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
@@ -189,9 +189,7 @@ def _compile(
     resource_locations = _resource_locations(project_tgts)
     target_states = {tgt.name: tgt.state for tgt in targets}
     errors = {tgt.name: tgt.error for tgt in targets if tgt.error}
-    # Getting states is what finds cycles, so these are got after the last state is.
-    # Cycles found later would be reported by the next compile run.
-    cycles = [[tgt.name for tgt in cycle] for cycle in pop_dependency_cycles()]
+    cycles = [[tgt.name for tgt in cycle] for cycle in targets.cycles]
     for cycle in cycles:
         log.error("Dependency cycle: %s", " -> ".join(cycle))
     piece_to_name = name_resources(resources, resource_locations)
