@@ -1,5 +1,6 @@
 from . import htypes
 from .services import (
+    mosaic,
     pyobj_creg,
     )
 
@@ -83,3 +84,28 @@ def recorder_from_piece(piece):
         }
     used_imports = set()
     return _Recorder(config, used_imports)
+
+
+# Items for other consumers are ignored for now.
+def import_recorder_piece(module_path, cfg_items):
+    return htypes.import_recorder.import_recorder(
+        module_path=module_path,
+        cfg_items=tuple(item for item in cfg_items if isinstance(item, htypes.import_recorder.import_cfg_item)),
+        )
+
+
+# Module getting all its imports from the recorder.
+def recorded_python_module(module_name, source, recorder_piece):
+    return htypes.builtin.python_module(
+        module_name=module_name,
+        source=source,
+        imports=htypes.builtin.imports(
+            pyobj=(
+                htypes.builtin.import_rec(
+                    full_name='',
+                    resource=mosaic.put(recorder_piece),
+                    ),
+                ),
+            raw=(),
+            ),
+        )

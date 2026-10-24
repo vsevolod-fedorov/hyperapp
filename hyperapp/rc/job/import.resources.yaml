@@ -7,15 +7,10 @@ definitions:
       file_name: import.dyn.py
       imports:
         pyobj:
-          htypes.builtin.python_module: builtin:type:python_module
-          htypes.builtin.imports: builtin:type:imports
-          htypes.builtin.import_rec: builtin:type:import_rec
           htypes.import_job.succeeded_result: import.t:succeeded_result
           htypes.import_job.incomplete_result: import.t:incomplete_result
           htypes.import_job.failed_result: import.t:failed_result
           htypes.import_job.internal_error_result: import.t:internal_error_result
-          htypes.import_recorder.import_recorder: :import_recorder.t:import_recorder
-          htypes.import_recorder.import_cfg_item: :import_recorder.t:import_cfg_item
           services.mosaic: builtin:service:mosaic
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web

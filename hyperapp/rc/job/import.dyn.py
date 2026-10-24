@@ -9,7 +9,12 @@ from .services import (
     )
 from .code.system import setup_system
 from .code.path import Path
-from .code.import_recorder import IncompleteImportError, register_import_recorder_pyobj
+from .code.import_recorder import (
+    IncompleteImportError,
+    import_recorder_piece,
+    recorded_python_module,
+    register_import_recorder_pyobj,
+    )
 from .data.base.config import config as base_config
 
 log = logging.getLogger(__name__)
@@ -41,40 +46,15 @@ def _incomplete_error(x):
     return None
 
 
-def _python_module(piece, recorder_piece):
-    return htypes.builtin.python_module(
-        module_name=piece.path.path[-1],
-        source=piece.source,
-        imports=htypes.builtin.imports(
-            pyobj=(
-                htypes.builtin.import_rec(
-                    full_name='',
-                    resource=mosaic.put(recorder_piece),
-                    ),
-                ),
-            raw=(),
-            ),
-        )
-
-
-# Items for other consumers are ignored for now.
-def _recorder_cfg_items(cfg_item_refs):
-    items = (web.summon(ref) for ref in cfg_item_refs)
-    return tuple(item for item in items if isinstance(item, htypes.import_recorder.import_cfg_item))
-
-
 def run_import_job(piece, request, import_to_req, transport):
     log.info("[%s] Run import job: %s", request, piece)
     path = Path.from_piece(piece.path)
     register_import_recorder_pyobj()
     service_creg = setup_system([base_config])
-    recorder_piece = htypes.import_recorder.import_recorder(
-        module_path=piece.path,
-        cfg_items=_recorder_cfg_items(piece.cfg_items),
-        )
+    recorder_piece = import_recorder_piece(piece.path, [web.summon(ref) for ref in piece.cfg_items])
     recorder = pyobj_creg.animate(recorder_piece)
     try:
-        module = pyobj_creg.animate(_python_module(piece, recorder_piece))
+        module = pyobj_creg.animate(recorded_python_module(piece.path.path[-1], piece.source, recorder_piece))
         log.info("Imported module: %s", module)
         error = None
     except Exception as x:
