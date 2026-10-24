@@ -51,6 +51,10 @@ class CompiledModuleTarget:
     def add_import_req(self, req):
         self._import_deps.add(req.resolve(self._targets))
 
+    # Import job collects test functions from any module; only tests use them.
+    def add_test_function(self, function):
+        pass
+
     @property
     def result(self):
         name_to_pyobj = {}

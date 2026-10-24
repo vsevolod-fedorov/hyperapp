@@ -7,6 +7,7 @@ definitions:
       file_name: import.dyn.py
       imports:
         pyobj:
+          htypes.import_job.test_function: import.t:test_function
           htypes.import_job.succeeded_result: import.t:succeeded_result
           htypes.import_job.incomplete_result: import.t:incomplete_result
           htypes.import_job.failed_result: import.t:failed_result

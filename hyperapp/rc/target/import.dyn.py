@@ -134,10 +134,12 @@ class ImportTarget:
     def job_failed(self):
         self._state = TargetState.FAILED
 
-    def process_succeeded_job_result(self, requirements):
+    def process_succeeded_job_result(self, requirements, test_functions):
         self._process_job_result(requirements)
         for req in requirements:
             self._module_tgt.add_import_req(req)
+        for function in test_functions:
+            self._module_tgt.add_test_function(function)
 
     def process_incomplete_job_result(self, requirements):
         deps = {req.resolve(self._targets) for req in requirements}
@@ -214,7 +216,7 @@ def succeeded_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import succeeded: %s", target, piece)
     requirements = _resolve_requirements(requirement_creg, piece.requirements)
-    target.process_succeeded_job_result(requirements)
+    target.process_succeeded_job_result(requirements, piece.test_functions)
 
 
 def incomplete_result(piece, request, requirement_creg, job_pool):

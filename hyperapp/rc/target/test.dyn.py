@@ -2,7 +2,8 @@ from .code.target.import_target import ImportAliasTarget
 from .code.target.state import deps_state
 
 
-# Test module gives no resources; it keeps imports resolved by its last import target.
+# Test module gives no resources; it keeps imports resolved by its last import target,
+# and adds a target per test function.
 class TestModuleTarget:
 
     @classmethod
@@ -43,6 +44,48 @@ class TestModuleTarget:
 
     def add_import_req(self, req):
         self._import_deps.add(req.resolve(self._targets))
+
+    def add_test_function(self, function):
+        TestTarget.ensure(self._targets, self._path, function, self)
+
+    @property
+    def result(self):
+        return None
+
+
+# Test function of a test module. Resolved when the test module is.
+class TestTarget:
+
+    @classmethod
+    def ensure(cls, targets, path, function, module_tgt):
+        name = f'test/{path.project}/{"/".join(path.path)}/{function.name}'
+        try:
+            return targets[name]
+        except KeyError:
+            pass
+        tgt = cls(name, function, module_tgt)
+        targets[name] = tgt
+        return tgt
+
+    def __init__(self, name, function, module_tgt):
+        self._name = name
+        self._function = function  # import_job.test_function piece.
+        self._module_tgt = module_tgt
+
+    def __repr__(self):
+        return f"<Target:{self._name}>"
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def state(self):
+        return deps_state(self.deps)
+
+    @property
+    def deps(self):
+        return {self._module_tgt}
 
     @property
     def result(self):

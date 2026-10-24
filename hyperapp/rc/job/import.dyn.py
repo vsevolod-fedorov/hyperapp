@@ -1,3 +1,4 @@
+import inspect
 import logging
 import traceback
 
@@ -58,6 +59,7 @@ def run_import_job(piece, request, import_to_req, transport):
         log.info("Imported module: %s", module)
         error = None
     except Exception as x:
+        module = None
         error = x
     # Collected outside of the except block, so its errors are not chained to the import error.
     try:
@@ -70,15 +72,16 @@ def run_import_job(piece, request, import_to_req, transport):
             traceback=tuple(traceback.format_tb(x.__traceback__)),
             )
     else:
-        result = _import_result(piece, requirements, error)
+        result = _import_result(piece, requirements, module, error)
     transport.send_message(request.remote_peer, request.local_identity, result)
 
 
-def _import_result(piece, requirements, error):
+def _import_result(piece, requirements, module, error):
     if error is None:
         return htypes.import_job.succeeded_result(
             target=piece.target,
             requirements=requirements,
+            test_functions=tuple(_enum_test_functions(module)),
             )
     if (incomplete := _incomplete_error(error)) is not None:
         log.info("Import is incomplete: %s", incomplete)
@@ -93,3 +96,19 @@ def _import_result(piece, requirements, error):
         error=str(error),
         traceback=tuple(traceback.format_tb(error.__traceback__)),
         )
+
+
+# Collected from any module: job does not know if it is a test one.
+def _enum_test_functions(module):
+    for name, value in vars(module).items():
+        if not name.startswith('test_') or not inspect.isfunction(value):
+            continue
+        if value.__module__ != module.__name__:
+            continue  # Imported from other module.
+        is_async_gen = inspect.isasyncgenfunction(value)
+        yield htypes.import_job.test_function(
+            name=name,
+            params=tuple(inspect.signature(value).parameters),
+            is_async=inspect.iscoroutinefunction(value) or is_async_gen,
+            is_generator=inspect.isgeneratorfunction(value) or is_async_gen,
+            )
