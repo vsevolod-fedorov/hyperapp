@@ -1,17 +1,11 @@
 from path import path
+from test import test_function
 
 import_job = record:
   target: string
   path: path
   source: string
   cfg_items: ref list  # Of any type; import recorder picks its own.
-
-# Module-level function named with 'test_' prefix.
-test_function = record:
-  name: string
-  params: string list
-  is_async: bool  # Async generator is both async and generator.
-  is_generator: bool
 
 succeeded_result = record:
   target: string

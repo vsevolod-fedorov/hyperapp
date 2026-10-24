@@ -1,0 +1,35 @@
+definitions:
+
+  test.module:
+    type: builtin:type:python_module
+    value:
+      module_name: test
+      file_name: test.dyn.py
+      imports:
+        pyobj:
+          htypes.test_job.succeeded_result: test.t:succeeded_result
+          htypes.test_job.incomplete_result: test.t:incomplete_result
+          htypes.test_job.failed_result: test.t:failed_result
+          htypes.test_job.internal_error_result: test.t:internal_error_result
+          htypes.import_recorder.import_cfg_item: :import_recorder.t:import_cfg_item
+          services.pyobj_creg: builtin:service:pyobj_creg
+          services.web: builtin:service:web
+          code.system: base:system/system:system.module
+          code.path: :path:path.module
+          code.import_recorder: :import_recorder:import_recorder.module
+        raw:
+          data.base.config.config: base:config:config
+
+  run_test_job.attr:
+    type: builtin:type:attribute
+    value:
+      object: test.module
+      attr_name: run_test_job
+
+  run_test_job.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: run_test_job.attr
+      service_params:
+        import_to_req: import_to_req:import_to_req.service
+        transport: base:transport/transport:transport.service

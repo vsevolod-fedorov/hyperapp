@@ -26,6 +26,7 @@ definitions:
     value:
       items:
         job/import.t:import_job: job/import:run_import_job.actor
+        job/test.t:test_job: job/test:run_test_job.actor
 
   import_to_req.config:
     type: base:system/system.t:data_item_list

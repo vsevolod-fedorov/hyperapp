@@ -1,0 +1,37 @@
+from path import path
+
+# Module-level function named with 'test_' prefix.
+test_function = record:
+  name: string
+  params: string list
+  is_async: bool  # Async generator is both async and generator.
+  is_generator: bool
+
+test_job = record:
+  target: string
+  path: path  # Of the test module.
+  source: string
+  cfg_items: ref list  # Of any type; import recorder picks its own.
+  function: test_function
+
+# Tested requirements are recorded by tested modules while the test runs.
+
+succeeded_result = record:
+  target: string
+  tested_requirements: ref list
+
+incomplete_result = record:
+  target: string
+  requirements: ref list
+  tested_requirements: ref list
+
+failed_result = record:
+  target: string
+  error: string
+  traceback: string list
+
+# Error in the test job itself, not in the test.
+internal_error_result = record:
+  target: string
+  error: string
+  traceback: string list

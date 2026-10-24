@@ -19,3 +19,9 @@ Bugs already marked with a TODO in the code are not listed here.
   `hyperapp/rc/target/set.dyn.py` finds `*.tests` modules too, so `code.foo.tests` resolves to a
   `TestModuleTarget`, whose `result` is `None`. The importer's cfg item and module imports then
   get `mosaic.put(None)`. (Found 2026-10-24.)
+
+- **Test jobs share recorders within a worker.** Test jobs of one test module send the same recorder
+  pieces, and `CachedCodeRegistry` caches animated objects by piece. So a worker reuses one recorder
+  and one module object for all such jobs it runs. `requirements` and `tested_requirements` of a test
+  in `hyperapp/rc/job/test.dyn.py` then include imports used by earlier tests in that worker.
+  (Found 2026-10-24.)

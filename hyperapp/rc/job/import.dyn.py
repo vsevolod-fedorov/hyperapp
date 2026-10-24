@@ -80,7 +80,7 @@ def _enum_test_functions(module):
         if value.__module__ != module.__name__:
             continue  # Imported from other module.
         is_async_gen = inspect.isasyncgenfunction(value)
-        yield htypes.import_job.test_function(
+        yield htypes.test_job.test_function(
             name=name,
             params=tuple(inspect.signature(value).parameters),
             is_async=inspect.iscoroutinefunction(value) or is_async_gen,

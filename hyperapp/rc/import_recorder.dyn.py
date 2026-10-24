@@ -2,6 +2,7 @@ from . import htypes
 from .services import (
     mosaic,
     pyobj_creg,
+    web,
     )
 
 
@@ -109,6 +110,19 @@ def recorded_python_module(module_name, source, recorder_piece):
             raw=(),
             ),
         )
+
+
+# Recorder of a module made by recorded_python_module, or None for other modules.
+def module_recorder_piece(module_piece):
+    if not isinstance(module_piece, htypes.builtin.python_module):
+        return None
+    for rec in module_piece.imports.pyobj:
+        if rec.full_name != '':
+            continue
+        piece = web.summon(rec.resource)
+        if isinstance(piece, htypes.import_recorder.import_recorder):
+            return piece
+    return None
 
 
 def _without_prefixes(import_paths):
