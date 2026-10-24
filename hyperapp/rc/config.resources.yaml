@@ -33,6 +33,10 @@ definitions:
         job/import.t:incomplete_result: target/import:incomplete_result.actor
         job/import.t:failed_result: target/import:failed_result.actor
         job/import.t:internal_error_result: target/import:internal_error_result.actor
+        job/test.t:succeeded_result: target/test:succeeded_result.actor
+        job/test.t:incomplete_result: target/test:incomplete_result.actor
+        job/test.t:failed_result: target/test:failed_result.actor
+        job/test.t:internal_error_result: target/test:internal_error_result.actor
 
   transport.config:
     type: base:transport/transport.t:config

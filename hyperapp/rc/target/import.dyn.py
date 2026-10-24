@@ -110,9 +110,7 @@ class ImportTarget:
     # Used only when runnable or later, so all dep targets are resolved and have results.
     @property
     def _cfg_items(self):
-        cfg_items = [dep.make_cfg_item() for dep in self._import_deps]
-        # Deps set order depends on target ids; sorted for stable pieces.
-        return sorted(cfg_items, key=lambda item: mosaic.put(item).hash)
+        return sorted_cfg_items(dep.make_cfg_item() for dep in self._import_deps)
 
     @property
     def job(self):
@@ -123,10 +121,11 @@ class ImportTarget:
             cfg_items=tuple(mosaic.put(item) for item in self._cfg_items),
             )
 
-    # Module as the job imports it.
-    @property
-    def recorded_module(self):
-        recorder_piece = import_recorder_piece(self._path.piece, self._cfg_items)
+    # Module as the job imports it, or with other imports resolved, if cfg items are given.
+    def recorded_module(self, cfg_items=None):
+        if cfg_items is None:
+            cfg_items = self._cfg_items
+        recorder_piece = import_recorder_piece(self._path.piece, cfg_items)
         return recorded_python_module(self._path.path[-1], self._source, recorder_piece)
 
     def job_started(self):
@@ -175,6 +174,11 @@ class ImportTarget:
         return None
 
 
+# Deps set order depends on target ids; sorted for stable pieces.
+def sorted_cfg_items(cfg_items):
+    return sorted(cfg_items, key=lambda item: mosaic.put(item).hash)
+
+
 # Follows the last import target of a module: a next one is added while the import is incomplete.
 # Resolved when the module is imported completely, to the module as that last import job imported it.
 class ImportAliasTarget:
@@ -219,30 +223,34 @@ class ImportAliasTarget:
 
     @property
     def result(self):
-        return self._import_tgt.recorded_module
+        return self._import_tgt.recorded_module()
+
+    # Used for tested modules, recorded with their imports resolved as a test module needs.
+    def recorded_module(self, cfg_items):
+        return self._import_tgt.recorded_module(cfg_items)
 
 
-def _resolve_requirements(requirement_creg, requirement_refs):
+def resolve_requirements(requirement_creg, requirement_refs, desc="requirement"):
     requirements = [
         requirement_creg.invite(req)
         for req in requirement_refs
         ]
     for req in requirements:
-        log.info("\trequirement: %s", req)
+        log.info("\t%s: %s", desc, req)
     return requirements
 
 
 def succeeded_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import succeeded: %s", target, piece)
-    requirements = _resolve_requirements(requirement_creg, piece.requirements)
+    requirements = resolve_requirements(requirement_creg, piece.requirements)
     target.process_succeeded_job_result(requirements, piece.test_functions)
 
 
 def incomplete_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import is incomplete: %s", target, piece)
-    requirements = _resolve_requirements(requirement_creg, piece.requirements)
+    requirements = resolve_requirements(requirement_creg, piece.requirements)
     target.process_incomplete_job_result(requirements)
 
 

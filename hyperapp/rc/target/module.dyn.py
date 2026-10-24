@@ -50,6 +50,10 @@ class CompiledModuleTarget:
             *(tgt for test_module_tgt in self._test_module_tgts for tgt in test_module_tgt.test_deps),
             }
 
+    @property
+    def import_deps(self):
+        return self._import_deps
+
     # Returns target for the module to use from now on, or None if import requirements are wrong.
     # Module having tested code imports is a test module, giving no resources.
     # Decided by the first import attempt, which the project imports target waits for.

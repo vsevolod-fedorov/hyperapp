@@ -36,13 +36,18 @@ def _target_states(caplog):
         }
 
 
-# Test targets must be just expected ones; other targets are checked only when expected.
+# Test alias target names have no run index suffix, unlike test run ones.
+def _is_test_alias(name):
+    return name.startswith('test/') and not name.rsplit('/', 1)[-1].isdigit()
+
+
+# Test aliases must be just expected ones; other targets are checked only when expected.
 # Without expected errors, no errors must be logged at all.
 def _check_log(caplog, expected_states, expected_errors):
     states = _target_states(caplog)
     assert {name: states.get(name) for name in expected_states} == expected_states
-    test_names = {name for name in states if name.startswith('test/')}
-    assert test_names == {name for name in expected_states if name.startswith('test/')}
+    test_names = {name for name in states if _is_test_alias(name)}
+    assert test_names == {name for name in expected_states if _is_test_alias(name)}
     errors = [record.getMessage() for record in caplog.records if record.levelno >= logging.ERROR]
     if not expected_errors:
         assert not errors
@@ -89,7 +94,8 @@ def test_code_import_incomplete(caplog):
     _compile_and_check(caplog, 'code_import_incomplete')
 
 
-# Test module imports tested modules with 'tested.code' prefix.
+# Test module imports tested modules with 'tested.code' prefix, so it is a test one, giving no resources.
+# Tested module_3 imports tested module_1, and untested module_4.
 def test_test_collection(caplog):
     test_states = {
         f'test/sample/modules.tests/{name}': 'resolved'
@@ -97,9 +103,33 @@ def test_test_collection(caplog):
             'test_fn_1',
             'test_fn_2',
             'test_both_fns',
+            'test_fn_3',
+            'test_async',
+            'test_generator',
+            'test_async_generator',
+            'test_code_used_by_run',
             ]
         }
+    # Alias follows the last run.
+    test_states['test/sample/modules.tests/test_code_used_by_run/0'] = 'resolved'
+    test_states['test/sample/modules.tests/test_code_used_by_run/1'] = 'resolved'
     _compile_and_check(caplog, 'test_collection', test_states)
+
+
+# Tests use a module not tested by their test module import, so fail.
+# Failed tests fail module_1 they test, and so its project: no resources are produced.
+def test_tested_used_by_test_run(caplog):
+    test_states = {
+        f'test/sample/late.tests/{name}': 'failed'
+        for name in [
+            'test_async',
+            'test_generator',
+            'test_async_generator',
+            ]
+        }
+    _compile_and_check(caplog, 'tested_used_by_test_run', test_states, [
+        "Tested module tested.code.module_2.fn_2 is first used when the test runs",
+        ])
 
 
 # First import attempts are incomplete before tested imports, which later attempts find, so they fail.
@@ -111,6 +141,29 @@ def test_tested_imported_late(caplog):
     _compile_and_check(caplog, 'tested_imported_late', states, [
         "late_compiled>: Tested modules are imported by import attempt #1 only: tested.code.module_1.",
         "late_import.tests>: Tested modules are imported by import attempt #1 only: tested.code.module_2.",
+        ])
+
+
+# Tested module uses an import only when the test runs, so it is not resolved for it, and the test fails.
+def test_tested_import_used_by_test_run(caplog):
+    states = {
+        'test/sample/lazy.tests/test_fn': 'failed',
+        }
+    _compile_and_check(caplog, 'tested_import_used_by_test_run', states, [
+        "Tested module sample:lazy uses code.module_1.fn_1 when the test runs, but not when it is imported",
+        ])
+
+
+# Tested module imports another tested one through an untested one: a dependency cycle, failing them all.
+def test_tested_imported_indirectly(caplog):
+    states = {
+        'test/sample/indirect.tests/test_fn': 'failed',
+        'module/compiled/sample/module_a': 'failed',
+        'module/compiled/sample/module_b': 'failed',
+        }
+    _compile_and_check(caplog, 'tested_imported_indirectly', states, [
+        "Dependency cycle: module/compiled/sample/module_b -> module/test/sample/indirect.tests"
+        " -> module/compiled/sample/module_c -> module/compiled/sample/module_b",
         ])
 
 

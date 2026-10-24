@@ -7,7 +7,64 @@ definitions:
       file_name: test.dyn.py
       imports:
         pyobj:
+          htypes.test_job.test_job: :job/test.t:test_job
+          htypes.import_recorder.import_cfg_item: :import_recorder.t:import_cfg_item
+          services.mosaic: builtin:service:mosaic
           code.code_req: :code_req:code_req.module
           code.target.import_target: import:import.module
           code.target.state: state:state.module
         raw: {}
+
+  succeeded_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: test.module
+      attr_name: succeeded_result
+
+  succeeded_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: succeeded_result.attr
+      service_params:
+        requirement_creg: :requirement_creg:requirement_creg.service
+        job_pool: :job_pool:job_pool.service
+
+  incomplete_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: test.module
+      attr_name: incomplete_result
+
+  incomplete_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: incomplete_result.attr
+      service_params:
+        requirement_creg: :requirement_creg:requirement_creg.service
+        job_pool: :job_pool:job_pool.service
+
+  failed_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: test.module
+      attr_name: failed_result
+
+  failed_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: failed_result.attr
+      service_params:
+        job_pool: :job_pool:job_pool.service
+
+  internal_error_result.attr:
+    type: builtin:type:attribute
+    value:
+      object: test.module
+      attr_name: internal_error_result
+
+  internal_error_result.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: internal_error_result.attr
+      service_params:
+        job_pool: :job_pool:job_pool.service
