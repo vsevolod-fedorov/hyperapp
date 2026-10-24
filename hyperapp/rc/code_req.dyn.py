@@ -33,22 +33,25 @@ class CodeDep:
 @dataclass(frozen=True)
 class CodeReq:
     path: Path
+    prefix: tuple[str]
     import_as: tuple[str]
 
     @classmethod
     def from_piece(cls, piece):
         return cls(
             path=Path.from_piece(piece.path),
+            prefix=piece.prefix,
             import_as=piece.import_as,
             )
 
     def resolve(self, targets):
-        # import_as is ('code', *module_path, *attr_path); Try longest module path first.
-        sub_path = self.import_as[1:]
+        # import_as is (*prefix, *module_path, *attr_path); Try longest module path first.
+        prefix_len = len(self.prefix)
+        sub_path = self.import_as[prefix_len:]
         for idx in range(len(sub_path), 0, -1):
             try:
                 module = targets.find_nearest_module(self.path, sub_path[:idx])
             except KeyError:
                 continue
-            return CodeDep(self.import_as[:idx + 1], module.module_tgt)
+            return CodeDep(self.import_as[:prefix_len + idx], module.module_tgt)
         raise KeyError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
