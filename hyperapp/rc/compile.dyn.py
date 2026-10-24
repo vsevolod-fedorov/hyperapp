@@ -9,7 +9,7 @@ from .code.transport import LocalEndpoint
 from .code.path import Path
 from .code.module import ModuleType, Module
 from .code.target_set import TargetSet
-from .code.target.import_target import ImportTarget, ProjectImportsTarget
+from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectImportsTarget
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import TargetState
@@ -100,6 +100,7 @@ def _create_targets(modules, targets):
         else:
             continue
         module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
+        module.import_alias_tgt = ImportAliasTarget.ensure(targets, module.path)
         # Test imports are project imports too: compiled modules wait for them, and fail with them.
         ProjectImportsTarget.ensure(targets, module.path.project).add_dep(module.import_tgt)
     # Already created by CompiledModuleTarget.ensure; just pick them up.

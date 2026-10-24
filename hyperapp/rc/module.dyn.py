@@ -18,5 +18,6 @@ class Module:
         self.path = path
         self.source = source
         self.import_tgt = None
+        self.import_alias_tgt = None
         self.module_tgt = None
         self.resource_tgt = None

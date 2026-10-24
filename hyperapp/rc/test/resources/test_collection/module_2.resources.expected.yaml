@@ -1,0 +1,12 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  module_2.module:
+    type: builtin:type:python_module
+    value:
+      module_name: module_2
+      file_name: module_2.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

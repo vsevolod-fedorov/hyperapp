@@ -53,5 +53,18 @@ class CodeReq:
                 module = targets.find_nearest_module(self.path, sub_path[:idx])
             except KeyError:
                 continue
-            return CodeDep(self.import_as[:prefix_len + idx], module.module_tgt)
+            return CodeDep(self.import_as[:prefix_len + idx], self._module_target(module))
         raise KeyError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
+
+    # Complete module, having all its imports resolved.
+    def _module_target(self, module):
+        return module.module_tgt
+
+
+# Test module import of a module it tests. Found the same way as code import.
+@dataclass(frozen=True)
+class TestedCodeReq(CodeReq):
+
+    # Module as recorded by its import, so tests record what the tested module uses.
+    def _module_target(self, module):
+        return module.import_alias_tgt

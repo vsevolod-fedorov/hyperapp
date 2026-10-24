@@ -8,6 +8,7 @@ definitions:
       imports:
         pyobj:
           htypes.code_req.code_req: :code_req.t:code_req
+          htypes.code_req.tested_code_req: :code_req.t:tested_code_req
         raw: {}
 
   import_to_code_req.attr:
@@ -25,3 +26,19 @@ definitions:
   code.import-prefix:
     type: import_to_req:import_prefix.t
     value: [code]
+
+  import_to_tested_code_req.attr:
+    type: builtin:type:attribute
+    value:
+      object: code_req.module
+      attr_name: import_to_tested_code_req
+
+  import_to_tested_code_req.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: import_to_tested_code_req.attr
+      service_params: {}
+
+  tested.code.import-prefix:
+    type: import_to_req:import_prefix.t
+    value: [tested, code]

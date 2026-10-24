@@ -31,3 +31,21 @@ definitions:
     value:
       fn: CodeReq.from_piece.attr
       service_params: {}
+
+  TestedCodeReq.attr:
+    type: builtin:type:attribute
+    value:
+      object: code_req.module
+      attr_name: TestedCodeReq
+
+  TestedCodeReq.from_piece.attr:
+    type: builtin:type:attribute
+    value:
+      object: TestedCodeReq.attr
+      attr_name: from_piece
+
+  TestedCodeReq.from_piece.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: TestedCodeReq.from_piece.attr
+      service_params: {}

@@ -32,3 +32,4 @@ definitions:
     value:
       items:
         job/code_req:code.import-prefix: job/code_req:import_to_code_req.actor
+        job/code_req:tested.code.import-prefix: job/code_req:import_to_tested_code_req.actor
