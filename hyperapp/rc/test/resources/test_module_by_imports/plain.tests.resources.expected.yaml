@@ -1,0 +1,12 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  plain.tests.module:
+    type: builtin:type:python_module
+    value:
+      module_name: plain.tests
+      file_name: plain.tests.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

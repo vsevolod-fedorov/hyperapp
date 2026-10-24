@@ -7,6 +7,7 @@ definitions:
       file_name: test.dyn.py
       imports:
         pyobj:
+          code.code_req: :code_req:code_req.module
           code.target.import_target: import:import.module
           code.target.state: state:state.module
         raw: {}

@@ -86,6 +86,10 @@ class ImportTarget:
         return self._name
 
     @property
+    def module_tgt(self):
+        return self._module_tgt
+
+    @property
     def state(self):
         if self._state == TargetState.WAITING:
             state = deps_state(self.deps)
@@ -134,7 +138,17 @@ class ImportTarget:
     def job_failed(self):
         self._state = TargetState.FAILED
 
+    def _import_attempt_finished(self, requirements):
+        module_tgt = self._module_tgt.import_attempt_finished(self._idx, requirements)
+        if module_tgt is None:
+            self.job_failed()
+            return False
+        self._module_tgt = module_tgt
+        return True
+
     def process_succeeded_job_result(self, requirements, test_functions):
+        if not self._import_attempt_finished(requirements):
+            return
         self._process_job_result(requirements)
         for req in requirements:
             self._module_tgt.add_import_req(req)
@@ -142,6 +156,8 @@ class ImportTarget:
             self._module_tgt.add_test_function(function)
 
     def process_incomplete_job_result(self, requirements):
+        if not self._import_attempt_finished(requirements):
+            return
         deps = {req.resolve(self._targets) for req in requirements}
         if deps <= self._import_deps:
             # Next job would get the same imports resolved and be incomplete the same way, forever.
@@ -196,6 +212,10 @@ class ImportAliasTarget:
 
     def set_import_tgt(self, tgt):
         self._import_tgt = tgt
+
+    @property
+    def module_tgt(self):
+        return self._import_tgt.module_tgt
 
     @property
     def result(self):

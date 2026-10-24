@@ -1,3 +1,4 @@
+from .code.target.import_target import ProjectImportsTarget
 from .code.target.state import deps_state
 
 
@@ -18,6 +19,8 @@ class ProjectTarget:
         self._targets = targets
         self._name = name
         self._project_name = project_name
+        # Resource targets are added by first imports of their modules.
+        self._project_imports_tgt = ProjectImportsTarget.ensure(targets, project_name)
         self._path_to_resource_tgt = {}
 
     def __repr__(self):
@@ -29,11 +32,11 @@ class ProjectTarget:
 
     @property
     def state(self):
-        return deps_state(self._path_to_resource_tgt.values())
+        return deps_state(self.deps)
 
     @property
     def deps(self):
-        return self._path_to_resource_tgt.values()
+        return {self._project_imports_tgt, *self._path_to_resource_tgt.values()}
 
     def add_resource_tgt(self, path, tgt):
         self._path_to_resource_tgt[path] = tgt

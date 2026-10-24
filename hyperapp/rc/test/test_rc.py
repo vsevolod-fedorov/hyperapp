@@ -100,3 +100,24 @@ def test_test_collection(caplog):
             ]
         }
     _compile_and_check(caplog, 'test_collection', test_states)
+
+
+# First import attempts are incomplete before tested imports, which later attempts find, so they fail.
+def test_tested_imported_late(caplog):
+    states = {
+        'import/sample/late_compiled/1': 'failed',
+        'import/sample/late_import.tests/1': 'failed',
+        }
+    _compile_and_check(caplog, 'tested_imported_late', states, [
+        "late_compiled>: Tested modules are imported by import attempt #1 only: tested.code.module_1.",
+        "late_import.tests>: Tested modules are imported by import attempt #1 only: tested.code.module_2.",
+        ])
+
+
+# Whether a module is a test one is decided by its tested code imports, not by its name.
+def test_test_module_by_imports(caplog):
+    states = {
+        'module/compiled/sample/plain.tests': 'resolved',
+        'test/sample/checks/test_fn_1': 'resolved',
+        }
+    _compile_and_check(caplog, 'test_module_by_imports', states)

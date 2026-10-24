@@ -9,7 +9,9 @@ definitions:
         pyobj:
           htypes.builtin.python_module: builtin:type:python_module
           htypes.builtin.imports: builtin:type:imports
+          code.code_req: :code_req:code_req.module
           code.target.import_target: import:import.module
           code.target.project: project:project.module
           code.target.state: state:state.module
+          code.target.test: test:test.module
         raw: {}

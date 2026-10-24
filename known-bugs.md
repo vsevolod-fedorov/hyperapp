@@ -15,10 +15,10 @@ Bugs already marked with a TODO in the code are not listed here.
   (only compiled modules get one in `_create_targets`). `CompiledModuleTarget.state` then calls
   `None.state`, and `result` calls `None.result`. (Found 2026-10-15.)
 
-- **Code import of a test module breaks its importer.** `TargetSet.find_nearest_module` in
-  `hyperapp/rc/target/set.dyn.py` finds `*.tests` modules too, so `code.foo.tests` resolves to a
-  `TestModuleTarget`, whose `result` is `None`. The importer's cfg item and module imports then
-  get `mosaic.put(None)`. (Found 2026-10-24.)
+- **Code import of a test module fails its importer without saying why.** Code imports resolve to the
+  module's `CompiledModuleTarget` in `hyperapp/rc/target/module.dyn.py`, which is failed once the module's
+  first import makes it a test module. The importer then fails only by a failed dep, with no error naming
+  the cause. (Found 2026-10-24.)
 
 - **Test jobs share recorders within a worker.** Test jobs of one test module send the same recorder
   pieces, and `CachedCodeRegistry` caches animated objects by piece. So a worker reuses one recorder
