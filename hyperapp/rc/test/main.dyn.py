@@ -12,7 +12,8 @@ def main(
         compile_resources,
         projects,
         project_to_tree,
+        worker_count,
         ):
     assoc_pickers.append(pick_source_path_assoc)
     assoc_implanter.init()
-    return compile_resources(projects, project_to_tree)
+    return compile_resources(projects, project_to_tree, worker_count)

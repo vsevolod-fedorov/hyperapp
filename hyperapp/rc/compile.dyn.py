@@ -38,6 +38,7 @@ class CompileResult:
 
 # Compile resources of workspace projects.
 # project_to_tree: project name -> file path tuple -> bytes, the sources.
+# worker_count: subprocess workers running jobs. It decides which jobs share a worker, and so its caches.
 # Returns CompileResult.
 def compile_resources(
         generate_rsa_identity,
@@ -50,12 +51,14 @@ def compile_resources(
         dump_resource_modules,
         projects,
         project_to_tree,
+        worker_count,
         ):
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
     log.info("master identity: %s", master_identity)
     with subprocess_workers_running(
-            master_identity, worker_config, 'sample', count=2, timeout_sec=5, start_timeout_sec=5) as workers:
+            master_identity, worker_config, 'sample',
+            count=worker_count, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
         result = _compile(
             transport, selectors, job_pool, name_resources, dump_resource_modules,

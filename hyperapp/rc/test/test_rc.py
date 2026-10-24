@@ -10,6 +10,8 @@ RESOURCES_ROOT = TEST_DIR / 'resources'
 EXPECTED_SUFFIX = '.resources.expected.yaml'
 RESOURCES_SUFFIX = '.resources.yaml'
 PROJECTS_PATH = TEST_DIR / 'projects.yaml'
+# Faster for these small workspaces: starting workers takes longer than their jobs.
+DEFAULT_WORKER_COUNT = 1
 
 
 def _expected_tree(project_to_tree):
@@ -43,7 +45,9 @@ def _check_result(result, expected_states, expected_errors, expected_cycles):
     assert result.cycles == expected_cycles
 
 
-def _compile_and_check(workspace_name, expected_states=None, expected_errors=None, expected_cycles=None):
+def _compile_and_check(
+        workspace_name, expected_states=None, expected_errors=None, expected_cycles=None,
+        worker_count=DEFAULT_WORKER_COUNT):
     expected_states = expected_states or {}
     expected_errors = expected_errors or {}
     expected_cycles = expected_cycles or []
@@ -52,7 +56,7 @@ def _compile_and_check(workspace_name, expected_states=None, expected_errors=Non
     expected_tree = _expected_tree(project_to_tree)
     # Single boot: dyn modules from one boot can not be imported again by another in the same process.
     compile_resources = boot(PROJECTS_PATH, 'rc_test:boot:boot.attr')
-    result = compile_resources(workspace.projects, project_to_tree)
+    result = compile_resources(workspace.projects, project_to_tree, worker_count)
     assert result.resource_tree == expected_tree
     _check_result(result, expected_states, expected_errors, expected_cycles)
     # Second run gets resources made by the first one; they must load and stay the same.
@@ -60,7 +64,7 @@ def _compile_and_check(workspace_name, expected_states=None, expected_errors=Non
         project_name: {**tree, **result.resource_tree.get(project_name, {})}
         for project_name, tree in project_to_tree.items()
         }
-    result = compile_resources(workspace.projects, updated_tree)
+    result = compile_resources(workspace.projects, updated_tree, worker_count)
     assert result.resource_tree == expected_tree
     _check_result(result, expected_states, expected_errors, expected_cycles)
 

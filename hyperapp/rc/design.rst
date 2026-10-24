@@ -3,6 +3,7 @@ Resource compiler design
 
 Compiler (``compile.dyn.py``) makes ``.resources.yaml`` files for dyn modules of workspace projects.
 Work is a graph of targets; jobs of runnable targets are run by subprocess workers, results update the graph.
+Worker count is given to it (``--workers`` of ``main``, 2 by default); it decides which jobs share a worker.
 It returns ``CompileResult``: generated files, target states, errors of targets failed by themselves
 (not by their deps), and dependency cycles.
 Tests in ``test/test_rc.py`` check these for each rule below, on a workspace in ``test/resources/``;
