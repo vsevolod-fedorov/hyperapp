@@ -19,7 +19,3 @@ Bugs already marked with a TODO in the code are not listed here.
   `hyperapp/rc/target/set.dyn.py` finds `*.tests` modules too, so `code.foo.tests` resolves to a
   `TestModuleTarget`, whose `result` is `None`. The importer's cfg item and module imports then
   get `mosaic.put(None)`. (Found 2026-10-24.)
-
-- **Import cycles recurse forever.** `CompiledModuleTarget.state` and `.result` in
-  `hyperapp/rc/target/module.dyn.py` walk into the targets of imported modules with no cycle
-  detection. Two compiled modules that import each other raise `RecursionError`. (Found 2026-10-15.)

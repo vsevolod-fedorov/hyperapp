@@ -12,7 +12,7 @@ from .code.target_set import TargetSet
 from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectImportsTarget
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
-from .code.target.state import TargetState
+from .code.target.state import TargetState, pop_dependency_cycles
 from .code.target.test import TestModuleTarget
 from .data.worker import config as worker_config
 
@@ -137,6 +137,8 @@ def _log_targets(targets):
             log.info("  result: %s %s", mosaic.put(tgt.result), tgt.result)
         for dep in sorted(tgt.deps, key=lambda t: t.name):
             log.info("  dep %s: %s", dep.name, _target_state(dep))
+    for cycle in pop_dependency_cycles():
+        log.error("Dependency cycle: %s", " -> ".join(tgt.name for tgt in cycle))
 
 
 def _log_projects(project_tgts):
