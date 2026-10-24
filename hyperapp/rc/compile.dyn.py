@@ -13,6 +13,7 @@ from .code.target.import_target import ImportTarget, ProjectImportsTarget
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import TargetState
+from .code.target.test import TestModuleTarget
 from .data.worker import config as worker_config
 
 log = logging.getLogger(__name__)
@@ -22,6 +23,7 @@ AUTO_GEN_LINE = '# Automatically generated file. Do not edit.'
 
 DYN_EXT = '.dyn.py'
 RESOURCES_EXT = '.resources.yaml'
+TESTS_SUFFIX = '.tests'
 
 RESULT_TIMEOUT_SEC = 10
 
@@ -65,7 +67,7 @@ def _collect_modules(project_to_tree):
                 module_paths[project].add((*path[:-1], name[:-len(RESOURCES_EXT)]))
     modules = []
     # Modules having resources (or lone resources) without auto-get line are manual,
-    # others are compiled (including lone dyn modules).
+    # dyn modules named with tests suffix are tests, others are compiled (including lone dyn modules).
     for project, path_set in module_paths.items():
         for path in sorted(path_set):
             resources_path = (*path[:-1], path[-1] + RESOURCES_EXT)
@@ -79,19 +81,27 @@ def _collect_modules(project_to_tree):
                     continue
             dyn_path = (*path[:-1], path[-1] + DYN_EXT)
             source = project_to_tree[project][dyn_path].decode()
-            modules.append(Module(ModuleType.COMPILED, Path(project, path), source))
+            if path[-1].endswith(TESTS_SUFFIX):
+                type = ModuleType.TEST
+            else:
+                type = ModuleType.COMPILED
+            modules.append(Module(type, Path(project, path), source))
     return modules
 
 
 def _create_targets(modules, targets):
     project_names = set()
     for module in modules:
-        if module.type != ModuleType.COMPILED:
+        if module.type == ModuleType.COMPILED:
+            module.module_tgt = CompiledModuleTarget.ensure(targets, module.path, module.source)
+            project_names.add(module.path.project)
+        elif module.type == ModuleType.TEST:
+            module.module_tgt = TestModuleTarget.ensure(targets, module.path)
+        else:
             continue
-        module.module_tgt = CompiledModuleTarget.ensure(targets, module.path, module.source)
         module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
+        # Test imports are project imports too: compiled modules wait for them, and fail with them.
         ProjectImportsTarget.ensure(targets, module.path.project).add_dep(module.import_tgt)
-        project_names.add(module.path.project)
     # Already created by CompiledModuleTarget.ensure; just pick them up.
     return [ProjectTarget.ensure(targets, name) for name in sorted(project_names)]
 
@@ -168,7 +178,8 @@ def _compile(
     targets = TargetSet(projects, modules)
     project_tgts = _create_targets(modules, targets)
     compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
-    log.info("%d modules, %d compiled", len(modules), compiled_count)
+    test_count = sum(1 for m in modules if m.type == ModuleType.TEST)
+    log.info("%d modules, %d compiled, %d tests", len(modules), compiled_count, test_count)
     resources, sources = load_resources(projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     log.info("%d targets", len(targets))

@@ -16,6 +16,7 @@ definitions:
           code.target.module: target/module:module.module
           code.target.project: target/project:project.module
           code.target.state: target/state:state.module
+          code.target.test: target/test:test.module
           code.target_set: target/set:set.module
         raw:
           data.worker.config: worker_config:config
