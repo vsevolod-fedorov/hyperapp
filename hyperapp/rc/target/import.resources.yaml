@@ -9,6 +9,7 @@ definitions:
         pyobj:
           htypes.import_job.import_job: :job/import.t:import_job
           services.mosaic: builtin:service:mosaic
+          code.import_recorder: :import_recorder:import_recorder.module
           code.target.state: state:state.module
         raw: {}
 

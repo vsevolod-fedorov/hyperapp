@@ -1,5 +1,5 @@
 from . import htypes
-from .code.target.import_target import ProjectImportsTarget
+from .code.target.import_target import ImportAliasTarget, ProjectImportsTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import deps_state
 
@@ -25,9 +25,8 @@ class CompiledModuleTarget:
         self._path = path
         self._source = source
         self._project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
-        # Last import target; set by it right after this target is created.
-        # Project imports target has only the first ones, not ones following incomplete imports.
-        self._import_tgt = None
+        # Project imports target has only the first imports, not ones following incomplete imports.
+        self._import_alias_tgt = ImportAliasTarget.ensure(targets, path)
         self._import_deps = set()
 
     def __repr__(self):
@@ -45,12 +44,9 @@ class CompiledModuleTarget:
     def deps(self):
         return {
             self._project_imports_tgt,
-            self._import_tgt,
+            self._import_alias_tgt,
             *(dep.target for dep in self._import_deps),
             }
-
-    def set_import_tgt(self, tgt):
-        self._import_tgt = tgt
 
     def add_import_req(self, req):
         self._import_deps.add(req.resolve(self._targets))
