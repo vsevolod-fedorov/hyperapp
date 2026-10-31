@@ -11,6 +11,7 @@ definitions:
           htypes.import_recorder.import_cfg_item: :import_recorder.t:import_cfg_item
           services.mosaic: builtin:service:mosaic
           code.code_req: :code_req:code_req.module
+          code.import_dep: :import_dep:import_dep.module
           code.target.import_target: import:import.module
           code.target.state: state:state.module
         raw: {}

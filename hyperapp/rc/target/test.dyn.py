@@ -4,7 +4,8 @@ from . import htypes
 from .services import (
     mosaic,
     )
-from .code.code_req import TestedCodeReq, UnknownModuleError
+from .code.code_req import TestedCodeReq
+from .code.import_dep import UnresolvedImportError
 from .code.target.import_target import (
     ImportAliasTarget,
     ImportRequirementsError,
@@ -369,7 +370,7 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
     tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
         target.process_incomplete_job_result(requirements, tested_requirements)
-    except UnknownModuleError as x:
+    except UnresolvedImportError as x:
         target.job_failed(str(x))
 
 

@@ -4,7 +4,7 @@ from . import htypes
 from .services import (
     mosaic,
     )
-from .code.code_req import UnknownModuleError
+from .code.import_dep import UnresolvedImportError
 from .code.import_recorder import import_recorder_piece, recorded_python_module
 from .code.target.state import TargetState
 
@@ -263,7 +263,7 @@ def succeeded_result(piece, request, requirement_creg, job_pool):
     requirements = resolve_requirements(requirement_creg, piece.requirements)
     try:
         target.process_succeeded_job_result(requirements, piece.test_functions)
-    except UnknownModuleError as x:
+    except UnresolvedImportError as x:
         target.job_failed(str(x))
 
 
@@ -273,7 +273,7 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
     requirements = resolve_requirements(requirement_creg, piece.requirements)
     try:
         target.process_incomplete_job_result(requirements)
-    except UnknownModuleError as x:
+    except UnresolvedImportError as x:
         target.job_failed(str(x))
 
 

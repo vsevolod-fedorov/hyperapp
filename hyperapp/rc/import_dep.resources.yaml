@@ -1,0 +1,14 @@
+definitions:
+
+  import_dep.module:
+    type: builtin:type:python_module
+    value:
+      module_name: import_dep
+      file_name: import_dep.dyn.py
+      imports:
+        pyobj:
+          services.mosaic: builtin:service:mosaic
+          htypes.builtin.import_rec: builtin:type:import_rec
+          htypes.builtin.imports: builtin:type:imports
+          htypes.import_recorder.import_cfg_item: import_recorder.t:import_cfg_item
+        raw: {}
