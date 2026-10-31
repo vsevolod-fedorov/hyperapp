@@ -259,6 +259,16 @@ def test_type_import():
     _compile_and_check('type_import', states)
 
 
+# Types of an imported project are imported by its local name and type module path from its root, as code is;
+# local type module named like the project shadows it.
+def test_type_import_projects():
+    states = {
+        'module/compiled/sample/drawing': 'resolved',
+        'module/compiled/sample/sub/shaded': 'resolved',
+        }
+    _compile_and_check('type_import_projects', states)
+
+
 # Type import not resolved fails the importing module.
 def test_type_import_missing():
     states = {

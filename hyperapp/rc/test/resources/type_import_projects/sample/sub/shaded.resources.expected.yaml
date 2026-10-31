@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  shaded.module:
+    type: builtin:type:python_module
+    value:
+      module_name: shaded
+      file_name: shaded.dyn.py
+      imports:
+        pyobj:
+          htypes.lib.shade: lib.t:shade
+        raw: {}

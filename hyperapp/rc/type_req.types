@@ -3,4 +3,4 @@ from path import path
 type_req = record:
   path: path
   prefix: string list  # Import prefix requirement is registered for, like 'htypes'.
-  import_as: string list  # Including the prefix: type module name, type name, maybe attributes of the type.
+  import_as: string list  # Including the prefix: type module name (or project local name, type module path), type name, maybe attributes of the type.

@@ -1,0 +1,11 @@
+projects:
+  sample:
+    path: sample
+    local_name: sample
+    # Local name differs from project name, to check generated refs use the local one.
+    imports:
+      lib: library
+  library:
+    path: library
+    local_name: library
+    imports: {}

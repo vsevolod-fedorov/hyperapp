@@ -1,0 +1,14 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  drawing.module:
+    type: builtin:type:python_module
+    value:
+      module_name: drawing
+      file_name: drawing.dyn.py
+      imports:
+        pyobj:
+          htypes.lib.geometry.point: lib:geometry.t:point
+          htypes.lib.sub.palette.color: lib:sub/palette.t:color
+        raw: {}

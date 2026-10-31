@@ -12,7 +12,8 @@ from .code.target.type import TypeTarget
 TYPE_IMPORT_PREFIX = ('htypes',)
 
 
-# Import of a type, as htypes.<type module name>.<type name>.
+# Import of a type, as htypes.<type module name>.<type name>,
+# or htypes.<project local name>.<type module path>.<type name> for a type of an imported project.
 @dataclass(frozen=True)
 class TypeReq:
     path: Path
@@ -28,16 +29,15 @@ class TypeReq:
             )
 
     def resolve(self, targets):
-        type_path_len = len(self.prefix) + 2
+        prefix_len = len(self.prefix)
         # Longer import path is an attribute of the type: it is recorded when the type is not resolved yet.
-        if len(self.import_as) < type_path_len:
+        if len(self.import_as) < prefix_len + 2:
             raise UnresolvedImportError(f"{self.path}: Type name is missing for import: {'.'.join(self.import_as)}")
-        module_name, type_name = self.import_as[len(self.prefix):type_path_len]
         try:
-            name_tuple, piece = targets.find_type(self.path, module_name, type_name)
+            type_path_len, name_tuple, piece = targets.find_type(self.path, self.import_as[prefix_len:])
         except KeyError as x:
             raise UnresolvedImportError(f"{self.path}: {x.args[0]} for import: {'.'.join(self.import_as)}")
-        return ImportDep(self.import_as[:type_path_len], TypeTarget.ensure(targets, name_tuple, piece))
+        return ImportDep(self.import_as[:prefix_len + type_path_len], TypeTarget.ensure(targets, name_tuple, piece))
 
 
 # Types are loaded resources, so all ones seen by a module are given to its import recorders up front.
@@ -46,8 +46,8 @@ class TypeReq:
 def type_cfg_items(targets, path):
     return [
         htypes.import_recorder.import_cfg_item(
-            import_path=(*TYPE_IMPORT_PREFIX, module_name, type_name),
+            import_path=(*TYPE_IMPORT_PREFIX, *sub_path),
             resource=mosaic.put(piece),
             )
-        for module_name, type_name, piece in targets.visible_types(path)
+        for sub_path, piece in targets.visible_types(path)
         ]

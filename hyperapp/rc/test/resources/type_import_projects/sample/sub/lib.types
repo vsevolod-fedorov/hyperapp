@@ -1,0 +1,3 @@
+# Named like the imported project: shadows it for modules here.
+shade = record:
+  level: int

@@ -35,9 +35,11 @@ Types
 +++++
 
 Type is imported as ``htypes.<type module>.<type>``, usually by ``from . import htypes``.
-Type module ``<name>.types`` is found by its name nearest to the importing module, like a code one,
-but in its own project only; ``htypes.builtin.<type>`` is a builtin type.
+Type module ``<name>.types`` is found by its name nearest to the importing module, like a code one;
+``htypes.builtin.<type>`` is a builtin type.
 Nearest type module is used even if it lacks the type. Types are loaded resources, resolved from the start.
+Type of an imported project is imported as ``htypes.<project local name>.<type module path>.<type>``, path from
+its root, as code is; local type module named like the project shadows it (``type_import_projects``).
 
 All types seen by a module are given to its import recorders up front, so using a type never makes an import attempt
 or a test run incomplete. Types used are still recorded, and only these get to module resources.

@@ -17,6 +17,7 @@ class TargetSet:
         self._path_to_module = {module.path: module for module in module_list}
         self._type_module_to_types = defaultdict(dict)  # (project name, path) -> type name -> piece.
         self._dir_to_type_modules = defaultdict(dict)  # (project name, dir path) -> type module name -> path.
+        self._project_to_type_modules = defaultdict(set)  # project name -> (project name, path) set.
         for (project_name, path, name), piece in resources.items():
             if (project_name, path) == BUILTIN_TYPE_MODULE:
                 self._type_module_to_types[project_name, path][name] = piece
@@ -24,6 +25,7 @@ class TargetSet:
                 self._type_module_to_types[project_name, path][name] = piece
                 module_name = path[-1][:-len(TYPE_MODULE_SUFFIX)]
                 self._dir_to_type_modules[project_name, path[:-1]][module_name] = path
+                self._project_to_type_modules[project_name].add((project_name, path))
         self._dir_to_visible_type_modules = {}  # Cache: (project name, dir path) -> type module name -> module.
         self._name_to_target = {}
         # Targets which states are being got, innermost last. One met again depends on itself: it would recurse forever.
@@ -64,7 +66,7 @@ class TargetSet:
                     return module
         raise KeyError(f"{from_path}: Module not found: {'/'.join(sub_path)}")
 
-    # Type modules are found by their names like code ones, nearest to from_path, in its project only;
+    # Type modules are found by their names like code ones, nearest to from_path, in its project;
     # 'builtin' one has builtin types. The nearest one is used even if it lacks a type, as code modules are.
     # Returns type module name -> (project name, path).
     def _visible_type_modules(self, from_path):
@@ -82,20 +84,45 @@ class TargetSet:
         self._dir_to_visible_type_modules[key] = name_to_module
         return name_to_module
 
-    # Yields (type module name, type name, type piece) for every type seen from from_path.
-    def visible_types(self, from_path):
-        for module_name, module in self._visible_type_modules(from_path).items():
-            for type_name, piece in self._type_module_to_types[module].items():
-                yield (module_name, type_name, piece)
+    # Type modules of projects imported by from_path project, as code ones of them are:
+    # by project local name and type module path from its root. Local type module of that name shadows them.
+    # Returns import path of type module, without the prefix -> (project name, path).
+    def _imported_type_modules(self, from_path):
+        local_modules = self._visible_type_modules(from_path)
+        for local_name, project_name in self._projects[from_path.project].imports.items():
+            if local_name in local_modules:
+                continue
+            for module in self._project_to_type_modules[project_name]:
+                _project_name, path = module
+                yield ((local_name, *path[:-1], path[-1][:-len(TYPE_MODULE_SUFFIX)]), module)
 
-    # Returns type name tuple, a key of loaded resources, and the type piece.
-    def find_type(self, from_path, module_name, type_name):
-        try:
-            module = self._visible_type_modules(from_path)[module_name]
-        except KeyError:
+    # Yields (import path without the prefix, type piece) for every type seen from from_path.
+    def visible_types(self, from_path):
+        modules = [
+            *(((module_name,), module) for module_name, module in self._visible_type_modules(from_path).items()),
+            *self._imported_type_modules(from_path),
+            ]
+        for module_path, module in modules:
+            for type_name, piece in self._type_module_to_types[module].items():
+                yield ((*module_path, type_name), piece)
+
+    # sub_path is import path without the prefix: type module name, type name, maybe attributes of the type;
+    # for a type of an imported project, its local name and type module path go first.
+    # Returns length of sub_path part naming the type, type name tuple, a key of loaded resources, and the type piece.
+    def find_type(self, from_path, sub_path):
+        module_path_to_module = {
+            **{(module_name,): module for module_name, module in self._visible_type_modules(from_path).items()},
+            **dict(self._imported_type_modules(from_path)),
+            }
+        for idx in range(len(sub_path) - 1, 0, -1):  # Longest type module path first.
+            module = module_path_to_module.get(sub_path[:idx])
+            if module:
+                break
+        else:
             raise KeyError("Type module not found")
+        type_name = sub_path[idx]
         try:
-            return ((*module, type_name), self._type_module_to_types[module][type_name])
+            return (idx + 1, (*module, type_name), self._type_module_to_types[module][type_name])
         except KeyError:
             project_name, path = module
             raise KeyError(f"Type module {project_name}:{'/'.join(path)} has no type {type_name}")
