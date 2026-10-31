@@ -1,0 +1,33 @@
+definitions:
+
+  boot_service_req.module:
+    type: builtin:type:python_module
+    value:
+      module_name: boot_service_req
+      file_name: boot_service_req.dyn.py
+      imports:
+        pyobj:
+          htypes.import_recorder.import_cfg_item: import_recorder.t:import_cfg_item
+          services.mosaic: builtin:service:mosaic
+          code.import_dep: import_dep:import_dep.module
+          code.path: path:path.module
+          code.target.boot_service: target/boot_service:boot_service.module
+        raw: {}
+
+  BootServiceReq.attr:
+    type: builtin:type:attribute
+    value:
+      object: boot_service_req.module
+      attr_name: BootServiceReq
+
+  BootServiceReq.from_piece.attr:
+    type: builtin:type:attribute
+    value:
+      object: BootServiceReq.attr
+      attr_name: from_piece
+
+  BootServiceReq.from_piece.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: BootServiceReq.from_piece.attr
+      service_params: {}

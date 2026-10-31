@@ -4,6 +4,7 @@ from . import htypes
 from .services import (
     mosaic,
     )
+from .code.boot_service_req import boot_service_cfg_items
 from .code.import_dep import UnresolvedImportError
 from .code.import_recorder import import_recorder_piece, recorded_python_module
 from .code.target.state import TargetState
@@ -121,10 +122,10 @@ class ImportTarget:
     # Used only when runnable or later, so all dep targets are resolved and have results.
     @property
     def _cfg_items(self):
-        return self._with_type_cfg_items(dep.make_cfg_item() for dep in self._import_deps)
+        return self._with_loaded_cfg_items(dep.make_cfg_item() for dep in self._import_deps)
 
-    def _with_type_cfg_items(self, cfg_items):
-        return sorted_cfg_items([*type_cfg_items(self._targets, self._path), *cfg_items])
+    def _with_loaded_cfg_items(self, cfg_items):
+        return sorted_cfg_items([*loaded_cfg_items(self._targets, self._path), *cfg_items])
 
     @property
     def job(self):
@@ -140,7 +141,7 @@ class ImportTarget:
         if cfg_items is None:
             cfg_items = self._cfg_items
         else:
-            cfg_items = self._with_type_cfg_items(cfg_items)
+            cfg_items = self._with_loaded_cfg_items(cfg_items)
         recorder_piece = import_recorder_piece(self._path.piece, cfg_items)
         return recorded_python_module(self._path.path[-1], self._source, recorder_piece)
 
@@ -192,8 +193,13 @@ class ImportTarget:
         return None
 
 
+# Preloaded resources, seen by a module and given to its import recorders up front: types and boot services.
+def loaded_cfg_items(targets, path):
+    return [*type_cfg_items(targets, path), *boot_service_cfg_items(targets)]
+
+
 # Deps set order depends on target ids; sorted for stable pieces.
-# Type ones are given both as types seen by the module and by deps of types used, so duplicates are dropped.
+# Preloaded ones are given both up front and by deps of ones used, so duplicates are dropped.
 def sorted_cfg_items(cfg_items):
     ref_to_item = {mosaic.put(item): item for item in cfg_items}
     return [item for ref, item in sorted(ref_to_item.items(), key=lambda rec: rec[0].hash)]

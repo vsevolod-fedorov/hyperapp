@@ -1,0 +1,15 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  codec.module:
+    type: builtin:type:python_module
+    value:
+      module_name: codec
+      file_name: codec.dyn.py
+      imports:
+        pyobj:
+          htypes.sample.point: sample.t:point
+          services.mosaic: builtin:service:mosaic
+          services.web: builtin:service:web
+        raw: {}

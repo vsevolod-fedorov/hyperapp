@@ -6,20 +6,25 @@ from .code.target.state import TargetState, combined_state
 
 # Loaded resource modules of builtin types, as resource refs name them: builtin:type:<name>.
 BUILTIN_TYPE_MODULE = ('builtin', ('type',))
+# And of boot services: builtin:service:<name>.
+BOOT_SERVICE_MODULE = ('builtin', ('service',))
 TYPE_MODULE_SUFFIX = '.t'
 
 
 class TargetSet:
 
-    # resources: loaded ones, name tuple -> piece. Types are got from them.
+    # resources: loaded ones, name tuple -> piece. Types and boot services are got from them.
     def __init__(self, projects, module_list, resources):
         self._projects = projects
         self._path_to_module = {module.path: module for module in module_list}
         self._type_module_to_types = defaultdict(dict)  # (project name, path) -> type name -> piece.
         self._dir_to_type_modules = defaultdict(dict)  # (project name, dir path) -> type module name -> path.
         self._project_to_type_modules = defaultdict(set)  # project name -> (project name, path) set.
+        self._boot_services = {}  # Service name -> piece.
         for (project_name, path, name), piece in resources.items():
-            if (project_name, path) == BUILTIN_TYPE_MODULE:
+            if (project_name, path) == BOOT_SERVICE_MODULE:
+                self._boot_services[name] = piece
+            elif (project_name, path) == BUILTIN_TYPE_MODULE:
                 self._type_module_to_types[project_name, path][name] = piece
             elif path and path[-1].endswith(TYPE_MODULE_SUFFIX):
                 self._type_module_to_types[project_name, path][name] = piece
@@ -126,6 +131,14 @@ class TargetSet:
         except KeyError:
             project_name, path = module
             raise KeyError(f"Type module {project_name}:{'/'.join(path)} has no type {type_name}")
+
+    # Service name -> piece. Boot services are the same for all modules.
+    @property
+    def boot_services(self):
+        return self._boot_services
+
+    def find_boot_service(self, name):
+        return self._boot_services[name]
 
     # Target in a dependency cycle can never be resolved, so it is failed.
     # Cycle is, for example, a tested module imported by another one through an untested module:

@@ -1,0 +1,27 @@
+definitions:
+
+  boot_service_req.module:
+    type: builtin:type:python_module
+    value:
+      module_name: boot_service_req
+      file_name: boot_service_req.dyn.py
+      imports:
+        pyobj:
+          htypes.boot_service_req.boot_service_req: :boot_service_req.t:boot_service_req
+        raw: {}
+
+  import_to_boot_service_req.attr:
+    type: builtin:type:attribute
+    value:
+      object: boot_service_req.module
+      attr_name: import_to_boot_service_req
+
+  import_to_boot_service_req.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: import_to_boot_service_req.attr
+      service_params: {}
+
+  services.import-prefix:
+    type: import_to_req:import_prefix.t
+    value: [services]

@@ -1,0 +1,11 @@
+definitions:
+
+  boot_service.module:
+    type: builtin:type:python_module
+    value:
+      module_name: boot_service
+      file_name: boot_service.dyn.py
+      imports:
+        pyobj:
+          code.target.state: state:state.module
+        raw: {}

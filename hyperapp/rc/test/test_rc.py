@@ -282,3 +282,32 @@ def test_type_import_missing():
             "sample:no_type: Type module sample:sample.t has no type missing for import: htypes.sample.missing",
         'import/sample/no_type_name/0': "sample:no_type_name: Type name is missing for import: htypes.sample",
         })
+
+
+# Boot services are imported as services.<service name>, usually by from .services import (...).
+# All are given to imports and test runs up front, like types, so using them never makes them incomplete:
+# each is run once. Tested module codec uses web only in a function, so only the test run finds it is used.
+def test_boot_service_import():
+    states = {
+        'import/sample/codec/0': 'resolved',
+        'import/sample/codec/1': None,
+        'module/compiled/sample/codec': 'resolved',
+        'module/compiled/sample/sub/registry': 'resolved',
+        'boot_service/mosaic': 'resolved',
+        'boot_service/pyobj_creg': 'resolved',
+        'boot_service/web': 'resolved',
+        'test/sample/codec.tests/test_load': 'resolved',
+        'test/sample/codec.tests/test_load/0': 'resolved',
+        'test/sample/codec.tests/test_load/1': None,
+        }
+    _compile_and_check('boot_service_import', states)
+
+
+# Boot service import not resolved fails the importing module.
+def test_boot_service_import_missing():
+    states = {
+        'import/sample/user/0': 'failed',
+        }
+    _compile_and_check('boot_service_import_missing', states, {
+        'import/sample/user/0': "sample:user: Boot service not found for import: services.missing",
+        })

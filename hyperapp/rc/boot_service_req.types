@@ -1,0 +1,6 @@
+from path import path
+
+boot_service_req = record:
+  path: path
+  prefix: string list  # Import prefix requirement is registered for, like 'services'.
+  import_as: string list  # Including the prefix: service name, maybe attributes of the service.

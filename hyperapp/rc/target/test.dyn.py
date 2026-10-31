@@ -6,10 +6,10 @@ from .services import (
     )
 from .code.code_req import TestedCodeReq
 from .code.import_dep import UnresolvedImportError
-from .code.type_req import type_cfg_items
 from .code.target.import_target import (
     ImportAliasTarget,
     ImportRequirementsError,
+    loaded_cfg_items,
     resolve_requirements,
     sorted_cfg_items,
     )
@@ -144,7 +144,7 @@ class TestModuleTarget:
                     " but not when it is imported, so it is not resolved for tests")
         return None
 
-    # Preloaded requirements used by tested modules only in functions are found only by test runs, which call them.
+    # Types and boot services used by tested modules only in functions are found only by test runs, which call them.
     # They are resolved from the start, so taking them does not change what tested modules wait for.
     # Taken from passed runs only: next run after an incomplete one runs the whole test again.
     def add_tested_loaded_reqs(self, tested_requirements):
@@ -164,7 +164,7 @@ class TestModuleTarget:
     # which can not import recorded ones.
     @property
     def cfg_items(self):
-        return [*type_cfg_items(self._targets, self._path), *(self._cfg_item(dep) for dep in self._import_deps)]
+        return [*loaded_cfg_items(self._targets, self._path), *(self._cfg_item(dep) for dep in self._import_deps)]
 
     def _cfg_item(self, dep):
         alias_tgt = self._tested_alias_tgt(dep)

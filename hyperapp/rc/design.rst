@@ -23,8 +23,8 @@ Imports
 +++++++
 
 Module is imported by a job through an import recorder: imports not resolved yet are recorded,
-and give requirements (``code_req.dyn.py``, ``type_req.dyn.py``). Requirement prefix (``code``, ``tested.code``,
-``htypes``) is passed by registration, in ``worker_config.resources.yaml``.
+and give requirements (``code_req.dyn.py``, ``type_req.dyn.py``, ``boot_service_req.dyn.py``). Requirement prefix
+(``code``, ``tested.code``, ``htypes``, ``services``) is passed by registration, in ``worker_config.resources.yaml``.
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
@@ -48,6 +48,16 @@ Type not found is not given, and fails the importing target (``type_import_missi
 Types used only in functions are found only when tests call them: test runs are required to find all type imports
 of a module (``type_import``). Untested module gets only types it uses at import time.
 
+Boot services
++++++++++++++
+
+Boot service is imported as ``services.<service name>``, usually by ``from .services import (...)``.
+Boot services are the builtin ones, loaded resources ``builtin:service:<name>``, resolved from the start;
+they are the same for all modules. Like types, all are given to import recorders up front, so using one never
+makes an import attempt or a test run incomplete; only ones used get to module resources, and ones used only
+in functions are found only when tests call them (``boot_service_import``).
+Boot service not found fails the importing target (``boot_service_import_missing``).
+
 Targets
 +++++++
 
@@ -61,6 +71,7 @@ Targets
 * ``module/manual/<project>/<path>``: manual module having a module resource; its result is that resource.
   Resources it refers to are loaded ones too: generated ones are of the previous compile.
 * ``type/<project>/<type module path>/<type>``: loaded type, resolved from the start; its result is the type.
+* ``boot_service/<name>``: boot service, resolved from the start; its result is the loaded service resource.
 * ``module/test/<project>/<path>``: test module imports. Added when the first import attempt finds
   ``tested.code`` imports; following attempts of the module use it instead of the compiled one.
 * ``test/<project>/<path>/<function>/<idx>``: test run. Next one is added while the run is incomplete.
@@ -114,8 +125,9 @@ Test run can not change which modules are tested, or what they import. These fai
 * test uses a tested module not imported at test module import (``tested_used_by_test_run``);
 * tested module uses an import when the test runs, but not when it is imported (``tested_import_used_by_test_run``).
 
-Types are the exception: tested module takes types its passed test runs use, and gives them in its resources.
-Being resolved from the start, they do not change what it waits for (``type_import``).
+Types and boot services are the exception: tested module takes ones its passed test runs use, and gives them
+in its resources. Being resolved from the start, they do not change what it waits for (``type_import``,
+``boot_service_import``).
 
 Incomplete run because of other imports of the test module gets a next run with them resolved
 (``test_code_used_by_run`` in ``test_collection/modules.tests.dyn.py``).

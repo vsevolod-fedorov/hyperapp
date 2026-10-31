@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  registry.module:
+    type: builtin:type:python_module
+    value:
+      module_name: registry
+      file_name: registry.dyn.py
+      imports:
+        pyobj:
+          services.pyobj_creg: builtin:service:pyobj_creg
+        raw: {}
