@@ -24,7 +24,7 @@ Imports
 
 Module is imported by a job through an import recorder: imports not resolved yet are recorded,
 and give requirements (``code_req.dyn.py``, ``type_req.dyn.py``, ``boot_service_req.dyn.py``). Requirement prefix
-(``code``, ``tested.code``, ``htypes``, ``services``) is passed by registration, in ``worker_config.resources.yaml``.
+(``code``, ``tested.code``, ``htypes``, ``services``) is passed by registration, in ``job/worker_config.resources.yaml``.
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.

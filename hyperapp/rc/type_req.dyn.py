@@ -8,7 +8,7 @@ from .code.import_dep import ImportDep, UnresolvedImportError
 from .code.path import Path
 from .code.target.type import TypeTarget
 
-# The one job/type_req is registered for, in worker_config.resources.yaml.
+# The one job/type_req is registered for, in job/worker_config.resources.yaml.
 TYPE_IMPORT_PREFIX = ('htypes',)
 
 

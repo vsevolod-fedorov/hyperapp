@@ -19,7 +19,7 @@ definitions:
           code.target.test: target/test:test.module
           code.target_set: target/set:set.module
         raw:
-          data.worker.config: worker_config:config
+          data.worker.config: job/worker_config:config
 
   compile_resources.attr:
     type: builtin:type:attribute

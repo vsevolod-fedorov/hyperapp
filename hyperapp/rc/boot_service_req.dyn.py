@@ -8,7 +8,7 @@ from .code.import_dep import ImportDep, UnresolvedImportError
 from .code.path import Path
 from .code.target.boot_service import BootServiceTarget
 
-# The one job/boot_service_req is registered for, in worker_config.resources.yaml.
+# The one job/boot_service_req is registered for, in job/worker_config.resources.yaml.
 BOOT_SERVICE_IMPORT_PREFIX = ('services',)
 
 
