@@ -10,6 +10,9 @@ class CodeReq:
     prefix: tuple[str]
     import_as: tuple[str]
 
+    # Code modules are compiled by jobs, not preloaded.
+    is_preloaded = False
+
     @classmethod
     def from_piece(cls, piece):
         return cls(

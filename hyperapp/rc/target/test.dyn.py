@@ -6,7 +6,7 @@ from .services import (
     )
 from .code.code_req import TestedCodeReq
 from .code.import_dep import UnresolvedImportError
-from .code.type_req import TypeReq, type_cfg_items
+from .code.type_req import type_cfg_items
 from .code.target.import_target import (
     ImportAliasTarget,
     ImportRequirementsError,
@@ -126,7 +126,7 @@ class TestModuleTarget:
         return self
 
     # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
-    # Types are not: they are given to all recorders, see add_tested_types.
+    # Preloaded ones, like types, are not: they are given to all recorders, see add_tested_loaded_reqs.
     def check_test_requirements(self, requirements, tested_requirements):
         for req in requirements:
             alias_tgt = self._req_tested_alias_tgt(req)
@@ -135,7 +135,7 @@ class TestModuleTarget:
                     f"Tested module {'.'.join(req.import_as)} is first used when the test runs."
                     " Tested modules are decided by the test module import; import it at module level")
         for req in tested_requirements:
-            if isinstance(req, TypeReq):
+            if req.is_preloaded:
                 continue
             alias_tgt = ImportAliasTarget.ensure(self._targets, req.path)
             if req.resolve(self._targets) not in alias_tgt.module_tgt.import_deps:
@@ -144,12 +144,12 @@ class TestModuleTarget:
                     " but not when it is imported, so it is not resolved for tests")
         return None
 
-    # Types used by tested modules only in functions are found only by test runs, which call them.
-    # Types are resolved from the start, so taking them does not change what tested modules wait for.
+    # Preloaded requirements used by tested modules only in functions are found only by test runs, which call them.
+    # They are resolved from the start, so taking them does not change what tested modules wait for.
     # Taken from passed runs only: next run after an incomplete one runs the whole test again.
-    def add_tested_types(self, tested_requirements):
+    def add_tested_loaded_reqs(self, tested_requirements):
         for req in tested_requirements:
-            if isinstance(req, TypeReq):
+            if req.is_preloaded:
                 ImportAliasTarget.ensure(self._targets, req.path).module_tgt.add_import_req(req)
 
     def add_import_req(self, req):
@@ -294,7 +294,7 @@ class TestTarget:
         log.error("%s: %s%s", self, error, ''.join(['\n', *traceback]) if traceback else '')
 
     def process_succeeded_job_result(self, tested_requirements):
-        self._module_tgt.add_tested_types(tested_requirements)
+        self._module_tgt.add_tested_loaded_reqs(tested_requirements)
         self._state = TargetState.RESOLVED
 
     def process_incomplete_job_result(self, requirements, tested_requirements):
@@ -368,7 +368,7 @@ class TestAliasTarget:
         return None
 
 
-# Of tested requirements of a succeeded test, only types are added to module resources.
+# Of tested requirements of a succeeded test, only preloaded ones, like types, are added to module resources.
 def succeeded_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: test succeeded: %s", target, piece)

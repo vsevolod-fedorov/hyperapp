@@ -20,6 +20,10 @@ class TypeReq:
     prefix: tuple[str]
     import_as: tuple[str]
 
+    # Preloaded: resolved to a loaded resource and given to recorders up front,
+    # so test runs take it like a type, see TestModuleTarget.add_tested_loaded_reqs.
+    is_preloaded = True
+
     @classmethod
     def from_piece(cls, piece):
         return cls(
