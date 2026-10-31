@@ -49,3 +49,4 @@ definitions:
       items:
         code_req.t:code_req: code_req:CodeReq.from_piece.actor
         code_req.t:tested_code_req: code_req:TestedCodeReq.from_piece.actor
+        type_req.t:type_req: type_req:TypeReq.from_piece.actor

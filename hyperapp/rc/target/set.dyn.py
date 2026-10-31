@@ -1,13 +1,30 @@
+from collections import defaultdict
 
 from .code.path import Path
 from .code.target.state import TargetState, combined_state
 
 
+# Loaded resource modules of builtin types, as resource refs name them: builtin:type:<name>.
+BUILTIN_TYPE_MODULE = ('builtin', ('type',))
+TYPE_MODULE_SUFFIX = '.t'
+
+
 class TargetSet:
 
-    def __init__(self, projects, module_list):
+    # resources: loaded ones, name tuple -> piece. Types are got from them.
+    def __init__(self, projects, module_list, resources):
         self._projects = projects
         self._path_to_module = {module.path: module for module in module_list}
+        self._type_module_to_types = defaultdict(dict)  # (project name, path) -> type name -> piece.
+        self._dir_to_type_modules = defaultdict(dict)  # (project name, dir path) -> type module name -> path.
+        for (project_name, path, name), piece in resources.items():
+            if (project_name, path) == BUILTIN_TYPE_MODULE:
+                self._type_module_to_types[project_name, path][name] = piece
+            elif path and path[-1].endswith(TYPE_MODULE_SUFFIX):
+                self._type_module_to_types[project_name, path][name] = piece
+                module_name = path[-1][:-len(TYPE_MODULE_SUFFIX)]
+                self._dir_to_type_modules[project_name, path[:-1]][module_name] = path
+        self._dir_to_visible_type_modules = {}  # Cache: (project name, dir path) -> type module name -> module.
         self._name_to_target = {}
         # Targets which states are being got, innermost last. One met again depends on itself: it would recurse forever.
         self._state_stack = []
@@ -46,6 +63,42 @@ class TargetSet:
                 if module:
                     return module
         raise KeyError(f"{from_path}: Module not found: {'/'.join(sub_path)}")
+
+    # Type modules are found by their names like code ones, nearest to from_path, in its project only;
+    # 'builtin' one has builtin types. The nearest one is used even if it lacks a type, as code modules are.
+    # Returns type module name -> (project name, path).
+    def _visible_type_modules(self, from_path):
+        key = (from_path.project, from_path.path[:-1])
+        try:
+            return self._dir_to_visible_type_modules[key]
+        except KeyError:
+            pass
+        project_name, module_dir = key
+        name_to_module = {}
+        for idx in range(len(module_dir) + 1):  # Nearer ones override.
+            for name, path in self._dir_to_type_modules[project_name, module_dir[:idx]].items():
+                name_to_module[name] = (project_name, path)
+        name_to_module['builtin'] = BUILTIN_TYPE_MODULE
+        self._dir_to_visible_type_modules[key] = name_to_module
+        return name_to_module
+
+    # Yields (type module name, type name, type piece) for every type seen from from_path.
+    def visible_types(self, from_path):
+        for module_name, module in self._visible_type_modules(from_path).items():
+            for type_name, piece in self._type_module_to_types[module].items():
+                yield (module_name, type_name, piece)
+
+    # Returns type name tuple, a key of loaded resources, and the type piece.
+    def find_type(self, from_path, module_name, type_name):
+        try:
+            module = self._visible_type_modules(from_path)[module_name]
+        except KeyError:
+            raise KeyError("Type module not found")
+        try:
+            return ((*module, type_name), self._type_module_to_types[module][type_name])
+        except KeyError:
+            project_name, path = module
+            raise KeyError(f"Type module {project_name}:{'/'.join(path)} has no type {type_name}")
 
     # Target in a dependency cycle can never be resolved, so it is failed.
     # Cycle is, for example, a tested module imported by another one through an untested module:

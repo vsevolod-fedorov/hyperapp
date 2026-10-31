@@ -11,10 +11,10 @@ class UnresolvedImportError(Exception):
     pass
 
 
-# Requirement resolved to a target, like a module one. Reqs importing the same thing give equal deps.
+# Requirement resolved to a target, like a module or a type one. Reqs importing the same thing give equal deps.
 @dataclass(frozen=True)
 class ImportDep:
-    import_path: tuple[str]  # import_as prefix naming the module.
+    import_path: tuple[str]  # import_as prefix naming the module, or the type.
     target: object
 
     def make_cfg_item(self):

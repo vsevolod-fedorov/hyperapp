@@ -241,3 +241,34 @@ def test_manual_module_tested():
         'test/sample/lib.tests/test_fn': 'resolved',
         }
     _compile_and_check('manual_module_tested', states)
+
+
+# Types are imported as htypes.<type module name>.<type name>, type module is found nearest to the importer.
+# All types seen by a module are given to its imports and test runs, so using types never makes them incomplete:
+# each is run once. Tested module shapes gets the line type only in a function, so only the test run finds it is used.
+def test_type_import():
+    states = {
+        'import/sample/shapes/0': 'resolved',
+        'import/sample/shapes/1': None,
+        'module/compiled/sample/shapes': 'resolved',
+        'module/compiled/sample/sub/nested': 'resolved',
+        'test/sample/shapes.tests/test_line_to': 'resolved',
+        'test/sample/shapes.tests/test_line_to/0': 'resolved',
+        'test/sample/shapes.tests/test_line_to/1': None,
+        }
+    _compile_and_check('type_import', states)
+
+
+# Type import not resolved fails the importing module.
+def test_type_import_missing():
+    states = {
+        'import/sample/no_module/0': 'failed',
+        'import/sample/no_type/0': 'failed',
+        'import/sample/no_type_name/0': 'failed',
+        }
+    _compile_and_check('type_import_missing', states, {
+        'import/sample/no_module/0': "sample:no_module: Type module not found for import: htypes.missing.point",
+        'import/sample/no_type/0':
+            "sample:no_type: Type module sample:sample.t has no type missing for import: htypes.sample.missing",
+        'import/sample/no_type_name/0': "sample:no_type_name: Type name is missing for import: htypes.sample",
+        })

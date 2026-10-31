@@ -23,13 +23,28 @@ Imports
 +++++++
 
 Module is imported by a job through an import recorder: imports not resolved yet are recorded,
-and give requirements (``code_req.dyn.py``). Requirement prefix (``code``, ``tested.code``)
-is passed by registration, in ``worker_config.resources.yaml``.
+and give requirements (``code_req.dyn.py``, ``type_req.dyn.py``). Requirement prefix (``code``, ``tested.code``,
+``htypes``) is passed by registration, in ``worker_config.resources.yaml``.
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
 Import of a module not found, or of a manual one having no module resource, fails the importing target
 (``code_import_missing``, ``manual_module_no_resource``).
+
+Types
++++++
+
+Type is imported as ``htypes.<type module>.<type>``, usually by ``from . import htypes``.
+Type module ``<name>.types`` is found by its name nearest to the importing module, like a code one,
+but in its own project only; ``htypes.builtin.<type>`` is a builtin type.
+Nearest type module is used even if it lacks the type. Types are loaded resources, resolved from the start.
+
+All types seen by a module are given to its import recorders up front, so using a type never makes an import attempt
+or a test run incomplete. Types used are still recorded, and only these get to module resources.
+Type not found is not given, and fails the importing target (``type_import_missing``).
+
+Types used only in functions are found only when tests call them: test runs are required to find all type imports
+of a module (``type_import``). Untested module gets only types it uses at import time.
 
 Targets
 +++++++
@@ -43,6 +58,7 @@ Targets
   added to targets and its project only when its first import attempt decides it is a compiled one.
 * ``module/manual/<project>/<path>``: manual module having a module resource; its result is that resource.
   Resources it refers to are loaded ones too: generated ones are of the previous compile.
+* ``type/<project>/<type module path>/<type>``: loaded type, resolved from the start; its result is the type.
 * ``module/test/<project>/<path>``: test module imports. Added when the first import attempt finds
   ``tested.code`` imports; following attempts of the module use it instead of the compiled one.
 * ``test/<project>/<path>/<function>/<idx>``: test run. Next one is added while the run is incomplete.
@@ -95,6 +111,9 @@ Test run can not change which modules are tested, or what they import. These fai
 
 * test uses a tested module not imported at test module import (``tested_used_by_test_run``);
 * tested module uses an import when the test runs, but not when it is imported (``tested_import_used_by_test_run``).
+
+Types are the exception: tested module takes types its passed test runs use, and gives them in its resources.
+Being resolved from the start, they do not change what it waits for (``type_import``).
 
 Incomplete run because of other imports of the test module gets a next run with them resolved
 (``test_code_used_by_run`` in ``test_collection/modules.tests.dyn.py``).

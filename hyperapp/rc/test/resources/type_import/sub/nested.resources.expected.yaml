@@ -1,0 +1,14 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  nested.module:
+    type: builtin:type:python_module
+    value:
+      module_name: nested
+      file_name: nested.dyn.py
+      imports:
+        pyobj:
+          htypes.builtin.string: builtin:type:string
+          htypes.sample.point: sample.t:point
+        raw: {}

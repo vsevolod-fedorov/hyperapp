@@ -1,0 +1,14 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  shapes.module:
+    type: builtin:type:python_module
+    value:
+      module_name: shapes
+      file_name: shapes.dyn.py
+      imports:
+        pyobj:
+          htypes.sample.line: sample.t:line
+          htypes.sample.point: sample.t:point
+        raw: {}

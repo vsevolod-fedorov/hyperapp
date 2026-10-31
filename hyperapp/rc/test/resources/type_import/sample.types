@@ -1,0 +1,7 @@
+point = record:
+  x: int
+  y: int
+
+line = record:
+  start: point
+  end: point

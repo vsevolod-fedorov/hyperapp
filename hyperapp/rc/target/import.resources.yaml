@@ -12,6 +12,7 @@ definitions:
           code.import_dep: :import_dep:import_dep.module
           code.import_recorder: :import_recorder:import_recorder.module
           code.target.state: state:state.module
+          code.type_req: :type_req:type_req.module
         raw: {}
 
   succeeded_result.attr:

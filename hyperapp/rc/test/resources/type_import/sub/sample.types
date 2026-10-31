@@ -1,0 +1,5 @@
+# Nearer to sub modules than the root one, so it is theirs.
+point = record:
+  x: int
+  y: int
+  z: int

@@ -1,0 +1,11 @@
+definitions:
+
+  type.module:
+    type: builtin:type:python_module
+    value:
+      module_name: type
+      file_name: type.dyn.py
+      imports:
+        pyobj:
+          code.target.state: state:state.module
+        raw: {}

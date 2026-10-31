@@ -7,6 +7,7 @@ from .services import (
 from .code.import_dep import UnresolvedImportError
 from .code.import_recorder import import_recorder_piece, recorded_python_module
 from .code.target.state import TargetState
+from .code.type_req import type_cfg_items
 
 log = logging.getLogger(__name__)
 
@@ -120,7 +121,10 @@ class ImportTarget:
     # Used only when runnable or later, so all dep targets are resolved and have results.
     @property
     def _cfg_items(self):
-        return sorted_cfg_items(dep.make_cfg_item() for dep in self._import_deps)
+        return self._with_type_cfg_items(dep.make_cfg_item() for dep in self._import_deps)
+
+    def _with_type_cfg_items(self, cfg_items):
+        return sorted_cfg_items([*type_cfg_items(self._targets, self._path), *cfg_items])
 
     @property
     def job(self):
@@ -135,6 +139,8 @@ class ImportTarget:
     def recorded_module(self, cfg_items=None):
         if cfg_items is None:
             cfg_items = self._cfg_items
+        else:
+            cfg_items = self._with_type_cfg_items(cfg_items)
         recorder_piece = import_recorder_piece(self._path.piece, cfg_items)
         return recorded_python_module(self._path.path[-1], self._source, recorder_piece)
 
@@ -187,8 +193,10 @@ class ImportTarget:
 
 
 # Deps set order depends on target ids; sorted for stable pieces.
+# Type ones are given both as types seen by the module and by deps of types used, so duplicates are dropped.
 def sorted_cfg_items(cfg_items):
-    return sorted(cfg_items, key=lambda item: mosaic.put(item).hash)
+    ref_to_item = {mosaic.put(item): item for item in cfg_items}
+    return [item for ref, item in sorted(ref_to_item.items(), key=lambda rec: rec[0].hash)]
 
 
 # Follows the last import target of a module: a next one is added while the import is incomplete.

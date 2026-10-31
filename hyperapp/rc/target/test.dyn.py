@@ -6,6 +6,7 @@ from .services import (
     )
 from .code.code_req import TestedCodeReq
 from .code.import_dep import UnresolvedImportError
+from .code.type_req import TypeReq, type_cfg_items
 from .code.target.import_target import (
     ImportAliasTarget,
     ImportRequirementsError,
@@ -125,6 +126,7 @@ class TestModuleTarget:
         return self
 
     # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
+    # Types are not: they are given to all recorders, see add_tested_types.
     def check_test_requirements(self, requirements, tested_requirements):
         for req in requirements:
             alias_tgt = self._req_tested_alias_tgt(req)
@@ -133,12 +135,22 @@ class TestModuleTarget:
                     f"Tested module {'.'.join(req.import_as)} is first used when the test runs."
                     " Tested modules are decided by the test module import; import it at module level")
         for req in tested_requirements:
+            if isinstance(req, TypeReq):
+                continue
             alias_tgt = ImportAliasTarget.ensure(self._targets, req.path)
             if req.resolve(self._targets) not in alias_tgt.module_tgt.import_deps:
                 return (
                     f"Tested module {req.path} uses {'.'.join(req.import_as)} when the test runs,"
                     " but not when it is imported, so it is not resolved for tests")
         return None
+
+    # Types used by tested modules only in functions are found only by test runs, which call them.
+    # Types are resolved from the start, so taking them does not change what tested modules wait for.
+    # Taken from passed runs only: next run after an incomplete one runs the whole test again.
+    def add_tested_types(self, tested_requirements):
+        for req in tested_requirements:
+            if isinstance(req, TypeReq):
+                ImportAliasTarget.ensure(self._targets, req.path).module_tgt.add_import_req(req)
 
     def add_import_req(self, req):
         self._import_deps.add(req.resolve(self._targets))
@@ -152,7 +164,7 @@ class TestModuleTarget:
     # which can not import recorded ones.
     @property
     def cfg_items(self):
-        return [self._cfg_item(dep) for dep in self._import_deps]
+        return [*type_cfg_items(self._targets, self._path), *(self._cfg_item(dep) for dep in self._import_deps)]
 
     def _cfg_item(self, dep):
         alias_tgt = self._tested_alias_tgt(dep)
@@ -281,7 +293,8 @@ class TestTarget:
         self._error = error
         log.error("%s: %s%s", self, error, ''.join(['\n', *traceback]) if traceback else '')
 
-    def process_succeeded_job_result(self):
+    def process_succeeded_job_result(self, tested_requirements):
+        self._module_tgt.add_tested_types(tested_requirements)
         self._state = TargetState.RESOLVED
 
     def process_incomplete_job_result(self, requirements, tested_requirements):
@@ -355,12 +368,15 @@ class TestAliasTarget:
         return None
 
 
-# Tested requirements of a succeeded test are not used yet: they are not added to module resources.
+# Of tested requirements of a succeeded test, only types are added to module resources.
 def succeeded_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: test succeeded: %s", target, piece)
-    resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
-    target.process_succeeded_job_result()
+    tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
+    try:
+        target.process_succeeded_job_result(tested_requirements)
+    except UnresolvedImportError as x:
+        target.job_failed(str(x))
 
 
 def incomplete_result(piece, request, requirement_creg, job_pool):

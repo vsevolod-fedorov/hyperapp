@@ -204,7 +204,7 @@ def _compile(
     modules = _collect_modules(project_to_tree)
     resources, sources = load_resources(projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
-    targets = TargetSet(projects, modules)
+    targets = TargetSet(projects, modules, resources)
     project_tgts = _create_targets(modules, targets, resources)
     compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
     log.info("%d modules, %d compiled", len(modules), compiled_count)

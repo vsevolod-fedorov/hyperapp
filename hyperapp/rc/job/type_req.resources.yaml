@@ -1,0 +1,27 @@
+definitions:
+
+  type_req.module:
+    type: builtin:type:python_module
+    value:
+      module_name: type_req
+      file_name: type_req.dyn.py
+      imports:
+        pyobj:
+          htypes.type_req.type_req: :type_req.t:type_req
+        raw: {}
+
+  import_to_type_req.attr:
+    type: builtin:type:attribute
+    value:
+      object: type_req.module
+      attr_name: import_to_type_req
+
+  import_to_type_req.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: import_to_type_req.attr
+      service_params: {}
+
+  htypes.import-prefix:
+    type: import_to_req:import_prefix.t
+    value: [htypes]
