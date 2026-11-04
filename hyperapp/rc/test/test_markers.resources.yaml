@@ -1,0 +1,70 @@
+definitions:
+
+  test_markers.module:
+    type: builtin:type:python_module
+    value:
+      module_name: test_markers
+      file_name: test_markers.dyn.py
+      imports:
+        pyobj:
+          code.marker_utils: rc:marker_utils:marker_utils.module
+          code.path: rc:path:path.module
+        raw: {}
+
+  test_service.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_markers.module
+      attr_name: test_service
+
+  test_service.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: test_service
+      base: null
+      fields: {}
+
+  test_service.service:
+    type: test_service.service.t
+    value: {}
+
+  test_service.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: test_service.attr
+      adapters:
+      - base:system/adapter:service_object.adapter
+
+  ClassMarker.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_markers.module
+      attr_name: ClassMarker
+
+  class_marker.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: ClassMarker.attr
+      service_params:
+        test_service: test_service.service
+
+  function_marker.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_markers.module
+      attr_name: function_marker
+
+  function_marker.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: function_marker.attr
+      service_params:
+        test_service: test_service.service
+
+  test.class_marker:
+    type: rc:job/import_to_req:import_prefix.t
+    value: [test, class_marker]
+
+  test.function_marker:
+    type: rc:job/import_to_req:import_prefix.t
+    value: [test, function_marker]

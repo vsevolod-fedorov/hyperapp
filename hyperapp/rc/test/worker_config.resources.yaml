@@ -1,0 +1,21 @@
+definitions:
+
+  config:
+    type: base:system/system.t:system_config
+    value:
+      services:
+        base:system/system:service_creg.service: service_creg.config
+        rc:job/marker_registry:marker_registry.service: marker_registry.config
+
+  service_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        test_markers:test_service.service.t: test_markers:test_service.service-actor
+
+  marker_registry.config:
+    type: base:system/system.t:data_item_list
+    value:
+      items:
+        test_markers:test.class_marker: test_markers:class_marker.actor
+        test_markers:test.function_marker: test_markers:function_marker.actor

@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  same.module:
+    type: builtin:type:python_module
+    value:
+      module_name: same
+      file_name: same.dyn.py
+      imports:
+        pyobj:
+          code.base.mark: base:mark:mark.module
+        raw: {}

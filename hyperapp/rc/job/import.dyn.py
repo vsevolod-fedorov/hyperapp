@@ -8,12 +8,14 @@ from .services import (
     web,
     )
 from .code.system import setup_system
+from .code.mark import markers_activated
 from .code.path import Path
 from .code.import_recorder import (
     enum_import_requirements,
     find_incomplete_error,
     import_recorder_piece,
     recorded_python_module,
+    recorded_python_module_name,
     register_import_recorder_pyobj,
     )
 from .data.base.config import config as base_config
@@ -21,20 +23,23 @@ from .data.base.config import config as base_config
 log = logging.getLogger(__name__)
 
 
-def run_import_job(piece, request, import_to_req, transport):
+def run_import_job(piece, request, import_to_req, marker_registry, transport):
     log.info("[%s] Run import job: %s", request, piece)
     path = Path.from_piece(piece.path)
     register_import_recorder_pyobj()
     service_creg = setup_system([base_config])
     recorder_piece = import_recorder_piece(piece.path, [web.summon(ref) for ref in piece.cfg_items])
     recorder = pyobj_creg.animate(recorder_piece)
-    try:
-        module = pyobj_creg.animate(recorded_python_module(piece.path.path[-1], piece.source, recorder_piece))
-        log.info("Imported module: %s", module)
-        error = None
-    except Exception as x:
-        module = None
-        error = x
+    module_piece = recorded_python_module(piece.path.path[-1], piece.source, recorder_piece)
+    module_name = recorded_python_module_name(module_piece)
+    with markers_activated(marker_registry, {module_name: path}):
+        try:
+            module = pyobj_creg.animate(module_piece)
+            log.info("Imported module: %s", module)
+            error = None
+        except Exception as x:
+            module = None
+            error = x
     # Collected outside of the except block, so its errors are not chained to the import error.
     try:
         requirements = tuple(enum_import_requirements(path, recorder, import_to_req))

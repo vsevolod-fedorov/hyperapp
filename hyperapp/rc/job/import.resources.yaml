@@ -15,6 +15,7 @@ definitions:
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
           code.system: base:system/system:system.module
+          code.mark: base:mark:mark.module
           code.path: :path:path.module
           code.import_recorder: :import_recorder:import_recorder.module
         raw:
@@ -32,4 +33,5 @@ definitions:
       fn: run_import_job.attr
       service_params:
         import_to_req: import_to_req:import_to_req.service
+        marker_registry: marker_registry:marker_registry.service
         transport: base:transport/transport:transport.service

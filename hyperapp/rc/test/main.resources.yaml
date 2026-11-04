@@ -8,7 +8,8 @@ definitions:
       imports:
         pyobj:
           code.source_path: base:source_path:source_path.module
-        raw: {}
+        raw:
+          data.test_worker_config.config: worker_config:config
 
   main.attr:
     type: builtin:type:attribute

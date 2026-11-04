@@ -58,6 +58,44 @@ makes an import attempt or a test run incomplete; only ones used get to module r
 in functions are found only when tests call them (``boot_service_import``).
 Boot service not found fails the importing target (``boot_service_import_missing``).
 
+Markers
++++++++
+
+``code.mark`` supports arbitrary attribute chains and bare and parameterized decorators. Outside active
+modules it does not look up marker names: it is a no-op and returns the original callable unchanged
+(``base/test/test_mark.py``). String and type arguments are decorator parameters, not bare callables.
+
+Worker service ``marker_registry`` (``job/marker_registry.dyn.py``) maps a marker name tuple to a system actor.
+The actor names its template function or class and the services to inject. A class template is instantiated
+for each marker resolution, with the provider path as its first argument. A function template is bound with
+``path=``; both forms get configured services by keyword. The provider path is ``rc.path.Path``: project name
+and logical module path, never the dynamic Python name. An unknown name in an active module fails its import
+with both names in the diagnostic (``marker_unknown``).
+
+Activation maps exact dynamic Python module names to these provider paths. The name includes ``ROOT_PACKAGE``
+and the content hash of the complete recorded ``python_module`` piece, so same-named modules in different
+paths and projects are distinct (``markers``). Only modules in this map get real markers; every other module
+animated by the same job keeps no-op behavior. Marker templates are worker-side; probe registrations and their
+injected test services live in test-only worker config layers, not in generated module resources.
+
+An import job activates its own recorded module. A test job activates the exact recorded tested modules found
+in its config items, but not the test module itself: that module's import job already did its discoveries.
+A cached test module may keep objects decorated by that import job, but its markers are not called again by
+the test job. Tested modules are active both while the test module is imported and while its function runs
+(``markers``).
+
+Activation is a non-nested job scope, cleaned by ``finally`` after success, failure and incomplete execution.
+Its module map and provider paths are dropped, and the registry keeps no per-job template objects; worker
+services keep their usual worker lifetime. Consecutive attempts and jobs, including failed and incomplete test
+runs, therefore start with fresh activation state (``marker_incomplete``, ``marker_test_isolation``). There is no
+constructor result channel yet: marker execution adds no target or generated resource, so discoveries of a
+failed or incomplete job can not affect either. A later channel must take discoveries only from successful
+jobs.
+
+``marker_utils.dyn.py`` has the generic active-mode checks: recursive ``real_fn`` unwrapping through that
+property, function validation and classmethod decorator-order validation. It has no probe, actor, service or
+fixture machinery.
+
 Targets
 +++++++
 

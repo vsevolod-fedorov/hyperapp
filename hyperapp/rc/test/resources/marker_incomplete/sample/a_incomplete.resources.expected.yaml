@@ -1,0 +1,14 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  a_incomplete.module:
+    type: builtin:type:python_module
+    value:
+      module_name: a_incomplete
+      file_name: a_incomplete.dyn.py
+      imports:
+        pyobj:
+          code.base.mark: base:mark:mark.module
+          code.dependency: dependency:dependency.module
+        raw: {}

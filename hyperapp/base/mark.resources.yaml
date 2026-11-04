@@ -1,0 +1,10 @@
+definitions:
+
+  mark.module:
+    type: builtin:type:python_module
+    value:
+      module_name: mark
+      file_name: mark.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

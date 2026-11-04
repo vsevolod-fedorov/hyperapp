@@ -2,6 +2,7 @@ import logging
 from collections import defaultdict
 from dataclasses import dataclass
 
+from . import htypes
 from .services import (
     load_resources,
     mosaic,
@@ -52,12 +53,23 @@ def compile_resources(
         projects,
         project_to_tree,
         worker_count,
+        additional_worker_configs=(),
         ):
+    effective_worker_config = worker_config
+    if additional_worker_configs:
+        # Later pieces override earlier ones through the same service config controllers as worker boot uses.
+        effective_worker_config = htypes.system.system_config(
+            services=tuple(
+                rec
+                for config in (worker_config, *additional_worker_configs)
+                for rec in config.services
+                ),
+            )
     master_identity = generate_rsa_identity(fast=True)
     transport.add_endpoint(master_identity.peer, LocalEndpoint(message_creg, master_identity))
     log.info("master identity: %s", master_identity)
     with subprocess_workers_running(
-            master_identity, worker_config, 'sample',
+            master_identity, effective_worker_config, 'sample',
             count=worker_count, timeout_sec=5, start_timeout_sec=5) as workers:
         log.info("workers are running: %s", workers.peers)
         result = _compile(

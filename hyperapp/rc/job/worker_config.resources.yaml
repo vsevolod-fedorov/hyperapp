@@ -8,18 +8,21 @@ definitions:
         base:system/system:service_config_creg.service: service_config_creg.config
         base:transport/registries:message_creg.service: message_creg.config
         import_to_req:import_to_req.service: import_to_req.config
+        marker_registry:marker_registry.service: marker_registry.config
 
   service_creg.config:
     type: base:system/system.t:typed_item_list
     value:
       items:
         import_to_req:import_to_req.service.t: import_to_req:import_to_req.service-actor
+        marker_registry:marker_registry.service.t: marker_registry:marker_registry.service-actor
 
   service_config_creg.config:
     type: base:system/system.t:typed_item_list
     value:
       items:
         import_to_req:import_to_req.service.t: base:system/config:DataDictConfigCtl.from_service_piece.actor
+        marker_registry:marker_registry.service.t: base:system/config:DataDictConfigCtl.from_service_piece.actor
 
   message_creg.config:
     type: base:system/system.t:typed_item_list
@@ -36,3 +39,8 @@ definitions:
         code_req:tested.code.import-prefix: code_req:import_to_tested_code_req.actor
         type_req:htypes.import-prefix: type_req:import_to_type_req.actor
         boot_service_req:services.import-prefix: boot_service_req:import_to_boot_service_req.actor
+
+  marker_registry.config:
+    type: base:system/system.t:data_item_list
+    value:
+      items: {}

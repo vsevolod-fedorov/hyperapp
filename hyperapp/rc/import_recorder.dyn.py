@@ -1,3 +1,6 @@
+from hyperapp.boot.python_importer import ROOT_PACKAGE
+from hyperapp.boot.resource.python_module import make_module_name
+
 from . import htypes
 from .services import (
     mosaic,
@@ -113,6 +116,12 @@ def recorded_python_module(module_name, source, recorder_piece):
             raw=(),
             ),
         )
+
+
+# This is the exact name python_importer gives the recorded module. The logical path alone can not
+# identify it: same-named modules from different paths and projects coexist in a worker.
+def recorded_python_module_name(module_piece):
+    return f'{ROOT_PACKAGE}.{make_module_name(mosaic, module_piece)}'
 
 
 # Recorder of a module made by recorded_python_module, or None for other modules.

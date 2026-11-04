@@ -1,0 +1,43 @@
+definitions:
+
+  marker_registry.module:
+    type: builtin:type:python_module
+    value:
+      module_name: marker_registry
+      file_name: marker_registry.dyn.py
+      imports:
+        pyobj:
+          services.pyobj_creg: builtin:service:pyobj_creg
+        raw: {}
+
+  marker_registry.attr:
+    type: builtin:type:attribute
+    value:
+      object: marker_registry.module
+      attr_name: marker_registry
+
+  marker_registry.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: marker_registry
+      base: null
+      fields: {}
+
+  marker_registry.service:
+    type: marker_registry.service.t
+    value: {}
+
+  marker_registry.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: marker_registry.attr
+      adapters:
+      - marker_registry.service-args-adapter
+      - base:system/adapter:config.adapter
+      - base:system/adapter:service_object.adapter
+
+  marker_registry.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
+        service_creg: base:system/system:service_creg.service

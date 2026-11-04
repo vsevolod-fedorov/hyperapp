@@ -14,6 +14,7 @@ RESOURCES_SUFFIX = '.resources.yaml'
 PROJECTS_PATH = TEST_DIR / 'projects.yaml'
 # Faster for these small workspaces: starting workers takes longer than their jobs.
 DEFAULT_WORKER_COUNT = 1
+BASE_SUPPORT_PATHS = {('mark.dyn.py',), ('mark.resources.yaml',)}
 
 
 def _expected_tree(project_to_tree):
@@ -55,6 +56,14 @@ def _compile_and_check(
     expected_cycles = expected_cycles or []
     workspace = Workspace.from_yaml_file(RESOURCES_ROOT / workspace_name / 'workspace.yaml')
     project_to_tree = workspace.load_file_tree()
+    if 'base' in project_to_tree:
+        # Marker workspaces need only code.mark from the host base project; compiling the whole
+        # project would pull in features unrelated to these focused workspaces.
+        project_to_tree['base'] = {
+            path: data
+            for path, data in project_to_tree['base'].items()
+            if path in BASE_SUPPORT_PATHS
+            }
     expected_tree = _expected_tree(project_to_tree)
     # Single boot: dyn modules from one boot can not be imported again by another in the same process.
     compile_resources = boot(PROJECTS_PATH, 'rc_test:boot:boot.attr')
@@ -69,6 +78,51 @@ def _compile_and_check(
     result = compile_resources(workspace.projects, updated_tree, worker_count)
     assert result.resource_tree == expected_tree
     _check_result(result, expected_states, expected_errors, expected_cycles)
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_markers(worker_count):
+    states = {
+        'test/sample/marked.tests/test_tested_module_markers': 'resolved',
+        }
+    _compile_and_check('markers', states, worker_count=worker_count)
+
+
+def test_unknown_marker_fails_only_active_module():
+    states = {
+        'import/sample/unknown/0': 'resolved',
+        'import/sample/unknown/1': 'failed',
+        'import/sample/valid/0': 'resolved',
+        }
+    errors = {
+        'import/sample/unknown/1': "Unknown marker 'test.missing' for module sample:unknown",
+        }
+    _compile_and_check('marker_unknown', states, errors)
+
+
+def test_marker_state_is_cleaned_after_incomplete_import():
+    states = {
+        'import/sample/a_incomplete/0': 'resolved',
+        'import/sample/a_incomplete/1': 'resolved',
+        'import/sample/z_valid/0': 'resolved',
+        'module/compiled/sample/a_incomplete': 'resolved',
+        'module/compiled/sample/z_valid': 'resolved',
+        }
+    _compile_and_check('marker_incomplete', states)
+
+
+def test_marker_state_is_cleaned_between_test_jobs():
+    states = {
+        'test/sample/subject.tests/test_a_incomplete': 'resolved',
+        'test/sample/subject.tests/test_a_incomplete/0': 'resolved',
+        'test/sample/subject.tests/test_a_incomplete/1': 'resolved',
+        'test/sample/subject.tests/test_b_failure': 'failed',
+        'test/sample/subject.tests/test_c_success': 'resolved',
+        }
+    errors = {
+        'test/sample/subject.tests/test_b_failure/0': 'Test failed: RuntimeError: expected test failure',
+        }
+    _compile_and_check('marker_test_isolation', states, errors)
 
 
 def test_empty_module():

@@ -1,0 +1,10 @@
+definitions:
+
+  marker_utils.module:
+    type: builtin:type:python_module
+    value:
+      module_name: marker_utils
+      file_name: marker_utils.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
