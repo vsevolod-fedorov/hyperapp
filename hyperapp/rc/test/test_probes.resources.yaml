@@ -1,0 +1,135 @@
+definitions:
+
+  test_probes.module:
+    type: builtin:type:python_module
+    value:
+      module_name: test_probes
+      file_name: test_probes.dyn.py
+      imports:
+        pyobj:
+          htypes.builtin.imports: builtin:type:imports
+          services.mosaic: builtin:service:mosaic
+          code.probe: rc:probe:probe.module
+        raw:
+          data.resolver_service: resolver.service
+
+  test_wrapper.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_probes.module
+      attr_name: test_wrapper
+
+  test_wrapper.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: test_wrapper.attr
+      service_params:
+        context: rc:probe:probe_context.service
+        resolver: resolver.service
+
+  resolver.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_probes.module
+      attr_name: resolver
+
+  resolver.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: resolver
+      base: null
+      fields: {}
+
+  resolver.service:
+    type: resolver.service.t
+    value: {}
+
+  resolver.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: resolver.attr
+      adapters:
+      - resolver.service-args-adapter
+      - base:system/adapter:service_object.adapter
+
+  resolver.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
+        context: rc:probe:probe_context.service
+        state: state.service
+        registry: registry.service
+
+  state.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_probes.module
+      attr_name: state
+
+  state.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: test_probe_state
+      base: null
+      fields: {}
+
+  state.service:
+    type: state.service.t
+    value: {}
+
+  state.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: state.attr
+      adapters:
+      - base:system/adapter:service_object.adapter
+
+  registry.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_probes.module
+      attr_name: registry
+
+  registry.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: test_probe_registry
+      base: null
+      fields: {}
+
+  registry.service:
+    type: registry.service.t
+    value: {}
+
+  registry.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: registry.attr
+      adapters:
+      - registry.service-args-adapter
+      - base:system/adapter:config.adapter
+      - base:system/adapter:service_object.adapter
+
+  registry.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
+        system_code_registry_factory: base:system/code_registry:system_code_registry_factory.service
+
+  registry_value.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_probes.module
+      attr_name: registry_value
+
+  registry_value.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: registry_value.attr
+      service_params:
+        context: rc:probe:probe_context.service
+        state: state.service
+
+  test.wrapper:
+    type: rc:job/import_to_req:import_prefix.t
+    value: [test, wrapper]

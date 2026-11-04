@@ -26,6 +26,7 @@ config_creg = record
 adapter_creg = record
 service_creg = record
 service_config_creg = record
+subsystem_factory = record
 
 
 service_param = record:

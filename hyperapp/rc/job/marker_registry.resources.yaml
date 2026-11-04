@@ -32,12 +32,5 @@ definitions:
     value:
       fn: marker_registry.attr
       adapters:
-      - marker_registry.service-args-adapter
       - base:system/adapter:config.adapter
       - base:system/adapter:service_object.adapter
-
-  marker_registry.service-args-adapter:
-    type: base:system/adapter.t:service_args_adapter
-    value:
-      args:
-        service_creg: base:system/system:service_creg.service

@@ -14,7 +14,10 @@ RESOURCES_SUFFIX = '.resources.yaml'
 PROJECTS_PATH = TEST_DIR / 'projects.yaml'
 # Faster for these small workspaces: starting workers takes longer than their jobs.
 DEFAULT_WORKER_COUNT = 1
-BASE_SUPPORT_PATHS = {('mark.dyn.py',), ('mark.resources.yaml',)}
+BASE_SUPPORT_PATHS = {
+    ('mark.dyn.py',),
+    ('mark.resources.yaml',),
+    }
 
 
 def _expected_tree(project_to_tree):
@@ -68,7 +71,7 @@ def _compile_and_check(
     # Single boot: dyn modules from one boot can not be imported again by another in the same process.
     compile_resources = boot(PROJECTS_PATH, 'rc_test:boot:boot.attr')
     result = compile_resources(workspace.projects, project_to_tree, worker_count)
-    assert result.resource_tree == expected_tree
+    assert result.resource_tree == expected_tree, result.errors
     _check_result(result, expected_states, expected_errors, expected_cycles)
     # Second run gets resources made by the first one; they must load and stay the same.
     updated_tree = {
@@ -76,7 +79,7 @@ def _compile_and_check(
         for project_name, tree in project_to_tree.items()
         }
     result = compile_resources(workspace.projects, updated_tree, worker_count)
-    assert result.resource_tree == expected_tree
+    assert result.resource_tree == expected_tree, result.errors
     _check_result(result, expected_states, expected_errors, expected_cycles)
 
 
@@ -123,6 +126,53 @@ def test_marker_state_is_cleaned_between_test_jobs():
         'test/sample/subject.tests/test_b_failure/0': 'Test failed: RuntimeError: expected test failure',
         }
     _compile_and_check('marker_test_isolation', states, errors)
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_probes(worker_count):
+    states = {
+        'import/sample/subject/0': 'resolved',
+        'import/sample/subject/1': 'resolved',
+        'module/compiled/sample/subject': 'resolved',
+        **{
+            f'test/sample/subject.tests/{name}': 'resolved'
+            for name in [
+                'test_cached_probe',
+                'test_bound_probes',
+                'test_sync_wrapped',
+                'test_async_wrapped',
+                'test_generator_wrapped',
+                'test_async_generator_wrapped',
+                ]
+            },
+        }
+    _compile_and_check('probes', states, worker_count=worker_count)
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_probe_job_isolation(worker_count):
+    states = {
+        'import/sample/a_incomplete/1': 'resolved',
+        'import/sample/a_incomplete/2': 'resolved',
+        'import/sample/b_failure/1': 'failed',
+        'test/sample/subject.tests/test_a_incomplete': 'resolved',
+        'test/sample/subject.tests/test_a_incomplete/0': 'resolved',
+        'test/sample/subject.tests/test_a_incomplete/1': 'resolved',
+        'test/sample/subject.tests/test_b_failure': 'failed',
+        'test/sample/subject.tests/test_c_success': 'resolved',
+        'test/sample/subject.tests/test_generator': 'failed',
+        'test/sample/subject.tests/test_async_generator': 'failed',
+        'test/sample/subject.tests/test_params': 'failed',
+        }
+    errors = {
+        'import/sample/b_failure/1': 'expected import failure',
+        'test/sample/subject.tests/test_b_failure/0': 'RuntimeError: expected test failure',
+        'test/sample/subject.tests/test_generator/0': 'RuntimeError: generator exhausted',
+        'test/sample/subject.tests/test_async_generator/0': 'RuntimeError: async generator exhausted',
+        'test/sample/subject.tests/test_params/0':
+            'Fixtures are not supported yet; test has params: first, second, third',
+        }
+    _compile_and_check('probe_isolation', states, errors, worker_count=worker_count)
 
 
 def test_empty_module():

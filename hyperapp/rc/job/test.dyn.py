@@ -7,8 +7,7 @@ from .services import (
     pyobj_creg,
     web,
     )
-from .code.system import setup_system
-from .code.mark import markers_activated
+from .code.context import job_active
 from .code.path import Path
 from .code.import_recorder import (
     enum_import_requirements,
@@ -19,16 +18,14 @@ from .code.import_recorder import (
     recorded_python_module_name,
     register_import_recorder_pyobj,
     )
-from .data.base.config import config as base_config
 
 log = logging.getLogger(__name__)
 
 
-def run_test_job(piece, request, import_to_req, marker_registry, transport):
+def run_test_job(piece, request, import_to_req, marker_registry, subsystem_factory, transport):
     log.info("[%s] Run test job: %s", request, piece)
     path = Path.from_piece(piece.path)
     register_import_recorder_pyobj()
-    service_creg = setup_system([base_config])
     cfg_items = [web.summon(ref) for ref in piece.cfg_items]
     recorder_piece = import_recorder_piece(piece.path, cfg_items)
     recorder = pyobj_creg.animate(recorder_piece)
@@ -40,13 +37,13 @@ def run_test_job(piece, request, import_to_req, marker_registry, transport):
     module_piece = recorded_python_module(piece.path.path[-1], piece.source, recorder_piece)
     # Tested modules are active while their tests run. The test module itself is deliberately absent:
     # its own import job already performed its marker discoveries.
-    with markers_activated(marker_registry, module_to_path):
-        try:
+    try:
+        with job_active(subsystem_factory, marker_registry, module_to_path):
             module = pyobj_creg.animate(module_piece)
             _run_test_fn(getattr(module, piece.function.name), piece.function)
             error = None
-        except Exception as x:
-            error = x
+    except Exception as x:
+        error = x
     # Collected outside of the except block, so its errors are not chained to the test error.
     try:
         requirements = tuple(enum_import_requirements(path, recorder, import_to_req))

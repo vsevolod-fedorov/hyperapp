@@ -16,6 +16,10 @@ definitions:
     type: system.t:service_config_creg
     value: {}
 
+  subsystem_factory.service:
+    type: system.t:subsystem_factory
+    value: {}
+
   system.module:
     type: builtin:type:python_module
     value:
@@ -30,6 +34,7 @@ definitions:
           data.system.service.adapter_creg: adapter_creg.service
           data.system.service.service_creg: service_creg.service
           data.system.service.service_config_creg: service_config_creg.service
+          data.system.service.subsystem_factory: subsystem_factory.service
 
   service_config_creg.attr:
     type: builtin:type:attribute

@@ -1,6 +1,6 @@
 import inspect
 
-from .code.marker_utils import check_is_function, check_not_classmethod
+from .code.marker_utils import check_is_function, check_method_decorator_order
 from .code.path import Path
 
 
@@ -15,7 +15,7 @@ def test_service():
 
 
 def _decorate(fn, path, test_service, marker_name, args, kw):
-    check_not_classmethod(fn)
+    check_method_decorator_order(fn)
     real_fn = check_is_function(fn)
     if not isinstance(path, Path):
         raise RuntimeError(f"Wrong provider path: {path!r}")

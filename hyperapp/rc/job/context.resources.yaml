@@ -1,0 +1,13 @@
+definitions:
+
+  context.module:
+    type: builtin:type:python_module
+    value:
+      module_name: context
+      file_name: context.dyn.py
+      imports:
+        pyobj:
+          code.mark: base:mark:mark.module
+          code.probe: :probe:probe.module
+        raw:
+          data.probe.probe_context_service: :probe:probe_context.service

@@ -7,8 +7,7 @@ from .services import (
     pyobj_creg,
     web,
     )
-from .code.system import setup_system
-from .code.mark import markers_activated
+from .code.context import job_active
 from .code.path import Path
 from .code.import_recorder import (
     enum_import_requirements,
@@ -18,28 +17,29 @@ from .code.import_recorder import (
     recorded_python_module_name,
     register_import_recorder_pyobj,
     )
-from .data.base.config import config as base_config
+from .code.probe import real_fn
 
 log = logging.getLogger(__name__)
 
 
-def run_import_job(piece, request, import_to_req, marker_registry, transport):
+def run_import_job(piece, request, import_to_req, marker_registry, subsystem_factory, transport):
     log.info("[%s] Run import job: %s", request, piece)
     path = Path.from_piece(piece.path)
     register_import_recorder_pyobj()
-    service_creg = setup_system([base_config])
-    recorder_piece = import_recorder_piece(piece.path, [web.summon(ref) for ref in piece.cfg_items])
+    cfg_items = [web.summon(ref) for ref in piece.cfg_items]
+    recorder_piece = import_recorder_piece(piece.path, cfg_items)
     recorder = pyobj_creg.animate(recorder_piece)
     module_piece = recorded_python_module(piece.path.path[-1], piece.source, recorder_piece)
     module_name = recorded_python_module_name(module_piece)
-    with markers_activated(marker_registry, {module_name: path}):
-        try:
+    try:
+        with job_active(subsystem_factory, marker_registry, {module_name: path}):
             module = pyobj_creg.animate(module_piece)
             log.info("Imported module: %s", module)
+            test_functions = tuple(_enum_test_functions(module))
             error = None
-        except Exception as x:
-            module = None
-            error = x
+    except Exception as x:
+        test_functions = ()
+        error = x
     # Collected outside of the except block, so its errors are not chained to the import error.
     try:
         requirements = tuple(enum_import_requirements(path, recorder, import_to_req))
@@ -51,16 +51,16 @@ def run_import_job(piece, request, import_to_req, marker_registry, transport):
             traceback=tuple(traceback.format_tb(x.__traceback__)),
             )
     else:
-        result = _import_result(piece, requirements, module, error)
+        result = _import_result(piece, requirements, test_functions, error)
     transport.send_message(request.remote_peer, request.local_identity, result)
 
 
-def _import_result(piece, requirements, module, error):
+def _import_result(piece, requirements, test_functions, error):
     if error is None:
         return htypes.import_job.succeeded_result(
             target=piece.target,
             requirements=requirements,
-            test_functions=tuple(_enum_test_functions(module)),
+            test_functions=test_functions,
             )
     if (incomplete := find_incomplete_error(error)) is not None:
         log.info("Import is incomplete: %s", incomplete)
@@ -80,14 +80,17 @@ def _import_result(piece, requirements, module, error):
 # Collected from any module: job does not know if it is a test one.
 def _enum_test_functions(module):
     for name, value in vars(module).items():
-        if not name.startswith('test_') or not inspect.isfunction(value):
+        if not name.startswith('test_'):
             continue
-        if value.__module__ != module.__name__:
+        fn = real_fn(value)
+        if not inspect.isfunction(fn):
+            continue
+        if fn.__module__ != module.__name__:
             continue  # Imported from other module.
-        is_async_gen = inspect.isasyncgenfunction(value)
+        is_async_gen = inspect.isasyncgenfunction(fn)
         yield htypes.test_job.test_function(
             name=name,
-            params=tuple(inspect.signature(value).parameters),
-            is_async=inspect.iscoroutinefunction(value) or is_async_gen,
-            is_generator=inspect.isgeneratorfunction(value) or is_async_gen,
+            params=tuple(inspect.signature(fn).parameters),
+            is_async=inspect.iscoroutinefunction(fn) or is_async_gen,
+            is_generator=inspect.isgeneratorfunction(fn) or is_async_gen,
             )

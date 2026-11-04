@@ -1,3 +1,5 @@
+from functools import partial
+
 from .services import (
     web,
     )
@@ -11,7 +13,10 @@ from .code.config import TypedDictConfigCtl, DataDictConfigCtl
 from . import data
 
 
-def setup_system(config_piece_list):
+def setup_system(config_piece_list, service_instances=None):
+    # Subsystems replay declarations, not the parent's mutable configs, resolved actors or caches.
+    # Keep a tuple so a caller changing its input list cannot change future subsystem setup.
+    config_piece_list = tuple(config_piece_list)
     service_to_config_pieces = {}
     for config in config_piece_list:
         for rec in config.services:
@@ -27,6 +32,12 @@ def setup_system(config_piece_list):
         service_to_config_pieces[data.system.service.service_creg])
     service_creg = ServiceCodeRegistry(adapter_creg, service_creg_config)
     service_creg.add_to_cache(data.system.service.service_creg, service_creg)
+    service_creg.add_to_cache(
+        data.system.service.subsystem_factory, partial(setup_system, config_piece_list))
+    # Seed scoped dependencies before resolving config controllers and service adapters, so indirect
+    # dependencies see the same instances as direct ones. These instances are not inherited by children.
+    for service, instance in (service_instances or {}).items():
+        service_creg.add_to_cache(service, instance)
     adapter_creg.set_service_creg(service_creg)
     service_config_creg_config = TypedDictConfigCtl().piece_list_to_config(
         service_to_config_pieces[data.system.service.service_config_creg])

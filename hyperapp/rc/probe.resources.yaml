@@ -1,0 +1,22 @@
+definitions:
+
+  probe.module:
+    type: builtin:type:python_module
+    value:
+      module_name: probe
+      file_name: probe.dyn.py
+      imports:
+        pyobj:
+          code.path: path:path.module
+        raw: {}
+
+  probe_context.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: probe_context
+      base: null
+      fields: {}
+
+  probe_context.service:
+    type: probe_context.service.t
+    value: {}

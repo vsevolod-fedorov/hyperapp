@@ -85,16 +85,81 @@ the test job. Tested modules are active both while the test module is imported a
 (``markers``).
 
 Activation is a non-nested job scope, cleaned by ``finally`` after success, failure and incomplete execution.
-Its module map and provider paths are dropped, and the registry keeps no per-job template objects; worker
-services keep their usual worker lifetime. Consecutive attempts and jobs, including failed and incomplete test
-runs, therefore start with fresh activation state (``marker_incomplete``, ``marker_test_isolation``). There is no
+Its module map and provider paths are dropped, and the registry keeps no per-job template objects or service
+resolver. Consecutive attempts and jobs, including failed and incomplete test runs, therefore start with fresh
+activation state (``marker_incomplete``, ``marker_test_isolation``). There is no
 constructor result channel yet: marker execution adds no target or generated resource, so discoveries of a
 failed or incomplete job can not affect either. A later channel must take discoveries only from successful
 jobs.
 
-``marker_utils.dyn.py`` has the generic active-mode checks: recursive ``real_fn`` unwrapping through that
-property, function validation and classmethod decorator-order validation. It has no probe, actor, service or
-fixture machinery.
+``marker_utils.dyn.py`` exposes function validation and ``check_method_decorator_order``. Generic
+recursive ``real_fn`` unwrapping and the shared order check live in ``probe.dyn.py``. Unbound
+``classmethod`` and ``staticmethod`` descriptors stay visible to the order check; a bound method
+preserves its receiver. Both method decorators must be outside marker and probe decorators, so Python
+controls receiver binding. Probes reject the wrong order at construction, including wrapped descriptors.
+
+Probes
+++++++
+
+``ProbeBase(path, fn)`` keeps the provider as ``rc.path.Path`` and the wrapped callable; Python module
+names are not provider identities. Its ``path`` and immediate ``__wrapped__`` callable are available
+outside jobs too. ``real_fn(value)`` is the single recursive, binding-aware unwrapping API; probes have
+no separate ``real_fn`` property, which would lose the receiver when accessed on a bound method.
+The default call delegates to the wrapped callable. Descriptors preserve instance and class binding,
+including nested probes and ordinary wrappers around them; outer ``staticmethod`` keeps calls unbound.
+
+``real_fn(value)`` follows interleaved ``real_fn`` and standard ``__wrapped__`` protocols in one traversal.
+It preserves a bound receiver, rejects wrapper cycles including self-links, and does not ask proxy
+``__getattr__`` for wrapper attributes. Visited wrappers stay alive during traversal so temporary bound
+methods cannot reuse their identities. Test discovery uses the real function's module, signature and
+sync/async/generator flags; execution still calls the outer wrapper. Discovery errors fail the import job.
+``probes`` checks nested wrappers and bound methods; ``probe_isolation`` also checks parameter rejection
+and generator exhaustion.
+
+Each import or test job enters ``job_active`` from ``job/context.dyn.py`` around module animation,
+discovery or test execution. It creates a fresh ``ProbeContext`` and a job subsystem. The active context is
+worker-local and non-nested: a worker executes one job at a time, including its async test runner.
+``probe.context`` looks up this active slot on every use.
+Cached probes therefore bind to the current job even if their module is not animated again, and retain no
+context of their own. Access outside a job raises.
+
+``probe.state`` is a mutable dictionary owned by that context, distinct for every probe and job. Concrete
+probes put job-local cached values and callbacks here, rather than on the cached wrapper. Context state is
+keyed by identity, without invoking proxy equality or hash. ``context.discoveries.add(entry)`` stores an
+opaque in-memory discovery; ``entries`` returns its current tuple. The foundation does not resolve values
+or interpret discoveries. The small ``test/test_probes.dyn.py`` probe uses an injected test resolver to
+exercise caching and recording, with no service-signature or object/factory inference.
+
+Worker ``marker_registry`` owns definitions and exact marker-path lookup. It has no worker service resolver.
+``marker_registry.bound(context.invite)`` binds all template dependencies to the job subsystem by resource
+reference, including dependencies reached through service adapters and registry actors. The current context
+is seeded as ``probe:probe_context.service`` before subsystem setup resolves any dependencies, so direct and
+indirect injection use the same object. Parameter names do not select services. There is no fallback to the
+worker's instantiated services or mutable registry configuration.
+
+``base/system/system.dyn.py`` supplies ``subsystem_factory.service`` from ``setup_system``. The factory
+replays the immutable configuration pieces used to build its parent; each call gets fresh service, adapter
+and service-config registries, configs and lazily constructed service instances. Optional instance bindings
+belong only to that subsystem and are not inherited by its children. This uses the existing subsystem
+implementation and configuration controllers. Marker/test registrations from worker config layers are
+therefore available to jobs without sharing their mutable instances. Transport and job dispatch continue to
+use the worker subsystem. Boot services such as ``pyobj_creg``, ``mosaic`` and ``web`` retain worker lifetime.
+
+``context.invite(service_ref)`` resolves a declared service reference through the job subsystem. Cached
+probes retain resource references and resolve them on use; they must not capture injected instances or bound
+resolvers in wrapper attributes. The test probe exercises a mutable service and a configured registry,
+including transitive injection of the context and shared dependencies within a job.
+
+Context exit detaches all probes by clearing the active slot and service resolver, clears every state
+dictionary in place, drops the state's probe references, and clears and closes the discovery sink. The bound
+marker registry also drops its resolver. A retained context or marker binding cannot resolve services after
+exit, and cached probes do not keep the finished subsystem alive. A closed context cannot be reused;
+a closed sink rejects new entries. Cleanup happens before result transmission, on success, failure and
+incomplete execution. No discovery result channel is implemented: even successful entries stay local and
+are discarded on exit. Failed or incomplete jobs cannot publish them to targets or generated resources.
+``test/test_probe_jobs.py`` checks these boundaries using the real worker config and job entry points,
+including mutation isolation after success, failure and incomplete jobs, and release of job subsystems;
+``probes`` and ``probe_isolation`` run with one and four subprocess workers.
 
 Targets
 +++++++

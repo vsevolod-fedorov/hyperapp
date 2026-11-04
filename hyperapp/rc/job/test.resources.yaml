@@ -14,12 +14,10 @@ definitions:
           htypes.import_recorder.import_cfg_item: :import_recorder.t:import_cfg_item
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
-          code.system: base:system/system:system.module
-          code.mark: base:mark:mark.module
+          code.context: context:context.module
           code.path: :path:path.module
           code.import_recorder: :import_recorder:import_recorder.module
-        raw:
-          data.base.config.config: base:config:config
+        raw: {}
 
   run_test_job.attr:
     type: builtin:type:attribute
@@ -34,4 +32,5 @@ definitions:
       service_params:
         import_to_req: import_to_req:import_to_req.service
         marker_registry: marker_registry:marker_registry.service
+        subsystem_factory: base:system/system:subsystem_factory.service
         transport: base:transport/transport:transport.service

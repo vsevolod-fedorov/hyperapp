@@ -5,13 +5,30 @@ definitions:
     value:
       services:
         base:system/system:service_creg.service: service_creg.config
+        base:system/system:service_config_creg.service: service_config_creg.config
         rc:job/marker_registry:marker_registry.service: marker_registry.config
+        test_probes:registry.service: registry.config
 
   service_creg.config:
     type: base:system/system.t:typed_item_list
     value:
       items:
         test_markers:test_service.service.t: test_markers:test_service.service-actor
+        test_probes:resolver.service.t: test_probes:resolver.service-actor
+        test_probes:state.service.t: test_probes:state.service-actor
+        test_probes:registry.service.t: test_probes:registry.service-actor
+
+  service_config_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        test_probes:registry.service.t: base:system/config:TypedDictConfigCtl.from_service_piece.actor
+
+  registry.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        builtin:type:imports: test_probes:registry_value.actor
 
   marker_registry.config:
     type: base:system/system.t:data_item_list
@@ -19,3 +36,4 @@ definitions:
       items:
         test_markers:test.class_marker: test_markers:class_marker.actor
         test_markers:test.function_marker: test_markers:function_marker.actor
+        test_probes:test.wrapper: test_probes:test_wrapper.actor

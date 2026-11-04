@@ -36,10 +36,12 @@ def test_check_is_function_rejects_other_objects(module):
         module.check_is_function(object())
 
 
-def test_check_not_classmethod(module):
+@pytest.mark.parametrize('decorator', [classmethod, staticmethod])
+@pytest.mark.parametrize('wrapper', [Wrapper, lambda fn: fn])
+def test_check_method_decorator_order(module, decorator, wrapper):
     def fn():
         pass
 
-    module.check_not_classmethod(fn)
-    with pytest.raises(RuntimeError, match='place the marker before the @classmethod decorator'):
-        module.check_not_classmethod(classmethod(fn))
+    module.check_method_decorator_order(wrapper(fn))
+    with pytest.raises(RuntimeError, match=f'@{decorator.__name__} must be outside'):
+        module.check_method_decorator_order(wrapper(decorator(fn)))

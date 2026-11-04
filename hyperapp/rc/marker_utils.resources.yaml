@@ -6,5 +6,6 @@ definitions:
       module_name: marker_utils
       file_name: marker_utils.dyn.py
       imports:
-        pyobj: {}
+        pyobj:
+          code.probe: :probe:probe.module
         raw: {}
