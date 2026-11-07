@@ -7,7 +7,7 @@ from .services import (
     pyobj_creg,
     web,
     )
-from .code.context import job_active
+from .code.context import job_active, tested_modules
 from .code.path import Path
 from .code.import_recorder import (
     enum_import_requirements,
@@ -29,10 +29,15 @@ def run_import_job(piece, request, import_to_req, marker_registry, subsystem_fac
     cfg_items = [web.summon(ref) for ref in piece.cfg_items]
     recorder_piece = import_recorder_piece(piece.path, cfg_items)
     recorder = pyobj_creg.animate(recorder_piece)
+    modules, tested_recorders = tested_modules(cfg_items)
+    # Tested uses belong to this job, not earlier imports or tests on this worker.
+    for tested_path, rec in tested_recorders:
+        rec.clear_used_imports()
     module_piece = recorded_python_module(piece.path.path[-1], piece.source, recorder_piece)
     module_name = recorded_python_module_name(module_piece)
+    modules[module_name] = path
     try:
-        with job_active(subsystem_factory, marker_registry, {module_name: path}):
+        with job_active(subsystem_factory, marker_registry, modules):
             module = pyobj_creg.animate(module_piece)
             log.info("Imported module: %s", module)
             test_functions = tuple(_enum_test_functions(module))
@@ -43,6 +48,11 @@ def run_import_job(piece, request, import_to_req, marker_registry, subsystem_fac
     # Collected outside of the except block, so its errors are not chained to the import error.
     try:
         requirements = tuple(enum_import_requirements(path, recorder, import_to_req))
+        tested_requirements = tuple(
+            req
+            for path, rec in tested_recorders
+            for req in enum_import_requirements(path, rec, import_to_req)
+            )
     except Exception as x:
         log.exception("Error collecting requirements")
         result = htypes.import_job.internal_error_result(
@@ -51,15 +61,16 @@ def run_import_job(piece, request, import_to_req, marker_registry, subsystem_fac
             traceback=tuple(traceback.format_tb(x.__traceback__)),
             )
     else:
-        result = _import_result(piece, requirements, test_functions, error)
+        result = _import_result(piece, requirements, tested_requirements, test_functions, error)
     transport.send_message(request.remote_peer, request.local_identity, result)
 
 
-def _import_result(piece, requirements, test_functions, error):
+def _import_result(piece, requirements, tested_requirements, test_functions, error):
     if error is None:
         return htypes.import_job.succeeded_result(
             target=piece.target,
             requirements=requirements,
+            tested_requirements=tested_requirements,
             test_functions=test_functions,
             )
     if (incomplete := find_incomplete_error(error)) is not None:
@@ -67,6 +78,7 @@ def _import_result(piece, requirements, test_functions, error):
         return htypes.import_job.incomplete_result(
             target=piece.target,
             requirements=requirements,
+            tested_requirements=tested_requirements,
             )
     log.info("Import failed: %s", error)
     return htypes.import_job.failed_result(

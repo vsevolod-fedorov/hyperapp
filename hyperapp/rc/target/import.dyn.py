@@ -79,6 +79,7 @@ class ProjectImportsTarget:
 @dataclass(frozen=True)
 class _ImportResult:
     requirements: tuple
+    tested_requirements: tuple
     test_functions: tuple | None  # None for an incomplete attempt.
 
 
@@ -138,6 +139,8 @@ class ImportTarget:
 
     @property
     def deps(self):
+        if self._module.is_test:
+            return self.module_tgt.deps_for_imports(self._import_deps)
         return {dep.target for dep in self._import_deps}
 
     def add_import_dep(self, dep):
@@ -148,6 +151,8 @@ class ImportTarget:
     # Used only when runnable or later, so all dep targets are resolved and have results.
     @property
     def _cfg_items(self):
+        if self._module.is_test:
+            return self._with_loaded_cfg_items(self.module_tgt.make_cfg_item(dep) for dep in self._import_deps)
         return self._with_loaded_cfg_items(dep.make_cfg_item() for dep in self._import_deps)
 
     def _with_loaded_cfg_items(self, cfg_items):
@@ -190,11 +195,11 @@ class ImportTarget:
             return False
         return True
 
-    def process_succeeded_job_result(self, requirements, test_functions):
-        self._receive_result(_ImportResult(tuple(requirements), test_functions))
+    def process_succeeded_job_result(self, requirements, tested_requirements, test_functions):
+        self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), test_functions))
 
-    def process_incomplete_job_result(self, requirements):
-        self._receive_result(_ImportResult(tuple(requirements), None))
+    def process_incomplete_job_result(self, requirements, tested_requirements):
+        self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), None))
 
     def _receive_result(self, result):
         if self.module_tgt is None:
@@ -217,8 +222,10 @@ class ImportTarget:
             self.job_failed(str(x))
 
     def _process_result(self, result):
-        requirements = result.requirements
+        requirements, tested_requirements = result.requirements, result.tested_requirements
         if not self._import_attempt_finished(requirements):
+            return
+        if not self._check_tested_requirements(requirements, tested_requirements):
             return
         if result.test_functions is None:
             self._retry(requirements)
@@ -227,7 +234,18 @@ class ImportTarget:
             self.module_tgt.add_import_req(req)
         for function in result.test_functions:
             self.module_tgt.add_test_function(function)
+        if self._module.is_test:
+            self.module_tgt.add_tested_loaded_reqs(tested_requirements)
         self._state = TargetState.RESOLVED
+
+    def _check_tested_requirements(self, requirements, tested_requirements):
+        if self._module.is_test:
+            error = self.module_tgt.check_test_requirements(
+                requirements, tested_requirements, when='test module is imported')
+            if error:
+                self.job_failed(error)
+                return False
+        return True
 
     def _retry(self, requirements):
         deps = {req.resolve(self._targets) for req in requirements}
@@ -338,8 +356,9 @@ def succeeded_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import succeeded: %s", target, piece)
     requirements = resolve_requirements(requirement_creg, piece.requirements)
+    tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
-        target.process_succeeded_job_result(requirements, piece.test_functions)
+        target.process_succeeded_job_result(requirements, tested_requirements, piece.test_functions)
     except UnresolvedImportError as x:
         target.job_failed(str(x))
 
@@ -348,8 +367,9 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import is incomplete: %s", target, piece)
     requirements = resolve_requirements(requirement_creg, piece.requirements)
+    tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
-        target.process_incomplete_job_result(requirements)
+        target.process_incomplete_job_result(requirements, tested_requirements)
     except UnresolvedImportError as x:
         target.job_failed(str(x))
 

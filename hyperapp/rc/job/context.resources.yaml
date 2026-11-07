@@ -7,7 +7,12 @@ definitions:
       file_name: context.dyn.py
       imports:
         pyobj:
+          htypes.import_recorder.import_cfg_item: :import_recorder.t:import_cfg_item
+          services.pyobj_creg: builtin:service:pyobj_creg
+          services.web: builtin:service:web
+          code.import_recorder: :import_recorder:import_recorder.module
           code.mark: base:mark:mark.module
+          code.path: :path:path.module
           code.probe: :probe:probe.module
         raw:
           data.probe.probe_context_service: :probe:probe_context.service

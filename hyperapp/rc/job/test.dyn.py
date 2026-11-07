@@ -7,15 +7,13 @@ from .services import (
     pyobj_creg,
     web,
     )
-from .code.context import job_active
+from .code.context import job_active, tested_modules
 from .code.path import Path
 from .code.import_recorder import (
     enum_import_requirements,
     find_incomplete_error,
     import_recorder_piece,
-    module_recorder_piece,
     recorded_python_module,
-    recorded_python_module_name,
     register_import_recorder_pyobj,
     )
 
@@ -29,7 +27,7 @@ def run_test_job(piece, request, import_to_req, marker_registry, subsystem_facto
     cfg_items = [web.summon(ref) for ref in piece.cfg_items]
     recorder_piece = import_recorder_piece(piece.path, cfg_items)
     recorder = pyobj_creg.animate(recorder_piece)
-    module_to_path, tested_recorders = _tested_modules(cfg_items)
+    modules, tested_recorders = tested_modules(cfg_items)
     # Recorders are cached by their pieces, so this worker may have given them to its previous jobs.
     # Their uses must not be reported as this job's: a test run is failed by unexpected ones.
     for rec in [recorder, *(rec for path, rec in tested_recorders)]:
@@ -38,7 +36,7 @@ def run_test_job(piece, request, import_to_req, marker_registry, subsystem_facto
     # Tested modules are active while their tests run. The test module itself is deliberately absent:
     # its own import job already performed its marker discoveries.
     try:
-        with job_active(subsystem_factory, marker_registry, module_to_path):
+        with job_active(subsystem_factory, marker_registry, modules):
             module = pyobj_creg.animate(module_piece)
             _run_test_fn(getattr(module, piece.function.name), piece.function)
             error = None
@@ -80,24 +78,6 @@ async def _run_async_test_fn(fn, function):
             pass
     else:
         await fn()
-
-
-# Exact recorded pieces select tested modules for activation, and their recorders keep uses made by tests.
-# Returns (dynamic module name -> provider Path, (provider Path, recorder) list).
-def _tested_modules(cfg_items):
-    module_to_path = {}
-    tested_recorders = []
-    for item in cfg_items:
-        if not isinstance(item, htypes.import_recorder.import_cfg_item):
-            continue
-        module_piece = web.summon(item.resource)
-        recorder_piece = module_recorder_piece(module_piece)
-        if recorder_piece is None:
-            continue  # Complete module, not a tested one.
-        path = Path.from_piece(recorder_piece.module_path)
-        module_to_path[recorded_python_module_name(module_piece)] = path
-        tested_recorders.append((path, pyobj_creg.animate(recorder_piece)))
-    return module_to_path, tested_recorders
 
 
 def _test_result(piece, requirements, tested_requirements, error):

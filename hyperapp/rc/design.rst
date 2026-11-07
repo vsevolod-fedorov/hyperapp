@@ -41,6 +41,9 @@ and give requirements (``code_req.dyn.py``, ``type_req.dyn.py``, ``boot_service_
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
+For ``tested.code`` this supplies an active recorded provider, with its own imports resolved as for a test
+job. The retry waits for the provider's import alias and its dependencies, rather than its completed module,
+which itself waits for these tests (``probes``).
 Import of a module not found, or of a manual one having no module resource, fails the importing target
 (``code_import_missing``, ``manual_module_no_resource``).
 Importing a test module as ordinary or tested code fails with an explicit diagnostic naming it
@@ -94,11 +97,17 @@ paths and projects are distinct (``markers``). Only modules in this map get real
 animated by the same job keeps no-op behavior. Marker templates are worker-side; probe registrations and their
 injected test services live in test-only worker config layers, not in generated module resources.
 
-An import job activates its own recorded module. A test job activates the exact recorded tested modules found
-in its config items, but not the test module itself: that module's import job already did its discoveries.
+An import job activates its own recorded module and the exact recorded tested modules found in its config
+items. A test job activates those tested modules, but not the test module itself: that module's import job
+already did its discoveries.
 A cached test module may keep objects decorated by that import job, but its markers are not called again by
 the test job. Tested modules are active both while the test module is imported and while its function runs
 (``markers``).
+
+Import retries and test jobs use the same recorded providers, including direct imports of another tested
+provider. Complete dependencies keep their ordinary marker behavior. A fresh worker must activate tested
+providers while importing the test module: its top-level calls need probes immediately, and the cached
+objects must remain instrumented when later test jobs reuse them (``probes``).
 
 Activation is a non-nested job scope, cleaned by ``finally`` after success, failure and incomplete execution.
 Its module map and provider paths are dropped, and the registry keeps no per-job template objects or service
@@ -237,7 +246,8 @@ Test gets tested modules recorded, so tests record what tested modules use.
 Manual module is tested as it is, like a code import: it is not compiled, so there is nothing to record
 its uses for (``manual_module_tested``).
 
-Tested module gets its own imports, found by its import job, resolved before tests run:
+Tested module gets its own imports, found by its import job, resolved before tests run or a test-module
+import retry loads it:
 
 * untested module: complete one, compiled before tests (``test_collection/module_4.dyn.py``);
 * other module tested by the same test module, imported directly: the same recorded one the test gets.
@@ -262,6 +272,9 @@ Test run can not change which modules are tested, or what they import. These fai
 Types and boot services are the exception: tested module takes ones its passed test runs use, and gives them
 in its resources. Being resolved from the start, they do not change what it waits for (``type_import``,
 ``boot_service_import``).
+Test-module import retries report tested requirements separately too. They enforce the same restriction on
+new code imports and add preloaded requirements from successful attempts, so import-time uses are retained
+even if the cached module is not executed again by a test (``probes``).
 
 Incomplete run because of other imports of the test module gets a next run with them resolved
 (``test_code_used_by_run`` in ``test_collection/modules.tests.dyn.py``).

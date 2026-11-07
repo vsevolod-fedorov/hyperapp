@@ -10,4 +10,5 @@ definitions:
       imports:
         pyobj:
           code.base.mark: base:mark:mark.module
+          services.mosaic: builtin:service:mosaic
         raw: {}

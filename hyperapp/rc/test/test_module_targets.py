@@ -26,7 +26,7 @@ def graph(worker):
 def _finish_import(module, requirements=(), functions=()):
     target = module.import_tgt
     target.job_started()
-    target.process_succeeded_job_result(requirements, functions)
+    target.process_succeeded_job_result(requirements, (), functions)
     assert target.state.name == 'RESOLVED'
 
 
@@ -116,7 +116,7 @@ def test_incomplete_first_import_waits_before_creating_retry(graph):
     subject = graph.modules['subject']
     req = graph.requirements.TestedCodeReq(checks.path, ('tested', 'code'), ('tested', 'code', 'subject'))
     checks.import_tgt.job_started()
-    checks.import_tgt.process_incomplete_job_result([req])
+    checks.import_tgt.process_incomplete_job_result([req], ())
     assert checks.module_tgt is None
     assert 'import/sample/checks/1' not in {target.name for target in graph.targets}
     assert checks.import_alias_tgt.state.name == 'WAITING'

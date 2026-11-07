@@ -1,4 +1,11 @@
+from . import services
 from .code.base.mark import mark
+
+
+@mark.test.wrapper
+def import_only():
+    assert services.mosaic is not None
+    return 42
 
 
 @mark.test.wrapper

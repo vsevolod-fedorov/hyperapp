@@ -74,6 +74,10 @@ class TestModuleTarget:
     # Other modules imported by tested ones are complete, compiled before tests.
     @property
     def deps(self):
+        return {self._import_alias_tgt, *self.deps_for_imports(self._import_deps)}
+
+    # Import retries execute tested code too, so they need the same resolved dependencies as tests.
+    def deps_for_imports(self, import_deps):
         tested_imports = (
             dep
             for alias_tgt in self._tested_alias_tgts
@@ -81,8 +85,7 @@ class TestModuleTarget:
             for dep in alias_tgt.module_tgt.import_deps
             )
         return {
-            self._import_alias_tgt,
-            *(self._dep_target(dep) for dep in self._import_deps),
+            *(self._dep_target(dep) for dep in import_deps),
             *(self._dep_target(dep) for dep in tested_imports),
             }
 
@@ -134,14 +137,14 @@ class TestModuleTarget:
                 f" {', '.join(sorted('.'.join(req.import_as) for req in new_tested))}. Tested modules are decided"
                 " by the first attempt; import them before anything making the test module import incomplete")
 
-    # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
+    # Tested modules and their imports are decided by imports; executing tested code cannot extend them.
     # Preloaded ones, like types, are not: they are given to all recorders, see add_tested_loaded_reqs.
-    def check_test_requirements(self, requirements, tested_requirements):
+    def check_test_requirements(self, requirements, tested_requirements, when='test runs'):
         for req in requirements:
             dep = self._req_tested_dep(req)
             if dep is not None and dep.target not in self._tested_alias_tgts:
                 return (
-                    f"Tested module {'.'.join(req.import_as)} is first used when the test runs."
+                    f"Tested module {'.'.join(req.import_as)} is first used when the {when}."
                     " Tested modules are decided by the test module import; import it at module level")
         for req in tested_requirements:
             if req.is_preloaded:
@@ -149,13 +152,13 @@ class TestModuleTarget:
             alias_tgt = ImportAliasTarget.ensure(self._targets, req.path)
             if req.resolve(self._targets) not in alias_tgt.module_tgt.import_deps:
                 return (
-                    f"Tested module {req.path} uses {'.'.join(req.import_as)} when the test runs,"
+                    f"Tested module {req.path} uses {'.'.join(req.import_as)} when the {when},"
                     " but not when it is imported, so it is not resolved for tests")
         return None
 
-    # Types and boot services used by tested modules only in functions are found only by test runs, which call them.
+    # Import retries and tests can call functions whose types and boot services were not used at import time.
     # They are resolved from the start, so taking them does not change what tested modules wait for.
-    # Taken from passed runs only: next run after an incomplete one runs the whole test again.
+    # Taken from successful jobs only: an incomplete one is retried in full.
     def add_tested_loaded_reqs(self, tested_requirements):
         for req in tested_requirements:
             if req.is_preloaded:
@@ -173,9 +176,9 @@ class TestModuleTarget:
     # which can not import recorded ones.
     @property
     def cfg_items(self):
-        return [*loaded_cfg_items(self._targets, self._path), *(self._cfg_item(dep) for dep in self._import_deps)]
+        return [*loaded_cfg_items(self._targets, self._path), *(self.make_cfg_item(dep) for dep in self._import_deps)]
 
-    def _cfg_item(self, dep):
+    def make_cfg_item(self, dep):
         alias_tgt = self._tested_alias_tgt(dep)
         if alias_tgt is None:
             return dep.make_cfg_item()
@@ -185,7 +188,7 @@ class TestModuleTarget:
             )
 
     def _recorded_module(self, alias_tgt):
-        cfg_items = sorted_cfg_items(self._cfg_item(dep) for dep in alias_tgt.module_tgt.import_deps)
+        cfg_items = sorted_cfg_items(self.make_cfg_item(dep) for dep in alias_tgt.module_tgt.import_deps)
         return alias_tgt.recorded_module(cfg_items)
 
     # Hint for a dependency cycle going through this target, as target list, first one repeated last:
