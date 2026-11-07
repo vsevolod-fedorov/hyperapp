@@ -20,6 +20,7 @@ succeeded_result = record:
   target: string
   requirements: ref list
   tested_requirements: ref list
+  constructors: ref list
 
 incomplete_result = record:
   target: string

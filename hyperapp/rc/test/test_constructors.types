@@ -1,0 +1,6 @@
+from rc.path import path
+
+constructor = record:
+  path: path
+  key: string
+  value: string

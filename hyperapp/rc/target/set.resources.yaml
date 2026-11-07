@@ -8,6 +8,7 @@ definitions:
       imports:
         pyobj:
           code.path: :path:path.module
+          code.constructor: :constructor:constructor.module
           code.code_req: :code_req:code_req.module
           code.module: :module:module.module
           code.target.module: module:module.module

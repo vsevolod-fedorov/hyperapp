@@ -1,0 +1,25 @@
+definitions:
+
+  ctr_collector.module:
+    type: builtin:type:python_module
+    value:
+      module_name: ctr_collector
+      file_name: ctr_collector.dyn.py
+      imports:
+        pyobj:
+          services.mosaic: builtin:service:mosaic
+          code.probe: probe:probe.module
+          code.constructor: constructor:constructor.module
+        raw:
+          data.ctr_collector_service: ctr_collector.service
+
+  ctr_collector.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: ctr_collector
+      base: null
+      fields: {}
+
+  ctr_collector.service:
+    type: ctr_collector.service.t
+    value: {}

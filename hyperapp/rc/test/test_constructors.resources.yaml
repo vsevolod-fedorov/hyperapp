@@ -1,0 +1,50 @@
+definitions:
+
+  test_constructors.module:
+    type: builtin:type:python_module
+    value:
+      module_name: test_constructors
+      file_name: test_constructors.dyn.py
+      imports:
+        pyobj:
+          htypes.test_constructors.constructor: test_constructors.t:constructor
+          code.ctr_collector: rc:ctr_collector:ctr_collector.module
+          code.path: rc:path:path.module
+          code.probe: rc:probe:probe.module
+          code.constructor: rc:constructor:constructor.module
+        raw: {}
+
+  constructor_marker.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_constructors.module
+      attr_name: constructor_marker
+
+  constructor_marker.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: constructor_marker.attr
+      service_params:
+        collector: rc:ctr_collector:ctr_collector.service
+
+  TestConstructor.attr:
+    type: builtin:type:attribute
+    value:
+      object: test_constructors.module
+      attr_name: TestConstructor
+
+  TestConstructor.from_piece.attr:
+    type: builtin:type:attribute
+    value:
+      object: TestConstructor.attr
+      attr_name: from_piece
+
+  TestConstructor.from_piece.actor:
+    type: base:system/system.t:actor
+    value:
+      fn: TestConstructor.from_piece.attr
+      service_params: {}
+
+  test.constructor:
+    type: rc:job/import_to_req:import_prefix.t
+    value: [test, constructor]

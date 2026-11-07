@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  other.module:
+    type: builtin:type:python_module
+    value:
+      module_name: other
+      file_name: other.dyn.py
+      imports:
+        pyobj:
+          code.base.mark: base:mark:mark.module
+        raw: {}

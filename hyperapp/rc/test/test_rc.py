@@ -59,7 +59,7 @@ def _check_result(result, expected_states, expected_errors, expected_cycles):
 
 def _compile_and_check(
         workspace_name, expected_states=None, expected_errors=None, expected_cycles=None,
-        worker_count=DEFAULT_WORKER_COUNT):
+        worker_count=DEFAULT_WORKER_COUNT, expected_constructors=None):
     expected_states = expected_states or {}
     expected_errors = expected_errors or {}
     expected_cycles = expected_cycles or []
@@ -79,6 +79,7 @@ def _compile_and_check(
     result = compile_resources(workspace.projects, project_to_tree, worker_count)
     assert result.resource_tree == expected_tree, result.errors
     _check_result(result, expected_states, expected_errors, expected_cycles)
+    _check_constructors(result, expected_constructors)
     # Second run gets resources made by the first one; they must load and stay the same.
     updated_tree = {
         project_name: {**tree, **result.resource_tree.get(project_name, {})}
@@ -87,6 +88,81 @@ def _compile_and_check(
     result = compile_resources(workspace.projects, updated_tree, worker_count)
     assert result.resource_tree == expected_tree, result.errors
     _check_result(result, expected_states, expected_errors, expected_cycles)
+    _check_constructors(result, expected_constructors)
+
+
+def _check_constructors(result, expected):
+    if expected is None:
+        return
+    assert {
+        str(path): {piece.key: piece.value for piece in pieces}
+        for path, pieces in result.constructors.items()
+        } == expected
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_constructors(worker_count):
+    states = {
+        'test/sample/constructors.tests/test_first': 'resolved',
+        'test/sample/constructors.tests/test_repeat': 'resolved',
+        'test/sample/constructors.tests/test_async': 'resolved',
+        'test/sample/constructors.tests/test_generator': 'resolved',
+        'test/sample/constructors.tests/test_async_generator': 'resolved',
+        }
+    expected = {
+        'sample:first': {'declare:value': 'declared', 'call:value': 'first'},
+        'sample:second': {'declare:value': 'declared', 'call:value': 'second'},
+        }
+    _compile_and_check('constructors', states, worker_count=worker_count, expected_constructors=expected)
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_constructors_only_from_own_project(worker_count):
+    states = {
+        'import/sample/subjects.tests/1': 'resolved',
+        'test/sample/subjects.tests/test_both': 'resolved',
+        }
+    expected = {
+        'library:subject': {'declare:value': 'declared'},
+        'sample:subject': {'declare:value': 'declared', 'call:value': 'local'},
+        }
+    _compile_and_check('constructor_projects', states, worker_count=worker_count, expected_constructors=expected)
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_constructor_conflict(worker_count):
+    states = {
+        'import/sample/subject/1': 'failed',
+        'module/compiled/sample/subject': 'failed',
+        }
+    errors = {'import/sample/subject/1': "Conflicting constructor sample:subject: 'call:value'"}
+    _compile_and_check('constructor_conflict', states, errors, worker_count=worker_count, expected_constructors={})
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_constructor_import_cache(worker_count):
+    states = {
+        'test/sample/import_cache.tests/test_0': 'resolved',
+        'test/sample/import_cache.tests/test_1': 'resolved',
+        'test/sample/import_cache.tests/test_2': 'resolved',
+        'test/sample/import_cache.tests/test_3': 'resolved',
+        }
+    expected = {
+        'sample:subject': {
+            'declare:import_only': 'declared',
+            'call:import_only': 'ok',
+            'declare:f0': 'declared',
+            'declare:f1': 'declared',
+            'declare:f2': 'declared',
+            'declare:f3': 'declared',
+            'call:f0': 'ok',
+            'call:f1': 'ok',
+            'call:f2': 'ok',
+            'call:f3': 'ok',
+            },
+        'sample:other': {'declare:value': 'declared', 'call:value': 'ok'},
+        }
+    _compile_and_check('constructor_import_cache', states, worker_count=worker_count, expected_constructors=expected)
 
 
 @pytest.mark.parametrize('worker_count', [1, 4])

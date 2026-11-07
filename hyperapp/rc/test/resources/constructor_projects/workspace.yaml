@@ -1,0 +1,16 @@
+projects:
+  library:
+    path: library
+    local_name: library
+    imports:
+      base: base
+  sample:
+    path: sample
+    local_name: sample
+    imports:
+      base: base
+      lib: library
+  base:
+    path: ../../../../base
+    local_name: base
+    imports: {}

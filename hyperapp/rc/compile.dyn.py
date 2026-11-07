@@ -35,6 +35,7 @@ class CompileResult:
     target_states: dict  # Target name -> TargetState.
     errors: dict  # Target name -> own error and any cycle diagnostics, separated by newlines.
     cycles: list  # Dependency cycles, as (target name list, first one repeated last; hint or None) tuples.
+    constructors: dict  # Provider Path -> concrete constructor pieces accepted by successful results.
 
     @property
     def succeeded(self):
@@ -249,4 +250,5 @@ def _compile(
         target_states=target_states,
         errors=errors,
         cycles=cycles,
+        constructors=targets.constructors.pieces,
         )

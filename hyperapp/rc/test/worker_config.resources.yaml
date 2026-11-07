@@ -37,3 +37,4 @@ definitions:
         test_markers:test.class_marker: test_markers:class_marker.actor
         test_markers:test.function_marker: test_markers:function_marker.actor
         test_probes:test.wrapper: test_probes:test_wrapper.actor
+        test_constructors:test.constructor: test_constructors:constructor_marker.actor

@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  first.module:
+    type: builtin:type:python_module
+    value:
+      module_name: first
+      file_name: first.dyn.py
+      imports:
+        pyobj:
+          code.base.mark: base:mark:mark.module
+        raw: {}

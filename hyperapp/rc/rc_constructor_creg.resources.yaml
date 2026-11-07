@@ -1,0 +1,42 @@
+definitions:
+
+  rc_constructor_creg.module:
+    type: builtin:type:python_module
+    value:
+      module_name: rc_constructor_creg
+      file_name: rc_constructor_creg.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
+
+  rc_constructor_creg.attr:
+    type: builtin:type:attribute
+    value:
+      object: rc_constructor_creg.module
+      attr_name: rc_constructor_creg
+
+  rc_constructor_creg.service.t:
+    type: builtin:type:record_mt
+    value:
+      name: rc_constructor_creg
+      base: null
+      fields: {}
+
+  rc_constructor_creg.service:
+    type: rc_constructor_creg.service.t
+    value: {}
+
+  rc_constructor_creg.service-actor:
+    type: base:system/system.t:service_actor
+    value:
+      fn: rc_constructor_creg.attr
+      adapters:
+      - base:system/adapter:config.adapter
+      - rc_constructor_creg.service-args-adapter
+      - base:system/adapter:service_object.adapter
+
+  rc_constructor_creg.service-args-adapter:
+    type: base:system/adapter.t:service_args_adapter
+    value:
+      args:
+        system_code_registry_factory: base:system/code_registry:system_code_registry_factory.service

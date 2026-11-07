@@ -26,7 +26,7 @@ def graph(worker):
 def _finish_import(module, requirements=(), functions=()):
     target = module.import_tgt
     target.job_started()
-    target.process_succeeded_job_result(requirements, (), functions)
+    target.process_succeeded_job_result(requirements, (), functions, (), None)
     assert target.state.name == 'RESOLVED'
 
 
@@ -208,7 +208,7 @@ def _finish_library_imports(project_graph, worker):
 def _pass_test(test):
     assert test.state.name == 'RUNNABLE'
     test.job_started()
-    test.process_succeeded_job_result((), ())
+    test.process_succeeded_job_result((), (), (), None)
 
 
 def test_foreign_test_waits_for_finished_subject(project_graph, worker):

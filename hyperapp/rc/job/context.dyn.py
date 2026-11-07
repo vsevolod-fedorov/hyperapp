@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from dataclasses import dataclass
 
 from . import htypes
 from .services import (
@@ -9,14 +10,22 @@ from .code.import_recorder import module_recorder_piece, recorded_python_module_
 from .code.mark import markers_activated
 from .code.path import Path
 from .code.probe import ProbeContext
+from .code.ctr_collector import CtrCollector
+from .data import ctr_collector_service
 from .data.probe import probe_context_service
 
 
-# Recorded dependencies are tested providers, including during test-module import retries.
-# Complete dependencies have no recorder and keep their ordinary, inactive marker behavior.
-# Returns (dynamic module name -> provider Path, (provider Path, recorder) list).
+@dataclass(frozen=True)
+class ActiveModule:
+    path: Path
+    ref: object
+
+
+# Only the test's local providers get recorders, including during test-module import retries.
+# Foreign subjects and other complete dependencies keep their ordinary, inactive marker behavior.
+# Returns (dynamic module name -> ActiveModule, (provider Path, recorder) list).
 def tested_modules(cfg_items):
-    module_to_path = {}
+    active_modules = {}
     tested_recorders = []
     for item in cfg_items:
         if not isinstance(item, htypes.import_recorder.import_cfg_item):
@@ -27,18 +36,22 @@ def tested_modules(cfg_items):
             continue
         path = Path.from_piece(recorder_piece.module_path)
         name = recorded_python_module_name(module_piece)
-        module_to_path[name] = path
+        active_modules[name] = ActiveModule(path, item.resource)
         tested_recorders.append((path, pyobj_creg.animate(recorder_piece)))
-    return module_to_path, tested_recorders
+    return active_modules, tested_recorders
 
 
 @contextmanager
-def job_active(subsystem_factory, marker_registry, module_to_path):
+def job_active(subsystem_factory, marker_registry, active_modules):
     with ProbeContext() as context:
-        service_creg = subsystem_factory(service_instances={probe_context_service: context})
+        collector = CtrCollector(context, active_modules)
+        service_creg = subsystem_factory(service_instances={
+            probe_context_service: context,
+            ctr_collector_service: collector,
+            })
         context.bind_services(service_creg.invite)
         with (
                 marker_registry.bound(context.invite) as bound,
-                markers_activated(bound, module_to_path),
+                markers_activated(bound, {name: module.path for name, module in active_modules.items()}),
                 ):
             yield context

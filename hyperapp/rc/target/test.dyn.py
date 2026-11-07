@@ -1,4 +1,5 @@
 import logging
+import traceback
 from graphlib import CycleError, TopologicalSorter
 
 from . import htypes
@@ -80,6 +81,10 @@ class TestModuleTarget:
     @property
     def _tested_modules(self):
         return {dep.module for dep in self._tested_import_deps}
+
+    @property
+    def recorded_paths(self):
+        return self._recorded_subjects.keys()
 
     @property
     def _tested_module_import_deps(self):
@@ -324,11 +329,14 @@ class TestTarget:
             return False
         return True
 
-    def process_succeeded_job_result(self, requirements, tested_requirements):
+    def process_succeeded_job_result(self, requirements, tested_requirements, constructor_refs, rc_constructor_creg):
         # Reading a recorder without forcing its value does not interrupt the test.
         if not self._check_requirements(requirements, tested_requirements):
             return
+        pending = self._targets.constructors.prepare(
+            rc_constructor_creg, constructor_refs, self._module_tgt.recorded_paths, source_target=self._name)
         self._module_tgt.add_tested_loaded_reqs(tested_requirements)
+        self._targets.constructors.apply(pending)
         self._state = TargetState.RESOLVED
 
     def process_incomplete_job_result(self, requirements, tested_requirements):
@@ -402,15 +410,16 @@ class TestAliasTarget:
 
 
 # Of tested requirements of a succeeded test, only preloaded ones, like types, are added to module resources.
-def succeeded_result(piece, request, requirement_creg, job_pool):
+def succeeded_result(piece, request, requirement_creg, rc_constructor_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: test succeeded: %s", target, piece)
-    requirements = resolve_requirements(requirement_creg, piece.requirements)
-    tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
-        target.process_succeeded_job_result(requirements, tested_requirements)
-    except UnresolvedImportError as x:
-        target.job_failed(str(x))
+        requirements = resolve_requirements(requirement_creg, piece.requirements)
+        tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
+        target.process_succeeded_job_result(requirements, tested_requirements, piece.constructors, rc_constructor_creg)
+    except Exception as x:
+        # Empty str(x), as with AssertionError(), would be omitted from CompileResult.errors.
+        target.job_failed(''.join(traceback.format_exception_only(x)).strip())
 
 
 def incomplete_result(piece, request, requirement_creg, job_pool):

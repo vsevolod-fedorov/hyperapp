@@ -1,4 +1,5 @@
 import logging
+import traceback
 from dataclasses import dataclass
 
 from . import htypes
@@ -80,6 +81,7 @@ class _ImportResult:
     requirements: tuple
     tested_requirements: tuple
     test_functions: tuple | None  # None for an incomplete attempt.
+    constructors: dict  # Path -> key -> ConstructorEntry.
     blocked_on: object | None = None
 
 
@@ -198,16 +200,24 @@ class ImportTarget:
             return False
         return True
 
-    def process_succeeded_job_result(self, requirements, tested_requirements, test_functions):
-        self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), test_functions))
+    def process_succeeded_job_result(
+            self, requirements, tested_requirements, test_functions, constructor_refs, rc_constructor_creg):
+        allowed_paths = {self._path}
+        if self._module.is_test:
+            allowed_paths.update(self.module_tgt.recorded_paths)
+        pending = self._targets.constructors.prepare(
+            rc_constructor_creg, constructor_refs, allowed_paths, source_target=self._name)
+        self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), test_functions, pending))
 
     def process_incomplete_job_result(self, requirements, tested_requirements, blocked_on):
-        self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), None, blocked_on=blocked_on))
+        self._receive_result(_ImportResult(
+            tuple(requirements), tuple(tested_requirements), None, {}, blocked_on=blocked_on))
 
     def _receive_result(self, result):
         if self.module_tgt is None:
             assert self._idx == 0
-            # Later first results can still determine this module's role.
+            # A successful first job may belong to a test or future fixtures module. Keep its validated
+            # candidate on the master until classification; no worker context or decoder is retained.
             self._first_result = result
             self._module.first_requirements = result.requirements
             self._state = TargetState.RESOLVED
@@ -222,7 +232,7 @@ class ImportTarget:
             self._process_result(result)
         except Exception as x:
             # A deferred failure belongs to this attempt, not the last result that opened the barrier.
-            self.job_failed(str(x))
+            self.job_failed(''.join(traceback.format_exception_only(x)).strip())
 
     def _process_result(self, result):
         requirements, tested_requirements = result.requirements, result.tested_requirements
@@ -235,8 +245,12 @@ class ImportTarget:
             self.module_tgt.add_import_req(req)
         for function in result.test_functions:
             self.module_tgt.add_test_function(function)
+        pending = result.constructors
         if self._module.is_test:
             self.module_tgt.add_tested_loaded_reqs(tested_requirements)
+            # Test modules give no resources; import-time calls can contribute to their local subjects.
+            pending = {path: entries for path, entries in pending.items() if path != self._path}
+        self._targets.constructors.apply(pending)
         self._state = TargetState.RESOLVED
 
     def _retry(self, result):
@@ -350,15 +364,17 @@ def resolve_requirements(requirement_creg, requirement_refs, desc="requirement")
     return requirements
 
 
-def succeeded_result(piece, request, requirement_creg, job_pool):
+def succeeded_result(piece, request, requirement_creg, rc_constructor_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: import succeeded: %s", target, piece)
-    requirements = resolve_requirements(requirement_creg, piece.requirements)
-    tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
-        target.process_succeeded_job_result(requirements, tested_requirements, piece.test_functions)
-    except UnresolvedImportError as x:
-        target.job_failed(str(x))
+        requirements = resolve_requirements(requirement_creg, piece.requirements)
+        tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
+        target.process_succeeded_job_result(
+            requirements, tested_requirements, piece.test_functions, piece.constructors, rc_constructor_creg)
+    except Exception as x:
+        # Empty str(x), as with AssertionError(), would be omitted from CompileResult.errors.
+        target.job_failed(''.join(traceback.format_exception_only(x)).strip())
 
 
 def incomplete_result(piece, request, requirement_creg, job_pool):

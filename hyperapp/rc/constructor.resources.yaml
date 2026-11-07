@@ -1,0 +1,14 @@
+definitions:
+
+  constructor.module:
+    type: builtin:type:python_module
+    value:
+      module_name: constructor
+      file_name: constructor.dyn.py
+      imports:
+        pyobj:
+          htypes.constructor.constructor: constructor.t:constructor
+          services.mosaic: builtin:service:mosaic
+          services.web: builtin:service:web
+          code.path: path:path.module
+        raw: {}
