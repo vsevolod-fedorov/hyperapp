@@ -59,10 +59,12 @@ def _cfg_items(worker):
     return (worker.svc.mosaic.put(item),)
 
 
-def _run(worker, kind, source, function=None):
-    path = worker.probe.code.path.Path('sample', ('subject',))
+def _run(worker, kind, source, function=None, *, module_name='subject', cfg_items=None):
+    path = worker.probe.code.path.Path('sample', (module_name,))
     job_type = worker.animate(f'rc:job/{kind}.t:{kind}_job')
-    args = dict(target='job', path=path.piece, source=source, cfg_items=_cfg_items(worker))
+    if cfg_items is None:
+        cfg_items = _cfg_items(worker)
+    args = dict(target='job', path=path.piece, source=source, cfg_items=cfg_items)
     if function is not None:
         args['function'] = function
     job = job_type(**args)
@@ -175,6 +177,32 @@ def test_cached_wrapped_tests_metadata_execution_and_job_exit(worker, monkeypatc
     assert first_resolver is not last_resolver
     assert first_resolver.state is not last_resolver.state
     assert first_resolver.registry is not last_resolver.registry
+
+
+def test_cold_import_retry_and_cached_test_share_active_provider(worker, monkeypatch):
+    observations = _observe(worker, monkeypatch)
+    path = worker.probe.code.path.Path('sample', ('subject',))
+    cfg_items = [worker.imports.web.summon(ref) for ref in _cfg_items(worker)]
+    recorder = worker.recorder.import_recorder_piece(path.piece, cfg_items)
+    subject = worker.recorder.recorded_python_module('subject', _source('retry_subject'), recorder)
+    tested_item = worker.recorder.htypes.import_recorder.import_cfg_item(
+        import_path=('tested', 'code', 'subject'),
+        resource=worker.svc.mosaic.put(subject),
+        )
+    test_cfg = (worker.svc.mosaic.put(tested_item),)
+    source = _source('retry_subject.tests')
+    # No provider import job has run on this worker: activation cannot come from a warm cache.
+    imported = _run(worker, 'import', source, module_name='retry_subject.tests', cfg_items=test_cfg)
+    assert isinstance(imported, worker.imports.htypes.import_job.succeeded_result)
+    function, = imported.test_functions
+    tested = _run(worker, 'test', source, function, module_name='retry_subject.tests', cfg_items=test_cfg)
+    assert isinstance(tested, worker.tests.htypes.test_job.succeeded_result)
+    first, second = observations
+    imported_probe, imported_context, *_ = first
+    tested_probe, tested_context, *_ = second
+    assert imported_probe is tested_probe
+    assert imported_context is not tested_context
+    _check_detached(worker, observations)
 
 
 def test_marker_binding_is_by_service_reference_and_is_detached(worker):

@@ -1,0 +1,12 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  extra.module:
+    type: builtin:type:python_module
+    value:
+      module_name: extra
+      file_name: extra.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

@@ -5,6 +5,11 @@ from .code.base.mark import mark
 from .tested.code import subject
 
 
+# An import retry must activate the provider before top-level calls, even on a fresh worker.
+assert subject.import_only() == 42
+assert subject.import_only.state['calls'] == 1
+
+
 def ordinary_wrapper(fn):
     @wraps(fn)
     def wrapped(*args, **kw):

@@ -58,15 +58,19 @@ code even when the test declares it as a subject (``test_collection``).
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
+For a local dynamic ``tested.code`` subject this supplies an active recorded provider, with its own imports
+resolved as for a test job. The retry waits for the provider's import alias and its dependencies, rather than its completed module,
+which itself waits for these tests (``probes``).
 Import of a module not found, or of a manual one having no module resource, fails the importing target
 (``code_import_missing``, ``manual_module_no_resource``).
 Importing a test module as ordinary or tested code fails with an explicit diagnostic naming it
 (``test_module_imports``, with one and four workers). Dependencies check this after classification too,
 so the diagnostic does not depend on which first import finishes first.
-Tests also check the import dependencies of their recorded providers: a recorded import alias must not
+Tests and test-module import retries also check the import dependencies of recorded providers. An alias must not
 bypass an invalid code import rejected by the completed module target. Only the importer owns the
 diagnostic. For example, ``code_import`` imports the test module ``checks`` as code; ``code_import.tests``
 tests ``code_import`` and fails by dependency, without reporting a second import error.
+The collecting first attempt remains complete; it never executed those resolved providers.
 
 Types
 +++++
@@ -115,11 +119,20 @@ paths and projects are distinct (``markers``). Only modules in this map get real
 animated by the same job keeps no-op behavior. Marker templates are worker-side; probe registrations and their
 injected test services live in test-only worker config layers, not in generated module resources.
 
-An import job activates its own recorded module. A test job activates the exact recorded tested modules found
-in its config items, but not the test module itself: that module's import job already did its discoveries.
+An import job activates its own recorded module and the exact recorded tested modules found in its config
+items. A test job activates those tested modules, but not the test module itself: that module's import job
+already did its discoveries.
 A cached test module may keep objects decorated by that import job, but its markers are not called again by
-the test job. Tested modules are active both while the test module is imported and while its function runs
+the test job. Recorded local subjects are active both while the test module is imported and while its function runs
 (``markers``).
+
+Import retries and test jobs use the same recorded providers, including direct imports of another recorded
+provider. Foreign subjects and other completed modules keep their ordinary marker behavior. A fresh worker
+must activate recorded providers while importing the test module: its top-level calls need probes immediately, and the cached
+objects must remain instrumented when later test jobs reuse them (``probes``).
+``test/test_probe_jobs.py`` checks a fresh worker importing an active provider and reusing the exact
+cached probe in a test. ``probe_import_retries`` checks a second import retry and import-only service
+uses through another tested provider, with one and four workers.
 
 Activation is a non-nested job scope, cleaned by ``finally`` after success, failure and incomplete execution.
 Its module map and provider paths are dropped, and the registry keeps no per-job template objects or service
@@ -277,7 +290,8 @@ The boundary is per subject, even when one test declares subjects in several pro
   library still emits its module with only ``mosaic``.
 * A manual subject always uses its loaded module resource as written, regardless of project.
 
-Tested module gets its own imports, found by its import job, resolved before tests run:
+Tested module gets its own imports, found by its import job, resolved before tests run or a test-module
+import retry loads it:
 
 * untested module: complete one, compiled before tests (``test_collection/module_4.dyn.py``);
 * other local module tested by the same test module, imported directly: the same recorded one the test gets.
@@ -308,6 +322,9 @@ test returns normally: reading an unresolved import does not necessarily force i
 Types and boot services are the exception: a tested module takes ones its passed local test runs use, and gives them
 in its resources. Being resolved from the start, they do not change what it waits for (``type_import``,
 ``boot_service_import``).
+Test-module import retries report tested requirements separately too. They enforce the same restriction on
+new code imports and add preloaded requirements from successful attempts, so import-time uses are retained
+even if the cached module is not executed again by a test (``probes``).
 
 An incomplete run gets a retry with its new imports resolved. If a test accesses a declared subject
 through ordinary ``code``, the attempt fails with a mixed-import diagnostic instead of scheduling

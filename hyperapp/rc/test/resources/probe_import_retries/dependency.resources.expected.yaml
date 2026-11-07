@@ -1,0 +1,14 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  dependency.module:
+    type: builtin:type:python_module
+    value:
+      module_name: dependency
+      file_name: dependency.dyn.py
+      imports:
+        pyobj:
+          code.base.mark: base:mark:mark.module
+          services.mosaic: builtin:service:mosaic
+        raw: {}

@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  provider.module:
+    type: builtin:type:python_module
+    value:
+      module_name: provider
+      file_name: provider.dyn.py
+      imports:
+        pyobj:
+          code.dependency: dependency:dependency.module
+        raw: {}

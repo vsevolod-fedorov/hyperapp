@@ -63,9 +63,12 @@ class TestModuleTarget:
     # Local recorded providers would cycle through their tests if we waited for their completed modules.
     @property
     def deps(self):
+        return {self._import_alias_tgt, *self.deps_for_imports(self._import_deps)}
+
+    # Import retries execute tested code too, so they need the same resolved dependencies as tests.
+    def deps_for_imports(self, import_deps):
         return {
-            self._import_alias_tgt,
-            *(dep.target for dep in self._import_deps),
+            *(dep.target for dep in import_deps),
             *(self._provider_import_alias(dep) or dep.target for dep in self._tested_module_import_deps),
             }
 
@@ -110,31 +113,31 @@ class TestModuleTarget:
                 f" {', '.join(sorted('.'.join(req.import_as) for req in new_tested))}. Tested modules are decided"
                 " by the first attempt; import them before anything making the test module import incomplete")
 
-    # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
+    # Tested modules and their imports are decided by imports; executing tested code cannot extend them.
     # Preloaded ones, like types, are not: they are given to all recorders, see add_tested_loaded_reqs.
     def check_test_requirements(self, requirements, tested_requirements):
         # A cached test module need not repeat its module-level imports. Check against those
         # declarations without adding a test function's observations to its siblings' jobs.
-        try:
-            self._targets.code_imports.check((*requirements, *tested_requirements))
-        except UnresolvedImportError as x:
-            return str(x)
+        self._targets.code_imports.check(requirements)
         for req in requirements:
             if not isinstance(req, TestedCodeReq):
                 continue
             dep = req.resolve(self._targets)
             if dep.module not in self._tested_modules:
                 *package, name = dep.import_path
-                return (
+                raise ImportRequirementsError(
                     f"This test uses {dep.module.path}, but {self._path} did not declare it as a test subject."
                     f" Add `from .{'.'.join(package)} import {name}` at module level.")
+        self.check_provider_requirements(tested_requirements, when='test runs')
+
+    def check_provider_requirements(self, tested_requirements, when):
+        self._targets.code_imports.check(tested_requirements)
         for req in tested_requirements:
             provider = self._recorded_provider(req.path)
             if not req.is_preloaded and req.resolve(self._targets) not in provider.import_deps:
-                return (
-                    f"Tested module {req.path} uses {'.'.join(req.import_as)} when the test runs,"
+                raise ImportRequirementsError(
+                    f"Tested module {req.path} uses {'.'.join(req.import_as)} when the {when},"
                     " but not when it is imported, so it is not resolved for tests")
-        return None
 
     def _recorded_provider(self, path):
         try:
@@ -142,9 +145,9 @@ class TestModuleTarget:
         except KeyError:
             raise UnresolvedImportError(f"{self._path}: Unexpected requirement for unrecorded subject {path}")
 
-    # Types and boot services used by tested modules only in functions are found only by test runs, which call them.
+    # Import retries and tests can call functions whose types and boot services were not used at import time.
     # They are resolved from the start, so taking them does not change what tested modules wait for.
-    # Taken from passed runs only: next run after an incomplete one runs the whole test again.
+    # Taken from successful jobs only: an incomplete one is retried in full.
     def add_tested_loaded_reqs(self, tested_requirements):
         for req in tested_requirements:
             if req.is_preloaded:
@@ -313,17 +316,23 @@ class TestTarget:
         self._error = error
         log.error("%s: %s%s", self, error, ''.join(['\n', *traceback]) if traceback else '')
 
+    def _check_requirements(self, requirements, tested_requirements):
+        try:
+            self._module_tgt.check_test_requirements(requirements, tested_requirements)
+        except (ImportRequirementsError, UnresolvedImportError) as x:
+            self.job_failed(str(x))
+            return False
+        return True
+
     def process_succeeded_job_result(self, requirements, tested_requirements):
         # Reading a recorder without forcing its value does not interrupt the test.
-        if error := self._module_tgt.check_test_requirements(requirements, tested_requirements):
-            self.job_failed(error)
+        if not self._check_requirements(requirements, tested_requirements):
             return
         self._module_tgt.add_tested_loaded_reqs(tested_requirements)
         self._state = TargetState.RESOLVED
 
     def process_incomplete_job_result(self, requirements, tested_requirements):
-        if error := self._module_tgt.check_test_requirements(requirements, tested_requirements):
-            self.job_failed(error)
+        if not self._check_requirements(requirements, tested_requirements):
             return
         deps = {req.resolve(self._targets) for req in requirements}
         if deps <= self._all_import_deps:

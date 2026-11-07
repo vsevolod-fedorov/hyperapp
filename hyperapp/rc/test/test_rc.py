@@ -151,6 +151,17 @@ def test_probes(worker_count):
 
 
 @pytest.mark.parametrize('worker_count', [1, 4])
+def test_probe_import_retries(worker_count):
+    states = {
+        'import/sample/provider.tests/0': 'resolved',
+        'import/sample/provider.tests/1': 'resolved',
+        'import/sample/provider.tests/2': 'resolved',
+        'test/sample/provider.tests/test_ok': 'resolved',
+        }
+    _compile_and_check('probe_import_retries', states, worker_count=worker_count)
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
 def test_probe_job_isolation(worker_count):
     states = {
         'import/sample/a_incomplete/1': 'resolved',
@@ -197,6 +208,9 @@ def test_test_module_imports_are_rejected(worker_count):
         'module/compiled/sample/code_import': 'failed',
         'module/test/sample/code_import.tests': 'failed',
         'test/sample/code_import.tests/test_import': 'failed',
+        'import/sample/code_import_retry.tests/0': 'resolved',
+        'import/sample/code_import_retry.tests/1': 'failed',
+        'module/test/sample/code_import_retry.tests': 'failed',
         'import/sample/retry_import/1': 'failed',
         'module/test/sample/test_as_subject.tests': 'failed',
         'test/sample/test_as_subject.tests/test_checks': 'failed',
@@ -366,6 +380,8 @@ def test_cycle_between_recorded_subjects(caplog):
     right = 'module/compiled/sample/right'
     states = {
         'import/sample/cycle.tests/0': 'resolved',
+        'import/sample/cycle_retry.tests/0': 'resolved',
+        'import/sample/cycle_retry.tests/1': 'failed',
         'module/test/sample/cycle.tests': 'failed',
         'test/sample/cycle.tests/test_pair': 'failed',
         left: 'failed',

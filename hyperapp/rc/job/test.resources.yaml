@@ -11,7 +11,6 @@ definitions:
           htypes.test_job.incomplete_result: test.t:incomplete_result
           htypes.test_job.failed_result: test.t:failed_result
           htypes.test_job.internal_error_result: test.t:internal_error_result
-          htypes.import_recorder.import_cfg_item: :import_recorder.t:import_cfg_item
           services.pyobj_creg: builtin:service:pyobj_creg
           services.web: builtin:service:web
           code.context: context:context.module
