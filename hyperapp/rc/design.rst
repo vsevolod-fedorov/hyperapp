@@ -15,9 +15,27 @@ Modules
 * Manual: has a ``.resources.yaml`` without the auto-generated line. Not compiled.
   One having a ``<name>.module`` resource gets a ``module/manual/<project>/<path>`` target, resolved from the start
   to that loaded resource; code imports of it resolve to it, as written (``manual_module_import``).
+  A manual module can have tests in its own project or in another. They run and report failures,
+  but never generate or modify its hand-written resources (``manual_module_tested``).
 * Compiled: other dyn modules. Resources are generated for them.
 * Test: a dyn module having ``tested.code`` imports. Gives no resources; its ``test_*`` functions are run.
   Name, like ``.tests`` suffix, does not matter (``test_module_by_imports``).
+* Fixtures (planned): a dyn module imported by a test or another fixtures module through ``fixtures``, for example
+  ``from .fixtures.my_fixtures import something``. Fixtures modules give no generated resources.
+  Their role comes from incoming imports, not their name or their own source alone. A module cannot be used
+  both as fixtures and as ordinary code (including tested code); that is an error.
+
+Each project decides the roles of its own modules. Only its own tests can contribute to its compiled
+resources; another project's tests consume the result (see `Tested modules`_).
+Dyn modules start as neutral ``Module`` records with type ``DYNAMIC`` and import targets only.
+Classification waits for all first imports in that project:
+another local module's first attempt may identify an otherwise ordinary-looking module as fixtures.
+The fixtures stage will propagate roles from local tests through local fixture-to-fixture imports.
+An import from another project cannot turn a provider into a fixture or change its role.
+Only after the project's barrier resolves can the appropriate module targets be created.
+Tests and fixtures never have a ``CompiledModuleTarget``, even provisionally (``test/test_module_targets.py``).
+The barrier is implemented now; fixture imports, role propagation and mixed-use diagnostics belong to the
+later fixtures stage.
 
 Imports
 +++++++
@@ -30,6 +48,13 @@ Using a recorded, not resolved object at import time makes import incomplete; ne
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
 Import of a module not found, or of a manual one having no module resource, fails the importing target
 (``code_import_missing``, ``manual_module_no_resource``).
+Importing a test module as ordinary or tested code fails with an explicit diagnostic naming it
+(``test_module_imports``, with one and four workers). Dependencies check this after classification too,
+so the diagnostic does not depend on which first import finishes first.
+Tests also check the import dependencies of their recorded providers: a recorded import alias must not
+bypass an invalid code import rejected by the completed module target. Only the importer owns the
+diagnostic. For example, ``code_import`` imports the test module ``checks`` as code; ``code_import_tests``
+tests ``code_import`` and fails by dependency, without reporting a second import error.
 
 Types
 +++++
@@ -45,8 +70,8 @@ All types seen by a module are given to its import recorders up front, so using 
 or a test run incomplete. Types used are still recorded, and only these get to module resources.
 Type not found is not given, and fails the importing target (``type_import_missing``).
 
-Types used only in functions are found only when tests call them: test runs are required to find all type imports
-of a module (``type_import``). Untested module gets only types it uses at import time.
+Types used only in functions are found when the owner's tests call them (``type_import``).
+A module with no local tests gets only the types it uses at import time.
 
 Boot services
 +++++++++++++
@@ -55,7 +80,7 @@ Boot service is imported as ``services.<service name>``, usually by ``from .serv
 Boot services are the builtin ones, loaded resources ``builtin:service:<name>``, resolved from the start;
 they are the same for all modules. Like types, all are given to import recorders up front, so using one never
 makes an import attempt or a test run incomplete; only ones used get to module resources, and ones used only
-in functions are found only when tests call them (``boot_service_import``).
+in functions are found only when local tests call them (``boot_service_import``).
 Boot service not found fails the importing target (``boot_service_import_missing``).
 
 Markers
@@ -164,19 +189,21 @@ including mutation isolation after success, failure and incomplete jobs, and rel
 Targets
 +++++++
 
+Target names are user-facing: logs, UI and future command-line target selection. Dependency wiring must
+use semantic identities or direct target references, not resolve targets by formatting their display names.
+
 * ``import/<project>/<path>/<idx>``: import attempt. Next one is added while the import is incomplete.
 * ``import/<project>/<path>``: import alias, follows the last attempt. Resolved when module is imported completely,
   to the module as recorded by that attempt.
-* ``imports/<project>``: first import attempts of all project modules.
+* ``imports/<project>``: first import attempts determining the roles of the project's modules.
 * ``module/compiled/<project>/<path>``: complete module, with all its imports resolved; its result is the resource.
-  Made for each dyn module up front, as code imports are resolved to it before it is known what the module is;
-  added to targets and its project only when its first import attempt decides it is a compiled one.
+  Created and added to its project only after the project imports barrier classifies it as compiled.
 * ``module/manual/<project>/<path>``: manual module having a module resource; its result is that resource.
   Resources it refers to are loaded ones too: generated ones are of the previous compile.
 * ``type/<project>/<type module path>/<type>``: loaded type, resolved from the start; its result is the type.
 * ``boot_service/<name>``: boot service, resolved from the start; its result is the loaded service resource.
-* ``module/test/<project>/<path>``: test module imports. Added when the first import attempt finds
-  ``tested.code`` imports; following attempts of the module use it instead of the compiled one.
+* ``module/test/<project>/<path>``: test module imports. Added after classification of the first attempts;
+  holds the test configuration and readiness dependencies for its test jobs.
 * ``test/<project>/<path>/<function>/<idx>``: test run. Next one is added while the run is incomplete.
 * ``test/<project>/<path>/<function>``: test alias, follows the last run. Resolved when the test is passed.
 * ``project/<project>``: all compiled modules of a project. Failed one fails the whole project: no resources.
@@ -185,16 +212,37 @@ States are got from deps, by target set (``target/set.dyn.py``). Dependency cycl
 and is reported.
 Target failed by itself keeps its error; wrong import requirements fail the import attempt finding them.
 
-First import decides
+First imports decide
 ++++++++++++++++++++
 
-First import attempt of each module decides:
+The first import attempts in a single project collectively decide:
 
-* if it is a test module or a compiled one;
-* which modules a test module tests.
+* which of its modules are tests, fixtures or compiled modules;
+* which subjects each of its test modules declares, including modules in imported projects.
 
-Project imports target waits for first attempts only, so when it is resolved, roles and tested sets are known.
-Compiled module waits for it, and for test modules testing it, and their test aliases.
+Project imports target waits for first attempts only, so when it is complete, roles and tested sets are known.
+No individual first result can establish that its module is compiled: incoming fixture imports may still
+arrive from the same project. Compiled modules also wait for local test modules testing them and
+their test aliases.
+
+Classification requires every first attempt of the project to resolve, whether its job succeeded or was
+incomplete. A failed first attempt may hide incoming fixture imports or test registrations, so none of the
+project's modules can be classified from the remaining results. The failed barrier leaves them neutral:
+pending results create no module targets, tests or retries, and publish no constructors. This holds regardless
+of result order, including when other first jobs are still running (``test/test_module_targets.py``).
+All classified module targets are created before their pending results add import dependencies, test
+registrations, test functions or retries. Errors applying results after this successful classification still
+fail their original import targets; they are not failures to collect the first-attempt requirements.
+Classification runs on result receipt, not as a side effect of reading target state.
+
+Forward code dependencies hold the neutral module record. While unclassified, their target is its project
+imports barrier; afterwards it is the classified module target. Dependency equality/hash stay tied to the
+module identity rather than the changing target, including when requirements are resolved again by a retry.
+A local tested-code dependency uses the recorded import alias. The alias also waits for classification:
+its own first attempt completing does not make the provider ready while its project still has first jobs running.
+There is no reverse dependency on importing projects. A consumer's unfinished or failed first import
+cannot hold up the library's classification or resource output (``classification_failed_importer``).
+``test/test_module_targets.py`` controls result order to check both sides of this boundary.
 
 Later attempt finding new ``tested.code`` imports fails, and says why (``tested_imported_late``):
 import tested modules before anything making the import incomplete.
@@ -202,14 +250,21 @@ import tested modules before anything making the import incomplete.
 Tested modules
 ++++++++++++++
 
-Test gets tested modules recorded, so tests record what tested modules use.
-Manual module is tested as it is, like a code import: it is not compiled, so there is nothing to record
-its uses for (``manual_module_tested``).
+The boundary is per subject, even when one test declares subjects in several projects:
+
+* A dynamic subject in the test's own project is recorded. Its local tests determine what goes into
+  its generated resources.
+* A subject from another project is tested as a consumer sees it: the completed module, after its own
+  project's contributing tests. The foreign test runs and can fail the build, but can neither add
+  resources to the subject nor prevent its resources from being written. In ``classification_projects``
+  the library's test contributes ``mosaic``; the consumer test that expects ``web`` fails, and the
+  library still emits its module with only ``mosaic``.
+* A manual subject always uses its loaded module resource as written, regardless of project.
 
 Tested module gets its own imports, found by its import job, resolved before tests run:
 
 * untested module: complete one, compiled before tests (``test_collection/module_4.dyn.py``);
-* other module tested by the same test module, imported directly: the same recorded one the test gets.
+* other local module tested by the same test module, imported directly: the same recorded one the test gets.
 
 Tested module importing another tested one through an untested one can not work: untested one is complete,
 so needs complete tested module, which waits for its tests. It is a dependency cycle (``tested_imported_indirectly``);
@@ -228,7 +283,7 @@ Test run can not change which modules are tested, or what they import. These fai
 * test uses a tested module not imported at test module import (``tested_used_by_test_run``);
 * tested module uses an import when the test runs, but not when it is imported (``tested_import_used_by_test_run``).
 
-Types and boot services are the exception: tested module takes ones its passed test runs use, and gives them
+Types and boot services are the exception: a tested module takes ones its passed local test runs use, and gives them
 in its resources. Being resolved from the start, they do not change what it waits for (``type_import``,
 ``boot_service_import``).
 

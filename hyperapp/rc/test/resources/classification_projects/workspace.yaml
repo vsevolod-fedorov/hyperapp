@@ -1,0 +1,10 @@
+projects:
+  sample:
+    path: sample
+    local_name: sample
+    imports:
+      lib: library
+  library:
+    path: library
+    local_name: library
+    imports: {}

@@ -5,7 +5,7 @@ from .services import (
     mosaic,
     )
 from .code.code_req import TestedCodeReq
-from .code.import_dep import UnresolvedImportError
+from .code.import_dep import ModuleImportDep, UnresolvedImportError, import_deps_error
 from .code.target.import_target import (
     ImportAliasTarget,
     ImportRequirementsError,
@@ -20,29 +20,18 @@ log = logging.getLogger(__name__)
 
 # Test module gives no resources; it keeps imports resolved by its last import target,
 # and adds a target per test function.
-# Its first import decides which modules it tests; project imports target waits for it,
-# so compiled modules know their tests before they are resolved, and wait for them.
+# Its first import declares all subjects. Only local compiled subjects wait for these tests.
 class TestModuleTarget:
 
-    @classmethod
-    def ensure(cls, targets, path, source):
-        name = f'module/test/{path.project}/{"/".join(path.path)}'
-        try:
-            return targets[name]
-        except KeyError:
-            pass
-        tgt = cls(targets, name, path, source)
-        targets[name] = tgt
-        return tgt
-
-    def __init__(self, targets, name, path, source):
+    def __init__(self, targets, path, source):
         self._targets = targets
-        self._name = name
+        self._name = f'module/test/{path.project}/{"/".join(path.path)}'
         self._path = path
         self._source = source
         self._import_alias_tgt = ImportAliasTarget.ensure(targets, path)
         self._import_deps = set()
-        self._tested_alias_tgts = set()  # Import alias targets of tested modules.
+        self._tested_import_deps = set()
+        self._recorded_subjects = {}  # Local provider Path -> import alias. Foreign subjects are complete modules.
         self._test_alias_tgts = set()
 
     def __repr__(self):
@@ -62,21 +51,21 @@ class TestModuleTarget:
 
     @property
     def state(self):
+        if self.error or self.blocked_by_tested_imports:
+            return TargetState.FAILED
         return self._targets.deps_state(self.deps)
 
     @property
     def import_deps(self):
         return self._import_deps
 
-    # Tested modules are waited for by their import aliases: complete ones wait for tests.
-    # Other modules imported by tested ones are complete, compiled before tests.
+    # Local recorded providers would cycle through their tests if we waited for their completed modules.
     @property
     def deps(self):
-        tested_imports = (dep for alias_tgt in self._tested_alias_tgts for dep in alias_tgt.module_tgt.import_deps)
         return {
             self._import_alias_tgt,
             *(self._dep_target(dep) for dep in self._import_deps),
-            *(self._dep_target(dep) for dep in tested_imports),
+            *(self._dep_target(dep) for dep in self._tested_module_import_deps),
             }
 
     # For compiled modules it tests to wait for. Test functions are known when this target is resolved.
@@ -84,12 +73,21 @@ class TestModuleTarget:
     def test_deps(self):
         return {self, *self._test_alias_tgts}
 
+    @property
+    def _tested_modules(self):
+        return {dep.module for dep in self._tested_import_deps}
+
+    @property
+    def _tested_module_import_deps(self):
+        return {
+            dep
+            for alias_tgt in self._recorded_subjects.values()
+            for dep in alias_tgt.module_tgt.import_deps
+            }
+
     def _tested_alias_tgt(self, dep):
-        if dep.target in self._tested_alias_tgts:
-            return dep.target  # Tested code import.
-        for alias_tgt in self._tested_alias_tgts:
-            if dep.target is alias_tgt.module_tgt:
-                return alias_tgt  # Code import of a tested module.
+        if isinstance(dep, ModuleImportDep):
+            return self._recorded_subjects.get(dep.module.path)  # Same provider through tested.code or code.
         return None
 
     def _dep_target(self, dep):
@@ -97,52 +95,56 @@ class TestModuleTarget:
 
     # None for other imports, and for tested manual modules: these are tested as they are, like code imports,
     # and having no resources to give, do not wait for tests.
-    def _req_tested_alias_tgt(self, req):
+    def _req_tested_dep(self, req):
         if not isinstance(req, TestedCodeReq):
             return None
-        tgt = req.resolve(self._targets).target
-        if isinstance(tgt, ImportAliasTarget):
-            return tgt
+        dep = req.resolve(self._targets)
+        if isinstance(dep, ModuleImportDep):
+            return dep
         return None
 
-    # Returns target for the module to use from now on: self.
     def import_attempt_finished(self, idx, requirements):
-        req_to_alias_tgt = {
-            req: alias_tgt
+        req_to_dep = {
+            req: dep
             for req in requirements
-            if (alias_tgt := self._req_tested_alias_tgt(req)) is not None
+            if (dep := self._req_tested_dep(req)) is not None
             }
         if idx == 0:
-            self._tested_alias_tgts = set(req_to_alias_tgt.values())
-            for alias_tgt in self._tested_alias_tgts:
-                alias_tgt.module_tgt.add_test_module(self)
-            return self
-        new_tested = [req for req, alias_tgt in req_to_alias_tgt.items() if alias_tgt not in self._tested_alias_tgts]
+            self._tested_import_deps = set(req_to_dep.values())
+            for dep in self._tested_import_deps:
+                if (alias_tgt := dep.recorded_alias) is not None:
+                    self._recorded_subjects[dep.module.path] = alias_tgt
+                    alias_tgt.module_tgt.add_test_module(self)
+            return
+        new_tested = [req for req, dep in req_to_dep.items() if dep.module not in self._tested_modules]
         if new_tested:
             raise ImportRequirementsError(
                 f"Tested modules are imported by import attempt #{idx} only:"
                 f" {', '.join(sorted('.'.join(req.import_as) for req in new_tested))}. Tested modules are decided"
                 " by the first attempt; import them before anything making the test module import incomplete")
-        return self
 
     # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
     # Preloaded ones, like types, are not: they are given to all recorders, see add_tested_loaded_reqs.
     def check_test_requirements(self, requirements, tested_requirements):
         for req in requirements:
-            alias_tgt = self._req_tested_alias_tgt(req)
-            if alias_tgt is not None and alias_tgt not in self._tested_alias_tgts:
+            dep = self._req_tested_dep(req)
+            if dep is not None and dep.module not in self._tested_modules:
                 return (
                     f"Tested module {'.'.join(req.import_as)} is first used when the test runs."
                     " Tested modules are decided by the test module import; import it at module level")
         for req in tested_requirements:
-            if req.is_preloaded:
-                continue
-            alias_tgt = ImportAliasTarget.ensure(self._targets, req.path)
-            if req.resolve(self._targets) not in alias_tgt.module_tgt.import_deps:
+            provider = self._recorded_provider(req.path)
+            if not req.is_preloaded and req.resolve(self._targets) not in provider.import_deps:
                 return (
                     f"Tested module {req.path} uses {'.'.join(req.import_as)} when the test runs,"
                     " but not when it is imported, so it is not resolved for tests")
         return None
+
+    def _recorded_provider(self, path):
+        try:
+            return self._recorded_subjects[path].module_tgt
+        except KeyError:
+            raise UnresolvedImportError(f"{self._path}: Unexpected requirement for unrecorded subject {path}")
 
     # Types and boot services used by tested modules only in functions are found only by test runs, which call them.
     # They are resolved from the start, so taking them does not change what tested modules wait for.
@@ -150,7 +152,7 @@ class TestModuleTarget:
     def add_tested_loaded_reqs(self, tested_requirements):
         for req in tested_requirements:
             if req.is_preloaded:
-                ImportAliasTarget.ensure(self._targets, req.path).module_tgt.add_import_req(req)
+                self._recorded_provider(req.path).add_import_req(req)
 
     def add_import_req(self, req):
         self._import_deps.add(req.resolve(self._targets))
@@ -159,9 +161,8 @@ class TestModuleTarget:
         TestTarget.ensure(self._targets, self, function)
         self._test_alias_tgts.add(TestAliasTarget.ensure(self._targets, self._path, function.name))
 
-    # Tested modules are recorded, and so are their direct imports of other tested modules: these are
-    # the same recorded modules the test gets. Imports through untested modules are got by complete modules,
-    # which can not import recorded ones.
+    # Direct imports of a recorded subject must refer to the same module the test gets.
+    # Imports through a completed module use that module's published dependencies.
     @property
     def cfg_items(self):
         return [*loaded_cfg_items(self._targets, self._path), *(self._cfg_item(dep) for dep in self._import_deps)]
@@ -183,7 +184,7 @@ class TestModuleTarget:
     # it is a tested module imported by another tested one through an untested one. None if it is not.
     def cycle_hint(self, cycle):
         untested_tgt = cycle[cycle.index(self) + 1]  # Self is never only last: it is repeated first.
-        tested_module_tgts = {alias_tgt.module_tgt for alias_tgt in self._tested_alias_tgts}
+        tested_module_tgts = {alias_tgt.module_tgt for alias_tgt in self._recorded_subjects.values()}
         if untested_tgt in tested_module_tgts:
             return None
         importers = sorted(
@@ -200,7 +201,13 @@ class TestModuleTarget:
 
     @property
     def error(self):
-        return None
+        return import_deps_error(self._import_deps | self._tested_import_deps)
+
+    @property
+    def blocked_by_tested_imports(self):
+        # Recorded aliases bypass completed providers. Honor their invalid imports here,
+        # but leave the diagnostic on the provider that actually imports the test module.
+        return any(dep.error for dep in self._tested_module_import_deps)
 
     @property
     def result(self):
@@ -246,6 +253,8 @@ class TestTarget:
 
     @property
     def state(self):
+        if self.error:
+            return TargetState.FAILED
         if self._state == TargetState.WAITING:
             state = self._targets.deps_state(self.deps)
             if state == TargetState.RESOLVED:
@@ -313,7 +322,7 @@ class TestTarget:
 
     @property
     def error(self):
-        return self._error
+        return self._error or import_deps_error(self._import_deps)
 
     @property
     def result(self):
