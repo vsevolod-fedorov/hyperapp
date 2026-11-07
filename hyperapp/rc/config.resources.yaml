@@ -9,12 +9,14 @@ definitions:
         base:transport/registries:message_creg.service: message_creg.config
         base:transport/transport:transport.service: transport.config
         requirement_creg:requirement_creg.service: requirement_creg.config
+        rc_constructor_creg:rc_constructor_creg.service: rc_constructor_creg.config
 
   service_config_creg.config:
     type: base:system/system.t:typed_item_list
     value:
       items:
         requirement_creg:requirement_creg.service.t: base:system/config:TypedDictConfigCtl.from_service_piece.actor
+        rc_constructor_creg:rc_constructor_creg.service.t: base:system/config:TypedDictConfigCtl.from_service_piece.actor
 
   service_creg.config:
     type: base:system/system.t:typed_item_list
@@ -24,6 +26,7 @@ definitions:
         job_pool:job_pool.service.t: job_pool:job_pool.service-actor
         main:main.service.t: main:main.service-actor
         requirement_creg:requirement_creg.service.t: requirement_creg:requirement_creg.service-actor
+        rc_constructor_creg:rc_constructor_creg.service.t: rc_constructor_creg:rc_constructor_creg.service-actor
 
   message_creg.config:
     type: base:system/system.t:typed_item_list
@@ -51,3 +54,8 @@ definitions:
         code_req.t:tested_code_req: code_req:TestedCodeReq.from_piece.actor
         type_req.t:type_req: type_req:TypeReq.from_piece.actor
         boot_service_req.t:boot_service_req: boot_service_req:BootServiceReq.from_piece.actor
+
+  rc_constructor_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items: {}

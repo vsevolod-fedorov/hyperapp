@@ -1,4 +1,5 @@
 from contextlib import contextmanager
+from dataclasses import dataclass
 
 from . import htypes
 from .services import (
@@ -9,7 +10,15 @@ from .code.import_recorder import module_recorder_piece, recorded_python_module_
 from .code.mark import markers_activated
 from .code.path import Path
 from .code.probe import ProbeContext
+from .code.ctr_collector import CtrCollector
+from .data import ctr_collector_service
 from .data.probe import probe_context_service
+
+
+@dataclass(frozen=True)
+class ActiveModule:
+    path: Path
+    ref: object
 
 
 # Recorded dependencies are tested providers, including during test-module import retries.
@@ -26,7 +35,7 @@ def tested_modules(cfg_items):
             continue
         path = Path.from_piece(recorder_piece.module_path)
         name = recorded_python_module_name(module_piece)
-        modules[name] = path
+        modules[name] = ActiveModule(path, item.resource)
         recorders.append((path, pyobj_creg.animate(recorder_piece)))
     return modules, recorders
 
@@ -34,10 +43,14 @@ def tested_modules(cfg_items):
 @contextmanager
 def job_active(subsystem_factory, marker_registry, modules):
     with ProbeContext() as context:
-        service_creg = subsystem_factory(service_instances={probe_context_service: context})
+        collector = CtrCollector(context, modules)
+        service_creg = subsystem_factory(service_instances={
+            probe_context_service: context,
+            ctr_collector_service: collector,
+            })
         context.bind_services(service_creg.invite)
         with (
                 marker_registry.bound(context.invite) as bound,
-                markers_activated(bound, modules),
+                markers_activated(bound, {name: module.path for name, module in modules.items()}),
                 ):
             yield context

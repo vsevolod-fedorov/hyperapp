@@ -1,0 +1,13 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  second.module:
+    type: builtin:type:python_module
+    value:
+      module_name: second
+      file_name: second.dyn.py
+      imports:
+        pyobj:
+          code.base.mark: base:mark:mark.module
+        raw: {}

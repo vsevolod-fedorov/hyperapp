@@ -12,6 +12,7 @@ succeeded_result = record:
   requirements: ref list
   tested_requirements: ref list
   test_functions: test_function list
+  constructors: ref list
 
 incomplete_result = record:
   target: string

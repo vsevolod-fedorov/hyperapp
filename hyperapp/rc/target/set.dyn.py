@@ -1,6 +1,7 @@
 from collections import defaultdict
 
 from .code.path import Path
+from .code.constructor import ConstructorRegistry
 from .code.code_req import TestedCodeReq
 from .code.module import ModuleType
 from .code.target.module import CompiledModuleTarget
@@ -38,6 +39,7 @@ class TargetSet:
                 self._project_to_type_modules[project_name].add((project_name, path))
         self._dir_to_visible_type_modules = {}  # Cache: (project name, dir path) -> type module name -> module.
         self._name_to_target = {}
+        self.constructors = ConstructorRegistry()
         # Targets which states are being got, innermost last. One met again depends on itself: it would recurse forever.
         self._state_stack = []
         # Target set -> cycle met; states are got many times, so cycles are collected, to be reported once.

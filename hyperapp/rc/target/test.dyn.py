@@ -1,4 +1,5 @@
 import logging
+import traceback
 
 from . import htypes
 from .services import (
@@ -93,6 +94,10 @@ class TestModuleTarget:
     @property
     def test_deps(self):
         return {self, *self._test_alias_tgts}
+
+    @property
+    def tested_paths(self):
+        return {alias.module.path for alias in self._tested_alias_tgts}
 
     @property
     def _tested_alias_tgts(self):
@@ -308,8 +313,11 @@ class TestTarget:
         self._error = error
         log.error("%s: %s%s", self, error, ''.join(['\n', *traceback]) if traceback else '')
 
-    def process_succeeded_job_result(self, tested_requirements):
+    def process_succeeded_job_result(self, tested_requirements, constructor_refs, rc_constructor_creg):
+        pending = self._targets.constructors.prepare(
+            rc_constructor_creg, constructor_refs, self._module_tgt.tested_paths, source_target=self._name)
         self._module_tgt.add_tested_loaded_reqs(tested_requirements)
+        self._targets.constructors.apply(pending)
         self._state = TargetState.RESOLVED
 
     def process_incomplete_job_result(self, requirements, tested_requirements):
@@ -384,14 +392,15 @@ class TestAliasTarget:
 
 
 # Of tested requirements of a succeeded test, only preloaded ones, like types, are added to module resources.
-def succeeded_result(piece, request, requirement_creg, job_pool):
+def succeeded_result(piece, request, requirement_creg, rc_constructor_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: test succeeded: %s", target, piece)
-    tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
-        target.process_succeeded_job_result(tested_requirements)
-    except UnresolvedImportError as x:
-        target.job_failed(str(x))
+        tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
+        target.process_succeeded_job_result(tested_requirements, piece.constructors, rc_constructor_creg)
+    except Exception as x:
+        # Empty str(x), as with AssertionError(), would be omitted from CompileResult.errors.
+        target.job_failed(''.join(traceback.format_exception_only(x)).strip())
 
 
 def incomplete_result(piece, request, requirement_creg, job_pool):

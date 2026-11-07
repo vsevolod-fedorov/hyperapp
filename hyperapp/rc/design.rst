@@ -43,7 +43,7 @@ Using a recorded, not resolved object at import time makes import incomplete; ne
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
 For ``tested.code`` this supplies an active recorded provider, with its own imports resolved as for a test
 job. The retry waits for the provider's import alias and its dependencies, rather than its completed module,
-which itself waits for these tests (``probes``).
+which itself waits for these tests (``probes``, ``constructor_import_cache``).
 Import of a module not found, or of a manual one having no module resource, fails the importing target
 (``code_import_missing``, ``manual_module_no_resource``).
 Importing a test module as ordinary or tested code fails with an explicit diagnostic naming it
@@ -107,15 +107,16 @@ the test job. Tested modules are active both while the test module is imported a
 Import retries and test jobs use the same recorded providers, including direct imports of another tested
 provider. Complete dependencies keep their ordinary marker behavior. A fresh worker must activate tested
 providers while importing the test module: its top-level calls need probes immediately, and the cached
-objects must remain instrumented when later test jobs reuse them (``probes``).
+objects must remain instrumented when later test jobs reuse them (``probes``, ``constructor_import_cache``).
+The job's activation map keeps each module's provider Path and full ref together as ``ActiveModule``;
+the marker layer uses its paths and declaration replay checks its refs.
 
 Activation is a non-nested job scope, cleaned by ``finally`` after success, failure and incomplete execution.
 Its module map and provider paths are dropped, and the registry keeps no per-job template objects or service
 resolver. Consecutive attempts and jobs, including failed and incomplete test runs, therefore start with fresh
 activation state (``marker_incomplete``, ``marker_test_isolation``). There is no
-constructor result channel yet: marker execution adds no target or generated resource, so discoveries of a
-failed or incomplete job can not affect either. A later channel must take discoveries only from successful
-jobs.
+constructor publication from a failed or incomplete job. Successful jobs carry a serialized constructor
+snapshot, described below; marker execution itself does not change master targets.
 
 ``marker_utils.dyn.py`` exposes function validation and ``check_method_decorator_order``. Generic
 recursive ``real_fn`` unwrapping and the shared order check live in ``probe.dyn.py``. Unbound
@@ -180,11 +181,112 @@ dictionary in place, drops the state's probe references, and clears and closes t
 marker registry also drops its resolver. A retained context or marker binding cannot resolve services after
 exit, and cached probes do not keep the finished subsystem alive. A closed context cannot be reused;
 a closed sink rejects new entries. Cleanup happens before result transmission, on success, failure and
-incomplete execution. No discovery result channel is implemented: even successful entries stay local and
-are discarded on exit. Failed or incomplete jobs cannot publish them to targets or generated resources.
+incomplete execution. Discovery entries are discarded on exit; the constructor collector must already have
+serialized successful entries into a candidate snapshot before that cleanup.
+The sink stays generic: unrelated entries are never inspected or serialized by the constructor collector.
 ``test/test_probe_jobs.py`` checks these boundaries using the real worker config and job entry points,
 including mutation isolation after success, failure and incomplete jobs, and release of job subsystems;
 ``probes`` and ``probe_isolation`` run with one and four subprocess workers.
+
+Constructors
+++++++++++++
+
+``constructor.dyn.py:Constructor(path, key)`` is the minimal concrete constructor protocol. ``path``
+is the provider's ``rc.path.Path``, and ``key`` is a nonempty, provider-local semantic identity, including
+the constructor kind where necessary. It is not a generated resource name. ``piece`` returns the concrete
+serializable payload; its type is registered with ``rc_constructor_creg`` to a pure ``from_piece`` actor.
+The actor reconstructs a ``Constructor`` with the same path, key and payload. These are the only hooks
+implemented here: resource/component generation and provider-target hooks are not part of this stage.
+
+The wire envelope ``constructor.constructor`` contains ``path``, ``key`` and the payload ref. Successful
+import and test result pieces carry ``constructors: ref list`` of these envelopes. Other result types have
+no constructor field. The worker serializes pieces, not live constructors, probes, services or callbacks.
+
+``ctr_collector`` is a job service seeded alongside ``probe_context`` before subsystem setup. It uses that
+context's state and discovery sink, with no separate context or discovery lifetime. Markers receive it by
+service reference; cached probes resolve ``COLLECTOR_REF`` through their current ``context.invite``.
+``add_constructor(ctr, fn)`` adds a typed invocation discovery; ``declare(ctr, fn)`` records a stable
+import-time declaration. Both use ``real_fn(fn).__module__`` to verify the exact active module and its
+provider Path. A cached probe from an inactive module, including the test module itself, adds neither.
+Generic entries stay opaque; only ``ConstructorDiscovery`` and ``ConstructorDeclaration`` entries belong
+to this channel.
+
+Publication is a success barrier, not part of scope exit. An import job finishes module animation and test
+function discovery; a test job finishes the entire sync/async/generator execution. While still inside
+``job_active``, it captures and serializes a candidate snapshot. Only after scope cleanup and requirement
+collection both succeed does it construct a successful result. Any execution, discovery, serialization,
+requirement or cleanup failure discards the candidate. Constructor collection/serialization failures,
+including declaration failures wrapped by the Python importer, use the internal-error result channel.
+Execution failures retain the failed/incomplete channels. Transmission is outside the scope in every case.
+
+Cached declarations
+~~~~~~~~~~~~~~~~~~~
+
+Cached animation does not repeat decorators. ``declare`` therefore serializes immediately during module
+import and stores an immutable ``ModuleDeclarations`` record on that exact Python module: the full
+recorded module ref, provider Path piece and declaration refs. The module must still be initializing.
+The record contains no job-bound objects, and lives only as long as that cached module. If module animation
+fails, the Python importer drops the module and its metadata. A completely imported module may remain
+cached even if its containing test later fails; its import-time declarations are still valid for replay.
+
+Snapshot collection reads declaration metadata only for the job's exact active recorded modules and checks
+both the full module ref and provider Path. A changed source or recorder configuration produces a different
+identity, so cannot reuse old declarations. Declarations go through the same sink when first made and are
+deduplicated with replayed refs. Invocation discoveries are never written to module metadata: a failed test
+followed by a successful one recovers declarations without recovering failed-test observations. Test modules'
+own declarations are validated but not attached on the master, and their cached probes remain excluded
+when tests run. They produce no final resources.
+
+Master acceptance
+~~~~~~~~~~~~~~~~~
+
+The decoding service ``rc_constructor_creg`` maps payload types to reconstruction actors. Accepted data
+lives in ``TargetSet.constructors``, a fresh ``ConstructorRegistry`` per compilation. Before finalizing a
+successful target or attaching its outputs, the handler prepares the whole constructor batch: it decodes
+every envelope and payload, checks ownership, key and exact piece round trip, and checks all conflicts.
+First import results keep this validated candidate pending on the master until project classification.
+Their attempt is complete, but module outputs are not attached yet. The pending result retains requirements,
+test function descriptors and prepared constructor data, never a worker context or decoding service.
+After classification, results are applied to their proper module targets; test-module constructors are excluded.
+An error applying a pending result fails its original import target and discards its candidate, even when a
+different module's last first result opened the barrier (``test/test_constructor_jobs.py``).
+Import results may name their own provider and, for test-module retries, that module's known tested
+providers. Test results may name only the test module's recorded tested providers. The test module's own
+entries are validated and excluded; its import-time observations of tested providers are accepted. This
+preserves calls made only at module level even if later tests reuse the cached test module without executing
+that code again. Decode actors and payload properties must be side-effect free.
+
+Identity is ``(Path, key)``. Rediscovering the same serialized envelope is idempotent; another payload for
+that identity is an explicit conflicting-constructor error. Conflicts with prior jobs and conflicts within
+one result follow the same rule. Each ``ConstructorEntry`` keeps the envelope ref, validated payload,
+reconstructed constructor and originating target name. Equivalent rediscovery preserves the first entry,
+including its origin; conflict diagnostics name both the original and rejecting targets. Entries are indexed
+by provider Path and then key, so retrieving a provider's constructors does not scan other providers.
+
+Preparation does not mutate accepted data. A malformed or contradictory later entry rejects the entire batch,
+leaves prior accepted data intact and fails the responsible import or test target, rather than aborting
+compilation. Decoder errors include the provider, key and originating target. Result-processing errors preserve
+the exception type and notes, so an exception with no message still appears in compilation diagnostics.
+Once accepted, compiled providers expose reconstructed objects through ``CompiledModuleTarget.constructors``;
+``CompileResult.constructors`` exposes the validated payload snapshots by provider Path, without calling
+constructor hooks again. Later changes to reconstructed objects do not alter these snapshots. This does not
+create resource outputs yet.
+
+``test/test_constructors.dyn.py`` supplies a minimal test-only constructor and marker, with an import-time
+declaration and call-time observation. ``test/test_constructor_jobs.py`` uses the real job entry points and
+piece round trips to check attribution, opaque entries, cache reuse, changed identities and subsystem release.
+``test/test_constructor_failures.py`` checks publication boundaries; ``test/test_constructor_results.py``
+checks registry validation, accepted snapshot stability and atomic rejection by the configured master handlers,
+including empty decoder exceptions, round-trip mismatches and conflicting successful jobs after rediscovery.
+Their complete source programs are in ``test/resources/constructor_jobs``. ``constructors``,
+``constructor_conflict`` and ``constructor_import_cache`` check observable accepted pieces/diagnostics
+with one and four workers, including the existing second compile with generated resources loaded.
+
+The next resource-generation stage can consume ``CompiledModuleTarget.constructors`` after its existing
+import/test dependencies resolve. It still needs component/resource generation hooks and integration with
+resource locations and naming. Production payload types and their decoding registrations belong with their
+concrete providers; there is no service inference, service/actor provider target, project configuration,
+fixture, ``ctx_actor`` or legacy ``System``/``SystemJob`` integration here.
 
 Targets
 +++++++
@@ -274,7 +376,7 @@ in its resources. Being resolved from the start, they do not change what it wait
 ``boot_service_import``).
 Test-module import retries report tested requirements separately too. They enforce the same restriction on
 new code imports and add preloaded requirements from successful attempts, so import-time uses are retained
-even if the cached module is not executed again by a test (``probes``).
+even if the cached module is not executed again by a test (``probes``, ``constructor_import_cache``).
 
 Incomplete run because of other imports of the test module gets a next run with them resolved
 (``test_code_used_by_run`` in ``test_collection/modules.tests.dyn.py``).

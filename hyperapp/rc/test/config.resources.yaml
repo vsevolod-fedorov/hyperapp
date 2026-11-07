@@ -5,9 +5,16 @@ definitions:
     value:
       services:
         base:system/system:service_creg.service: service_creg.config
+        rc:rc_constructor_creg:rc_constructor_creg.service: rc_constructor_creg.config
 
   service_creg.config:
     type: base:system/system.t:typed_item_list
     value:
       items:
         main:test_main.service.t: main:test_main.service-actor
+
+  rc_constructor_creg.config:
+    type: base:system/system.t:typed_item_list
+    value:
+      items:
+        test_constructors.t:constructor: test_constructors:TestConstructor.from_piece.actor

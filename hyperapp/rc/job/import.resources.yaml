@@ -13,8 +13,10 @@ definitions:
           htypes.import_job.failed_result: import.t:failed_result
           htypes.import_job.internal_error_result: import.t:internal_error_result
           services.pyobj_creg: builtin:service:pyobj_creg
+          services.mosaic: builtin:service:mosaic
           services.web: builtin:service:web
           code.context: context:context.module
+          code.ctr_collector: :ctr_collector:ctr_collector.module
           code.path: :path:path.module
           code.import_recorder: :import_recorder:import_recorder.module
           code.probe: :probe:probe.module

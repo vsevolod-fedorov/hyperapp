@@ -26,7 +26,7 @@ def graph(worker):
 def _finish_import(module, requirements=(), functions=()):
     target = module.import_tgt
     target.job_started()
-    target.process_succeeded_job_result(requirements, (), functions)
+    target.process_succeeded_job_result(requirements, (), functions, (), None)
     assert target.state.name == 'RESOLVED'
 
 

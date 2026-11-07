@@ -61,6 +61,10 @@ class CompiledModuleTarget:
                 f" {', '.join('.'.join(req.import_as) for req in tested)}. Whether a module is a test one"
                 " is decided by the first attempt; import them before anything making the import incomplete")
 
+    @property
+    def constructors(self):
+        return self._targets.constructors.for_path(self._path)
+
     def add_import_req(self, req):
         self._import_deps.add(req.resolve(self._targets))
 

@@ -28,6 +28,7 @@ definitions:
       fn: succeeded_result.attr
       service_params:
         requirement_creg: :requirement_creg:requirement_creg.service
+        rc_constructor_creg: :rc_constructor_creg:rc_constructor_creg.service
         job_pool: :job_pool:job_pool.service
 
   incomplete_result.attr:

@@ -19,6 +19,7 @@ test_job = record:
 succeeded_result = record:
   target: string
   tested_requirements: ref list
+  constructors: ref list
 
 incomplete_result = record:
   target: string

@@ -14,5 +14,7 @@ definitions:
           code.mark: base:mark:mark.module
           code.path: :path:path.module
           code.probe: :probe:probe.module
+          code.ctr_collector: :ctr_collector:ctr_collector.module
         raw:
+          data.ctr_collector_service: :ctr_collector:ctr_collector.service
           data.probe.probe_context_service: :probe:probe_context.service

@@ -35,6 +35,7 @@ class CompileResult:
     target_states: dict  # Target name -> TargetState.
     errors: dict  # Target name -> error, for targets failed by themselves, not by their deps.
     cycles: list  # Dependency cycles, as (target name list, first one repeated last; hint or None) tuples.
+    constructors: dict  # Provider Path -> concrete constructor pieces accepted by successful results.
 
 
 # Compile resources of workspace projects.
@@ -235,4 +236,5 @@ def _compile(
         target_states=target_states,
         errors=errors,
         cycles=cycles,
+        constructors=targets.constructors.pieces,
         )

@@ -1,0 +1,7 @@
+from path import path
+
+# Ownership and identity are checked independently of the concrete payload decoder.
+constructor = record:
+  path: path
+  key: string
+  payload: ref
