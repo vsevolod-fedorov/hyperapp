@@ -179,6 +179,34 @@ def test_empty_module():
     _compile_and_check('empty_module')
 
 
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_test_module_imports_are_rejected(worker_count):
+    states = {
+        'module/compiled/sample/code_import': 'failed',
+        'import/sample/retry_import/1': 'failed',
+        'module/test/sample/tests_of_tests': 'failed',
+        'test/sample/tests_of_tests/test_checks': 'failed',
+        'test/sample/checks/test_ok': 'resolved',
+        }
+    errors = {
+        'module/compiled/sample/code_import': 'Test module sample:checks cannot be imported as code',
+        'import/sample/retry_import/1': 'Test module sample:checks cannot be imported as code',
+        'module/test/sample/tests_of_tests': 'Test module sample:checks cannot be imported as tested code',
+        }
+    _compile_and_check('test_module_imports', states, errors, worker_count=worker_count)
+
+
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_module_classification_across_projects(worker_count):
+    states = {
+        'module/compiled/library/subject': 'resolved',
+        'module/compiled/library/other': 'resolved',
+        'module/test/sample/checks': 'resolved',
+        'test/sample/checks/test_ok': 'resolved',
+        }
+    _compile_and_check('classification_projects', states, worker_count=worker_count)
+
+
 def test_code_import():
     _compile_and_check('code_import')
 

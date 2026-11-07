@@ -18,7 +18,7 @@ class ProjectTarget:
         self._targets = targets
         self._name = name
         self._project_name = project_name
-        # Resource targets are added by first imports of their modules.
+        # Resource targets are added after the project imports barrier classifies its modules.
         self._project_imports_tgt = ProjectImportsTarget.ensure(targets, project_name)
         self._path_to_resource_tgt = {}
 

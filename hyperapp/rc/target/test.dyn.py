@@ -5,7 +5,7 @@ from .services import (
     mosaic,
     )
 from .code.code_req import TestedCodeReq
-from .code.import_dep import UnresolvedImportError
+from .code.import_dep import ModuleImportDep, UnresolvedImportError, import_deps_error
 from .code.target.import_target import (
     ImportAliasTarget,
     ImportRequirementsError,
@@ -42,7 +42,7 @@ class TestModuleTarget:
         self._source = source
         self._import_alias_tgt = ImportAliasTarget.ensure(targets, path)
         self._import_deps = set()
-        self._tested_alias_tgts = set()  # Import alias targets of tested modules.
+        self._tested_import_deps = set()
         self._test_alias_tgts = set()
 
     def __repr__(self):
@@ -62,6 +62,8 @@ class TestModuleTarget:
 
     @property
     def state(self):
+        if self.error:
+            return TargetState.FAILED
         return self._targets.deps_state(self.deps)
 
     @property
@@ -72,7 +74,12 @@ class TestModuleTarget:
     # Other modules imported by tested ones are complete, compiled before tests.
     @property
     def deps(self):
-        tested_imports = (dep for alias_tgt in self._tested_alias_tgts for dep in alias_tgt.module_tgt.import_deps)
+        tested_imports = (
+            dep
+            for alias_tgt in self._tested_alias_tgts
+            if alias_tgt.module_tgt is not None
+            for dep in alias_tgt.module_tgt.import_deps
+            )
         return {
             self._import_alias_tgt,
             *(self._dep_target(dep) for dep in self._import_deps),
@@ -84,11 +91,15 @@ class TestModuleTarget:
     def test_deps(self):
         return {self, *self._test_alias_tgts}
 
+    @property
+    def _tested_alias_tgts(self):
+        return {dep.target for dep in self._tested_import_deps}
+
     def _tested_alias_tgt(self, dep):
         if dep.target in self._tested_alias_tgts:
             return dep.target  # Tested code import.
         for alias_tgt in self._tested_alias_tgts:
-            if dep.target is alias_tgt.module_tgt:
+            if isinstance(dep, ModuleImportDep) and dep.module is alias_tgt.module:
                 return alias_tgt  # Code import of a tested module.
         return None
 
@@ -97,40 +108,38 @@ class TestModuleTarget:
 
     # None for other imports, and for tested manual modules: these are tested as they are, like code imports,
     # and having no resources to give, do not wait for tests.
-    def _req_tested_alias_tgt(self, req):
+    def _req_tested_dep(self, req):
         if not isinstance(req, TestedCodeReq):
             return None
-        tgt = req.resolve(self._targets).target
-        if isinstance(tgt, ImportAliasTarget):
-            return tgt
+        dep = req.resolve(self._targets)
+        if isinstance(dep, ModuleImportDep):
+            return dep
         return None
 
-    # Returns target for the module to use from now on: self.
     def import_attempt_finished(self, idx, requirements):
-        req_to_alias_tgt = {
-            req: alias_tgt
+        req_to_dep = {
+            req: dep
             for req in requirements
-            if (alias_tgt := self._req_tested_alias_tgt(req)) is not None
+            if (dep := self._req_tested_dep(req)) is not None
             }
         if idx == 0:
-            self._tested_alias_tgts = set(req_to_alias_tgt.values())
+            self._tested_import_deps = set(req_to_dep.values())
             for alias_tgt in self._tested_alias_tgts:
-                alias_tgt.module_tgt.add_test_module(self)
-            return self
-        new_tested = [req for req, alias_tgt in req_to_alias_tgt.items() if alias_tgt not in self._tested_alias_tgts]
+                alias_tgt.module.test_module_tgts.add(self)
+            return
+        new_tested = [req for req, dep in req_to_dep.items() if dep.target not in self._tested_alias_tgts]
         if new_tested:
             raise ImportRequirementsError(
                 f"Tested modules are imported by import attempt #{idx} only:"
                 f" {', '.join(sorted('.'.join(req.import_as) for req in new_tested))}. Tested modules are decided"
                 " by the first attempt; import them before anything making the test module import incomplete")
-        return self
 
     # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
     # Preloaded ones, like types, are not: they are given to all recorders, see add_tested_loaded_reqs.
     def check_test_requirements(self, requirements, tested_requirements):
         for req in requirements:
-            alias_tgt = self._req_tested_alias_tgt(req)
-            if alias_tgt is not None and alias_tgt not in self._tested_alias_tgts:
+            dep = self._req_tested_dep(req)
+            if dep is not None and dep.target not in self._tested_alias_tgts:
                 return (
                     f"Tested module {'.'.join(req.import_as)} is first used when the test runs."
                     " Tested modules are decided by the test module import; import it at module level")
@@ -183,7 +192,8 @@ class TestModuleTarget:
     # it is a tested module imported by another tested one through an untested one. None if it is not.
     def cycle_hint(self, cycle):
         untested_tgt = cycle[cycle.index(self) + 1]  # Self is never only last: it is repeated first.
-        tested_module_tgts = {alias_tgt.module_tgt for alias_tgt in self._tested_alias_tgts}
+        tested_module_tgts = {
+            alias_tgt.module_tgt for alias_tgt in self._tested_alias_tgts if alias_tgt.module_tgt is not None}
         if untested_tgt in tested_module_tgts:
             return None
         importers = sorted(
@@ -200,7 +210,7 @@ class TestModuleTarget:
 
     @property
     def error(self):
-        return None
+        return import_deps_error(self._import_deps | self._tested_import_deps)
 
     @property
     def result(self):
@@ -246,6 +256,8 @@ class TestTarget:
 
     @property
     def state(self):
+        if self.error:
+            return TargetState.FAILED
         if self._state == TargetState.WAITING:
             state = self._targets.deps_state(self.deps)
             if state == TargetState.RESOLVED:
@@ -313,7 +325,7 @@ class TestTarget:
 
     @property
     def error(self):
-        return self._error
+        return self._error or import_deps_error(self._import_deps)
 
     @property
     def result(self):

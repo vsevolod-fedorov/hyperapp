@@ -1,0 +1,12 @@
+# Automatically generated file. Do not edit.
+
+definitions:
+
+  subject.module:
+    type: builtin:type:python_module
+    value:
+      module_name: subject
+      file_name: subject.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}

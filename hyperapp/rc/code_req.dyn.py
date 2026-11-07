@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .code.import_dep import ImportDep, UnresolvedImportError
+from .code.import_dep import ImportDep, ModuleImportDep, UnresolvedImportError
 from .code.path import Path
 
 
@@ -30,17 +30,19 @@ class CodeReq:
                 module = targets.find_nearest_module(self.path, sub_path[:idx])
             except KeyError:
                 continue
-            return ImportDep(self.import_as[:prefix_len + idx], self._module_target(module))
+            return self._module_dep(module, self.import_as[:prefix_len + idx])
         raise UnresolvedImportError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
 
     # Complete module, having all its imports resolved.
-    def _module_target(self, module):
+    def _module_dep(self, module, import_path):
+        if module.import_tgt is not None:
+            return ModuleImportDep(import_path, module)
         if module.module_tgt is None:
             # Only manual modules having a module resource get a target.
             raise UnresolvedImportError(
                 f"{self.path}: Manual module has no {module.path.path[-1]}.module resource"
                 f" for import: {'.'.join(self.import_as)}")
-        return module.module_tgt
+        return ImportDep(import_path, module.module_tgt)
 
 
 # Test module import of a module it tests. Found the same way as code import.
@@ -49,7 +51,7 @@ class TestedCodeReq(CodeReq):
 
     # Module as recorded by its import, so tests record what the tested module uses.
     # Manual module is not compiled, so there is nothing to record its uses for: it is tested as it is.
-    def _module_target(self, module):
+    def _module_dep(self, module, import_path):
         if module.import_alias_tgt is None:
-            return super()._module_target(module)
-        return module.import_alias_tgt
+            return super()._module_dep(module, import_path)
+        return ModuleImportDep(import_path, module, tested=True)

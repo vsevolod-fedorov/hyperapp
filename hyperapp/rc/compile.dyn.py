@@ -12,7 +12,7 @@ from .code.path import Path
 from .code.module import ModuleType, Module
 from .code.target_set import TargetSet
 from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectImportsTarget
-from .code.target.module import CompiledModuleTarget, ManualModuleTarget
+from .code.target.module import ManualModuleTarget
 from .code.target.project import ProjectTarget
 from .code.target.state import TargetState
 from .code.target.test import TestModuleTarget
@@ -89,8 +89,8 @@ def _collect_modules(project_to_tree):
             if name.endswith(RESOURCES_EXT):
                 module_paths[project].add((*path[:-1], name[:-len(RESOURCES_EXT)]))
     modules = []
-    # Modules having resources (or lone resources) without auto-get line are manual,
-    # others are compiled (including lone dyn modules). Some of compiled ones turn out to be tests when imported.
+    # Modules having resources (or lone resources) without auto-get line are manual.
+    # Other dyn modules are classified together after the project's first imports.
     for project, path_set in module_paths.items():
         for path in sorted(path_set):
             resources_path = (*path[:-1], path[-1] + RESOURCES_EXT)
@@ -104,7 +104,7 @@ def _collect_modules(project_to_tree):
                     continue
             dyn_path = (*path[:-1], path[-1] + DYN_EXT)
             source = project_to_tree[project][dyn_path].decode()
-            modules.append(Module(ModuleType.COMPILED, Path(project, path), source))
+            modules.append(Module(ModuleType.DYNAMIC, Path(project, path), source))
     return modules
 
 
@@ -115,12 +115,10 @@ def _create_targets(modules, targets, resources):
         if module.type == ModuleType.MANUAL:
             _create_manual_target(module, targets, resources)
             continue
-        module.module_tgt = CompiledModuleTarget(targets, module.path, module.source)
-        module.import_tgt = ImportTarget.ensure(targets, module.path, module.source, module.module_tgt)
+        module.import_tgt = ImportTarget.ensure(targets, module)
         module.import_alias_tgt = ImportAliasTarget.ensure(targets, module.path)
-        # First imports decide which modules are tests, and what they test: compiled modules wait for them all,
-        # and fail with them.
-        ProjectImportsTarget.ensure(targets, module.path.project).add_dep(module.import_tgt)
+        module.project_imports_tgt = ProjectImportsTarget.ensure(targets, module.path.project)
+        module.project_imports_tgt.add_module(module)
         project_names.add(module.path.project)
     return [ProjectTarget.ensure(targets, name) for name in sorted(project_names)]
 
@@ -218,8 +216,8 @@ def _compile(
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     targets = TargetSet(projects, modules, resources)
     project_tgts = _create_targets(modules, targets, resources)
-    compiled_count = sum(1 for m in modules if m.type == ModuleType.COMPILED)
-    log.info("%d modules, %d compiled", len(modules), compiled_count)
+    dynamic_count = sum(1 for m in modules if m.type == ModuleType.DYNAMIC)
+    log.info("%d modules, %d dynamic", len(modules), dynamic_count)
     log.info("%d targets", len(targets))
     _run(transport, selectors, job_pool, master_identity, workers, targets)
     _log_targets(targets)

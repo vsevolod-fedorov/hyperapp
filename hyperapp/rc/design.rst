@@ -18,6 +18,19 @@ Modules
 * Compiled: other dyn modules. Resources are generated for them.
 * Test: a dyn module having ``tested.code`` imports. Gives no resources; its ``test_*`` functions are run.
   Name, like ``.tests`` suffix, does not matter (``test_module_by_imports``).
+* Fixtures (planned): a dyn module imported by a test or another fixtures module through ``fixtures``, for example
+  ``from .fixtures.my_fixtures import something``. Fixtures modules give no generated resources.
+  Their role comes from incoming imports, not their name or their own source alone. A module cannot be used
+  both as fixtures and as ordinary code (including tested code); that is an error.
+
+Dyn modules start as neutral ``Module`` records with type ``DYNAMIC`` and import targets only. Classification
+waits for all first import attempts collected by ``ProjectImportsTarget``: another module's first attempt
+may identify an otherwise ordinary-looking module as fixtures. The fixtures stage will propagate roles from
+tests through fixture-to-fixture imports. Only after this barrier can the appropriate module targets be created.
+Tests and fixtures never have a ``CompiledModuleTarget``, even provisionally (``test/test_module_targets.py``).
+The barrier is implemented now; fixture imports, role propagation and mixed-use diagnostics belong to the
+later fixtures stage. Cross-project fixture imports will also need the first attempts of importing projects
+to be included in the classification barrier: the provider project's own attempts alone cannot establish its role.
 
 Imports
 +++++++
@@ -30,6 +43,9 @@ Using a recorded, not resolved object at import time makes import incomplete; ne
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
 Import of a module not found, or of a manual one having no module resource, fails the importing target
 (``code_import_missing``, ``manual_module_no_resource``).
+Importing a test module as ordinary or tested code fails with an explicit diagnostic naming it
+(``test_module_imports``, with one and four workers). Dependencies check this after classification too,
+so the diagnostic does not depend on which first import finishes first.
 
 Types
 +++++
@@ -167,16 +183,15 @@ Targets
 * ``import/<project>/<path>/<idx>``: import attempt. Next one is added while the import is incomplete.
 * ``import/<project>/<path>``: import alias, follows the last attempt. Resolved when module is imported completely,
   to the module as recorded by that attempt.
-* ``imports/<project>``: first import attempts of all project modules.
+* ``imports/<project>``: first import attempts determining the roles of the project's modules.
 * ``module/compiled/<project>/<path>``: complete module, with all its imports resolved; its result is the resource.
-  Made for each dyn module up front, as code imports are resolved to it before it is known what the module is;
-  added to targets and its project only when its first import attempt decides it is a compiled one.
+  Created and added to its project only after the project imports barrier classifies it as compiled.
 * ``module/manual/<project>/<path>``: manual module having a module resource; its result is that resource.
   Resources it refers to are loaded ones too: generated ones are of the previous compile.
 * ``type/<project>/<type module path>/<type>``: loaded type, resolved from the start; its result is the type.
 * ``boot_service/<name>``: boot service, resolved from the start; its result is the loaded service resource.
-* ``module/test/<project>/<path>``: test module imports. Added when the first import attempt finds
-  ``tested.code`` imports; following attempts of the module use it instead of the compiled one.
+* ``module/test/<project>/<path>``: test module imports. Added after classification of the first attempts;
+  holds the test configuration and readiness dependencies for its test jobs.
 * ``test/<project>/<path>/<function>/<idx>``: test run. Next one is added while the run is incomplete.
 * ``test/<project>/<path>/<function>``: test alias, follows the last run. Resolved when the test is passed.
 * ``project/<project>``: all compiled modules of a project. Failed one fails the whole project: no resources.
@@ -185,16 +200,32 @@ States are got from deps, by target set (``target/set.dyn.py``). Dependency cycl
 and is reported.
 Target failed by itself keeps its error; wrong import requirements fail the import attempt finding them.
 
-First import decides
+First imports decide
 ++++++++++++++++++++
 
-First import attempt of each module decides:
+The first import attempts collectively decide:
 
-* if it is a test module or a compiled one;
+* which modules are tests, fixtures or compiled modules;
 * which modules a test module tests.
 
-Project imports target waits for first attempts only, so when it is resolved, roles and tested sets are known.
-Compiled module waits for it, and for test modules testing it, and their test aliases.
+Project imports target waits for first attempts only, so when it is complete, roles and tested sets are known.
+No individual first result can establish that its module is compiled: incoming fixture imports may still
+arrive. Compiled modules also wait for test modules testing them and their test aliases.
+
+First results are retained until every first attempt of the project has finished, including failed attempts.
+Fail-fast dependency state does not open the classification barrier while another first job is still running.
+A first job rejected before its result can be retained gives no module target. All classified module targets
+are created before their pending results add import dependencies, test registrations, test functions or retries.
+Classification runs on result receipt, not as a side effect of reading target state.
+
+Forward code dependencies hold the neutral module record. While unclassified, their target is its project
+imports barrier; afterwards it is the classified module target. Dependency equality/hash stay tied to the
+module identity rather than the changing target, including when requirements are resolved again by a retry.
+Tested-code dependencies keep the recorded import alias throughout, but that alias also waits for classification:
+its own first attempt completing does not make the provider ready while its project still has first jobs running.
+Test registrations also live on the neutral record, so providers retain tests from another project classified
+before their own. ``test/test_module_targets.py`` checks result ordering, incomplete and failed first attempts,
+deferred errors and cross-project readiness; ``classification_projects`` runs with one and four workers.
 
 Later attempt finding new ``tested.code`` imports fails, and says why (``tested_imported_late``):
 import tested modules before anything making the import incomplete.

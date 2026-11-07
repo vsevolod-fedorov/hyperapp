@@ -1,7 +1,12 @@
 from collections import defaultdict
 
 from .code.path import Path
+from .code.code_req import TestedCodeReq
+from .code.module import ModuleType
+from .code.target.module import CompiledModuleTarget
+from .code.target.project import ProjectTarget
 from .code.target.state import TargetState, combined_state
+from .code.target.test import TestModuleTarget
 
 
 # Loaded resource modules of builtin types, as resource refs name them: builtin:type:<name>.
@@ -54,6 +59,25 @@ class TargetSet:
         for tgt in self._name_to_target.values():
             if tgt.state == TargetState.RUNNABLE:
                 yield tgt
+
+    # Roles depend on incoming imports too (fixtures), so no individual result can establish a compiled role.
+    # Keep the first requirements on neutral records and create all targets before applying their results.
+    def classify_modules(self, modules):
+        modules = [module for module in modules if module.first_requirements is not None]
+        for module in modules:
+            if any(isinstance(req, TestedCodeReq) for req in module.first_requirements):
+                module.type = ModuleType.TEST
+            else:
+                module.type = ModuleType.COMPILED
+        for module in modules:
+            if module.is_test:
+                module.module_tgt = TestModuleTarget.ensure(self, module.path, module.source)
+            else:
+                module.module_tgt = CompiledModuleTarget(self, module)
+                self[module.module_tgt.name] = module.module_tgt
+                ProjectTarget.ensure(self, module.path.project).add_resource_tgt(module.path, module.module_tgt)
+        for module in modules:
+            module.import_tgt.finish_classification()
 
     def find_nearest_module(self, from_path, sub_path):
         module_dir = from_path.path[:-1]

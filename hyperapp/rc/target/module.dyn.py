@@ -1,28 +1,26 @@
 from . import htypes
 from .code.code_req import TestedCodeReq
+from .code.import_dep import import_deps_error
 from .code.target.import_target import ImportAliasTarget, ImportRequirementsError, ProjectImportsTarget
-from .code.target.project import ProjectTarget
 from .code.target.state import TargetState
-from .code.target.test import TestModuleTarget
 
 
-# Made for each dyn module: code imports are resolved to it before its first import decides if it is
-# a compiled or a test module. Added to targets and its project only when it is decided to be compiled.
+# Created only after the project imports barrier identifies a resource-producing module.
 class CompiledModuleTarget:
 
-    def __init__(self, targets, path, source):
+    def __init__(self, targets, module):
+        path = module.path
         self._targets = targets
         self._name = f'module/compiled/{path.project}/{"/".join(path.path)}'
         self._path = path
-        self._source = source
+        self._source = module.source
         self._project_imports_tgt = ProjectImportsTarget.ensure(targets, path.project)
         # Project imports target has only the first imports, not ones following incomplete imports.
         self._import_alias_tgt = ImportAliasTarget.ensure(targets, path)
         self._import_deps = set()
-        self._is_test = False
         # Test modules testing this one. Added by their first imports, so all are known
         # when the project imports target is resolved.
-        self._test_module_tgts = set()
+        self._test_module_tgts = module.test_module_tgts
 
     def __repr__(self):
         return f"<Target:{self._name}>"
@@ -33,8 +31,8 @@ class CompiledModuleTarget:
 
     @property
     def state(self):
-        if self._is_test:
-            return TargetState.FAILED  # Test module is imported as code.
+        if self.error:
+            return TargetState.FAILED
         return self._targets.deps_state(self.deps)
 
     @property
@@ -54,28 +52,14 @@ class CompiledModuleTarget:
     def import_deps(self):
         return self._import_deps
 
-    # Returns target for the module to use from now on.
-    # Module having tested code imports is a test module, giving no resources.
-    # Decided by the first import attempt, which the project imports target waits for.
+    # Classification uses first attempts only; later imports cannot turn this module into a test.
     def import_attempt_finished(self, idx, requirements):
         tested = [req for req in requirements if isinstance(req, TestedCodeReq)]
-        if idx == 0:
-            if tested:
-                self._is_test = True
-                test_module_tgt = TestModuleTarget.ensure(self._targets, self._path, self._source)
-                return test_module_tgt.import_attempt_finished(idx, requirements)
-            self._targets[self._name] = self
-            ProjectTarget.ensure(self._targets, self._path.project).add_resource_tgt(self._path, self)
-            return self
         if tested:
             raise ImportRequirementsError(
                 f"Tested modules are imported by import attempt #{idx} only:"
                 f" {', '.join('.'.join(req.import_as) for req in tested)}. Whether a module is a test one"
                 " is decided by the first attempt; import them before anything making the import incomplete")
-        return self
-
-    def add_test_module(self, test_module_tgt):
-        self._test_module_tgts.add(test_module_tgt)
 
     def add_import_req(self, req):
         self._import_deps.add(req.resolve(self._targets))
@@ -86,7 +70,7 @@ class CompiledModuleTarget:
 
     @property
     def error(self):
-        return None
+        return import_deps_error(self._import_deps)
 
     @property
     def result(self):
