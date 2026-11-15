@@ -323,8 +323,11 @@ fixture, ``ctx_actor`` or legacy ``System``/``SystemJob`` integration here.
 Targets
 +++++++
 
-Target names are user-facing: logs, UI and future command-line target selection. Dependency wiring must
-use semantic identities or direct target references, not resolve targets by formatting their display names.
+Each target's name format is defined only by its own ``ensure`` method or constructor. That owner may
+construct the name to find or reuse its target. Other code may index or forward the supplied name, including
+for job/result routing, but must not reconstruct another target's name from a copied format. Changing the
+owner's format must not require changes elsewhere in production code. Names also serve logs, UI and future
+command-line target selection.
 
 * ``import/<project>/<path>/<idx>``: import attempt. Next one is added while the import is incomplete.
 * ``import/<project>/<path>``: import alias, follows the last attempt. Resolved when module is imported completely,
