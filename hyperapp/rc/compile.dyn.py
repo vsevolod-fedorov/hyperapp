@@ -36,6 +36,11 @@ class CompileResult:
     errors: dict  # Target name -> own error and any cycle diagnostics, separated by newlines.
     cycles: list  # Dependency cycles, as (target name list, first one repeated last; hint or None) tuples.
 
+    @property
+    def succeeded(self):
+        # Tests of manual or foreign modules count even when no resource target depends on them.
+        return all(state == TargetState.RESOLVED for state in self.target_states.values())
+
 
 # Compile resources of workspace projects.
 # project_to_tree: project name -> file path tuple -> bytes, the sources.

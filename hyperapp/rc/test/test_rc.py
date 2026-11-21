@@ -43,6 +43,7 @@ def _is_test_alias(name):
 # Errors and cycles must be just the expected ones. An error string matches a substring;
 # a list checks all diagnostic lines for that target, in order.
 def _check_result(result, expected_states, expected_errors, expected_cycles):
+    assert result.succeeded == (not expected_errors and not expected_cycles)
     states = {name: state.name.lower() for name, state in result.target_states.items()}
     assert {name: states.get(name) for name in expected_states} == expected_states
     test_names = {name for name in states if _is_test_alias(name)}

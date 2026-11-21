@@ -5,7 +5,10 @@ Compiler (``compile.dyn.py``) makes ``.resources.yaml`` files for dyn modules of
 Work is a graph of targets; jobs of runnable targets are run by subprocess workers, results update the graph.
 Worker count is given to it (``--workers`` of ``main``, 2 by default); it decides which jobs share a worker.
 It returns ``CompileResult``: generated files, target states, errors for direct failures and cycle
-members, and dependency cycles.
+members, and dependency cycles. ``CompileResult.succeeded`` is true only if every target
+resolved, including tests that contribute no resources. The CLI writes the available resource tree
+before returning exit status 0 for success or 1 for failure. A failed consumer test therefore fails
+the build without discarding the provider's files (``test/test_cli.py``).
 Tests in ``test/test_rc.py`` check these for each rule below, on a workspace in ``test/resources/``;
 workspaces named below are there.
 
@@ -206,7 +209,8 @@ use semantic identities or direct target references, not resolve targets by form
   holds the test configuration and readiness dependencies for its test jobs.
 * ``test/<project>/<path>/<function>/<idx>``: test run. Next one is added while the run is incomplete.
 * ``test/<project>/<path>/<function>``: test alias, follows the last run. Resolved when the test is passed.
-* ``project/<project>``: all compiled modules of a project. Failed one fails the whole project: no resources.
+* ``project/<project>``: resource output for that project. A failed compiled module prevents that
+  project's output. A test-only project can have no output to block and still fail the build.
 
 States are got from deps, by target set (``target/set.dyn.py``). A dependency cycle fails all its members.
 RC logs the cycle once and includes the same message, with its hint if any, in each member's

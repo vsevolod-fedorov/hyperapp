@@ -42,3 +42,4 @@ def main(
     workspace = Workspace.from_yaml_file(args.workspace)
     result = compile_resources(workspace.projects, workspace.load_file_tree(), args.workers)
     _write_tree(workspace.projects, result.resource_tree)
+    return 0 if result.succeeded else 1

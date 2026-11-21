@@ -15,4 +15,4 @@ def boot(argv):
     log.info("RC boot: %s", argv)
     service_creg = setup_system([base_config, rc_config])
     main = service_creg.animate(main_svc)
-    main(argv)
+    return main(argv)
