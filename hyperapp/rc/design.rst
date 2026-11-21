@@ -7,9 +7,9 @@ Worker count is given to it (``--workers`` of ``main``, 2 by default); it decide
 It returns ``CompileResult``: generated files, target states, errors for direct failures and cycle
 members, dependency cycles, and accepted constructor payloads by provider.
 ``CompileResult.succeeded`` is true only if every target resolved, including tests that contribute
-no resources. The CLI writes the available resource tree
-before returning exit status 0 for success or 1 for failure. A failed consumer test therefore fails
-the build without discarding the provider's files (``test/test_cli.py``).
+no resources. The CLI writes the available resource tree before returning exit status 0 for success
+or 1 for failure. A failed consumer test therefore fails the build without discarding the provider's
+files (``test/test_cli.py``).
 Tests in ``test/test_rc.py`` check these for each rule below, on a workspace in ``test/resources/``;
 workspaces named below are there.
 
@@ -135,7 +135,8 @@ the test job. Recorded local subjects are active both while the test module is i
 Import retries and test jobs use the same recorded providers, including direct imports of another recorded
 provider. Foreign subjects and other completed modules keep their ordinary marker behavior. A fresh worker
 must activate recorded providers while importing the test module: its top-level calls need probes
-immediately, and the cached objects must stay instrumented for later test jobs (``probes``, ``constructor_import_cache``).
+immediately, and cached objects must stay instrumented for later test jobs (``probes``,
+``constructor_import_cache``).
 The job's activation map keeps each module's provider Path and full ref together as ``ActiveModule``;
 the marker layer uses its paths and declaration replay checks its refs.
 ``test/test_probe_jobs.py`` checks a fresh worker importing an active provider and reusing the exact
@@ -284,9 +285,9 @@ different module's last first result opened the barrier (``test/test_constructor
 Import results may name their own provider and, for test-module retries, its recorded local subjects.
 Test results may name only those local subjects. A foreign test cannot publish constructors for the
 provider, even from a successful retry or a test that also records a local subject (``constructor_projects``).
-The test module's own entries are validated and excluded; its import-time observations of local subjects are accepted. This
-preserves calls made only at module level even if later tests reuse the cached test module without executing
-that code again. Decode actors and payload properties must be side-effect free.
+The test module's own entries are validated and excluded; its import-time observations of local subjects
+are accepted. This preserves calls made only at module level even if a test reuses the cached test
+module without executing that code again. Decode actors and payload properties must be side-effect free.
 
 Identity is ``(Path, key)``. Rediscovering the same serialized envelope is idempotent; another payload for
 that identity is an explicit conflicting-constructor error. Conflicts with prior jobs and conflicts within
@@ -412,8 +413,8 @@ Direct imports between recorded subjects must also be acyclic: a resource ref ca
 the piece being built. The compiled modules report the dependency cycle; their tests fail by dependency
 before RC tries to construct a job with those pieces (``tested_import_cycle``).
 
-Tested module importing another tested one through an untested one can not work: untested one is complete,
-so needs complete tested module, which waits for its tests. It is a dependency cycle (``tested_imported_indirectly``);
+If one recorded subject imports another through an untested module, the untested module needs the
+completed subject, which waits for its tests. It is a dependency cycle (``tested_imported_indirectly``);
 test module target in it gives a hint naming the three modules.
 
 Test runs
@@ -442,3 +443,66 @@ An incomplete run gets a retry with its new imports resolved. If a test accesses
 through ordinary ``code``, the attempt fails with a mixed-import diagnostic instead of scheduling
 a retry. A successful run that merely reads the second import fails the same check
 (``mixed_module_imports``).
+
+Planned resource generation, services and actors
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+The following contracts apply to the remaining migration stages. The behavioral reference for services
+and actors is ``132c95d88``; they will use this compiler's targets, job subsystem and runtime resource
+formats. Project ownership applies to these stages too: consumers can use a published provider, but
+discoveries in their tests cannot change what it publishes.
+
+Resource output
+~~~~~~~~~~~~~~~
+
+Keep the module's importable code separate from its output roots. Dump every constructor-produced root,
+even when no other resource references it, and its referenced children. Reuse the resource naming
+registry; add naming context only where a piece cannot determine a unique name. Preserve manual names
+and configuration, replace the previous generation at compiler-owned locations, and report collisions.
+A compiler-owned configuration may have no source file; this does not make arbitrary orphaned generated
+files valid. Multiple roots, nested attributes and service ``record_mt`` pieces must round-trip with
+byte-identical YAML on a second compile.
+
+Services and configuration
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* Start with synchronous, zero-argument object services. ``@mark.service`` and ``@mark.service()``
+  return the original function. Emit the attribute, service type and instance, an actor with its object
+  adapter, and a registration in the project's service registry. Index manual providers from their
+  runtime resources and configuration, not from hand-written probe wrappers. Use provider Paths;
+  distinguish missing, ambiguous and known-but-not-ready providers. A previous generated registration
+  for the same provider is not a duplicate declaration.
+* Service parameter binding, object versus factory inference, name lookup and retry policy belong to
+  concrete services, not generic probes. Keep application configuration dependencies separate from
+  Python imports: ``services.*`` continues to mean boot services. Attribute discoveries to the provider
+  across retries. Allow relevant import retries before declaring a provider missing, and let services
+  that need no tests complete. Equivalent call bindings, including different call syntax, agree;
+  contradictory final bindings fail. Check default and keyword behavior against the reference.
+* Deliver job-specific configuration through the existing isolated subsystem before resolving
+  dependencies. Use job-local probe state for cached instances and partials. Service parameters in tests
+  need only service injection; that does not require implementing general fixtures.
+* Compose configuration by controller and actual key. Document how the reference default dictionary
+  controller and explicit controllers map to record, typed-dict and data-dict configurations. Config-only
+  declarations can be collected at import; bind configuration before service arguments. A missing
+  ordinary data key is not a typed actor requirement. The exact default-controller mapping is still open.
+* A synchronous generator object service supplies its cached instance at the first yield. Its owner
+  finalizes it exactly once, in reverse construction order, on success, failure or incomplete execution.
+  Run finalizers while required job services still exist and before publishing success. Diagnose zero
+  or multiple yields and teardown failures without losing a primary execution error. Generator
+  factories remain caller-owned. Async factories can return awaitables; async object-service and
+  generator lifecycles need an explicit compatibility decision.
+
+Actors and runtime checks
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Dispatch ``mark.actor.<registry>`` by the full marker path. An untyped actor registers a type only
+after a call discovers it. A typed declaration makes the provider known earlier, but still needs a
+final binding. Resolve requirements by registry identity and type against the actual registry instance;
+report a missing typed entry in that context. Emit a runtime ``system.actor`` with service references
+and registrations in the registry's configuration. Multiple discovered types must coexist.
+
+Method actors must preserve descriptor order, bound receivers and the actual subclass's attribute path
+for inherited methods. Check declared types against the reference actor behavior; ``ctx_actor``, UI
+markers and the legacy ``System``/``SystemJob`` are outside this migration. Verify generated services
+and actors by loading and invoking them in a fresh runtime without probes, as well as by comparing
+second-pass output and running stateful cases with one and several workers.
