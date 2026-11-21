@@ -58,6 +58,11 @@ code even when the test declares it as a subject (``test_collection``).
 
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
+An ordinary module's retry keeps previously forced imports and resolves the requirement that stopped
+this attempt. Merely importing another provider does not wait for that provider's tests: the two may
+share a test module. Using its value at import time still needs the completed provider. All observed
+requirements are validated, and the successful import supplies the final module's dependencies
+(``probe_import_retries``).
 For a local dynamic ``tested.code`` subject this supplies an active recorded provider, with its own imports
 resolved as for a test job. The retry waits for the provider's import alias and its dependencies, rather than its completed module,
 which itself waits for these tests (``probes``).

@@ -1,4 +1,5 @@
-from .code import checks
+from .code import checks, subject
 
 
-checks.test_ok()
+# The retry needs subject, but the earlier read of checks is still an invalid code import.
+assert subject.value() == 42

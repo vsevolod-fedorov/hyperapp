@@ -7,20 +7,28 @@ from .services import (
     pyobj_creg,
     web,
     )
+from .code.path import Path
 
 
 # Raised when an imported object is used beyond getting its attributes.
 # Its real value is unknown at import-job time, so the module can not be imported completely yet.
 class IncompleteImportError(Exception):
 
-    def __init__(self, path):
+    def __init__(self, module_path, path):
         super().__init__(f"Imported object is used: {'.'.join(path)}")
+        self.module_path = module_path
         self.path = path
+
+    def requirement_ref(self, import_to_req):
+        # A nested call may have stopped in a provider's recorder, not the job's own module.
+        req = import_to_req(self.module_path, self.path)
+        return mosaic.put(req) if req is not None else None
 
 
 class _Recorder:
 
-    def __init__(self, config, used_imports, prefix=()):
+    def __init__(self, module_path, config, used_imports, prefix=()):
+        self._module_path = module_path
         self._prefix = prefix
         self._config = config  # name tuple -> resource ref.
         self._used_imports = used_imports  # name tuple set.
@@ -40,7 +48,7 @@ class _Recorder:
         try:
             resource_ref = self._config[path]
         except KeyError:
-            return _Recorder(self._config, self._used_imports, path)
+            return _Recorder(self._module_path, self._config, self._used_imports, path)
         return pyobj_creg.invite(resource_ref)
 
     @property
@@ -52,7 +60,7 @@ class _Recorder:
 
 
 def _raise_incomplete(self, *args, **kw):
-    raise IncompleteImportError(self._prefix)
+    raise IncompleteImportError(self._module_path, self._prefix)
 
 
 # Special methods are looked up on the type, bypassing __getattr__, so each one is set explicitly.
@@ -90,7 +98,7 @@ def recorder_from_piece(piece):
         for item in piece.cfg_items
         }
     used_imports = set()
-    return _Recorder(config, used_imports)
+    return _Recorder(Path.from_piece(piece.module_path), config, used_imports)
 
 
 # Items for other consumers are ignored for now.

@@ -54,6 +54,7 @@ def run_import_job(piece, request, import_to_req, marker_registry, subsystem_fac
             for path, rec in tested_recorders
             for req in enum_import_requirements(path, rec, import_to_req)
             )
+        result = _import_result(piece, requirements, tested_requirements, test_functions, error, import_to_req)
     except Exception as x:
         log.exception("Error collecting requirements")
         result = htypes.import_job.internal_error_result(
@@ -61,12 +62,10 @@ def run_import_job(piece, request, import_to_req, marker_registry, subsystem_fac
             error=str(x),
             traceback=tuple(traceback.format_tb(x.__traceback__)),
             )
-    else:
-        result = _import_result(piece, requirements, tested_requirements, test_functions, error)
     transport.send_message(request.remote_peer, request.local_identity, result)
 
 
-def _import_result(piece, requirements, tested_requirements, test_functions, error):
+def _import_result(piece, requirements, tested_requirements, test_functions, error, import_to_req):
     if error is None:
         return htypes.import_job.succeeded_result(
             target=piece.target,
@@ -78,6 +77,7 @@ def _import_result(piece, requirements, tested_requirements, test_functions, err
         log.info("Import is incomplete: %s", incomplete)
         return htypes.import_job.incomplete_result(
             target=piece.target,
+            blocked_on=incomplete.requirement_ref(import_to_req),
             requirements=requirements,
             tested_requirements=tested_requirements,
             )

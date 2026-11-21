@@ -9,5 +9,6 @@ definitions:
       file_name: provider.dyn.py
       imports:
         pyobj:
+          code.base.mark: base:mark:mark.module
           code.dependency: dependency:dependency.module
         raw: {}

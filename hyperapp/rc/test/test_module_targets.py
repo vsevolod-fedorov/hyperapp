@@ -118,7 +118,7 @@ def test_incomplete_first_import_waits_before_creating_retry(graph):
     subject = graph.modules['subject']
     req = graph.requirements.TestedCodeReq(checks.path, ('tested', 'code'), ('tested', 'code', 'subject'))
     checks.import_tgt.job_started()
-    checks.import_tgt.process_incomplete_job_result([req], ())
+    checks.import_tgt.process_incomplete_job_result([req], (), req)
     assert checks.module_tgt is None
     assert 'import/sample/checks/1' not in {target.name for target in graph.targets}
     assert checks.import_alias_tgt.state.name == 'WAITING'
@@ -168,7 +168,7 @@ def test_failed_last_first_import_prevents_classification_and_replay(graph, work
     req = graph.requirements.TestedCodeReq(checks.path, ('tested', 'code'), ('tested', 'code', 'subject'))
     if incomplete:
         checks.import_tgt.job_started()
-        checks.import_tgt.process_incomplete_job_result([req], ())
+        checks.import_tgt.process_incomplete_job_result([req], (), req)
     else:
         function = worker.animate('rc:job/test.t:test_function')('test_ok', (), False, False)
         _finish_import(checks, [req], [function])
@@ -216,7 +216,7 @@ def test_foreign_test_waits_for_finished_subject(project_graph, worker):
     subject = project_graph.modules['subject']
     req = project_graph.requirements.TestedCodeReq(checks.path, ('tested', 'code'), ('tested', 'code', 'lib', 'subject'))
     checks.import_tgt.job_started()
-    checks.import_tgt.process_incomplete_job_result([req], ())
+    checks.import_tgt.process_incomplete_job_result([req], (), req)
     retry = project_graph.targets['import/sample/consumer.tests/1']
     assert checks.is_test
     assert retry.state.name == 'WAITING'

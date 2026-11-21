@@ -15,6 +15,7 @@ succeeded_result = record:
 
 incomplete_result = record:
   target: string
+  blocked_on: ref opt  # Requirement for the operation that stopped this import; a bare prefix has none.
   requirements: ref list
   tested_requirements: ref list
 

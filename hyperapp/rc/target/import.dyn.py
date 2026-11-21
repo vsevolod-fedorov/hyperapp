@@ -80,31 +80,34 @@ class _ImportResult:
     requirements: tuple
     tested_requirements: tuple
     test_functions: tuple | None  # None for an incomplete attempt.
+    blocked_on: object | None = None
 
 
 class ImportTarget:
 
     @classmethod
-    def ensure(cls, targets, module, idx=0):
+    def ensure(cls, targets, module, idx=0, *, required=(), observed=()):
         path = module.path
         name = f'import/{path.project}/{"/".join(path.path)}/{idx}'
         try:
             return targets[name]
         except KeyError:
             pass
-        tgt = cls(targets, name, idx, module)
+        tgt = cls(targets, name, idx, module, required, observed)
         targets[name] = tgt
         ImportAliasTarget.ensure(targets, path).set_import_tgt(tgt)
         return tgt
 
-    def __init__(self, targets, name, idx, module):
+    def __init__(self, targets, name, idx, module, required, observed):
         self._targets = targets
         self._name = name
         self._idx = idx
         self._module = module
         self._path = module.path
         self._source = module.source
-        self._import_deps = set()
+        self._import_deps = set(required)
+        # Even a read that did not block the job can turn out to name a forbidden test module.
+        self._observed_deps = self._import_deps.union(observed)
         # Job lifecycle only; RUNNABLE, and FAILED by failed deps, are derived from deps in the state property.
         self._state = TargetState.WAITING
         self._error = None
@@ -144,11 +147,6 @@ class ImportTarget:
         if self._module.is_test:
             return self.module_tgt.deps_for_imports(self._import_deps)
         return {dep.target for dep in self._import_deps}
-
-    def add_import_dep(self, dep):
-        # Deps added after the job is started would not be waited for.
-        assert self._state == TargetState.WAITING, (self, self._state)
-        self._import_deps.add(dep)
 
     # Used only when runnable or later, so all dep targets are resolved and have results.
     @property
@@ -203,8 +201,8 @@ class ImportTarget:
     def process_succeeded_job_result(self, requirements, tested_requirements, test_functions):
         self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), test_functions))
 
-    def process_incomplete_job_result(self, requirements, tested_requirements):
-        self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), None))
+    def process_incomplete_job_result(self, requirements, tested_requirements, blocked_on):
+        self._receive_result(_ImportResult(tuple(requirements), tuple(tested_requirements), None, blocked_on=blocked_on))
 
     def _receive_result(self, result):
         if self.module_tgt is None:
@@ -231,7 +229,7 @@ class ImportTarget:
         if not self._import_attempt_finished(requirements, tested_requirements):
             return
         if result.test_functions is None:
-            self._retry(requirements)
+            self._retry(result)
             return
         for req in requirements:
             self.module_tgt.add_import_req(req)
@@ -241,21 +239,27 @@ class ImportTarget:
             self.module_tgt.add_tested_loaded_reqs(tested_requirements)
         self._state = TargetState.RESOLVED
 
-    def _retry(self, requirements):
-        deps = {req.resolve(self._targets) for req in requirements}
-        if deps <= self._import_deps:
+    def _retry(self, result):
+        observed = {req.resolve(self._targets) for req in result.requirements}
+        if self._module.is_test:
+            # A test module runs with all its recorded subjects active, including their direct imports.
+            required = observed
+        else:
+            # An observed peer can still be waiting for this provider's tests. Only force it
+            # into the retry if its value was needed; the final module keeps all observed imports.
+            required = {result.blocked_on.resolve(self._targets)} if result.blocked_on is not None else set()
+        if required <= self._import_deps:
             # Next job would get the same imports resolved and be incomplete the same way, forever.
             # Failed, so its module is not resolved without imports.
             self.job_failed("Import is incomplete, but has no new imports to resolve")
             return
         self._state = TargetState.RESOLVED
-        next_tgt = ImportTarget.ensure(self._targets, self._module, idx=self._idx + 1)
-        for dep in deps:
-            next_tgt.add_import_dep(dep)
+        ImportTarget.ensure(
+            self._targets, self._module, idx=self._idx + 1, required=self._import_deps | required, observed=observed)
 
     @property
     def error(self):
-        return self._error or import_deps_error(self._import_deps)
+        return self._error or import_deps_error(self._observed_deps)
 
     @property
     def result(self):
@@ -363,7 +367,8 @@ def incomplete_result(piece, request, requirement_creg, job_pool):
     requirements = resolve_requirements(requirement_creg, piece.requirements)
     tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
-        target.process_incomplete_job_result(requirements, tested_requirements)
+        blocked_on = requirement_creg.invite(piece.blocked_on) if piece.blocked_on is not None else None
+        target.process_incomplete_job_result(requirements, tested_requirements, blocked_on)
     except UnresolvedImportError as x:
         target.job_failed(str(x))
 

@@ -153,6 +153,7 @@ def test_probes(worker_count):
 @pytest.mark.parametrize('worker_count', [1, 4])
 def test_probe_import_retries(worker_count):
     states = {
+        'import/sample/provider/1': 'resolved',
         'import/sample/provider.tests/0': 'resolved',
         'import/sample/provider.tests/1': 'resolved',
         'import/sample/provider.tests/2': 'resolved',
