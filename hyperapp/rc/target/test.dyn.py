@@ -65,8 +65,8 @@ class TestModuleTarget:
     def deps(self):
         return {
             self._import_alias_tgt,
-            *(self._dep_target(dep) for dep in self._import_deps),
-            *(self._dep_target(dep) for dep in self._tested_module_import_deps),
+            *(dep.target for dep in self._import_deps),
+            *(self._provider_import_alias(dep) or dep.target for dep in self._tested_module_import_deps),
             }
 
     # For compiled modules it tests to wait for. Test functions are known when this target is resolved.
@@ -86,13 +86,11 @@ class TestModuleTarget:
             for dep in alias_tgt.module_tgt.import_deps
             }
 
-    def _tested_alias_tgt(self, dep):
+    # A provider is a different importer: its ordinary import of another subject gets that recorded module.
+    def _provider_import_alias(self, dep):
         if isinstance(dep, ModuleImportDep):
-            return self._recorded_subjects.get(dep.module.path)  # Same provider through tested.code or code.
+            return self._recorded_subjects.get(dep.module.path)
         return None
-
-    def _dep_target(self, dep):
-        return self._tested_alias_tgt(dep) or dep.target
 
     def import_attempt_finished(self, idx, requirements):
         req_to_dep = {
@@ -115,6 +113,12 @@ class TestModuleTarget:
     # Tested modules and their imports are decided by imports, so a test run discovering others is an error.
     # Preloaded ones, like types, are not: they are given to all recorders, see add_tested_loaded_reqs.
     def check_test_requirements(self, requirements, tested_requirements):
+        # A cached test module need not repeat its module-level imports. Check against those
+        # declarations without adding a test function's observations to its siblings' jobs.
+        try:
+            self._targets.code_imports.check((*requirements, *tested_requirements))
+        except UnresolvedImportError as x:
+            return str(x)
         for req in requirements:
             if not isinstance(req, TestedCodeReq):
                 continue
@@ -157,10 +161,13 @@ class TestModuleTarget:
     # Imports through a completed module use that module's published dependencies.
     @property
     def cfg_items(self):
-        return [*loaded_cfg_items(self._targets, self._path), *(self._cfg_item(dep) for dep in self._import_deps)]
+        return [*loaded_cfg_items(self._targets, self._path), *(self.make_cfg_item(dep) for dep in self._import_deps)]
 
-    def _cfg_item(self, dep):
-        alias_tgt = self._tested_alias_tgt(dep)
+    def make_cfg_item(self, dep):
+        alias_tgt = dep.recorded_alias if isinstance(dep, ModuleImportDep) else None
+        return self._cfg_item(dep, alias_tgt)
+
+    def _cfg_item(self, dep, alias_tgt):
         if alias_tgt is None:
             return dep.make_cfg_item()
         return htypes.import_recorder.import_cfg_item(
@@ -169,7 +176,8 @@ class TestModuleTarget:
             )
 
     def _recorded_module(self, alias_tgt):
-        cfg_items = sorted_cfg_items(self._cfg_item(dep) for dep in alias_tgt.module_tgt.import_deps)
+        cfg_items = sorted_cfg_items(
+            self._cfg_item(dep, self._provider_import_alias(dep)) for dep in alias_tgt.module_tgt.import_deps)
         return alias_tgt.recorded_module(cfg_items)
 
     # Hint for a dependency cycle going through this target, as target list, first one repeated last:
@@ -204,7 +212,7 @@ class TestModuleTarget:
             for dep in alias.module_tgt.import_deps:
                 if dep.error:
                     return True
-                if other := self._tested_alias_tgt(dep):
+                if other := self._provider_import_alias(dep):
                     imports.add(alias, other)
         try:
             imports.prepare()
@@ -287,7 +295,7 @@ class TestTarget:
         path = self._module_tgt.path
         cfg_items = sorted_cfg_items([
             *self._module_tgt.cfg_items,
-            *(dep.make_cfg_item() for dep in self._import_deps),
+            *(self._module_tgt.make_cfg_item(dep) for dep in self._import_deps),
             ])
         return htypes.test_job.test_job(
             target=self._name,

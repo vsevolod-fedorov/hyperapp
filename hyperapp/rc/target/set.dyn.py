@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from .code.path import Path
-from .code.code_req import TestedCodeReq
+from .code.code_req import CodeImports, TestedCodeReq
 from .code.module import ModuleType
 from .code.target.module import CompiledModuleTarget
 from .code.target.project import ProjectTarget
@@ -22,6 +22,7 @@ class TargetSet:
     def __init__(self, projects, module_list, resources):
         self._projects = projects
         self._path_to_module = {module.path: module for module in module_list}
+        self.code_imports = CodeImports(self)
         self._type_module_to_types = defaultdict(dict)  # (project name, path) -> type name -> piece.
         self._dir_to_type_modules = defaultdict(dict)  # (project name, dir path) -> type module name -> path.
         self._project_to_type_modules = defaultdict(set)  # project name -> (project name, path) set.

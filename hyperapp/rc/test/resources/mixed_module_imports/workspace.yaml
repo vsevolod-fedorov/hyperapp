@@ -1,0 +1,11 @@
+projects:
+  sample:
+    path: sample
+    local_name: sample
+    imports:
+      lib: library
+      other_alias: library
+  library:
+    path: library
+    local_name: library
+    imports: {}

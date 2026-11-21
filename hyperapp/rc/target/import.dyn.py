@@ -183,8 +183,9 @@ class ImportTarget:
 
     def _import_attempt_finished(self, requirements):
         try:
+            self._targets.code_imports.check(requirements, record=True)
             self.module_tgt.import_attempt_finished(self._idx, requirements)
-        except ImportRequirementsError as x:
+        except (ImportRequirementsError, UnresolvedImportError) as x:
             self.job_failed(str(x))
             return False
         return True

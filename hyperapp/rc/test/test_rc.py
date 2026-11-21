@@ -273,6 +273,36 @@ def test_test_collection():
     _compile_and_check('test_collection', test_states)
 
 
+@pytest.mark.parametrize('worker_count', [1, 4])
+def test_mixed_code_imports_fail_on_the_observing_attempt(worker_count):
+    states = {
+        'import/sample/manual.tests/0': 'failed',
+        'import/library/mixed_retry.tests/0': 'resolved',
+        'import/library/mixed_retry.tests/1': 'failed',
+        'test/library/mixed_imports.tests/test_mixed_import_in_subject': 'failed',
+        'test/library/mixed_imports.tests/test_code_alias_of_tested_module': 'failed',
+        'test/library/mixed_imports.tests/test_code_alias_of_tested_module/1': None,
+        'test/library/mixed_imports.tests/test_unforced_code_alias': 'failed',
+        'test/library/mixed_imports.tests/test_unforced_code_alias/1': None,
+        'test/library/mixed_imports.tests/test_tested_alias_of_plain_module': 'failed',
+        'test/library/mixed_imports.tests/test_tested_alias_of_plain_module/1': None,
+        }
+    mixed_module_1 = 'library:mixed_imports.tests imports library:module_1 through both code and tested.code'
+    errors = {
+        'import/sample/manual.tests/0':
+            'sample:manual.tests imports library:manual through both code and tested.code',
+        'import/library/mixed_retry.tests/1':
+            'library:mixed_retry.tests imports library:module_1 through both code and tested.code',
+        'test/library/mixed_imports.tests/test_mixed_import_in_subject/0':
+            'library:module_1 imports library:manual through both code and tested.code',
+        'test/library/mixed_imports.tests/test_code_alias_of_tested_module/0': mixed_module_1,
+        'test/library/mixed_imports.tests/test_unforced_code_alias/0': mixed_module_1,
+        'test/library/mixed_imports.tests/test_tested_alias_of_plain_module/0':
+            'library:mixed_imports.tests imports library:manual through both code and tested.code',
+        }
+    _compile_and_check('mixed_module_imports', states, errors, worker_count=worker_count)
+
+
 # Tests use a module not tested by their test module import, so fail.
 # Failed tests fail module_1 they test, and so its project: no resources are produced.
 def test_tested_used_by_test_run():

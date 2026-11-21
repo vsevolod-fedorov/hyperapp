@@ -50,6 +50,12 @@ Module is imported by a job through an import recorder: imports not resolved yet
 and give requirements (``code_req.dyn.py``, ``type_req.dyn.py``, ``boot_service_req.dyn.py``). Requirement prefix
 (``code``, ``tested.code``, ``htypes``, ``services``) is passed by registration, in ``job/worker_config.resources.yaml``.
 
+One importing module must use only one prefix for a given provider: either ``code`` or ``tested.code``.
+RC compares resolved module paths, so renaming a Python binding, importing another attribute, or using
+another alias for the same project does not avoid the check. This applies to local, foreign and manual
+subjects, across import attempts and test runs. A different module may import that provider as ordinary
+code even when the test declares it as a subject (``test_collection``).
+
 Using a recorded, not resolved object at import time makes import incomplete; next import attempt is run
 with the required modules resolved (``code_import_incomplete``). Attempt without new imports fails.
 Import of a module not found, or of a manual one having no module resource, fails the importing target
@@ -303,5 +309,7 @@ Types and boot services are the exception: a tested module takes ones its passed
 in its resources. Being resolved from the start, they do not change what it waits for (``type_import``,
 ``boot_service_import``).
 
-Incomplete run because of other imports of the test module gets a next run with them resolved
-(``test_code_used_by_run`` in ``test_collection/modules.tests.dyn.py``).
+An incomplete run gets a retry with its new imports resolved. If a test accesses a declared subject
+through ordinary ``code``, the attempt fails with a mixed-import diagnostic instead of scheduling
+a retry. A successful run that merely reads the second import fails the same check
+(``mixed_module_imports``).

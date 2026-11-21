@@ -49,3 +49,26 @@ class TestedCodeReq(CodeReq):
     @property
     def _testing_project(self):
         return self.path.project
+
+
+class CodeImports:
+
+    def __init__(self, targets):
+        self._targets = targets
+        self._prefixes = {}  # (importer Path, provider Path) -> prefix observed at module level.
+
+    # A single job can report uses from several importers. Compare within each importer and
+    # by resolved provider, even if different attributes or project aliases were used.
+    def check(self, requirements, *, record=False):
+        observed = {}
+        for req in requirements:
+            if not isinstance(req, CodeReq):
+                continue
+            provider = req.resolve(self._targets).module.path
+            key = (req.path, provider)
+            prefix = observed.get(key, self._prefixes.get(key))
+            if prefix is not None and prefix != req.prefix:
+                raise UnresolvedImportError(f"{req.path} imports {provider} through both code and tested.code")
+            observed[key] = req.prefix
+        if record:
+            self._prefixes.update(observed)

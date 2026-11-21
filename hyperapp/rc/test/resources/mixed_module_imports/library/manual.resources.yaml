@@ -1,0 +1,9 @@
+definitions:
+  manual.module:
+    type: builtin:type:python_module
+    value:
+      module_name: manual
+      file_name: manual.dyn.py
+      imports:
+        pyobj: {}
+        raw: {}
