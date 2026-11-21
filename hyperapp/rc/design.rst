@@ -253,8 +253,9 @@ There is no reverse dependency on importing projects. A consumer's unfinished or
 cannot hold up the library's classification or resource output (``classification_failed_importer``).
 ``test/test_module_targets.py`` controls result order to check both sides of this boundary.
 
-Later attempt finding new ``tested.code`` imports fails, and says why (``tested_imported_late``):
-import tested modules before anything making the import incomplete.
+The first attempt declares subjects by module identity, including manual and foreign modules. A later
+attempt discovering a new ``tested.code`` subject fails: import subjects before anything making the
+import incomplete (``tested_imported_late``, ``tested_used_by_test_run``).
 
 Tested modules
 ++++++++++++++
@@ -293,7 +294,8 @@ as of that test only (``tested_import_used_by_test_run``, run by one worker, and
 
 Test run can not change which modules are tested, or what they import. These fail, saying why:
 
-* test uses a tested module not imported at test module import (``tested_used_by_test_run``);
+* test uses a subject not declared at module level: the diagnostic names the subject module, not the
+  attribute accessed, and shows the ``tested.code`` import to add (``tested_used_by_test_run``);
 * tested module uses an import when the test runs, but not when it is imported (``tested_import_used_by_test_run``).
 
 Types and boot services are the exception: a tested module takes ones its passed local test runs use, and gives them

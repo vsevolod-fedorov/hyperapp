@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from .code.import_dep import ImportDep, ModuleImportDep, UnresolvedImportError
+from .code.import_dep import ModuleImportDep, UnresolvedImportError
 from .code.path import Path
 
 
@@ -12,6 +12,7 @@ class CodeReq:
 
     # Code modules are compiled by jobs, not preloaded.
     is_preloaded = False
+    _testing_project = None
 
     @classmethod
     def from_piece(cls, piece):
@@ -30,27 +31,21 @@ class CodeReq:
                 module = targets.find_nearest_module(self.path, sub_path[:idx])
             except KeyError:
                 continue
-            return self._module_dep(module, self.import_as[:prefix_len + idx])
-        raise UnresolvedImportError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
-
-    # Complete module, having all its imports resolved.
-    def _module_dep(self, module, import_path):
-        if module.import_tgt is not None:
-            return ModuleImportDep(import_path, module)
-        if module.module_tgt is None:
+            break
+        else:
+            raise UnresolvedImportError(f"{self.path}: Module not found for import: {'.'.join(self.import_as)}")
+        if module.import_tgt is None and module.module_tgt is None:
             # Only manual modules having a module resource get a target.
             raise UnresolvedImportError(
                 f"{self.path}: Manual module has no {module.path.path[-1]}.module resource"
                 f" for import: {'.'.join(self.import_as)}")
-        return ImportDep(import_path, module.module_tgt)
+        return ModuleImportDep(self.import_as[:prefix_len + idx], module, testing_project=self._testing_project)
 
 
 # Test module import of a module it tests. Found the same way as code import.
 @dataclass(frozen=True)
 class TestedCodeReq(CodeReq):
 
-    # The subject's project decides whether this test sees a recorder or the finished module.
-    def _module_dep(self, module, import_path):
-        if module.import_alias_tgt is None:
-            return super()._module_dep(module, import_path)
-        return ModuleImportDep(import_path, module, testing_project=self.path.project)
+    @property
+    def _testing_project(self):
+        return self.path.project

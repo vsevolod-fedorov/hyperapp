@@ -4,6 +4,10 @@ from .tested import code
 from .tested.code import module_1
 
 
+def test_late_manual():
+    assert code.manual.value() == 1
+
+
 # Tests below get module_2 by attribute only when they run, after an await or yield. Tested modules are
 # decided by the test module import, so they fail right away. Failing, they show tests are run to their end.
 

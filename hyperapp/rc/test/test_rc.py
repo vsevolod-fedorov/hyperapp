@@ -280,12 +280,18 @@ def test_tested_used_by_test_run():
         'test/sample/late.tests/test_async': 'failed',
         'test/sample/late.tests/test_generator': 'failed',
         'test/sample/late.tests/test_async_generator': 'failed',
+        'test/sample/late.tests/test_late_manual': 'failed',
         }
-    undeclared_module_2 = 'Tested module tested.code.module_2.fn_2 is first used when the test runs'
+    undeclared_module_2 = (
+        'This test uses sample:module_2, but sample:late.tests did not declare it as a test subject.'
+        ' Add `from .tested.code import module_2` at module level.')
     errors = {
         'test/sample/late.tests/test_async/0': undeclared_module_2,
         'test/sample/late.tests/test_generator/0': undeclared_module_2,
         'test/sample/late.tests/test_async_generator/0': undeclared_module_2,
+        'test/sample/late.tests/test_late_manual/0':
+            'This test uses sample:manual, but sample:late.tests did not declare it as a test subject.'
+            ' Add `from .tested.code import manual` at module level.',
         }
     _compile_and_check('tested_used_by_test_run', test_states, errors)
 

@@ -94,21 +94,9 @@ class TestModuleTarget:
     def _dep_target(self, dep):
         return self._tested_alias_tgt(dep) or dep.target
 
-    # None for other imports, and for tested manual modules: these are tested as they are, like code imports,
-    # and having no resources to give, do not wait for tests.
-    def _req_tested_dep(self, req):
-        if not isinstance(req, TestedCodeReq):
-            return None
-        dep = req.resolve(self._targets)
-        if isinstance(dep, ModuleImportDep):
-            return dep
-        return None
-
     def import_attempt_finished(self, idx, requirements):
         req_to_dep = {
-            req: dep
-            for req in requirements
-            if (dep := self._req_tested_dep(req)) is not None
+            req: req.resolve(self._targets) for req in requirements if isinstance(req, TestedCodeReq)
             }
         if idx == 0:
             self._tested_import_deps = set(req_to_dep.values())
@@ -128,11 +116,14 @@ class TestModuleTarget:
     # Preloaded ones, like types, are not: they are given to all recorders, see add_tested_loaded_reqs.
     def check_test_requirements(self, requirements, tested_requirements):
         for req in requirements:
-            dep = self._req_tested_dep(req)
-            if dep is not None and dep.module not in self._tested_modules:
+            if not isinstance(req, TestedCodeReq):
+                continue
+            dep = req.resolve(self._targets)
+            if dep.module not in self._tested_modules:
+                *package, name = dep.import_path
                 return (
-                    f"Tested module {'.'.join(req.import_as)} is first used when the test runs."
-                    " Tested modules are decided by the test module import; import it at module level")
+                    f"This test uses {dep.module.path}, but {self._path} did not declare it as a test subject."
+                    f" Add `from .{'.'.join(package)} import {name}` at module level.")
         for req in tested_requirements:
             provider = self._recorded_provider(req.path)
             if not req.is_preloaded and req.resolve(self._targets) not in provider.import_deps:
