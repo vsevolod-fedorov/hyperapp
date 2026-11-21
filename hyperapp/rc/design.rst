@@ -4,8 +4,8 @@ Resource compiler design
 Compiler (``compile.dyn.py``) makes ``.resources.yaml`` files for dyn modules of workspace projects.
 Work is a graph of targets; jobs of runnable targets are run by subprocess workers, results update the graph.
 Worker count is given to it (``--workers`` of ``main``, 2 by default); it decides which jobs share a worker.
-It returns ``CompileResult``: generated files, target states, errors of targets failed by themselves
-(not by their deps), and dependency cycles.
+It returns ``CompileResult``: generated files, target states, errors for direct failures and cycle
+members, and dependency cycles.
 Tests in ``test/test_rc.py`` check these for each rule below, on a workspace in ``test/resources/``;
 workspaces named below are there.
 
@@ -208,8 +208,10 @@ use semantic identities or direct target references, not resolve targets by form
 * ``test/<project>/<path>/<function>``: test alias, follows the last run. Resolved when the test is passed.
 * ``project/<project>``: all compiled modules of a project. Failed one fails the whole project: no resources.
 
-States are got from deps, by target set (``target/set.dyn.py``). Dependency cycle fails all targets in it,
-and is reported.
+States are got from deps, by target set (``target/set.dyn.py``). A dependency cycle fails all its members.
+RC logs the cycle once and includes the same message, with its hint if any, in each member's
+``CompileResult.errors`` entry. A target's own error comes first, followed by its cycles in
+``CompileResult.cycles`` order, separated by newlines. A target that only depends on a failure gets no entry.
 Target failed by itself keeps its error; wrong import requirements fail the import attempt finding them.
 
 First imports decide

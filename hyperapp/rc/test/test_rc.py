@@ -39,7 +39,8 @@ def _is_test_alias(name):
 
 
 # Test aliases must be just expected ones; other targets are checked only when expected.
-# Errors and cycles must be just expected ones; expected error is a part of error text.
+# Errors and cycles must be just the expected ones. An error string matches a substring;
+# a list checks all diagnostic lines for that target, in order.
 def _check_result(result, expected_states, expected_errors, expected_cycles):
     states = {name: state.name.lower() for name, state in result.target_states.items()}
     assert {name: states.get(name) for name in expected_states} == expected_states
@@ -47,7 +48,10 @@ def _check_result(result, expected_states, expected_errors, expected_cycles):
     assert test_names == {name for name in expected_states if _is_test_alias(name)}
     assert result.errors.keys() == expected_errors.keys(), result.errors
     for name, expected in expected_errors.items():
-        assert expected in result.errors[name], (name, result.errors[name])
+        if isinstance(expected, str):
+            assert expected in result.errors[name], (name, result.errors[name])
+        else:
+            assert result.errors[name].splitlines() == expected, name
     assert result.cycles == expected_cycles
 
 
@@ -306,32 +310,32 @@ def test_tested_import_used_by_test_run(worker_count):
 
 # Tested module imports another tested one through an untested one: a dependency cycle, failing them all.
 def test_tested_imported_indirectly():
+    subject = 'module/compiled/sample/module_b'
+    untested = 'module/compiled/sample/module_c'
+    checks = 'module/test/sample/indirect.tests'
+    test = 'test/sample/indirect.tests/test_fn'
+    run = f'{test}/0'
     states = {
-        'test/sample/indirect.tests/test_fn': 'failed',
+        test: 'failed',
         'module/compiled/sample/module_a': 'failed',
-        'module/compiled/sample/module_b': 'failed',
+        subject: 'failed',
         }
     hint = (
         "Tested module sample:module_b is imported by tested module sample:module_a"
         " through untested module sample:module_c. Being complete, sample:module_c requires complete"
         " sample:module_b, which waits for its tests. Tested modules may import each other only directly")
-    cycles = [
-        ([
-            'module/compiled/sample/module_b',
-            'module/test/sample/indirect.tests',
-            'module/compiled/sample/module_c',
-            'module/compiled/sample/module_b',
-            ], hint),
-        ([
-            'module/compiled/sample/module_b',
-            'test/sample/indirect.tests/test_fn',
-            'test/sample/indirect.tests/test_fn/0',
-            'module/test/sample/indirect.tests',
-            'module/compiled/sample/module_c',
-            'module/compiled/sample/module_b',
-            ], hint),
-        ]
-    _compile_and_check('tested_imported_indirectly', states, expected_cycles=cycles)
+    module_cycle = [subject, checks, untested, subject]
+    run_cycle = [subject, test, run, checks, untested, subject]
+    module_error = f"Dependency cycle: {' -> '.join(module_cycle)}. {hint}"
+    run_error = f"Dependency cycle: {' -> '.join(run_cycle)}. {hint}"
+    errors = {
+        subject: [module_error, run_error],
+        checks: [module_error, run_error],
+        untested: [module_error, run_error],
+        test: [run_error],
+        run: [run_error],
+        }
+    _compile_and_check('tested_imported_indirectly', states, errors, [(module_cycle, hint), (run_cycle, hint)])
 
 
 # Whether a module is a test one is decided by its tested code imports, not by its name.

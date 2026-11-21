@@ -33,7 +33,7 @@ RESULT_TIMEOUT_SEC = 10
 class CompileResult:
     resource_tree: dict  # Generated files: project name -> file path tuple -> bytes.
     target_states: dict  # Target name -> TargetState.
-    errors: dict  # Target name -> error, for targets failed by themselves, not by their deps.
+    errors: dict  # Target name -> own error and any cycle diagnostics, separated by newlines.
     cycles: list  # Dependency cycles, as (target name list, first one repeated last; hint or None) tuples.
 
 
@@ -208,6 +208,22 @@ def _cycle_hint(cycle):
     return None
 
 
+# A cycle is one diagnostic, but each member needs it when inspected on its own.
+def _target_errors(targets, cycles):
+    messages = defaultdict(list)
+    for tgt in targets:
+        if error := tgt.error:
+            messages[tgt.name].append(error)
+    for names, hint in cycles:
+        message = f"Dependency cycle: {' -> '.join(names)}"
+        if hint:
+            message += f". {hint}"
+        log.error("%s", message)
+        for name in names[:-1]:  # The repeated first name closes the path.
+            messages[name].append(message)
+    return {name: '\n'.join(lines) for name, lines in messages.items()}
+
+
 def _compile(
         transport, selectors, job_pool, name_resources, dump_resource_modules,
         master_identity, workers, projects, project_to_tree):
@@ -224,10 +240,8 @@ def _compile(
     _log_projects(project_tgts)
     resource_locations = _resource_locations(project_tgts)
     target_states = {tgt.name: tgt.state for tgt in targets}
-    errors = {tgt.name: tgt.error for tgt in targets if tgt.error}
     cycles = [([tgt.name for tgt in cycle], _cycle_hint(cycle)) for cycle in targets.cycles]
-    for names, hint in cycles:
-        log.error("Dependency cycle: %s%s", " -> ".join(names), f". {hint}" if hint else "")
+    errors = _target_errors(targets, cycles)
     piece_to_name = name_resources(resources, resource_locations)
     _log_names(piece_to_name, resource_locations)
     return CompileResult(
