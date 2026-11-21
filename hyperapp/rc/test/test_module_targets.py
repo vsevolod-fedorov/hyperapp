@@ -208,7 +208,7 @@ def _finish_library_imports(project_graph, worker):
 def _pass_test(test):
     assert test.state.name == 'RUNNABLE'
     test.job_started()
-    test.process_succeeded_job_result(())
+    test.process_succeeded_job_result((), ())
 
 
 def test_foreign_test_waits_for_finished_subject(project_graph, worker):

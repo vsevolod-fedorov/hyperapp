@@ -280,6 +280,7 @@ def test_tested_used_by_test_run():
         'test/sample/late.tests/test_async': 'failed',
         'test/sample/late.tests/test_generator': 'failed',
         'test/sample/late.tests/test_async_generator': 'failed',
+        'test/sample/late.tests/test_unforced_subject': 'failed',
         'test/sample/late.tests/test_late_manual': 'failed',
         }
     undeclared_module_2 = (
@@ -289,6 +290,7 @@ def test_tested_used_by_test_run():
         'test/sample/late.tests/test_async/0': undeclared_module_2,
         'test/sample/late.tests/test_generator/0': undeclared_module_2,
         'test/sample/late.tests/test_async_generator/0': undeclared_module_2,
+        'test/sample/late.tests/test_unforced_subject/0': undeclared_module_2,
         'test/sample/late.tests/test_late_manual/0':
             'This test uses sample:manual, but sample:late.tests did not declare it as a test subject.'
             ' Add `from .tested.code import manual` at module level.',
@@ -316,6 +318,7 @@ def test_tested_imported_late():
 def test_tested_import_used_by_test_run(worker_count):
     states = {
         'test/sample/lazy.tests/test_fn': 'failed',
+        'test/sample/lazy.tests/test_unforced_dependency': 'failed',
         'test/sample/lazy.tests/test_code_1': 'resolved',
         'test/sample/lazy.tests/test_code_2': 'resolved',
         'test/sample/lazy.tests/test_code_3': 'resolved',
@@ -323,6 +326,8 @@ def test_tested_import_used_by_test_run(worker_count):
     _compile_and_check('tested_import_used_by_test_run', states, {
         'test/sample/lazy.tests/test_fn/0':
             "Tested module sample:lazy uses code.module_1.fn_1 when the test runs, but not when it is imported",
+        'test/sample/lazy.tests/test_unforced_dependency/0':
+            "Tested module sample:lazy uses code.module_1 when the test runs, but not when it is imported",
         }, worker_count=worker_count)
 
 

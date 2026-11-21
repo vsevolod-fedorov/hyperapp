@@ -6,6 +6,10 @@ def test_fn():
     assert lazy.fn() == 111
 
 
+def test_unforced_dependency():
+    assert lazy.dependency() is not None
+
+
 # Tests below get untested module_1 only when run, so their first runs are incomplete. Run by the worker
 # which ran test_fn before, they get its recorders, which must not report test_fn's use of lazy as theirs.
 

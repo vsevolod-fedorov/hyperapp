@@ -18,6 +18,7 @@ test_job = record:
 
 succeeded_result = record:
   target: string
+  requirements: ref list
   tested_requirements: ref list
 
 incomplete_result = record:

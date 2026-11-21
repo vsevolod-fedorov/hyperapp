@@ -104,6 +104,7 @@ def _test_result(piece, requirements, tested_requirements, error):
     if error is None:
         return htypes.test_job.succeeded_result(
             target=piece.target,
+            requirements=requirements,
             tested_requirements=tested_requirements,
             )
     if (incomplete := find_incomplete_error(error)) is not None:

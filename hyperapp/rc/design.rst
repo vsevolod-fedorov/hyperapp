@@ -292,7 +292,8 @@ generators are run to their end. Tests with parameters fail: fixtures are not su
 Recorders are cached by worker, so used imports are cleared for each test job: they are reported
 as of that test only (``tested_import_used_by_test_run``, run by one worker, and by a worker per test).
 
-Test run can not change which modules are tested, or what they import. These fail, saying why:
+Test run can not change which modules are tested, or what they import. This is checked even when the
+test returns normally: reading an unresolved import does not necessarily force its value. These fail, saying why:
 
 * test uses a subject not declared at module level: the diagnostic names the subject module, not the
   attribute accessed, and shows the ``tested.code`` import to add (``tested_used_by_test_run``);

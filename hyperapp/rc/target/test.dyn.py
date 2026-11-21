@@ -305,7 +305,11 @@ class TestTarget:
         self._error = error
         log.error("%s: %s%s", self, error, ''.join(['\n', *traceback]) if traceback else '')
 
-    def process_succeeded_job_result(self, tested_requirements):
+    def process_succeeded_job_result(self, requirements, tested_requirements):
+        # Reading a recorder without forcing its value does not interrupt the test.
+        if error := self._module_tgt.check_test_requirements(requirements, tested_requirements):
+            self.job_failed(error)
+            return
         self._module_tgt.add_tested_loaded_reqs(tested_requirements)
         self._state = TargetState.RESOLVED
 
@@ -384,9 +388,10 @@ class TestAliasTarget:
 def succeeded_result(piece, request, requirement_creg, job_pool):
     target = job_pool.job_finished(piece.target)
     log.info("%s: test succeeded: %s", target, piece)
+    requirements = resolve_requirements(requirement_creg, piece.requirements)
     tested_requirements = resolve_requirements(requirement_creg, piece.tested_requirements, "tested module requirement")
     try:
-        target.process_succeeded_job_result(tested_requirements)
+        target.process_succeeded_job_result(requirements, tested_requirements)
     except UnresolvedImportError as x:
         target.job_failed(str(x))
 
