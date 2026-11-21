@@ -1,4 +1,5 @@
 import logging
+from graphlib import CycleError, TopologicalSorter
 
 from . import htypes
 from .services import (
@@ -205,9 +206,20 @@ class TestModuleTarget:
 
     @property
     def blocked_by_tested_imports(self):
-        # Recorded aliases bypass completed providers. Honor their invalid imports here,
-        # but leave the diagnostic on the provider that actually imports the test module.
-        return any(dep.error for dep in self._tested_module_import_deps)
+        # The aliases bypass completed providers, but their recorded pieces still need a finite
+        # chain of resource refs. Leave diagnostics for bad imports and cycles on the providers.
+        imports = TopologicalSorter()
+        for alias in self._recorded_subjects.values():
+            for dep in alias.module_tgt.import_deps:
+                if dep.error:
+                    return True
+                if other := self._tested_alias_tgt(dep):
+                    imports.add(alias, other)
+        try:
+            imports.prepare()
+        except CycleError:
+            return True
+        return False
 
     @property
     def result(self):

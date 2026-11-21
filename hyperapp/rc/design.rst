@@ -268,6 +268,10 @@ Tested module gets its own imports, found by its import job, resolved before tes
 * untested module: complete one, compiled before tests (``test_collection/module_4.dyn.py``);
 * other local module tested by the same test module, imported directly: the same recorded one the test gets.
 
+Direct imports between recorded subjects must also be acyclic: a resource ref cannot refer back to
+the piece being built. The compiled modules report the dependency cycle; their tests fail by dependency
+before RC tries to construct a job with those pieces (``tested_import_cycle``).
+
 Tested module importing another tested one through an untested one can not work: untested one is complete,
 so needs complete tested module, which waits for its tests. It is a dependency cycle (``tested_imported_indirectly``);
 test module target in it gives a hint naming the three modules.

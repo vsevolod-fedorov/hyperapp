@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import pytest
@@ -306,6 +307,23 @@ def test_tested_import_used_by_test_run(worker_count):
         'test/sample/lazy.tests/test_fn/0':
             "Tested module sample:lazy uses code.module_1.fn_1 when the test runs, but not when it is imported",
         }, worker_count=worker_count)
+
+
+def test_cycle_between_recorded_subjects(caplog):
+    left = 'module/compiled/sample/left'
+    right = 'module/compiled/sample/right'
+    states = {
+        'import/sample/cycle.tests/0': 'resolved',
+        'module/test/sample/cycle.tests': 'failed',
+        'test/sample/cycle.tests/test_pair': 'failed',
+        left: 'failed',
+        right: 'failed',
+        }
+    message = f"Dependency cycle: {left} -> {right} -> {left}"
+    errors = {left: [message], right: [message]}
+    _compile_and_check('tested_import_cycle', states, errors, [([left, right, left], None)])
+    # One log per compile, even though both members carry the message.
+    assert [r.getMessage() for r in caplog.records if r.levelno == logging.ERROR] == [message, message]
 
 
 # Tested module imports another tested one through an untested one: a dependency cycle, failing them all.
