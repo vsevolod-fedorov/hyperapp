@@ -11,16 +11,21 @@ from test_probe_jobs import worker
 PROGRAMS = Path(__file__).parent / 'resources' / 'test_module_imports'
 
 
-@pytest.fixture
-def graph(worker):
+def _module_graph(worker, extra_sources):
     compiler = worker.animate('rc:compile:compile.module')
     tree = {(f'{name}.dyn.py',): (PROGRAMS / f'{name}.dyn.py').read_bytes() for name in ['subject', 'checks']}
+    tree.update(extra_sources)
     modules = compiler._collect_modules({'sample': tree})
     targets = compiler.TargetSet({'sample': SimpleNamespace(imports={})}, modules, {})
     return SimpleNamespace(
         compiler=compiler, modules={module.path.path[-1]: module for module in modules}, targets=targets,
         requirements=worker.animate('rc:code_req:code_req.module'),
         )
+
+
+@pytest.fixture
+def graph(worker):
+    return _module_graph(worker, {})
 
 
 def _finish_import(module, requirements=(), functions=()):
@@ -235,3 +240,80 @@ def test_provider_finishes_before_foreign_classification(project_graph, worker):
     _pass_test(_finish_library_imports(project_graph, worker))
     assert project_graph.modules['consumer.tests'].module_tgt is None
     assert project_graph.targets['project/library'].state.name == 'RESOLVED'
+
+
+def _reachable(root):
+    seen = set()
+
+    def visit(tgt):
+        if tgt not in seen:
+            seen.add(tgt)
+            for dep in tgt.deps:
+                visit(dep)
+
+    visit(root)
+    return seen
+
+
+def test_all_and_project_include_superseded_attempts(worker):
+    graph = _module_graph(worker, {('helper.dyn.py',): b''})
+    targets = graph.targets
+    graph.compiler._create_targets(graph.modules.values(), targets, {})
+    checks = graph.modules['checks']
+    subject = graph.modules['subject']
+    tested = graph.requirements.TestedCodeReq(checks.path, ('tested', 'code'), ('tested', 'code', 'subject'))
+    code = graph.requirements.CodeReq(checks.path, ('code',), ('code', 'helper'))
+    checks.import_tgt.job_started()
+    checks.import_tgt.process_incomplete_job_result([tested], (), tested)
+    _finish_import(subject)
+    _finish_import(graph.modules['helper'])
+    retry = targets['import/sample/checks/1']
+    retry.job_started()
+    function = worker.animate('rc:job/test.t:test_function')('test_ok', (), False, False)
+    retry.process_succeeded_job_result([tested], (), [function], (), None)
+    first_test = targets['test/sample/checks/test_ok/0']
+    first_test.job_started()
+    first_test.process_incomplete_job_result([code], ())
+
+    project, goal = targets['project/sample'], targets['all']
+    assert set(goal.deps) == {project}
+    assert _reachable(project) == set(targets) - {goal}
+    assert _reachable(goal) == set(targets)
+    assert project.state.name == goal.state.name == 'WAITING'
+    last_test = targets['test/sample/checks/test_ok/1']
+    assert list(targets.enum_runnable(goal)) == [last_test]
+    last_test.job_started()
+    last_test.job_failed('failed on retry')
+    assert project.state.name == goal.state.name == 'FAILED'
+    assert project.error is None and goal.error is None
+
+
+def test_all_includes_empty_projects_and_owners_of_loaded_targets(worker):
+    compiler = worker.animate('rc:compile:compile.module')
+    workspace = Workspace.from_yaml_file(PROGRAMS.parent / 'type_import_projects' / 'workspace.yaml')
+    tree = workspace.load_file_tree()
+    resources, _ = compiler.load_resources(workspace.projects, tree)
+    modules = compiler._collect_modules(tree)
+    manual = compiler.Module(compiler.ModuleType.MANUAL, compiler.Path('base', ('mark',)))
+    modules.append(manual)
+    resources['base', ('mark',), 'mark.module'] = worker.piece('base:mark:mark.module')
+    projects = {**workspace.projects, 'base': SimpleNamespace(imports={}), 'empty': SimpleNamespace(imports={})}
+    targets = compiler.TargetSet(projects, modules, resources)
+    compiler._create_targets(modules, targets, resources)
+
+    drawing = compiler.Path('sample', ('drawing',))
+    type_req = worker.animate('rc:type_req:type_req.module').TypeReq
+    point = type_req(drawing, ('htypes',), ('htypes', 'lib', 'geometry', 'point')).resolve(targets).target
+    integer = type_req(drawing, ('htypes',), ('htypes', 'builtin', 'int')).resolve(targets).target
+    service_req = worker.animate('rc:boot_service_req:boot_service_req.module').BootServiceReq
+    mosaic = service_req(drawing, ('services',), ('services', 'mosaic')).resolve(targets).target
+
+    goal = targets['all']
+    assert {tgt.name for tgt in goal.deps} == {
+        'project/sample', 'project/library', 'project/base', 'project/empty', 'project/builtin',
+        }
+    assert targets['project/empty'].state.name == 'RESOLVED'
+    assert point in _reachable(targets['project/library'])
+    assert manual.module_tgt in _reachable(targets['project/base'])
+    assert {integer, mosaic} <= _reachable(targets['project/builtin'])
+    assert _reachable(goal) == set(targets)

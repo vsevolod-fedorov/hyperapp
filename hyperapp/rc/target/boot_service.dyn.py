@@ -12,7 +12,7 @@ class BootServiceTarget:
         except KeyError:
             pass
         tgt = cls(name, piece)
-        targets[name] = tgt
+        targets.add('builtin', tgt)
         return tgt
 
     def __init__(self, name, piece):

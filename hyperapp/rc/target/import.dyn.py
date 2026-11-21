@@ -30,7 +30,7 @@ class ProjectImportsTarget:
         except KeyError:
             pass
         tgt = cls(targets, name)
-        targets[tgt.name] = tgt
+        targets.add(project_name, tgt)
         return tgt
 
     def __init__(self, targets, name):
@@ -96,7 +96,7 @@ class ImportTarget:
         except KeyError:
             pass
         tgt = cls(targets, name, idx, module, required, observed)
-        targets[name] = tgt
+        targets.add(path.project, tgt)
         ImportAliasTarget.ensure(targets, path).set_import_tgt(tgt)
         return tgt
 
@@ -304,7 +304,7 @@ class ImportAliasTarget:
         except KeyError:
             pass
         tgt = cls(targets, name)
-        targets[name] = tgt
+        targets.add(path.project, tgt)
         return tgt
 
     def __init__(self, targets, name):

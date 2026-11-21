@@ -13,7 +13,7 @@ from .code.module import MissingModuleSource, ModuleType, Module
 from .code.target_set import TargetSet
 from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectImportsTarget
 from .code.target.module import ManualModuleTarget
-from .code.target.project import ProjectTarget
+from .code.target.project import AllTarget
 from .code.target.state import TargetState
 from .code.target.test import TestModuleTarget
 from .data.worker import config as worker_config
@@ -39,8 +39,7 @@ class CompileResult:
 
     @property
     def succeeded(self):
-        # Tests of manual or foreign modules count even when no resource target depends on them.
-        return all(state == TargetState.RESOLVED for state in self.target_states.values())
+        return self.target_states[AllTarget.name] == TargetState.RESOLVED
 
 
 # Compile resources of workspace projects.
@@ -112,7 +111,6 @@ def _collect_modules(project_to_tree):
 
 # resources: loaded ones, name tuple -> piece. Manual modules are imported by them.
 def _create_targets(modules, targets, resources):
-    project_names = set()
     for module in modules:
         if module.type == ModuleType.MANUAL:
             _create_manual_target(module, targets, resources)
@@ -121,8 +119,6 @@ def _create_targets(modules, targets, resources):
         module.import_alias_tgt = ImportAliasTarget.ensure(targets, module.path)
         module.project_imports_tgt = ProjectImportsTarget.ensure(targets, module.path.project)
         module.project_imports_tgt.add_module(module)
-        project_names.add(module.path.project)
-    return [ProjectTarget.ensure(targets, name) for name in sorted(project_names)]
 
 
 # Manual module without module resource, like a lone config one, gets no target: it can not be imported.
@@ -133,13 +129,13 @@ def _create_manual_target(module, targets, resources):
     except KeyError:
         return
     module.module_tgt = ManualModuleTarget(path, piece)
-    targets[module.module_tgt.name] = module.module_tgt
+    targets.add(path.project, module.module_tgt)
 
 
-def _run(transport, selectors, job_pool, master_identity, workers, targets):
+def _run(transport, selectors, job_pool, master_identity, workers, targets, goal):
     with job_pool.running(master_identity, workers):
         while True:
-            for tgt in targets.enum_runnable():
+            for tgt in targets.enum_runnable(goal):
                 job_pool.start_job(tgt)
             if not job_pool.pending:
                 break
@@ -232,14 +228,14 @@ def _compile(
     resources, sources = load_resources(projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     targets = TargetSet(projects, modules, resources)
-    project_tgts = _create_targets(modules, targets, resources)
+    _create_targets(modules, targets, resources)
     dynamic_count = sum(1 for m in modules if m.type == ModuleType.DYNAMIC)
     log.info("%d modules, %d dynamic", len(modules), dynamic_count)
     log.info("%d targets", len(targets))
-    _run(transport, selectors, job_pool, master_identity, workers, targets)
+    _run(transport, selectors, job_pool, master_identity, workers, targets, targets.all_tgt)
     _log_targets(targets)
-    _log_projects(project_tgts)
-    resource_locations = _resource_locations(project_tgts)
+    _log_projects(targets.project_tgts)
+    resource_locations = _resource_locations(targets.project_tgts)
     target_states = {tgt.name: tgt.state for tgt in targets}
     cycles = [([tgt.name for tgt in cycle], _cycle_hint(cycle)) for cycle in targets.cycles]
     errors = _target_errors(targets, cycles)

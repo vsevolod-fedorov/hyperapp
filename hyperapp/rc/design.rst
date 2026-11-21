@@ -6,8 +6,8 @@ Work is a graph of targets; jobs of runnable targets are run by subprocess worke
 Worker count is given to it (``--workers`` of ``main``, 2 by default); it decides which jobs share a worker.
 It returns ``CompileResult``: generated files, target states, errors for direct failures and cycle
 members, dependency cycles, and accepted constructor payloads by provider.
-``CompileResult.succeeded`` is true only if every target resolved, including tests that contribute
-no resources. The CLI writes the available resource tree before returning exit status 0 for success
+RC builds the ``all`` target by default. ``CompileResult.succeeded`` is true only when ``all`` resolves.
+The CLI writes the available resource tree before returning exit status 0 for success
 or 1 for failure. A failed consumer test therefore fails the build without discarding the provider's
 files (``test/test_cli.py``).
 Tests in ``test/test_rc.py`` check these for each rule below, on a workspace in ``test/resources/``;
@@ -324,7 +324,7 @@ fixture, ``ctx_actor`` or legacy ``System``/``SystemJob`` integration here.
 Targets
 +++++++
 
-Each target's name format is defined only by its own ``ensure`` method or constructor. That owner may
+Each target's class owns its name; only its own ``ensure`` method or constructor formats a name. That owner may
 construct the name to find or reuse its target. Other code may index or forward the supplied name, including
 for job/result routing, but must not reconstruct another target's name from a copied format. Changing the
 owner's format must not require changes elsewhere in production code. Names also serve logs, UI and future
@@ -344,8 +344,17 @@ command-line target selection.
   holds the test configuration and readiness dependencies for its test jobs.
 * ``test/<project>/<path>/<function>/<idx>``: test run. Next one is added while the run is incomplete.
 * ``test/<project>/<path>/<function>``: test alias, follows the last run. Resolved when the test is passed.
-* ``project/<project>``: resource output for that project. A failed compiled module prevents that
-  project's output. A test-only project can have no output to block and still fail the build.
+* ``project/<project>``: all targets owned by that project, including manual modules, types, and
+  tests that produce no resources. Every workspace project gets a target, even an empty one.
+  Used builtin types and boot services belong to the implicit ``project/builtin``.
+* ``all``: the workspace build. Its direct dependencies are the project targets; through them it
+  reaches every target, including import and test attempts superseded by a retry.
+
+Each new target joins its owning project when registered. These membership edges propagate status
+upward; a module does not wait for its entire project to finish. For example, a failed consumer
+test fails the consumer's project and ``all``, but the library's project can still resolve and emit
+its resources. RC writes the resource tree of each resolved project. A failed aggregate has no error
+of its own, and RC continues scheduling its other dependencies so independent projects can finish.
 
 States are got from deps, by target set (``target/set.dyn.py``). A dependency cycle fails all its members.
 RC logs the cycle once and includes the same message, with its hint if any, in each member's

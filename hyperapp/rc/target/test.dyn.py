@@ -246,7 +246,7 @@ class TestTarget:
         except KeyError:
             pass
         tgt = cls(targets, name, idx, module_tgt, function)
-        targets[name] = tgt
+        targets.add(path.project, tgt)
         TestAliasTarget.ensure(targets, path, function.name).set_test_tgt(tgt)
         return tgt
 
@@ -373,7 +373,7 @@ class TestAliasTarget:
         except KeyError:
             pass
         tgt = cls(targets, name)
-        targets[name] = tgt
+        targets.add(path.project, tgt)
         return tgt
 
     def __init__(self, targets, name):

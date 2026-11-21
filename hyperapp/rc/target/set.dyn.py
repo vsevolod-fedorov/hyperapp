@@ -5,7 +5,7 @@ from .code.constructor import ConstructorRegistry
 from .code.code_req import CodeImports, TestedCodeReq
 from .code.module import ModuleType
 from .code.target.module import CompiledModuleTarget
-from .code.target.project import ProjectTarget
+from .code.target.project import AllTarget, ProjectTarget
 from .code.target.state import TargetState, combined_state
 from .code.target.test import TestModuleTarget
 
@@ -39,7 +39,11 @@ class TargetSet:
                 self._dir_to_type_modules[project_name, path[:-1]][module_name] = path
                 self._project_to_type_modules[project_name].add((project_name, path))
         self._dir_to_visible_type_modules = {}  # Cache: (project name, dir path) -> type module name -> module.
-        self._name_to_target = {}
+        self._project_tgts = {}
+        self.all_tgt = AllTarget(self)
+        self._name_to_target = {self.all_tgt.name: self.all_tgt}
+        for project_name in projects:
+            self._ensure_project(project_name)
         self.constructors = ConstructorRegistry()
         # Targets which states are being got, innermost last. One met again depends on itself: it would recurse forever.
         self._state_stack = []
@@ -55,12 +59,38 @@ class TargetSet:
     def __getitem__(self, name):
         return self._name_to_target[name]
 
-    def __setitem__(self, name, target):
-        self._name_to_target[name] = target
+    @property
+    def project_tgts(self):
+        return self._project_tgts.values()
 
-    def enum_runnable(self):
-        for tgt in self._name_to_target.values():
-            if tgt.state == TargetState.RUNNABLE:
+    def _ensure_project(self, project_name):
+        try:
+            return self._project_tgts[project_name]
+        except KeyError:
+            pass
+        tgt = ProjectTarget(self, project_name)
+        self._project_tgts[project_name] = tgt
+        self._name_to_target[tgt.name] = tgt
+        return tgt
+
+    # Register ownership along with the target. An alias only follows its latest attempt;
+    # the earlier attempts still belong to the build, even after the alias moves.
+    def add(self, project_name, tgt):
+        self._ensure_project(project_name).deps.add(tgt)
+        self._name_to_target[tgt.name] = tgt
+
+    def enum_runnable(self, goal):
+        reachable = set()
+        pending = [goal]
+        while pending:
+            tgt = pending.pop()
+            if tgt not in reachable:
+                reachable.add(tgt)
+                pending.extend(tgt.deps)
+        # Preserve registration order across workers. Even when the goal is already failed,
+        # its remaining dependencies may still have resources to produce.
+        for tgt in self:
+            if tgt in reachable and tgt.state == TargetState.RUNNABLE:
                 yield tgt
 
     # Roles depend on incoming imports within this project (fixtures), not on other projects' first imports.
@@ -78,8 +108,8 @@ class TargetSet:
                 module.module_tgt = TestModuleTarget(self, module.path, module.source)
             else:
                 module.module_tgt = CompiledModuleTarget(self, module)
-                ProjectTarget.ensure(self, module.path.project).add_resource_tgt(module.path, module.module_tgt)
-            self[module.module_tgt.name] = module.module_tgt
+                self._project_tgts[module.path.project].add_resource_tgt(module.path, module.module_tgt)
+            self.add(module.path.project, module.module_tgt)
         for module in modules:
             module.import_tgt.finish_classification()
 

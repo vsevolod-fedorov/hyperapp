@@ -13,7 +13,7 @@ class TypeTarget:
         except KeyError:
             pass
         tgt = cls(name, piece)
-        targets[name] = tgt
+        targets.add(project_name, tgt)
         return tgt
 
     def __init__(self, name, piece):
