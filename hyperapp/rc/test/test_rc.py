@@ -180,6 +180,16 @@ def test_empty_module():
     _compile_and_check('empty_module')
 
 
+def test_generated_resources_without_source():
+    workspace = Workspace.from_yaml_file(RESOURCES_ROOT / 'empty_module' / 'workspace.yaml')
+    tree = workspace.load_file_tree()
+    tree['sample']['old', 'a_module.resources.yaml'] = tree['sample']['a_module.resources.expected.yaml',]
+    compile_resources = boot(PROJECTS_PATH, 'rc_test:boot:boot.attr')
+    with pytest.raises(ValueError) as error:
+        compile_resources(workspace.projects, tree, DEFAULT_WORKER_COUNT)
+    assert str(error.value) == 'Generated file sample:old/a_module.resources.yaml has no source old/a_module.dyn.py'
+
+
 @pytest.mark.parametrize('worker_count', [1, 4])
 def test_test_module_imports_are_rejected(worker_count):
     states = {

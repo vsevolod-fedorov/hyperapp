@@ -3,6 +3,10 @@ from enum import Enum, auto, unique
 from .code.path import Path
 
 
+class MissingModuleSource(ValueError):
+    pass
+
+
 @unique
 class ModuleType(Enum):
     DYNAMIC = auto()

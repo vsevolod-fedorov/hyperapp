@@ -21,6 +21,9 @@ Modules
   A manual module can have tests in its own project or in another. They run and report failures,
   but never generate or modify its hand-written resources (``manual_module_tested``).
 * Compiled: other dyn modules. Resources are generated for them.
+  A generated ``.resources.yaml`` without its matching ``.dyn.py`` is invalid workspace input:
+  even loading the previous generation can require the missing source. RC names both files and
+  exits before starting workers or writing output (``test_generated_resources_without_source``).
 * Test: a dyn module having ``tested.code`` imports. Gives no resources; its ``test_*`` functions are run.
   Name, like ``.tests`` suffix, does not matter (``test_module_by_imports``).
 * Fixtures (planned): a dyn module imported by a test or another fixtures module through ``fixtures``, for example

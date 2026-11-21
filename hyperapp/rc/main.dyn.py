@@ -4,6 +4,7 @@ from pathlib import Path
 
 from hyperapp.boot.resource.workspace import Workspace
 
+from .code.module import MissingModuleSource
 from .code.source_path import pick_source_path_assoc
 
 log = logging.getLogger(__name__)
@@ -40,6 +41,10 @@ def main(
     args = _parse_args(sys_argv)
     log.info("Loading workspace: %s", args.workspace)
     workspace = Workspace.from_yaml_file(args.workspace)
-    result = compile_resources(workspace.projects, workspace.load_file_tree(), args.workers)
+    try:
+        result = compile_resources(workspace.projects, workspace.load_file_tree(), args.workers)
+    except MissingModuleSource as x:
+        log.error("%s", x)
+        return 1
     _write_tree(workspace.projects, result.resource_tree)
     return 0 if result.succeeded else 1

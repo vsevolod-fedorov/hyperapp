@@ -9,7 +9,7 @@ from .services import (
     )
 from .code.transport import LocalEndpoint
 from .code.path import Path
-from .code.module import ModuleType, Module
+from .code.module import MissingModuleSource, ModuleType, Module
 from .code.target_set import TargetSet
 from .code.target.import_target import ImportAliasTarget, ImportTarget, ProjectImportsTarget
 from .code.target.module import ManualModuleTarget
@@ -60,6 +60,7 @@ def compile_resources(
         worker_count,
         additional_worker_configs=(),
         ):
+    modules = _collect_modules(project_to_tree)
     effective_worker_config = worker_config
     if additional_worker_configs:
         # Later pieces override earlier ones through the same service config controllers as worker boot uses.
@@ -79,37 +80,32 @@ def compile_resources(
         log.info("workers are running: %s", workers.peers)
         result = _compile(
             transport, selectors, job_pool, name_resources, dump_resource_modules,
-            master_identity, workers, projects, project_to_tree)
+            master_identity, workers, projects, project_to_tree, modules)
     log.info("workers are finished")
     return result
 
 
 def _collect_modules(project_to_tree):
-    module_paths = defaultdict(set)  # project -> paths
+    modules = []
     for project, tree in project_to_tree.items():
-        for path, bytes in tree.items():
+        module_paths = set()
+        for path in tree:
             name = path[-1]
             if name.endswith(DYN_EXT):
-                module_paths[project].add((*path[:-1], name[:-len(DYN_EXT)]))
-            if name.endswith(RESOURCES_EXT):
-                module_paths[project].add((*path[:-1], name[:-len(RESOURCES_EXT)]))
-    modules = []
-    # Modules having resources (or lone resources) without auto-get line are manual.
-    # Other dyn modules are classified together after the project's first imports.
-    for project, path_set in module_paths.items():
-        for path in sorted(path_set):
+                module_paths.add((*path[:-1], name[:-len(DYN_EXT)]))
+            elif name.endswith(RESOURCES_EXT):
+                module_paths.add((*path[:-1], name[:-len(RESOURCES_EXT)]))
+        for path in sorted(module_paths):
             resources_path = (*path[:-1], path[-1] + RESOURCES_EXT)
-            try:
-                resources_text = project_to_tree[project][resources_path]
-            except KeyError:
-                pass
-            else:
-                if not resources_text.decode().startswith(AUTO_GEN_LINE):
-                    modules.append(Module(ModuleType.MANUAL, Path(project, path)))
-                    continue
+            resources = tree.get(resources_path)
+            if resources is not None and not resources.startswith(AUTO_GEN_LINE.encode()):
+                modules.append(Module(ModuleType.MANUAL, Path(project, path)))
+                continue
             dyn_path = (*path[:-1], path[-1] + DYN_EXT)
-            source = project_to_tree[project][dyn_path].decode()
-            modules.append(Module(ModuleType.DYNAMIC, Path(project, path), source))
+            if dyn_path not in tree:
+                raise MissingModuleSource(
+                    f"Generated file {project}:{'/'.join(resources_path)} has no source {'/'.join(dyn_path)}")
+            modules.append(Module(ModuleType.DYNAMIC, Path(project, path), tree[dyn_path].decode()))
     return modules
 
 
@@ -231,8 +227,7 @@ def _target_errors(targets, cycles):
 
 def _compile(
         transport, selectors, job_pool, name_resources, dump_resource_modules,
-        master_identity, workers, projects, project_to_tree):
-    modules = _collect_modules(project_to_tree)
+        master_identity, workers, projects, project_to_tree, modules):
     resources, sources = load_resources(projects, project_to_tree)
     log.info("loaded %d resources, %d sources", len(resources), len(sources))
     targets = TargetSet(projects, modules, resources)
