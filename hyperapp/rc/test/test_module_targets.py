@@ -196,13 +196,13 @@ def project_graph(worker):
 
 def _finish_library_imports(project_graph, worker):
     subject = project_graph.modules['subject']
-    local = project_graph.modules['local_checks']
+    local = project_graph.modules['subject.tests']
     _finish_import(subject)
     assert subject.module_tgt is None
     req = project_graph.requirements.TestedCodeReq(local.path, ('tested', 'code'), ('tested', 'code', 'subject'))
     function = worker.animate('rc:job/test.t:test_function')('test_value', (), False, False)
     _finish_import(local, [req], [function])
-    return project_graph.targets['test/library/local_checks/test_value/0']
+    return project_graph.targets['test/library/subject.tests/test_value/0']
 
 
 def _pass_test(test):
@@ -212,12 +212,12 @@ def _pass_test(test):
 
 
 def test_foreign_test_waits_for_finished_subject(project_graph, worker):
-    checks = project_graph.modules['checks']
+    checks = project_graph.modules['consumer.tests']
     subject = project_graph.modules['subject']
     req = project_graph.requirements.TestedCodeReq(checks.path, ('tested', 'code'), ('tested', 'code', 'lib', 'subject'))
     checks.import_tgt.job_started()
     checks.import_tgt.process_incomplete_job_result([req])
-    retry = project_graph.targets['import/sample/checks/1']
+    retry = project_graph.targets['import/sample/consumer.tests/1']
     assert checks.is_test
     assert retry.state.name == 'WAITING'
     dep = req.resolve(project_graph.targets)
@@ -233,5 +233,5 @@ def test_foreign_test_waits_for_finished_subject(project_graph, worker):
 
 def test_provider_finishes_before_foreign_classification(project_graph, worker):
     _pass_test(_finish_library_imports(project_graph, worker))
-    assert project_graph.modules['checks'].module_tgt is None
+    assert project_graph.modules['consumer.tests'].module_tgt is None
     assert project_graph.targets['project/library'].state.name == 'RESOLVED'

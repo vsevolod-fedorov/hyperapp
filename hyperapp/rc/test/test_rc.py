@@ -179,17 +179,17 @@ def test_test_module_imports_are_rejected(worker_count):
     states = {
         'imports/sample': 'resolved',
         'module/compiled/sample/code_import': 'failed',
-        'module/test/sample/code_import_tests': 'failed',
-        'test/sample/code_import_tests/test_import': 'failed',
+        'module/test/sample/code_import.tests': 'failed',
+        'test/sample/code_import.tests/test_import': 'failed',
         'import/sample/retry_import/1': 'failed',
-        'module/test/sample/tests_of_tests': 'failed',
-        'test/sample/tests_of_tests/test_checks': 'failed',
+        'module/test/sample/test_as_subject.tests': 'failed',
+        'test/sample/test_as_subject.tests/test_checks': 'failed',
         'test/sample/checks/test_ok': 'resolved',
         }
     errors = {
         'module/compiled/sample/code_import': 'Test module sample:checks cannot be imported as code',
         'import/sample/retry_import/1': 'Test module sample:checks cannot be imported as code',
-        'module/test/sample/tests_of_tests': 'Test module sample:checks cannot be imported as tested code',
+        'module/test/sample/test_as_subject.tests': 'Test module sample:checks cannot be imported as tested code',
         }
     _compile_and_check('test_module_imports', states, errors, worker_count=worker_count)
 
@@ -199,13 +199,13 @@ def test_module_classification_across_projects(worker_count):
     states = {
         'module/compiled/library/subject': 'resolved',
         'project/library': 'resolved',
-        'test/library/local_checks/test_value': 'resolved',
-        'import/sample/checks/1': 'resolved',
-        'module/test/sample/checks': 'resolved',
-        'test/sample/checks/test_ok': 'resolved',
-        'test/sample/checks/test_consumer_needs_web': 'failed',
+        'test/library/subject.tests/test_value': 'resolved',
+        'import/sample/consumer.tests/1': 'resolved',
+        'module/test/sample/consumer.tests': 'resolved',
+        'test/sample/consumer.tests/test_ok': 'resolved',
+        'test/sample/consumer.tests/test_consumer_needs_web': 'failed',
         }
-    errors = {'test/sample/checks/test_consumer_needs_web/0': 'consumer expected web'}
+    errors = {'test/sample/consumer.tests/test_consumer_needs_web/0': 'consumer expected web'}
     _compile_and_check('classification_projects', states, errors, worker_count=worker_count)
 
 
@@ -214,7 +214,7 @@ def test_failed_importing_project_preserves_provider_resources(worker_count):
     states = {
         'import/sample/broken/0': 'failed',
         'imports/sample': 'failed',
-        'module/test/sample/checks': None,
+        'module/test/sample/consumer.tests': None,
         'module/compiled/library/subject': 'resolved',
         'project/library': 'resolved',
         'project/sample': 'failed',

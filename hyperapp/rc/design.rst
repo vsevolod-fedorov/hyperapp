@@ -53,7 +53,7 @@ Importing a test module as ordinary or tested code fails with an explicit diagno
 so the diagnostic does not depend on which first import finishes first.
 Tests also check the import dependencies of their recorded providers: a recorded import alias must not
 bypass an invalid code import rejected by the completed module target. Only the importer owns the
-diagnostic. For example, ``code_import`` imports the test module ``checks`` as code; ``code_import_tests``
+diagnostic. For example, ``code_import`` imports the test module ``checks`` as code; ``code_import.tests``
 tests ``code_import`` and fails by dependency, without reporting a second import error.
 
 Types

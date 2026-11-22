@@ -136,7 +136,7 @@ def test_import_job_rejects_inner_method_decorators(worker, decorator):
 
 def test_cached_wrapped_tests_metadata_execution_and_job_exit(worker, monkeypatch):
     observations = _observe(worker, monkeypatch)
-    source = _source('wrapped_tests')
+    source = _source('wrapped.tests')
     imported = _run(worker, 'import', source)
     assert isinstance(imported, worker.imports.htypes.import_job.succeeded_result)
     functions = {fn.name: fn for fn in imported.test_functions}
@@ -267,7 +267,7 @@ def test_import_job_services_and_registry_mutations_are_isolated(worker, mutated
     ('test_incomplete', 'incomplete'),
     ])
 def test_test_job_services_and_registry_mutations_are_isolated(worker, mutated_worker_services, function, outcome):
-    source = _source('isolation_tests')
+    source = _source('isolation.tests')
     imported = _run(worker, 'import', source)
     assert isinstance(imported, worker.imports.htypes.import_job.succeeded_result)
     functions = {fn.name: fn for fn in imported.test_functions}
@@ -279,7 +279,7 @@ def test_test_job_services_and_registry_mutations_are_isolated(worker, mutated_w
 
 
 def test_job_subsystems_are_released_while_probes_remain_cached(worker, monkeypatch, caplog):
-    source = _source('wrapped_tests')
+    source = _source('wrapped.tests')
     refs = []
     original = worker.support.Resolver.__init__
 
