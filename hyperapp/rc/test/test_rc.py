@@ -134,17 +134,12 @@ def test_probes(worker_count):
         'import/sample/subject/0': 'resolved',
         'import/sample/subject/1': 'resolved',
         'module/compiled/sample/subject': 'resolved',
-        **{
-            f'test/sample/subject.tests/{name}': 'resolved'
-            for name in [
-                'test_cached_probe',
-                'test_bound_probes',
-                'test_sync_wrapped',
-                'test_async_wrapped',
-                'test_generator_wrapped',
-                'test_async_generator_wrapped',
-                ]
-            },
+        'test/sample/subject.tests/test_cached_probe': 'resolved',
+        'test/sample/subject.tests/test_bound_probes': 'resolved',
+        'test/sample/subject.tests/test_sync_wrapped': 'resolved',
+        'test/sample/subject.tests/test_async_wrapped': 'resolved',
+        'test/sample/subject.tests/test_generator_wrapped': 'resolved',
+        'test/sample/subject.tests/test_async_generator_wrapped': 'resolved',
         }
     _compile_and_check('probes', states, worker_count=worker_count)
 
@@ -247,21 +242,18 @@ def test_code_import_incomplete():
 # Tested module_3 imports tested module_1, and untested module_4.
 def test_test_collection():
     test_states = {
-        f'test/sample/modules.tests/{name}': 'resolved'
-        for name in [
-            'test_fn_1',
-            'test_fn_2',
-            'test_both_fns',
-            'test_fn_3',
-            'test_async',
-            'test_generator',
-            'test_async_generator',
-            'test_code_used_by_run',
-            ]
+        'test/sample/modules.tests/test_fn_1': 'resolved',
+        'test/sample/modules.tests/test_fn_2': 'resolved',
+        'test/sample/modules.tests/test_both_fns': 'resolved',
+        'test/sample/modules.tests/test_fn_3': 'resolved',
+        'test/sample/modules.tests/test_async': 'resolved',
+        'test/sample/modules.tests/test_generator': 'resolved',
+        'test/sample/modules.tests/test_async_generator': 'resolved',
+        # Alias follows the last run.
+        'test/sample/modules.tests/test_code_used_by_run': 'resolved',
+        'test/sample/modules.tests/test_code_used_by_run/0': 'resolved',
+        'test/sample/modules.tests/test_code_used_by_run/1': 'resolved',
         }
-    # Alias follows the last run.
-    test_states['test/sample/modules.tests/test_code_used_by_run/0'] = 'resolved'
-    test_states['test/sample/modules.tests/test_code_used_by_run/1'] = 'resolved'
     _compile_and_check('test_collection', test_states)
 
 
@@ -269,20 +261,15 @@ def test_test_collection():
 # Failed tests fail module_1 they test, and so its project: no resources are produced.
 def test_tested_used_by_test_run():
     test_states = {
-        f'test/sample/late.tests/{name}': 'failed'
-        for name in [
-            'test_async',
-            'test_generator',
-            'test_async_generator',
-            ]
+        'test/sample/late.tests/test_async': 'failed',
+        'test/sample/late.tests/test_generator': 'failed',
+        'test/sample/late.tests/test_async_generator': 'failed',
         }
+    undeclared_module_2 = 'Tested module tested.code.module_2.fn_2 is first used when the test runs'
     errors = {
-        f'test/sample/late.tests/{name}/0': "Tested module tested.code.module_2.fn_2 is first used when the test runs"
-        for name in [
-            'test_async',
-            'test_generator',
-            'test_async_generator',
-            ]
+        'test/sample/late.tests/test_async/0': undeclared_module_2,
+        'test/sample/late.tests/test_generator/0': undeclared_module_2,
+        'test/sample/late.tests/test_async_generator/0': undeclared_module_2,
         }
     _compile_and_check('tested_used_by_test_run', test_states, errors)
 
@@ -307,10 +294,9 @@ def test_tested_imported_late():
 def test_tested_import_used_by_test_run(worker_count):
     states = {
         'test/sample/lazy.tests/test_fn': 'failed',
-        **{
-            f'test/sample/lazy.tests/test_code_{idx}': 'resolved'
-            for idx in [1, 2, 3]
-            },
+        'test/sample/lazy.tests/test_code_1': 'resolved',
+        'test/sample/lazy.tests/test_code_2': 'resolved',
+        'test/sample/lazy.tests/test_code_3': 'resolved',
         }
     _compile_and_check('tested_import_used_by_test_run', states, {
         'test/sample/lazy.tests/test_fn/0':

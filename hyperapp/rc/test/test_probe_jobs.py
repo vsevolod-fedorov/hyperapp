@@ -140,30 +140,33 @@ def test_cached_wrapped_tests_metadata_execution_and_job_exit(worker, monkeypatc
     imported = _run(worker, 'import', source)
     assert isinstance(imported, worker.imports.htypes.import_job.succeeded_result)
     functions = {fn.name: fn for fn in imported.test_functions}
-    assert set(functions) == {
-        'test_sync', 'test_async', 'test_generator', 'test_async_generator',
-        'test_incomplete', 'test_signature',
+    assert {name: (fn.is_async, fn.is_generator) for name, fn in functions.items()} == {
+        'test_sync': (False, False),
+        'test_async': (True, False),
+        'test_generator': (False, True),
+        'test_async_generator': (True, True),
+        'test_incomplete': (False, False),
+        'test_signature': (False, False),
         }
     assert functions['test_signature'].params == ('first', 'second', 'third')
-    for name, is_async, is_generator, outcome in [
-            ('test_sync', False, False, 'succeeded'),
-            ('test_async', True, False, 'succeeded'),
-            ('test_generator', False, True, 'failed'),
-            ('test_async_generator', True, True, 'failed'),
-            ('test_incomplete', False, False, 'incomplete'),
-            ('test_sync', False, False, 'succeeded'),
-            ]:
-        function = functions[name]
-        assert (function.is_async, function.is_generator) == (is_async, is_generator)
+
+    def run(name, expected_type):
         before = len(observations)
-        result = _run(worker, 'test', source, function)
-        assert isinstance(result, worker.animate(f'rc:job/test.t:{outcome}_result'))
+        result = _run(worker, 'test', source, functions[name])
+        assert isinstance(result, expected_type)
         # These are the very same recorded modules as the import job: wrappers must execute,
         # rather than discovery accidentally replacing them with their real functions.
         assert len(observations) > before
         _check_detached(worker, observations)
-        if is_generator:
-            assert 'generator exhausted' in result.error
+        return result
+
+    job = worker.tests.htypes.test_job
+    run('test_sync', job.succeeded_result)
+    run('test_async', job.succeeded_result)
+    assert 'generator exhausted' in run('test_generator', job.failed_result).error
+    assert 'generator exhausted' in run('test_async_generator', job.failed_result).error
+    run('test_incomplete', job.incomplete_result)
+    run('test_sync', job.succeeded_result)
     first_probe, first_context, _, first_value, first_resolver = observations[0]
     last_probe, last_context, _, last_value, last_resolver = observations[-2]
     assert first_probe is last_probe
